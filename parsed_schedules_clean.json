@@ -1,0 +1,8732 @@
+[
+  {
+    "kelas": "X TKI 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. KI 1",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. KI 1",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Yani, S.Pd."
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. KI 1",
+    "subject": "Bahasa Jawa",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. KI 1",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. KI 1",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Yani, S.Pd."
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lab. KI 1",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. KI 1",
+    "subject": "Dasar TKI",
+    "teacher": "Rifkotin Na'imah, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. TKJ 3",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Endang Ary Handayani S.T., M.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lab. KI 1",
+    "subject": "Dasar TKI",
+    "teacher": "Sri Kusumastuti, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "Lab. KI 1",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Muashofah, M.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. Broadcast",
+    "subject": "Informatika",
+    "teacher": "Lutfia Marsalina, S.Pd.I M.Pd."
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. KI 1",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. KI 1",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lab. KI 1",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. KI 1",
+    "subject": "Dasar TKI",
+    "teacher": "Sri Kusumastuti, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lab. KI 1",
+    "subject": "Dasar TKI",
+    "teacher": "Rifkotin Na'imah, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 5,
+    "room": "Lab. KI 1",
+    "subject": "BK Yuni Jiastuti",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lab. KI 1",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "Lab. Broadcast",
+    "subject": "Informatika",
+    "teacher": "Lutfia Marsalina, S.Pd.I M.Pd."
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "Lab. KI 1",
+    "subject": "Sejarah",
+    "teacher": "Fajar Luthfianto, S.Pd"
+  },
+  {
+    "kelas": "X TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "Lab. KI 1",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 10",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Yani, S.Pd."
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 10",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 10",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 10",
+    "subject": "Dasar TKI",
+    "teacher": "Sri Kusumastuti, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 1,
+    "room": "R 10",
+    "subject": "BK Yuni Jiastuti",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 10",
+    "subject": "Dasar TKI",
+    "teacher": "Rifkotin Na'imah, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. Broadcast",
+    "subject": "Informatika",
+    "teacher": "Lutfia Marsalina, S.Pd.I M.Pd."
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 10",
+    "subject": "Sejarah",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 3",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Endang Ary Handayani S.T., M.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 10",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 10",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 10",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. Broadcast",
+    "subject": "Informatika",
+    "teacher": "Lutfia Marsalina, S.Pd.I M.Pd."
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 10",
+    "subject": "Bahasa Jawa",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 10",
+    "subject": "Dasar TKI",
+    "teacher": "Rifkotin Na'imah, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 10",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 10",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Yani, S.Pd."
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 10",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 10",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Mufatiroh, S.Ag"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 10,
+    "room": "R 10",
+    "subject": "Dasar TKI",
+    "teacher": "Sri Kusumastuti, S.Pd"
+  },
+  {
+    "kelas": "X TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 10",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. RPL 1",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Winartin, S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 4,
+    "room": "Lab. RPL 1",
+    "subject": "BK Widodo",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 57",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 57",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 57",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 57",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 57",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Mufatiroh, S.Ag"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 57",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 57",
+    "subject": "Matematika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. RPL 1",
+    "subject": "Informatika Kurnila Putri Islamawati",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 1",
+    "subject": "Dasar PPLG",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 57",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 57",
+    "subject": "Matematika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 57",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 1",
+    "subject": "Dasar PPLG",
+    "teacher": "Ruly Dwi Setyaningrum, S.Kom"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. RPL 1",
+    "subject": "Dasar PPLG",
+    "teacher": "Ruly Dwi Setyaningrum, S.Kom"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lab. RPL 1",
+    "subject": "Koding dan Kecerdasan Artifisial Elyana Frisca Monica",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 57",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "Lab. RPL 1",
+    "subject": "Informatika Kurnila Putri Islamawati",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 1",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Winartin, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. RPL 2",
+    "subject": "Dasar PPLG",
+    "teacher": "Ruly Dwi Setyaningrum, S.Kom"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 57",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Umi Kulsum, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 58",
+    "subject": "IPAS",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. RPL 2",
+    "subject": "Informatika",
+    "teacher": "Elyana Frisca Monica, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. RPL 2",
+    "subject": "Koding dan Kecerdasan Artifisial Elyana Frisca Monica",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 58",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 58",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 58",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 58",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 58",
+    "subject": "Matematika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 2",
+    "subject": "Dasar PPLG",
+    "teacher": "Ruly Dwi Setyaningrum, S.Kom"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. RPL 2",
+    "subject": "Dasar PPLG",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 58",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Mufatiroh, S.Ag"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 58",
+    "subject": "IPAS",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. RPL 2",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Umi Kulsum, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 4,
+    "room": "Lab. RPL 2",
+    "subject": "BK Widodo",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 58",
+    "subject": "Bahasa Jawa",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "R 58",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 58",
+    "subject": "Matematika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 32",
+    "subject": "IPAS",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 32",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. TKJ 3",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Listyana Hartati, S.Kom. M.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 3",
+    "subject": "Dasar TJKT",
+    "teacher": "Listyana Hartati, S.Kom. M.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. TKJ 3",
+    "subject": "Informatika",
+    "teacher": "Siswanti Purwaningsih, S.T., M.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 32",
+    "subject": "IPAS",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 32",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Selasa",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 32",
+    "subject": "BK Nishfu Laili",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 32",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 32",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Sri Rahayu, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. TKJ 3",
+    "subject": "Dasar TJKT",
+    "teacher": "Endang Ary Handayani S.T., M.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 32",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 32",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 32",
+    "subject": "Sejarah",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 32",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Sri Rahayu, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 32",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 3",
+    "subject": "Dasar TJKT",
+    "teacher": "Siti Munawaroh, S.Kom.,M.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 32",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 10,
+    "room": "Lab. TKJ 3",
+    "subject": "Dasar TJKT",
+    "teacher": "Siswanti Purwaningsih, S.T., M.Pd"
+  },
+  {
+    "kelas": "X TKJ 1",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 32",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Sinta Lestari, S.Pd.I"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. TKJ 3",
+    "subject": "Dasar TJKT",
+    "teacher": "Siti Munawaroh, S.Kom.,M.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 33",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Sinta Lestari, S.Pd.I"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 33",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 33",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Sri Rahayu, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lab. TKJ 3",
+    "subject": "Dasar TJKT",
+    "teacher": "Endang Ary Handayani S.T., M.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 33",
+    "subject": "IPAS",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 33",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 3,
+    "room": "R 33",
+    "subject": "BK Nishfu Laili,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 33",
+    "subject": "IPAS",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. TKJ 3",
+    "subject": "Dasar TJKT",
+    "teacher": "Listyana Hartati, S.Kom. M.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 33",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. TKJ 3",
+    "subject": "Informatika",
+    "teacher": "Siswanti Purwaningsih, S.T., M.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 33",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Sri Rahayu, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 33",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 33",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. TKJ 3",
+    "subject": "Dasar TJKT",
+    "teacher": "Siswanti Purwaningsih, S.T., M.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 33",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 33",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "R 33",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "X TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 3",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Listyana Hartati, S.Kom. M.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 23",
+    "subject": "Sejarah",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 7,
+    "room": "R 23",
+    "subject": "Dasar PM",
+    "teacher": "Ratih Dian Irawati, SE"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 23",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Senin",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 23",
+    "subject": "BK Dian Mawarti",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 23",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Sinta Lestari, S.Pd.I"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 23",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 23",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 23",
+    "subject": "Matematika",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. PM Belakang",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Siti Munawaroh, S.Kom. M.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 23",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "R 23",
+    "subject": "Dasar PM",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 23",
+    "subject": "Seni Budaya Angga Widhy Wirawan",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 23",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 23",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 23",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. PM Belakang",
+    "subject": "Informatika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 23",
+    "subject": "Matematika",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 11,
+    "room": "R 23",
+    "subject": "Dasar PM",
+    "teacher": "Retno Widyastuti, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 23",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 24",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "R 24",
+    "subject": "Dasar PM",
+    "teacher": "Retno Widyastuti, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 24",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 24",
+    "subject": "Bahasa Jawa",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. PM Belakang",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Siti Munawaroh, S.Kom. M.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 24",
+    "subject": "Matematika",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 24",
+    "subject": "Dasar PM",
+    "teacher": "Ratih Dian Irawati, SE"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 24",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Sinta Lestari, S.Pd.I"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 24",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. PM Belakang",
+    "subject": "Informatika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "R 24",
+    "subject": "Dasar PM",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 24",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 24",
+    "subject": "Sejarah",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 24",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 2,
+    "room": "R 24",
+    "subject": "BK Dian Mawarti",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 24",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 24",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "R 24",
+    "subject": "Seni Budaya Angga Widhy Wirawan",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 24",
+    "subject": "Matematika",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 25",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Fitria Diah Ayu Hartati, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 25",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 25",
+    "subject": "Matematika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 6,
+    "room": "R 25",
+    "subject": "Dasar PM",
+    "teacher": "Retno Widyastuti, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 25",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 25",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "R 25",
+    "subject": "Dasar PM",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 25",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 25",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 25",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 25",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "R 25",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 25",
+    "subject": "Seni Budaya Angga Widhy Wirawan",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 25",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 25",
+    "subject": "BK Niken Hari Pratiwi,",
+    "teacher": "S.Psi.,M.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "R 25",
+    "subject": "Dasar PM",
+    "teacher": "Ratih Dian Irawati, SE"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 9,
+    "room": "Lab. PM Belakang",
+    "subject": "Informatika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "R 25",
+    "subject": "Matematika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "Lab. PM Belakang",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Siti Munawaroh, S.Kom. M.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 11",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 11",
+    "subject": "Sejarah",
+    "teacher": "Fajar Luthfianto, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 11",
+    "subject": "Seni Budaya Angga Widhy Wirawan",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 11",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Purwati,S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "R 11",
+    "subject": "Dasar MPLB",
+    "teacher": "Dwi Kuswanto, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 11",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 11",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Purwati,S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 11",
+    "subject": "Matematika",
+    "teacher": "Rulik Indrawati, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 11",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 11",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 11",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 8,
+    "room": "R 11",
+    "subject": "BK Veronica Damay Rulitasari",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AP BAWAH",
+    "subject": "Informatika Kurnila Putri Islamawati",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 11",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Tutut Sriatin, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 11",
+    "subject": "Matematika",
+    "teacher": "Rulik Indrawati, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. AP BAWAH",
+    "subject": "Koding dan Kecerdasan Artifisial Kurnila Putri Islamawati",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 11",
+    "subject": "Dasar MPLB",
+    "teacher": "Dwi Kuswanto, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "R 11",
+    "subject": "Dasar MPLB",
+    "teacher": "Dwi Kuswanto, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 11,
+    "room": "R 11",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Fitria Diah Ayu Hartati, S.Pd"
+  },
+  {
+    "kelas": "X MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "Lab. AP BAWAH",
+    "subject": "Informatika Kurnila Putri Islamawati",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 2,
+    "room": "R 12",
+    "subject": "BK Nishfu Laili",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Senin",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 12",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Tutut Sriatin, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 12",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 12",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 12",
+    "subject": "Sejarah",
+    "teacher": "Fajar Luthfianto, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 12",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 12",
+    "subject": "Matematika",
+    "teacher": "Rulik Indrawati, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "R 12",
+    "subject": "Dasar MPLB",
+    "teacher": "Peni Wulandari, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AP BAWAH",
+    "subject": "Koding dan Kecerdasan Artifisial Kurnila Putri Islamawati",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 12",
+    "subject": "Seni Budaya Angga Widhy Wirawan",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 12",
+    "subject": "Matematika",
+    "teacher": "Rulik Indrawati, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 12",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. AP BAWAH",
+    "subject": "Informatika",
+    "teacher": "Ary Sunaryo, ST.,M.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 12",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Purwati,S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 12",
+    "subject": "Dasar MPLB",
+    "teacher": "Peni Wulandari, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 12",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 12",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Fitria Diah Ayu Hartati, S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 12",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Purwati,S.Pd"
+  },
+  {
+    "kelas": "X MP 2",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 12",
+    "subject": "Dasar MPLB",
+    "teacher": "Peni Wulandari, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 13",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 13",
+    "subject": "Dasar MPLB",
+    "teacher": "Lilik Suratmi, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 13",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 13",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. AP ATAS",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 13",
+    "subject": "Dasar MPLB",
+    "teacher": "Lilik Suratmi, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 13",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 13",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 13",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 13",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Fitria Diah Ayu Hartati, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 13",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 13",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 6,
+    "room": "R 13",
+    "subject": "BK Nur Eko Wahyuningsi",
+    "teacher": "h, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. AP ATAS",
+    "subject": "Informatika",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 13",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 13",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 13",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 11,
+    "room": "R 13",
+    "subject": "Dasar MPLB",
+    "teacher": "Lilik Suratmi, S.Pd"
+  },
+  {
+    "kelas": "X MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 13",
+    "subject": "Seni Budaya Angga Widhy Wirawan",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 14",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "R 14",
+    "subject": "Dasar MPLB",
+    "teacher": "Rindang Rejeki, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 14",
+    "subject": "Matematika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 14",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 14",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 14",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. AP ATAS",
+    "subject": "Koding dan Kecerdasan Artifisial",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 6,
+    "room": "R 14",
+    "subject": "Dasar MPLB",
+    "teacher": "Rindang Rejeki, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 14",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 14",
+    "subject": "Sejarah",
+    "teacher": "Fajar Luthfianto, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 14",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 3,
+    "room": "R 14",
+    "subject": "BK Siti Maisaroh",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 14",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Alfinu Farikh Abdillah, S.Pd.I"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 14",
+    "subject": "Matematika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 14",
+    "subject": "Seni Budaya Angga Widhy Wirawan",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. AP ATAS",
+    "subject": "Informatika",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 14",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 14",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 14",
+    "subject": "Dasar MPLB",
+    "teacher": "Rindang Rejeki, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 1",
+    "subject": "Matematika",
+    "teacher": "Lutfia Marsalina, S.Pd.I M.Pd."
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 1",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 6,
+    "room": "R 1",
+    "subject": "BK Nur Eko Wahyuningsi",
+    "teacher": "h, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 1",
+    "subject": "Sejarah",
+    "teacher": "Fajar Luthfianto, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AK ATAS",
+    "subject": "Informatika Shinta Indyar Shanty",
+    "teacher": "Susanto, S.Kom"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 1",
+    "subject": "Seni Budaya Angga Widhy Wirawan,",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "R 1",
+    "subject": "Dasar AKL",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 1",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AK ATAS",
+    "subject": "Informatika Shinta Indyar Shanty",
+    "teacher": "Susanto, S.Kom"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 1",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 1",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 1",
+    "subject": "Dasar AKL",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 1",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 1",
+    "subject": "Bahasa Jawa",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 1",
+    "subject": "Dasar AKL",
+    "teacher": "Atih Wilupi, S.E, M.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 1",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Yuli Ratnasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 1",
+    "subject": "Matematika",
+    "teacher": "Lutfia Marsalina, S.Pd.I, M.Pd."
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. AK ATAS",
+    "subject": "Koding dan Kecerdasan Artifisial Shinta Indyar Shanty",
+    "teacher": "Susanto, S.Kom"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 1",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Alfinu Farikh Abdillah, S.Pd.I"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 9,
+    "room": "R 1",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X AK 1",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "Lab. AK BAWAH",
+    "subject": "Dasar AKL",
+    "teacher": "Agustina Mardika Rini, S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 2",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 2",
+    "subject": "Dasar AKL",
+    "teacher": "Indayah, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. AK ATAS",
+    "subject": "Informatika Shinta Indyar Shanty",
+    "teacher": "Susanto, S.Kom"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 2",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. AK ATAS",
+    "subject": "Informatika Shinta Indyar Shanty",
+    "teacher": "Susanto, S.Kom"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 2",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 2",
+    "subject": "Matematika",
+    "teacher": "Lutfia Marsalina, S.Pd.I, M.Pd."
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 2",
+    "subject": "BK Nur Eko Wahyuningsi",
+    "teacher": "h, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 2",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 2",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Alfinu Farikh Abdillah, S.Pd.I"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. AK BAWAH",
+    "subject": "Dasar AKL",
+    "teacher": "Agustina Mardika Rini, S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 2",
+    "subject": "Dasar AKL",
+    "teacher": "Indayah, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 2",
+    "subject": "Matematika",
+    "teacher": "Lutfia Marsalina, S.Pd.I, M.Pd."
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 2",
+    "subject": "IPAS",
+    "teacher": "Sri Subekti, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AK ATAS",
+    "subject": "Koding dan Kecerdasan Artifisial Shinta Indyar Shanty",
+    "teacher": "Susanto, S.Kom"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 2",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Yuli Ratnasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 2",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 2",
+    "subject": "Bahasa Jawa",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 2",
+    "subject": "Seni Budaya Angga Widhy Wirawan,",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "R 2",
+    "subject": "Dasar AKL",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 2",
+    "subject": "Sejarah",
+    "teacher": "Fajar Luthfianto, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 3",
+    "subject": "Dasar AKL",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. AK BAWAH",
+    "subject": "Koding dan Kecerdasan Artifisial Ruly Dwi Setyaningrum",
+    "teacher": "S.Kom"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AK BAWAH",
+    "subject": "Informatika",
+    "teacher": "Ary Sunaryo, ST.,M.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. AK BAWAH",
+    "subject": "Informatika",
+    "teacher": "Ary Sunaryo, ST.,M.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 3",
+    "subject": "Seni Budaya Angga Widhy Wirawan,",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 3",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 3",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 3",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 3",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Alfinu Farikh Abdillah, S.Pd.I"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 3",
+    "subject": "Matematika Dwi Nova Setyandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 6,
+    "room": "R 3",
+    "subject": "BK Astra Bella",
+    "teacher": "Flamboyan, S.Psi"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. AK ATAS",
+    "subject": "Dasar AKL",
+    "teacher": "Titin Sukmasari, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 3",
+    "subject": "Sejarah",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 3",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 3",
+    "subject": "Dasar AKL",
+    "teacher": "Setiyo Winarko, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 3",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 3",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 3",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 9,
+    "room": "R 3",
+    "subject": "Dasar AKL",
+    "teacher": "Setiyo Winarko, S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "R 3",
+    "subject": "Matematika Dwi Nova Setyandari",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 3",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 4",
+    "subject": "Seni Budaya Angga Widhy Wirawan,",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 4,
+    "room": "R 4",
+    "subject": "BK Astra Bella",
+    "teacher": "Flamboyan, S.Psi"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 4",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 4",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Muashofah, M.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 4",
+    "subject": "Sejarah",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. AK BAWAH",
+    "subject": "Informatika",
+    "teacher": "Ary Sunaryo, ST.,M.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 4",
+    "subject": "Matematika Dwi Nova Setyandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 4",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 4",
+    "subject": "Dasar AKL",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 4",
+    "subject": "Dasar AKL",
+    "teacher": "Septiani, S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 4",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 4",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 4",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 4",
+    "subject": "Dasar AKL",
+    "teacher": "Septiani, S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 4",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 4",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. AK BAWAH",
+    "subject": "Informatika",
+    "teacher": "Ary Sunaryo, ST.,M.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 4",
+    "subject": "Matematika Dwi Nova Setyandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 4",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "Lab. AK BAWAH",
+    "subject": "Koding dan Kecerdasan Artifisial Ruly Dwi Setyaningrum,",
+    "teacher": "S.Kom"
+  },
+  {
+    "kelas": "X AK 4",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "Lab. AK ATAS",
+    "subject": "Dasar AKL",
+    "teacher": "Titin Sukmasari, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 22",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Informatika",
+    "teacher": "Siswanti Purwaningsih, S.T., M.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 22",
+    "subject": "Bahasa Jawa",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 22",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Mufatiroh, S.Ag"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 22",
+    "subject": "Dasar ULP Risqi Nur Imama",
+    "teacher": "S.Tr.Par"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 22",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 22",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Sri Rahayu, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 6,
+    "room": "R 22",
+    "subject": "Dasar ULP",
+    "teacher": "Risqi Nur Imama, S.Tr.Par"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 22",
+    "subject": "Matematika Dwi Nova Setyandari",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 22",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 22",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Sri Rahayu, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 6,
+    "room": "R 22",
+    "subject": "Dasar ULP",
+    "teacher": "Risqi Nur Imama, S.Tr.Par"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 22",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 22",
+    "subject": "Sejarah",
+    "teacher": "Fajar Luthfianto, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 2,
+    "room": "R 22",
+    "subject": "BK Niken Hari Pratiwi,",
+    "teacher": "S.Psi.,M.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Jumat",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 22",
+    "subject": "Dasar ULP Risqi Nur Imama,",
+    "teacher": "S.Tr.Par"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 22",
+    "subject": "Seni Budaya Angga Widhy Wirawan,",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Koding dan Kecerdasan Artifisial Shinta Indyar Shanty",
+    "teacher": "Susanto, S.Kom"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 11,
+    "room": "R 22",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X ULW",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 22",
+    "subject": "Matematika Dwi Nova Setyandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 15",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Dra. Hanik Pangestuti"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 15",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 15",
+    "subject": "Dasar DKV",
+    "teacher": "Danang Anjar Hymawanto, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 1,
+    "room": "R 15",
+    "subject": "BK Nur Eko Wahyuningsi",
+    "teacher": "h, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 15",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 15",
+    "subject": "Dasar DKV",
+    "teacher": "Agus Pramono, S.Sn"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 15",
+    "subject": "Bahasa Jawa",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 15",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Erna Rinawati, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 15",
+    "subject": "Matematika",
+    "teacher": "Rulik Indrawati, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 15",
+    "subject": "Dasar DKV",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. DKV Komputer",
+    "subject": "Koding dan Kecerdasan Artifisial Endik Kuswantoro,",
+    "teacher": "S.Kom.,M.T"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. DKV Komputer",
+    "subject": "Informatika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 15",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 15",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 15",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 15",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 15",
+    "subject": "Dasar DKV",
+    "teacher": "Agus Pramono, S.Sn"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 15",
+    "subject": "Matematika",
+    "teacher": "Rulik Indrawati, S.Pd"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 9,
+    "room": "R 15",
+    "subject": "IPAS",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "Lab. DKV Komputer",
+    "subject": "Informatika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "X DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 15",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Erna Rinawati, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. DKV Komputer",
+    "subject": "Koding dan Kecerdasan Artifisial Endik Kuswantoro,",
+    "teacher": "S.Kom.,M.T"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 16",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 16",
+    "subject": "Dasar DKV",
+    "teacher": "Agus Pramono, S.Sn"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 16",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 16",
+    "subject": "IPAS",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 16",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Erna Rinawati, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 16",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 16",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Dra. Hanik Pangestuti"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. DKV Komputer",
+    "subject": "Informatika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 3,
+    "room": "R 16",
+    "subject": "BK Yuni Jiastuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 16",
+    "subject": "Dasar DKV",
+    "teacher": "Agus Pramono, S.Sn"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 16",
+    "subject": "Matematika",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 16",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Erna Rinawati, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 16",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lab. DKV Komputer",
+    "subject": "Informatika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 16",
+    "subject": "Dasar DKV",
+    "teacher": "Danang Anjar Hymawanto, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 16",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 16",
+    "subject": "Bahasa Jawa",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 16",
+    "subject": "Dasar DKV",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 16",
+    "subject": "Matematika",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "X DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 16",
+    "subject": "IPAS",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 55",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. Broadcast",
+    "subject": "Dasar BP",
+    "teacher": "Benny Mamora, S.Kom"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. Broadcast",
+    "subject": "Dasar BP",
+    "teacher": "Benny Mamora, S.Kom"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 55",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 55",
+    "subject": "Matematika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 55",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Winartin, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 55",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Dra. Hanik Pangestuti"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 55",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 55",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 55",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Winartin, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. Broadcast",
+    "subject": "Koding dan Kecerdasan Artifisial Elyana Frisca Monica,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 6,
+    "room": "Lab. Broadcast",
+    "subject": "Informatika",
+    "teacher": "Elyana Frisca Monica, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 55",
+    "subject": "Bahasa Jawa",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 55",
+    "subject": "Matematika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 55",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 55",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 55",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 9,
+    "room": "R 55",
+    "subject": "BK Winarsih,",
+    "teacher": "S.Pd, M.Pd"
+  },
+  {
+    "kelas": "X PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "Lab. Broadcast",
+    "subject": "Dasar BP",
+    "teacher": "Benny Mamora, S.Kom"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. Broadcast",
+    "subject": "Informatika",
+    "teacher": "Elyana Frisca Monica, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 56",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 56",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 56",
+    "subject": "IPAS",
+    "teacher": "Ista Nofasari, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 56",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 6,
+    "room": "R 56",
+    "subject": "BK Winarsih,",
+    "teacher": "S.Pd, M.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. Broadcast",
+    "subject": "Dasar BP",
+    "teacher": "Sa'ad Wazis Hiedayat, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. Broadcast",
+    "subject": "Dasar BP",
+    "teacher": "Sa'ad Wazis Hiedayat, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 56",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Dra. Hanik Pangestuti"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 56",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Umi Kulsum, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 56",
+    "subject": "Matematika",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 56",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 56",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 56",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. Broadcast",
+    "subject": "Koding dan Kecerdasan Artifisial Elyana Frisca Monica",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 7,
+    "room": "Lab. Broadcast",
+    "subject": "Dasar BP",
+    "teacher": "Sa'ad Wazis Hiedayat, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 56",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "R 56",
+    "subject": "Matematika",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "X PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "R 56",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Umi Kulsum, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 31",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 31",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 6,
+    "room": "R 31",
+    "subject": "BK Siti Maisaroh,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 31",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 31",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 31",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Muashofah, M.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 31",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lab. AN COE 2",
+    "subject": "Informatika",
+    "teacher": "Tuhu Eries Kudori, S.Sn"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 2",
+    "subject": "Dasar AN",
+    "teacher": "Rika Okta Maulida, S.Ds."
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. AN COE 2",
+    "subject": "Dasar AN",
+    "teacher": "Dhuana Putri Puspitasary, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 31",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Mega Mahardika, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 31",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 31",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 31",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 31",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 2",
+    "subject": "Dasar AN",
+    "teacher": "Dhuana Putri Puspitasary, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 31",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 31",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 9,
+    "room": "Lab. AN COE 2",
+    "subject": "Dasar AN",
+    "teacher": "Rika Okta Maulida, S.Ds."
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 11,
+    "room": "Lab. AN COE 2",
+    "subject": "Koding dan Kecerdasan Artifisial Endik Kuswantoro,",
+    "teacher": "S.Kom.,M.T"
+  },
+  {
+    "kelas": "X AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 2",
+    "subject": "Informatika",
+    "teacher": "Tuhu Eries Kudori, S.Sn"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 60",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Muashofah, M.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. AN COE 2",
+    "subject": "Koding dan Kecerdasan Artifisial Endik Kuswantoro,",
+    "teacher": "S.Kom.,M.T"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 60",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 60",
+    "subject": "Matematika",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 60",
+    "subject": "Matematika",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 60",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Mega Mahardika, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 60",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 60",
+    "subject": "BK Siti Maisaroh,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 60",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 60",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 60",
+    "subject": "Seni Budaya",
+    "teacher": "Anang Prasetyo, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 2",
+    "subject": "Dasar AN",
+    "teacher": "Rika Okta Maulida, S.Ds."
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 60",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 60",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lab. AN COE 2",
+    "subject": "Dasar AN",
+    "teacher": "Dhuana Putri Puspitasary, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 1",
+    "subject": "Dasar AN",
+    "teacher": "Rika Okta Maulida, S.Ds."
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 60",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "Lab. AN COE 2",
+    "subject": "Informatika",
+    "teacher": "Rika Okta Maulida, S.Ds."
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 60",
+    "subject": "IPAS",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 11,
+    "room": "Lab. AN COE 1",
+    "subject": "Dasar AN",
+    "teacher": "Dhuana Putri Puspitasary, S.Pd"
+  },
+  {
+    "kelas": "X AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 12,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 1",
+    "subject": "Informatika",
+    "teacher": "Rika Okta Maulida, S.Ds."
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 65",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 65",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Ayu Puspitorini, ST"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 65",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Diana Hartanti, S.T., M.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 65",
+    "subject": "Bahasa Jepang Rizki Putri Wulandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 65",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 65",
+    "subject": "Kreativitas, Inovasi dan Kewirausahaan",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 65",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 65",
+    "subject": "Bahasa Jawa",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 65",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Rifkotin Na'imah, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 65",
+    "subject": "Kreativitas Inovasi, dan Kewirausahaan",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 65",
+    "subject": "Mapel Pilihan TKI",
+    "teacher": "Sri Kusumastuti, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 65",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Sri Kusumastuti, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 65",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Yani, S.Pd."
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 65",
+    "subject": "Sejarah",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 65",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Mufatiroh, S.Ag"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 65",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Ayu Puspitorini, ST"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "R 65",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Diana Hartanti, S.T., M.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 65",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI TKI 1",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 65",
+    "subject": "BK",
+    "teacher": "Yuni Jiastuti, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 66",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 66",
+    "subject": "Bahasa Jepang Rizki Putri Wulandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 66",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 66",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 66",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 66",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Rifkotin Na'imah, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 66",
+    "subject": "Mapel Pilihan TKI",
+    "teacher": "Sri Kusumastuti, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 66",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Sri Kusumastuti, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 66",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Yani, S.Pd."
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 66",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Ayu Puspitorini, ST"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 66",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Diana Hartanti, S.T., M.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 66",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Mufatiroh, S.Ag"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 7,
+    "room": "R 66",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Diana Hartanti, S.T., M.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 66",
+    "subject": "Konsentrasi TKI",
+    "teacher": "Ayu Puspitorini, ST"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 66",
+    "subject": "Sejarah",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 66",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 66",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 66",
+    "subject": "BK",
+    "teacher": "Yuni Jiastuti, S.Pd"
+  },
+  {
+    "kelas": "XI TKI 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 66",
+    "subject": "Bahasa Jawa",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 57",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Mufatiroh, S.Ag"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. RPL 1",
+    "subject": "BK",
+    "teacher": "Widodo, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 1",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Kurnila Putri Islamawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. RPL 1",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Kurnila Putri Islamawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lab. RPL 1",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Shinta Indyar Shanty Susanto, S.Kom"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 1",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. RPL 1",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Shinta Indyar Shanty Susanto, S.Kom"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 57",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 57",
+    "subject": "Sejarah",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 57",
+    "subject": "Bahasa Jawa",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. RPL 1",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Shinta Indyar Shanty Susanto, S.Kom"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "Lab. RPL 1",
+    "subject": "Mapel Pilihan RPL",
+    "teacher": "Hendro Suwignyo, ST"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 57",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Umi Kulsum, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 57",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 57",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 57",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "Lab. RPL 1",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 1",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 57",
+    "subject": "Matematika",
+    "teacher": "Lutfia Marsalina, S.Pd.I, M.Pd."
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 58",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 58",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 2",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 58",
+    "subject": "Matematika",
+    "teacher": "Lutfia Marsalina, S.Pd.I, M.Pd."
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 58",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 2",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. RPL 2",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Kurnila Putri Islamawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. RPL 2",
+    "subject": "Mapel Pilihan RPL",
+    "teacher": "Hendro Suwignyo, ST"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 58",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 58",
+    "subject": "Sejarah",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 58",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 58",
+    "subject": "BK",
+    "teacher": "Widodo, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. RPL 2",
+    "subject": "Bahasa Jawa",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 2",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Kurnila Putri Islamawati, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 58",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Winartin, S.Pd"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 58",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Mufatiroh, S.Ag"
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 10,
+    "room": "Lab. RPL 2",
+    "subject": "Konsentrasi RPL",
+    "teacher": "Badrus Sulaiman, S.Pd."
+  },
+  {
+    "kelas": "XI RPL 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "Lab. RPL 2",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. TKJ 1",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "Lab. TKJ 1",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Sri Rahayu, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 1",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Siti Munawaroh, S.Kom.,M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. TKJ 1",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lab. TKJ 1",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Niken Dewi Hastika, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 1",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Siswanti Purwaningsih, S.T., M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. TKJ 1",
+    "subject": "Sejarah",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. TKJ 1",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. TKJ 1",
+    "subject": "Mapel Pilihan TKJ",
+    "teacher": "Listyana Hartati, S.Kom., M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. TKJ 1",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Endang Ary Handayani, S.T., M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 1",
+    "subject": "Bahasa Jawa",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. TKJ 1",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Dra. Hanik Pangestuti"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "Lab. TKJ 1",
+    "subject": "BK",
+    "teacher": "Nishfu Laili,S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 1",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Listyana Hartati, S.Kom.,M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lab. TKJ 1",
+    "subject": "Matematika",
+    "teacher": "Lutfia Marsalina, S.Pd.I, M.Pd."
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "Lab. TKJ 1",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Ary Sunaryo, ST.,M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "Lab. TKJ 1",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 1",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 1",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Niken Dewi Hastika, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 34",
+    "subject": "Bahasa Jawa",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "Lab. TKJ 2 (FO)",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Endang Ary Handayani, S.T., M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 34",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Dra. Hanik Pangestuti"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 34",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 34",
+    "subject": "Matematika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 34",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 2 (FO)",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Listyana Hartati, S.Kom.,M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. TKJ 2 (FO)",
+    "subject": "Mapel Pilihan TKJ",
+    "teacher": "Listyana Hartati, S.Kom., M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 34",
+    "subject": "BK",
+    "teacher": "Nishfu Laili,S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. TKJ 2 (FO)",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Ary Sunaryo, ST.,M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 34",
+    "subject": "Sejarah",
+    "teacher": "Baskoro, S.Si"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 34",
+    "subject": "Bahasa Inggris",
+    "teacher": "Isti Mufadah, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lab. TKJ 2 (FO)",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Siswanti Purwaningsih, S.T., M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 34",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 34",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 34",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Sri Rahayu, S.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 10,
+    "room": "Lab. TKJ 2 (FO)",
+    "subject": "Konsentrasi TKJ",
+    "teacher": "Siti Munawaroh, S.Kom.,M.Pd"
+  },
+  {
+    "kelas": "XI TKJ 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 34",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 26",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 26",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 26",
+    "subject": "Mapel Pilihan BD",
+    "teacher": "Andri Krisdianto, SE.,M.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 26",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 26",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 26",
+    "subject": "Konsentrasi BD",
+    "teacher": "Nurul Azizah, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 26",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Sinta Lestari, S.Pd.I"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 26",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "R 26",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 26",
+    "subject": "Konsentrasi BD",
+    "teacher": "Niken Dewi Hastika, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 26",
+    "subject": "BK Nur Eko Wahyuningsih,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 26",
+    "subject": "Konsentrasi BD Andri Krisdianto, SE.,",
+    "teacher": "M.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "R 26",
+    "subject": "Konsentrasi BD",
+    "teacher": "Agung Yulianto, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 26",
+    "subject": "Konsentrasi BD",
+    "teacher": "Niken Dewi Hastika, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 26",
+    "subject": "Konsentrasi BD",
+    "teacher": "Nurul Azizah, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 26",
+    "subject": "Konsentrasi BD",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 26",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 10,
+    "room": "R 26",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Erna Rinawati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 1",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 26",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "R 61",
+    "subject": "Konsentrasi BD",
+    "teacher": "Agung Yulianto, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 61",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 61",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Erna Rinawati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 61",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 7,
+    "room": "R 61",
+    "subject": "Mapel Pilihan BD",
+    "teacher": "Andri Krisdianto, SE.,M.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 61",
+    "subject": "Konsentrasi BD",
+    "teacher": "Nurul Azizah, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 61",
+    "subject": "Konsentrasi BD",
+    "teacher": "Niken Dewi Hastika, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 61",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 61",
+    "subject": "Konsentrasi BD Andri Krisdianto, SE.,",
+    "teacher": "M.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 61",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 61",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 61",
+    "subject": "Konsentrasi BD",
+    "teacher": "Niken Dewi Hastika, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 61",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 61",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 61",
+    "subject": "Konsentrasi BD",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 61",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Sinta Lestari, S.Pd.I"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 61",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 61",
+    "subject": "BK",
+    "teacher": "Dian Mawarti, S.Pd"
+  },
+  {
+    "kelas": "XI BD 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 61",
+    "subject": "Konsentrasi BD",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. BD Depan",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 7,
+    "room": "Lab. BD Depan",
+    "subject": "Mapel Pilihan BD",
+    "teacher": "Niken Dewi Hastika, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. BD Depan",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. BD Depan",
+    "subject": "BK",
+    "teacher": "Dian Mawarti, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. BD Depan",
+    "subject": "Konsentrasi BD",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "Lab. BD Depan",
+    "subject": "Konsentrasi BD",
+    "teacher": "Agung Yulianto, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. BD Depan",
+    "subject": "Bahasa Jawa",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. BD Depan",
+    "subject": "Konsentrasi BD",
+    "teacher": "Niken Dewi Hastika, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. BD Depan",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lab. BD Depan",
+    "subject": "Konsentrasi BD",
+    "teacher": "Nurul Azizah, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. BD Depan",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Umi Kulsum, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. BD Depan",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lab. BD Depan",
+    "subject": "Matematika",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. BD Depan",
+    "subject": "Konsentrasi BD",
+    "teacher": "Nurul Azizah, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lab. BD Depan",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Fitria Diah Ayu Hartati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. BD Depan",
+    "subject": "Bahasa Inggris",
+    "teacher": "Dwi Rini Manfaati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. BD Depan",
+    "subject": "Konsentrasi BD",
+    "teacher": "Anisa Kusumawati, S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "Lab. BD Depan",
+    "subject": "Konsentrasi BD",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI BD 3",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "Lab. BD Depan",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Nurul Azizah, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Martiin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 6",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Purwati,S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 6",
+    "subject": "Mapel Pilihan MP",
+    "teacher": "Tutut Sriatin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Martiin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Martiin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 6",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Fitria Diah Ayu Hartati, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 6",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 6",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Dra. Susakti Yuharini"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 6,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Martiin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 6",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 6",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 6",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 6",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Dra. Susakti Yuharini"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 6",
+    "subject": "Matematika",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Martiin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Martiin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 6",
+    "subject": "BK Veronica Damay",
+    "teacher": "Rulitasari, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 6",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "XI MP 1",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 6",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 7",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Dra. Susakti Yuharini"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 7",
+    "subject": "Matematika",
+    "teacher": "Laili Ermawati, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Sunarti, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 7",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Fitria Diah Ayu Hartati, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Sunarti, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 7",
+    "subject": "Mapel Pilihan MP",
+    "teacher": "Tutut Sriatin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Sunarti, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 7",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 7",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Sunarti, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 7",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 7",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Dra. Susakti Yuharini"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 7",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 7",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Sunarti, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 7",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Purwati,S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 7",
+    "subject": "Bahasa Inggris",
+    "teacher": "Komariyah, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 10,
+    "room": "Lab. AP BAWAH",
+    "subject": "Konsentrasi MP",
+    "teacher": "Sunarti, S.Pd"
+  },
+  {
+    "kelas": "XI MP 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 7",
+    "subject": "BK",
+    "teacher": "Siti Maisaroh, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 8",
+    "subject": "Matematika",
+    "teacher": "Rulik Indrawati, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 8",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Titik Samsistini, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 8",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Dra. Susakti Yuharini"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 8",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Titik Samsistini, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Titik Samsistini, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 6,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Titik Samsistini, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 8",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 8",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 8",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Fitria Diah Ayu Hartati, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Titik Samsistini, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 8",
+    "subject": "BK Veronica Damay",
+    "teacher": "Rulitasari, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 8",
+    "subject": "Mapel Pilihan MP",
+    "teacher": "Tutut Sriatin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 8",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 8",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 8",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Dra. Susakti Yuharini"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 10,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Titik Samsistini, S.Pd"
+  },
+  {
+    "kelas": "XI MP 3",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 8",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Mega Mahardika, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 9",
+    "subject": "BK Veronica Damay",
+    "teacher": "Rulitasari, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Senin",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 9",
+    "subject": "Matematika",
+    "teacher": "Rulik Indrawati, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Mega Mahardika, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 9",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 9",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 9",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 9",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "R 9",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Dra. Susakti Yuharini"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Zainul Arifin,S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Mega Mahardika, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Mega Mahardika, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 9",
+    "subject": "Mapel Pilihan MP",
+    "teacher": "Tutut Sriatin, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 9",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 9",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Alfinu Farikh Abdillah, S.Pd.I"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 9",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 9",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Dra. Susakti Yuharini"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Mega Mahardika, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 10,
+    "room": "R 9",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "XI MP 4",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "Lab. AP ATAS",
+    "subject": "Konsentrasi MP",
+    "teacher": "Mega Mahardika, S.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 5",
+    "subject": "Konsentrasi AK",
+    "teacher": "Kasmi, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 5",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 5",
+    "subject": "Matematika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 5",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 5",
+    "subject": "BK",
+    "teacher": "Astra Bella Flamboyan, S.Psi"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 13,
+    "room": "Lab. AK BAWAH",
+    "subject": "Konsentrasi AK",
+    "teacher": "Indayah, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 5",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 5",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 5",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 5",
+    "subject": "Konsentrasi AK",
+    "teacher": "Septiani, S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 5",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Alfinu Farikh Abdillah, S.Pd.I"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 5",
+    "subject": "Konsentrasi AK Agustina Mardika Rini,",
+    "teacher": "S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 13,
+    "room": "Lab. AK BAWAH",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Kasmi, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 5",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 7,
+    "room": "Lab. AK BAWAH",
+    "subject": "Konsentrasi AK",
+    "teacher": "Dyah Esti Rahayu, S.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 10,
+    "room": "R 5",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Winartin, S.Pd"
+  },
+  {
+    "kelas": "XI AK 1",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 5",
+    "subject": "Mapel Pilihan AK",
+    "teacher": "Yuli Ratnasari, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. AK BAWAH",
+    "subject": "Konsentrasi AK",
+    "teacher": "Dyah Esti Rahayu, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Senin",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 62",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Alfinu Farikh Abdillah, S.Pd.I"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 62",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 62",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 62",
+    "subject": "Mapel Pilihan AK",
+    "teacher": "Yuli Ratnasari, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 62",
+    "subject": "Konsentrasi AK",
+    "teacher": "Yuli Ratnasari, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 6,
+    "room": "Lab. AK BAWAH",
+    "subject": "Konsentrasi AK",
+    "teacher": "Pipit Ambarwati, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 62",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 62",
+    "subject": "Bahasa Jawa Muhammad Fajar Assidiqi,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 5,
+    "room": "Lab. AK BAWAH",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Kasmi, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 62",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Winartin, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 62",
+    "subject": "Konsentrasi AK",
+    "teacher": "Setiyo Winarko, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 62",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 62",
+    "subject": "Matematika",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 62",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 62",
+    "subject": "Konsentrasi AK",
+    "teacher": "Kasmi, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 62",
+    "subject": "BK",
+    "teacher": "Winarsih, S.Pd, M.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 63",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Alfinu Farikh Abdillah, S.Pd.I"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 63",
+    "subject": "Konsentrasi AK",
+    "teacher": "Atih Wilupi, S.E, M.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 63",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Winartin, S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 8,
+    "room": "Lab. AK ATAS",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Ninik Sriwidayati, S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 63",
+    "subject": "Konsentrasi AK",
+    "teacher": "Setiyo Winarko, S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 6,
+    "room": "Lab. AK ATAS",
+    "subject": "Konsentrasi AK",
+    "teacher": "Atih Wilupi, S.E, M.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 63",
+    "subject": "Mapel Pilihan AK",
+    "teacher": "Yuli Ratnasari, S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 63",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 63",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 63",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "Lab. AK ATAS",
+    "subject": "Konsentrasi AK",
+    "teacher": "Dyah Esti Rahayu, S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 63",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 63",
+    "subject": "Matematika",
+    "teacher": "Arvia Rienetasary, S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 63",
+    "subject": "Konsentrasi AK",
+    "teacher": "Indayah, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 63",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 63",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 3",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 63",
+    "subject": "BK Nur Eko Wahyuningsih,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 6,
+    "room": "Lab. AK ATAS",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Ninik Sriwidayati, S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 64",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 64",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 64",
+    "subject": "Mapel Pilihan AK",
+    "teacher": "Yuli Ratnasari, S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 64",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 64",
+    "subject": "BK Nur Eko Wahyuningsih,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "R 64",
+    "subject": "Konsentrasi AK",
+    "teacher": "Atih Wilupi, S.E, M.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 64",
+    "subject": "Bahasa Jawa Rizki Putri Wulandari,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 64",
+    "subject": "Bahasa Inggris Andri Retno Yuli Astuti,",
+    "teacher": "S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 64",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 64",
+    "subject": "Konsentrasi AK",
+    "teacher": "Ninik Sriwidayati, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 64",
+    "subject": "Konsentrasi AK",
+    "teacher": "Indayah, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. AK ATAS",
+    "subject": "Konsentrasi AK",
+    "teacher": "Titin Sukmasari, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 64",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Siti Khoiriyah, S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 64",
+    "subject": "Matematika",
+    "teacher": "Basuki Sarjono, S.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Agus Fahruddy, S.Pd., M.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 9,
+    "room": "Lab. AK ATAS",
+    "subject": "Konsentrasi AK",
+    "teacher": "Septiani, S.Pd.,M.Pd"
+  },
+  {
+    "kelas": "XI AK 4",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 64",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Muashofah, M.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Purwati,S.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "Lab. UPW 1 (Guiding)",
+    "subject": "Konsentrasi ULW",
+    "teacher": "Risqi Nur Imama, S.Tr.Par"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fitria Renytasari, S.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 6,
+    "room": "Lab. UPW 1 (Guiding)",
+    "subject": "Konsentrasi ULW",
+    "teacher": "Risqi Nur Imama, S.Tr.Par"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. UPW 1 (Guiding)",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Nur Nastutisari, S.ST.Par."
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Sejarah",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Nur Nastutisari, S.ST.Par."
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Konsentrasi ULW",
+    "teacher": "Nur Nastutisari, S.ST.Par."
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Bahasa Jawa",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Matematika",
+    "teacher": "Dwi Nova Setyandari, S.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Konsentrasi ULW",
+    "teacher": "Nur Nastutisari, S.ST.Par."
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Bahasa Jepang",
+    "teacher": "Sulistyowati, SS"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Muashofah, M.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "Lab. UPW 1 (Guiding)",
+    "subject": "Konsentrasi ULW",
+    "teacher": "Risqi Nur Imama, S.Tr.Par"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "BK",
+    "teacher": "Niken Hari Pratiwi, S.Psi., M.Pd"
+  },
+  {
+    "kelas": "XI ULW",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "Lab. UPW 2 (Ticketing)",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 17",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "Lab. DKV Komputer",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Danang Anjar Hymawanto, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. DKV Komputer",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Istiana Suhartati, S.T"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 17",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Agus Pramono, S.Sn"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 17",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 17",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Mas'an Widodo, S.Pd. M.T"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 17",
+    "subject": "Sejarah",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 17",
+    "subject": "BK",
+    "teacher": "Astra Bella Flamboyan, S.Psi"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "Lab. DKV Komputer",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lab. DKV Komputer",
+    "subject": "Konsentrasi DKV Danang Anjar",
+    "teacher": "Hymawanto, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. DKV Produksi",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Mas'an Widodo, S.Pd. M.T"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "R 17",
+    "subject": "Bahasa Jawa",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 17",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 17",
+    "subject": "Matematika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 5,
+    "room": "Lab. DKV Komputer",
+    "subject": "Mapel Pilihan DKV",
+    "teacher": "Endik Kuswantoro, S.Kom.,M.T"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 17",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 10,
+    "room": "R 17",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Sinta Lestari, S.Pd.I"
+  },
+  {
+    "kelas": "XI DKV 1",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 17",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 18",
+    "subject": "BK",
+    "teacher": "Astra Bella Flamboyan, S.Psi"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Senin",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 18",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 18",
+    "subject": "Bahasa Jawa",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 18",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Abdul Rohman, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. DKV Komputer",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Khoyrotun Hisani, S.Sn"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 7,
+    "room": "Lab. DKV Komputer",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Istiana Suhartati, S.T"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. DKV Komputer",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Danang Anjar Hymawanto, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 18",
+    "subject": "Konsentrasi DKV Danang Anjar",
+    "teacher": "Hymawanto, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "R 18",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Endang Safitri, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Ilham Sungeidi, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 18",
+    "subject": "Matematika",
+    "teacher": "Elysa Yuli Nur'aini, S.Si"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 18",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Mas'an Widodo, S.Pd. M.T"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 18",
+    "subject": "Sejarah",
+    "teacher": "Indriati, S.Pd"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 18",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 18",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Sinta Lestari, S.Pd.I"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 18",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Mas'an Widodo, S.Pd. M.T"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 18",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 9,
+    "room": "Lab. DKV Komputer",
+    "subject": "Mapel Pilihan DKV",
+    "teacher": "Endik Kuswantoro, S.Kom.,M.T"
+  },
+  {
+    "kelas": "XI DKV 2",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 18",
+    "subject": "Konsentrasi DKV",
+    "teacher": "Agus Pramono, S.Sn"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 40",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Umi Kulsum, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. PSPT Editing",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Benny Mamora, S.Kom"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. PSPT Studio",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Joko Priyanto, S.Kom"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. PSPT Editing",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Sa'ad Wazis Hiedayat, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. PSPT Editing",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Sa'ad Wazis Hiedayat, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. PSPT Studio",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Joko Priyanto, S.Kom"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. PSPT Studio",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Joko Priyanto, S.Kom"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 40",
+    "subject": "BK",
+    "teacher": "Winarsih, S.Pd, M.Pd"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. PSPT Editing",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Tuhu Eries Kudori, S.Sn"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 40",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 40",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Fitri Amaliyah, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 40",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Siti Umiharsih, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. PSPT Editing",
+    "subject": "Mapel Pilihan PSPT",
+    "teacher": "Tuhu Eries Kudori, S.Sn"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "R 40",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Dra. Hanik Pangestuti"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Kamis",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 40",
+    "subject": "Matematika",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "R 40",
+    "subject": "Bahasa Inggris",
+    "teacher": "Fajar Wahyu Pratiwi, S.S"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 40",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 8,
+    "jam_selesai": 9,
+    "room": "R 40",
+    "subject": "Bahasa Jawa",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI PSPT 1",
+    "hari": "Jumat",
+    "jam_mulai": 10,
+    "jam_selesai": 13,
+    "room": "R 40",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Siti Umiharsih, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 41",
+    "subject": "Matematika",
+    "teacher": "Eko Saputro, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 41",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Siti Umiharsih, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 13,
+    "room": "Lab. PSPT Editing",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Tuhu Eries Kudori, S.Sn"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "R 41",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Dra. Hanik Pangestuti"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "R 41",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Siti Umiharsih, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Selasa",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 41",
+    "subject": "Sejarah",
+    "teacher": "Dra. Anik Indriani"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Selasa",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 41",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 4,
+    "room": "Lab. PSPT Studio",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Joko Priyanto, S.Kom"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "Lab. PSPT Editing",
+    "subject": "Mapel Pilihan PSPT",
+    "teacher": "Tuhu Eries Kudori, S.Sn"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 41",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "Lab. PSPT Studio",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Joko Priyanto, S.Kom"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lab. PSPT Studio",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Joko Priyanto, S.Kom"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. PSPT Editing",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Sa'ad Wazis Hiedayat, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. PSPT Editing",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Sa'ad Wazis Hiedayat, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. PSPT Editing",
+    "subject": "Konsentrasi PSPT",
+    "teacher": "Benny Mamora, S.Kom"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "R 41",
+    "subject": "BK",
+    "teacher": "Winarsih, S.Pd, M.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 41",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Umi Kulsum, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 41",
+    "subject": "Bahasa Inggris",
+    "teacher": "Muto'atul Khosi'ah, S.Pd"
+  },
+  {
+    "kelas": "XI PSPT 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 41",
+    "subject": "Bahasa Jawa",
+    "teacher": "Erna Qoriah, S.E."
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "R 59",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "R 59",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Senin",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. AN COE 2",
+    "subject": "Konsentrasi AN Andika Christian Sasmita,",
+    "teacher": "S.ST"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 2",
+    "subject": "Mapel Pilihan AN Endik Kuswantoro,",
+    "teacher": "S.Kom.,M.T"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Erwan Septiyono, S.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 7,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Rika Okta Maulida, S.Ds."
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Dhuana Putri Puspitasary, S.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Endik Kuswantoro, S.Kom.,M.T"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Rabu",
+    "jam_mulai": 4,
+    "jam_selesai": 6,
+    "room": "Lab. AN COE 1",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Andika Christian Sasmita, S.ST"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Rabu",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "R 59",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Rabu",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 59",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Khuriyatul Kamila, S.Si"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Erwan Septiyono, S.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Kamis",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "Lab. AN COE 1",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan Andika Christian Sasmita,",
+    "teacher": "S.ST"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 60",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Muashofah, M.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 60",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 3,
+    "room": "Lab. AN COE 2",
+    "subject": "Mapel Pilihan AN Andika Christian Sasmita,",
+    "teacher": "S.ST"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "LAP",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 59",
+    "subject": "Matematika",
+    "teacher": "Dwi Nova Setyandari, S.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 59",
+    "subject": "BK",
+    "teacher": "Siti Maisaroh, S.Pd"
+  },
+  {
+    "kelas": "XI AN 1",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 59",
+    "subject": "Bahasa Jawa",
+    "teacher": "Ajeng Okvitasari, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Senin",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Dhuana Putri Puspitasary, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Senin",
+    "jam_mulai": 5,
+    "jam_selesai": 8,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Rika Okta Maulida, S.Ds."
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Senin",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN Andika Christian Sasmita,",
+    "teacher": "S.ST"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 1,
+    "jam_selesai": 3,
+    "room": "Lab. AN COE 2",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan",
+    "teacher": "Andika Christian Sasmita, S.ST"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 4,
+    "jam_selesai": 5,
+    "room": "Lab. AN COE 2",
+    "subject": "Mapel Pilihan AN Endik Kuswantoro,",
+    "teacher": "S.Kom.,M.T"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 6,
+    "jam_selesai": 7,
+    "room": "R 59",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Selasa",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "R 59",
+    "subject": "Bahasa Indonesia",
+    "teacher": "Arif Setyobudi, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Rabu",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 59",
+    "subject": "Bahasa Jawa",
+    "teacher": "Luluk Munfarida,S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Rabu",
+    "jam_mulai": 3,
+    "jam_selesai": 4,
+    "room": "Lapangan",
+    "subject": "PJOK",
+    "teacher": "Bella Prakoso, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Rabu",
+    "jam_mulai": 5,
+    "jam_selesai": 7,
+    "room": "Lab. AN COE 2",
+    "subject": "Konsentrasi AN",
+    "teacher": "Endik Kuswantoro, S.Kom.,M.T"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Rabu",
+    "jam_mulai": 8,
+    "jam_selesai": 13,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Erwan Septiyono, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Kamis",
+    "jam_mulai": 1,
+    "jam_selesai": 2,
+    "room": "R 59",
+    "subject": "BK",
+    "teacher": "Siti Maisaroh, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Kamis",
+    "jam_mulai": 3,
+    "jam_selesai": 5,
+    "room": "R 59",
+    "subject": "Pendidikan Agama Islam dan Budi Pekerti",
+    "teacher": "Muashofah, M.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Kamis",
+    "jam_mulai": 6,
+    "jam_selesai": 8,
+    "room": "R 59",
+    "subject": "Matematika",
+    "teacher": "Dwi Nova Setyandari, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Kamis",
+    "jam_mulai": 9,
+    "jam_selesai": 13,
+    "room": "R 59",
+    "subject": "Sejarah",
+    "teacher": "Yustin Febrini, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 2,
+    "jam_selesai": 4,
+    "room": "Lab. AN COE 1",
+    "subject": "Konsentrasi AN",
+    "teacher": "Erwan Septiyono, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 5,
+    "jam_selesai": 6,
+    "room": "Lab. AN COE 1",
+    "subject": "Mapel Pilihan AN Andika Christian Sasmita,",
+    "teacher": "S.ST"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 7,
+    "jam_selesai": 8,
+    "room": "Lab. AN COE 1",
+    "subject": "Kreativitas, Inovasi, dan Kewirausahaan Andika Christian Sasmita,",
+    "teacher": "S.ST"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 9,
+    "jam_selesai": 10,
+    "room": "R 60",
+    "subject": "Pendidikan Pancasila",
+    "teacher": "Wiwik Yuniarsih, S.Pd"
+  },
+  {
+    "kelas": "XI AN 2",
+    "hari": "Jumat",
+    "jam_mulai": 11,
+    "jam_selesai": 13,
+    "room": "R 60",
+    "subject": "Bahasa Inggris",
+    "teacher": "Agus Muharyanto, M.Pd"
+  }
+]
