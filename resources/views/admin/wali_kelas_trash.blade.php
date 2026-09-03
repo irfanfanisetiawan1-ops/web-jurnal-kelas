@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tempat Sampah Wali Kelas — Jurnal ESEMKITA')
+@section('title', 'Tempat Sampah Wali Kelas — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -150,6 +150,14 @@
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tong Sampah — Wali Kelas</h1>
+            <p>Daftar riwayat penugasan wali kelas yang dihapus sementara (soft delete)</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <a href="{{ route('admin.wali-kelas-list') }}"><i class="fa-solid fa-id-card-clip"></i> Wali Kelas</a>

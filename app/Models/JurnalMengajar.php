@@ -20,8 +20,11 @@ class JurnalMengajar extends Model
         'id_guru_pengganti',
         'tanggal',
         'materi',
+        'pertemuan_ke',
         'status_kehadiran_guru',
         'catatan',
+        'kondisi_kelas',
+        'is_draft',
         'dokumentasi',
         'jam_ke',
         'dicatat_pada'

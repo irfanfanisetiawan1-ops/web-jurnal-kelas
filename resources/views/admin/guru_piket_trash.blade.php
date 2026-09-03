@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tempat Sampah Guru Piket — Jurnal ESEMKITA')
+@section('title', 'Tempat Sampah Guru Piket — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -150,6 +150,14 @@
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tong Sampah — Guru Piket</h1>
+            <p>Daftar penugasan guru piket yang dihapus sementara (soft delete)</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <a href="{{ route('admin.guru-piket') }}"><i class="fa-solid fa-clipboard-user"></i> Guru Piket</a>

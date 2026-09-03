@@ -26,9 +26,14 @@ class KelasController extends Controller
             ->orderBy('nama_guru', 'asc')
             ->get();
 
-        $assignedWali = Kelas::whereNotNull('wali_kelas')
-            ->pluck('nama_kelas', 'wali_kelas')
-            ->toArray();
+        $assignedWali = [];
+        $kelasesWithWali = Kelas::whereNotNull('wali_kelas')->get();
+        foreach ($kelasesWithWali as $kls) {
+            $assignedWali[$kls->wali_kelas] = $kls->nama_kelas;
+            if ($kls->waliKelas && $kls->waliKelas->nama_guru) {
+                $assignedWali[trim($kls->waliKelas->nama_guru)] = $kls->nama_kelas;
+            }
+        }
 
         return [$gurus, $assignedWali];
     }
@@ -52,6 +57,10 @@ class KelasController extends Controller
                   })
                   ->orWhereHas('ruangan', function($r) use ($search) {
                       $r->where('nama_ruangan', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('jurusan', function($j) use ($search) {
+                      $j->where('nama_jurusan', 'like', "%{$search}%")
+                        ->orWhere('kode_jurusan', 'like', "%{$search}%");
                   });
             });
         }
@@ -74,6 +83,55 @@ class KelasController extends Controller
     }
 
     /**
+     * Helper privat untuk memproses id_jurusan, termasuk pengisian custom/manual
+     */
+    private function resolveJurusanId(Request $request)
+    {
+        $idJurusan = $request->id_jurusan;
+        $namaCustom = trim($request->nama_jurusan_custom ?? '');
+
+        if ($idJurusan === 'custom' || (!empty($namaCustom) && ($idJurusan === 'custom' || empty($idJurusan)))) {
+            if (empty($namaCustom)) {
+                return null;
+            }
+
+            // Cek apakah nama jurusan sudah ada di database (case-insensitive)
+            $existing = Jurusan::where('nama_jurusan', 'like', $namaCustom)->first();
+            if ($existing) {
+                return $existing->id_jurusan;
+            }
+
+            // Generate kode_jurusan otomatis dari inisial atau huruf awal
+            $words = array_filter(explode(' ', $namaCustom));
+            if (count($words) >= 2) {
+                $kode = '';
+                foreach ($words as $w) {
+                    $kode .= strtoupper(substr($w, 0, 1));
+                }
+            } else {
+                $kode = strtoupper(substr($namaCustom, 0, 4));
+            }
+
+            $baseKode = !empty($kode) ? $kode : 'JUR';
+            $kodeCandidate = $baseKode;
+            $counter = 1;
+            while (Jurusan::where('kode_jurusan', $kodeCandidate)->exists()) {
+                $kodeCandidate = $baseKode . $counter;
+                $counter++;
+            }
+
+            $newJurusan = Jurusan::create([
+                'kode_jurusan' => $kodeCandidate,
+                'nama_jurusan' => $namaCustom,
+            ]);
+
+            return $newJurusan->id_jurusan;
+        }
+
+        return $idJurusan ? (int)$idJurusan : null;
+    }
+
+    /**
      * [CREATE] Menampilkan form tambah kelas
      */
     public function create()
@@ -89,57 +147,41 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = [
             'nama_kelas'   => 'required|string|max:20|unique:kelas,nama_kelas',
-            'id_jurusan'   => 'nullable|exists:jurusan,id_jurusan',
-            'wali_kelas'   => 'nullable|string|exists:guru,nip',
-            'id_ruangan'   => 'nullable|exists:ruangan,id_ruangan',
+            'id_jurusan'   => 'required',
             'jumlah_siswa' => 'nullable|integer|min:0',
-        ], [
+        ];
+
+        $messages = [
             'nama_kelas.required' => 'Nama Kelas wajib diisi.',
             'nama_kelas.max'      => 'Nama Kelas maksimal 20 karakter.',
             'nama_kelas.unique'   => 'Nama Kelas sudah terdaftar di database.',
-            'id_jurusan.exists'   => 'Jurusan yang dipilih tidak valid.',
-            'wali_kelas.exists'   => 'Wali Kelas yang dipilih tidak valid.',
-            'id_ruangan.exists'   => 'Ruangan yang dipilih tidak valid.',
+            'id_jurusan.required' => 'Jurusan wajib dipilih atau diisi.',
             'jumlah_siswa.integer'=> 'Jumlah Siswa harus berupa angka bulat.',
             'jumlah_siswa.min'    => 'Jumlah Siswa tidak boleh kurang dari 0.',
-        ]);
+        ];
 
-        // Validasi aturan: 1 Guru hanya untuk 1 Kelas & 1 Guru Terverifikasi
-        if ($request->filled('wali_kelas')) {
-            $guru = Guru::where('nip', $request->wali_kelas)->first();
-            if (!$guru) {
-                return back()->withInput()->withErrors(['wali_kelas' => 'Guru yang dipilih tidak ditemukan dalam sistem.']);
-            }
-            if ($guru->user && $guru->user->status_verifikasi !== 'verified') {
-                return back()->withInput()->withErrors(['wali_kelas' => 'Guru yang dipilih belum terverifikasi oleh Admin TU.']);
-            }
-
-            $existingClass = Kelas::where('wali_kelas', $request->wali_kelas)->first();
-            if ($existingClass) {
-                return back()->withInput()->withErrors([
-                    'wali_kelas' => "Guru '{$guru->nama_guru}' sudah menjadi Wali Kelas di kelas '{$existingClass->nama_kelas}'. Satu guru hanya dapat menjadi Wali Kelas untuk 1 kelas."
-                ]);
-            }
+        if ($request->id_jurusan === 'custom') {
+            $rules['nama_jurusan_custom'] = 'required|string|max:100';
+            $messages['nama_jurusan_custom.required'] = 'Nama Jurusan Baru (Custom) wajib diisi.';
         }
 
-        $kelas = Kelas::create([
+        $request->validate($rules, $messages);
+
+        $jurusanId = $this->resolveJurusanId($request);
+
+        if (!$jurusanId) {
+            return back()->withInput()->withErrors(['id_jurusan' => 'Jurusan wajib dipilih atau diisi dengan benar.']);
+        }
+
+        Kelas::create([
             'nama_kelas'   => trim($request->nama_kelas),
-            'id_jurusan'   => $request->id_jurusan ?: null,
-            'wali_kelas'   => $request->wali_kelas ?: null,
-            'id_ruangan'   => $request->id_ruangan ?: null,
+            'id_jurusan'   => $jurusanId,
+            'wali_kelas'   => null,
+            'id_ruangan'   => null,
             'jumlah_siswa' => $request->jumlah_siswa ?? 0,
         ]);
-
-        // Update role User jika ditugaskan sebagai Wali Kelas
-        if ($kelas->wali_kelas) {
-            $user = User::where('nip', $kelas->wali_kelas)->first();
-            if ($user && $user->role === 'guru') {
-                $user->role = 'wali_kelas';
-                $user->save();
-            }
-        }
 
         return redirect()->route('kelas.index')
                          ->with('success', 'Data kelas berhasil ditambahkan!');
@@ -174,22 +216,37 @@ class KelasController extends Controller
         $kelas = Kelas::findOrFail($id);
         $oldWaliNip = $kelas->wali_kelas;
 
-        $request->validate([
+        $rules = [
             'nama_kelas'   => 'required|string|max:20|unique:kelas,nama_kelas,' . $kelas->id_kelas . ',id_kelas',
-            'id_jurusan'   => 'nullable|exists:jurusan,id_jurusan',
+            'id_jurusan'   => 'required',
             'wali_kelas'   => 'nullable|string|exists:guru,nip',
             'id_ruangan'   => 'nullable|exists:ruangan,id_ruangan',
             'jumlah_siswa' => 'nullable|integer|min:0',
-        ], [
+        ];
+
+        $messages = [
             'nama_kelas.required' => 'Nama Kelas wajib diisi.',
             'nama_kelas.max'      => 'Nama Kelas maksimal 20 karakter.',
             'nama_kelas.unique'   => 'Nama Kelas sudah digunakan oleh kelas lain.',
-            'id_jurusan.exists'   => 'Jurusan yang dipilih tidak valid.',
+            'id_jurusan.required' => 'Jurusan wajib dipilih atau diisi.',
             'wali_kelas.exists'   => 'Wali Kelas yang dipilih tidak valid.',
             'id_ruangan.exists'   => 'Ruangan yang dipilih tidak valid.',
             'jumlah_siswa.integer'=> 'Jumlah Siswa harus berupa angka bulat.',
             'jumlah_siswa.min'    => 'Jumlah Siswa tidak boleh kurang dari 0.',
-        ]);
+        ];
+
+        if ($request->id_jurusan === 'custom') {
+            $rules['nama_jurusan_custom'] = 'required|string|max:100';
+            $messages['nama_jurusan_custom.required'] = 'Nama Jurusan Baru (Custom) wajib diisi.';
+        }
+
+        $request->validate($rules, $messages);
+
+        $jurusanId = $this->resolveJurusanId($request);
+
+        if (!$jurusanId) {
+            return back()->withInput()->withErrors(['id_jurusan' => 'Jurusan wajib dipilih atau diisi dengan benar.']);
+        }
 
         // Validasi 1 Guru untuk 1 Kelas
         if ($request->filled('wali_kelas')) {
@@ -201,7 +258,12 @@ class KelasController extends Controller
                 return back()->withInput()->withErrors(['wali_kelas' => 'Guru yang dipilih belum terverifikasi oleh Admin TU.']);
             }
 
-            $existingClass = Kelas::where('wali_kelas', $request->wali_kelas)
+            $allNipsWithSameName = Guru::where('nama_guru', 'like', trim($guru->nama_guru))->pluck('nip')->toArray();
+            if (!in_array($request->wali_kelas, $allNipsWithSameName)) {
+                $allNipsWithSameName[] = $request->wali_kelas;
+            }
+
+            $existingClass = Kelas::whereIn('wali_kelas', $allNipsWithSameName)
                 ->where('id_kelas', '!=', $id)
                 ->first();
             if ($existingClass) {
@@ -215,30 +277,18 @@ class KelasController extends Controller
 
         $kelas->update([
             'nama_kelas'   => trim($request->nama_kelas),
-            'id_jurusan'   => $request->id_jurusan ?: null,
+            'id_jurusan'   => $jurusanId,
             'wali_kelas'   => $newWaliNip,
             'id_ruangan'   => $request->id_ruangan ?: null,
             'jumlah_siswa' => $request->jumlah_siswa ?? 0,
         ]);
 
         // Sinkronisasi Role User (Guru Lama vs Guru Baru)
-        if ($oldWaliNip && $oldWaliNip !== $newWaliNip) {
-            $stillWali = Kelas::where('wali_kelas', $oldWaliNip)->exists();
-            if (!$stillWali) {
-                $userOld = User::where('nip', $oldWaliNip)->first();
-                if ($userOld && $userOld->role === 'wali_kelas') {
-                    $userOld->role = 'guru';
-                    $userOld->save();
-                }
-            }
-        }
+        User::syncWaliKelasRoles();
 
-        if ($newWaliNip) {
-            $userNew = User::where('nip', $newWaliNip)->first();
-            if ($userNew && $userNew->role === 'guru') {
-                $userNew->role = 'wali_kelas';
-                $userNew->save();
-            }
+        if ($request->header('referer') && str_contains($request->header('referer'), 'admin/wali-kelas-list')) {
+            return redirect()->route('admin.wali-kelas-list')
+                             ->with('success', "Data Wali Kelas pada kelas '{$kelas->nama_kelas}' berhasil diperbarui!");
         }
 
         return redirect()->route('kelas.index')
@@ -256,19 +306,38 @@ class KelasController extends Controller
 
         $kelas->delete();
 
-        if ($waliNip) {
-            $stillWali = Kelas::where('wali_kelas', $waliNip)->exists();
-            if (!$stillWali) {
-                $user = User::where('nip', $waliNip)->first();
-                if ($user && $user->role === 'wali_kelas') {
-                    $user->role = 'guru';
-                    $user->save();
-                }
-            }
-        }
+        User::syncWaliKelasRoles();
 
         return redirect()->route('kelas.index')
                          ->with('success', "Data kelas \"$nama\" berhasil dipindahkan ke Tempat Sampah.");
+    }
+
+    /**
+     * [DESTROY BATCH] Hapus banyak kelas sekaligus (Soft Delete)
+     */
+    public function destroyBatch(Request $request)
+    {
+        $request->validate([
+            'ids'   => 'required|array|min:1',
+            'ids.*' => 'exists:kelas,id_kelas',
+        ], [
+            'ids.required' => 'Silakan pilih minimal satu data kelas untuk dihapus.',
+            'ids.min'      => 'Silakan pilih minimal satu data kelas untuk dihapus.',
+            'ids.*.exists' => 'Data kelas yang dipilih tidak valid atau tidak ditemukan.',
+        ]);
+
+        $kelases = Kelas::whereIn('id_kelas', $request->ids)->get();
+        $count   = 0;
+
+        foreach ($kelases as $kelas) {
+            $kelas->delete();
+            $count++;
+        }
+
+        User::syncWaliKelasRoles();
+
+        return redirect()->route('kelas.index')
+                         ->with('success', "Berhasil memindahkan {$count} data kelas terpilih ke Tempat Sampah.");
     }
 
     /**
@@ -297,13 +366,7 @@ class KelasController extends Controller
 
         $kelas->restore();
 
-        if ($kelas->wali_kelas) {
-            $user = User::where('nip', $kelas->wali_kelas)->first();
-            if ($user && $user->role === 'guru') {
-                $user->role = 'wali_kelas';
-                $user->save();
-            }
-        }
+        User::syncWaliKelasRoles();
 
         return redirect()->route('kelas.trash')
                          ->with('success', "Data kelas \"{$kelas->nama_kelas}\" berhasil dipulihkan!");

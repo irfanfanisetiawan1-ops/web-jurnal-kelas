@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard TU — Jurnal ESEMKITA')</title>
+    <title>@yield('title', 'Dashboard TU — EDU JOURNAL')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -54,13 +54,19 @@
         }
 
         .sidebar-brand .logo-icon {
-            width: 44px; height: 44px;
-            background: #6366f1;
-            border-radius: 12px;
+            width: 92px; height: 92px;
+            background: transparent;
             display: flex; align-items: center; justify-content: center;
-            color: white;
-            font-size: 22px;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            overflow: visible;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
         }
 
         .sidebar-brand .logo-text h2 {
@@ -391,6 +397,37 @@
             flex: 1;
         }
 
+        /* Global Page Header Container (Top-Left Title & Subtitle) */
+        .page-header-container,
+        .dashboard-page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .page-title-group h1,
+        .page-header-title h1,
+        .header-left h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin: 0 0 4px 0;
+        }
+
+        .page-title-group p,
+        .page-header-title p,
+        .header-left p {
+            font-size: 13.5px;
+            color: #64748b;
+            font-weight: 600;
+            margin: 0;
+        }
+
         /* Alerts */
         .alert {
             padding: 12px 18px;
@@ -498,10 +535,10 @@
     <aside class="sidebar">
         <div class="sidebar-brand">
             <div class="logo-icon">
-                <i class="fa-solid fa-school"></i>
+                <img src="{{ asset('images/logo_jurnal_side_bar.png') }}" alt="EDU JOURNAL Logo">
             </div>
             <div class="logo-text">
-                <h2>Jurnal ESEMKITA</h2>
+                <h2>EDU JOURNAL</h2>
                 <span>Portal Presensi Digital</span>
             </div>
         </div>
@@ -587,8 +624,12 @@
 
         <div class="sidebar-footer">
             <div class="user-profile">
-                <div class="avatar">
-                    {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
+                <div class="avatar" style="overflow: hidden;">
+                    @if(Auth::check() && Auth::user()->foto_url)
+                        <img src="{{ Auth::user()->foto_url }}" alt="{{ Auth::user()->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    @else
+                        {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
+                    @endif
                 </div>
                 <div class="user-info">
                     <div class="name" title="{{ Auth::user()->name ?? 'Admin Tata Usaha' }}">{{ Auth::user()->name ?? 'Admin Tata Usaha' }}</div>
@@ -628,10 +669,7 @@
                     <i class="fa-solid fa-chevron-down" style="font-size:11px;"></i>
                 </div>
 
-                <div style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 7px 14px; border-radius: 10px; font-size: 12.5px; font-weight: 700; color: #475569; display: flex; align-items: center; gap: 6px;">
-                    <i class="fa-regular fa-clock" style="color: #64748b;"></i>
-                    <span>{{ $formattedTimeHeader ?? date('D, j M Y H:i') . ' WIB' }}</span>
-                </div>
+                @include('partials.live-clock')
             </div>
         </header>
 

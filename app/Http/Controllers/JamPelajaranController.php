@@ -16,10 +16,12 @@ class JamPelajaranController extends Controller
         $query  = JamPelajaran::query();
 
         if ($search) {
-            $query->where('jam_ke', 'like', "%{$search}%")
+            $query->where(function($q) use ($search) {
+                $q->where('jam_ke', 'like', "%{$search}%")
                   ->orWhere('keterangan', 'like', "%{$search}%")
                   ->orWhere('jam_mulai', 'like', "%{$search}%")
                   ->orWhere('jam_selesai', 'like', "%{$search}%");
+            });
         }
 
         $jamList      = $query->orderBy('id_jam', 'asc')->get();
@@ -69,30 +71,34 @@ class JamPelajaranController extends Controller
                     }
                 }
             ],
-            'jam_mulai_jumat'   => 'required|string',
+            'jam_mulai_jumat'   => 'nullable|string',
             'jam_selesai_jumat' => [
-                'required',
+                'nullable',
                 'string',
                 function ($attribute, $value, $fail) use ($request) {
-                    if ($request->jam_mulai_jumat && $value <= $request->jam_mulai_jumat) {
+                    if ($request->jam_mulai_jumat && $value && $value <= $request->jam_mulai_jumat) {
                         $fail('Waktu selesai Hari Jumat harus lebih akhir daripada waktu mulai.');
                     }
                 }
             ],
             'keterangan'        => 'nullable|string|max:255',
         ], [
-            'jam_ke_resolved.required'   => 'Label Jam wajib dipilih atau diisi.',
-            'jam_ke_resolved.max'        => 'Label Jam maksimal 50 karakter.',
-            'jam_mulai_jumat.required'   => 'Waktu mulai Hari Jumat wajib diisi.',
-            'jam_selesai_jumat.required' => 'Waktu selesai Hari Jumat wajib diisi.',
+            'jam_ke_resolved.required' => 'Label Jam wajib dipilih atau diisi.',
+            'jam_ke_resolved.max'      => 'Label Jam maksimal 50 karakter.',
         ]);
+
+        if (empty($request->jam_mulai) && empty($request->jam_mulai_jumat)) {
+            return back()->withInput()->withErrors([
+                'jam_mulai' => 'Minimal tentukan rentang waktu untuk Senin-Kamis atau Hari Jumat.'
+            ]);
+        }
 
         JamPelajaran::create([
             'jam_ke'            => $jamKe,
             'jam_mulai'         => $request->jam_mulai ? trim($request->jam_mulai) : null,
             'jam_selesai'       => $request->jam_selesai ? trim($request->jam_selesai) : null,
-            'jam_mulai_jumat'   => trim($request->jam_mulai_jumat),
-            'jam_selesai_jumat' => trim($request->jam_selesai_jumat),
+            'jam_mulai_jumat'   => $request->jam_mulai_jumat ? trim($request->jam_mulai_jumat) : null,
+            'jam_selesai_jumat' => $request->jam_selesai_jumat ? trim($request->jam_selesai_jumat) : null,
             'keterangan'        => $request->keterangan ? trim($request->keterangan) : null,
         ]);
 
@@ -162,30 +168,34 @@ class JamPelajaranController extends Controller
                     }
                 }
             ],
-            'jam_mulai_jumat'   => 'required|string',
+            'jam_mulai_jumat'   => 'nullable|string',
             'jam_selesai_jumat' => [
-                'required',
+                'nullable',
                 'string',
                 function ($attribute, $value, $fail) use ($request) {
-                    if ($request->jam_mulai_jumat && $value <= $request->jam_mulai_jumat) {
+                    if ($request->jam_mulai_jumat && $value && $value <= $request->jam_mulai_jumat) {
                         $fail('Waktu selesai Hari Jumat harus lebih akhir daripada waktu mulai.');
                     }
                 }
             ],
             'keterangan'        => 'nullable|string|max:255',
         ], [
-            'jam_ke_resolved.required'   => 'Label Jam wajib dipilih atau diisi.',
-            'jam_ke_resolved.max'        => 'Label Jam maksimal 50 karakter.',
-            'jam_mulai_jumat.required'   => 'Waktu mulai Hari Jumat wajib diisi.',
-            'jam_selesai_jumat.required' => 'Waktu selesai Hari Jumat wajib diisi.',
+            'jam_ke_resolved.required' => 'Label Jam wajib dipilih atau diisi.',
+            'jam_ke_resolved.max'      => 'Label Jam maksimal 50 karakter.',
         ]);
+
+        if (empty($request->jam_mulai) && empty($request->jam_mulai_jumat)) {
+            return back()->withInput()->withErrors([
+                'jam_mulai' => 'Minimal tentukan rentang waktu untuk Senin-Kamis atau Hari Jumat.'
+            ]);
+        }
 
         $jam->update([
             'jam_ke'            => $jamKe,
             'jam_mulai'         => $request->jam_mulai ? trim($request->jam_mulai) : null,
             'jam_selesai'       => $request->jam_selesai ? trim($request->jam_selesai) : null,
-            'jam_mulai_jumat'   => trim($request->jam_mulai_jumat),
-            'jam_selesai_jumat' => trim($request->jam_selesai_jumat),
+            'jam_mulai_jumat'   => $request->jam_mulai_jumat ? trim($request->jam_mulai_jumat) : null,
+            'jam_selesai_jumat' => $request->jam_selesai_jumat ? trim($request->jam_selesai_jumat) : null,
             'keterangan'        => $request->keterangan ? trim($request->keterangan) : null,
         ]);
 
@@ -204,6 +214,26 @@ class JamPelajaranController extends Controller
 
         return redirect()->route('jam-pelajaran.index')
                          ->with('success', "Jam Pelajaran '$name' berhasil dipindahkan ke tempat sampah.");
+    }
+
+    /**
+     * [DESTROY BATCH] Hapus banyak sesi jam pelajaran sekaligus (Soft Delete)
+     */
+    public function destroyBatch(Request $request)
+    {
+        $request->validate([
+            'ids'   => 'required|array|min:1',
+            'ids.*' => 'exists:jam_pelajaran,id_jam',
+        ], [
+            'ids.required' => 'Silakan pilih minimal satu data sesi jam pelajaran untuk dihapus.',
+            'ids.min'      => 'Silakan pilih minimal satu data sesi jam pelajaran untuk dihapus.',
+            'ids.*.exists' => 'Data jam pelajaran yang dipilih tidak valid atau tidak ditemukan.',
+        ]);
+
+        $count = JamPelajaran::whereIn('id_jam', $request->ids)->delete();
+
+        return redirect()->route('jam-pelajaran.index')
+                         ->with('success', "Berhasil memindahkan {$count} data sesi jam pelajaran terpilih ke Tempat Sampah.");
     }
 
     /**

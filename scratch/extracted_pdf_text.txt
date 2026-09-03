@@ -1,0 +1,48 @@
+
+==================== page_01_1_Im1.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_02_2_Im2.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_03_3_Im3.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_04_4_Im1.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_05_5_Im2.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_06_6_Im3.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_07_7_Im7.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_08_8_Im8.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_09_9_Im9.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_10_10_Im10.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_11_11_Im11.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_12_12_Im12.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_13_13_Im1.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_14_14_Im14.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_15_15_Im15.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.
+
+==================== page_16_16_Im16.jpg ====================
+Error: tesseract is not installed or it's not in your PATH. See README file for more information.

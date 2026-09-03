@@ -485,7 +485,8 @@
                 <p>Kelola pencatatan aktivitas pembelajaran, materi, dan keandalan mengajar guru</p>
             </div>
         </div>
-        <div style="display: flex; gap: 10px; align-items: center;">
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            @include('partials.live-clock')
             <a href="{{ route('jurnal-mengajar.trash') }}" class="btn-trash" title="Lihat Jurnal Terhapus">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                 Sampah

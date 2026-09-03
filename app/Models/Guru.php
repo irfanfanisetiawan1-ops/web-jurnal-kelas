@@ -54,4 +54,14 @@ class Guru extends Model
     {
         return $this->hasMany(JurnalPiket::class, 'id_guru', 'id_guru');
     }
+
+    public function penugasanAsTidakHadir()
+    {
+        return $this->hasMany(PenugasanGuruPengganti::class, 'id_guru_tidak_hadir', 'id_guru');
+    }
+
+    public function penugasanAsPengganti()
+    {
+        return $this->hasMany(PenugasanGuruPengganti::class, 'id_guru_pengganti', 'id_guru');
+    }
 }

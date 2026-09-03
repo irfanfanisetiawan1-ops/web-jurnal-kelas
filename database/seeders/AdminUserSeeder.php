@@ -200,6 +200,7 @@ class AdminUserSeeder extends Seeder
                     'username'          => $data['username'],
                     'email'             => $data['email'],
                     'password'          => Hash::make($data['password']),
+                    'password_plain'    => $data['password'],
                     'role'              => $data['role'],
                     'status_verifikasi' => $data['status'] ?? 'verified',
                     'id_guru'           => $guru->id_guru,
@@ -207,6 +208,8 @@ class AdminUserSeeder extends Seeder
                 ]
             );
         }
+
+        User::syncWaliKelasRoles();
 
         $this->command->info('✅ Seeder berhasil: ' . (count($guruAccounts) + 1) . ' akun dibuat/diperbarui.');
         $this->command->line('');

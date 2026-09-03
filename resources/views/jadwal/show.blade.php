@@ -184,6 +184,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Detail Jadwal Pelajaran</h1>
+            <p>Informasi rincian sesi jadwal mengajar dan kelas terpilih</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('jadwal.index') }}"><i class="fa-solid fa-calendar-days"></i> Data Jadwal Pelajaran</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>

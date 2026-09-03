@@ -15,15 +15,19 @@ class GuruController extends Controller
      */
     public function index(Request $request)
     {
-        $search   = $request->query('search');
-        $id_mapel = $request->query('id_mapel');
+        $search        = $request->query('search');
+        $id_mapel      = $request->query('id_mapel');
+        $jenis_kelamin = $request->query('jenis_kelamin');
+        $role          = $request->query('role');
 
         $query = Guru::with(['mapel', 'user'])->orderBy('nama_guru', 'asc');
 
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('nama_guru', 'like', "%{$search}%")
-                  ->orWhere('nip', 'like', "%{$search}%");
+                  ->orWhere('nip', 'like', "%{$search}%")
+                  ->orWhereHas('mapel', fn($m) => $m->where('nama_mapel', 'like', "%{$search}%"))
+                  ->orWhereHas('user', fn($u) => $u->where('role', 'like', "%{$search}%"));
             });
         }
 
@@ -31,16 +35,32 @@ class GuruController extends Controller
             $query->where('id_mapel', $id_mapel);
         }
 
+        if ($jenis_kelamin) {
+            $query->where('jenis_kelamin', $jenis_kelamin);
+        }
+
+        if ($role) {
+            $query->whereHas('user', function($u) use ($role) {
+                $u->where('role', $role);
+            });
+        }
+
         $gurus        = $query->get();
         $mapelList    = Mapel::orderBy('nama_mapel')->get();
         $trashedCount = Guru::onlyTrashed()->count();
 
-        return view('guru.index', compact('gurus', 'mapelList', 'trashedCount', 'search', 'id_mapel'));
+        return view('guru.index', compact('gurus', 'mapelList', 'trashedCount', 'search', 'id_mapel', 'jenis_kelamin', 'role'));
     }
 
     /**
-     * [STORE] Memproses & menyimpan data guru baru ke database
+     * [CREATE] Menampilkan form tambah guru
      */
+    public function create()
+    {
+        $mapelList = Mapel::orderBy('nama_mapel')->get();
+        return view('guru.create', compact('mapelList'));
+    }
+
     /**
      * [STORE] Memproses & menyimpan data guru baru ke database
      */
@@ -50,7 +70,7 @@ class GuruController extends Controller
             'nip'            => 'required|numeric|digits:18|unique:guru,nip',
             'nama_guru'      => 'required|string|max:100',
             'jenis_kelamin'   => 'required|in:L,P',
-            'no_hp'          => 'nullable|numeric|digits_between:10,15',
+            'no_hp'          => 'required|numeric|digits_between:10,15',
             'id_mapel'       => 'nullable|exists:mapel,id_mapel',
             'role'           => 'nullable|in:guru,tu,admin,piket,wali_kelas',
             'password'       => 'nullable|string|min:6',
@@ -62,6 +82,7 @@ class GuruController extends Controller
             'nama_guru.required'     => 'Nama Guru wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
             'jenis_kelamin.in'       => 'Pilihan jenis kelamin tidak valid.',
+            'no_hp.required'         => 'Nomor HP / WA wajib diisi.',
             'no_hp.numeric'          => 'Nomor HP harus berupa angka.',
             'no_hp.digits_between'   => 'Nomor HP harus berisi antara 10 hingga 15 digit angka.',
             'id_mapel.exists'        => 'Mata pelajaran yang dipilih tidak valid.',
@@ -118,7 +139,7 @@ class GuruController extends Controller
             'nip'            => 'required|numeric|digits:18|unique:guru,nip,' . $guru->id_guru . ',id_guru',
             'nama_guru'      => 'required|string|max:100',
             'jenis_kelamin'   => 'required|in:L,P',
-            'no_hp'          => 'nullable|numeric|digits_between:10,15',
+            'no_hp'          => 'required|numeric|digits_between:10,15',
             'id_mapel'       => 'nullable|exists:mapel,id_mapel',
         ], [
             'nip.required'           => 'NIP wajib diisi.',
@@ -128,6 +149,7 @@ class GuruController extends Controller
             'nama_guru.required'     => 'Nama Pegawai/Guru wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
             'jenis_kelamin.in'       => 'Pilihan jenis kelamin tidak valid.',
+            'no_hp.required'         => 'Nomor HP / WA wajib diisi.',
             'no_hp.numeric'          => 'Nomor HP harus berupa angka.',
             'no_hp.digits_between'   => 'Nomor HP harus berisi antara 10 hingga 15 digit angka.',
             'id_mapel.exists'        => 'Mata pelajaran yang dipilih tidak valid.',
@@ -168,6 +190,26 @@ class GuruController extends Controller
                          ->with('success', "Data guru \"$nama\" berhasil dipindahkan ke Tempat Sampah.");
     }
 
+    /**
+     * [DESTROY BATCH] Hapus banyak guru sekaligus (Soft Delete)
+     */
+    public function destroyBatch(Request $request)
+    {
+        $request->validate([
+            'ids'   => 'required|array|min:1',
+            'ids.*' => 'exists:guru,id_guru',
+        ], [
+            'ids.required' => 'Silakan pilih minimal satu data guru untuk dihapus.',
+            'ids.min'      => 'Silakan pilih minimal satu data guru untuk dihapus.',
+            'ids.*.exists' => 'Data guru yang dipilih tidak valid atau tidak ditemukan.',
+        ]);
+
+        $count = Guru::whereIn('id_guru', $request->ids)->delete();
+
+        return redirect()->route('guru.index')
+                         ->with('success', "Berhasil memindahkan {$count} data guru terpilih ke Tempat Sampah.");
+    }
+
     public function trash()
     {
         $gurus = Guru::onlyTrashed()->orderBy('nama_guru')->get();
@@ -191,5 +233,88 @@ class GuruController extends Controller
 
         return redirect()->route('guru.trash')
                          ->with('success', "Data guru \"$nama\" telah dihapus secara permanen dari database.");
+    }
+
+    /**
+     * [STORE BATCH] Memproses & menyimpan data guru secara massal (banyak sekaligus)
+     */
+    public function storeBatch(Request $request)
+    {
+        $rawRows = $request->input('guru', []);
+
+        // Filter baris yang valid (minimal memiliki NIP & nama_guru)
+        $validRows = [];
+        foreach ($rawRows as $idx => $row) {
+            $nip  = trim($row['nip'] ?? '');
+            $nama = trim($row['nama_guru'] ?? '');
+            if (!empty($nip) || !empty($nama)) {
+                $validRows[] = $row;
+            }
+        }
+
+        if (count($validRows) === 0) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['guru' => 'Minimal 1 baris data guru harus diisi lengkap.']);
+        }
+
+        $rules = [];
+        $messages = [];
+        $nipSeen = [];
+
+        foreach ($validRows as $index => $row) {
+            $rowNum = $index + 1;
+            $nip = trim($row['nip'] ?? '');
+
+            $rules["guru.{$index}.nip"] = 'required|numeric|digits:18|unique:guru,nip';
+            $rules["guru.{$index}.nama_guru"] = 'required|string|max:100';
+            $rules["guru.{$index}.jenis_kelamin"] = 'required|in:L,P';
+            $rules["guru.{$index}.no_hp"] = 'required|numeric|digits_between:10,15';
+            $rules["guru.{$index}.id_mapel"] = 'nullable|exists:mapel,id_mapel';
+
+            $messages["guru.{$index}.nip.required"] = "NIP pada baris #{$rowNum} wajib diisi.";
+            $messages["guru.{$index}.nip.numeric"] = "NIP pada baris #{$rowNum} harus berupa angka.";
+            $messages["guru.{$index}.nip.digits"] = "NIP pada baris #{$rowNum} harus tepat 18 digit.";
+            $messages["guru.{$index}.nip.unique"] = "NIP '{$nip}' pada baris #{$rowNum} sudah terdaftar di database.";
+            $messages["guru.{$index}.nama_guru.required"] = "Nama Guru pada baris #{$rowNum} wajib diisi.";
+            $messages["guru.{$index}.jenis_kelamin.required"] = "Jenis kelamin pada baris #{$rowNum} wajib dipilih.";
+            $messages["guru.{$index}.no_hp.required"] = "Nomor HP pada baris #{$rowNum} wajib diisi.";
+            $messages["guru.{$index}.no_hp.numeric"] = "Nomor HP pada baris #{$rowNum} harus berupa angka.";
+            $messages["guru.{$index}.no_hp.digits_between"] = "Nomor HP pada baris #{$rowNum} harus 10-15 digit.";
+
+            if (!empty($nip)) {
+                if (in_array($nip, $nipSeen)) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(["guru.{$index}.nip" => "NIP '{$nip}' pada baris #{$rowNum} ganda / duplikat dengan baris lain di form ini."]);
+                }
+                $nipSeen[] = $nip;
+            }
+        }
+
+        $request->validate($rules, $messages);
+
+        $savedCount = 0;
+        \Illuminate\Support\Facades\DB::transaction(function () use ($validRows, &$savedCount) {
+            foreach ($validRows as $row) {
+                $nip  = trim($row['nip']);
+                $nama = trim($row['nama_guru']);
+                $jk   = $row['jenis_kelamin'];
+                $nohp = trim($row['no_hp']);
+                $mapel = !empty($row['id_mapel']) ? $row['id_mapel'] : null;
+
+                Guru::create([
+                    'nip'           => $nip,
+                    'nama_guru'     => $nama,
+                    'jenis_kelamin' => $jk,
+                    'no_hp'         => $nohp,
+                    'id_mapel'      => $mapel,
+                ]);
+                $savedCount++;
+            }
+        });
+
+        return redirect()->route('guru.index')
+            ->with('success', "Berhasil menambahkan {$savedCount} data guru sekaligus ke database!");
     }
 }

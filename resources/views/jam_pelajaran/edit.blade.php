@@ -213,6 +213,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Edit Jam Pelajaran</h1>
+            <p>Perbarui durasi waktu dan urutan sesi jam pelajaran</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('jam-pelajaran.index') }}"><i class="fa-regular fa-clock"></i> Master Jam Pelajaran</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
@@ -243,11 +251,11 @@
                 <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; font-size:12px;">
                     @if($jamPelajaran->waktu_senin_kamis !== '-')
                         <span style="background:#f1f5f9; color:#1e293b; border:1px solid #cbd5e1; padding:3px 10px; border-radius:8px; font-weight:700;">
-                            <i class="fa-regular fa-clock"></i> Senin-Kamis: {{ $jamPelajaran->waktu_senin_kamis }} WIB (40m)
+                            <i class="fa-regular fa-clock"></i> Senin-Kamis: {{ $jamPelajaran->waktu_senin_kamis }} WIB (35m)
                         </span>
                     @endif
                     <span style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; padding:3px 10px; border-radius:8px; font-weight:700;">
-                        <i class="fa-regular fa-clock"></i> Jumat: {{ $jamPelajaran->waktu_jumat }} WIB (30m)
+                        <i class="fa-regular fa-clock"></i> Jumat: {{ $jamPelajaran->waktu_jumat }} WIB
                     </span>
                 </div>
             </div>
@@ -306,7 +314,7 @@
                 <!-- Section Waktu Senin - Kamis -->
                 <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:14px; padding:18px;">
                     <strong style="font-size:13.5px; color:#1e293b; display:flex; align-items:center; gap:8px; margin-bottom:14px;">
-                        <i class="fa-regular fa-calendar-days" style="color:#3b5490;"></i> Waktu Senin - Kamis (1 Jam = 40 Menit)
+                        <i class="fa-regular fa-calendar-days" style="color:#3b5490;"></i> Waktu Senin - Kamis
                     </strong>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
                         <div class="form-group" style="margin-bottom:0;">
@@ -326,21 +334,21 @@
                 <!-- Section Waktu Hari Jumat -->
                 <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:14px; padding:18px;">
                     <strong style="font-size:13.5px; color:#1d4ed8; display:flex; align-items:center; gap:8px; margin-bottom:14px;">
-                        <i class="fa-regular fa-calendar-days" style="color:#2563eb;"></i> Waktu Hari Jumat (1 Jam = 30 Menit) <span style="color:#ef4444;">*</span>
+                        <i class="fa-regular fa-calendar-days" style="color:#2563eb;"></i> Waktu Hari Jumat
                     </strong>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
                         <div class="form-group" style="margin-bottom:0;">
-                            <label for="jam_mulai_jumat" style="font-size:12px; color:#1e40af;">Jam Mulai Jumat *</label>
-                            <input type="time" id="jam_mulai_jumat" name="jam_mulai_jumat" value="{{ old('jam_mulai_jumat', $jamPelajaran->jam_mulai_jumat ? substr($jamPelajaran->jam_mulai_jumat, 0, 5) : '07:00') }}"
-                                class="form-control {{ $errors->has('jam_mulai_jumat') ? 'is-invalid' : '' }}" required>
+                            <label for="jam_mulai_jumat" style="font-size:12px; color:#1e40af;">Jam Mulai Jumat</label>
+                            <input type="time" id="jam_mulai_jumat" name="jam_mulai_jumat" value="{{ old('jam_mulai_jumat', $jamPelajaran->jam_mulai_jumat ? substr($jamPelajaran->jam_mulai_jumat, 0, 5) : '') }}"
+                                class="form-control {{ $errors->has('jam_mulai_jumat') ? 'is-invalid' : '' }}">
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
-                            <label for="jam_selesai_jumat" style="font-size:12px; color:#1e40af;">Jam Selesai Jumat *</label>
-                            <input type="time" id="jam_selesai_jumat" name="jam_selesai_jumat" value="{{ old('jam_selesai_jumat', $jamPelajaran->jam_selesai_jumat ? substr($jamPelajaran->jam_selesai_jumat, 0, 5) : '07:30') }}"
-                                class="form-control {{ $errors->has('jam_selesai_jumat') ? 'is-invalid' : '' }}" required>
+                            <label for="jam_selesai_jumat" style="font-size:12px; color:#1e40af;">Jam Selesai Jumat</label>
+                            <input type="time" id="jam_selesai_jumat" name="jam_selesai_jumat" value="{{ old('jam_selesai_jumat', $jamPelajaran->jam_selesai_jumat ? substr($jamPelajaran->jam_selesai_jumat, 0, 5) : '') }}"
+                                class="form-control {{ $errors->has('jam_selesai_jumat') ? 'is-invalid' : '' }}">
                         </div>
                     </div>
-                    <small style="color:#2563eb; font-size:11px; display:block; margin-top:8px;">* Waktu mengajar resmi hari Jumat sesuai pedoman jam pelajaran.png.</small>
+                    <small style="color:#2563eb; font-size:11px; display:block; margin-top:8px;">* Sesuai alokasi waktu resmi hari Jumat.</small>
                 </div>
             </div>
 

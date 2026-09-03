@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Akun Guru — Jurnal ESEMKITA</title>
-    <meta name="description" content="Daftarkan NIP, identitas, dan data diri Anda untuk mendapatkan akses ke Sistem Jurnal ESEMKITA.">
+    <title>Pendaftaran Akun Guru — EDU JOURNAL</title>
+    <meta name="description" content="Daftarkan NIP, identitas, dan data diri Anda untuk mendapatkan akses ke Sistem EDU JOURNAL.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -123,17 +123,23 @@
         }
 
         .brand-logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
-            border-radius: 18px;
+            width: 145px;
+            height: 145px;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
-            font-size: 26px;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+            box-shadow: none;
             transition: transform 0.3s ease;
+            overflow: visible;
+            padding: 0;
+        }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
         }
 
         .register-card:hover .brand-logo {
@@ -520,11 +526,11 @@
         <div class="brand-header">
             <div class="brand-logo-wrapper">
                 <div class="brand-logo">
-                    <i class="fa-solid fa-user-plus"></i>
+                    <img src="{{ asset('images/logo_jurnal_baru.png') }}" alt="EDU JOURNAL Logo">
                 </div>
             </div>
             <h1>Pendaftaran Akun Guru</h1>
-            <p>Lengkapi data diri Anda untuk membuat akun di Sistem ESEMKITA</p>
+            <p>Lengkapi data diri Anda untuk membuat akun di EDU JOURNAL</p>
         </div>
 
         <div class="notice-banner">

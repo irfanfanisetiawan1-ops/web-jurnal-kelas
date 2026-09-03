@@ -45,10 +45,13 @@
         </button>
     </div>
 
-    <div class="header">
-        <h2>PEMERINTAH KABUPATEN / PROVINSI</h2>
-        <h3>DINAS PENDIDIKAN DAN KEBUDAYAAN — SMKN 1 ESEMKITA</h3>
-        <p>Jl. Pendidikan No. 45, Telp. (021) 555-0123, Email: info@esemkita.sch.id</p>
+    <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+        <img src="{{ asset('images/logo_jurnal_baru.png') }}" alt="EDU JOURNAL Logo" style="width: 100px; height: 100px; object-fit: contain;">
+        <div>
+            <h2>PEMERINTAH KABUPATEN / PROVINSI</h2>
+            <h3>DINAS PENDIDIKAN DAN KEBUDAYAAN — EDU JOURNAL</h3>
+            <p>Jl. Pendidikan No. 45, Telp. (021) 555-0123, Email: info@edujournal.sch.id</p>
+        </div>
     </div>
 
     <div style="text-align: center; margin-bottom: 20px;">

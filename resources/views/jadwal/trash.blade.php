@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tempat Sampah Jadwal Pelajaran — Jurnal ESEMKITA')
+@section('title', 'Tempat Sampah Jadwal Pelajaran — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -162,6 +162,14 @@
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tong Sampah — Jadwal Pelajaran</h1>
+            <p>Daftar sesi jadwal pelajaran yang dihapus sementara (soft delete)</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <a href="{{ route('jadwal.index') }}"><i class="fa-solid fa-calendar-days"></i> Manajemen Jadwal Pelajaran</a>

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Kelas Baru — Jurnal ESEMKITA')
+@section('title', 'Tambah Kelas Baru — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -148,6 +148,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tambah Kelas Baru</h1>
+            <p>Buat rombongan belajar baru untuk tahun ajaran aktif</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('kelas.index') }}"><i class="fa-solid fa-school"></i> Data Kelas</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
@@ -160,7 +168,7 @@
             <p>Lengkapi formulir di bawah ini untuk menambahkan rombongan belajar baru ke sistem.</p>
         </div>
 
-        <form action="{{ route('kelas.store') }}" method="POST">
+        <form id="formTambahKelasCreate" action="{{ route('kelas.store') }}" method="POST" onsubmit="return validateKelasFormCreate(event)">
             @csrf
 
             <div class="form-grid-2">
@@ -174,51 +182,34 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="id_jurusan">Jurusan</label>
-                    <select id="id_jurusan" name="id_jurusan" class="form-control">
+                    <label for="id_jurusan">Jurusan <span style="color:#ef4444;">*</span></label>
+                    <select id="id_jurusan" name="id_jurusan" class="form-control {{ $errors->has('id_jurusan') ? 'is-invalid' : '' }}" onchange="toggleCustomJurusan(this)" required>
                         <option value="">-- Pilih Jurusan --</option>
                         @foreach($jurusans as $j)
                             <option value="{{ $j->id_jurusan }}" {{ old('id_jurusan') == $j->id_jurusan ? 'selected' : '' }}>
                                 {{ $j->nama_jurusan }} ({{ $j->kode_jurusan ?? '-' }})
                             </option>
                         @endforeach
+                        <option value="custom" {{ (old('id_jurusan') == 'custom' || old('nama_jurusan_custom')) ? 'selected' : '' }} style="font-weight:700; color:#2563eb;">+ Ketik Jurusan Baru (Custom)...</option>
                     </select>
+                    @error('id_jurusan')
+                        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="form-group" id="custom_jurusan_wrapper" style="display: {{ (old('id_jurusan') == 'custom' || old('nama_jurusan_custom')) ? 'block' : 'none' }}; grid-column: 1 / -1;">
+                    <label for="nama_jurusan_custom" style="color:#2563eb;">Nama Jurusan Baru (Custom) <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="nama_jurusan_custom" name="nama_jurusan_custom" value="{{ old('nama_jurusan_custom') }}" class="form-control {{ $errors->has('nama_jurusan_custom') ? 'is-invalid' : '' }}" placeholder="Contoh: Rekayasa Otomasi Industri">
+                    <small style="color:#64748b; font-size:12px; display:block; margin-top:4px;">Jurusan baru ini akan tersimpan permanen di database dan muncul di daftar pilihan jurusan.</small>
+                    @error('nama_jurusan_custom')
+                        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="wali_kelas">Wali Kelas</label>
-                    <select id="wali_kelas" name="wali_kelas" class="form-control">
-                        <option value="">-- Pilih Wali Kelas --</option>
-                        @foreach($gurus as $g)
-                            @php
-                                $isAssigned = isset($assignedWali[$g->nip]);
-                                $assignedClassName = $isAssigned ? $assignedWali[$g->nip] : null;
-                            @endphp
-                            <option value="{{ $g->nip }}"
-                                {{ old('wali_kelas') == $g->nip ? 'selected' : '' }}
-                                {{ $isAssigned ? 'disabled' : '' }}
-                                style="{{ $isAssigned ? 'color: #94a3b8; background-color: #f1f5f9;' : '' }}">
-                                {{ $g->nama_guru }} (NIP: {{ $g->nip }})@if($isAssigned) — [Sudah jadi Wali Kelas: {{ $assignedClassName }}] (Tidak dapat dipilih)@endif
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="id_ruangan">Ruangan Kelas Utama</label>
-                    <select id="id_ruangan" name="id_ruangan" class="form-control">
-                        <option value="">-- Pilih Ruangan Kelas --</option>
-                        @foreach($ruangans as $r)
-                            <option value="{{ $r->id_ruangan }}" {{ old('id_ruangan') == $r->id_ruangan ? 'selected' : '' }}>
-                                {{ $r->nama_ruangan }} ({{ $r->jenis_ruangan }})
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="jumlah_siswa">Jumlah Siswa (Estimasi)</label>
-                    <input type="number" id="jumlah_siswa" name="jumlah_siswa" value="{{ old('jumlah_siswa', 0) }}" class="form-control" min="0">
+                    <label for="jumlah_siswa">Jumlah Siswa (Kapasitas / Estimasi) <span style="color:#ef4444;">*</span></label>
+                    <input type="number" id="jumlah_siswa" name="jumlah_siswa" value="{{ old('jumlah_siswa', 30) }}" class="form-control" min="0" placeholder="30" required>
+                    <small style="color:#64748b; font-size:12px; display:block; margin-top:4px;">Batas maksimal penambahan data siswa untuk kelas ini.</small>
                 </div>
             </div>
 
@@ -233,4 +224,55 @@
         </form>
     </div>
 
+    <script>
+        function toggleCustomJurusan(selectEle) {
+            const wrapper = document.getElementById('custom_jurusan_wrapper');
+            const customInput = document.getElementById('nama_jurusan_custom');
+            if (selectEle.value === 'custom') {
+                wrapper.style.display = 'block';
+                if (customInput) customInput.focus();
+            } else {
+                wrapper.style.display = 'none';
+                if (customInput) customInput.value = '';
+            }
+        }
+
+        function validateKelasFormCreate(e) {
+            const namaKelas = document.getElementById('nama_kelas').value.trim();
+            const idJurusan = document.getElementById('id_jurusan').value;
+            const namaJurusanCustom = document.getElementById('nama_jurusan_custom') ? document.getElementById('nama_jurusan_custom').value.trim() : '';
+            const jumlahSiswa = document.getElementById('jumlah_siswa').value;
+
+            let errors = [];
+            if (!namaKelas) {
+                errors.push('Nama Kelas wajib diisi dan tidak boleh hanya berupa spasi!');
+            } else if (namaKelas.length > 20) {
+                errors.push('Nama Kelas maksimal 20 karakter!');
+            }
+
+            if (!idJurusan) {
+                errors.push('Jurusan wajib dipilih atau diisi!');
+            } else if (idJurusan === 'custom' && !namaJurusanCustom) {
+                errors.push('Nama Jurusan Baru (Custom) wajib diisi!');
+            }
+
+            if (jumlahSiswa === '' || parseInt(jumlahSiswa) < 0) {
+                errors.push('Jumlah Siswa (Kapasitas / Estimasi) wajib diisi dan tidak boleh kurang dari 0!');
+            }
+
+            if (errors.length > 0) {
+                e.preventDefault();
+                alert('⚠️ PERINGATAN VALIDASI DATA:\n\n' + errors.map((err, i) => (i + 1) + '. ' + err).join('\n'));
+                if (!namaKelas) {
+                    document.getElementById('nama_kelas').focus();
+                } else if (!idJurusan) {
+                    document.getElementById('id_jurusan').focus();
+                } else if (idJurusan === 'custom' && !namaJurusanCustom) {
+                    document.getElementById('nama_jurusan_custom').focus();
+                }
+                return false;
+            }
+            return true;
+        }
+    </script>
 @endsection

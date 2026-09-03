@@ -21,6 +21,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Master Data — Ruangan</h1>
+            <p>Kelola daftar ruang kelas, laboratorium, dan fasilitas belajar</p>
+        </div>
+    </div>
+
     <div class="action-header">
         <div style="display: flex; gap: 10px;">
             <a href="{{ route('ruangan.create') }}" class="btn-create">

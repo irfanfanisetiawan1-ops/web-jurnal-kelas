@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Data Kelas — Jurnal ESEMKITA')
+@section('title', 'Data Kelas — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -324,10 +324,78 @@
         color: #9f1239;
         border: 1px solid #fecdd3;
     }
+
+    /* Modal Overlay */
+    .modal-bg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+    }
+    .modal-bg.active { display: flex; }
+    .modal-box {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 420px;
+        width: 90%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+    .modal-icon-wrap {
+        width: 52px;
+        height: 52px;
+        background: #ffe4e6;
+        color: #be123c;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        font-size: 24px;
+    }
+    .modal-box h3 { font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+    .modal-box p { font-size: 14px; color: #64748b; margin-bottom: 24px; line-height: 1.5; }
+    .modal-actions { display: flex; gap: 12px; }
+    .btn-m-cancel {
+        flex: 1;
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+        padding: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+    .btn-m-confirm {
+        flex: 1;
+        background: linear-gradient(135deg, #e11d48, #be123c);
+        color: #ffffff;
+        border: none;
+        padding: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+    }
 </style>
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Master Data — Kelas</h1>
+            <p>Kelola daftar rombongan belajar (rombel), tingkat kelas, dan jurusan</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <i class="fa-solid fa-school"></i>
@@ -399,56 +467,42 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="id_jurusan">Jurusan</label>
-                    <select id="id_jurusan" name="id_jurusan" class="form-control">
+                    <label for="id_jurusan">Jurusan <span style="color:#ef4444;">*</span></label>
+                    <select id="id_jurusan" name="id_jurusan" class="form-control @error('id_jurusan') is-invalid @enderror" onchange="toggleCustomJurusan(this)" required>
                         <option value="">-- Pilih Jurusan --</option>
                         @foreach($jurusans as $j)
                             <option value="{{ $j->id_jurusan }}" {{ old('id_jurusan') == $j->id_jurusan ? 'selected' : '' }}>
                                 {{ $j->nama_jurusan }} ({{ $j->kode_jurusan ?? '-' }})
                             </option>
                         @endforeach
+                        <option value="custom" {{ (old('id_jurusan') == 'custom' || old('nama_jurusan_custom')) ? 'selected' : '' }} style="font-weight:700; color:#2563eb;">+ Ketik Jurusan Baru (Custom)...</option>
                     </select>
+                    @error('id_jurusan')
+                        <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group" id="custom_jurusan_wrapper" style="display: {{ (old('id_jurusan') == 'custom' || old('nama_jurusan_custom')) ? 'block' : 'none' }}; grid-column: 1 / -1;">
+                    <label for="nama_jurusan_custom" style="color:#2563eb;">Nama Jurusan Baru (Custom) <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="nama_jurusan_custom" name="nama_jurusan_custom" value="{{ old('nama_jurusan_custom') }}" class="form-control @error('nama_jurusan_custom') is-invalid @enderror" placeholder="Contoh: Rekayasa Otomasi Industri">
+                    <small style="color:#64748b; font-size:12px; display:block; margin-top:4px;">Jurusan baru ini akan tersimpan permanen di database dan muncul di daftar pilihan jurusan.</small>
+                    @error('nama_jurusan_custom')
+                        <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="wali_kelas">Wali Kelas</label>
-                    <select id="wali_kelas" name="wali_kelas" class="form-control">
-                        <option value="">-- Pilih Wali Kelas --</option>
-                        @foreach($gurus as $g)
-                            @php
-                                $isAssigned = isset($assignedWali[$g->nip]);
-                                $assignedClassName = $isAssigned ? $assignedWali[$g->nip] : null;
-                            @endphp
-                            <option value="{{ $g->nip }}"
-                                {{ old('wali_kelas') == $g->nip ? 'selected' : '' }}
-                                {{ $isAssigned ? 'disabled' : '' }}
-                                style="{{ $isAssigned ? 'color: #94a3b8; background-color: #f1f5f9;' : '' }}">
-                                {{ $g->nama_guru }} (NIP: {{ $g->nip }})@if($isAssigned) — [Sudah jadi Wali Kelas: {{ $assignedClassName }}] (Tidak dapat dipilih)@endif
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="id_ruangan">Ruangan Kelas Utama</label>
-                    <select id="id_ruangan" name="id_ruangan" class="form-control">
-                        <option value="">-- Pilih Ruangan Kelas --</option>
-                        @foreach($ruangans as $r)
-                            <option value="{{ $r->id_ruangan }}" {{ old('id_ruangan') == $r->id_ruangan ? 'selected' : '' }}>
-                                {{ $r->nama_ruangan }} ({{ $r->jenis_ruangan }})
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="jumlah_siswa">Jumlah Siswa (Kapasitas / Estimasi)</label>
-                    <input type="number" id="jumlah_siswa" name="jumlah_siswa" value="{{ old('jumlah_siswa', 0) }}" class="form-control" min="0" placeholder="0">
+                    <label for="jumlah_siswa">Jumlah Siswa (Kapasitas / Estimasi) <span style="color:#ef4444;">*</span></label>
+                    <input type="number" id="jumlah_siswa" name="jumlah_siswa" value="{{ old('jumlah_siswa', 30) }}" class="form-control" min="0" placeholder="30" required>
+                    <small style="color:#64748b; font-size:12px; display:block; margin-top:4px;">Batas maksimal penambahan data siswa untuk kelas ini.</small>
                 </div>
             </div>
 
-            <div class="btn-submit-container">
-                <button type="submit" class="btn-submit">
+            <div class="btn-submit-container" style="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <button type="button" onclick="document.getElementById('formTambahKelas').reset();" class="btn-reset-form" style="background:#fbbf24; color:#78350f; border:1px solid #fde68a; padding:10px 20px; border-radius:10px; font-weight:700; margin:0;" title="Kosongkan Isian Form">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Form
+                </button>
+                <button type="submit" class="btn-submit" style="margin:0;">
                     <i class="fa-solid fa-floppy-disk"></i> Simpan Data Kelas
                 </button>
             </div>
@@ -456,8 +510,22 @@
     </div>
 
     <script>
+        function toggleCustomJurusan(selectEle) {
+            const wrapper = document.getElementById('custom_jurusan_wrapper');
+            const customInput = document.getElementById('nama_jurusan_custom');
+            if (selectEle.value === 'custom') {
+                wrapper.style.display = 'block';
+                if (customInput) customInput.focus();
+            } else {
+                wrapper.style.display = 'none';
+                if (customInput) customInput.value = '';
+            }
+        }
+
         function validateKelasForm(e) {
             const namaKelas = document.getElementById('nama_kelas').value.trim();
+            const idJurusan = document.getElementById('id_jurusan').value;
+            const namaJurusanCustom = document.getElementById('nama_jurusan_custom') ? document.getElementById('nama_jurusan_custom').value.trim() : '';
             const jumlahSiswa = document.getElementById('jumlah_siswa').value;
 
             let errors = [];
@@ -467,14 +535,26 @@
                 errors.push('Nama Kelas maksimal 20 karakter!');
             }
 
-            if (jumlahSiswa !== '' && parseInt(jumlahSiswa) < 0) {
-                errors.push('Jumlah Siswa tidak boleh bernilai negatif!');
+            if (!idJurusan) {
+                errors.push('Jurusan wajib dipilih atau diisi!');
+            } else if (idJurusan === 'custom' && !namaJurusanCustom) {
+                errors.push('Nama Jurusan Baru (Custom) wajib diisi!');
+            }
+
+            if (jumlahSiswa === '' || parseInt(jumlahSiswa) < 0) {
+                errors.push('Jumlah Siswa (Kapasitas / Estimasi) wajib diisi dan tidak boleh kurang dari 0!');
             }
 
             if (errors.length > 0) {
                 e.preventDefault();
                 alert('⚠️ PERINGATAN VALIDASI DATA:\n\n' + errors.map((err, i) => (i + 1) + '. ' + err).join('\n'));
-                document.getElementById('nama_kelas').focus();
+                if (!namaKelas) {
+                    document.getElementById('nama_kelas').focus();
+                } else if (!idJurusan) {
+                    document.getElementById('id_jurusan').focus();
+                } else if (idJurusan === 'custom' && !namaJurusanCustom) {
+                    document.getElementById('nama_jurusan_custom').focus();
+                }
                 return false;
             }
             return true;
@@ -488,113 +568,229 @@
                 <h2><i class="fa-solid fa-school" style="color:#3b5490;"></i> Data Kelas / Rombongan Belajar ({{ count($kelases) }})</h2>
                 <p>Kelola seluruh daftar kelas, penetapan wali kelas, ruangan, dan jurusan.</p>
             </div>
+        </div>
 
-            <form action="{{ route('kelas.index') }}" method="GET" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <form action="{{ route('kelas.index') }}" method="GET" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:20px; background:#f8fafc; padding:14px 18px; border-radius:14px; border:1px solid #cbd5e1;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                 <div style="position:relative;">
-                    <input type="text" name="search" class="form-control" style="width: 200px; padding-left:36px;" value="{{ $search ?? '' }}" placeholder="Cari Kelas / Wali / Ruang...">
+                    <input type="text" name="search" class="form-control" style="width: 200px; padding-left:36px; background:#ffffff;" value="{{ $search ?? '' }}" placeholder="Cari Kelas / Wali / Ruang...">
                     <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
                 </div>
 
-                <select name="id_jurusan" class="form-control" style="width: 150px;">
+                <select name="id_jurusan" class="form-control" style="width: 150px; background:#ffffff;">
                     <option value="">Semua Jurusan</option>
                     @foreach($jurusans as $j)
                         <option value="{{ $j->id_jurusan }}" {{ (isset($id_jurusan) && $id_jurusan == $j->id_jurusan) ? 'selected' : '' }}>{{ $j->kode_jurusan ?? $j->nama_jurusan }}</option>
                     @endforeach
                 </select>
 
-                <select name="id_ruangan" class="form-control" style="width: 150px;">
+                <select name="id_ruangan" class="form-control" style="width: 150px; background:#ffffff;">
                     <option value="">Semua Ruangan</option>
                     @foreach($ruangans as $r)
                         <option value="{{ $r->id_ruangan }}" {{ (isset($id_ruangan) && $id_ruangan == $r->id_ruangan) ? 'selected' : '' }}>{{ $r->nama_ruangan }}</option>
                     @endforeach
                 </select>
+            </div>
 
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-left:auto;">
                 <button type="submit" class="btn-filter">Cari</button>
                 <a href="{{ route('kelas.index') }}" class="btn-reset">Reset</a>
-            </form>
-        </div>
+                <button type="button" id="btnBulkDelete" class="btn-action btn-delete" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,29,72,0.15); border: none;" disabled onclick="confirmBulkDelete()" title="Pilih kelas dengan mencentang checkbox untuk menghapus secara massal">
+                    <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
+                </button>
+            </div>
+        </form>
 
-        <div class="table-responsive">
-            <table class="table-custom">
-                <thead>
-                    <tr>
-                        <th>NAMA KELAS</th>
-                        <th>JURUSAN</th>
-                        <th>RUANGAN</th>
-                        <th>WALI KELAS</th>
-                        <th>JUMLAH SISWA</th>
-                        <th style="text-align:center; min-width: 220px;">AKSI</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($kelases as $k)
+        <form id="formBulkDelete" action="{{ route('kelas.destroy-batch') }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
                         <tr>
-                            <td><strong style="color:#0f172a; font-size:14px;">{{ $k->nama_kelas }}</strong></td>
-                            <td>
-                                @if($k->jurusan)
-                                    <span class="badge-jurusan">
-                                        {{ $k->jurusan->nama_jurusan }} ({{ $k->jurusan->kode_jurusan }})
+                            <th style="width: 40px; text-align: center;">
+                                <input type="checkbox" id="selectAllKelas" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" title="Pilih Semua (Select All)">
+                            </th>
+                            <th>NAMA KELAS</th>
+                            <th>JURUSAN</th>
+                            <th>RUANGAN</th>
+                            <th>WALI KELAS</th>
+                            <th>JUMLAH SISWA</th>
+                            <th style="text-align:center; min-width: 220px;">AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($kelases as $k)
+                            <tr>
+                                <td style="text-align: center;">
+                                    <input type="checkbox" name="ids[]" value="{{ $k->id_kelas }}" class="kelas-select-checkbox" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" onchange="updateBulkDeleteState()">
+                                </td>
+                                <td><strong style="color:#0f172a; font-size:14px;">{{ $k->nama_kelas }}</strong></td>
+                                <td>
+                                    @if($k->jurusan)
+                                        <span class="badge-jurusan">
+                                            {{ $k->jurusan->nama_jurusan }} ({{ $k->jurusan->kode_jurusan }})
+                                        </span>
+                                    @else
+                                        <span style="color:#94a3b8;">-</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($k->ruangan)
+                                        <span style="background: #e0f2fe; color: #0369a1; font-weight: 700; padding: 4px 10px; border-radius: 8px; border: 1px solid #bae6fd; font-size: 11.5px; display: inline-flex; align-items: center; gap: 5px;">
+                                            <i class="fa-solid fa-door-open" style="font-size: 10px;"></i> {{ $k->ruangan->nama_ruangan }}
+                                        </span>
+                                    @else
+                                        <span style="color:#94a3b8; font-style:italic;">Belum diatur</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($k->waliKelas)
+                                        <strong>{{ $k->waliKelas->nama_guru }}</strong><br>
+                                        <small style="color:#64748b;">NIP: {{ $k->waliKelas->nip }}</small>
+                                    @else
+                                        <span style="color:#94a3b8; font-style:italic;">Belum ditentukan</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <span class="badge-siswa">
+                                        <i class="fa-solid fa-users" style="font-size:10px;"></i> {{ $k->jumlah_siswa_real }} Siswa
                                     </span>
-                                @else
-                                    <span style="color:#94a3b8;">-</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($k->ruangan)
-                                    <span style="background: #e0f2fe; color: #0369a1; font-weight: 700; padding: 4px 10px; border-radius: 8px; border: 1px solid #bae6fd; font-size: 11.5px; display: inline-flex; align-items: center; gap: 5px;">
-                                        <i class="fa-solid fa-door-open" style="font-size: 10px;"></i> {{ $k->ruangan->nama_ruangan }}
-                                    </span>
-                                @else
-                                    <span style="color:#94a3b8; font-style:italic;">Belum diatur</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if($k->waliKelas)
-                                    <strong>{{ $k->waliKelas->nama_guru }}</strong><br>
-                                    <small style="color:#64748b;">NIP: {{ $k->waliKelas->nip }}</small>
-                                @else
-                                    <span style="color:#94a3b8; font-style:italic;">Belum ditentukan</span>
-                                @endif
-                            </td>
-                            <td>
-                                <span class="badge-siswa">
-                                    <i class="fa-solid fa-users" style="font-size:10px;"></i> {{ $k->jumlah_siswa_real }} Siswa
-                                </span>
-                            </td>
-                            <td style="text-align:center;">
-                                <div class="action-buttons">
-                                    <!-- 1. LIHAT (Detail) - Disebelah kiri Edit -->
-                                    <a href="{{ route('kelas.show', $k->id_kelas) }}" class="btn-action btn-view" title="Lihat Detail Kelas">
-                                        <i class="fa-solid fa-eye"></i> Lihat
-                                    </a>
+                                </td>
+                                <td style="text-align:center;">
+                                    <div class="action-buttons">
+                                        <!-- 1. LIHAT (Detail) - Disebelah kiri Edit -->
+                                        <a href="{{ route('kelas.show', $k->id_kelas) }}" class="btn-action btn-view" title="Lihat Detail Kelas">
+                                            <i class="fa-solid fa-eye"></i> Lihat
+                                        </a>
 
-                                    <!-- 2. EDIT - Disebelah kiri Hapus -->
-                                    <a href="{{ route('kelas.edit', $k->id_kelas) }}" class="btn-action btn-edit" title="Edit Data Kelas">
-                                        <i class="fa-solid fa-pen-to-square"></i> Edit
-                                    </a>
+                                        <!-- 2. EDIT - Disebelah kiri Hapus -->
+                                        <a href="{{ route('kelas.edit', $k->id_kelas) }}" class="btn-action btn-edit" title="Edit Data Kelas">
+                                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                                        </a>
 
-                                    <!-- 3. HAPUS - Paling kanan -->
-                                    <form action="{{ route('kelas.destroy', $k->id_kelas) }}" method="POST" style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-action btn-delete" onclick="return confirm('Apakah Anda yakin ingin memindahkan kelas {{ addslashes($k->nama_kelas) }} ke tempat sampah?')" title="Hapus Kelas">
+                                        <!-- 3. HAPUS - Paling kanan -->
+                                        <button type="button" class="btn-action btn-delete" onclick="if(confirm('Apakah Anda yakin ingin memindahkan kelas {{ addslashes($k->nama_kelas) }} ke tempat sampah?')) { document.getElementById('singleDeleteForm-{{ $k->id_kelas }}').submit(); }" title="Hapus Kelas">
                                             <i class="fa-solid fa-trash-can"></i> Hapus
                                         </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" style="text-align:center; padding:36px; color:#94a3b8;">
-                                <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>
-                                Belum ada data Kelas yang terdaftar.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding:36px; color:#94a3b8;">
+                                    <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>
+                                    Belum ada data Kelas yang terdaftar.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        @foreach($kelases as $k)
+            <form id="singleDeleteForm-{{ $k->id_kelas }}" action="{{ route('kelas.destroy', $k->id_kelas) }}" method="POST" style="display:none;">
+                @csrf
+                @method('DELETE')
+            </form>
+        @endforeach
+    </div>
+
+    <!-- Modal Confirm Bulk Delete -->
+    <div class="modal-bg" id="modalConfirmBulkDelete">
+        <div class="modal-box">
+            <div class="modal-icon-wrap">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <h3>Konfirmasi Hapus Terpilih</h3>
+            <p>Apakah Anda yakin ingin memindahkan <strong id="modalBulkCountText" style="color:#e11d48;">0 data kelas</strong> yang dicentang ke Tempat Sampah?</p>
+            <div class="modal-actions">
+                <button type="button" class="btn-m-cancel" onclick="closeBulkDeleteModal()">Batal</button>
+                <button type="button" class="btn-m-confirm" onclick="submitBulkDelete()">Ya, Hapus Data</button>
+            </div>
         </div>
     </div>
+
+    <script>
+        function updateBulkDeleteState() {
+            const checkedBoxes = document.querySelectorAll('.kelas-select-checkbox:checked');
+            const totalBoxes   = document.querySelectorAll('.kelas-select-checkbox');
+            const count        = checkedBoxes.length;
+            const btnBulkDelete= document.getElementById('btnBulkDelete');
+            const countSpan    = document.getElementById('bulkDeleteCount');
+            const selectAll    = document.getElementById('selectAllKelas');
+
+            if (countSpan) countSpan.textContent = count;
+
+            if (selectAll && totalBoxes.length > 0) {
+                selectAll.checked = (checkedBoxes.length === totalBoxes.length);
+            }
+
+            if (btnBulkDelete) {
+                if (count > 0) {
+                    btnBulkDelete.disabled = false;
+                    btnBulkDelete.style.opacity = '1';
+                    btnBulkDelete.style.cursor = 'pointer';
+                } else {
+                    btnBulkDelete.disabled = true;
+                    btnBulkDelete.style.opacity = '0.5';
+                    btnBulkDelete.style.cursor = 'not-allowed';
+                }
+            }
+        }
+
+        function confirmBulkDelete() {
+            const checkedBoxes = document.querySelectorAll('.kelas-select-checkbox:checked');
+            const count = checkedBoxes.length;
+
+            if (count === 0) {
+                alert('Silakan pilih minimal 1 data kelas yang ingin dihapus dengan mencentang kotak centang (checkbox).');
+                return;
+            }
+
+            const modalCountText = document.getElementById('modalBulkCountText');
+            if (modalCountText) {
+                modalCountText.textContent = count + ' data kelas';
+            }
+
+            const modal = document.getElementById('modalConfirmBulkDelete');
+            if (modal) {
+                modal.classList.add('active');
+            } else {
+                if (confirm(`Apakah Anda yakin ingin memindahkan ${count} data kelas yang dipilih ke Tempat Sampah?`)) {
+                    document.getElementById('formBulkDelete').submit();
+                }
+            }
+        }
+
+        function closeBulkDeleteModal() {
+            const modal = document.getElementById('modalConfirmBulkDelete');
+            if (modal) modal.classList.remove('active');
+        }
+
+        function submitBulkDelete() {
+            document.getElementById('formBulkDelete').submit();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const selectAll = document.getElementById('selectAllKelas');
+            if (selectAll) {
+                selectAll.addEventListener('change', function() {
+                    const checkboxes = document.querySelectorAll('.kelas-select-checkbox');
+                    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+                    updateBulkDeleteState();
+                });
+            }
+
+            const modalBulk = document.getElementById('modalConfirmBulkDelete');
+            if (modalBulk) {
+                modalBulk.addEventListener('click', function(e) {
+                    if (e.target === this) closeBulkDeleteModal();
+                });
+            }
+        });
+    </script>
 
 @endsection

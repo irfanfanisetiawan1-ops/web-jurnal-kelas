@@ -33,7 +33,7 @@ return new class extends Migration
             ],
             [
                 'key' => 'cs_email',
-                'value' => 'cs.jurnal@esemkita.sch.id',
+                'value' => 'cs.jurnal@edujournal.sch.id',
                 'group' => 'cs',
                 'label' => 'Email Customer Service',
                 'created_at' => now(),
@@ -49,7 +49,7 @@ return new class extends Migration
             ],
             [
                 'key' => 'app_name',
-                'value' => 'Jurnal ESEMKITA',
+                'value' => 'EDU JOURNAL',
                 'group' => 'general',
                 'label' => 'Nama Aplikasi',
                 'created_at' => now(),

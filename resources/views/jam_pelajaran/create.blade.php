@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Jam Pelajaran Baru — Jurnal ESEMKITA')
+@section('title', 'Tambah Jam Pelajaran Baru — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -147,6 +147,14 @@
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tambah Jam Pelajaran</h1>
+            <p>Atur jam ke-, waktu mulai, dan waktu selesai sesi pelajaran</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <a href="{{ route('jam-pelajaran.index') }}"><i class="fa-regular fa-clock"></i> Master Jam Pelajaran</a>

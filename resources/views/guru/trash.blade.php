@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tempat Sampah Guru — Jurnal ESEMKITA')
+@section('title', 'Tempat Sampah Guru — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -151,6 +151,14 @@
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tong Sampah — Data Guru</h1>
+            <p>Daftar data guru yang telah dihapus sementara (soft delete)</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <a href="{{ route('guru.index') }}"><i class="fa-solid fa-user-tie"></i> Data Guru</a>

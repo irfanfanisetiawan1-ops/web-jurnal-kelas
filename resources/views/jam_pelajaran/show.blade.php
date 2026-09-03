@@ -184,6 +184,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Detail Jam Pelajaran</h1>
+            <p>Rincian alokasi waktu dan urutan sesi jam pelajaran</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('jam-pelajaran.index') }}"><i class="fa-regular fa-clock"></i> Master Jam Pelajaran</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
@@ -198,11 +206,11 @@
                 <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
                     @if($jamPelajaran->waktu_senin_kamis !== '-')
                         <span class="time-pill" style="background:#f1f5f9; color:#1e293b; border-color:#cbd5e1;">
-                            <i class="fa-solid fa-calendar-days"></i> Senin-Kamis: {{ $jamPelajaran->waktu_senin_kamis }} WIB (40m)
+                            <i class="fa-solid fa-calendar-days"></i> Senin-Kamis: {{ $jamPelajaran->waktu_senin_kamis }} WIB (35m)
                         </span>
                     @endif
                     <span class="time-pill" style="background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe;">
-                        <i class="fa-solid fa-calendar-days"></i> Jumat: {{ $jamPelajaran->waktu_jumat }} WIB (30m)
+                        <i class="fa-solid fa-calendar-days"></i> Jumat: {{ $jamPelajaran->waktu_jumat }} WIB
                     </span>
                 </div>
             </div>
@@ -215,12 +223,12 @@
             </div>
 
             <div class="info-item">
-                <div class="label">Waktu Senin - Kamis (1 Jam = 40m)</div>
+                <div class="label">Waktu Senin - Kamis</div>
                 <div class="value" style="font-family:monospace; color:#1e293b; font-weight:800;">{{ $jamPelajaran->waktu_senin_kamis }} WIB</div>
             </div>
 
             <div class="info-item">
-                <div class="label">Waktu Hari Jumat (1 Jam = 30m)</div>
+                <div class="label">Waktu Hari Jumat</div>
                 <div class="value" style="font-family:monospace; color:#2563eb; font-weight:800;">{{ $jamPelajaran->waktu_jumat }} WIB</div>
             </div>
 

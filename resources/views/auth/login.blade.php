@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk — JURNAL ESEMKITA</title>
-    <meta name="description" content="Sistem Presensi & Jurnal Pembelajaran Digital SMK ESEMKITA — Portal Akses Guru dan Tenaga Kependidikan.">
+    <title>Masuk — EDU JOURNAL</title>
+    <meta name="description" content="Sistem Presensi & Jurnal Pembelajaran Digital EDU JOURNAL — Portal Akses Guru dan Tenaga Kependidikan.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -13,277 +13,253 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary:       #6366f1;
-            --primary-hover: #4f46e5;
-            --accent:        #06b6d4;
-            --accent-hover:  #0891b2;
-            --bg-body:       #0f172a;
-            --card-bg:       rgba(30, 41, 59, 0.88);
-            --card-border:   rgba(255, 255, 255, 0.12);
-            --input-bg:      rgba(15, 23, 42, 0.7);
-            --input-border:  rgba(255, 255, 255, 0.12);
-            --input-focus:   #6366f1;
-            --text-main:     #f8fafc;
-            --text-muted:    #94a3b8;
-            --text-sub:      #cbd5e1;
-            --success:       #10b981;
-            --danger:        #ef4444;
+            --primary:       #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --text-dark:     #0f172a;
+            --text-card-head:#1e293b;
+            --text-muted:    #64748b;
+            --text-label:    #334155;
+            --bg-body:       #eef4ff;
+            --border-color:  #cbd5e1;
+            --input-bg:      #f8fafc;
+            --card-shadow:   0 20px 50px -10px rgba(37, 99, 235, 0.1), 0 10px 30px -15px rgba(0, 0, 0, 0.04);
         }
 
         html, body {
             min-height: 100%;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            overflow-x: hidden;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            min-height: 100vh;
-            min-height: 100dvh;
-            background-color: var(--bg-body);
-            background-image: 
-                radial-gradient(circle at 12% 15%, rgba(99, 102, 241, 0.22) 0%, transparent 45%),
-                radial-gradient(circle at 88% 85%, rgba(6, 182, 212, 0.18) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
-            background-attachment: fixed;
-            background-size: cover;
-            background-repeat: no-repeat;
-            color: var(--text-main);
-            position: relative;
-            overflow-x: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        /* Ambient Glowing Background Orbs */
-        .bg-glow-1 {
-            position: absolute;
-            top: -100px;
-            left: -100px;
-            width: 420px;
-            height: 420px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .bg-glow-2 {
-            position: absolute;
-            bottom: -100px;
-            right: -100px;
-            width: 480px;
-            height: 480px;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        /* ── Page Layout ─────────────────────────────────── */
-        .login-wrapper {
-            display: flex;
-            width: 100vw;
             min-height: 100vh;
             min-height: 100dvh;
             position: relative;
-            z-index: 10;
+            background: linear-gradient(135deg, #f0f5ff 0%, #e4edff 50%, #eef4ff 100%);
         }
 
-        /* ── Left Branding Panel ───────────────────────── */
-        .brand-panel {
-            width: 420px;
-            flex-shrink: 0;
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 44px 38px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
+        /* ── Vector Background Wave Orbs & Edge Accents ── */
+        .bg-waves {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
             overflow: hidden;
         }
 
-        .brand-content {
-            position: relative;
-            z-index: 2;
+        .bg-gradient-edge-topleft {
+            position: absolute;
+            top: -120px;
+            left: -120px;
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.3) 0%, rgba(147, 197, 253, 0.15) 50%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(45px);
         }
 
-        .brand-logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
-            border-radius: 18px;
+        .bg-gradient-edge-bottomright {
+            position: absolute;
+            bottom: -140px;
+            right: -140px;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(129, 140, 248, 0.28) 0%, rgba(165, 243, 252, 0.22) 50%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(55px);
+        }
+
+        .bg-wave-left {
+            position: absolute;
+            top: -6%;
+            left: -8%;
+            width: 55vw;
+            height: 65vh;
+            background: radial-gradient(circle, rgba(191, 219, 254, 0.45) 0%, rgba(224, 231, 255, 0.15) 60%, transparent 80%);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            filter: blur(40px);
+        }
+
+        .bg-wave-right {
+            position: absolute;
+            bottom: -10%;
+            right: -8%;
+            width: 60vw;
+            height: 70vh;
+            background: radial-gradient(circle, rgba(191, 219, 254, 0.4) 0%, rgba(219, 234, 254, 0.2) 50%, transparent 75%);
+            border-radius: 60% 40% 30% 70% / 50% 30% 70% 50%;
+            filter: blur(50px);
+        }
+
+        /* Faint Dot Matrix Grid Patterns */
+        .dot-pattern-top {
+            position: absolute;
+            top: 40px;
+            left: 45%;
+            width: 120px;
+            height: 80px;
+            background-image: radial-gradient(#93c5fd 2px, transparent 2px);
+            background-size: 14px 14px;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .dot-pattern-right {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background-image: radial-gradient(#93c5fd 2px, transparent 2px);
+            background-size: 14px 14px;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .dot-pattern-left {
+            position: absolute;
+            bottom: 40px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            background-image: radial-gradient(#93c5fd 2px, transparent 2px);
+            background-size: 14px 14px;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        /* ── Main Container ── */
+        .login-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            gap: 48px;
+        }
+
+        /* ── Left Column: Text & 3D Artwork ── */
+        .brand-section {
+            flex: 1;
+            max-width: 540px;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            font-size: 28px;
-            color: #fff;
-            margin-bottom: 24px;
-            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
         }
 
-        .brand-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 12px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 100px;
-            font-size: 11.5px;
-            font-weight: 600;
-            color: #a5f3fc;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .brand-title {
-            font-size: 36px;
+        .welcome-title {
+            font-size: 44px;
             font-weight: 800;
             line-height: 1.15;
             letter-spacing: -0.8px;
-            margin-bottom: 12px;
-        }
-        .brand-title span {
-            background: linear-gradient(135deg, #a5f3fc, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        .brand-desc {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #94a3b8;
-            font-weight: 400;
-            margin-bottom: 28px;
+        .welcome-title .text-dark {
+            color: #0f172a;
         }
 
-        /* Feature Highlight Cards */
-        .feature-cards {
+        .welcome-title .text-blue {
+            color: #2563eb;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #64748b;
+            font-weight: 500;
+            line-height: 1.55;
+            margin-top: 14px;
+            margin-bottom: 36px;
+        }
+
+        /* 3D Scene Composition */
+        .illustration-container {
+            width: 100%;
+            max-width: 520px;
+            position: relative;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .illustration-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 35px rgba(37, 99, 235, 0.12));
+        }
+
+        /* ── Right Column: Login Card ── */
+        .card-section {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 460px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            position: relative;
-            z-index: 2;
-        }
-        .feature-item {
-            display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-        .feature-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateX(4px);
-        }
-        .feature-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
-            background: rgba(99, 102, 241, 0.2);
-            color: #818cf8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            flex-shrink: 0;
-        }
-        .feature-text {
-            font-size: 13px;
-            font-weight: 600;
-            color: #e2e8f0;
         }
 
-        .brand-footer {
-            position: relative;
-            z-index: 2;
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        /* ── Right Form Panel ─────────────────────────── */
-        .form-panel {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 32px 24px;
-            position: relative;
-            overflow-y: auto;
-        }
-
-        /* ── Synchronized Glass Card Container ──────────────────────────── */
         .login-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 32px 32px;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 38px 36px 32px 36px;
             width: 100%;
-            max-width: 440px;
-            margin: auto; /* Flexbox margin auto prevents top clipping */
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.9);
             position: relative;
-            z-index: 2;
-            box-shadow: 
-                0 25px 60px -15px rgba(0, 0, 0, 0.5),
-                0 0 35px rgba(99, 102, 241, 0.15);
-            animation: cardAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            overflow: hidden;
-        }
-
-        @keyframes cardAppear {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .card-head {
-            text-align: center;
-            margin-bottom: 22px;
-        }
-
-        .card-head .icon-badge {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
-            border-radius: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 25px;
-            color: #ffffff;
-            margin-bottom: 12px;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
             transition: transform 0.3s ease;
         }
 
-        .login-card:hover .card-head .icon-badge {
-            transform: scale(1.05);
+        /* Header logo */
+        .card-head {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .logo-badge {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 14px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .card-head h2 {
             font-size: 22px;
             font-weight: 800;
-            color: #ffffff;
+            color: #1e293b;
             letter-spacing: -0.4px;
             margin-bottom: 6px;
         }
+
         .card-head p {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 500;
+            font-size: 13.5px;
+            color: #64748b;
+            font-weight: 400;
             line-height: 1.45;
         }
 
-        /* ── Alert Styles ─────────────────────────────── */
+        /* Alerts */
         .alert {
             padding: 12px 14px;
             border-radius: 12px;
@@ -294,26 +270,37 @@
             gap: 10px;
             margin-bottom: 18px;
             line-height: 1.45;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to   { opacity: 1; transform: translateY(0); }
         }
         .alert i { margin-top: 2px; flex-shrink: 0; font-size: 15px; }
-        .alert-danger  { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); color: #fca5a5; }
-        .alert-success { background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; }
+        .alert-danger  { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+        .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
 
-        /* ── Form Inputs ─────────────────────────────── */
+        /* Form Controls */
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 18px;
         }
-        .form-group label {
-            display: block;
-            font-size: 12.5px;
-            font-weight: 600;
-            color: #e2e8f0;
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 6px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-label);
+        }
+
+        .form-group label span.required {
+            color: #ef4444;
+        }
+
+        .char-counter {
+            font-size: 12px;
+            font-weight: 600;
+            color: #2563eb;
         }
 
         .input-wrap {
@@ -321,34 +308,41 @@
             display: flex;
             align-items: center;
         }
+
         .input-icon {
             position: absolute;
             left: 14px;
-            color: #64748b;
+            color: #94a3b8;
             font-size: 14px;
             pointer-events: none;
             transition: color 0.2s ease;
         }
+
         .form-control {
             width: 100%;
-            background: var(--input-bg);
-            border: 1.5px solid var(--input-border);
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
             border-radius: 12px;
-            padding: 11.5px 16px 11.5px 42px;
+            padding: 12px 16px 12px 42px;
             font-size: 13.5px;
             font-family: inherit;
-            color: #ffffff;
+            color: #0f172a;
             outline: none;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
         }
-        .form-control::placeholder { color: #475569; }
+
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+
         .form-control:focus {
-            border-color: var(--input-focus);
-            background: rgba(15, 23, 42, 0.9);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            border-color: #3b82f6;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
         }
+
         .input-wrap:focus-within .input-icon {
-            color: #38bdf8;
+            color: #2563eb;
         }
 
         /* Password toggle button */
@@ -358,16 +352,16 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: #64748b;
-            font-size: 14px;
+            color: #94a3b8;
+            font-size: 15px;
             padding: 4px 6px;
             border-radius: 6px;
-            transition: color 0.2s, background 0.2s;
+            transition: color 0.2s;
             outline: none;
         }
+
         .toggle-pass:hover {
-            color: #38bdf8;
-            background: rgba(99, 102, 241, 0.1);
+            color: #2563eb;
         }
 
         /* Remember & Forgot options row */
@@ -375,8 +369,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-top: 4px;
             margin-bottom: 22px;
         }
+
         .remember-row {
             display: flex;
             align-items: center;
@@ -384,21 +380,24 @@
             cursor: pointer;
             user-select: none;
         }
+
         .remember-row input[type="checkbox"] {
             appearance: none;
-            width: 17px;
-            height: 17px;
-            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #cbd5e1;
             border-radius: 5px;
-            background: rgba(15, 23, 42, 0.6);
+            background: #ffffff;
             cursor: pointer;
             position: relative;
             transition: all 0.2s ease;
         }
+
         .remember-row input[type="checkbox"]:checked {
-            background: var(--primary);
-            border-color: var(--primary);
+            background: #2563eb;
+            border-color: #2563eb;
         }
+
         .remember-row input[type="checkbox"]:checked::after {
             content: '\f00c';
             font-family: 'Font Awesome 6 Free';
@@ -410,31 +409,33 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
         .remember-row label {
-            font-size: 12.5px;
-            color: var(--text-muted);
+            font-size: 13px;
+            color: #64748b;
             font-weight: 500;
             cursor: pointer;
         }
 
         .forgot-link {
-            font-size: 12.5px;
-            color: #38bdf8;
+            font-size: 13px;
+            color: #2563eb;
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
             transition: color 0.2s;
         }
+
         .forgot-link:hover {
-            color: #7dd3fc;
+            color: #1d4ed8;
             text-decoration: underline;
         }
 
         /* Submit Button */
         .btn-submit {
             width: 100%;
-            padding: 13.5px;
-            background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             border: none;
             border-radius: 12px;
             color: #ffffff;
@@ -442,243 +443,226 @@
             font-weight: 700;
             letter-spacing: 0.5px;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 24px -4px rgba(99, 102, 241, 0.45);
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
+
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 28px -2px rgba(99, 102, 241, 0.6);
-            background: linear-gradient(135deg, #4f46e5 0%, #0891b2 100%);
+            box-shadow: 0 12px 25px -4px rgba(37, 99, 235, 0.5);
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
         }
+
         .btn-submit:active {
             transform: translateY(0);
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
         }
+
         .btn-submit:disabled {
             opacity: 0.75;
             cursor: not-allowed;
             transform: none;
         }
 
-        /* Registration CTA Box */
-        .register-cta-box {
-            margin-top: 20px;
-            padding: 14px;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-cta-register {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #a5f3fc;
-            font-weight: 700;
+        .btn-parent-login {
+            margin-top: 12px;
             text-decoration: none;
-            padding: 5px 16px;
-            background: rgba(99, 102, 241, 0.15);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            width: 100%;
+            height: 46px;
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 12px;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 700;
             transition: all 0.2s ease;
         }
 
-        .btn-cta-register:hover {
-            background: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+        .btn-parent-login:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+            color: #1d4ed8;
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
         }
 
-        /* ── Responsive Viewports ─────────────────────── */
-        @media (max-width: 900px) {
-            .brand-panel {
-                width: 350px;
-                padding: 36px 28px;
-            }
-
-            .login-card {
-                padding: 28px 24px;
-            }
+        /* Notice / Announcement Callout Box */
+        .announcement-box {
+            margin-top: 20px;
+            padding: 16px;
+            background: #eff6ff;
+            border-radius: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
         }
 
-        @media (max-width: 820px) {
+        .announcement-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .announcement-body {
+            flex: 1;
+        }
+
+        .announcement-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 4px;
+        }
+
+        .announcement-text {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .announcement-text strong {
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        /* Security Badge Footer below Card */
+        .security-footer {
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .security-footer i {
+            color: #2563eb;
+            font-size: 13px;
+        }
+
+        /* ── Responsive Viewports ── */
+        @media (max-width: 992px) {
             .login-wrapper {
                 flex-direction: column;
-                min-height: 100vh;
+                justify-content: center;
+                gap: 36px;
+                padding: 32px 20px;
             }
 
-            .brand-panel {
-                width: 100%;
-                padding: 32px 24px;
-                border-right: none;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            }
-
-            .feature-cards {
-                display: none;
-            }
-
-            .brand-desc {
-                margin-bottom: 0;
-            }
-
-            .form-panel {
-                padding: 24px 16px;
-            }
-
-            .login-card {
-                padding: 28px 20px;
+            .brand-section {
                 max-width: 100%;
+                text-align: center;
+                align-items: center;
+            }
+
+            .welcome-title {
+                font-size: 34px;
+            }
+
+            .welcome-subtitle {
+                margin-bottom: 24px;
+            }
+
+            .illustration-container {
+                max-width: 380px;
             }
         }
 
-        @media (max-width: 580px) {
-            .brand-panel {
-                padding: 24px 16px;
+        @media (max-width: 576px) {
+            .login-wrapper {
+                padding: 20px 16px;
             }
 
-            .brand-logo-icon {
-                width: 48px;
-                height: 48px;
-                font-size: 22px;
-                border-radius: 14px;
-                margin-bottom: 16px;
+            .welcome-title {
+                font-size: 28px;
             }
 
-            .brand-title {
-                font-size: 26px;
-                margin-bottom: 8px;
-            }
-
-            .brand-desc {
-                font-size: 12.5px;
-            }
-
-            .form-panel {
-                padding: 20px 12px;
+            .welcome-subtitle {
+                font-size: 14px;
             }
 
             .login-card {
-                padding: 24px 16px;
-                border-radius: 18px;
-            }
-
-            .card-head {
-                margin-bottom: 18px;
-            }
-
-            .card-head .icon-badge {
-                width: 48px;
-                height: 48px;
-                font-size: 20px;
-                border-radius: 14px;
-                margin-bottom: 10px;
+                padding: 26px 20px;
+                border-radius: 22px;
             }
 
             .card-head h2 {
-                font-size: 19px;
+                font-size: 20px;
             }
 
             .card-head p {
                 font-size: 12.5px;
             }
 
-            .form-control {
-                padding: 10.5px 14px 10.5px 38px;
-                font-size: 13px;
-            }
-
-            .input-icon {
-                left: 12px;
-                font-size: 13px;
-            }
-
-            .btn-submit {
-                padding: 12px;
-                font-size: 13.5px;
+            .illustration-container {
+                max-width: 280px;
             }
         }
     </style>
 </head>
 <body>
 
-<div class="bg-glow-1"></div>
-<div class="bg-glow-2"></div>
+{{-- Background Fluid & Gradient Edge Elements --}}
+<div class="bg-waves">
+    <div class="bg-gradient-edge-topleft"></div>
+    <div class="bg-gradient-edge-bottomright"></div>
+    <div class="bg-wave-left"></div>
+    <div class="bg-wave-right"></div>
+    <div class="dot-pattern-top"></div>
+    <div class="dot-pattern-right"></div>
+    <div class="dot-pattern-left"></div>
+</div>
 
 <div class="login-wrapper">
 
-    {{-- ══ Left Panel: Branding & Highlights ══ --}}
-    <div class="brand-panel">
-        <div class="brand-content">
-            <div class="brand-logo-icon">
-                <i class="fa-solid fa-book-open-reader"></i>
-            </div>
-            
-            <div class="brand-badge">
-                <i class="fa-solid fa-bolt"></i> Official Portal
-            </div>
+    {{-- ══ Sisi Kiri: Branding & Vektor Ilustrasi 3D ══ --}}
+    <div class="brand-section">
+        <h1 class="welcome-title">
+            <span class="text-dark">Selamat Datang</span><br>
+            <span class="text-blue">Kembali!</span>
+        </h1>
+        
+        <p class="welcome-subtitle">
+            Login untuk mengakses jurnal kelas<br>dengan mudah dan cepat.
+        </p>
 
-            <h1 class="brand-title">JURNAL<br><span>ESEMKITA</span></h1>
-            
-            <p class="brand-desc">
-                Sistem Presensi & Management Jurnal Pembelajaran Digital SMK ESEMKITA. Presisi, Akurat, dan Terintegrasi.
-            </p>
-        </div>
-
-        {{-- Feature Highlights --}}
-        <div class="feature-cards">
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </div>
-                <div class="feature-text">Pencatatan Jurnal Real-time</div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-clipboard-user"></i>
-                </div>
-                <div class="feature-text">Presensi Siswa & Kelas Binaan</div>
-            </div>
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fa-solid fa-chart-pie"></i>
-                </div>
-                <div class="feature-text">Rekapitulasi Laporan Otomatis</div>
-            </div>
-        </div>
-
-        <div class="brand-footer">
-            &copy; {{ date('Y') }} SMK ESEMKITA. All rights reserved.
+        {{-- 3D Composition Image: Laptop + Stack of Books + Potted Plant --}}
+        <div class="illustration-container">
+            <img src="{{ asset('images/gambar_laptop_buku_tumbuhan.png') }}" alt="Ilustrasi EDU JOURNAL" class="illustration-img">
         </div>
     </div>
 
-    {{-- ══ Right Panel: Form ══ --}}
-    <div class="form-panel">
+    {{-- ══ Sisi Kanan: Kartu Login ══ --}}
+    <div class="card-section">
         <div class="login-card">
 
-            {{-- Card Header --}}
+            {{-- Head Logo & Titles --}}
             <div class="card-head">
-                <div class="icon-badge">
-                    <i class="fa-solid fa-right-to-bracket"></i>
+                <div class="logo-badge">
+                    <img src="{{ asset('images/logo_jurnal_baru.png') }}" alt="EDU JOURNAL Logo">
                 </div>
-                <h2>Selamat Datang Kembali</h2>
-                <p>Masukkan NIP dan kata sandi Anda untuk mengakses portal</p>
+                <h2>Masuk ke Akun Anda</h2>
+                <p>Masukkan NIP dan kata sandi Anda<br>untuk mengakses portal jurnal.</p>
             </div>
 
-            {{-- Alert Messages --}}
+            {{-- Flash Alert Messages --}}
             @if(session('error'))
                 <div class="alert alert-danger">
                     <i class="fa-solid fa-circle-exclamation"></i>
@@ -706,12 +690,12 @@
 
                 {{-- NIP Input --}}
                 <div class="form-group">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <label for="nip" style="margin-bottom: 0;">NIP <span style="color:var(--danger)">*</span></label>
-                        <span id="nipCounter" style="font-size: 11px; font-weight: 700; color: #94a3b8;">0/18 digit</span>
+                    <div class="label-row">
+                        <label for="nip">NIP <span class="required">*</span></label>
+                        <span id="nipCounter" class="char-counter">0/18 digit</span>
                     </div>
                     <div class="input-wrap">
-                        <i class="fa-solid fa-id-card input-icon"></i>
+                        <i class="fa-solid fa-user input-icon"></i>
                         <input
                             type="text"
                             id="nip"
@@ -732,7 +716,9 @@
 
                 {{-- Password Input --}}
                 <div class="form-group">
-                    <label for="password">Password <span style="color:var(--danger)">*</span></label>
+                    <div class="label-row">
+                        <label for="password">Password <span class="required">*</span></label>
+                    </div>
                     <div class="input-wrap">
                         <i class="fa-solid fa-lock input-icon"></i>
                         <input
@@ -750,13 +736,13 @@
                     </div>
                 </div>
 
-                {{-- Options Row --}}
+                {{-- Options Row: Remember Me & Forgot Password --}}
                 <div class="form-options">
                     <div class="remember-row">
                         <input type="checkbox" id="remember" name="remember">
                         <label for="remember">Ingat saya</label>
                     </div>
-                    <span class="forgot-link" onclick="alert('Silakan hubungi Administrator Tata Usaha untuk mereset password Anda.')">
+                    <span class="forgot-link" onclick="alert('Silakan hubungi Administrator Tata Usaha (TU) untuk mereset password Anda.')">
                         Lupa password?
                     </span>
                 </div>
@@ -766,18 +752,36 @@
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     MASUK
                 </button>
+
+                {{-- Tombol Pindah ke Login Orang Tua --}}
+                <a href="{{ route('login.orang-tua') }}" class="btn-parent-login">
+                    <i class="fa-solid fa-user-group" style="color:#2563eb;"></i>
+                    Masuk sebagai Orang Tua
+                </a>
             </form>
 
-            {{-- Admin TU Notice Box --}}
-            <div class="register-cta-box" style="gap:4px;">
-                <span style="font-weight:700; color:#38bdf8; font-size:12.5px;"><i class="fa-solid fa-circle-info" style="margin-right:6px;"></i> Pengumuman Akun Pengguna</span>
-                <span style="font-size:11.5px; color:#94a3b8; line-height:1.45; max-width:360px; margin:0 auto; display:block;">
-                    Seluruh pembuatan dan verifikasi akun pengguna dikelola oleh <strong>Administrator Tata Usaha (TU)</strong>. Silakan hubungi pihak TU untuk pendaftaran akun Anda.
-                </span>
+            {{-- Announcement Callout Box --}}
+            <div class="announcement-box">
+                <div class="announcement-icon">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <div class="announcement-body">
+                    <div class="announcement-title">Pengumuman Akun Pengguna</div>
+                    <div class="announcement-text">
+                        Seluruh pembuatan dan verifikasi akun pengguna dikelola oleh <strong>Administrator Tata Usaha (TU)</strong>. Silakan hubungi pihak TU untuk pendaftaran akun Anda.
+                    </div>
+                </div>
             </div>
 
         </div>
+
+        {{-- Security Footer below card --}}
+        <div class="security-footer">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Sistem aman & terproteksi. Data Anda dijaga kerahasiannya.</span>
+        </div>
     </div>
+
 </div>
 
 <script>
@@ -787,40 +791,39 @@
         const len = input.value.length;
         counter.textContent = len + '/18 digit';
         if (len === 18) {
-            counter.style.color = '#34d399';
+            counter.style.color = '#16a34a'; // Green when complete
         } else {
-            counter.style.color = '#ef4444';
+            counter.style.color = '#2563eb'; // Blue default
         }
     }
+
+    function togglePassword() {
+        const passInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+        if (passInput.type === 'password') {
+            passInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
+    document.getElementById('loginForm')?.addEventListener('submit', function () {
+        const btn = document.getElementById('submitBtn');
+        if (btn) {
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memverifikasi...';
+            btn.disabled = true;
+        }
+    });
 
     document.addEventListener("DOMContentLoaded", function() {
         const nipInput = document.getElementById('nip');
-        if (nipInput) updateNipCounter(nipInput);
-    });
-
-    // Toggle password visibility
-    function togglePassword() {
-        const input = document.getElementById('password');
-        const icon  = document.getElementById('eyeIcon');
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            input.type = 'password';
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        if (nipInput) {
+            updateNipCounter(nipInput);
         }
-    }
-
-    // Submit loading state
-    document.getElementById('loginForm').addEventListener('submit', function () {
-        const btn = document.getElementById('submitBtn');
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memverifikasi...';
-        btn.disabled = true;
-    });
-
-    // Numerical-only input for NIP
-    document.getElementById('nip').addEventListener('input', function () {
-        this.value = this.value.replace(/[^0-9]/g, '');
     });
 </script>
 

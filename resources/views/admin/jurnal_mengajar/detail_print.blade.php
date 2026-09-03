@@ -165,9 +165,12 @@
     </div>
 
     <div class="header-print">
-        <div class="header-brand">
-            <h1>Jurnal Mengajar ESEMKITA</h1>
-            <p>Bukti Pelaksanaan Kegiatan Pembelajaran dan Presensi Kelas</p>
+        <div class="header-brand" style="display: flex; align-items: center; gap: 14px;">
+            <img src="{{ asset('images/logo_jurnal_baru.png') }}" alt="EDU JOURNAL Logo" style="width: 95px; height: 95px; object-fit: contain;">
+            <div>
+                <h1>Jurnal Mengajar EDU JOURNAL</h1>
+                <p>Bukti Pelaksanaan Kegiatan Pembelajaran dan Presensi Kelas</p>
+            </div>
         </div>
         <div>
             @if($jurnal->status_kehadiran_guru === 'Hadir')

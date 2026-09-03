@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\CsTicket;
 use App\Models\Setting;
 use App\Models\User;
+use App\Services\ChatBotKnowledgeService;
 
 class CustomerServiceController extends Controller
 {
@@ -21,18 +22,21 @@ class CustomerServiceController extends Controller
         // Ambil info kontak CS dari DB settings
         $csInfo = [
             'whatsapp'  => Setting::getByKey('cs_whatsapp', '6281234567890'),
-            'email'     => Setting::getByKey('cs_email', 'cs.jurnal@esemkita.sch.id'),
+            'email'     => Setting::getByKey('cs_email', 'cs.jurnal@edujournal.sch.id'),
             'jam_kerja' => Setting::getByKey('cs_jam_kerja', 'Senin - Jumat (07:00 - 15:30 WIB)'),
         ];
 
         // Format WA link dengan preset message
-        $waMessage = urlencode("Halo Customer Service Jurnal ESEMKITA, saya {$user->name} ({$user->role_label}) ingin bertanya/melaporkan kendala:");
+        $waMessage = urlencode("Halo Customer Service EDU JOURNAL, saya {$user->name} ({$user->role_label}) ingin bertanya/melaporkan kendala:");
         $waLink = "https://wa.me/" . preg_replace('/[^0-9]/', '', $csInfo['whatsapp']) . "?text=" . $waMessage;
 
         // Ambil riwayat tiket milik user saat ini
         $myTickets = CsTicket::where('user_id', $user->id)
             ->latest()
             ->get();
+
+        // Rekomendasi topik cepat ChatBot sesuai role
+        $quickTopics = ChatBotKnowledgeService::getQuickTopics($user);
 
         // Jika user adalah Admin/TU, ambil semua tiket dari pengguna lain untuk dikelola
         $allTickets = collect();
@@ -46,9 +50,37 @@ class CustomerServiceController extends Controller
             $allTickets = $query->paginate(15);
         }
 
-        $layout = $user->isAdmin() ? 'layouts.admin' : 'layouts.guru';
+        if ($user->isAdmin()) {
+            $layout = 'layouts.admin';
+        } elseif ($user->isKepalaSekolah()) {
+            $layout = 'layouts.kepala_sekolah';
+        } elseif ($user->isWaka()) {
+            $layout = $user->isWakaSdm() ? 'layouts.waka_sdm' : 'layouts.waka';
+        } elseif ($user->isOrangTua()) {
+            $layout = 'layouts.orang_tua';
+        } else {
+            $layout = 'layouts.guru';
+        }
 
-        return view('customer_service.index', compact('user', 'csInfo', 'waLink', 'myTickets', 'allTickets', 'layout'));
+        return view('customer_service.index', compact('user', 'csInfo', 'waLink', 'myTickets', 'allTickets', 'layout', 'quickTopics'));
+    }
+
+    /**
+     * Respon AJAX ChatBot CS Pintar.
+     */
+    public function askChatBot(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|string|max:500',
+        ], [
+            'query.required' => 'Pertanyaan wajib diisi.',
+        ]);
+
+        /** @var User $user */
+        $user = Auth::user();
+        $response = ChatBotKnowledgeService::answerQuery($request->input('query'), $user);
+
+        return response()->json($response);
     }
 
     /**

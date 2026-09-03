@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Daftar Guru Piket — Jurnal ESEMKITA')
+@section('title', 'Daftar Guru Piket — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -284,6 +284,31 @@
         border-color: #7e22ce;
     }
 
+    .password-input-wrapper {
+        position: relative;
+        width: 100%;
+    }
+    .password-input-wrapper input {
+        padding-right: 42px !important;
+    }
+    .password-toggle-btn {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: #64748b;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 4px;
+        transition: color 0.2s ease;
+        z-index: 10;
+    }
+    .password-toggle-btn:hover {
+        color: #334155;
+    }
+
     .btn-action-delete {
         background: #fee2e2;
         color: #991b1b;
@@ -443,6 +468,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Kelola Guru Piket</h1>
+            <p>Pengaturan tugas guru piket harian dan pendaftaran akun piket sekolah</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <i class="fa-solid fa-clipboard-user" style="color:#2563eb;"></i>
         <span>Master Data Guru Piket</span>
@@ -469,10 +502,18 @@
     @endif
 
     <!-- Card 1: Form Tambah Guru Piket Baru -->
-    <div class="card">
+    <div class="card" style="{{ count($guruPikets) > 0 ? 'background: #f8fafc; border-color: #cbd5e1;' : '' }}">
         <div class="card-top-header">
             <div>
-                <h2><i class="fa-solid fa-user-plus" style="color:#2563eb;"></i> Tambah Guru Piket Baru</h2>
+                <h2>
+                    <i class="fa-solid {{ count($guruPikets) > 0 ? 'fa-lock' : 'fa-user-plus' }}" style="color: {{ count($guruPikets) > 0 ? '#94a3b8' : '#2563eb' }};"></i> 
+                    Tambah Guru Piket Baru
+                    @if(count($guruPikets) > 0)
+                        <span style="font-size: 11.5px; font-weight: 800; background: #fef3c7; color: #92400e; border: 1px solid #fde68a; padding: 4px 10px; border-radius: 20px; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-lock"></i> FITUR TERKUNCI (Maks. 1 Akun Piket)
+                        </span>
+                    @endif
+                </h2>
                 <p>Masukkan data petugas piket untuk pendaftaran hak akses piket harian. Akun juga tersimpan di Master Data Pengguna.</p>
             </div>
             <a href="{{ route('admin.guru-piket.trash') }}" class="btn-trash">
@@ -482,6 +523,19 @@
                 @endif
             </a>
         </div>
+
+        @if(count($guruPikets) > 0)
+            <!-- Lock Warning Banner -->
+            <div class="alert-custom" style="background:#fffbebf0; color:#92400e; border:1px solid #fcd34d; margin-bottom:20px; display:flex; align-items:center; gap:12px;">
+                <i class="fa-solid fa-lock" style="font-size:22px; color:#d97706; flex-shrink:0;"></i>
+                <div>
+                    <strong style="font-size:14px; font-weight:800; display:block;">Fitur Tambah Guru Piket Baru Dikunci</strong>
+                    <span style="font-size:13px; font-weight:600; opacity:0.95;">
+                        Sistem dirancang hanya menggunakan <strong>1 akun Guru Piket</strong>. Karena data akun Guru Piket saat ini masih terdaftar pada <strong>Daftar Petugas Piket Terdaftar</strong> di bawah, fitur Tambah Guru Piket Baru ini otomatis dikunci. Jika ingin menambah/mengganti akun baru, hapus data akun yang ada terlebih dahulu.
+                    </span>
+                </div>
+            </div>
+        @endif
 
         <!-- Alert Banner Alasan Gagal Simpan (JS Generated) -->
         <div id="formErrorReasonBanner" class="alert-custom alert-error" style="display: none; margin-bottom: 20px;">
@@ -498,7 +552,7 @@
         <form id="formGuruPiket" action="{{ route('admin.guru-piket.store') }}" method="POST" novalidate>
             @csrf
 
-            <div class="form-grid-3">
+            <div class="form-grid-3" style="{{ count($guruPikets) > 0 ? 'opacity: 0.6; pointer-events: none;' : '' }}">
                 <div class="form-group">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                         <label for="nip" style="margin-bottom: 0;">NIP (18 Digit) <span style="color:#ef4444;">*</span></label>
@@ -508,7 +562,7 @@
                         class="form-control @error('nip') is-invalid @enderror"
                         placeholder="Contoh: 198501012010011001" maxlength="18" minlength="18" inputmode="numeric"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 18); updateNipCounter(this, 18, 'nipMsg');"
-                        required>
+                        {{ count($guruPikets) > 0 ? 'disabled readonly' : '' }} required>
                     <small id="nipMsg" style="display:block; font-size:12px; font-weight:600; margin-top:4px; color:#ef4444;">Wajib diisi tepat 18 digit angka.</small>
                     @error('nip')
                         <small style="color:#ef4444; font-weight:600;"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</small>
@@ -517,7 +571,7 @@
 
                 <div class="form-group">
                     <label for="name">Nama Lengkap Petugas Piket <span style="color:#ef4444;">*</span></label>
-                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Lengkap Beserta Gelar" required>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Lengkap Beserta Gelar" {{ count($guruPikets) > 0 ? 'disabled readonly' : '' }} required>
                     @error('name')
                         <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
                     @enderror
@@ -525,7 +579,7 @@
 
                 <div class="form-group">
                     <label for="jenis_kelamin">Jenis Kelamin</label>
-                    <select id="jenis_kelamin" name="jenis_kelamin" class="form-control">
+                    <select id="jenis_kelamin" name="jenis_kelamin" class="form-control" {{ count($guruPikets) > 0 ? 'disabled' : '' }}>
                         <option value="">-- Pilih Jenis Kelamin --</option>
                         <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki (L)</option>
                         <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan (P)</option>
@@ -537,7 +591,8 @@
                     <input type="text" id="no_hp" name="no_hp" value="{{ old('no_hp') }}"
                         class="form-control @error('no_hp') is-invalid @enderror"
                         placeholder="Contoh: 081234567890" maxlength="15" inputmode="numeric"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);">
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);"
+                        {{ count($guruPikets) > 0 ? 'disabled readonly' : '' }}>
                     @error('no_hp')
                         <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
                     @enderror
@@ -547,7 +602,8 @@
                     <label for="password">Password Akun Login <span style="color:#ef4444;">*</span></label>
                     <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror"
                         placeholder="Minimal 6 karakter" minlength="6"
-                        oninput="checkPasswordMinLength(this, 'passwordMsg');" required>
+                        oninput="checkPasswordMinLength(this, 'passwordMsg');"
+                        {{ count($guruPikets) > 0 ? 'disabled readonly' : '' }} required>
                     <small id="passwordMsg" style="display:block; font-size:12px; font-weight:600; margin-top:4px; color:#ef4444;">Wajib diisi minimal 6 karakter.</small>
                     @error('password')
                         <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
@@ -556,9 +612,15 @@
             </div>
 
             <div class="btn-submit-container">
-                <button type="submit" class="btn-submit">
-                    <i class="fa-solid fa-floppy-disk"></i> Simpan Data Guru Piket
-                </button>
+                @if(count($guruPikets) > 0)
+                    <button type="button" class="btn-submit" style="background: #94a3b8; color: #ffffff; cursor: not-allowed; box-shadow: none;" disabled title="Fitur Tambah Guru Piket dikunci karena akun guru piket sudah terdaftar">
+                        <i class="fa-solid fa-lock"></i> Fitur Dikunci (Akun Guru Piket Sudah Ada)
+                    </button>
+                @else
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-solid fa-floppy-disk"></i> Simpan Data Guru Piket
+                    </button>
+                @endif
             </div>
         </form>
     </div>
@@ -655,9 +717,9 @@
                                             <i class="fa-solid fa-pen-to-square"></i> <span>Edit</span>
                                         </button>
 
-                                        <!-- 3. RESET PASSWORD -->
-                                        <button type="button" class="btn-action-badge btn-action-key" onclick="openResetPasswordModal({{ $u->id }}, '{{ $u->name }}')" title="Reset Password Akun">
-                                            <i class="fa-solid fa-key"></i> <span>Reset Pass</span>
+                                        <!-- 3. UBAH PASSWORD -->
+                                        <button type="button" class="btn-action-badge btn-action-key" onclick="openResetPasswordModal({{ $u->id }}, '{{ addslashes($u->name) }}')" title="Ubah Password Akun">
+                                            <i class="fa-solid fa-key"></i> <span>Ubah Pass</span>
                                         </button>
 
                                         <!-- 4. HAPUS (Soft Delete) -->
@@ -763,29 +825,41 @@
     </div>
 
 
-    <!-- Modal 2: Reset Password -->
+    <!-- Modal 2: Ubah Password -->
     <div class="modal-backdrop" id="modalResetPassword">
         <div class="modal-box">
             <div class="modal-header" style="background:#4c1d95;">
-                <h3><i class="fa-solid fa-key" style="margin-right:8px;"></i> Reset Sandi Guru Piket</h3>
+                <h3><i class="fa-solid fa-key" style="margin-right:8px;"></i> Ubah Sandi Guru Piket</h3>
                 <button class="modal-close" onclick="closeModal('modalResetPassword')">&times;</button>
             </div>
-            <form id="formResetPassword" method="POST">
+            <form id="formResetPassword" method="POST" onsubmit="return validateResetPasswordSubmit(event)">
                 @csrf
                 <div class="modal-body">
                     <p style="font-size:14px; color:#475569; margin-bottom:16px;">
-                        Anda akan mereset password untuk akun: <strong id="reset_user_name" style="color:#0f172a;"></strong>
+                        Anda akan mengubah password untuk akun: <strong id="reset_user_name" style="color:#0f172a;"></strong>
                     </p>
 
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom:16px;">
                         <label>Password Baru *</label>
-                        <input type="password" name="password" class="form-control" placeholder="Minimal 6 karakter" minlength="6" required>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="reset_password" name="password" class="form-control" placeholder="Minimal 6 karakter" minlength="6" required oninput="validateResetPasswordMatch()">
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('reset_password', this)" title="Tampilkan/Sembunyikan Password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom:16px;">
                         <label>Konfirmasi Password Baru *</label>
-                        <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password baru" minlength="6" required>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="reset_password_confirmation" name="password_confirmation" class="form-control" placeholder="Ulangi password baru" minlength="6" required oninput="validateResetPasswordMatch()">
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('reset_password_confirmation', this)" title="Tampilkan/Sembunyikan Password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
+
+                    <small id="resetPasswordMatchMsg" style="display:none; font-size:13px; font-weight:600; margin-top:-6px; margin-bottom:12px;"></small>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-secondary" onclick="closeModal('modalResetPassword')">Batal</button>
@@ -939,10 +1013,111 @@
         openModal('modalEditUser');
     }
 
+    function togglePasswordVisibility(fieldId, btn) {
+        const input = document.getElementById(fieldId);
+        if (!input) return;
+        const icon = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            if (icon) {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        } else {
+            input.type = 'password';
+            if (icon) {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    }
+
     function openResetPasswordModal(userId, userName) {
         document.getElementById('formResetPassword').action = '/admin/users/' + userId + '/reset-password';
         document.getElementById('reset_user_name').innerText = userName;
+
+        const pass = document.getElementById('reset_password');
+        const confirmPass = document.getElementById('reset_password_confirmation');
+        const msg = document.getElementById('resetPasswordMatchMsg');
+
+        if (pass) {
+            pass.value = '';
+            pass.type = 'password';
+        }
+        if (confirmPass) {
+            confirmPass.value = '';
+            confirmPass.type = 'password';
+        }
+        if (msg) {
+            msg.style.display = 'none';
+        }
+        const toggleBtns = document.querySelectorAll('#modalResetPassword .password-toggle-btn i');
+        toggleBtns.forEach(icon => {
+            icon.className = 'fa-solid fa-eye';
+        });
+
         openModal('modalResetPassword');
+    }
+
+    function validateResetPasswordMatch() {
+        const pass = document.getElementById('reset_password');
+        const confirmPass = document.getElementById('reset_password_confirmation');
+        const msg = document.getElementById('resetPasswordMatchMsg');
+
+        if (!pass || !confirmPass || !msg) return true;
+
+        const passVal = pass.value;
+        const confirmVal = confirmPass.value;
+
+        if (!passVal && !confirmVal) {
+            msg.style.display = 'none';
+            return true;
+        }
+
+        if (passVal.length > 0 && passVal.length < 6) {
+            msg.style.display = 'block';
+            msg.style.color = '#ef4444';
+            msg.innerHTML = '<i class="fa-solid fa-circle-xmark" style="margin-right:4px;"></i> Password minimal 6 karakter.';
+            return false;
+        }
+
+        if (confirmVal.length > 0) {
+            if (passVal === confirmVal) {
+                msg.style.display = 'block';
+                msg.style.color = '#10b981';
+                msg.innerHTML = '<i class="fa-solid fa-circle-check" style="margin-right:4px;"></i> Konfirmasi password cocok.';
+                return true;
+            } else {
+                msg.style.display = 'block';
+                msg.style.color = '#ef4444';
+                msg.innerHTML = '<i class="fa-solid fa-circle-xmark" style="margin-right:4px;"></i> Konfirmasi password baru tidak cocok.';
+                return false;
+            }
+        } else {
+            msg.style.display = 'none';
+            return false;
+        }
+    }
+
+    function validateResetPasswordSubmit(event) {
+        const pass = document.getElementById('reset_password');
+        const confirmPass = document.getElementById('reset_password_confirmation');
+
+        if (pass && confirmPass) {
+            if (pass.value.length < 6) {
+                alert('Password minimal 6 karakter.');
+                pass.focus();
+                event.preventDefault();
+                return false;
+            }
+            if (pass.value !== confirmPass.value) {
+                alert('Konfirmasi Password Baru tidak cocok dengan Password Baru! Harap periksa kembali.');
+                confirmPass.focus();
+                event.preventDefault();
+                return false;
+            }
+        }
+        return true;
     }
 
     function openDetailModal(user) {

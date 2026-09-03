@@ -424,6 +424,31 @@
         border-color: #7e22ce;
     }
 
+    .password-input-wrapper {
+        position: relative;
+        width: 100%;
+    }
+    .password-input-wrapper input {
+        padding-right: 42px !important;
+    }
+    .password-toggle-btn {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: #64748b;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 4px;
+        transition: color 0.2s ease;
+        z-index: 10;
+    }
+    .password-toggle-btn:hover {
+        color: #334155;
+    }
+
     .btn-action-delete {
         background: #fee2e2;
         color: #991b1b;
@@ -687,16 +712,11 @@
 </div>
 
 <!-- Stat Cards Top Row (Clickable Role Filtering) -->
-<div class="role-cards-grid">
+<div class="role-cards-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 12px;">
     <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'tu'])) }}" 
        class="role-card {{ request('role') == 'tu' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Admin / TU">
         <div class="role-title">Admin / TU</div>
         <div class="role-count">{{ $countAdmin }}</div>
-    </a>
-    <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'piket'])) }}" 
-       class="role-card {{ request('role') == 'piket' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Guru Piket">
-        <div class="role-title">Guru Piket</div>
-        <div class="role-count">{{ $countGuruPiket }}</div>
     </a>
     <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'guru'])) }}" 
        class="role-card {{ request('role') == 'guru' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Guru Mapel">
@@ -707,6 +727,39 @@
        class="role-card {{ request('role') == 'wali_kelas' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Wali Kelas">
         <div class="role-title">Wali Kelas</div>
         <div class="role-count">{{ $countWaliKelas }}</div>
+    </a>
+    <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'piket'])) }}" 
+       class="role-card {{ request('role') == 'piket' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Guru Piket">
+        <div class="role-title">Guru Piket</div>
+        <div class="role-count">{{ $countGuruPiket }}</div>
+    </a>
+</div>
+
+<div class="role-cards-grid" style="grid-template-columns: repeat(5, 1fr); margin-bottom: 24px;">
+    <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'waka'])) }}" 
+       class="role-card {{ request('role') == 'waka' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Waka Kurikulum">
+        <div class="role-title">Waka Kurikulum</div>
+        <div class="role-count">{{ $countWaka ?? 0 }}</div>
+    </a>
+    <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'waka_sdm'])) }}" 
+       class="role-card {{ request('role') == 'waka_sdm' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Waka SDM">
+        <div class="role-title">Waka SDM</div>
+        <div class="role-count">{{ $countWakaSdm ?? 0 }}</div>
+    </a>
+    <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'kepala_sekolah'])) }}" 
+       class="role-card {{ request('role') == 'kepala_sekolah' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Kepala Sekolah">
+        <div class="role-title">Kepala Sekolah</div>
+        <div class="role-count">{{ $countKepalaSekolah ?? 0 }}</div>
+    </a>
+    <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'satpam'])) }}" 
+       class="role-card {{ request('role') == 'satpam' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Satpam">
+        <div class="role-title">Satpam Gerbang</div>
+        <div class="role-count">{{ $countSatpam ?? 0 }}</div>
+    </a>
+    <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'orang_tua'])) }}" 
+       class="role-card {{ request('role') == 'orang_tua' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Orang Tua">
+        <div class="role-title">Orang Tua</div>
+        <div class="role-count">{{ $countOrangTua ?? 0 }}</div>
     </a>
 </div>
 
@@ -758,6 +811,11 @@
                 <option value="guru" {{ request('role') == 'guru' ? 'selected' : '' }}>Guru Mapel</option>
                 <option value="piket" {{ request('role') == 'piket' ? 'selected' : '' }}>Guru Piket</option>
                 <option value="wali_kelas" {{ request('role') == 'wali_kelas' ? 'selected' : '' }}>Wali Kelas</option>
+                <option value="waka" {{ request('role') == 'waka' ? 'selected' : '' }}>Waka Kurikulum</option>
+                <option value="waka_sdm" {{ request('role') == 'waka_sdm' ? 'selected' : '' }}>Waka SDM (Kepegawaian)</option>
+                <option value="kepala_sekolah" {{ request('role') == 'kepala_sekolah' ? 'selected' : '' }}>Kepala Sekolah</option>
+                <option value="satpam" {{ request('role') == 'satpam' ? 'selected' : '' }}>Satpam Gerbang</option>
+                <option value="orang_tua" {{ request('role') == 'orang_tua' ? 'selected' : '' }}>Orang Tua</option>
             </select>
         </div>
 
@@ -797,7 +855,7 @@
                         <td>
                             <div style="font-weight: 700; color: #0f172a;">{{ $u->name }}</div>
                             <div style="font-size: 12px; color: #64748b;">
-                                NIP: {{ $u->nip ?? '-' }} | Username: {{ $u->username ?? '-' }}
+                                {{ $u->role === 'orang_tua' ? 'NISN' : 'NIP' }}: {{ $u->nip ?? '-' }} | Username: {{ $u->username ?? '-' }}
                             </div>
                         </td>
                         <td>
@@ -809,11 +867,7 @@
                         <td>
                             <div class="role-badge">
                                 <span>
-                                    @if(in_array($u->role, ['admin', 'tu'])) Admin
-                                    @elseif($u->role === 'piket') Guru Piket
-                                    @elseif($u->role === 'wali_kelas') Wali Kelas
-                                    @else Guru
-                                    @endif
+                                    {{ $u->role_label }}
                                 </span>
                                 @if(in_array($u->role, ['admin', 'tu']))
                                     <span class="pill-super">Super</span>
@@ -850,8 +904,8 @@
                                         <i class="fa-solid fa-pen-to-square"></i> <span>Edit</span>
                                     </button>
 
-                                    <button type="button" class="btn-action-badge btn-action-key" onclick="openResetPasswordModal({{ $u->id }}, '{{ addslashes($u->name) }}')" title="Reset Password: Mereset password akun ini dengan password baru">
-                                        <i class="fa-solid fa-key"></i> <span>Reset Pass</span>
+                                    <button type="button" class="btn-action-badge btn-action-key" onclick="openResetPasswordModal({{ $u->id }}, '{{ addslashes($u->name) }}')" title="Ubah Password: Mengubah password akun ini dengan password baru">
+                                        <i class="fa-solid fa-key"></i> <span>Ubah Pass</span>
                                     </button>
 
                                     @if($u->id !== Auth::id())
@@ -904,13 +958,14 @@
         </div>
         <form action="{{ route('admin.users.store') }}" method="POST" onsubmit="return validatePasswordSubmit(event)">
             @csrf
+            <input type="hidden" name="id_siswa" id="add_id_siswa" value="">
             <div class="modal-body">
                 <div class="alert alert-info" style="background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; padding:10px 14px; border-radius:10px; font-size:12.5px; margin-bottom:16px;">
-                    <i class="fa-solid fa-circle-info"></i> <strong>Persyaratan NIP & Role:</strong> Pengguna harus sudah terdaftar terlebih dahulu pada Master Data Guru. Khusus role <em>Wali Kelas</em>, NIP harus sudah ditugaskan pada Daftar Wali Kelas.
+                    <i class="fa-solid fa-circle-info"></i> <strong>Persyaratan NIP / NISN &amp; Role:</strong> Untuk staf/guru pilih dari Master Data Guru. Khusus role <em>Orang Tua</em>, pilih NISN dari Master Data Siswa.
                 </div>
 
                 {{-- Master Data Guru Quick Picker --}}
-                <div class="form-group" style="background:#f8fafc; padding:14px; border-radius:12px; border:1px dashed #cbd5e1; margin-bottom:16px;">
+                <div id="guruPickerContainer" class="form-group" style="background:#f8fafc; padding:14px; border-radius:12px; border:1px dashed #cbd5e1; margin-bottom:16px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                         <label style="font-weight:700; color:#334155; margin-bottom:0;">
                             <i class="fa-solid fa-users-line" style="color:#4f46e5; margin-right:4px;"></i> Pilih dari Data Master Guru
@@ -951,6 +1006,45 @@
                     <small style="color:#64748b; font-size:11px; margin-top:6px; display:block;">Pilih guru di atas untuk otomatis pengisian NIP, Nama, Jenis Kelamin, dan Role.</small>
                 </div>
 
+                {{-- Master Data Siswa Quick Picker (Khusus Role Orang Tua) --}}
+                <div id="siswaPickerContainer" style="display:none; background:#eff6ff; padding:14px; border-radius:12px; border:1px dashed #93c5fd; margin-bottom:16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <label style="font-weight:700; color:#1e40af; margin-bottom:0;">
+                            <i class="fa-solid fa-graduation-cap" style="color:#2563eb; margin-right:4px;"></i> Pilih NISN dari Data Master Siswa
+                        </label>
+                        <span id="siswaMatchCount" style="font-size:11px; font-weight:700; color:#2563eb;"></span>
+                    </div>
+
+                    <div style="position:relative; margin-bottom:8px;">
+                        <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:13px;"></i>
+                        <input type="text" id="searchSiswaPicker" class="form-control" 
+                               placeholder="Cari NISN / Nama Siswa..." 
+                               oninput="filterSiswaPicker(this.value)"
+                               style="padding-left:36px; font-size:13px; background:#ffffff; border-color:#93c5fd;">
+                    </div>
+
+                    <select id="selectSiswaPicker" class="form-control" onchange="autoFillSiswaData(this)">
+                        <option value="">-- Pilih NISN Siswa dari Master Data Siswa --</option>
+                        @foreach($siswaList as $s)
+                            <option value="{{ $s->nisn }}"
+                                    data-id-siswa="{{ $s->id_siswa }}"
+                                    data-nisn="{{ $s->nisn }}"
+                                    data-nama="{{ $s->nama_siswa }}"
+                                    data-jk="{{ $s->jenis_kelamin }}"
+                                    data-kelas="{{ $s->kelas ? $s->kelas->nama_kelas : '-' }}">
+                                {{ $s->nama_siswa }} (NISN: {{ $s->nisn }}) - Kelas {{ $s->kelas ? $s->kelas->nama_kelas : '-' }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <small style="color:#1e40af; font-size:11px; margin-top:6px; display:block;">Pilih siswa di atas untuk otomatis mengisi NISN, Nama Pengguna, dan Password akun Orang Tua.</small>
+                </div>
+
+                {{-- Banner Informasi Data Terkunci dari Master Siswa --}}
+                <div id="siswaLockBanner" style="display:none; background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; padding:10px 14px; border-radius:10px; font-size:12px; margin-bottom:16px;">
+                    <i class="fa-solid fa-lock" style="color:#2563eb; margin-right:4px;"></i> 
+                    <strong>Data Terisi Otomatis &amp; Terkunci:</strong> Data NISN, Nama Lengkap, dan Jenis Kelamin dikunci karena dipilih dari Data Master Siswa. Untuk mengedit manual, pilih <em>'-- Pilih NISN Siswa dari Master Data Siswa --'</em> pada pilihan di atas.
+                </div>
+
                 {{-- Banner Informasi Data Terkunci dari Master Guru --}}
                 <div id="guruLockBanner" style="display:none; background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; padding:10px 14px; border-radius:10px; font-size:12px; margin-bottom:16px;">
                     <i class="fa-solid fa-lock" style="color:#2563eb; margin-right:4px;"></i> 
@@ -959,10 +1053,10 @@
 
                 <div style="display:flex; gap:12px;">
                     <div class="form-group" style="flex:1;">
-                        <label>NIP * (18 Digit)</label>
+                        <label id="nipLabel">NIP * (18 Digit)</label>
                         <input type="text" name="nip" id="add_nip" class="form-control" placeholder="198001012005011000"
-                               maxlength="18" minlength="18" inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 18);" required>
+                               maxlength="18" minlength="5" inputmode="numeric"
+                               oninput="handleNipInput(this);" required>
                     </div>
                     <div class="form-group" style="flex:1;">
                         <label>Username (Opsional)</label>
@@ -1000,10 +1094,15 @@
                 <div style="display:flex; gap:12px;">
                     <div class="form-group" style="flex:1;">
                         <label>Role Hak Akses *</label>
-                        <select name="role" id="add_role" class="form-control" required>
+                        <select name="role" id="add_role" class="form-control" required onchange="handleRoleChange(this.value)">
                             <option value="guru">Guru Mapel</option>
                             <option value="piket">Guru Piket</option>
                             <option value="wali_kelas">Wali Kelas</option>
+                            <option value="waka">Waka Kurikulum</option>
+                            <option value="waka_sdm">Waka SDM (Kepegawaian)</option>
+                            <option value="kepala_sekolah">Kepala Sekolah</option>
+                            <option value="satpam">Satpam Gerbang</option>
+                            <option value="orang_tua">Orang Tua / Wali Murid</option>
                             <option value="tu">Admin / TU (Tata Usaha)</option>
                         </select>
                     </div>
@@ -1021,13 +1120,23 @@
                 <div style="display:flex; gap:12px;">
                     <div class="form-group" style="flex:1;">
                         <label>Password Akun *</label>
-                        <input type="password" name="password" id="add_password" class="form-control" 
-                               placeholder="Minimal 6 karakter" minlength="6" required oninput="validatePasswordMatch()">
+                        <div class="password-input-wrapper">
+                            <input type="password" name="password" id="add_password" class="form-control" 
+                                   placeholder="Minimal 6 karakter" minlength="6" required oninput="validatePasswordMatch()">
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('add_password', this)" title="Tampilkan/Sembunyikan Password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="form-group" style="flex:1;">
                         <label>Konfirmasi Password *</label>
-                        <input type="password" name="password_confirmation" id="add_password_confirmation" class="form-control" 
-                               placeholder="Ulangi password" minlength="6" required oninput="validatePasswordMatch()">
+                        <div class="password-input-wrapper">
+                            <input type="password" name="password_confirmation" id="add_password_confirmation" class="form-control" 
+                                   placeholder="Ulangi password" minlength="6" required oninput="validatePasswordMatch()">
+                            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('add_password_confirmation', this)" title="Tampilkan/Sembunyikan Password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <small id="passwordMatchMsg" style="display:none; font-size:12px; font-weight:600; margin-top:-6px; margin-bottom:12px;"></small>
@@ -1059,10 +1168,10 @@
 
                 <div style="display:flex; gap:12px;">
                     <div class="form-group" style="flex:1;">
-                        <label>NIP * (18 Digit)</label>
+                        <label id="edit_nip_label">NIP * (18 Digit)</label>
                         <input type="text" name="nip" id="edit_nip" class="form-control"
                                maxlength="18" minlength="18" inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 18);" required>
+                               oninput="handleEditNipInput(this);" required>
                     </div>
                     <div class="form-group" style="flex:1;">
                         <label>Email</label>
@@ -1090,12 +1199,17 @@
                 <div style="display:flex; gap:12px;">
                     <div class="form-group" style="flex:1;">
                         <label>Role Hak Akses *</label>
-                        <select name="role" id="edit_role" class="form-control" required>
+                        <select name="role" id="edit_role" class="form-control" required onchange="handleEditRoleChange(this.value)">
                             <option value="tu">Admin / TU (Tata Usaha)</option>
                             <option value="admin">Administrator (Super)</option>
                             <option value="guru">Guru Mapel</option>
                             <option value="piket">Guru Piket</option>
                             <option value="wali_kelas">Wali Kelas</option>
+                            <option value="waka">Waka Kurikulum</option>
+                            <option value="waka_sdm">Waka SDM (Kepegawaian)</option>
+                            <option value="kepala_sekolah">Kepala Sekolah</option>
+                            <option value="satpam">Satpam Gerbang</option>
+                            <option value="orang_tua">Orang Tua / Wali Murid</option>
                         </select>
                     </div>
 
@@ -1118,29 +1232,41 @@
 </div>
 
 
-<!-- Modal 3: Reset Password -->
+<!-- Modal 3: Ubah Password -->
 <div class="modal-backdrop" id="modalResetPassword">
     <div class="modal-box">
         <div class="modal-header" style="background:#4c1d95;">
-            <h3><i class="fa-solid fa-key" style="margin-right:8px;"></i> Reset Sandi Pengguna</h3>
+            <h3><i class="fa-solid fa-key" style="margin-right:8px;"></i> Ubah Sandi Pengguna</h3>
             <button class="modal-close" onclick="closeModal('modalResetPassword')">&times;</button>
         </div>
-        <form id="formResetPassword" method="POST">
+        <form id="formResetPassword" method="POST" onsubmit="return validateResetPasswordSubmit(event)">
             @csrf
             <div class="modal-body">
                 <p style="font-size:14px; color:#475569; margin-bottom:16px;">
-                    Anda akan mereset password untuk akun: <strong id="reset_user_name" style="color:#0f172a;"></strong>
+                    Anda akan mengubah password untuk akun: <strong id="reset_user_name" style="color:#0f172a;"></strong>
                 </p>
 
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom:16px;">
                     <label>Password Baru *</label>
-                    <input type="password" name="password" class="form-control" placeholder="Minimal 6 karakter" minlength="6" required>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="reset_password" name="password" class="form-control" placeholder="Minimal 6 karakter" minlength="6" required oninput="validateResetPasswordMatch()">
+                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('reset_password', this)" title="Tampilkan/Sembunyikan Password">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom:16px;">
                     <label>Konfirmasi Password Baru *</label>
-                    <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password baru" minlength="6" required>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="reset_password_confirmation" name="password_confirmation" class="form-control" placeholder="Ulangi password baru" minlength="6" required oninput="validateResetPasswordMatch()">
+                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('reset_password_confirmation', this)" title="Tampilkan/Sembunyikan Password">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
+
+                <small id="resetPasswordMatchMsg" style="display:none; font-size:13px; font-weight:600; margin-top:-6px; margin-bottom:12px;"></small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" onclick="closeModal('modalResetPassword')">Batal</button>
@@ -1161,7 +1287,7 @@
         <div class="modal-body">
             <table style="width:100%; border-collapse:collapse; font-size:14px;">
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Nama Lengkap:</td><td id="detail_name" style="font-weight:700; color:#0f172a;"></td></tr>
-                <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">NIP:</td><td id="detail_nip" style="font-weight:700; color:#0f172a;"></td></tr>
+                <tr><td style="padding:8px 0; color:#64748b; font-weight:600;" id="detail_nip_label">NIP:</td><td id="detail_nip" style="font-weight:700; color:#0f172a;"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Jenis Kelamin:</td><td id="detail_jk" style="font-weight:700; color:#0f172a;"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Nomor HP / WA:</td><td id="detail_no_hp" style="font-weight:700; color:#0f172a;"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Username:</td><td id="detail_username"></td></tr>
@@ -1184,14 +1310,10 @@
     function openModal(id) {
         document.getElementById(id).classList.add('show');
         if (id === 'modalTambahUser') {
-            const searchInput = document.getElementById('searchGuruPicker');
-            if (searchInput) searchInput.value = '';
-            filterGuruPicker('');
-            const selectPicker = document.getElementById('selectGuruPicker');
-            if (selectPicker) {
-                selectPicker.value = '';
-                autoFillGuruData(selectPicker);
-            }
+            const roleSelect = document.getElementById('add_role');
+            const roleVal = roleSelect ? roleSelect.value : 'guru';
+            handleRoleChange(roleVal);
+
             const pass = document.getElementById('add_password');
             const confirmPass = document.getElementById('add_password_confirmation');
             const msg = document.getElementById('passwordMatchMsg');
@@ -1263,34 +1385,81 @@
     }
 
     function resetTambahUserForm() {
-        const searchInput = document.getElementById('searchGuruPicker');
-        if (searchInput) {
-            searchInput.value = '';
-            filterGuruPicker('');
-        }
-        const selectPicker = document.getElementById('selectGuruPicker');
-        if (selectPicker) {
-            selectPicker.value = '';
-            autoFillGuruData(selectPicker);
-        }
+        const searchGuru = document.getElementById('searchGuruPicker');
+        if (searchGuru) searchGuru.value = '';
+        const selectGuru = document.getElementById('selectGuruPicker');
+        if (selectGuru) selectGuru.value = '';
+
+        const searchSiswa = document.getElementById('searchSiswaPicker');
+        if (searchSiswa) searchSiswa.value = '';
+        const selectSiswa = document.getElementById('selectSiswaPicker');
+        if (selectSiswa) selectSiswa.value = '';
+
+        filterGuruPicker('');
+        filterSiswaPicker('');
+
+        const idSiswaInput = document.getElementById('add_id_siswa');
+        if (idSiswaInput) idSiswaInput.value = '';
+
         const nipInput = document.getElementById('add_nip');
-        if (nipInput) nipInput.value = '';
+        if (nipInput) {
+            nipInput.value = '';
+            nipInput.readOnly = false;
+            nipInput.style.backgroundColor = '#ffffff';
+        }
         const usernameInput = document.getElementById('add_username');
         if (usernameInput) usernameInput.value = '';
+        
         const nameInput = document.getElementById('add_name');
-        if (nameInput) nameInput.value = '';
+        if (nameInput) {
+            nameInput.value = '';
+            nameInput.readOnly = false;
+            nameInput.style.backgroundColor = '#ffffff';
+        }
+        
         const emailInput = document.getElementById('add_email');
         if (emailInput) emailInput.value = '';
+        
         const hpInput = document.getElementById('add_no_hp');
         if (hpInput) hpInput.value = '';
+        
         const jkSelect = document.getElementById('add_jenis_kelamin');
-        if (jkSelect) jkSelect.value = '';
+        if (jkSelect) {
+            jkSelect.value = '';
+            jkSelect.style.pointerEvents = 'auto';
+            jkSelect.style.backgroundColor = '#ffffff';
+        }
+        
         const roleSelect = document.getElementById('add_role');
-        if (roleSelect) roleSelect.value = 'guru';
+        if (roleSelect) {
+            roleSelect.value = 'guru';
+            roleSelect.style.pointerEvents = 'auto';
+            roleSelect.style.backgroundColor = '#ffffff';
+        }
+
+        handleRoleChange('guru');
+
+        const guruLockBanner = document.getElementById('guruLockBanner');
+        if (guruLockBanner) guruLockBanner.style.display = 'none';
+        const siswaLockBanner = document.getElementById('siswaLockBanner');
+        if (siswaLockBanner) siswaLockBanner.style.display = 'none';
+
         const passInput = document.getElementById('add_password');
-        if (passInput) passInput.value = '';
+        if (passInput) {
+            passInput.value = '';
+            passInput.type = 'password';
+        }
         const confirmPassInput = document.getElementById('add_password_confirmation');
-        if (confirmPassInput) confirmPassInput.value = '';
+        if (confirmPassInput) {
+            confirmPassInput.value = '';
+            confirmPassInput.type = 'password';
+        }
+
+        const toggleBtns = document.querySelectorAll('#modalTambahUser .password-toggle-btn i');
+        toggleBtns.forEach(icon => {
+            icon.className = 'fa-solid fa-eye';
+        });
+
         const msg = document.getElementById('passwordMatchMsg');
         if (msg) msg.style.display = 'none';
     }
@@ -1325,6 +1494,40 @@
         }
     }
 
+    function handleEditRoleChange(role) {
+        const editNipLabel = document.getElementById('edit_nip_label');
+        const editNipInput = document.getElementById('edit_nip');
+
+        if (role === 'orang_tua') {
+            if (editNipLabel) editNipLabel.innerText = 'NISN * (10 Digit)';
+            if (editNipInput) {
+                editNipInput.placeholder = 'Masukkan 10 digit NISN';
+                editNipInput.setAttribute('maxlength', '10');
+                editNipInput.setAttribute('minlength', '10');
+                if (editNipInput.value) {
+                    editNipInput.value = editNipInput.value.replace(/[^0-9]/g, '').slice(0, 10);
+                }
+            }
+        } else {
+            if (editNipLabel) editNipLabel.innerText = 'NIP * (18 Digit)';
+            if (editNipInput) {
+                editNipInput.placeholder = '198001012005011000';
+                editNipInput.setAttribute('maxlength', '18');
+                editNipInput.setAttribute('minlength', '18');
+            }
+        }
+    }
+
+    function handleEditNipInput(input) {
+        const roleSelect = document.getElementById('edit_role');
+        const role = roleSelect ? roleSelect.value : '';
+        if (role === 'orang_tua') {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10);
+        } else {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 18);
+        }
+    }
+
     function openEditModal(user) {
         document.getElementById('formEditUser').action = '/admin/verifikasi-guru/' + user.id + '/update-role';
         document.getElementById('edit_name').value = user.name || '';
@@ -1339,17 +1542,126 @@
         if (document.getElementById('edit_jk')) document.getElementById('edit_jk').value = jkVal;
         if (document.getElementById('edit_no_hp')) document.getElementById('edit_no_hp').value = noHpVal;
 
+        handleEditRoleChange(user.role || 'guru');
         openModal('modalEditUser');
+    }
+
+    function togglePasswordVisibility(fieldId, btn) {
+        const input = document.getElementById(fieldId);
+        if (!input) return;
+        const icon = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            if (icon) {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        } else {
+            input.type = 'password';
+            if (icon) {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
     }
 
     function openResetPasswordModal(userId, userName) {
         document.getElementById('formResetPassword').action = '/admin/users/' + userId + '/reset-password';
         document.getElementById('reset_user_name').innerText = userName;
+
+        const pass = document.getElementById('reset_password');
+        const confirmPass = document.getElementById('reset_password_confirmation');
+        const msg = document.getElementById('resetPasswordMatchMsg');
+
+        if (pass) {
+            pass.value = '';
+            pass.type = 'password';
+        }
+        if (confirmPass) {
+            confirmPass.value = '';
+            confirmPass.type = 'password';
+        }
+        if (msg) {
+            msg.style.display = 'none';
+        }
+        const toggleBtns = document.querySelectorAll('#modalResetPassword .password-toggle-btn i');
+        toggleBtns.forEach(icon => {
+            icon.className = 'fa-solid fa-eye';
+        });
+
         openModal('modalResetPassword');
+    }
+
+    function validateResetPasswordMatch() {
+        const pass = document.getElementById('reset_password');
+        const confirmPass = document.getElementById('reset_password_confirmation');
+        const msg = document.getElementById('resetPasswordMatchMsg');
+
+        if (!pass || !confirmPass || !msg) return true;
+
+        const passVal = pass.value;
+        const confirmVal = confirmPass.value;
+
+        if (!passVal && !confirmVal) {
+            msg.style.display = 'none';
+            return true;
+        }
+
+        if (passVal.length > 0 && passVal.length < 6) {
+            msg.style.display = 'block';
+            msg.style.color = '#ef4444';
+            msg.innerHTML = '<i class="fa-solid fa-circle-xmark" style="margin-right:4px;"></i> Password minimal 6 karakter.';
+            return false;
+        }
+
+        if (confirmVal.length > 0) {
+            if (passVal === confirmVal) {
+                msg.style.display = 'block';
+                msg.style.color = '#10b981';
+                msg.innerHTML = '<i class="fa-solid fa-circle-check" style="margin-right:4px;"></i> Konfirmasi password cocok.';
+                return true;
+            } else {
+                msg.style.display = 'block';
+                msg.style.color = '#ef4444';
+                msg.innerHTML = '<i class="fa-solid fa-circle-xmark" style="margin-right:4px;"></i> Konfirmasi password baru tidak cocok.';
+                return false;
+            }
+        } else {
+            msg.style.display = 'none';
+            return false;
+        }
+    }
+
+    function validateResetPasswordSubmit(event) {
+        const pass = document.getElementById('reset_password');
+        const confirmPass = document.getElementById('reset_password_confirmation');
+
+        if (pass && confirmPass) {
+            if (pass.value.length < 6) {
+                alert('Password minimal 6 karakter.');
+                pass.focus();
+                event.preventDefault();
+                return false;
+            }
+            if (pass.value !== confirmPass.value) {
+                alert('Konfirmasi Password Baru tidak cocok dengan Password Baru! Harap periksa kembali.');
+                confirmPass.focus();
+                event.preventDefault();
+                return false;
+            }
+        }
+        return true;
     }
 
     function openDetailModal(user) {
         document.getElementById('detail_name').innerText = user.name || '-';
+
+        const isOrtu = user.role === 'orang_tua';
+        const nipLabel = document.getElementById('detail_nip_label');
+        if (nipLabel) {
+            nipLabel.innerText = isOrtu ? 'NISN:' : 'NIP:';
+        }
+
         document.getElementById('detail_nip').innerText = user.nip || '-';
         document.getElementById('detail_username').innerText = user.username || '-';
         document.getElementById('detail_email').innerText = user.email || '-';
@@ -1366,8 +1678,6 @@
         let noHpText = (user.guru && user.guru.no_hp) ? user.guru.no_hp : (user.no_hp || '-');
 
         if (document.getElementById('detail_jk')) document.getElementById('detail_jk').innerText = jkText;
-        if (document.getElementById('detail_no_hp')) document.getElementById('detail_no_hp').innerText = noHpText;
-
         openModal('modalDetailUser');
     }
 
@@ -1489,6 +1799,159 @@
         }
 
         if (lockBanner) lockBanner.style.display = 'block';
+    }
+
+    function handleNipInput(input) {
+        const roleSelect = document.getElementById('add_role');
+        const role = roleSelect ? roleSelect.value : '';
+        if (role === 'orang_tua') {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10);
+        } else {
+            input.value = input.value.replace(/[^0-9]/g, '').slice(0, 18);
+        }
+    }
+
+    function handleRoleChange(role) {
+        const guruContainer = document.getElementById('guruPickerContainer');
+        const siswaContainer = document.getElementById('siswaPickerContainer');
+        const nipLabel = document.getElementById('nipLabel');
+        const nipInput = document.getElementById('add_nip');
+        const idSiswaInput = document.getElementById('add_id_siswa');
+        const siswaLockBanner = document.getElementById('siswaLockBanner');
+
+        if (role === 'orang_tua') {
+            if (guruContainer) guruContainer.style.display = 'none';
+            if (siswaContainer) siswaContainer.style.display = 'block';
+            if (nipLabel) nipLabel.innerText = 'NISN * (10 Digit)';
+            if (nipInput) {
+                nipInput.placeholder = 'Contoh: 0002024001';
+                nipInput.setAttribute('maxlength', '10');
+                nipInput.setAttribute('minlength', '10');
+            }
+        } else {
+            if (guruContainer) guruContainer.style.display = 'block';
+            if (siswaContainer) siswaContainer.style.display = 'none';
+            if (siswaLockBanner) siswaLockBanner.style.display = 'none';
+            if (nipLabel) nipLabel.innerText = 'NIP * (18 Digit)';
+            if (nipInput) {
+                nipInput.placeholder = '198001012005011000';
+                nipInput.setAttribute('maxlength', '18');
+                nipInput.setAttribute('minlength', '18');
+            }
+            if (idSiswaInput) idSiswaInput.value = '';
+        }
+    }
+
+    function filterSiswaPicker(query) {
+        const select = document.getElementById('selectSiswaPicker');
+        const badge = document.getElementById('siswaMatchCount');
+        if (!select) return;
+
+        const q = query.trim().toLowerCase();
+        let count = 0;
+
+        for (let i = 0; i < select.options.length; i++) {
+            const opt = select.options[i];
+            if (!opt.value) {
+                opt.hidden = false;
+                opt.style.display = '';
+                continue;
+            }
+
+            const nisn = (opt.getAttribute('data-nisn') || '').toLowerCase();
+            const nama = (opt.getAttribute('data-nama') || '').toLowerCase();
+            const text = (opt.text || '').toLowerCase();
+
+            if (q === '' || nisn.includes(q) || nama.includes(q) || text.includes(q)) {
+                opt.hidden = false;
+                opt.style.display = '';
+                count++;
+            } else {
+                opt.hidden = true;
+                opt.style.display = 'none';
+            }
+        }
+
+        if (badge) {
+            if (q === '') {
+                badge.innerText = '';
+            } else {
+                badge.innerText = count > 0 ? count + ' siswa cocok' : 'Tidak ditemukan';
+            }
+        }
+    }
+
+    function autoFillSiswaData(select) {
+        const option = select.options[select.selectedIndex];
+        const lockBanner = document.getElementById('siswaLockBanner');
+        const nipInput = document.getElementById('add_nip');
+        const nameInput = document.getElementById('add_name');
+        const jkSelect = document.getElementById('add_jenis_kelamin');
+        const usernameInput = document.getElementById('add_username');
+        const passInput = document.getElementById('add_password');
+        const passConfirmInput = document.getElementById('add_password_confirmation');
+        const idSiswaInput = document.getElementById('add_id_siswa');
+
+        const inputsToLock = [nipInput, nameInput];
+
+        if (!option || !option.value) {
+            // Default "-- Pilih NISN Siswa dari Master Data Siswa --"
+            if (idSiswaInput) idSiswaInput.value = '';
+            
+            inputsToLock.forEach(el => {
+                if (el) {
+                    el.readOnly = false;
+                    el.style.backgroundColor = '#ffffff';
+                    el.style.cursor = 'default';
+                }
+            });
+
+            if (jkSelect) {
+                jkSelect.style.pointerEvents = 'auto';
+                jkSelect.style.backgroundColor = '#ffffff';
+                jkSelect.style.cursor = 'default';
+                jkSelect.removeAttribute('tabindex');
+            }
+
+            if (lockBanner) lockBanner.style.display = 'none';
+            return;
+        }
+
+        // Siswa dipilih dari Data Master Siswa
+        const idSiswa = option.getAttribute('data-id-siswa') || '';
+        const nisn = option.getAttribute('data-nisn') || '';
+        const nama = option.getAttribute('data-nama') || '';
+        const jk = option.getAttribute('data-jk') || 'L';
+
+        if (idSiswaInput) idSiswaInput.value = idSiswa;
+        if (nipInput) nipInput.value = nisn;
+        if (nameInput) nameInput.value = 'Orang Tua - ' + nama;
+        if (jkSelect) jkSelect.value = jk || 'L';
+        if (usernameInput) usernameInput.value = 'ortu.' + nisn;
+        if (passInput) passInput.value = 'ortu123';
+        if (passConfirmInput) passConfirmInput.value = 'ortu123';
+
+        // KUNCI pengisian data agar tidak dapat diubah manual selagi siswa dipilih
+        inputsToLock.forEach(el => {
+            if (el) {
+                el.readOnly = true;
+                el.style.backgroundColor = '#f1f5f9';
+                el.style.cursor = 'not-allowed';
+            }
+        });
+
+        if (jkSelect) {
+            jkSelect.style.pointerEvents = 'none';
+            jkSelect.style.backgroundColor = '#f1f5f9';
+            jkSelect.style.cursor = 'not-allowed';
+            jkSelect.setAttribute('tabindex', '-1');
+        }
+
+        if (lockBanner) lockBanner.style.display = 'block';
+
+        if (typeof validatePasswordMatch === 'function') {
+            validatePasswordMatch();
+        }
     }
 </script>
 @endsection

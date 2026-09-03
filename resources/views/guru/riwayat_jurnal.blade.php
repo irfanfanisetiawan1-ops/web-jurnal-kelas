@@ -1,6 +1,6 @@
 @extends('layouts.guru')
 
-@section('title', 'Riwayat Jurnal — Jurnal ESEMKITA')
+@section('title', 'Riwayat Jurnal — EDU JOURNAL')
 @section('header_title', 'Jadwal Mengajar Hari Ini (Jumat)')
 
 @section('styles')

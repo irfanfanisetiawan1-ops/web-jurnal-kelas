@@ -1,9 +1,116 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Tata Usaha — Jurnal ESEMKITA')
+@section('title', 'Dashboard Tata Usaha — EDU JOURNAL')
 
 @section('styles')
 <style>
+    /* Pagination Bar Styles Matching Design Mockup */
+    .table-pagination-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-top: 1px solid #f1f5f9;
+        flex-wrap: wrap;
+        gap: 12px;
+        background: #ffffff;
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+
+    .table-pagination-footer .pagination-info {
+        font-size: 13px;
+        font-weight: 600;
+        color: #64748b;
+    }
+
+    .pagination-nav-buttons {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .pg-btn {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 10px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        background: #ffffff;
+        color: #334155;
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        user-select: none;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .pg-btn:hover:not(.active):not(.disabled) {
+        background: #f1f5f9;
+        color: #0f172a;
+        border-color: #94a3b8;
+    }
+
+    .pg-btn.active {
+        background: #1e293b;
+        color: #ffffff;
+        border-color: #1e293b;
+        box-shadow: 0 3px 8px rgba(30, 41, 59, 0.25);
+    }
+
+    .pg-btn.disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        background: #f8fafc;
+        border-color: #e2e8f0;
+    }
+
+    .btn-filter {
+        background: #3b5490;
+        color: #ffffff;
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: 0 2px 6px rgba(59, 84, 144, 0.2);
+    }
+    .btn-filter:hover {
+        background: #2e4375;
+        color: #ffffff;
+    }
+
+    .btn-reset {
+        background: #fbbf24;
+        color: #78350f;
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(251, 191, 36, 0.2);
+    }
+    .btn-reset:hover {
+        background: #f59e0b;
+        color: #78350f;
+    }
+
     /* Top Header Bar */
     .dashboard-page-header {
         display: flex;
@@ -745,15 +852,26 @@
 
         <!-- Left Main Column -->
         <div>
-            
-            <!-- Table Card: Jadwal Hari Ini -->
+                     <!-- Table Card: Jadwal Hari Ini -->
             <div class="card-panel-master">
-                <div class="card-header-flex">
+                <div class="card-header-flex" style="flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-bottom:16px;">
                     <div>
                         <h2>Jadwal Hari Ini</h2>
-                        <p>{{ $hariIndo }} {{ count($jadwalHariIni) }} dari {{ $totalJadwalSesi ?? 28 }} sesi ditampilkan</p>
+                        <p>{{ $hariIndo }} &bull; Total {{ count($jadwalHariIni) }} sesi (25 per halaman)</p>
                     </div>
-                    <a href="{{ route('jadwal.index') }}" class="link-lihat-semua">Lihat semua</a>
+
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                        <!-- Form Filter & Cari Jadwal Hari Ini -->
+                        <form action="{{ route('admin.dashboard') }}" method="GET" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0;">
+                            <div style="position:relative;">
+                                <input type="text" name="search_jadwal" value="{{ $searchJadwal ?? '' }}" class="form-control" style="width:210px; padding-left:34px; height:38px; font-size:13px; border-radius:10px; border:1px solid #cbd5e1; background:#f8fafc;" placeholder="Cari Kelas / Guru / Mapel...">
+                                <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:12px;"></i>
+                            </div>
+                            <button type="submit" class="btn-filter" style="height:38px; padding:0 16px;">Cari</button>
+                            <a href="{{ route('admin.dashboard') }}" class="btn-reset" style="height:38px; padding:0 16px;">Reset</a>
+                        </form>
+                        <a href="{{ route('jadwal.index') }}" class="link-lihat-semua" style="margin-left:4px;">Lihat semua master</a>
+                    </div>
                 </div>
 
                 <div style="overflow-x: auto;">
@@ -767,28 +885,36 @@
                                 <th>STATUS</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbody-jadwal-hari-ini">
                             @forelse($jadwalHariIni as $index => $item)
-                                <tr>
+                                @php
+                                    $wMulai   = $item->waktu_mulai_effective;
+                                    $wSelesai = $item->waktu_selesai_effective;
+                                    $nowTime  = \Carbon\Carbon::now('Asia/Jakarta')->format('H:i');
+                                    $sudahDiisi = $item->isDiisiHariIni();
+                                @endphp
+                                <tr class="jadwal-row">
                                     <td>
                                         <strong>
                                             @if($item->jamPelajaran)
                                                 {{ $item->jamPelajaran->range_format }}
                                             @else
-                                                {{ $item->jam_mulai_formatted ?? '07.00' }} - {{ $item->jam_selesai_formatted ?? '08.30' }}
+                                                {{ $item->waktu_range }}
                                             @endif
                                         </strong>
                                     </td>
                                     <td>
-                                        <span class="class-badge-pill">{{ $item->kelas->nama_kelas ?? 'X TKI 1' }}</span>
+                                        <span class="class-badge-pill">{{ $item->kelas->nama_kelas ?? '-' }}</span>
                                     </td>
-                                    <td><strong>{{ $item->guru->nama_guru ?? "Muto'atul Khosi'ah, S.Pd" }}</strong></td>
-                                    <td>{{ $item->mapel->nama_mapel ?? 'Bahasa Inggris' }}</td>
+                                    <td><strong>{{ $item->guru->nama_guru ?? '-' }}</strong></td>
+                                    <td>{{ $item->mapel->nama_mapel ?? '-' }}</td>
                                     <td>
-                                        @if($index % 3 == 0)
+                                        @if($sudahDiisi)
                                             <span class="status-badge-pill status-selesai">Selesai</span>
-                                        @elseif($index % 3 == 1)
+                                        @elseif($nowTime >= $wMulai && $nowTime <= $wSelesai)
                                             <span class="status-badge-pill status-berlangsung">Berlangsung</span>
+                                        @elseif($nowTime > $wSelesai)
+                                            <span class="status-badge-pill status-selesai">Selesai</span>
                                         @else
                                             <span class="status-badge-pill status-terjadwal">Terjadwal</span>
                                         @endif
@@ -796,29 +922,21 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td><strong>07.00 - 08.30</strong></td>
-                                    <td><span class="class-badge-pill">X TKI 1</span></td>
-                                    <td><strong>Muto'atul Khosi'ah, S.Pd</strong></td>
-                                    <td>Bahasa Inggris</td>
-                                    <td><span class="status-badge-pill status-selesai">Selesai</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>08.30 - 10.00</strong></td>
-                                    <td><span class="class-badge-pill">X TKI 2</span></td>
-                                    <td><strong>Yani, S.Pd</strong></td>
-                                    <td>Bahasa Indonesia</td>
-                                    <td><span class="status-badge-pill status-berlangsung">Berlangsung</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>10.15 - 11.45</strong></td>
-                                    <td><span class="class-badge-pill">X RPL 1</span></td>
-                                    <td><strong>Winartin, S.Pd</strong></td>
-                                    <td>Bahasa Indonesia</td>
-                                    <td><span class="status-badge-pill status-terjadwal">Terjadwal</span></td>
+                                    <td colspan="5" style="text-align: center; color: #94a3b8; padding: 24px;">Tidak ada jadwal KBM untuk hari ini.</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Footer Navigasi Halaman (Pagination 25 Per Halaman) -->
+                <div class="table-pagination-footer" id="pagination-container-jadwal">
+                    <div class="pagination-info" id="pagination-text-info-jadwal">
+                        Menampilkan 1 - 25 dari {{ count($jadwalHariIni) }} jadwal
+                    </div>
+                    <div class="pagination-nav-buttons" id="pagination-buttons-jadwal">
+                        <!-- Tombol Pagination JS (< 1 2 3 >) -->
+                    </div>
                 </div>
             </div>
 
@@ -1093,4 +1211,108 @@
         </div>
     </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    (function() {
+        const itemsPerPage = 25;
+        let currentPage = 1;
+
+        function initJadwalPagination() {
+            const tbody = document.getElementById('tbody-jadwal-hari-ini');
+            if (!tbody) return;
+
+            const rows = Array.from(tbody.querySelectorAll('tr.jadwal-row'));
+            const totalItems = rows.length;
+
+            const container = document.getElementById('pagination-container-jadwal');
+            if (totalItems === 0) {
+                if (container) container.style.display = 'none';
+                return;
+            }
+
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            function renderPage(page) {
+                currentPage = page;
+                const startIdx = (page - 1) * itemsPerPage;
+                const endIdx = startIdx + itemsPerPage;
+
+                rows.forEach((row, index) => {
+                    if (index >= startIdx && index < endIdx) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                const currentStart = startIdx + 1;
+                const currentEnd = Math.min(endIdx, totalItems);
+                const infoEl = document.getElementById('pagination-text-info-jadwal');
+                if (infoEl) {
+                    infoEl.textContent = `Menampilkan ${currentStart} - ${currentEnd} dari ${totalItems} jadwal`;
+                }
+
+                renderButtons(totalPages);
+            }
+
+            function renderButtons(totalPages) {
+                const buttonsContainer = document.getElementById('pagination-buttons-jadwal');
+                if (!buttonsContainer) return;
+
+                if (totalPages <= 1) {
+                    buttonsContainer.innerHTML = '';
+                    return;
+                }
+
+                let html = '';
+
+                // Prev Button
+                const prevDisabled = currentPage === 1 ? 'disabled' : '';
+                html += `<button type="button" class="pg-btn ${prevDisabled}" data-page="${currentPage - 1}" ${prevDisabled ? 'disabled' : ''}><i class="fa-solid fa-chevron-left"></i></button>`;
+
+                // Page Numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    if (totalPages > 7) {
+                        if (i !== 1 && i !== totalPages && Math.abs(i - currentPage) > 2) {
+                            if (i === 2 && currentPage > 4) {
+                                html += `<span style="padding: 0 4px; color: #94a3b8;">...</span>`;
+                            } else if (i === totalPages - 1 && currentPage < totalPages - 3) {
+                                html += `<span style="padding: 0 4px; color: #94a3b8;">...</span>`;
+                            }
+                            continue;
+                        }
+                    }
+
+                    const activeClass = i === currentPage ? 'active' : '';
+                    html += `<button type="button" class="pg-btn ${activeClass}" data-page="${i}">${i}</button>`;
+                }
+
+                // Next Button
+                const nextDisabled = currentPage === totalPages ? 'disabled' : '';
+                html += `<button type="button" class="pg-btn ${nextDisabled}" data-page="${currentPage + 1}" ${nextDisabled ? 'disabled' : ''}><i class="fa-solid fa-chevron-right"></i></button>`;
+
+                buttonsContainer.innerHTML = html;
+
+                buttonsContainer.querySelectorAll('.pg-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const targetPage = parseInt(this.getAttribute('data-page'));
+                        if (targetPage && targetPage >= 1 && targetPage <= totalPages && targetPage !== currentPage) {
+                            renderPage(targetPage);
+                        }
+                    });
+                });
+            }
+
+            renderPage(1);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initJadwalPagination);
+        } else {
+            initJadwalPagination();
+        }
+    })();
+</script>
 @endsection

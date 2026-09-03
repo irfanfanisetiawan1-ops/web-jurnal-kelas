@@ -233,6 +233,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Jurnal Piket Sekolah</h1>
+            <p>Monitoring catatan kegiatan piket, ketidakhadiran guru, dan pengawasan harian</p>
+        </div>
+    </div>
+
     <!-- KPI Summary Stat Cards -->
     <div class="kpi-grid">
         <div class="kpi-card">

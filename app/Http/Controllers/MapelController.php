@@ -24,7 +24,10 @@ class MapelController extends Controller
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('nama_mapel', 'like', "%{$search}%")
-                  ->orWhere('kode_mapel', 'like', "%{$search}%");
+                  ->orWhere('kode_mapel', 'like', "%{$search}%")
+                  ->orWhereHas('gurus', function($g) use ($search) {
+                      $g->where('nama_guru', 'like', "%{$search}%");
+                  });
             });
         }
 
@@ -142,6 +145,26 @@ class MapelController extends Controller
 
         return redirect()->route('mapel.index')
                          ->with('success', "Data mapel \"$nama\" berhasil dipindahkan ke Tempat Sampah.");
+    }
+
+    /**
+     * [DESTROY BATCH] Hapus banyak mapel sekaligus (Soft Delete)
+     */
+    public function destroyBatch(Request $request)
+    {
+        $request->validate([
+            'ids'   => 'required|array|min:1',
+            'ids.*' => 'exists:mapel,id_mapel',
+        ], [
+            'ids.required' => 'Silakan pilih minimal satu data mapel untuk dihapus.',
+            'ids.min'      => 'Silakan pilih minimal satu data mapel untuk dihapus.',
+            'ids.*.exists' => 'Data mapel yang dipilih tidak valid atau tidak ditemukan.',
+        ]);
+
+        $count = Mapel::whereIn('id_mapel', $request->ids)->delete();
+
+        return redirect()->route('mapel.index')
+                         ->with('success', "Berhasil memindahkan {$count} data mapel terpilih ke Tempat Sampah.");
     }
 
     /**

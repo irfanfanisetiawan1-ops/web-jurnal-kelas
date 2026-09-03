@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Guru;
 use App\Models\Siswa;
@@ -17,7 +18,7 @@ use Carbon\Carbon;
 
 class AdminDashboardController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $todayDate = Carbon::now();
         $hariIndo  = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'][$todayDate->dayOfWeek];
@@ -31,14 +32,26 @@ class AdminDashboardController extends Controller
         $totalMapel    = Mapel::count();
         $totalJadwal   = Jadwal::count();
 
-        // Schedules today
-        $jadwalHariIni = Jadwal::with(['kelas', 'guru', 'mapel', 'ruangan', 'jamPelajaran'])
-            ->where('hari', $hariIndo)
-            ->get();
+        // Schedules today with filter
+        $searchJadwal = $request->query('search_jadwal');
 
-        if ($jadwalHariIni->isEmpty()) {
-            $jadwalHariIni = Jadwal::with(['kelas', 'guru', 'mapel', 'ruangan', 'jamPelajaran'])
-                ->take(10)
+        $jadwalQuery = Jadwal::with(['kelas', 'guru', 'mapel', 'ruangan', 'jamPelajaran', 'jamMulai', 'jamSelesai'])
+            ->where('hari', $hariIndo);
+
+        if ($searchJadwal) {
+            $jadwalQuery->where(function($q) use ($searchJadwal) {
+                $q->whereHas('guru', fn($g) => $g->where('nama_guru', 'like', "%{$searchJadwal}%"))
+                  ->orWhereHas('mapel', fn($m) => $m->where('nama_mapel', 'like', "%{$searchJadwal}%"))
+                  ->orWhereHas('kelas', fn($k) => $k->where('nama_kelas', 'like', "%{$searchJadwal}%"));
+            });
+        }
+
+        $jadwalHariIni = $jadwalQuery->orderBy('id_jam_mulai', 'asc')->get();
+
+        if ($jadwalHariIni->isEmpty() && !$searchJadwal) {
+            $jadwalHariIni = Jadwal::with(['kelas', 'guru', 'mapel', 'ruangan', 'jamPelajaran', 'jamMulai', 'jamSelesai'])
+                ->orderBy('id_jam_mulai', 'asc')
+                ->take(50)
                 ->get();
         }
 
@@ -154,6 +167,15 @@ class AdminDashboardController extends Controller
             ];
         }
 
+        // Workflow & Role Cross-Data Statistics
+        $countPendingGuruIzin = \App\Models\GuruIzin::where('status_final', 'pending')->count();
+        $countSiswaDispen     = \App\Models\SiswaDispen::count();
+        $countSuratIzinSiswa  = \App\Models\SiswaSuratIzin::count();
+        $countOrangTua        = User::where('role', 'orang_tua')->count();
+        $countWaka            = User::where('role', 'waka')->count();
+        $countKepsek          = User::where('role', 'kepala_sekolah')->count();
+        $countSatpam          = User::where('role', 'satpam')->count();
+
         return view('admin.dashboard', compact(
             'formattedDate',
             'formattedTimeHeader',
@@ -165,6 +187,7 @@ class AdminDashboardController extends Controller
             'totalMapel',
             'totalJadwal',
             'jadwalHariIni',
+            'searchJadwal',
             'totalJadwalSesi',
             'sudahMengisi',
             'belumMengisi',
@@ -176,7 +199,14 @@ class AdminDashboardController extends Controller
             'aktivitasTerbaru',
             'guruBelumMengisi',
             'perluTindakan',
-            'kepatuhanPerKelas'
+            'kepatuhanPerKelas',
+            'countPendingGuruIzin',
+            'countSiswaDispen',
+            'countSuratIzinSiswa',
+            'countOrangTua',
+            'countWaka',
+            'countKepsek',
+            'countSatpam'
         ));
     }
 
@@ -241,7 +271,7 @@ class AdminDashboardController extends Controller
         $query = User::with('guru.mapel');
 
         // Filter Role
-        if ($roleFilter && in_array($roleFilter, ['tu', 'admin', 'guru', 'piket', 'wali_kelas'])) {
+        if ($roleFilter && in_array($roleFilter, ['tu', 'admin', 'guru', 'piket', 'wali_kelas', 'waka', 'waka_sdm', 'satpam', 'kepala_sekolah', 'orang_tua'])) {
             if ($roleFilter === 'admin') {
                 $query->whereIn('role', ['admin', 'tu']);
             } else {
@@ -267,27 +297,39 @@ class AdminDashboardController extends Controller
         $users = $query->orderBy('created_at', 'desc')->paginate(8)->withQueryString();
 
         $guruList  = Guru::with(['user', 'kelasWali'])->orderBy('nama_guru')->get();
+        $siswaList = Siswa::with('kelas')->orderBy('nama_siswa')->get();
         $mapelList = Mapel::orderBy('nama_mapel')->get();
         $kelasList = Kelas::orderBy('nama_kelas')->get();
 
-        // Stat Cards & Counts
-        $countAdmin     = User::whereIn('role', ['admin', 'tu'])->count();
-        $countGuruPiket = User::where('role', 'piket')->count();
-        $countGuruMapel = User::where('role', 'guru')->count();
-        $countWaliKelas = User::where('role', 'wali_kelas')->count();
-        $countPending   = User::where('status_verifikasi', 'pending')->count();
-        $totalPengguna  = User::count();
-        $trashedCount   = User::onlyTrashed()->count();
+        // Stat Cards & Counts untuk Role
+        $countAdmin         = User::whereIn('role', ['admin', 'tu'])->count();
+        $countGuruPiket     = User::where('role', 'piket')->count();
+        $countGuruMapel     = User::where('role', 'guru')->count();
+        $countWaliKelas     = User::where('role', 'wali_kelas')->count();
+        $countWaka          = User::where('role', 'waka')->count();
+        $countWakaSdm       = User::where('role', 'waka_sdm')->count();
+        $countKepalaSekolah = User::where('role', 'kepala_sekolah')->count();
+        $countSatpam        = User::where('role', 'satpam')->count();
+        $countOrangTua      = User::where('role', 'orang_tua')->count();
+        $countPending       = User::where('status_verifikasi', 'pending')->count();
+        $totalPengguna      = User::count();
+        $trashedCount       = User::onlyTrashed()->count();
 
         return view('admin.verifikasi_guru', compact(
             'users',
             'guruList',
+            'siswaList',
             'mapelList',
             'kelasList',
             'countAdmin',
             'countGuruPiket',
             'countGuruMapel',
             'countWaliKelas',
+            'countWaka',
+            'countWakaSdm',
+            'countKepalaSekolah',
+            'countSatpam',
+            'countOrangTua',
             'countPending',
             'totalPengguna',
             'trashedCount',
@@ -302,22 +344,28 @@ class AdminDashboardController extends Controller
      */
     public function storeUser(Request $request)
     {
+        $isOrtu = $request->role === 'orang_tua';
+        $nipRule = $isOrtu ? 'required|numeric|digits:10' : 'required|numeric|digits:18';
+        $nipDigitsMsg = $isOrtu ? 'NISN harus berisi tepat 10 digit angka.' : 'NIP harus berisi tepat 18 digit angka.';
+
         $request->validate([
             'name'              => 'required|string|max:100',
-            'nip'               => 'required|numeric|digits:18',
+            'nip'               => $nipRule,
             'username'          => 'nullable|string|max:50|unique:users,username',
             'email'             => 'nullable|email|max:100|unique:users,email',
             'no_hp'             => 'nullable|numeric|digits_between:10,15',
             'jenis_kelamin'     => 'nullable|in:L,P',
             'password'          => 'required|string|min:6|confirmed',
-            'role'              => 'required|in:tu,admin,guru,piket,wali_kelas',
+            'role'              => 'required|in:tu,admin,guru,piket,wali_kelas,waka,waka_sdm,satpam,kepala_sekolah,orang_tua',
             'status_verifikasi' => 'required|in:pending,verified,rejected',
             'id_guru'           => 'nullable|exists:guru,id_guru',
+            'id_siswa'          => 'nullable|exists:siswa,id_siswa',
         ], [
             'name.required'        => 'Nama lengkap wajib diisi.',
-            'nip.required'         => 'NIP wajib diisi.',
-            'nip.numeric'          => 'NIP harus berupa angka.',
-            'nip.digits'           => 'NIP harus berisi tepat 18 digit angka.',
+            'nip.required'         => $isOrtu ? 'NISN wajib diisi.' : 'NIP wajib diisi.',
+            'nip.numeric'          => $isOrtu ? 'NISN harus berupa angka.' : 'NIP harus berupa angka.',
+            'nip.digits'           => $nipDigitsMsg,
+            'nip.digits_between'   => $nipDigitsMsg,
             'username.unique'      => 'Username sudah digunakan.',
             'email.unique'         => 'Email sudah digunakan.',
             'no_hp.numeric'        => 'Nomor HP harus berupa angka.',
@@ -331,43 +379,46 @@ class AdminDashboardController extends Controller
         $nip  = trim($request->nip);
         $role = $request->role;
 
-        // 1. Cek apakah NIP sudah memiliki akun di tabel users
+        // Auto-link id_siswa untuk role Orang Tua
+        $idSiswa = $request->id_siswa ?: null;
+        if ($role === 'orang_tua' && !$idSiswa) {
+            $matchedSiswa = Siswa::withoutGlobalScopes()->where('nisn', $nip)->orWhere('nis', $nip)->first();
+            if ($matchedSiswa) {
+                $idSiswa = $matchedSiswa->id_siswa;
+            }
+        }
+
+        // 1. Cek apakah NIP/NISN sudah memiliki akun di tabel users
         $existingUser = User::withTrashed()->where('nip', $nip)->first();
         if ($existingUser) {
             if ($existingUser->trashed()) {
-                return back()->withInput()->with('error', "Gagal membuat akun: NIP '{$nip}' ({$existingUser->name}) berada di Tempat Sampah (Soft Deleted). Silakan pulihkan akun dari Tempat Sampah.");
+                return back()->withInput()->with('error', "Gagal membuat akun: NIP/NISN '{$nip}' ({$existingUser->name}) berada di Tempat Sampah (Soft Deleted). Silakan pulihkan akun dari Tempat Sampah.");
             }
-            return back()->withInput()->with('error', "Gagal membuat akun: NIP '{$nip}' sudah memiliki akun pengguna aktif ({$existingUser->name}).");
+            return back()->withInput()->with('error', "Gagal membuat akun: NIP/NISN '{$nip}' sudah memiliki akun pengguna aktif ({$existingUser->name}).");
         }
 
-        // 2. Validasi Master Data berdasarkan Role yang dipilih
+        // 2. Auto-sync / Auto-create Master Data Guru jika role berbasis guru/piket/wali_kelas
         $guru = Guru::where('nip', $nip)->first();
 
         if (in_array($role, ['guru', 'piket', 'wali_kelas'])) {
-            // Guru/Piket/Wali Kelas WAJIB ada di tabel master Guru terlebih dahulu
             if (!$guru) {
-                return back()->withInput()->with('error', "Gagal membuat akun: Data fisik guru dengan NIP '{$nip}' BELUM ADA di Data Master Guru. Admin TU wajib menambahkan data guru terlebih dahulu di menu Master Data Guru sebelum mendaftarkan akun ini.");
-            }
-
-            // Role Wali Kelas WAJIB sudah ditugaskan sebagai Wali Kelas pada tabel kelas
-            if ($role === 'wali_kelas') {
-                $kelasWali = Kelas::where('wali_kelas', $nip)->first();
-                if (!$kelasWali) {
-                    return back()->withInput()->with('error', "Gagal membuat akun: Guru '{$guru->nama_guru}' (NIP: {$nip}) BELUM ditugaskan sebagai Wali Kelas pada kelas mana pun. Silakan tentukan penugasan Wali Kelas terlebih dahulu di menu Wali Kelas.");
-                }
+                $guru = Guru::create([
+                    'nip'           => $nip,
+                    'nama_guru'     => $request->name,
+                    'jenis_kelamin' => $request->jenis_kelamin ?: null,
+                    'no_hp'         => $request->no_hp ?: null,
+                ]);
+            } else {
+                $guru->update([
+                    'nama_guru'     => $request->name ?: $guru->nama_guru,
+                    'jenis_kelamin' => $request->jenis_kelamin ?: $guru->jenis_kelamin,
+                    'no_hp'         => $request->no_hp ?: $guru->no_hp,
+                ]);
             }
         }
 
-        // 3. Auto-sync data Guru jika data fisik guru ditemukan
-        $idGuru = $request->id_guru;
-        if ($guru) {
-            $idGuru = $guru->id_guru;
-            $guru->update([
-                'nama_guru'     => $request->name ?: $guru->nama_guru,
-                'jenis_kelamin' => $request->jenis_kelamin ?: $guru->jenis_kelamin,
-                'no_hp'         => $request->no_hp ?: $guru->no_hp,
-            ]);
-        }
+        // 3. Auto-sync idGuru
+        $idGuru = $guru ? $guru->id_guru : $request->id_guru;
 
         // 4. Auto-generate username jika kosong
         $username = $request->username;
@@ -385,10 +436,14 @@ class AdminDashboardController extends Controller
             'no_hp'             => $request->no_hp ?: null,
             'jenis_kelamin'     => $request->jenis_kelamin ?: null,
             'password'          => Hash::make($request->password),
+            'password_plain'    => $request->password,
             'role'              => $role,
             'status_verifikasi' => $request->status_verifikasi,
             'id_guru'           => $idGuru,
+            'id_siswa'          => $idSiswa,
         ]);
+
+        User::syncWaliKelasRoles();
 
         return back()->with('success', "Pengguna baru '{$user->name}' ({$user->getRoleLabelAttribute()}) berhasil ditambahkan dan tersinkronisasi!");
     }
@@ -408,7 +463,8 @@ class AdminDashboardController extends Controller
             'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
         ]);
 
-        $user->password = Hash::make($request->password);
+        $user->password       = Hash::make($request->password);
+        $user->password_plain = $request->password;
         $user->save();
 
         return back()->with('success', "Password pengguna '{$user->name}' berhasil di-reset!");
@@ -419,7 +475,7 @@ class AdminDashboardController extends Controller
         $user = User::findOrFail($id);
         
         $request->validate([
-            'role'    => 'nullable|in:tu,admin,guru,piket,wali_kelas',
+            'role'    => 'nullable|in:tu,admin,guru,piket,wali_kelas,waka,waka_sdm,satpam,kepala_sekolah,orang_tua',
             'id_guru' => 'nullable|exists:guru,id_guru',
         ]);
 
@@ -431,6 +487,8 @@ class AdminDashboardController extends Controller
             $user->id_guru = $request->id_guru;
         }
         $user->save();
+
+        User::syncWaliKelasRoles();
 
         return back()->with('success', "Akun '{$user->name}' berhasil diverifikasi!");
     }
@@ -448,21 +506,27 @@ class AdminDashboardController extends Controller
     {
         $user = User::findOrFail($id);
 
+        $isOrtu = $request->role === 'orang_tua';
+        $nipRule = $isOrtu ? 'required|numeric|digits:10|unique:users,nip,' . $id : 'required|numeric|digits:18|unique:users,nip,' . $id;
+        $nipDigitsMsg = $isOrtu ? 'NISN harus berisi tepat 10 digit angka.' : 'NIP harus berisi tepat 18 digit angka.';
+
         $request->validate([
             'name'              => 'required|string|max:100',
             'email'             => 'nullable|email|max:100|unique:users,email,' . $id,
-            'role'              => 'required|in:tu,admin,guru,piket,wali_kelas',
+            'role'              => 'required|in:tu,admin,guru,piket,wali_kelas,waka,waka_sdm,satpam,kepala_sekolah,orang_tua',
             'status_verifikasi' => 'required|in:pending,verified,rejected',
-            'nip'               => 'required|numeric|digits:18|unique:users,nip,' . $id,
+            'nip'               => $nipRule,
             'id_guru'           => 'nullable|exists:guru,id_guru',
+            'id_siswa'          => 'nullable|exists:siswa,id_siswa',
             'jenis_kelamin'     => 'nullable|in:L,P',
             'no_hp'             => 'nullable|numeric|digits_between:10,15',
         ], [
             'name.required'        => 'Nama lengkap wajib diisi.',
-            'nip.required'         => 'NIP wajib diisi.',
-            'nip.numeric'          => 'NIP harus berupa angka.',
-            'nip.digits'           => 'NIP harus berisi tepat 18 digit angka.',
-            'nip.unique'           => 'NIP sudah terdaftar di sistem.',
+            'nip.required'         => $isOrtu ? 'NISN wajib diisi.' : 'NIP wajib diisi.',
+            'nip.numeric'          => $isOrtu ? 'NISN harus berupa angka.' : 'NIP harus berupa angka.',
+            'nip.digits'           => $nipDigitsMsg,
+            'nip.digits_between'   => $nipDigitsMsg,
+            'nip.unique'           => $isOrtu ? 'NISN sudah terdaftar pada akun lain.' : 'NIP sudah terdaftar di sistem.',
             'email.email'          => 'Format email tidak valid.',
             'email.unique'         => 'Email sudah digunakan.',
             'no_hp.numeric'        => 'Nomor HP harus berupa angka.',
@@ -471,42 +535,72 @@ class AdminDashboardController extends Controller
             'status_verifikasi.in' => 'Status verifikasi tidak valid.',
         ]);
 
-        $nip  = trim($request->nip);
-        $role = $request->role;
+        $nip    = trim($request->nip);
+        $oldNip = $user->nip;
+        $role   = $request->role;
 
-        // Validasi Master Data jika role yang dipilih adalah Guru / Piket / Wali Kelas
-        $guru = Guru::where('nip', $nip)->first();
-
-        if (in_array($role, ['guru', 'piket', 'wali_kelas'])) {
-            if (!$guru) {
-                return back()->withInput()->with('error', "Gagal memperbarui: Data guru dengan NIP '{$nip}' BELUM ADA di Data Master Guru. Silakan tambahkan data guru terlebih dahulu.");
-            }
-
-            if ($role === 'wali_kelas') {
-                $kelasWali = Kelas::where('wali_kelas', $nip)->first();
-                if (!$kelasWali) {
-                    return back()->withInput()->with('error', "Gagal memperbarui: Guru '{$guru->nama_guru}' (NIP: {$nip}) BELUM ditugaskan sebagai Wali Kelas pada kelas mana pun.");
-                }
+        // Auto-link id_siswa untuk role Orang Tua
+        $idSiswa = $request->id_siswa ?: $user->id_siswa;
+        if ($role === 'orang_tua' && !$idSiswa) {
+            $matchedSiswa = Siswa::withoutGlobalScopes()->where('nisn', $nip)->orWhere('nis', $nip)->first();
+            if ($matchedSiswa) {
+                $idSiswa = $matchedSiswa->id_siswa;
             }
         }
 
-        $user->name              = $request->name;
-        $user->email             = $request->email;
-        $user->role              = $role;
-        $user->status_verifikasi = $request->status_verifikasi;
-        $user->nip               = $nip;
-        $user->id_guru           = $guru ? $guru->id_guru : $request->id_guru;
-        $user->no_hp             = $request->no_hp ?: $user->no_hp;
-        $user->jenis_kelamin     = $request->jenis_kelamin ?: $user->jenis_kelamin;
-        $user->save();
+        // Auto-find atau Auto-create record Guru jika role berbasis guru (guru, piket, wali_kelas)
+        $guru = Guru::where('nip', $nip)->first();
+        if (!$guru && $user->id_guru) {
+            $guru = Guru::find($user->id_guru);
+        }
 
-        if ($guru) {
+        if (in_array($role, ['guru', 'piket', 'wali_kelas'])) {
+            if (!$guru) {
+                $guru = Guru::create([
+                    'nip'           => $nip,
+                    'nama_guru'     => $request->name,
+                    'jenis_kelamin' => $request->jenis_kelamin ?: null,
+                    'no_hp'         => $request->no_hp ?: null,
+                ]);
+            } else {
+                $guru->update([
+                    'nip'           => $nip,
+                    'nama_guru'     => $request->name,
+                    'jenis_kelamin' => $request->jenis_kelamin ?: $guru->jenis_kelamin,
+                    'no_hp'         => $request->no_hp ?: $guru->no_hp,
+                ]);
+            }
+        } elseif ($guru) {
             $guru->update([
-                'nama_guru'     => $user->name,
+                'nip'           => $nip,
+                'nama_guru'     => $request->name,
                 'jenis_kelamin' => $request->jenis_kelamin ?: $guru->jenis_kelamin,
                 'no_hp'         => $request->no_hp ?: $guru->no_hp,
             ]);
         }
+
+        // Sinkronisasi perubahan NIP pada tabel kelas jika guru ini bertugas sebagai wali kelas
+        if ($oldNip && $oldNip !== $nip) {
+            Kelas::where('wali_kelas', $oldNip)->update(['wali_kelas' => $nip]);
+        }
+
+        // Hubungkan id_kelas jika terdaftar di tabel kelas
+        $kelasWali = Kelas::where('wali_kelas', $nip)->first();
+        $idKelas   = $kelasWali ? $kelasWali->id_kelas : ($role === 'wali_kelas' ? $user->id_kelas : null);
+
+        $user->name              = $request->name;
+        $user->email             = $request->email ?: null;
+        $user->role              = $role;
+        $user->status_verifikasi = $request->status_verifikasi;
+        $user->nip               = $nip;
+        $user->id_guru           = $guru ? $guru->id_guru : $user->id_guru;
+        $user->id_siswa          = $idSiswa;
+        $user->no_hp             = $request->no_hp ?: $user->no_hp;
+        $user->jenis_kelamin     = $request->jenis_kelamin ?: $user->jenis_kelamin;
+        $user->id_kelas          = $idKelas;
+        $user->save();
+
+        User::syncWaliKelasRoles();
 
         return back()->with('success', "Data dan hak akses akun '{$user->name}' berhasil diperbarui.");
     }
@@ -624,7 +718,10 @@ class AdminDashboardController extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('nip', 'like', "%{$search}%")
-                  ->orWhere('username', 'like', "%{$search}%");
+                  ->orWhere('username', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('no_hp', 'like', "%{$search}%")
+                  ->orWhereHas('guru', fn($g) => $g->where('nama_guru', 'like', "%{$search}%"));
             });
         }
 
@@ -651,6 +748,14 @@ class AdminDashboardController extends Controller
      */
     public function storeGuruPiket(Request $request)
     {
+        // Enforce maximum 1 active piket account in the system
+        $existingPiketCount = User::whereIn('role', ['piket', 'guru_piket'])->count();
+        if ($existingPiketCount > 0) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Fitur Tambah Guru Piket Baru saat ini dikunci karena akun Guru Piket sudah ada di sistem (maksimal 1 akun). Silakan hapus akun yang ada terlebih dahulu jika ingin mendaftarkan akun piket baru.');
+        }
+
         $request->validate([
             'nip'           => 'required|numeric|digits:18',
             'name'          => 'required|string|max:100',
@@ -715,6 +820,7 @@ class AdminDashboardController extends Controller
                 'status_verifikasi' => 'verified',
                 'id_guru'           => $idGuru,
                 'password'          => Hash::make($request->password),
+                'password_plain'    => $request->password,
             ]);
         } else {
             $user = User::create([
@@ -723,6 +829,7 @@ class AdminDashboardController extends Controller
                 'username'          => $username,
                 'email'             => $request->email ?? null,
                 'password'          => Hash::make($request->password),
+                'password_plain'    => $request->password,
                 'role'              => 'piket',
                 'status_verifikasi' => 'verified',
                 'id_guru'           => $idGuru,
@@ -765,6 +872,10 @@ class AdminDashboardController extends Controller
      */
     public function restoreGuruPiket($id)
     {
+        if (User::whereIn('role', ['piket', 'guru_piket'])->count() > 0) {
+            return redirect()->route('admin.guru-piket.trash')
+                ->with('error', 'Gagal memulihkan akun Guru Piket: Sudah ada 1 akun Guru Piket aktif di sistem. Silakan hapus akun aktif terlebih dahulu.');
+        }
         $user = User::onlyTrashed()->where('role', 'piket')->findOrFail($id);
         $user->restore();
 
@@ -790,7 +901,10 @@ class AdminDashboardController extends Controller
      */
     public function waliKelasList(Request $request)
     {
-        $search = $request->query('search');
+        $search     = $request->query('search');
+        $id_jurusan = $request->query('id_jurusan');
+
+        User::syncWaliKelasRoles();
 
         // Query kelas lengkap dengan relasi ke wali kelas (Guru) dan hitung siswa
         $query = Kelas::with(['waliKelas.user', 'jurusan', 'siswas'])->withCount('siswas');
@@ -801,11 +915,41 @@ class AdminDashboardController extends Controller
                   ->orWhereHas('waliKelas', function($g) use ($search) {
                       $g->where('nama_guru', 'like', "%{$search}%")
                         ->orWhere('nip', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('jurusan', function($j) use ($search) {
+                      $j->where('nama_jurusan', 'like', "%{$search}%")
+                        ->orWhere('kode_jurusan', 'like', "%{$search}%");
                   });
             });
         }
 
+        if ($id_jurusan) {
+            $query->where('id_jurusan', $id_jurusan);
+        }
+
+        // Audit pemetaan unik 1 Guru 1 Kelas (Self-Healing Audit)
+        $assignedNips  = [];
+        $assignedNames = [];
+        $activeKelasList = Kelas::whereNotNull('wali_kelas')->get();
+
+        foreach ($activeKelasList as $ak) {
+            $g = Guru::where('nip', $ak->wali_kelas)->first();
+            $namaNorm = $g ? strtolower(trim($g->nama_guru)) : null;
+
+            if (in_array($ak->wali_kelas, $assignedNips) || ($namaNorm && in_array($namaNorm, $assignedNames))) {
+                // Lepaskan penugasan ganda jika ada bentrokan
+                $ak->wali_kelas = null;
+                $ak->save();
+            } else {
+                $assignedNips[] = $ak->wali_kelas;
+                if ($namaNorm) {
+                    $assignedNames[] = $namaNorm;
+                }
+            }
+        }
+
         $kelases      = $query->orderBy('nama_kelas', 'asc')->get();
+        $jurusans     = \App\Models\Jurusan::orderBy('nama_jurusan', 'asc')->get();
         // Ambil daftar guru yang terdaftar & terverifikasi (filter out pending / rejected)
         $gurus        = Guru::with(['user', 'kelasWali'])
             ->where(function($q) {
@@ -818,7 +962,7 @@ class AdminDashboardController extends Controller
             ->get();
         $trashedCount = User::onlyTrashed()->where('role', 'wali_kelas')->count();
 
-        return view('admin.wali_kelas_list', compact('kelases', 'gurus', 'trashedCount', 'search'));
+        return view('admin.wali_kelas_list', compact('kelases', 'gurus', 'jurusans', 'trashedCount', 'search', 'id_jurusan'));
     }
 
     /**
@@ -857,19 +1001,23 @@ class AdminDashboardController extends Controller
                 ->with('error', "Kelas '{$kelas->nama_kelas}' sudah memiliki Wali Kelas ({$namaWali}). Untuk mengubah Wali Kelas, silakan gunakan tombol Edit pada daftar kelas.");
         }
 
-        // Validasi 2: Cek jika guru sudah menjadi Wali Kelas untuk kelas lain
-        $existingKelasAsWali = Kelas::where('wali_kelas', $request->nip)->first();
-        if (!$existingKelasAsWali && $request->id_guru) {
-            $guruCandidate = Guru::find($request->id_guru);
-            if ($guruCandidate) {
-                $existingKelasAsWali = Kelas::where('wali_kelas', $guruCandidate->nip)->first();
-            }
+        // Validasi 2: Cek jika guru/nama guru ini sudah bertugas sebagai Wali Kelas di kelas lain (Aturan 1 Guru = 1 Kelas)
+        $guruCandidate = $request->id_guru ? Guru::find($request->id_guru) : Guru::where('nip', $request->nip)->first();
+        $namaTeacher = $guruCandidate ? trim($guruCandidate->nama_guru) : trim($request->name ?? '');
+
+        $allNips = Guru::where('nama_guru', 'like', $namaTeacher)->pluck('nip')->toArray();
+        if (!in_array($request->nip, $allNips)) {
+            $allNips[] = $request->nip;
         }
+
+        $existingKelasAsWali = Kelas::whereIn('wali_kelas', $allNips)
+            ->where('id_kelas', '!=', $request->id_kelas)
+            ->first();
 
         if ($existingKelasAsWali) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', "Guru ini sudah bertugas sebagai Wali Kelas di kelas '{$existingKelasAsWali->nama_kelas}'. Satu guru hanya dapat menjadi Wali Kelas untuk 1 kelas.");
+                ->with('error', "Guru '{$namaTeacher}' sudah bertugas sebagai Wali Kelas di kelas '{$existingKelasAsWali->nama_kelas}'. Satu guru hanya dapat menjadi Wali Kelas untuk 1 kelas.");
         }
 
         // 1. Dapatkan / Buat Record Guru
@@ -946,8 +1094,151 @@ class AdminDashboardController extends Controller
         $kelas->wali_kelas = $guru->nip;
         $kelas->save();
 
+        if ($user) {
+            $user->id_kelas = $kelas->id_kelas;
+            $user->save();
+        }
+
+        User::syncWaliKelasRoles();
+
         return redirect()->route('admin.wali-kelas-list')
             ->with('success', "Wali Kelas '{$guru->nama_guru}' berhasil ditugaskan untuk kelas '{$kelas->nama_kelas}'!");
+    }
+
+    /**
+     * Store / Penugasan Wali Kelas Baru Secara Cepat dan Banyak (Bulk)
+     */
+    public function storeBulkWaliKelas(Request $request)
+    {
+        $assignments = $request->input('bulk_assignments', []);
+
+        if (empty($assignments) || !is_array($assignments)) {
+            return redirect()->back()
+                ->with('error', 'Tidak ada data penugasan kelas yang dikirimkan.');
+        }
+
+        // 1. Validasi 1 Guru = 1 Kelas dalam batch submission
+        $teacherCounts = [];
+        foreach ($assignments as $idKelas => $idGuru) {
+            if (!empty($idGuru) && $idGuru !== 'none') {
+                $teacherCounts[$idGuru] = ($teacherCounts[$idGuru] ?? 0) + 1;
+            }
+        }
+
+        foreach ($teacherCounts as $idGuru => $count) {
+            if ($count > 1) {
+                $guru = Guru::find($idGuru);
+                $namaGuru = $guru ? $guru->nama_guru : 'ID Guru: ' . $idGuru;
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', "Gagal menyimpan! Guru '{$namaGuru}' dipilih untuk {$count} kelas dalam penugasan massal ini. Satu guru hanya dapat menjadi Wali Kelas untuk 1 kelas.");
+            }
+        }
+
+        // 2. Validasi dengan Database (Guru yang dipilih tidak boleh menjadi Wali Kelas di kelas luar batch)
+        foreach ($assignments as $idKelas => $idGuru) {
+            if (!empty($idGuru) && $idGuru !== 'none') {
+                $guru = Guru::find($idGuru);
+                if ($guru) {
+                    // Cari kelas di DB di luar $idKelas dan di luar batch $assignments yang ditugaskan ke guru ini
+                    $existingKelas = Kelas::where('wali_kelas', $guru->nip)
+                        ->where('id_kelas', '!=', $idKelas)
+                        ->whereNotIn('id_kelas', array_keys($assignments))
+                        ->first();
+
+                    if ($existingKelas) {
+                        return redirect()->back()
+                            ->withInput()
+                            ->with('error', "Gagal menyimpan! Guru '{$guru->nama_guru}' sudah bertugas sebagai Wali Kelas di kelas '{$existingKelas->nama_kelas}'. Satu guru hanya dapat menjadi Wali Kelas untuk 1 kelas.");
+                    }
+                }
+            }
+        }
+
+        // 3. Eksekusi Pembaharuan Massal via Database Transaction
+        $updatedAssignedCount   = 0;
+        $updatedUnassignedCount = 0;
+
+        DB::beginTransaction();
+        try {
+            foreach ($assignments as $idKelas => $idGuru) {
+                $kelas = Kelas::find($idKelas);
+                if (!$kelas) continue;
+
+                if (!empty($idGuru) && $idGuru !== 'none') {
+                    $guru = Guru::find($idGuru);
+                    if (!$guru) continue;
+
+                    // Update kelas
+                    if ($kelas->wali_kelas !== $guru->nip) {
+                        $kelas->wali_kelas = $guru->nip;
+                        $kelas->save();
+                        $updatedAssignedCount++;
+                    }
+
+                    // Update atau buat user wali kelas
+                    $user = User::withTrashed()
+                        ->where('nip', $guru->nip)
+                        ->orWhere('id_guru', $guru->id_guru)
+                        ->first();
+
+                    if ($user) {
+                        if ($user->trashed()) {
+                            $user->restore();
+                        }
+                        $user->update([
+                            'name'              => $guru->nama_guru,
+                            'nip'               => $guru->nip,
+                            'role'              => 'wali_kelas',
+                            'status_verifikasi' => 'verified',
+                            'id_guru'           => $guru->id_guru,
+                            'id_kelas'          => $kelas->id_kelas,
+                        ]);
+                    } else {
+                        $baseName = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', explode(' ', $guru->nama_guru)[0]));
+                        $username = 'walikelas.' . $baseName . rand(10, 99);
+                        User::create([
+                            'name'              => $guru->nama_guru,
+                            'nip'               => $guru->nip,
+                            'username'          => $username,
+                            'password'          => Hash::make('123456'),
+                            'role'              => 'wali_kelas',
+                            'status_verifikasi' => 'verified',
+                            'id_guru'           => $guru->id_guru,
+                            'jenis_kelamin'     => $guru->jenis_kelamin,
+                            'no_hp'             => $guru->no_hp,
+                            'id_kelas'          => $kelas->id_kelas,
+                        ]);
+                    }
+                } else if ($idGuru === '' || $idGuru === 'none') {
+                    // Lepas penugasan wali kelas dari kelas ini
+                    if (!empty($kelas->wali_kelas)) {
+                        $oldNip = $kelas->wali_kelas;
+                        $kelas->wali_kelas = null;
+                        $kelas->save();
+
+                        // Update user account jika terkait
+                        $user = User::where('id_kelas', $idKelas)->first();
+                        if ($user) {
+                            $user->id_kelas = null;
+                            $user->save();
+                        }
+                        $updatedUnassignedCount++;
+                    }
+                }
+            }
+
+            DB::commit();
+            User::syncWaliKelasRoles();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Gagal memperbarui penugasan massal: ' . $e->getMessage());
+        }
+
+        return redirect()->route('admin.wali-kelas-list')
+            ->with('success', "Penugasan Wali Kelas Baru Secara Cepat dan Banyak berhasil disimpan! ({$updatedAssignedCount} kelas diperbarui, {$updatedUnassignedCount} dilepas)");
     }
 
     /**
@@ -955,35 +1246,195 @@ class AdminDashboardController extends Controller
      */
     public function destroyWaliKelas($id)
     {
-        // $id dapat merujuk ke User ID atau Kelas ID
-        $user = User::where('role', 'wali_kelas')->find($id);
+        // 1. Coba dapatkan data kelas berbasis $id (karena $id dikirim dari daftar rombel/kelas)
+        $kelas = Kelas::find($id);
+        $user  = null;
+        $guru  = null;
 
-        if (!$user) {
-            // Jika ID yang dikirim adalah ID Kelas
-            $kelas = Kelas::find($id);
-            if ($kelas && $kelas->wali_kelas) {
-                $user = User::where('nip', $kelas->wali_kelas)->first();
-                $kelas->wali_kelas = null;
-                $kelas->save();
+        if ($kelas && !empty($kelas->wali_kelas)) {
+            $guru = Guru::where('nip', $kelas->wali_kelas)->first();
+            if ($guru) {
+                $user = User::withTrashed()->where('nip', $guru->nip)->orWhere('id_guru', $guru->id_guru)->first();
+            } else {
+                $user = User::withTrashed()->where('nip', $kelas->wali_kelas)->first();
             }
         }
 
+        // 2. Jika $id bukan ID kelas (atau kelas tanpa wali), coba cari User berbasis $id
+        if (!$user) {
+            $userCandidate = User::withTrashed()->find($id);
+            if ($userCandidate) {
+                $user  = $userCandidate;
+                $kelas = Kelas::where('wali_kelas', $user->nip)->first();
+                if ($user->id_guru) {
+                    $guru = Guru::find($user->id_guru);
+                }
+                if (!$guru && $user->nip) {
+                    $guru = Guru::where('nip', $user->nip)->first();
+                }
+            }
+        }
+
+        // 3. Jika akun User belum ada di tabel users, tetapi data Guru Wali Kelas ada di tabel guru, buatkan akun User Wali Kelas
+        if (!$user && $guru) {
+            $baseName = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', explode(' ', $guru->nama_guru)[0] ?? 'wali'));
+            $username = 'walikelas.' . $baseName . rand(10, 99);
+
+            $user = User::create([
+                'name'              => $guru->nama_guru,
+                'nip'               => $guru->nip,
+                'username'          => $username,
+                'email'             => null,
+                'password'          => Hash::make('123456'),
+                'role'              => 'wali_kelas',
+                'status_verifikasi' => 'verified',
+                'id_guru'           => $guru->id_guru,
+                'id_kelas'          => $kelas ? $kelas->id_kelas : null,
+                'jenis_kelamin'     => $guru->jenis_kelamin,
+                'no_hp'             => $guru->no_hp,
+            ]);
+        }
+
         if ($user) {
+            // Cegah Admin menghapus akunnya sendiri jika terdeteksi
             if ($user->id === Auth::id()) {
                 return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri!');
             }
 
-            // Lepaskan penugasan di tabel kelas
-            Kelas::where('wali_kelas', $user->nip)->update(['wali_kelas' => null]);
+            // Tetapkan role 'wali_kelas' dan simpan id_kelas asal agar terbaca di Tempat Sampah Wali Kelas & bisa dipulihkan
+            $user->role = 'wali_kelas';
+            if ($kelas) {
+                $user->id_kelas = $kelas->id_kelas;
+            }
+            $user->save();
+
+            // Lepaskan penugasan wali_kelas pada tabel kelas
+            if ($user->nip) {
+                Kelas::where('wali_kelas', $user->nip)->update(['wali_kelas' => null]);
+            }
+            if ($kelas) {
+                $kelas->wali_kelas = null;
+                $kelas->save();
+            }
 
             $nama = $user->name;
-            $user->delete(); // Soft delete user
+            if (!$user->trashed()) {
+                $user->delete(); // Soft delete user
+            }
+
+            User::syncWaliKelasRoles();
 
             return redirect()->route('admin.wali-kelas-list')
                 ->with('success', "Penugasan & data Wali Kelas '{$nama}' berhasil dipindahkan ke Tempat Sampah.");
         }
 
+        if ($kelas) {
+            $kelas->wali_kelas = null;
+            $kelas->save();
+            User::syncWaliKelasRoles();
+            return redirect()->route('admin.wali-kelas-list')
+                ->with('success', "Penugasan Wali Kelas pada kelas '{$kelas->nama_kelas}' berhasil dihapus.");
+        }
+
         return back()->with('error', 'Data Wali Kelas tidak ditemukan.');
+    }
+
+    /**
+     * [DESTROY BATCH] Hapus banyak Wali Kelas sekaligus (Soft Delete)
+     */
+    public function destroyBatchWaliKelas(Request $request)
+    {
+        $request->validate([
+            'ids'   => 'required|array|min:1',
+        ], [
+            'ids.required' => 'Silakan pilih minimal satu data Wali Kelas untuk dihapus.',
+            'ids.min'      => 'Silakan pilih minimal satu data Wali Kelas untuk dihapus.',
+        ]);
+
+        $ids   = $request->ids;
+        $count = 0;
+
+        foreach ($ids as $id) {
+            $kelas = Kelas::find($id);
+            $user  = null;
+            $guru  = null;
+
+            if ($kelas && !empty($kelas->wali_kelas)) {
+                $guru = Guru::where('nip', $kelas->wali_kelas)->first();
+                if ($guru) {
+                    $user = User::withTrashed()->where('nip', $guru->nip)->orWhere('id_guru', $guru->id_guru)->first();
+                } else {
+                    $user = User::withTrashed()->where('nip', $kelas->wali_kelas)->first();
+                }
+            }
+
+            if (!$user) {
+                $userCandidate = User::withTrashed()->find($id);
+                if ($userCandidate) {
+                    $user  = $userCandidate;
+                    $kelas = Kelas::where('wali_kelas', $user->nip)->first();
+                    if ($user->id_guru) {
+                        $guru = Guru::find($user->id_guru);
+                    }
+                    if (!$guru && $user->nip) {
+                        $guru = Guru::where('nip', $user->nip)->first();
+                    }
+                }
+            }
+
+            if (!$user && $guru) {
+                $baseName = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', explode(' ', $guru->nama_guru)[0] ?? 'wali'));
+                $username = 'walikelas.' . $baseName . rand(10, 99);
+
+                $user = User::create([
+                    'name'              => $guru->nama_guru,
+                    'nip'               => $guru->nip,
+                    'username'          => $username,
+                    'email'             => null,
+                    'password'          => Hash::make('123456'),
+                    'role'              => 'wali_kelas',
+                    'status_verifikasi' => 'verified',
+                    'id_guru'           => $guru->id_guru,
+                    'id_kelas'          => $kelas ? $kelas->id_kelas : null,
+                    'jenis_kelamin'     => $guru->jenis_kelamin,
+                    'no_hp'             => $guru->no_hp,
+                ]);
+            }
+
+            if ($user) {
+                if ($user->id === Auth::id()) {
+                    continue;
+                }
+
+                $user->role = 'wali_kelas';
+                if ($kelas) {
+                    $user->id_kelas = $kelas->id_kelas;
+                }
+                $user->save();
+
+                if ($user->nip) {
+                    Kelas::where('wali_kelas', $user->nip)->update(['wali_kelas' => null]);
+                }
+                if ($kelas) {
+                    $kelas->wali_kelas = null;
+                    $kelas->save();
+                }
+
+                if (!$user->trashed()) {
+                    $user->delete();
+                }
+                $count++;
+            } elseif ($kelas) {
+                $kelas->wali_kelas = null;
+                $kelas->save();
+                $count++;
+            }
+        }
+
+        User::syncWaliKelasRoles();
+
+        return redirect()->route('admin.wali-kelas-list')
+            ->with('success', "Berhasil memindahkan {$count} penugasan Wali Kelas terpilih ke Tempat Sampah.");
     }
 
     /**
@@ -1003,8 +1454,36 @@ class AdminDashboardController extends Controller
         $user = User::onlyTrashed()->where('role', 'wali_kelas')->findOrFail($id);
         $user->restore();
 
-        return redirect()->route('admin.wali-kelas.trash')
-            ->with('success', "Data Wali Kelas '{$user->name}' berhasil dipulihkan!");
+        // 1. Coba pulihkan penugasan ke kelas asalnya terlebih dahulu
+        $assignedNamaKelas = null;
+        if ($user->id_kelas && $user->nip) {
+            $targetKelas = Kelas::find($user->id_kelas);
+            if ($targetKelas && (empty($targetKelas->wali_kelas) || $targetKelas->wali_kelas == $user->nip)) {
+                $targetKelas->wali_kelas = $user->nip;
+                $targetKelas->save();
+                $assignedNamaKelas = $targetKelas->nama_kelas;
+            }
+        }
+
+        // 2. Jika kelas asal sudah terisi wali lain atau id_kelas belum diset, cari kelas tanpa wali
+        if (!$assignedNamaKelas && $user->nip) {
+            $emptyKelas = Kelas::whereNull('wali_kelas')->orWhere('wali_kelas', '')->first();
+            if ($emptyKelas) {
+                $emptyKelas->wali_kelas = $user->nip;
+                $emptyKelas->save();
+                $user->id_kelas = $emptyKelas->id_kelas;
+                $user->save();
+                $assignedNamaKelas = $emptyKelas->nama_kelas;
+            }
+        }
+
+        User::syncWaliKelasRoles();
+
+        $msg = $assignedNamaKelas 
+            ? "Data Wali Kelas '{$user->name}' berhasil dipulihkan dan ditugaskan kembali ke kelas '{$assignedNamaKelas}' pada Daftar Pemetaan Wali Kelas Per Rombel!" 
+            : "Data Wali Kelas '{$user->name}' berhasil dipulihkan!";
+
+        return redirect()->route('admin.wali-kelas-list')->with('success', $msg);
     }
 
     /**
@@ -1014,6 +1493,11 @@ class AdminDashboardController extends Controller
     {
         $user = User::onlyTrashed()->where('role', 'wali_kelas')->findOrFail($id);
         $nama = $user->name;
+
+        if ($user->nip) {
+            Kelas::where('wali_kelas', $user->nip)->update(['wali_kelas' => null]);
+        }
+
         $user->forceDelete();
 
         return redirect()->route('admin.wali-kelas.trash')

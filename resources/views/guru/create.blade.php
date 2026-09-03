@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Guru Baru — Jurnal ESEMKITA')
+@section('title', 'Tambah Guru Baru — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -148,6 +148,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tambah Data Guru</h1>
+            <p>Input data profil dan kepegawaian guru baru ke sistem</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('guru.index') }}"><i class="fa-solid fa-user-tie"></i> Data Guru</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
@@ -212,11 +220,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="no_hp">Nomor HP / WA</label>
+                    <label for="no_hp">Nomor HP / WA <span style="color:#ef4444;">*</span></label>
                     <input type="text" id="no_hp" name="no_hp" value="{{ old('no_hp') }}"
                         class="form-control {{ $errors->has('no_hp') ? 'is-invalid' : '' }}"
-                        placeholder="Contoh: 081234567890" maxlength="15" inputmode="numeric"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);">
+                        placeholder="Contoh: 081234567890" maxlength="15" minlength="10" inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);" required>
                     @error('no_hp')
                         <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
                     @enderror

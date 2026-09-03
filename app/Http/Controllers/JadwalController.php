@@ -9,6 +9,7 @@ use App\Models\Mapel;
 use App\Models\Ruangan;
 use App\Models\JamPelajaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JadwalController extends Controller
 {
@@ -105,34 +106,78 @@ class JadwalController extends Controller
     }
 
     /**
+     * Helper privat untuk memproses id_ruangan, termasuk opsi custom / ketik manual
+     */
+    private function resolveRuanganId(Request $request)
+    {
+        $idRuangan = $request->id_ruangan;
+        $namaCustom = trim($request->nama_ruangan_custom ?? '');
+
+        if ($idRuangan === 'custom' || (!empty($namaCustom) && ($idRuangan === 'custom' || empty($idRuangan)))) {
+            if (empty($namaCustom)) {
+                return null;
+            }
+
+            // Cek apakah nama ruangan sudah ada di database (case-insensitive)
+            $existing = Ruangan::where('nama_ruangan', 'like', $namaCustom)->first();
+            if ($existing) {
+                return $existing->id_ruangan;
+            }
+
+            // Buat ruangan baru jika belum ada
+            $newRuangan = Ruangan::create([
+                'nama_ruangan'  => $namaCustom,
+                'jenis_ruangan' => 'Kelas Biasa',
+            ]);
+
+            return $newRuangan->id_ruangan;
+        }
+
+        return $idRuangan ? (int)$idRuangan : null;
+    }
+
+    /**
      * [STORE] Memproses & menyimpan data jadwal baru ke database
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = [
             'id_kelas'       => 'required|exists:kelas,id_kelas',
             'id_guru'        => 'required|exists:guru,id_guru',
             'id_mapel'       => 'required|exists:mapel,id_mapel',
-            'id_ruangan'     => 'required|exists:ruangan,id_ruangan',
+            'id_ruangan'     => 'required',
             'hari'           => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat',
             'id_jam_mulai'   => 'required|exists:jam_pelajaran,id_jam',
             'id_jam_selesai' => 'required|exists:jam_pelajaran,id_jam',
-        ], [
+        ];
+
+        $messages = [
             'id_kelas.required'       => 'Kelas wajib dipilih.',
             'id_kelas.exists'         => 'Kelas yang dipilih tidak valid.',
             'id_guru.required'        => 'Guru wajib dipilih.',
             'id_guru.exists'          => 'Guru yang dipilih tidak valid.',
             'id_mapel.required'       => 'Mata Pelajaran wajib dipilih.',
             'id_mapel.exists'         => 'Mata Pelajaran yang dipilih tidak valid.',
-            'id_ruangan.required'     => 'Ruangan wajib dipilih.',
-            'id_ruangan.exists'       => 'Ruangan yang dipilih tidak valid.',
+            'id_ruangan.required'     => 'Ruangan wajib dipilih atau diisi.',
             'hari.required'           => 'Hari wajib dipilih.',
             'hari.in'                 => 'Hari pilihan tidak valid.',
             'id_jam_mulai.required'   => 'Jam Mulai wajib dipilih.',
             'id_jam_mulai.exists'     => 'Jam Mulai yang dipilih tidak valid di Master Jam Pelajaran.',
             'id_jam_selesai.required' => 'Jam Selesai wajib dipilih.',
             'id_jam_selesai.exists'   => 'Jam Selesai yang dipilih tidak valid di Master Jam Pelajaran.',
-        ]);
+        ];
+
+        if ($request->id_ruangan === 'custom') {
+            $rules['nama_ruangan_custom'] = 'required|string|max:50';
+            $messages['nama_ruangan_custom.required'] = 'Nama Ruangan Baru (Custom) wajib diisi.';
+        }
+
+        $request->validate($rules, $messages);
+
+        $ruanganId = $this->resolveRuanganId($request);
+        if (!$ruanganId) {
+            return back()->withInput()->withErrors(['id_ruangan' => 'Ruangan wajib dipilih atau diisi dengan benar.']);
+        }
 
         if ((int) $request->id_jam_selesai < (int) $request->id_jam_mulai) {
             return back()->withInput()->withErrors(['id_jam_selesai' => 'Jam selesai tidak boleh lebih kecil dari jam mulai.']);
@@ -151,7 +196,7 @@ class JadwalController extends Controller
             (int) $request->id_jam_selesai,
             (int) $request->id_guru,
             (int) $request->id_kelas,
-            (int) $request->id_ruangan,
+            (int) $ruanganId,
             (int) $request->id_mapel
         );
 
@@ -163,7 +208,7 @@ class JadwalController extends Controller
             'id_kelas'       => $request->id_kelas,
             'id_guru'        => $request->id_guru,
             'id_mapel'       => $request->id_mapel,
-            'id_ruangan'     => $request->id_ruangan,
+            'id_ruangan'     => $ruanganId,
             'hari'           => $request->hari,
             'id_jam_mulai'   => $request->id_jam_mulai,
             'id_jam_selesai' => $request->id_jam_selesai,
@@ -171,6 +216,181 @@ class JadwalController extends Controller
 
         return redirect()->route('jadwal.index')
                          ->with('success', 'Data jadwal pelajaran berhasil ditambahkan!');
+    }
+
+    /**
+     * [DOWNLOAD TEMPLATE] Download Template File Excel/CSV untuk Import Jadwal Pelajaran Baru
+     */
+    public function downloadTemplate()
+    {
+        $headers = [
+            "Content-Type"        => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename=Template_Tambah_Jadwal_Pelajaran.csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['NO', 'HARI', 'JAM MULAI (KE-)', 'JAM SELESAI (KE-)', 'GURU PENGAMPU', 'MATA PELAJARAN', 'RUANGAN', 'KELAS TARGET'];
+
+        $callback = function() use ($columns) {
+            $file = fopen('php://output', 'w');
+            fputs($file, "\xEF\xBB\xBF");
+            fputcsv($file, $columns);
+
+            fputcsv($file, [1, 'Senin', 1, 3, 'Eko Saputro, S.Pd', 'Pemrograman Web', 'Lab. RPL 1', 'X RPL 1']);
+            fputcsv($file, [2, 'Senin', 4, 6, 'Diana Hartanti, S.T., M.Pd', 'Basis Data', 'Lab. RPL 1', 'X RPL 1']);
+            fputcsv($file, [3, 'Senin', 7, 10, 'Budi Santoso, S.Pd', 'Matematika', 'Ruang Teori 04', 'X RPL 1']);
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * [STORE BATCH] Memproses & menyimpan banyak data jadwal sekaligus (berdasarkan per kelas)
+     */
+    public function storeBatch(Request $request)
+    {
+        $request->validate([
+            'id_kelas' => 'required|exists:kelas,id_kelas',
+            'items'    => 'required|array|min:1',
+            'items.*.hari'           => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat',
+            'items.*.id_jam_mulai'   => 'required|exists:jam_pelajaran,id_jam',
+            'items.*.id_jam_selesai' => 'required|exists:jam_pelajaran,id_jam',
+            'items.*.id_guru'        => 'required|exists:guru,id_guru',
+            'items.*.id_mapel'       => 'required|exists:mapel,id_mapel',
+            'items.*.id_ruangan'     => 'required',
+        ], [
+            'id_kelas.required' => 'Kelas target wajib dipilih.',
+            'items.required'    => 'Minimal harus ada 1 baris data jadwal yang diisi.',
+            'items.min'         => 'Minimal harus ada 1 baris data jadwal yang diisi.',
+            'items.*.hari.required' => 'Hari wajib dipilih pada setiap baris.',
+            'items.*.id_jam_mulai.required' => 'Jam Mulai wajib dipilih pada setiap baris.',
+            'items.*.id_jam_selesai.required' => 'Jam Selesai wajib dipilih pada setiap baris.',
+            'items.*.id_guru.required' => 'Guru Pengampu wajib dipilih pada setiap baris.',
+            'items.*.id_mapel.required' => 'Mata Pelajaran wajib dipilih pada setiap baris.',
+            'items.*.id_ruangan.required' => 'Ruangan wajib dipilih pada setiap baris.',
+        ]);
+
+        $idKelas = (int) $request->id_kelas;
+        $kelas = Kelas::find($idKelas);
+        $namaKelas = $kelas ? $kelas->nama_kelas : 'Kelas';
+
+        $items = $request->items;
+        $processedItems = [];
+        $errors = [];
+        $internalEntries = [];
+
+        foreach ($items as $idx => $item) {
+            $rowNum = $idx + 1;
+            $hari = $item['hari'];
+            $idJamMulai = (int) $item['id_jam_mulai'];
+            $idJamSelesai = (int) $item['id_jam_selesai'];
+            $idGuru = (int) $item['id_guru'];
+            $idMapel = (int) $item['id_mapel'];
+            $idRuanganRaw = $item['id_ruangan'];
+            $namaRuanganCustom = trim($item['nama_ruangan_custom'] ?? '');
+
+            // Resolve custom ruangan if selected
+            $ruanganId = null;
+            if ($idRuanganRaw === 'custom' || (!empty($namaRuanganCustom) && ($idRuanganRaw === 'custom' || empty($idRuanganRaw)))) {
+                if (empty($namaRuanganCustom)) {
+                    $errors[] = "Baris ke-{$rowNum}: Nama Ruangan Baru (Custom) wajib diisi jika memilih opsi custom.";
+                    continue;
+                }
+                $existingR = Ruangan::where('nama_ruangan', 'like', $namaRuanganCustom)->first();
+                if ($existingR) {
+                    $ruanganId = $existingR->id_ruangan;
+                } else {
+                    $newR = Ruangan::create([
+                        'nama_ruangan'  => $namaRuanganCustom,
+                        'jenis_ruangan' => 'Kelas Biasa',
+                    ]);
+                    $ruanganId = $newR->id_ruangan;
+                }
+            } else {
+                $ruanganId = (int) $idRuanganRaw;
+            }
+
+            // Validate Jam Selesai >= Jam Mulai
+            if ($idJamSelesai < $idJamMulai) {
+                $errors[] = "Baris ke-{$rowNum}: Jam Selesai (Ke-{$idJamSelesai}) tidak boleh lebih kecil dari Jam Mulai (Ke-{$idJamMulai}).";
+                continue;
+            }
+
+            // Validate Monday-Thursday max Jam Ke-10
+            if (in_array($hari, ['Senin', 'Selasa', 'Rabu', 'Kamis'])) {
+                if ($idJamMulai > 10 || $idJamSelesai > 10) {
+                    $errors[] = "Baris ke-{$rowNum}: Hari {$hari} jam pelajaran maksimal adalah Jam Ke-10 (07:00 - 15:00 WIB).";
+                    continue;
+                }
+            }
+
+            // Internal check against other rows in the SAME submitted batch
+            foreach ($internalEntries as $prevIdx => $prev) {
+                if ($prev['hari'] === $hari) {
+                    if ($idJamMulai <= $prev['id_jam_selesai'] && $idJamSelesai >= $prev['id_jam_mulai']) {
+                        $errors[] = "Baris ke-{$rowNum} bentrok dengan Baris ke-" . ($prevIdx + 1) . ": Terdapat tumpang tindih waktu jam pelajaran pada hari {$hari} (Jam Ke-{$idJamMulai} s/d {$idJamSelesai} dengan Jam Ke-{$prev['id_jam_mulai']} s/d {$prev['id_jam_selesai']}).";
+                        if ($prev['id_guru'] == $idGuru) {
+                            $errors[] = "Baris ke-{$rowNum} bentrok dengan Baris ke-" . ($prevIdx + 1) . ": Guru yang sama diinput pada jam & hari yang bersamaan.";
+                        }
+                        if ($prev['id_ruangan'] == $ruanganId) {
+                            $errors[] = "Baris ke-{$rowNum} bentrok dengan Baris ke-" . ($prevIdx + 1) . ": Ruangan yang sama diinput pada jam & hari yang bersamaan.";
+                        }
+                    }
+                }
+            }
+
+            // External check against database records
+            $conflictError = $this->checkConflict(
+                $hari,
+                $idJamMulai,
+                $idJamSelesai,
+                $idGuru,
+                $idKelas,
+                $ruanganId,
+                $idMapel
+            );
+
+            if ($conflictError) {
+                $errors[] = "Baris ke-{$rowNum} (Hari {$hari}, Jam Ke-{$idJamMulai} s/d {$idJamSelesai}): " . $conflictError;
+            }
+
+            $internalEntries[] = [
+                'hari'           => $hari,
+                'id_jam_mulai'   => $idJamMulai,
+                'id_jam_selesai' => $idJamSelesai,
+                'id_guru'        => $idGuru,
+                'id_ruangan'     => $ruanganId,
+            ];
+
+            $processedItems[] = [
+                'id_kelas'       => $idKelas,
+                'id_guru'        => $idGuru,
+                'id_mapel'       => $idMapel,
+                'id_ruangan'     => $ruanganId,
+                'hari'           => $hari,
+                'id_jam_mulai'   => $idJamMulai,
+                'id_jam_selesai' => $idJamSelesai,
+            ];
+        }
+
+        if (!empty($errors)) {
+            return back()->withInput()->withErrors(['batch_errors' => $errors]);
+        }
+
+        // Save atomically in database transaction
+        DB::transaction(function () use ($processedItems) {
+            foreach ($processedItems as $itemData) {
+                Jadwal::create($itemData);
+            }
+        });
+
+        $totalAdded = count($processedItems);
+        return redirect()->route('jadwal.index')
+                         ->with('success', "Berhasil menambahkan {$totalAdded} data jadwal pelajaran secara cepat untuk {$namaKelas}!");
     }
 
     /**
@@ -213,30 +433,43 @@ class JadwalController extends Controller
     {
         $jadwal = Jadwal::findOrFail($id);
 
-        $request->validate([
+        $rules = [
             'id_kelas'       => 'required|exists:kelas,id_kelas',
             'id_guru'        => 'required|exists:guru,id_guru',
             'id_mapel'       => 'required|exists:mapel,id_mapel',
-            'id_ruangan'     => 'required|exists:ruangan,id_ruangan',
+            'id_ruangan'     => 'required',
             'hari'           => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat',
             'id_jam_mulai'   => 'required|exists:jam_pelajaran,id_jam',
             'id_jam_selesai' => 'required|exists:jam_pelajaran,id_jam',
-        ], [
+        ];
+
+        $messages = [
             'id_kelas.required'       => 'Kelas wajib dipilih.',
             'id_kelas.exists'         => 'Kelas tidak ditemukan.',
             'id_guru.required'        => 'Guru wajib dipilih.',
             'id_guru.exists'          => 'Guru tidak ditemukan.',
             'id_mapel.required'       => 'Mata Pelajaran wajib dipilih.',
             'id_mapel.exists'         => 'Mata Pelajaran tidak ditemukan.',
-            'id_ruangan.required'     => 'Ruangan wajib dipilih.',
-            'id_ruangan.exists'       => 'Ruangan tidak ditemukan.',
+            'id_ruangan.required'     => 'Ruangan wajib dipilih atau diisi.',
             'hari.required'           => 'Hari wajib dipilih.',
             'hari.in'                 => 'Hari pilihan tidak valid.',
             'id_jam_mulai.required'   => 'Jam Mulai wajib dipilih.',
             'id_jam_mulai.exists'     => 'Jam Mulai yang dipilih tidak ditemukan di Master Jam Pelajaran.',
             'id_jam_selesai.required' => 'Jam Selesai wajib dipilih.',
             'id_jam_selesai.exists'   => 'Jam Selesai yang dipilih tidak ditemukan di Master Jam Pelajaran.',
-        ]);
+        ];
+
+        if ($request->id_ruangan === 'custom') {
+            $rules['nama_ruangan_custom'] = 'required|string|max:50';
+            $messages['nama_ruangan_custom.required'] = 'Nama Ruangan Baru (Custom) wajib diisi.';
+        }
+
+        $request->validate($rules, $messages);
+
+        $ruanganId = $this->resolveRuanganId($request);
+        if (!$ruanganId) {
+            return back()->withInput()->withErrors(['id_ruangan' => 'Ruangan wajib dipilih atau diisi dengan benar.']);
+        }
 
         if ((int) $request->id_jam_selesai < (int) $request->id_jam_mulai) {
             return back()->withInput()->withErrors(['id_jam_selesai' => 'Jam selesai tidak boleh lebih kecil dari jam mulai.']);
@@ -255,7 +488,7 @@ class JadwalController extends Controller
             (int) $request->id_jam_selesai,
             (int) $request->id_guru,
             (int) $request->id_kelas,
-            (int) $request->id_ruangan,
+            (int) $ruanganId,
             (int) $request->id_mapel,
             (int) $id
         );
@@ -268,7 +501,7 @@ class JadwalController extends Controller
             'id_kelas'       => $request->id_kelas,
             'id_guru'        => $request->id_guru,
             'id_mapel'       => $request->id_mapel,
-            'id_ruangan'     => $request->id_ruangan,
+            'id_ruangan'     => $ruanganId,
             'hari'           => $request->hari,
             'id_jam_mulai'   => $request->id_jam_mulai,
             'id_jam_selesai' => $request->id_jam_selesai,
@@ -352,6 +585,28 @@ class JadwalController extends Controller
 
         return redirect()->route('jadwal.index')
                          ->with('success', "Data jadwal \"$info\" berhasil dipindahkan ke Tempat Sampah.");
+    }
+
+    /**
+     * [SOFT DELETE BATCH] Tandai banyak jadwal sekaligus sebagai dihapus (Recycle Bin)
+     */
+    public function destroyBatch(Request $request)
+    {
+        $request->validate([
+            'ids'   => 'required|array|min:1',
+            'ids.*' => 'exists:jadwal,id_jadwal',
+        ], [
+            'ids.required' => 'Pilih minimal 1 data jadwal yang ingin dihapus.',
+            'ids.min'      => 'Pilih minimal 1 data jadwal yang ingin dihapus.',
+        ]);
+
+        $ids = $request->ids;
+        $count = count($ids);
+
+        Jadwal::whereIn('id_jadwal', $ids)->delete();
+
+        return redirect()->route('jadwal.index')
+                         ->with('success', "Berhasil memindahkan {$count} data jadwal pelajaran pilihan ke Tempat Sampah.");
     }
 
     /**

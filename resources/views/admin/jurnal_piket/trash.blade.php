@@ -218,6 +218,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tong Sampah — Jurnal Piket</h1>
+            <p>Daftar catatan jurnal piket yang dihapus sementara (soft delete)</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('admin.jurnal-piket') }}"><i class="fa-solid fa-clipboard-user"></i> Monitoring & Jurnal Piket</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>

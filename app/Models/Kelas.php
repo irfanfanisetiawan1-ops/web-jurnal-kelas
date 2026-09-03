@@ -49,6 +49,14 @@ class Kelas extends Model
     }
 
     /**
+     * Relasi ke Jadwal yang ada di kelas ini
+     */
+    public function jadwals()
+    {
+        return $this->hasMany(Jadwal::class, 'id_kelas', 'id_kelas');
+    }
+
+    /**
      * Mendapatkan jumlah siswa riil yang terdaftar / tersambung di kelas ini
      */
     public function getJumlahSiswaRealAttribute()

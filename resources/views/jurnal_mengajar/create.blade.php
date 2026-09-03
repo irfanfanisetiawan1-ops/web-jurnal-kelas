@@ -271,18 +271,49 @@
     </a>
 
     <div class="card">
-        <div class="card-header">
-            <div class="card-icon">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="12" y1="8" x2="12" y2="14"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+        <div class="card-header" style="justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="card-icon">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="12" y1="8" x2="12" y2="14"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+                </div>
+                <div class="card-title">
+                    <h1>Catat Jurnal Mengajar</h1>
+                    <p>Isi formulir berikut untuk mencatat aktivitas mengajar & presensi siswa ke database</p>
+                </div>
             </div>
-            <div class="card-title">
-                <h1>Catat Jurnal Mengajar</h1>
-                <p>Isi formulir berikut untuk mencatat aktivitas mengajar & presensi siswa ke database</p>
-            </div>
+            @include('partials.live-clock')
         </div>
 
         <form action="{{ route('jurnal-mengajar.store') }}" method="POST" id="createForm">
             @csrf
+
+            @if(isset($penugasanPengganti) && $penugasanPengganti)
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 18px; margin-bottom: 24px; color: #1e3a8a; font-size: 13.5px; box-shadow: 0 4px 12px rgba(37,99,235,0.06);">
+                    <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 15px; margin-bottom: 6px; color: #1d4ed8;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        <span>Penugasan Guru Pengganti / Piket Aktif</span>
+                    </div>
+                    <p style="margin-bottom: 8px; color: #1e40af;">Anda bertugas mengisi kelas ini menggantikan <strong>{{ $penugasanPengganti->guruTidakHadir->nama_guru ?? 'Guru Utama' }}</strong> yang berhalangan hadir.</p>
+                    
+                    @if($penugasanPengganti->materi_dititipkan)
+                        <div style="background: #ffffff; padding: 10px 14px; border-radius: 10px; border: 1px solid #dbeafe; margin-top: 8px;">
+                            <strong style="color: #1e293b;">📚 Materi Dititipkan:</strong> {{ $penugasanPengganti->materi_dititipkan }}
+                        </div>
+                    @endif
+                    @if($penugasanPengganti->tugas_dititipkan)
+                        <div style="background: #ffffff; padding: 10px 14px; border-radius: 10px; border: 1px solid #dbeafe; margin-top: 8px;">
+                            <strong style="color: #1e293b;">📝 Tugas / Instruksi Dititipkan:</strong> {{ $penugasanPengganti->tugas_dititipkan }}
+                        </div>
+                    @endif
+                    @if($penugasanPengganti->file_tugas)
+                        <div style="margin-top: 10px;">
+                            <a href="{{ asset('uploads/tugas_pengganti/' . $penugasanPengganti->file_tugas) }}" target="_blank" style="color: #2563eb; font-weight: 800; text-decoration: underline; display: inline-flex; align-items: center; gap: 6px;">
+                                📥 Unduh Lampiran File Tugas Dititipkan
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            @endif
 
             <div class="form-grid">
                 
@@ -290,9 +321,12 @@
                 <div class="form-group full-width">
                     <label for="id_jadwal">Jadwal Pelajaran <span class="required">*</span></label>
                     <select name="id_jadwal" id="id_jadwal" class="@error('id_jadwal') input-error @enderror" required onchange="loadSiswaByJadwal(this.value)">
-                        <option value="" disabled {{ old('id_jadwal') ? '' : 'selected' }}>-- Pilih Jadwal Pelajaran --</option>
+                        <option value="" disabled {{ (old('id_jadwal') || isset($selectedJadwal)) ? '' : 'selected' }}>-- Pilih Jadwal Pelajaran --</option>
                         @foreach($jadwals as $j)
-                            <option value="{{ $j->id_jadwal }}" {{ old('id_jadwal') == $j->id_jadwal ? 'selected' : '' }}>
+                            @php
+                                $isSelected = (old('id_jadwal') == $j->id_jadwal) || (isset($selectedJadwal) && $selectedJadwal->id_jadwal == $j->id_jadwal);
+                            @endphp
+                            <option value="{{ $j->id_jadwal }}" {{ $isSelected ? 'selected' : '' }}>
                                 {{ $j->hari }} ({{ $j->jam_mulai_formatted }} - {{ $j->jam_selesai_formatted }}) — {{ $j->kelas->nama_kelas ?? 'Kelas' }} | {{ $j->mapel->nama_mapel ?? 'Mapel' }} ({{ $j->guru->nama_guru ?? 'Guru' }})
                             </option>
                         @endforeach
@@ -305,7 +339,7 @@
                 <!-- Tanggal -->
                 <div class="form-group">
                     <label for="tanggal">Tanggal Mengajar <span class="required">*</span></label>
-                    <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal', date('Y-m-d')) }}" class="@error('tanggal') input-error @enderror" required>
+                    <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal', $todayDate ?? date('Y-m-d')) }}" class="@error('tanggal') input-error @enderror" required>
                     @error('tanggal')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
@@ -327,7 +361,7 @@
                 <!-- Materi Pembelajaran -->
                 <div class="form-group full-width">
                     <label for="materi">Materi Pembelajaran <span class="required">*</span></label>
-                    <textarea name="materi" id="materi" placeholder="Tuliskan pokok pembahasan / materi yang diajarkan..." class="@error('materi') input-error @enderror" required>{{ old('materi') }}</textarea>
+                    <textarea name="materi" id="materi" placeholder="Tuliskan pokok pembahasan / materi yang diajarkan..." class="@error('materi') input-error @enderror" required>{{ old('materi', isset($penugasanPengganti) ? ($penugasanPengganti->materi_dititipkan ?? '') : '') }}</textarea>
                     @error('materi')
                         <div class="error-message">{{ $message }}</div>
                     @enderror

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tempat Sampah Jam Pelajaran — Jurnal ESEMKITA')
+@section('title', 'Tempat Sampah Jam Pelajaran — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -151,6 +151,14 @@
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tong Sampah — Jam Pelajaran</h1>
+            <p>Daftar alokasi jam pelajaran yang dihapus sementara (soft delete)</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <a href="{{ route('jam-pelajaran.index') }}"><i class="fa-regular fa-clock"></i> Master Jam Pelajaran</a>

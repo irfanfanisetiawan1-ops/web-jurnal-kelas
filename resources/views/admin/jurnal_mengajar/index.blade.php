@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Akademik - Jurnal Mengajar — Jurnal ESEMKITA')
+@section('title', 'Akademik - Jurnal Mengajar — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -131,6 +131,66 @@
         color: #1e293b;
         border-bottom: 1px solid #fecaca;
         vertical-align: middle;
+    }
+
+    /* Pagination for Laporan Guru Alpa */
+    .alpa-pagination-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px dashed #fca5a5;
+    }
+
+    .alpa-pagination-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .alpa-page-btn {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 10px;
+        border: none;
+        background: transparent;
+        color: #334155;
+        font-size: 13.5px;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        font-family: inherit;
+    }
+
+    .alpa-page-btn:hover:not(:disabled) {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+    .alpa-page-btn.active {
+        background: #1e293b;
+        color: #ffffff !important;
+        box-shadow: 0 2px 5px rgba(30, 41, 59, 0.3);
+    }
+
+    .alpa-page-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+
+    .alpa-page-btn.alpa-nav-btn {
+        font-size: 12px;
+        color: #64748b;
     }
 
     .badge-alpa-red {
@@ -665,7 +725,7 @@
         </div>
 
         <div style="overflow-x: auto;">
-            <table class="table-alpa">
+            <table class="table-alpa" id="tableGuruAlpa">
                 <thead>
                     <tr>
                         <th style="width: 100px;">JAM</th>
@@ -674,9 +734,9 @@
                         <th>STATUS</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbodyGuruAlpa">
                     @forelse($guruAlpaList as $alpa)
-                        <tr>
+                        <tr class="alpa-row">
                             <td><strong>{{ $alpa->jam_range ?? '-' }}</strong></td>
                             <td>
                                 <strong>{{ $alpa->guru->nama_guru ?? '-' }}</strong><br>
@@ -696,6 +756,19 @@
                 </tbody>
             </table>
         </div>
+
+        {{-- Pagination Bar untuk Laporan Guru Alpa --}}
+        <div class="alpa-pagination-wrapper" id="alpaPaginationWrapper">
+            <div class="alpa-pagination-container">
+                <button type="button" class="alpa-page-btn alpa-nav-btn" id="alpaPrevBtn" title="Halaman Sebelumnya">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <div id="alpaPageNumbers" style="display: inline-flex; gap: 4px;"></div>
+                <button type="button" class="alpa-page-btn alpa-nav-btn" id="alpaNextBtn" title="Halaman Selanjutnya">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Header Navy Banner -->
@@ -704,8 +777,13 @@
         <span>Daftar Jurnal Mengajar</span>
     </div>
 
-    <!-- Filter Section Bar (With Reset Button) -->
+    <!-- Filter Section Bar (With Search & Reset Button) -->
     <form action="{{ route('admin.jurnal-mengajar') }}" method="GET" class="filter-section-bar">
+        <div style="position:relative; flex:1; min-width:180px;">
+            <input type="text" name="search" value="{{ $search ?? '' }}" class="filter-control-date" style="width:100%; padding-left:34px;" placeholder="Cari Materi / Catatan / Guru...">
+            <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
+        </div>
+
         <div style="display: flex; align-items: center; gap: 6px;">
             <i class="fa-regular fa-calendar" style="color: #64748b;"></i>
             <input type="date" name="tanggal" value="{{ $tanggal ?? '' }}" class="filter-control-date" title="Filter Tanggal">
@@ -749,7 +827,7 @@
             <span>Filter</span>
         </button>
 
-        @if($tanggal || $idGuru || $idKelas || $idMapel || $status)
+        @if(!empty($search) || !empty($tanggal) || !empty($idGuru) || !empty($idKelas) || !empty($idMapel) || !empty($status))
             <a href="{{ route('admin.jurnal-mengajar') }}" class="btn-filter-reset" title="Reset semua filter">
                 <i class="fa-solid fa-rotate-left"></i>
                 <span>Reset</span>
@@ -1154,5 +1232,78 @@
     function closeCreateModal() {
         document.getElementById('createModal').classList.remove('active');
     }
+
+    // ── Pagination for Laporan Guru Alpa Table ─────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+        const rowsPerPage = 5;
+        const rows = document.querySelectorAll('#tbodyGuruAlpa tr.alpa-row');
+        const totalRows = rows.length;
+        const paginationWrapper = document.getElementById('alpaPaginationWrapper');
+        const pageNumbersContainer = document.getElementById('alpaPageNumbers');
+        const prevBtn = document.getElementById('alpaPrevBtn');
+        const nextBtn = document.getElementById('alpaNextBtn');
+
+        if (!paginationWrapper) return;
+
+        if (totalRows <= rowsPerPage) {
+            paginationWrapper.style.display = 'none';
+            return;
+        }
+
+        paginationWrapper.style.display = 'flex';
+        let currentPage = 1;
+        const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+        function showPage(page) {
+            currentPage = page;
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            rows.forEach((row, index) => {
+                row.style.display = (index >= start && index < end) ? '' : 'none';
+            });
+
+            renderPageNumbers();
+            if (prevBtn) prevBtn.disabled = (currentPage === 1);
+            if (nextBtn) nextBtn.disabled = (currentPage === totalPages);
+        }
+
+        function renderPageNumbers() {
+            if (!pageNumbersContainer) return;
+            pageNumbersContainer.innerHTML = '';
+
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'alpa-page-btn' + (i === currentPage ? ' active' : '');
+                btn.textContent = i;
+                btn.addEventListener('click', function () {
+                    showPage(i);
+                });
+                pageNumbersContainer.appendChild(btn);
+            }
+        }
+
+        if (prevBtn) {
+            prevBtn.onclick = function () {
+                if (currentPage > 1) showPage(currentPage - 1);
+            };
+        }
+
+        if (nextBtn) {
+            nextBtn.onclick = function () {
+                if (currentPage < totalPages) showPage(currentPage + 1);
+            };
+        }
+
+        showPage(1);
+    });
 </script>
 @endsection

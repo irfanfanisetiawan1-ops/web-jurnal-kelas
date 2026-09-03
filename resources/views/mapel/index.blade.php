@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Master Data - Mapel — Jurnal ESEMKITA')
+@section('title', 'Master Data - Mapel — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -399,10 +399,78 @@
         color: #9f1239;
         border: 1px solid #fecdd3;
     }
+
+    /* Modal Overlay */
+    .modal-bg {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+    }
+    .modal-bg.active { display: flex; }
+    .modal-box {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 420px;
+        width: 90%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+    .modal-icon-wrap {
+        width: 52px;
+        height: 52px;
+        background: #ffe4e6;
+        color: #be123c;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px;
+        font-size: 24px;
+    }
+    .modal-box h3 { font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+    .modal-box p { font-size: 14px; color: #64748b; margin-bottom: 24px; line-height: 1.5; }
+    .modal-actions { display: flex; gap: 12px; }
+    .btn-m-cancel {
+        flex: 1;
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+        padding: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+    .btn-m-confirm {
+        flex: 1;
+        background: linear-gradient(135deg, #e11d48, #be123c);
+        color: #ffffff;
+        border: none;
+        padding: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+    }
 </style>
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Master Data — Mata Pelajaran</h1>
+            <p>Kelola daftar kurikulum mata pelajaran dan kelompok mapel sekolah</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <i class="fa-solid fa-book"></i>
@@ -473,70 +541,87 @@
                         <input type="hidden" name="selected_id" value="{{ $selected_id }}">
                     @endif
                     <div style="position:relative; flex:1; min-width:220px;">
-                        <input type="text" name="search" class="form-control" style="padding-left:36px;" value="{{ $search ?? '' }}" placeholder="Cari Nama / Kode Mapel..">
+                        <input type="text" name="search" class="form-control" style="padding-left:36px; background:#ffffff;" value="{{ $search ?? '' }}" placeholder="Cari Nama / Kode Mapel..">
                         <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
                     </div>
 
                     <button type="submit" class="btn-filter">Cari</button>
                     <a href="{{ route('mapel.index') }}" class="btn-reset">Reset</a>
+                    <button type="button" id="btnBulkDelete" class="btn-action btn-delete" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,29,72,0.15); border: none;" disabled onclick="confirmBulkDelete()" title="Pilih mapel dengan mencentang checkbox untuk menghapus secara massal">
+                        <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
+                    </button>
                 </form>
 
-                <div class="table-responsive">
-                    <table class="table-custom">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;">NO</th>
-                                <th>KODE</th>
-                                <th>NAMA MAPEL</th>
-                                <th style="text-align:center;">JUMLAH PENGAMPU</th>
-                                <th style="text-align:center; min-width: 220px;">AKSI</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($mapels as $index => $m)
-                                <tr class="{{ isset($selectedMapel) && $selectedMapel->id_mapel == $m->id_mapel ? 'active-row' : '' }}">
-                                    <td><strong>{{ $index + 1 }}</strong></td>
-                                    <td><span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $m->kode_mapel ?? '-' }}</span></td>
-                                    <td><strong>{{ $m->nama_mapel }}</strong></td>
-                                    <td style="text-align:center;">
-                                        <span style="background:#fce7f3; color:#be185d; font-weight:800; padding:4px 12px; border-radius:10px; font-size:12px;">
-                                            {{ $m->gurus_count ?? count($m->gurus) }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <div class="action-buttons">
-                                            <!-- 1. LIHAT DETAIL - Disebelah kiri Edit & Hapus -->
-                                            <a href="{{ route('mapel.index', ['search' => $search, 'selected_id' => $m->id_mapel]) }}" class="btn-action btn-view" title="Lihat Detail Mapel & Guru Pengampu">
-                                                <i class="fa-solid fa-eye"></i> Lihat Detail
-                                            </a>
+                <form id="formBulkDelete" action="{{ route('mapel.destroy-batch') }}" method="POST">
+                    @csrf
+                    @method('DELETE')
 
-                                            <!-- 2. EDIT - Disebelah kiri Hapus -->
-                                            <a href="{{ route('mapel.edit', $m->id_mapel) }}" class="btn-action btn-edit" title="Edit Data Mapel">
-                                                <i class="fa-solid fa-pen-to-square"></i> Edit
-                                            </a>
+                    <div class="table-responsive">
+                        <table class="table-custom">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px; text-align: center;">
+                                        <input type="checkbox" id="selectAllMapel" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" title="Pilih Semua (Select All)">
+                                    </th>
+                                    <th style="width: 50px;">NO</th>
+                                    <th>KODE</th>
+                                    <th>NAMA MAPEL</th>
+                                    <th style="text-align:center;">JUMLAH PENGAMPU</th>
+                                    <th style="text-align:center; min-width: 220px;">AKSI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($mapels as $index => $m)
+                                    <tr class="{{ isset($selectedMapel) && $selectedMapel->id_mapel == $m->id_mapel ? 'active-row' : '' }}">
+                                        <td style="text-align: center;">
+                                            <input type="checkbox" name="ids[]" value="{{ $m->id_mapel }}" class="mapel-select-checkbox" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" onchange="updateBulkDeleteState()">
+                                        </td>
+                                        <td><strong>{{ $index + 1 }}</strong></td>
+                                        <td><span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $m->kode_mapel ?? '-' }}</span></td>
+                                        <td><strong>{{ $m->nama_mapel }}</strong></td>
+                                        <td style="text-align:center;">
+                                            <span style="background:#fce7f3; color:#be185d; font-weight:800; padding:4px 12px; border-radius:10px; font-size:12px;">
+                                                {{ $m->gurus_count ?? count($m->gurus) }}
+                                            </span>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <div class="action-buttons">
+                                                <!-- 1. LIHAT DETAIL - Disebelah kiri Edit & Hapus -->
+                                                <a href="{{ route('mapel.index', ['search' => $search ?? '', 'selected_id' => $m->id_mapel]) }}" class="btn-action btn-view" title="Lihat Detail Mapel & Guru Pengampu">
+                                                    <i class="fa-solid fa-eye"></i> Lihat Detail
+                                                </a>
 
-                                            <!-- 3. HAPUS - Paling kanan -->
-                                            <form action="{{ route('mapel.destroy', $m->id_mapel) }}" method="POST" style="display:inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-action btn-delete" onclick="return confirm('Apakah Anda yakin ingin memindahkan {{ addslashes($m->nama_mapel) }} ke tempat sampah?')" title="Hapus Mapel">
+                                                <!-- 2. EDIT - Disebelah kiri Hapus -->
+                                                <a href="{{ route('mapel.edit', $m->id_mapel) }}" class="btn-action btn-edit" title="Edit Data Mapel">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                                </a>
+
+                                                <!-- 3. HAPUS - Paling kanan -->
+                                                <button type="button" class="btn-action btn-delete" onclick="if(confirm('Apakah Anda yakin ingin memindahkan {{ addslashes($m->nama_mapel) }} ke tempat sampah?')) { document.getElementById('singleDeleteForm-{{ $m->id_mapel }}').submit(); }" title="Hapus Mapel">
                                                     <i class="fa-solid fa-trash-can"></i> Hapus
                                                 </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" style="text-align:center; padding:36px; color:#94a3b8;">
-                                        <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>
-                                        Belum ada data Mata Pelajaran.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" style="text-align:center; padding:36px; color:#94a3b8;">
+                                            <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>
+                                            Belum ada data Mata Pelajaran.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+
+                @foreach($mapels as $m)
+                    <form id="singleDeleteForm-{{ $m->id_mapel }}" action="{{ route('mapel.destroy', $m->id_mapel) }}" method="POST" style="display:none;">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                @endforeach
             </div>
         </div>
 
@@ -657,5 +742,100 @@
         </div>
 
     </div>
+
+    <!-- Modal Confirm Bulk Delete -->
+    <div class="modal-bg" id="modalConfirmBulkDelete">
+        <div class="modal-box">
+            <div class="modal-icon-wrap">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <h3>Konfirmasi Hapus Terpilih</h3>
+            <p>Apakah Anda yakin ingin memindahkan <strong id="modalBulkCountText" style="color:#e11d48;">0 data mapel</strong> yang dicentang ke Tempat Sampah?</p>
+            <div class="modal-actions">
+                <button type="button" class="btn-m-cancel" onclick="closeBulkDeleteModal()">Batal</button>
+                <button type="button" class="btn-m-confirm" onclick="submitBulkDelete()">Ya, Hapus Data</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateBulkDeleteState() {
+            const checkedBoxes = document.querySelectorAll('.mapel-select-checkbox:checked');
+            const totalBoxes   = document.querySelectorAll('.mapel-select-checkbox');
+            const count        = checkedBoxes.length;
+            const btnBulkDelete= document.getElementById('btnBulkDelete');
+            const countSpan    = document.getElementById('bulkDeleteCount');
+            const selectAll    = document.getElementById('selectAllMapel');
+
+            if (countSpan) countSpan.textContent = count;
+
+            if (selectAll && totalBoxes.length > 0) {
+                selectAll.checked = (checkedBoxes.length === totalBoxes.length);
+            }
+
+            if (btnBulkDelete) {
+                if (count > 0) {
+                    btnBulkDelete.disabled = false;
+                    btnBulkDelete.style.opacity = '1';
+                    btnBulkDelete.style.cursor = 'pointer';
+                } else {
+                    btnBulkDelete.disabled = true;
+                    btnBulkDelete.style.opacity = '0.5';
+                    btnBulkDelete.style.cursor = 'not-allowed';
+                }
+            }
+        }
+
+        function confirmBulkDelete() {
+            const checkedBoxes = document.querySelectorAll('.mapel-select-checkbox:checked');
+            const count = checkedBoxes.length;
+
+            if (count === 0) {
+                alert('Silakan pilih minimal 1 data mapel yang ingin dihapus dengan mencentang kotak centang (checkbox).');
+                return;
+            }
+
+            const modalCountText = document.getElementById('modalBulkCountText');
+            if (modalCountText) {
+                modalCountText.textContent = count + ' data mapel';
+            }
+
+            const modal = document.getElementById('modalConfirmBulkDelete');
+            if (modal) {
+                modal.classList.add('active');
+            } else {
+                if (confirm(`Apakah Anda yakin ingin memindahkan ${count} data mapel yang dipilih ke Tempat Sampah?`)) {
+                    document.getElementById('formBulkDelete').submit();
+                }
+            }
+        }
+
+        function closeBulkDeleteModal() {
+            const modal = document.getElementById('modalConfirmBulkDelete');
+            if (modal) modal.classList.remove('active');
+        }
+
+        function submitBulkDelete() {
+            document.getElementById('formBulkDelete').submit();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const selectAll = document.getElementById('selectAllMapel');
+            if (selectAll) {
+                selectAll.addEventListener('change', function() {
+                    const checkboxes = document.querySelectorAll('.mapel-select-checkbox');
+                    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+                    updateBulkDeleteState();
+                });
+            }
+
+            const modalBulk = document.getElementById('modalConfirmBulkDelete');
+            if (modalBulk) {
+                modalBulk.addEventListener('click', function(e) {
+                    if (e.target === this) closeBulkDeleteModal();
+                });
+            }
+        });
+    </script>
 
 @endsection

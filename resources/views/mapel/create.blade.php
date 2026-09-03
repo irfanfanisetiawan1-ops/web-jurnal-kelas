@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Mapel Baru — Jurnal ESEMKITA')
+@section('title', 'Tambah Mapel Baru — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -147,6 +147,14 @@
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tambah Mata Pelajaran</h1>
+            <p>Input data mata pelajaran baru dalam sistem kurikulum</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <a href="{{ route('mapel.index') }}"><i class="fa-solid fa-book"></i> Master Mapel</a>

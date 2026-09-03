@@ -222,6 +222,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tong Sampah — Data Pengguna</h1>
+            <p>Daftar akun pengguna yang dihapus sementara (soft delete)</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('admin.verifikasi-guru') }}"><i class="fa-solid fa-users"></i> Master Data — Pengguna</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>

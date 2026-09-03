@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tempat Sampah Kelas — Jurnal ESEMKITA')
+@section('title', 'Tempat Sampah Kelas — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -151,6 +151,14 @@
 @endsection
 
 @section('content')
+
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tong Sampah — Data Kelas</h1>
+            <p>Daftar rombongan belajar kelas yang dihapus sementara (soft delete)</p>
+        </div>
+    </div>
 
     <div class="breadcrumb-text">
         <a href="{{ route('kelas.index') }}"><i class="fa-solid fa-school"></i> Data Kelas</a>

@@ -213,6 +213,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Edit Data Siswa</h1>
+            <p>Perbarui informasi profil, kelas, dan status data siswa</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('siswa.index') }}"><i class="fa-solid fa-graduation-cap"></i> Data Siswa</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
@@ -242,8 +250,8 @@
                     </div>
                     <input type="text" id="nis" name="nis" value="{{ old('nis', $siswa->nis) }}"
                         class="form-control {{ $errors->has('nis') ? 'is-invalid' : '' }}"
-                        placeholder="Contoh: 2122100001" maxlength="10" minlength="10" inputmode="numeric"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateDigitCounter(this, 'nisCounter');"
+                        placeholder="Contoh: 123 atau 2122100001" maxlength="10" minlength="3" inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateDigitCounter(this, 'nisCounter', true);"
                         required>
                     @error('nis')
                         <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
@@ -303,18 +311,34 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="kota_lahir">Kota Lahir</label>
-                    <input type="text" id="kota_lahir" name="kota_lahir" value="{{ old('kota_lahir', $siswa->kota_lahir) }}" class="form-control" placeholder="Tempat Lahir">
+                    <label for="kota_lahir">Kota Lahir <span style="color:#64748b; font-size:11px; font-weight:600;">(Opsional)</span></label>
+                    <input type="text" id="kota_lahir" name="kota_lahir" value="{{ old('kota_lahir', $siswa->kota_lahir) }}"
+                        class="form-control {{ $errors->has('kota_lahir') ? 'is-invalid' : '' }}"
+                        placeholder="Kota/Tempat Lahir (boleh dikosongkan)">
+                    <small style="font-size:11.5px; color:#94a3b8; margin-top:3px; display:block;"><i class="fa-solid fa-circle-info"></i> Opsional — boleh tidak diisi jika belum diketahui.</small>
+                    @error('kota_lahir')
+                        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="tanggal_lahir">Tanggal Lahir</label>
-                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $siswa->tanggal_lahir) }}" class="form-control">
+                    <label for="tanggal_lahir">Tanggal Lahir <span style="color:#ef4444;">*</span></label>
+                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $siswa->tanggal_lahir) }}"
+                        class="form-control {{ $errors->has('tanggal_lahir') ? 'is-invalid' : '' }}" required>
+                    @error('tanggal_lahir')
+                        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group" style="grid-column: 1 / -1;">
-                    <label for="alamat_lengkap">Alamat Lengkap</label>
-                    <textarea id="alamat_lengkap" name="alamat_lengkap" class="form-control" rows="3" placeholder="Masukkan Alamat Lengkap Siswa">{{ old('alamat_lengkap', $siswa->alamat_lengkap) }}</textarea>
+                    <label for="alamat_lengkap">Alamat Lengkap <span style="color:#64748b; font-size:11px; font-weight:600;">(Opsional)</span></label>
+                    <textarea id="alamat_lengkap" name="alamat_lengkap"
+                        class="form-control {{ $errors->has('alamat_lengkap') ? 'is-invalid' : '' }}"
+                        rows="3" placeholder="Masukkan Alamat Lengkap Siswa (boleh dikosongkan)">{{ old('alamat_lengkap', $siswa->alamat_lengkap) }}</textarea>
+                    <small style="font-size:11.5px; color:#94a3b8; margin-top:3px; display:block;"><i class="fa-solid fa-circle-info"></i> Opsional — boleh tidak diisi jika belum diketahui.</small>
+                    @error('alamat_lengkap')
+                        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -345,22 +369,23 @@
     </div>
 
     <script>
-        function updateDigitCounter(input, counterId) {
+        function updateDigitCounter(input, counterId, isNis = false) {
             const counter = document.getElementById(counterId);
             if (!counter) return;
             const len = input.value.length;
             counter.textContent = len + '/10 digit';
-            if (len === 10) {
-                counter.style.color = '#10b981';
+            if (isNis) {
+                // NIS valid: 3-10 digit
+                counter.style.color = (len >= 3 && len <= 10) ? '#10b981' : '#ef4444';
             } else {
-                counter.style.color = '#ef4444';
+                counter.style.color = (len === 10) ? '#10b981' : '#ef4444';
             }
         }
 
         document.addEventListener("DOMContentLoaded", function() {
             const nisInput = document.getElementById('nis');
             const nisnInput = document.getElementById('nisn');
-            if (nisInput) updateDigitCounter(nisInput, 'nisCounter');
+            if (nisInput) updateDigitCounter(nisInput, 'nisCounter', true);
             if (nisnInput) updateDigitCounter(nisnInput, 'nisnCounter');
         });
 

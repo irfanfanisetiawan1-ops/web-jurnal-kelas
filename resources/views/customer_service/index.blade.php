@@ -1,6 +1,6 @@
 @extends($layout)
 
-@section('title', 'Customer Service & Bantuan — Jurnal ESEMKITA')
+@section('title', 'Customer Service & Bantuan — EDU JOURNAL')
 @section('header_title', 'Customer Service')
 
 @section('styles')
@@ -84,6 +84,311 @@
         background: #1eb956;
         color: #ffffff;
         transform: scale(1.02);
+    }
+
+    /* ── ChatBot Styles (Clean Typography, No Icons/Emojis) ── */
+    .chatbot-card-wrapper {
+        border: 1px solid #cbd5e1;
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+        border-radius: 18px;
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .chatbot-header-bar {
+        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+        padding: 16px 24px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .bot-avatar-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .user-role-badge {
+        font-size: 12px;
+        font-weight: 700;
+        background: #dbeafe;
+        color: #1e40af;
+        padding: 6px 14px;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .btn-reset-chat {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        color: #64748b;
+        padding: 6px 14px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-reset-chat:hover {
+        background: #f1f5f9;
+        color: #1e293b;
+    }
+
+    .quick-topics-wrapper {
+        padding: 12px 24px;
+        background: #f8fafc;
+        border-bottom: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .quick-pills-scroll {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding: 2px 0 6px 0;
+        white-space: nowrap;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .quick-pills-scroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    .quick-topic-pill {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        color: #334155;
+        padding: 7px 16px;
+        border-radius: 20px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .quick-topic-pill:hover {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+    }
+
+    .chatbot-messages-body {
+        padding: 24px;
+        max-height: 420px;
+        height: 380px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        background: #ffffff;
+        scroll-behavior: smooth;
+    }
+
+    .chat-message {
+        display: flex;
+        gap: 12px;
+        max-width: 85%;
+    }
+
+    .chat-message.user-message {
+        margin-left: auto;
+        flex-direction: row-reverse;
+    }
+
+    .chat-message.bot-message {
+        margin-right: auto;
+    }
+
+    .bot-msg-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: #2563eb;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+        margin-top: 4px;
+    }
+
+    .user-msg-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: #475569;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+        margin-top: 4px;
+    }
+
+    .bot-msg-content {
+        background: #f1f5f9;
+        color: #1e293b;
+        padding: 14px 18px;
+        border-radius: 16px;
+        border-top-left-radius: 4px;
+        font-size: 13.5px;
+        line-height: 1.55;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .user-msg-content {
+        background: #2563eb;
+        color: #ffffff;
+        padding: 12px 18px;
+        border-radius: 16px;
+        border-top-right-radius: 4px;
+        font-size: 13.5px;
+        line-height: 1.5;
+        box-shadow: 0 3px 10px rgba(37, 99, 235, 0.2);
+    }
+
+    .bot-name {
+        font-size: 11px;
+        font-weight: 800;
+        color: #2563eb;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-bot-action-link {
+        display: inline-block;
+        background: #2563eb;
+        color: #ffffff !important;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 12.5px;
+        font-weight: 700;
+        text-decoration: none;
+        margin-top: 10px;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-bot-action-link:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+    }
+
+    .bot-suggestions-group {
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid #cbd5e1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .bot-sub-pill {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        color: #334155;
+        padding: 5px 12px;
+        border-radius: 14px;
+        font-size: 11.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .bot-sub-pill:hover {
+        background: #e2e8f0;
+        color: #0f172a;
+    }
+
+    .chatbot-input-footer {
+        padding: 16px 24px;
+        background: #f8fafc;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .chatbot-input-field {
+        flex: 1;
+        padding: 12px 18px;
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        font-size: 13.5px;
+        font-family: inherit;
+        outline: none;
+        transition: all 0.2s ease;
+        background: #ffffff;
+    }
+
+    .chatbot-input-field:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn-send-chat {
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 13.5px;
+        font-weight: 800;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-send-chat:hover {
+        background: #1d4ed8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Typing indicator animation */
+    .typing-dots {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 0;
+    }
+
+    .typing-dots span {
+        width: 7px;
+        height: 7px;
+        background: #64748b;
+        border-radius: 50%;
+        animation: typingBounce 1.4s infinite ease-in-out both;
+    }
+
+    .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typingBounce {
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1); }
     }
 
     /* Layout Content Grid */
@@ -304,13 +609,21 @@
 @endsection
 
 @section('content')
+
+<!-- Header Top Bar -->
+<div class="page-header-container">
+    <div class="page-title-group">
+        <h1>Customer Service & Bantuan</h1>
+        <p>Layanan bantuan teknis, pelaporan kendala sistem, dan pusat panduan</p>
+    </div>
+</div>
 <div class="cs-container">
     
     <!-- Header Section -->
     <div style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); border-radius: 18px; padding: 28px 32px; color: #ffffff; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
         <div>
             <span style="background: rgba(255, 255, 255, 0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Pusat Bantuan & Support</span>
-            <h2 style="font-size: 22px; font-weight: 800; margin-top: 6px;">Customer Service Jurnal ESEMKITA</h2>
+            <h2 style="font-size: 22px; font-weight: 800; margin-top: 6px;">Customer Service EDU JOURNAL</h2>
             <p style="font-size: 13.5px; color: #dbeafe; margin-top: 4px;">Kami siap membantu kendala penggunaan sistem presensi dan portal mengajar Anda.</p>
         </div>
         <div>
@@ -362,11 +675,80 @@
         </div>
     </div>
 
+    <!-- Asisten Virtual CS (Murni Tanpa Emoji & Bentuk) -->
+    <div class="chatbot-card-wrapper" id="chatbot-section">
+        <div class="chatbot-header-bar">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="bot-avatar-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h3 style="margin: 0; font-size: 17px; font-weight: 800; color: #0f172a;">
+                        Asisten Virtual CS <span style="background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-left: 6px;">AI Chat Bot</span>
+                    </h3>
+                    <p style="margin: 2px 0 0 0; font-size: 12.5px; color: #64748b;">
+                        Online 24/7 — Siap menjawab panduan, alur sistem & solusi masalah untuk <strong>{{ $user->role_label }}</strong>
+                    </p>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="user-role-badge">
+                    Role: {{ $user->role_label }}
+                </span>
+                <button type="button" class="btn-reset-chat" onclick="resetChatBot()" title="Reset Percakapan">
+                    Reset Chat
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Recommended Topics Pills (Teks Bersih Murni Tanpa Emoji & Bentuk) -->
+        <div class="quick-topics-wrapper">
+            <span style="font-size: 12px; font-weight: 800; color: #475569; display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+                Topik Cepat:
+            </span>
+            <div class="quick-pills-scroll">
+                @foreach($quickTopics as $topic)
+                    <button type="button" class="quick-topic-pill" onclick="sendQuickQuery('{{ addslashes($topic['query']) }}')">
+                        {{ $topic['label'] }}
+                    </button>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Chat Messages Body -->
+        <div class="chatbot-messages-body" id="chatbot-messages">
+            <!-- Initial Welcome Bot Message -->
+            <div class="chat-message bot-message">
+                <div class="bot-msg-avatar">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="bot-msg-content">
+                    <div class="bot-name">Asisten CS EDU JOURNAL</div>
+                    <div class="bot-text">
+                        Halo <strong>{{ $user->name }}</strong>,<br>
+                        Saya adalah Asisten Virtual CS EDU JOURNAL. Sebagai <strong>{{ $user->role_label }}</strong>, Anda dapat menanyakan tentang panduan fitur, alur kerja sistem, atau cara mengatasi kendala teknis yang terjadi pada sistem.<br><br>
+                        Silakan pilih <strong>Topik Cepat</strong> di atas atau ketikkan pertanyaan/masalah Anda pada kolom di bawah ini.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Input Footer -->
+        <div class="chatbot-input-footer">
+            <form id="chatbotForm" onsubmit="handleChatSubmit(event)" style="display: flex; gap: 10px; width: 100%;">
+                <input type="text" id="chatbotInput" class="chatbot-input-field" placeholder="Ketikkan pertanyaan atau kendala Anda di sini... (contoh: cara isi jurnal, reset password, barcode kadaluarsa)" autocomplete="off">
+                <button type="submit" class="btn-send-chat" id="btnSendChat">
+                    <span>Kirim</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- Main Content Area: Form & History -->
     <div class="cs-content-grid">
         
-        <!-- Left: Form Kirim Tiket CS -->
-        <div class="cs-section-card">
+        <!-- Left: Form Kirim Kendala CS -->
+        <div class="cs-section-card" id="form-tiket-cs">
             <div class="cs-section-header">
                 <h3><i class="fa-solid fa-pen-to-square" style="color: #2563eb;"></i> Form Kirim Kendala</h3>
             </div>
@@ -582,6 +964,161 @@
 
 @section('scripts')
 <script>
+    const CSRF_TOKEN = '{{ csrf_token() }}';
+    const CHATBOT_URL = '{{ route("customer-service.chatbot.ask") }}';
+
+    function sendQuickQuery(queryText) {
+        document.getElementById('chatbotInput').value = queryText;
+        processChatQuery(queryText);
+    }
+
+    function handleChatSubmit(e) {
+        e.preventDefault();
+        const input = document.getElementById('chatbotInput');
+        const queryText = input.value.trim();
+        if (!queryText) return;
+        processChatQuery(queryText);
+        input.value = '';
+    }
+
+    function processChatQuery(queryText) {
+        const messagesContainer = document.getElementById('chatbot-messages');
+
+        // Gelembung Pesan Pengguna
+        const userMsgHtml = `
+            <div class="chat-message user-message">
+                <div class="user-msg-avatar"><i class="fa-solid fa-user"></i></div>
+                <div class="user-msg-content">${escapeHtml(queryText)}</div>
+            </div>
+        `;
+        messagesContainer.insertAdjacentHTML('beforeend', userMsgHtml);
+        scrollToBottom();
+
+        // Indikator Mengetik
+        const typingId = 'typing-' + Date.now();
+        const typingHtml = `
+            <div class="chat-message bot-message" id="${typingId}">
+                <div class="bot-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+                <div class="bot-msg-content">
+                    <div class="bot-name">Asisten CS EDU JOURNAL</div>
+                    <div class="typing-dots"><span></span><span></span><span></span></div>
+                </div>
+            </div>
+        `;
+        messagesContainer.insertAdjacentHTML('beforeend', typingHtml);
+        scrollToBottom();
+
+        // Request AJAX ke Backend
+        fetch(CHATBOT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ query: queryText })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById(typingId)?.remove();
+
+            let actionBtnHtml = '';
+            if (data.action_button) {
+                if (data.action_button.trigger_form) {
+                    actionBtnHtml = `<br><button type="button" class="btn-bot-action-link" onclick="triggerTicketForm('${escapeHtml(data.topic)}')">
+                        ${data.action_button.label}
+                    </button>`;
+                } else {
+                    actionBtnHtml = `<br><a href="${data.action_button.url}" class="btn-bot-action-link">
+                        ${data.action_button.label}
+                    </a>`;
+                }
+            }
+
+            let suggestionsHtml = '';
+            if (data.quick_suggestions && data.quick_suggestions.length > 0) {
+                suggestionsHtml = `<div class="bot-suggestions-group">
+                    <span style="font-size: 11px; color: #64748b; font-weight: 700; width: 100%; margin-bottom: 2px;">Tanya topik terkait:</span>
+                    ${data.quick_suggestions.map(s => `<button type="button" class="bot-sub-pill" onclick="sendQuickQuery('${escapeHtml(s)}')">${escapeHtml(s)}</button>`).join('')}
+                </div>`;
+            }
+
+            const botMsgHtml = `
+                <div class="chat-message bot-message">
+                    <div class="bot-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div class="bot-msg-content">
+                        <div class="bot-name">Asisten CS — ${escapeHtml(data.topic)}</div>
+                        <div class="bot-text">${data.reply} ${actionBtnHtml} ${suggestionsHtml}</div>
+                    </div>
+                </div>
+            `;
+            messagesContainer.insertAdjacentHTML('beforeend', botMsgHtml);
+            scrollToBottom();
+        })
+        .catch(err => {
+            document.getElementById(typingId)?.remove();
+            const errorHtml = `
+                <div class="chat-message bot-message">
+                    <div class="bot-msg-avatar" style="background:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="bot-msg-content" style="background:#fef2f2; color:#991b1b;">
+                        <div class="bot-name" style="color:#dc2626;">Sistem Gangguan</div>
+                        Maaf, terjadi kesalahan koneksi saat memproses pertanyaan Anda. Silakan coba lagi atau kirimkan tiket bantuan melalui form di bawah.
+                    </div>
+                </div>
+            `;
+            messagesContainer.insertAdjacentHTML('beforeend', errorHtml);
+            scrollToBottom();
+        });
+    }
+
+    function scrollToBottom() {
+        const container = document.getElementById('chatbot-messages');
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function resetChatBot() {
+        const container = document.getElementById('chatbot-messages');
+        container.innerHTML = `
+            <div class="chat-message bot-message">
+                <div class="bot-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+                <div class="bot-msg-content">
+                    <div class="bot-name">Asisten CS EDU JOURNAL</div>
+                    <div class="bot-text">
+                        Percakapan telah di-reset. Silakan pilih topik rekomendasi di atas atau ketikkan pertanyaan baru Anda.
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function triggerTicketForm(subjekPreset) {
+        const kategoriSelect = document.getElementById('kategori');
+        const subjekInput = document.getElementById('subjek');
+        const pesanInput = document.getElementById('pesan');
+
+        if (subjekInput) {
+            subjekInput.value = 'Kendala: ' + subjekPreset;
+        }
+        if (kategoriSelect) {
+            kategoriSelect.value = 'Pertanyaan Sistem';
+        }
+        if (pesanInput) {
+            pesanInput.focus();
+        }
+
+        document.getElementById('kategori')?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
     function openRespondModal(ticketId, ticketCode, currentStatus, currentResponse) {
         const modal = document.getElementById('respondModal');
         const form = document.getElementById('respondForm');

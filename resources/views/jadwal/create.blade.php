@@ -315,16 +315,26 @@
                 <!-- Ruangan -->
                 <div class="form-group full-width">
                     <label for="id_ruangan">Ruangan <span class="required">*</span></label>
-                    <select name="id_ruangan" id="id_ruangan" class="@error('id_ruangan') input-error @enderror">
+                    <select name="id_ruangan" id="id_ruangan" class="@error('id_ruangan') input-error @enderror" onchange="toggleCustomRuangan(this)">
                         <option value="" disabled {{ old('id_ruangan') ? '' : 'selected' }} style="color:#94a3b8;">-- Pilih Ruangan --</option>
                         @foreach($ruangans as $r)
                             <option value="{{ $r->id_ruangan }}" {{ old('id_ruangan') == $r->id_ruangan ? 'selected' : '' }}>
                                 {{ $r->nama_ruangan }} ({{ $r->jenis_ruangan }})
                             </option>
                         @endforeach
+                        <option value="custom" {{ (old('id_ruangan') == 'custom' || old('nama_ruangan_custom')) ? 'selected' : '' }} style="font-weight:700; color:#2563eb;">+ Ketik Ruangan Baru (Custom)...</option>
                     </select>
                     <span style="font-size: 11.5px; color: #94a3b8; font-style: italic; margin-top: 3px;">Contoh saran: Lab. RPL 1 (Laboratorium)</span>
                     @error('id_ruangan')
+                        <div class="error-message">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group full-width" id="custom_ruangan_wrapper" style="display: {{ (old('id_ruangan') == 'custom' || old('nama_ruangan_custom')) ? 'flex' : 'none' }};">
+                    <label for="nama_ruangan_custom" style="color:#2563eb;">Nama Ruangan Baru (Custom) <span class="required">*</span></label>
+                    <input type="text" id="nama_ruangan_custom" name="nama_ruangan_custom" value="{{ old('nama_ruangan_custom') }}" class="@error('nama_ruangan_custom') input-error @enderror" placeholder="Contoh: Ruang Teori 05 / Lab. AI">
+                    <span style="font-size: 11.5px; color: #64748b; margin-top: 3px;">Ruangan baru ini akan tersimpan permanen di database dan muncul di seluruh pilihan ruangan sistem.</span>
+                    @error('nama_ruangan_custom')
                         <div class="error-message">{{ $message }}</div>
                     @enderror
                 </div>
@@ -333,6 +343,9 @@
 
             <div class="btn-group">
                 <a href="{{ route('jadwal.index') }}" class="btn-cancel">Batal</a>
+                <button type="button" class="btn-cancel" style="background:#fbbf24; color:#78350f; border:none; cursor:pointer;" onclick="resetCreateForm()">
+                    Reset Form
+                </button>
                 <button type="submit" class="btn-submit">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
                     Simpan Jadwal
@@ -345,6 +358,27 @@
 </div>
 
 <script>
+    function resetCreateForm() {
+        const form = document.getElementById('createForm');
+        if (form) {
+            form.reset();
+            const ruanganSelect = document.getElementById('id_ruangan');
+            if (ruanganSelect) toggleCustomRuangan(ruanganSelect);
+        }
+    }
+
+    function toggleCustomRuangan(selectEle) {
+        const wrapper = document.getElementById('custom_ruangan_wrapper');
+        const customInput = document.getElementById('nama_ruangan_custom');
+        if (selectEle && selectEle.value === 'custom') {
+            if (wrapper) wrapper.style.display = 'flex';
+            if (customInput) customInput.focus();
+        } else {
+            if (wrapper) wrapper.style.display = 'none';
+            if (customInput) customInput.value = '';
+        }
+    }
+
     function updateJamOptionsByHari() {
         const hariElem = document.getElementById('hari');
         if (!hariElem) return;

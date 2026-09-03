@@ -7,6 +7,7 @@ use App\Models\JurnalDetailKetidakhadiran;
 use App\Models\Jadwal;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JurnalMengajarController extends Controller
 {
@@ -34,16 +35,47 @@ class JurnalMengajarController extends Controller
     /**
      * [CREATE] Menampilkan form tambah jurnal mengajar
      */
-    public function create()
+    public function create(Request $request)
     {
-        $jadwals = Jadwal::with(['kelas', 'guru', 'mapel', 'ruangan'])
+        $user = Auth::user();
+        $todayDate = \Carbon\Carbon::now('Asia/Jakarta')->toDateString();
+
+        $selectedJadwal = null;
+        $penugasanPengganti = null;
+
+        if ($request->has('id_jadwal')) {
+            $selectedJadwal = Jadwal::with(['kelas', 'guru', 'mapel', 'ruangan'])->find($request->id_jadwal);
+            
+            if ($selectedJadwal) {
+                // Cek penugasan guru pengganti aktif untuk jadwal ini
+                $penugasanPengganti = \App\Models\PenugasanGuruPengganti::with(['guruTidakHadir', 'guruPengganti'])
+                    ->where(function($q) use ($selectedJadwal) {
+                        $q->where('id_jadwal', $selectedJadwal->id_jadwal)
+                          ->orWhere(function($q2) use ($selectedJadwal) {
+                              $q2->where('id_guru_tidak_hadir', $selectedJadwal->id_guru)
+                                 ->where('id_kelas', $selectedJadwal->id_kelas);
+                          });
+                    })
+                    ->whereDate('tanggal', $todayDate)
+                    ->where('status', 'aktif')
+                    ->first();
+
+                // Pengecekan gating jam pelajaran jika pengguna adalah Guru biasa yang bukan guru pengganti/piket
+                $isSubstitute = $penugasanPengganti && ($user->id_guru == $penugasanPengganti->id_guru_pengganti);
+                if ($user && !$user->isAdmin() && !$user->isGuruPiket() && !$isSubstitute && !$selectedJadwal->sudah_masuk_jam) {
+                    return redirect()->route('guru.dashboard')->with('error', "Peringatan: Jurnal Mengajar untuk mata pelajaran " . ($selectedJadwal->mapel->nama_mapel ?? 'ini') . " belum dapat diisi karena belum memasuki jam pelajaran (dimulai pukul {$selectedJadwal->waktu_mulai_effective} WIB).");
+                }
+            }
+        }
+
+        $jadwals = Jadwal::with(['kelas', 'guru', 'mapel', 'ruangan', 'jamMulai', 'jamSelesai'])
             ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat')")
             ->orderBy('id_jam_mulai', 'asc')
             ->get();
 
         $statusOptions = ['Hadir', 'Izin', 'Sakit', 'Tanpa Keterangan'];
 
-        return view('jurnal_mengajar.create', compact('jadwals', 'statusOptions'));
+        return view('jurnal_mengajar.create', compact('jadwals', 'statusOptions', 'selectedJadwal', 'penugasanPengganti', 'todayDate'));
     }
 
     /**
@@ -90,8 +122,35 @@ class JurnalMengajarController extends Controller
             'materi.required'                => 'Materi pembelajaran wajib diisi.',
         ]);
 
+        $user = Auth::user();
+        $jadwal = Jadwal::find($request->id_jadwal);
+        $idGuruPengganti = null;
+
+        // Cek penugasan guru pengganti aktif untuk jadwal dan tanggal ini
+        $penugasan = \App\Models\PenugasanGuruPengganti::where(function($q) use ($request, $jadwal) {
+                $q->where('id_jadwal', $request->id_jadwal);
+                if ($jadwal) {
+                    $q->orWhere(function($q2) use ($jadwal) {
+                        $q2->where('id_guru_tidak_hadir', $jadwal->id_guru)
+                           ->where('id_kelas', $jadwal->id_kelas);
+                    });
+                }
+            })
+            ->whereDate('tanggal', $request->tanggal)
+            ->where('status', 'aktif')
+            ->first();
+
+        if ($penugasan) {
+            $idGuruPengganti = $penugasan->id_guru_pengganti;
+            // Mark penugasan status as selesai
+            $penugasan->update(['status' => 'selesai']);
+        } elseif ($user && $user->id_guru && $jadwal && $user->id_guru != $jadwal->id_guru) {
+            $idGuruPengganti = $user->id_guru;
+        }
+
         $jurnal = JurnalMengajar::create([
             'id_jadwal'             => $request->id_jadwal,
+            'id_guru_pengganti'     => $idGuruPengganti,
             'tanggal'               => $request->tanggal,
             'status_kehadiran_guru' => $request->status_kehadiran_guru,
             'materi'                => $request->materi,
@@ -112,7 +171,9 @@ class JurnalMengajarController extends Controller
             }
         }
 
-        return redirect()->route('jurnal-mengajar.index')
+        $redirectRoute = ($user && $user->isGuruPiket()) ? 'piket.jurnal-mengajar' : (($user && $user->isTeacher()) ? 'guru.dashboard' : 'jurnal-mengajar.index');
+
+        return redirect()->route($redirectRoute)
                          ->with('success', 'Data jurnal mengajar berhasil ditambahkan!');
     }
 

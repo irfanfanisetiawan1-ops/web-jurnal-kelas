@@ -21,6 +21,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Master Data — Jurusan</h1>
+            <p>Kelola daftar bidang keahlian dan jurusan sekolah</p>
+        </div>
+    </div>
+
     <div class="action-header">
         <div style="display: flex; gap: 10px;">
             <a href="{{ route('jurusan.create') }}" class="btn-create">

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Siswa Baru — Jurnal ESEMKITA')
+@section('title', 'Tambah Siswa Baru — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -148,6 +148,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Tambah Siswa Baru</h1>
+            <p>Input data identitas lengkap dan pendaftaran siswa baru ke sistem</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('siswa.index') }}"><i class="fa-solid fa-graduation-cap"></i> Data Siswa</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
@@ -183,10 +191,10 @@
                     </div>
                     <input type="text" id="nis" name="nis" value="{{ old('nis') }}"
                         class="form-control {{ $errors->has('nis') ? 'is-invalid' : '' }}"
-                        placeholder="Contoh: 2122100001" maxlength="10" minlength="10" inputmode="numeric"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateDigitCounter(this, 'nisCounter', 10, 'nisMsg');"
+                        placeholder="Contoh: 2122100001 atau 24686" maxlength="10" minlength="5" inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateDigitCounter(this, 'nisCounter', 10, 'nisMsg', true);"
                         required>
-                    <small id="nisMsg" style="display:block; font-size:12px; font-weight:600; margin-top:4px; color:#ef4444;">Wajib diisi tepat 10 digit angka.</small>
+                    <small id="nisMsg" style="display:block; font-size:12px; font-weight:600; margin-top:4px; color:#ef4444;">Wajib diisi 5 hingga 10 digit angka.</small>
                     @error('nis')
                         <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
                     @enderror
@@ -246,18 +254,32 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="kota_lahir">Kota Lahir</label>
-                    <input type="text" id="kota_lahir" name="kota_lahir" value="{{ old('kota_lahir') }}" class="form-control" placeholder="Tempat Lahir">
+                    <label for="kota_lahir">Kota Lahir <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="kota_lahir" name="kota_lahir" value="{{ old('kota_lahir') }}"
+                        class="form-control {{ $errors->has('kota_lahir') ? 'is-invalid' : '' }}"
+                        placeholder="Tempat Lahir" required>
+                    @error('kota_lahir')
+                        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="tanggal_lahir">Tanggal Lahir</label>
-                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" class="form-control">
+                    <label for="tanggal_lahir">Tanggal Lahir <span style="color:#ef4444;">*</span></label>
+                    <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
+                        class="form-control {{ $errors->has('tanggal_lahir') ? 'is-invalid' : '' }}" required>
+                    @error('tanggal_lahir')
+                        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group" style="grid-column: 1 / -1;">
-                    <label for="alamat_lengkap">Alamat Lengkap</label>
-                    <textarea id="alamat_lengkap" name="alamat_lengkap" class="form-control" rows="3" placeholder="Masukkan Alamat Lengkap Siswa">{{ old('alamat_lengkap') }}</textarea>
+                    <label for="alamat_lengkap">Alamat Lengkap <span style="color:#ef4444;">*</span></label>
+                    <textarea id="alamat_lengkap" name="alamat_lengkap"
+                        class="form-control {{ $errors->has('alamat_lengkap') ? 'is-invalid' : '' }}"
+                        rows="3" placeholder="Masukkan Alamat Lengkap Siswa" required>{{ old('alamat_lengkap') }}</textarea>
+                    @error('alamat_lengkap')
+                        <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -273,26 +295,44 @@
     </div>
 
     <script>
-        function updateDigitCounter(input, counterId, targetLen, msgId) {
+        function updateDigitCounter(input, counterId, targetLen, msgId, isNis = false) {
             const counter = document.getElementById(counterId);
             const msgEle  = document.getElementById(msgId);
             const len     = input.value.length;
 
             if (counter) {
-                counter.textContent = len + '/' + targetLen + ' digit';
-                counter.style.color = (len === targetLen) ? '#10b981' : '#ef4444';
+                if (isNis) {
+                    counter.textContent = len + '/10 digit';
+                    counter.style.color = (len >= 5 && len <= 10) ? '#10b981' : '#ef4444';
+                } else {
+                    counter.textContent = len + '/' + targetLen + ' digit';
+                    counter.style.color = (len === targetLen) ? '#10b981' : '#ef4444';
+                }
             }
 
             if (msgEle) {
-                if (len === 0) {
-                    msgEle.textContent = 'Wajib diisi tepat ' + targetLen + ' digit angka.';
-                    msgEle.style.color = '#ef4444';
-                } else if (len < targetLen) {
-                    msgEle.textContent = 'Belum lengkap, baru ' + len + ' digit (kurang ' + (targetLen - len) + ' digit lagi).';
-                    msgEle.style.color = '#ef4444';
+                if (isNis) {
+                    if (len === 0) {
+                        msgEle.textContent = 'Wajib diisi 5 hingga 10 digit angka.';
+                        msgEle.style.color = '#ef4444';
+                    } else if (len < 5) {
+                        msgEle.textContent = 'Belum lengkap, minimal 5 digit (kurang ' + (5 - len) + ' digit lagi).';
+                        msgEle.style.color = '#ef4444';
+                    } else {
+                        msgEle.textContent = '✓ Format ' + len + ' digit angka sudah sesuai.';
+                        msgEle.style.color = '#10b981';
+                    }
                 } else {
-                    msgEle.textContent = '✓ Format ' + targetLen + ' digit angka sudah sesuai.';
-                    msgEle.style.color = '#10b981';
+                    if (len === 0) {
+                        msgEle.textContent = 'Wajib diisi tepat ' + targetLen + ' digit angka.';
+                        msgEle.style.color = '#ef4444';
+                    } else if (len < targetLen) {
+                        msgEle.textContent = 'Belum lengkap, baru ' + len + ' digit (kurang ' + (targetLen - len) + ' digit lagi).';
+                        msgEle.style.color = '#ef4444';
+                    } else {
+                        msgEle.textContent = '✓ Format ' + targetLen + ' digit angka sudah sesuai.';
+                        msgEle.style.color = '#10b981';
+                    }
                 }
             }
         }
@@ -300,23 +340,26 @@
         document.addEventListener("DOMContentLoaded", function() {
             const nis  = document.getElementById('nis');
             const nisn = document.getElementById('nisn');
-            if (nis)  updateDigitCounter(nis, 'nisCounter', 10, 'nisMsg');
+            if (nis)  updateDigitCounter(nis, 'nisCounter', 10, 'nisMsg', true);
             if (nisn) updateDigitCounter(nisn, 'nisnCounter', 10, 'nisnMsg');
 
             const form = document.getElementById('formSiswaCreate');
             if (form) {
                 form.addEventListener('submit', function(e) {
                     const errors = [];
-                    const nisVal  = document.getElementById('nis').value.trim();
-                    const nisnVal = document.getElementById('nisn').value.trim();
-                    const namaVal = document.getElementById('nama_siswa').value.trim();
-                    const jkVal   = document.getElementById('jenis_kelamin').value;
-                    const klsVal  = document.getElementById('id_kelas').value;
+                    const nisVal   = document.getElementById('nis').value.trim();
+                    const nisnVal  = document.getElementById('nisn').value.trim();
+                    const namaVal  = document.getElementById('nama_siswa').value.trim();
+                    const jkVal    = document.getElementById('jenis_kelamin').value;
+                    const klsVal   = document.getElementById('id_kelas').value;
+                    const kotaVal  = document.getElementById('kota_lahir').value.trim();
+                    const tglVal   = document.getElementById('tanggal_lahir').value;
+                    const alamatVal= document.getElementById('alamat_lengkap').value.trim();
 
                     if (!nisVal) {
-                        errors.push('NIS wajib diisi 10 digit angka.');
-                    } else if (nisVal.length !== 10) {
-                        errors.push('NIS harus berisi tepat 10 digit angka (saat ini baru ' + nisVal.length + ' digit).');
+                        errors.push('NIS wajib diisi 5 hingga 10 digit angka.');
+                    } else if (nisVal.length < 5 || nisVal.length > 10) {
+                        errors.push('NIS harus berisi 5 hingga 10 digit angka (saat ini baru ' + nisVal.length + ' digit).');
                     }
 
                     if (!nisnVal) {
@@ -335,6 +378,18 @@
 
                     if (!klsVal) {
                         errors.push('Kelas bimbingan siswa wajib dipilih.');
+                    }
+
+                    if (!kotaVal) {
+                        errors.push('Kota Lahir wajib diisi.');
+                    }
+
+                    if (!tglVal) {
+                        errors.push('Tanggal Lahir wajib diisi.');
+                    }
+
+                    if (!alamatVal) {
+                        errors.push('Alamat Lengkap wajib diisi.');
                     }
 
                     const banner = document.getElementById('formErrorReasonBanner');

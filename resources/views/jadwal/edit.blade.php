@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Jadwal Pelajaran #' . $jadwal->id_jadwal . ' — Jurnal ESEMKITA')
+@section('title', 'Edit Jadwal Pelajaran #' . $jadwal->id_jadwal . ' — EDU JOURNAL')
 
 @section('styles')
 <style>
@@ -145,6 +145,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Edit Jadwal Pelajaran</h1>
+            <p>Ubah alokasi jam, guru pengajar, atau kelas pada jadwal pelajaran</p>
+        </div>
+    </div>
+
     <div class="breadcrumb-text">
         <a href="{{ route('jadwal.index') }}"><i class="fa-solid fa-calendar-days"></i> Data Jadwal Pelajaran</a>
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
@@ -261,13 +269,26 @@
                 <!-- Ruangan -->
                 <div class="form-group" style="grid-column: span 2;">
                     <label for="id_ruangan">Ruangan <span style="color:#ef4444;">*</span></label>
-                    <select name="id_ruangan" id="id_ruangan" class="form-control @error('id_ruangan') input-error @enderror" required>
+                    <select name="id_ruangan" id="id_ruangan" class="form-control @error('id_ruangan') input-error @enderror" onchange="toggleCustomRuangan(this)" required>
                         @foreach($ruangans as $r)
                             <option value="{{ $r->id_ruangan }}" {{ old('id_ruangan', $jadwal->id_ruangan) == $r->id_ruangan ? 'selected' : '' }}>
                                 {{ $r->nama_ruangan }} ({{ $r->jenis_ruangan }})
                             </option>
                         @endforeach
+                        <option value="custom" {{ (old('id_ruangan') == 'custom' || old('nama_ruangan_custom')) ? 'selected' : '' }} style="font-weight:700; color:#2563eb;">+ Ketik Ruangan Baru (Custom)...</option>
                     </select>
+                    @error('id_ruangan')
+                        <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group" id="custom_ruangan_wrapper" style="display: {{ (old('id_ruangan') == 'custom' || old('nama_ruangan_custom')) ? 'block' : 'none' }}; grid-column: span 2;">
+                    <label for="nama_ruangan_custom" style="color:#2563eb;">Nama Ruangan Baru (Custom) <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="nama_ruangan_custom" name="nama_ruangan_custom" value="{{ old('nama_ruangan_custom') }}" class="form-control @error('nama_ruangan_custom') input-error @enderror" placeholder="Contoh: Ruang Teori 05 / Lab. AI">
+                    <small style="color:#64748b; font-size:12px; display:block; margin-top:4px;">Ruangan baru ini akan tersimpan permanen di database dan muncul di seluruh pilihan ruangan sistem.</small>
+                    @error('nama_ruangan_custom')
+                        <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
+                    @enderror
                 </div>
 
             </div>
@@ -288,6 +309,18 @@
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    function toggleCustomRuangan(selectEle) {
+        const wrapper = document.getElementById('custom_ruangan_wrapper');
+        const customInput = document.getElementById('nama_ruangan_custom');
+        if (selectEle && selectEle.value === 'custom') {
+            if (wrapper) wrapper.style.display = 'block';
+            if (customInput) customInput.focus();
+        } else {
+            if (wrapper) wrapper.style.display = 'none';
+            if (customInput) customInput.value = '';
+        }
+    }
+
     function updateJamOptionsByHari() {
         const hariElem = document.getElementById('hari');
         if (!hariElem) return;

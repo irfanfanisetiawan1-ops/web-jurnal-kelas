@@ -134,6 +134,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Monitoring Kehadiran Siswa & Guru</h1>
+            <p>Pantau statistik kehadiran, persentase presensi harian, dan grafik keaktifan</p>
+        </div>
+    </div>
+
     <!-- Date Filter Card -->
     <div class="filter-card">
         <div>

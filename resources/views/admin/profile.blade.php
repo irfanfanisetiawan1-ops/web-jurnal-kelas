@@ -6,6 +6,14 @@
 
 @section('content')
 
+    <!-- Header Top Bar -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Profil Pengguna</h1>
+            <p>Informasi identitas akun dan kelola profil pribadi</p>
+        </div>
+    </div>
+
     <div style="background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; max-width: 600px; padding: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
         <form action="{{ route('admin.profile.update') }}" method="POST">
             @csrf
