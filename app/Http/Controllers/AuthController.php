@@ -65,20 +65,20 @@ class AuthController extends Controller
 
         // Validasi user dan password
         if (!$user) {
-            return back()->withInput($request->only('nip'))->with('error', 'Identitas NIP / Username / Email tidak ditemukan dalam sistem. Silakan hubungi Admin TU.');
+            return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
         if (!Hash::check($password, $user->password)) {
-            return back()->withInput($request->only('nip'))->with('error', 'Password yang Anda masukkan salah.');
+            return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
         // Cek status verifikasi
         if ($user->status_verifikasi === 'pending') {
-            return back()->withInput($request->only('nip'))->with('error', 'Akun Anda sedang menunggu verifikasi oleh Administrator TU. Silakan hubungi pihak TU.');
+            return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
         if ($user->status_verifikasi === 'rejected') {
-            return back()->withInput($request->only('nip'))->with('error', 'Akun Anda telah ditolak oleh Administrator. Silakan hubungi pihak sekolah untuk informasi lebih lanjut.');
+            return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
         // Login berhasil
@@ -129,7 +129,7 @@ class AuthController extends Controller
 
         if (!$user) {
             return back()->withInput($request->only('nisn'))
-                ->with('error', 'NISN Siswa tidak ditemukan atau belum terdaftar di akun Orang Tua. Silakan hubungi Admin TU.');
+                ->with('error', 'NISN atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
         // Sinkronisasi id_siswa jika belum terpasang
@@ -139,17 +139,17 @@ class AuthController extends Controller
 
         if (!Hash::check($password, $user->password)) {
             return back()->withInput($request->only('nisn'))
-                ->with('error', 'Password yang Anda masukkan salah.');
+                ->with('error', 'NISN atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
         if ($user->status_verifikasi === 'pending') {
             return back()->withInput($request->only('nisn'))
-                ->with('error', 'Akun Orang Tua Anda sedang menunggu verifikasi oleh Administrator TU.');
+                ->with('error', 'NISN atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
         if ($user->status_verifikasi === 'rejected') {
             return back()->withInput($request->only('nisn'))
-                ->with('error', 'Akun Orang Tua Anda telah ditolak oleh Administrator. Silakan hubungi pihak sekolah.');
+                ->with('error', 'NISN atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
         User::syncWaliKelasRoles();

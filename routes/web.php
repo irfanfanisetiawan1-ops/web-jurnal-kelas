@@ -30,9 +30,9 @@ use App\Http\Controllers\GuruPiketController;
 // Public Auth Routes & Link Approval (Tanpa Ribet Login)
 // ─────────────────────────────────────────────────
 Route::get('/login',             [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login',            [AuthController::class, 'login'])->name('login.post');
+Route::post('/login',            [AuthController::class, 'login'])->name('login.post')->middleware('throttle:8,1');
 Route::get('/login/orang-tua',   [AuthController::class, 'showOrangTuaLoginForm'])->name('login.orang-tua');
-Route::post('/login/orang-tua',  [AuthController::class, 'loginOrangTua'])->name('login.orang-tua.post');
+Route::post('/login/orang-tua',  [AuthController::class, 'loginOrangTua'])->name('login.orang-tua.post')->middleware('throttle:8,1');
 Route::get('/register', function () {
     return redirect()->route('login')->with('error', 'Pendaftaran akun pengguna tidak dibuka secara publik. Seluruh akun pengguna dibuat dan diverifikasi oleh Administrator Tata Usaha (TU).');
 })->name('register');
