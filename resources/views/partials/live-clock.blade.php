@@ -10,148 +10,181 @@
     $initialLessonStatus = \App\Models\JamPelajaran::getCurrentLessonStatus($now);
 @endphp
 
-<div class="live-clock-wrapper">
-    {{-- Fitur Jam Pelajaran Saat Ini (Di sebelah kiri Jam Digital) --}}
-    <div class="live-lesson-hour-card" id="liveLessonHourCard" style="background-color: {{ $initialLessonStatus['bg'] }}; border-color: {{ $initialLessonStatus['border'] }};">
-        <div class="lesson-icon" id="liveLessonHourIcon" style="color: {{ $initialLessonStatus['color'] }};">
-            <i class="fa-solid {{ $initialLessonStatus['icon'] }}"></i>
-        </div>
-        <div class="lesson-details">
-            <div class="lesson-title live-lesson-hour-title" style="color: {{ $initialLessonStatus['color'] }};">{{ $initialLessonStatus['label'] }}</div>
-            <div class="lesson-subtitle live-lesson-hour-subtitle">{{ $initialLessonStatus['detail'] }}</div>
-        </div>
+{{-- Fitur Jam Pelajaran Saat Ini (Di sebelah kiri Jam Digital) --}}
+<div class="live-lesson-hour-card kbm-status header-control" id="liveLessonHourCard" style="background-color: {{ $initialLessonStatus['bg'] }}; border-color: {{ $initialLessonStatus['border'] }};">
+    <div class="lesson-icon" id="liveLessonHourIcon" style="color: {{ $initialLessonStatus['color'] }};">
+        <i class="fa-solid {{ $initialLessonStatus['icon'] }}"></i>
     </div>
+    <div class="lesson-details">
+        <div class="lesson-title live-lesson-hour-title" style="color: {{ $initialLessonStatus['color'] }};">{{ $initialLessonStatus['label'] }}</div>
+        <div class="lesson-subtitle live-lesson-hour-subtitle">{{ $initialLessonStatus['detail'] }}</div>
+    </div>
+</div>
 
-    {{-- Widget Tanggal & Jam Digital --}}
-    <div class="live-clock-card">
-        <div class="clock-icon">
-            <i class="fa-solid fa-calendar-days"></i>
-        </div>
-        <div class="clock-details">
-            <div class="clock-date live-clock-date">{{ $initialDate }}</div>
-            <div class="clock-time live-clock-time">{{ $initialTime }}</div>
-        </div>
+{{-- Widget Tanggal & Jam Digital --}}
+<div class="live-clock-card date-time header-control">
+    <div class="clock-icon">
+        <i class="fa-solid fa-calendar-days"></i>
+    </div>
+    <div class="clock-details">
+        <div class="clock-date live-clock-date">{{ $initialDate }}</div>
+        <div class="clock-time live-clock-time">{{ $initialTime }}</div>
     </div>
 </div>
 
 @once
 <style>
-    .live-clock-wrapper {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: nowrap;
-    }
 
+    .live-lesson-hour-card.kbm-status.header-control,
+    .kbm-status,
     .live-lesson-hour-card {
         background-color: #e0f2fe;
         border: 1px solid #93c5fd;
-        border-radius: 12px;
-        padding: 7px 15px;
+        border-radius: 9px;
+        height: 36px;
+        width: 170px;
+        min-width: 170px;
+        max-width: 170px;
+        flex: 0 0 170px;
+        padding: 0 8px;
         display: inline-flex;
         align-items: center;
-        gap: 10px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         font-family: 'Plus Jakarta Sans', sans-serif;
         transition: all 0.3s ease;
+        flex-shrink: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        box-sizing: border-box;
     }
 
     .live-lesson-hour-card .lesson-icon {
-        font-size: 18px;
+        font-size: 14px !important;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        margin-right: 6px;
     }
 
     .live-lesson-hour-card .lesson-details {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        line-height: 1.25;
+        line-height: 1.15;
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
     }
 
     .live-lesson-hour-card .lesson-title {
-        font-size: 13px;
+        font-size: 11.5px !important;
         font-weight: 800;
         letter-spacing: -0.01em;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .live-lesson-hour-card .lesson-subtitle {
-        font-size: 11.5px;
-        font-weight: 700;
+        font-size: 9.5px !important;
+        font-weight: 600;
         color: #475569;
-        margin-top: 1px;
+        margin-top: 0px;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
+    .live-clock-card.date-time.header-control,
+    .date-time,
     .live-clock-card {
-        background-color: #f1f5f9;
-        border: 1px solid #cbd5e1;
-        border-radius: 12px;
-        padding: 7px 15px;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 9px;
+        height: 36px;
+        width: 220px;
+        min-width: 220px;
+        max-width: 220px;
+        flex: 0 0 220px;
+        padding: 0 8px;
         display: inline-flex;
         align-items: center;
-        gap: 12px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
         font-family: 'Plus Jakarta Sans', sans-serif;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
+
+    .live-clock-card:hover {
+        background-color: #f1f5f9;
+        border-color: #cbd5e1;
     }
 
     .live-clock-card .clock-icon {
-        font-size: 20px;
-        color: #384972;
+        font-size: 14px !important;
+        color: #475569;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        margin-right: 6px;
     }
 
     .live-clock-card .clock-details {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        line-height: 1.25;
+        line-height: 1.15;
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
     }
 
     .live-clock-card .clock-date {
-        font-size: 13px;
+        font-size: 11.5px !important;
         font-weight: 800;
         color: #1e293b;
         letter-spacing: -0.01em;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .live-clock-card .clock-time {
-        font-size: 12.5px;
-        font-weight: 700;
+        font-size: 9.5px !important;
+        font-weight: 600;
         color: #475569;
-        margin-top: 1px;
+        margin-top: 0px;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
         .live-clock-wrapper {
-            flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
         }
         .live-lesson-hour-card,
         .live-clock-card {
-            padding: 5px 10px;
+            height: 40px;
+            padding: 0 12px;
             gap: 8px;
-            border-radius: 10px;
         }
         .live-lesson-hour-card .lesson-icon,
         .live-clock-card .clock-icon {
-            font-size: 16px;
+            font-size: 15px;
         }
         .live-lesson-hour-card .lesson-title,
         .live-clock-card .clock-date {
-            font-size: 11.5px;
+            font-size: 12px;
         }
         .live-lesson-hour-card .lesson-subtitle,
         .live-clock-card .clock-time {
-            font-size: 11px;
+            font-size: 10.5px;
         }
     }
 </style>
