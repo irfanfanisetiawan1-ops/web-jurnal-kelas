@@ -357,6 +357,12 @@
             dateElements.forEach(el => el.textContent = dateStr);
             timeElements.forEach(el => el.textContent = timeStr);
 
+            const shortMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            const mobileStr = `${tgl} ${shortMonths[now.getMonth()]} ${tahun} • ${jam}:${menit} WIB`;
+            const mobileFullStr = `${namaHari}, ${tgl} ${shortMonths[now.getMonth()]} ${tahun} • ${jam}:${menit} WIB`;
+            document.querySelectorAll('.live-clock-mobile-str').forEach(el => el.textContent = mobileStr);
+            document.querySelectorAll('.live-clock-mobile-str-full').forEach(el => el.textContent = mobileFullStr);
+
             // Update Current Lesson Hour Status
             const st = getLessonStatus(now);
             const lessonCards = document.querySelectorAll('#liveLessonHourCard, .live-lesson-hour-card');
@@ -381,6 +387,24 @@
                     subDiv.textContent = st.detail;
                 }
             });
+
+            // Update mobile rotating info badge KBM status
+            const mKbmEl = document.getElementById('mInfoKbmText');
+            if (mKbmEl) mKbmEl.textContent = st.label;
+            const mKbmIcon = document.getElementById('mInfoKbmIcon');
+            if (mKbmIcon) {
+                mKbmIcon.className = `fa-solid ${st.icon}`;
+                mKbmIcon.style.color = st.color;
+            }
+            const mToolKbm = document.getElementById('mTooltipKbmText');
+            if (mToolKbm) {
+                mToolKbm.innerHTML = `${st.label} <span style="font-weight: 500; color: #64748b; font-size: 9.5px;">(${st.detail})</span>`;
+            }
+            const mToolIcon = document.getElementById('mTooltipKbmIcon');
+            if (mToolIcon) {
+                mToolIcon.className = `fa-solid ${st.icon}`;
+                mToolIcon.style.color = st.color;
+            }
         }
 
         if (document.readyState === 'loading') {

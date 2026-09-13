@@ -440,6 +440,196 @@
     @media (max-width: 768px) {
         .stat-grid { grid-template-columns: 1fr; }
     }
+
+    @media (max-width: 640px) {
+        .dashboard-page-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .header-left h1 {
+            font-size: 20px;
+        }
+
+        .header-left p {
+            font-size: 11.5px;
+            line-height: 1.35;
+        }
+
+        .header-actions-group {
+            display: flex;
+            width: 100%;
+            gap: 8px;
+        }
+
+        .btn-header-action {
+            flex: 1;
+            justify-content: center;
+            padding: 8px 10px;
+            font-size: 11.5px;
+            border-radius: 9px;
+            text-align: center;
+        }
+
+        .piket-dashboard-container {
+            gap: 16px;
+        }
+
+        .stat-grid {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            padding: 12px 14px;
+            border-radius: 14px;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .stat-card .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            font-size: 17px;
+        }
+
+        .stat-card .stat-title {
+            font-size: 11.5px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 19px;
+        }
+
+        .stat-card .stat-subtitle {
+            font-size: 10.5px;
+            margin-top: 2px;
+        }
+
+        .middle-grid,
+        .bottom-grid {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 14px;
+        }
+
+        .section-card {
+            padding: 14px 12px;
+            border-radius: 14px;
+            min-width: 0;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .section-card-header {
+            margin-bottom: 12px;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .section-card-title {
+            font-size: 13px;
+            gap: 8px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .section-card-title span {
+            white-space: normal;
+            line-height: 1.25;
+        }
+
+        .section-card-title .icon-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .btn-see-all {
+            padding: 5px 9px;
+            font-size: 10.5px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+        }
+
+        .custom-table {
+            min-width: 460px;
+            font-size: 11.5px;
+        }
+
+        .custom-table th {
+            padding: 9px 8px;
+            font-size: 10.5px;
+        }
+
+        .custom-table td {
+            padding: 9px 8px;
+            font-size: 11.5px;
+        }
+
+        .timeline-list {
+            gap: 12px;
+            padding-left: 20px;
+        }
+
+        .timeline-time {
+            font-size: 11px;
+        }
+
+        .timeline-subject {
+            font-size: 12px;
+        }
+
+        .timeline-teacher {
+            font-size: 10.5px;
+        }
+
+        .chart-container {
+            padding-top: 10px;
+        }
+
+        .chart-wrapper {
+            height: 180px !important;
+            gap: 10px !important;
+        }
+
+        .bar-label {
+            font-size: 10.5px;
+        }
+
+        .announcement-card {
+            padding: 10px 10px;
+            gap: 10px;
+            border-radius: 11px;
+        }
+
+        .announcement-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .announcement-text {
+            font-size: 11.5px;
+        }
+
+        .announcement-time {
+            font-size: 10px;
+        }
+    }
 </style>
 @endsection
 

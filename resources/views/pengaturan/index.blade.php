@@ -307,6 +307,9 @@
 
 @section('content')
 
+@if(isset($user) && method_exists($user, 'isGuruPiket') && $user->isGuruPiket())
+    @include('guru_piket.pengaturan')
+@else
 <!-- Header Top Bar -->
 <div class="page-header-container">
     <div class="page-title-group">
@@ -1805,6 +1808,7 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 @section('scripts')
