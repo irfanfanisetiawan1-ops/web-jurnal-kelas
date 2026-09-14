@@ -677,6 +677,412 @@
     .piket-tab-content.active {
         display: block;
     }
+
+    /* ─── Mobile Responsive Additions (Strictly Hidden on Desktop) ─── */
+    .piket-mobile-wrap {
+        display: none !important;
+    }
+
+    @media (max-width: 768px) {
+        .piket-desktop-wrap {
+            display: none !important;
+        }
+
+        .piket-mobile-wrap {
+            display: flex !important;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            padding-bottom: 28px;
+        }
+
+        /* Mobile Topbar */
+        .mobile-page-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 2px;
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .mobile-back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+
+        .mobile-back-btn:active {
+            background: #eff6ff;
+            color: #2563eb;
+            transform: scale(0.95);
+        }
+
+        .mobile-topbar-title-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mobile-topbar-title {
+            font-size: 15.5px;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin: 0;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mobile-topbar-sub {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Profile Summary Card */
+        .m-profile-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .m-profile-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #bfdbfe;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .m-profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .m-profile-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .m-profile-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #1e3a8a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .m-profile-role-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .m-profile-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10.5px;
+            font-weight: 750;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .m-profile-nip {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        /* ─── 5-Item Navigation Menu List (User's Exact Design System) ─── */
+        .m-section-heading {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #64748b;
+            letter-spacing: 0.04em;
+            margin: 4px 0 -4px 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .m-menu-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .m-menu-card-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .m-menu-card-item:active {
+            transform: scale(0.985);
+            background: #f8fafc;
+        }
+
+        /* Active Menu Item State (User's Exact Design System Spec) */
+        .m-menu-card-item.active {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            border-left: 4px solid #2563eb;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+        }
+
+        .m-menu-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-menu-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex-shrink: 0;
+            transition: all 0.15s ease;
+        }
+
+        .m-menu-card-item.active .m-menu-icon {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        .m-menu-text-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .m-menu-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1e3a8a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.01em;
+        }
+
+        .m-menu-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .m-menu-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .m-menu-active-badge {
+            font-size: 11px;
+            font-weight: 800;
+            color: #15803d;
+            background: #dcfce7;
+            border: 1px solid #bbf7d0;
+            padding: 3px 9px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .m-menu-chevron {
+            color: #94a3b8;
+            font-size: 13px;
+            transition: transform 0.15s ease;
+        }
+
+        .m-menu-card-item:hover .m-menu-chevron {
+            transform: translateX(2px);
+            color: #2563eb;
+        }
+
+        /* Settings Action Accordions/Cards */
+        .m-settings-accordion-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .m-settings-accordion-header {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+            background: #ffffff;
+            transition: background 0.15s ease;
+        }
+
+        .m-settings-accordion-header:active {
+            background: #f8fafc;
+        }
+
+        .m-settings-accordion-body {
+            padding: 0 16px 16px 16px;
+            display: none;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 14px;
+        }
+
+        .m-settings-accordion-body.open {
+            display: block;
+        }
+
+        .m-settings-chevron {
+            font-size: 12px;
+            color: #94a3b8;
+            transition: transform 0.2s ease;
+        }
+
+        .m-settings-chevron.rotated {
+            transform: rotate(180deg);
+        }
+
+        .m-btn-save-mobile {
+            width: 100%;
+            height: 42px;
+            border-radius: 12px;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+            margin-top: 10px;
+        }
+
+        .m-btn-save-mobile:active {
+            transform: scale(0.98);
+        }
+
+        .m-btn-logout-mobile {
+            width: 100%;
+            height: 42px;
+            border-radius: 12px;
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .m-btn-logout-mobile:active {
+            background: #fecaca;
+            transform: scale(0.98);
+        }
+    }
 </style>
 
 @php
@@ -688,7 +1094,417 @@
 
 <div class="piket-settings-wrap">
 
-    <!-- ─── 1. HEADER BANNER BERSAMA (GRADIENT + ILUSTRASI UNTUK 3 TAB) ─── -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- MOBILE VIEW (<= 768px): SESUAI DESIGN SYSTEM ACUAN USER       -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div class="piket-mobile-wrap">
+        <!-- 1. Mobile Top Bar -->
+        <div class="mobile-page-topbar">
+            <div class="mobile-topbar-text-group">
+                <h1 class="mobile-topbar-title">Pengaturan Piket</h1>
+                <p class="mobile-topbar-subtitle">Profil, Keamanan &amp; Preferensi Petugas</p>
+            </div>
+        </div>
+
+        <!-- 2. Profile Summary Card -->
+        <div class="m-profile-card">
+            <div class="m-profile-avatar">
+                @if($user->foto_url)
+                    <img src="{{ $user->foto_url }}" alt="{{ $user->name }}">
+                @else
+                    <span>{{ strtoupper(substr($user->name ?? 'P', 0, 1)) }}</span>
+                @endif
+            </div>
+            <div class="m-profile-info">
+                <div class="m-profile-name">{{ $user->name }}</div>
+                <div class="m-profile-nip">NIP: {{ $user->nip ?? ($guru->nip ?? ($user->username ?? '-')) }}</div>
+                <div>
+                    <span class="m-profile-badge">
+                        <i class="fa-solid fa-shield-halved"></i> Petugas Piket
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Menu Guru Piket (5 Card Sesuai Design System Acuan) -->
+        <div class="m-section-heading">
+            <i class="fa-solid fa-bars-staggered"></i>
+            <span>Menu Guru Piket</span>
+        </div>
+        <div class="m-menu-cards-list">
+            <!-- 1. Dispensasi Siswa -->
+            <a href="{{ route('piket.dispensasi-siswa') }}" class="m-menu-card-item">
+                <div class="m-menu-icon-box">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <div class="m-menu-content">
+                    <div class="m-menu-title">Dispensasi Siswa</div>
+                    <div class="m-menu-sub">Kelola izin keluar &amp; surat tugas siswa</div>
+                </div>
+                <i class="fa-solid fa-chevron-right m-menu-chevron"></i>
+            </a>
+
+            <!-- 2. Siswa Telat -->
+            <a href="{{ route('piket.siswa-telat') }}" class="m-menu-card-item">
+                <div class="m-menu-icon-box">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div class="m-menu-content">
+                    <div class="m-menu-title">Siswa Telat</div>
+                    <div class="m-menu-sub">Pencatatan &amp; verifikasi siswa terlambat</div>
+                </div>
+                <i class="fa-solid fa-chevron-right m-menu-chevron"></i>
+            </a>
+
+            <!-- 3. Jadwal Hari Ini -->
+            <a href="{{ route('piket.jadwal') }}" class="m-menu-card-item">
+                <div class="m-menu-icon-box">
+                    <i class="fa-solid fa-calendar-day"></i>
+                </div>
+                <div class="m-menu-content">
+                    <div class="m-menu-title">Jadwal Hari Ini</div>
+                    <div class="m-menu-sub">Monitoring jadwal KBM &amp; guru mengajar</div>
+                </div>
+                <i class="fa-solid fa-chevron-right m-menu-chevron"></i>
+            </a>
+
+            <!-- 4. Rekap Kehadiran -->
+            <a href="{{ route('piket.rekap-kehadiran') }}" class="m-menu-card-item">
+                <div class="m-menu-icon-box">
+                    <i class="fa-solid fa-clipboard-user"></i>
+                </div>
+                <div class="m-menu-content">
+                    <div class="m-menu-title">Rekap Kehadiran</div>
+                    <div class="m-menu-sub">Ringkasan presensi harian &amp; guru pengganti</div>
+                </div>
+                <i class="fa-solid fa-chevron-right m-menu-chevron"></i>
+            </a>
+
+            <!-- 5. Pengaturan (AKTIF - BORDER BIRU TEBAL KIRI & BADGE AKTIF) -->
+            <div class="m-menu-card-item active">
+                <div class="m-menu-icon-box">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+                <div class="m-menu-content">
+                    <div class="m-menu-title">Pengaturan</div>
+                    <div class="m-menu-sub">Akun, keamanan &amp; preferensi piket</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="m-menu-active-pill">Aktif</span>
+                    <i class="fa-solid fa-chevron-right m-menu-chevron"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Form Pengaturan Mobile Accordions -->
+        <div class="m-section-heading">
+            <i class="fa-solid fa-sliders"></i>
+            <span>Pengaturan Akun &amp; Preferensi</span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <!-- ACCORDION 1: PROFIL PENGGUNA -->
+            <div class="m-settings-accordion-card">
+                <div class="m-settings-accordion-header" onclick="toggleMobileSettingsAccordion('m-sec-profil')">
+                    <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                        <div class="m-menu-icon-box" style="width: 36px; height: 36px; font-size: 14px;">
+                            <i class="fa-solid fa-user-pen"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 13.5px; font-weight: 800; color: #1e3a8a;">Ubah Data Profil</div>
+                            <div style="font-size: 11px; color: #64748b; font-weight: 500;">Nama, email, no. WhatsApp &amp; foto</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down m-settings-chevron" id="m-chevron-m-sec-profil"></i>
+                </div>
+                <div class="m-settings-accordion-body" id="m-sec-profil">
+                    <form action="{{ route('pengaturan.update-profile') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <!-- Foto preview & upload -->
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; background: #e0e7ff; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #2563eb; flex-shrink: 0; border: 2px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+                                @if($user->foto_url)
+                                    <img id="piketAvatarMobileImg" src="{{ $user->foto_url }}" alt="{{ $user->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                @else
+                                    <span id="piketAvatarMobileLetter">{{ strtoupper(substr($user->name ?? 'P', 0, 1)) }}</span>
+                                    <img id="piketAvatarMobileImg" src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                                @endif
+                            </div>
+                            <div>
+                                <label for="piketMobileFotoInput" class="btn-choose-photo" style="font-size: 11.5px; padding: 7px 12px; cursor: pointer;">
+                                    <i class="fa-solid fa-camera"></i>
+                                    <span>Ganti Foto</span>
+                                </label>
+                                <input type="file" id="piketMobileFotoInput" name="foto" accept="image/*" style="display: none;" onchange="previewPiketMobilePhoto(this)">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Nama Lengkap <span style="color: #ef4444;">*</span></label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-regular fa-user piket-input-icon"></i>
+                                    <input type="text" name="name" class="piket-form-input" value="{{ old('name', $user->name) }}" required placeholder="Nama lengkap">
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Alamat Email</label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-regular fa-envelope piket-input-icon"></i>
+                                    <input type="email" name="email" class="piket-form-input" value="{{ old('email', $user->email) }}" placeholder="Email akun">
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Nomor HP / WhatsApp</label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-phone piket-input-icon"></i>
+                                    <input type="text" name="no_hp" class="piket-form-input" value="{{ old('no_hp', $user->no_hp ?? ($guru->no_hp ?? '')) }}" placeholder="08xxxxxxxxxx">
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Jenis Kelamin</label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-venus-mars piket-input-icon"></i>
+                                    <select name="jenis_kelamin" class="piket-form-select">
+                                        <option value="L" {{ (old('jenis_kelamin', $user->jenis_kelamin ?? ($guru->jenis_kelamin ?? 'L')) == 'L') ? 'selected' : '' }}>Laki-laki</option>
+                                        <option value="P" {{ (old('jenis_kelamin', $user->jenis_kelamin ?? ($guru->jenis_kelamin ?? '')) == 'P') ? 'selected' : '' }}>Perempuan</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">NIP / Username (Resmi)</label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-id-badge piket-input-icon"></i>
+                                    <input type="text" class="piket-form-input readonly-field" value="{{ $user->nip ?? ($guru->nip ?? ($user->username ?? '-')) }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Mata Pelajaran Diampu</label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-book-bookmark piket-input-icon"></i>
+                                    <input type="text" class="piket-form-input readonly-field" value="{{ $guru && $guru->mapel ? $guru->mapel->nama_mapel : 'Bahasa Inggris' }}" readonly>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="m-btn-save-mobile">
+                                <i class="fa-regular fa-floppy-disk"></i>
+                                <span>Simpan Perubahan Profil</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ACCORDION 2: KEAMANAN PASSWORD -->
+            <div class="m-settings-accordion-card">
+                <div class="m-settings-accordion-header" onclick="toggleMobileSettingsAccordion('m-sec-security')">
+                    <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                        <div class="m-menu-icon-box" style="width: 36px; height: 36px; font-size: 14px;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 13.5px; font-weight: 800; color: #1e3a8a;">Keamanan &amp; Kata Sandi</div>
+                            <div style="font-size: 11px; color: #64748b; font-weight: 500;">Ganti password akun login Anda</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down m-settings-chevron" id="m-chevron-m-sec-security"></i>
+                </div>
+                <div class="m-settings-accordion-body" id="m-sec-security">
+                    <form action="{{ route('pengaturan.update-password') }}" method="POST">
+                        @csrf
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Password Saat Ini <span style="color: #ef4444;">*</span></label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-lock piket-input-icon"></i>
+                                    <input type="password" id="mCurrentPass" name="current_password" class="piket-form-input" required placeholder="Password saat ini">
+                                    <button type="button" class="piket-password-toggle" onclick="togglePassVisibility('mCurrentPass', this)">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Password Baru <span style="color: #ef4444;">*</span></label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-lock piket-input-icon"></i>
+                                    <input type="password" id="mNewPass" name="password" class="piket-form-input" required placeholder="Minimal 8 karakter">
+                                    <button type="button" class="piket-password-toggle" onclick="togglePassVisibility('mNewPass', this)">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Ulangi Password Baru <span style="color: #ef4444;">*</span></label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-lock piket-input-icon"></i>
+                                    <input type="password" id="mConfirmPass" name="password_confirmation" class="piket-form-input" required placeholder="Konfirmasi password">
+                                    <button type="button" class="piket-password-toggle" onclick="togglePassVisibility('mConfirmPass', this)">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="m-btn-save-mobile" style="background: #4f46e5;">
+                                <i class="fa-solid fa-key"></i>
+                                <span>Perbarui Password</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ACCORDION 3: PREFERENSI TUGAS PIKET -->
+            <div class="m-settings-accordion-card">
+                <div class="m-settings-accordion-header" onclick="toggleMobileSettingsAccordion('m-sec-pref')">
+                    <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                        <div class="m-menu-icon-box" style="width: 36px; height: 36px; font-size: 14px;">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 13.5px; font-weight: 800; color: #1e3a8a;">Preferensi &amp; Tugas Piket</div>
+                            <div style="font-size: 11px; color: #64748b; font-weight: 500;">Notifikasi instan &amp; alur operasional</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down m-settings-chevron" id="m-chevron-m-sec-pref"></i>
+                </div>
+                <div class="m-settings-accordion-body" id="m-sec-pref">
+                    <form action="{{ route('pengaturan.update-preferences') }}" method="POST">
+                        @csrf
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- Toggles -->
+                            <div class="piket-toggle-item" style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                                <div class="piket-toggle-info">
+                                    <div>
+                                        <div class="piket-toggle-title" style="font-size: 12.5px;">Notifikasi Guru Tidak Hadir</div>
+                                        <div class="piket-toggle-sub" style="font-size: 11px;">Peringatan real-time pengajuan izin guru</div>
+                                    </div>
+                                </div>
+                                <label class="switch-wrap">
+                                    <input type="checkbox" name="piket_notif_guru_izin" value="1" {{ ($systemSettings['piket_notif_guru_izin'] ?? '1') == '1' ? 'checked' : '' }}>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="piket-toggle-item" style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                                <div class="piket-toggle-info">
+                                    <div>
+                                        <div class="piket-toggle-title" style="font-size: 12.5px;">Alert Jurnal Kosong</div>
+                                        <div class="piket-toggle-sub" style="font-size: 11px;">Ingatkan kelas yang belum diisi jurnal</div>
+                                    </div>
+                                </div>
+                                <label class="switch-wrap">
+                                    <input type="checkbox" name="piket_notif_jurnal_kosong" value="1" {{ ($systemSettings['piket_notif_jurnal_kosong'] ?? '1') == '1' ? 'checked' : '' }}>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="piket-toggle-item" style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                                <div class="piket-toggle-info">
+                                    <div>
+                                        <div class="piket-toggle-title" style="font-size: 12.5px;">Dispensasi Siswa</div>
+                                        <div class="piket-toggle-sub" style="font-size: 11px;">Notif saat ada pengajuan izin keluar</div>
+                                    </div>
+                                </div>
+                                <label class="switch-wrap">
+                                    <input type="checkbox" name="piket_notif_dispensasi" value="1" {{ ($systemSettings['piket_notif_dispensasi'] ?? '1') == '1' ? 'checked' : '' }}>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="piket-toggle-item" style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
+                                <div class="piket-toggle-info">
+                                    <div>
+                                        <div class="piket-toggle-title" style="font-size: 12.5px;">Ringkasan Sore</div>
+                                        <div class="piket-toggle-sub" style="font-size: 11px;">Kirimkan rekap harian piket sore</div>
+                                    </div>
+                                </div>
+                                <label class="switch-wrap">
+                                    <input type="checkbox" name="piket_notif_ringkasan" value="1" {{ ($systemSettings['piket_notif_ringkasan'] ?? '1') == '1' ? 'checked' : '' }}>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- Dropdowns -->
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Mode Penugasan Guru Pengganti</label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-user-gear piket-input-icon"></i>
+                                    <select name="piket_mode_guru_pengganti" class="piket-form-select">
+                                        <option value="manual" {{ ($systemSettings['piket_mode_guru_pengganti'] ?? 'manual') == 'manual' ? 'selected' : '' }}>Manual oleh Petugas Piket</option>
+                                        <option value="auto" {{ ($systemSettings['piket_mode_guru_pengganti'] ?? '') == 'auto' ? 'selected' : '' }}>Otomatis Jadwal Kosong</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Format Default Cetak Dokumen</label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-solid fa-file-pdf piket-input-icon"></i>
+                                    <select name="piket_export_format" class="piket-form-select">
+                                        <option value="pdf" {{ ($systemSettings['piket_export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF (.pdf)</option>
+                                        <option value="excel" {{ ($systemSettings['piket_export_format'] ?? '') == 'excel' ? 'selected' : '' }}>Spreadsheet Excel (.xlsx)</option>
+                                        <option value="csv" {{ ($systemSettings['piket_export_format'] ?? '') == 'csv' ? 'selected' : '' }}>File CSV (.csv)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="piket-form-group">
+                                <label class="piket-form-label" style="font-size: 11.5px;">Baris Data Per Halaman</label>
+                                <div class="piket-input-wrap">
+                                    <i class="fa-regular fa-calendar-days piket-input-icon"></i>
+                                    <select name="piket_data_per_page" class="piket-form-select">
+                                        <option value="10" {{ ($systemSettings['piket_data_per_page'] ?? '25') == '10' ? 'selected' : '' }}>10 Data / Halaman</option>
+                                        <option value="25" {{ ($systemSettings['piket_data_per_page'] ?? '25') == '25' ? 'selected' : '' }}>25 Data / Halaman</option>
+                                        <option value="50" {{ ($systemSettings['piket_data_per_page'] ?? '25') == '50' ? 'selected' : '' }}>50 Data / Halaman</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="m-btn-save-mobile" style="background: #0284c7;">
+                                <i class="fa-regular fa-floppy-disk"></i>
+                                <span>Simpan Preferensi Piket</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Kartu Bantuan WhatsApp CS -->
+        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $systemSettings['cs_whatsapp'] ?? '6281234567890') }}" target="_blank" class="m-menu-card-item" style="background: #f0fdf4; border-color: #bbf7d0; text-decoration: none; margin-top: 4px;">
+            <div class="m-menu-icon-box" style="background: #dcfce7; border-color: #86efac; color: #16a34a;">
+                <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <div class="m-menu-content">
+                <div class="m-menu-title" style="color: #166534;">Bantuan Layanan Teknis</div>
+                <div class="m-menu-sub" style="color: #15803d;">Hubungi admin sekolah via WhatsApp</div>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="color: #16a34a; font-size: 13px;"></i>
+        </a>
+
+        <!-- 6. Tombol Keluar / Logout -->
+        <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
+            @csrf
+            <button type="submit" class="m-btn-logout-mobile" onclick="return confirm('Apakah Anda yakin ingin keluar dari aplikasi?')">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Keluar dari Akun Piket</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- DESKTOP VIEW (> 768px): TETAP UTUH 100%                         -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div class="piket-desktop-wrap">
+
+        <!-- ─── 1. HEADER BANNER BERSAMA (GRADIENT + ILUSTRASI UNTUK 3 TAB) ─── -->
     <div class="piket-settings-header">
         <div class="piket-header-left">
             <div class="piket-header-icon">
@@ -1271,6 +2087,7 @@
             </div>
         </form>
     </div>
+    </div> <!-- piket-desktop-wrap -->
 
 </div>
 
@@ -1312,6 +2129,39 @@
             reader.onload = function(e) {
                 const img = document.getElementById('piketAvatarImg');
                 const letter = document.getElementById('piketAvatarLetter');
+                if (img) {
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                if (letter) {
+                    letter.style.display = 'none';
+                }
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function toggleMobileSettingsAccordion(id) {
+        const body = document.getElementById(id);
+        const chevron = document.getElementById('m-chevron-' + id);
+        if (!body) return;
+        
+        const isOpen = body.classList.contains('open');
+        if (isOpen) {
+            body.classList.remove('open');
+            if (chevron) chevron.classList.remove('rotated');
+        } else {
+            body.classList.add('open');
+            if (chevron) chevron.classList.add('rotated');
+        }
+    }
+
+    function previewPiketMobilePhoto(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('piketAvatarMobileImg');
+                const letter = document.getElementById('piketAvatarMobileLetter');
                 if (img) {
                     img.src = e.target.result;
                     img.style.display = 'block';

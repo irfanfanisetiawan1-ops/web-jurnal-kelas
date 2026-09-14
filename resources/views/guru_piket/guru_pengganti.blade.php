@@ -1109,6 +1109,573 @@
         .gp-stat-grid { grid-template-columns: 1fr; }
         .gp-filter-row-1, .gp-filter-row-2 { flex-direction: column; align-items: stretch; }
     }
+
+    /* Desktop vs Mobile Display Toggles */
+    @media (min-width: 769px) {
+        .mobile-gp-section,
+        .mobile-gp-stat-carousel-wrap {
+            display: none !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .gp-desktop-table-card,
+        .gp-desktop-stat-grid {
+            display: none !important;
+        }
+        .guru-pengganti-wrapper {
+            gap: 14px;
+        }
+        .gp-card {
+            padding: 16px;
+            border-radius: 16px;
+        }
+        .gp-form-header {
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+        }
+        .gp-header-icon-box {
+            width: 38px;
+            height: 38px;
+            font-size: 17px;
+            border-radius: 10px;
+        }
+        .gp-form-header-titles h2 {
+            font-size: 15px;
+        }
+        .gp-form-header-titles p {
+            font-size: 11.5px;
+        }
+        .gp-grid-2col, .gp-grid-3col {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 14px !important;
+        }
+        .gp-section-tidak-hadir, .gp-section-pengganti {
+            padding: 14px;
+            border-radius: 14px;
+        }
+        .gp-toggle-container {
+            padding: 8px 12px;
+            border-radius: 10px;
+            gap: 8px;
+        }
+        .gp-toggle-info {
+            gap: 8px;
+        }
+        .gp-toggle-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            font-size: 12px;
+        }
+        .gp-toggle-text strong {
+            font-size: 11.5px;
+            line-height: 1.25;
+        }
+        .gp-toggle-text span {
+            font-size: 10px;
+            line-height: 1.2;
+            display: block;
+            margin-top: 1px;
+        }
+        .modern-switch {
+            width: 38px;
+            height: 22px;
+        }
+        .modern-slider:before {
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+        }
+        .modern-switch input:checked + .modern-slider:before {
+            transform: translateX(16px);
+        }
+        .gp-form-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 14px;
+            width: 100%;
+        }
+        .gp-btn-reset, .gp-btn-submit {
+            width: 100%;
+            justify-content: center;
+            height: 42px;
+            min-height: 42px;
+            padding: 0 10px;
+            font-size: 12.5px;
+            border-radius: 9px;
+            gap: 6px;
+            letter-spacing: 0.1px;
+            white-space: nowrap;
+        }
+        .gp-btn-text-full {
+            display: none;
+        }
+        .gp-btn-submit {
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+        }
+        .gp-btn-reset {
+            font-weight: 600;
+            box-shadow: none;
+        }
+        .gp-btn-reset i, .gp-btn-submit i {
+            font-size: 11.5px;
+        }
+        .gp-input-text, .gp-select, .gp-textarea {
+            font-size: 13px;
+        }
+        .gp-stat-grid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .gp-stat-card {
+            padding: 16px 18px;
+            border-radius: 16px;
+        }
+        .gp-detail-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+        .modal-overlay {
+            padding: 12px;
+        }
+        .modal-content-custom {
+            padding: 16px;
+            border-radius: 16px;
+            max-height: 92vh;
+        }
+    }
+
+    /* Mobile Stat Cards Carousel */
+    .mobile-gp-stat-carousel-wrap {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .mobile-gp-stat-container {
+        position: relative;
+        width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        touch-action: pan-y;
+        background: transparent;
+    }
+    .mobile-gp-stat-track {
+        display: flex;
+        transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        width: 100%;
+    }
+    .mobile-gp-stat-slide {
+        flex: 0 0 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .mobile-gp-stat-slide .gp-stat-gradient-card {
+        width: 100%;
+        margin: 0;
+    }
+    .m-stat-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffffff;
+        color: #475569;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+        z-index: 5;
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+        transition: opacity 0.25s ease, transform 0.2s ease, visibility 0.25s ease;
+    }
+    .mobile-gp-stat-container:hover .m-stat-arrow,
+    .mobile-gp-stat-container.is-hovered .m-stat-arrow {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+    }
+    .m-stat-arrow:hover,
+    .m-stat-arrow:active {
+        color: #2563eb;
+        background: #f8fafc;
+        transform: translateY(-50%) scale(0.92);
+    }
+    .m-stat-prev {
+        left: 8px;
+    }
+    .m-stat-next {
+        right: 8px;
+    }
+    .mobile-gp-stat-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+    .m-stat-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #cbd5e1;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+    .m-stat-dot.active {
+        width: 20px;
+        height: 6px;
+        border-radius: 9999px;
+        background: #2563eb;
+    }
+
+    /* Mobile Guru Pengganti List Section */
+    .mobile-gp-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+    .mobile-gp-filter-card {
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.85);
+        border-radius: 16px;
+        padding: 14px 16px;
+        box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .mobile-gp-filter-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+    .m-card-icon-wrap {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+    .m-btn-trash-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        padding: 6px 12px;
+        border-radius: 9999px;
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #475569;
+        cursor: pointer;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+    }
+    .m-btn-trash-pill:hover,
+    .m-btn-trash-pill:active {
+        background: #f8fafc;
+        border-color: #94a3b8;
+        color: #0f172a;
+    }
+    .mobile-gp-search-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+    .m-search-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+    .m-search-input-box {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+    }
+    .m-search-input-box i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 13px;
+        pointer-events: none;
+    }
+    .m-search-input {
+        width: 100%;
+        height: 38px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        padding: 0 12px 0 34px;
+        font-size: 12.5px;
+        color: #1e293b;
+        font-weight: 500;
+        outline: none;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+    .m-search-input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .m-btn-filter-trigger {
+        height: 38px;
+        padding: 0 16px;
+        border-radius: 10px;
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        font-size: 12.5px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        flex-shrink: 0;
+        transition: background 0.15s ease;
+    }
+    .m-btn-filter-trigger:hover,
+    .m-btn-filter-trigger:active {
+        background: #1d4ed8;
+    }
+
+    /* Mobile Cards List */
+    .mobile-gp-cards-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    .mobile-gp-card-item {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.03);
+        display: flex;
+        align-items: stretch;
+        padding: 12px 14px 12px 10px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .mobile-gp-card-item.card-aktif {
+        border-color: #e2e8f0;
+        background: #ffffff;
+    }
+    .mobile-gp-card-item.card-selesai {
+        border-color: #d1fae5;
+        background: #fcfffd;
+    }
+    .mobile-gp-card-item.card-dibatalkan {
+        border-color: #fee2e2;
+        background: #fffcfc;
+    }
+
+    /* Left Tiered Date Column */
+    .mobile-card-date-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 54px;
+        padding: 2px 10px 2px 4px;
+        border-right: 1px solid #f1f5f9;
+        flex-shrink: 0;
+    }
+    .date-aktif .m-date-day {
+        font-size: 20px;
+        font-weight: 800;
+        color: #1e3a8a;
+        line-height: 1;
+    }
+    .date-aktif .m-date-month {
+        font-size: 10px;
+        font-weight: 800;
+        color: #2563eb;
+        margin-top: 2px;
+        text-transform: uppercase;
+    }
+    .date-aktif .m-date-year {
+        font-size: 9.5px;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+
+    .date-selesai .m-date-day {
+        font-size: 20px;
+        font-weight: 800;
+        color: #065f46;
+        line-height: 1;
+    }
+    .date-selesai .m-date-month {
+        font-size: 10px;
+        font-weight: 800;
+        color: #059669;
+        margin-top: 2px;
+        text-transform: uppercase;
+    }
+    .date-selesai .m-date-year {
+        font-size: 9.5px;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+
+    .date-dibatalkan .m-date-day {
+        font-size: 20px;
+        font-weight: 800;
+        color: #991b1b;
+        line-height: 1;
+    }
+    .date-dibatalkan .m-date-month {
+        font-size: 10px;
+        font-weight: 800;
+        color: #dc2626;
+        margin-top: 2px;
+        text-transform: uppercase;
+    }
+    .date-dibatalkan .m-date-year {
+        font-size: 9.5px;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+
+    /* Card Content Right */
+    .mobile-card-content {
+        flex: 1;
+        min-width: 0;
+        padding-left: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        justify-content: center;
+    }
+
+    /* Mobile Pagination Card */
+    .mobile-pagination-card {
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.85);
+        border-radius: 14px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+    .m-pagination-pills {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .m-pag-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: #475569;
+        text-decoration: none;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        transition: all 0.15s ease;
+    }
+    .m-pag-btn.active {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+    }
+
+    /* Mobile Filter Modal Card */
+    .mobile-filter-modal-card {
+        background: #ffffff;
+        width: 100%;
+        max-width: 440px;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+        border: 1px solid #e2e8f0;
+        margin: auto;
+    }
+    .m-filter-field {
+        width: 100%;
+        height: 38px;
+        border-radius: 9px;
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+        padding: 0 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #334155;
+        outline: none;
+        box-sizing: border-box;
+    }
+    .m-filter-field:focus {
+        border-color: #2563eb;
+        background: #ffffff;
+    }
+    .m-btn-filter-reset {
+        flex: 1;
+        height: 38px;
+        border-radius: 9px;
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        text-decoration: none;
+    }
+    .m-btn-filter-submit {
+        flex: 1.5;
+        height: 38px;
+        border-radius: 9px;
+        border: none;
+        background: #2563eb;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
 </style>
 @endsection
 
@@ -1383,14 +1950,14 @@
                     <i class="fa-solid fa-arrows-rotate"></i> Reset Form
                 </button>
                 <button type="submit" class="gp-btn-submit">
-                    <i class="fa-solid fa-paper-plane"></i> Simpan Penugasan Guru Pengganti
+                    <i class="fa-solid fa-paper-plane"></i> Simpan<span class="gp-btn-text-full"> Penugasan Guru Pengganti</span>
                 </button>
             </div>
         </form>
     </div>
 
-    <!-- 3. Grid 3 Kartu Statistik (Gaya Gradient Card Dinamis & Hidup) -->
-    <div class="gp-stat-grid">
+    <!-- 3. Grid 3 Kartu Statistik (Desktop View) -->
+    <div class="gp-stat-grid gp-desktop-stat-grid">
         
         <!-- Card 1: Guru Tidak Hadir (Blue Theme) -->
         <div class="gp-stat-gradient-card card-theme-blue">
@@ -1487,8 +2054,125 @@
 
     </div>
 
-    <!-- 4. Table Card "Daftar Penugasan Guru Pengganti" -->
-    <div class="gp-table-card" id="penugasanTable">
+    <!-- 3b. Carousel 3 Kartu Statistik (Mobile View) -->
+    <div class="mobile-gp-stat-carousel-wrap">
+        <div class="mobile-gp-stat-container">
+            <div class="mobile-gp-stat-track" id="mobileStatTrack">
+                
+                <!-- Slide 1: Guru Tidak Hadir -->
+                <div class="mobile-gp-stat-slide">
+                    <div class="gp-stat-gradient-card card-theme-blue">
+                        <div class="gp-stat-left">
+                            <div class="gp-stat-circle-icon circle-icon-blue">
+                                <i class="fa-solid fa-location-dot" style="font-size: 18px;"></i>
+                            </div>
+                            <div class="gp-stat-details">
+                                <span class="gp-stat-label text-theme-blue">Guru Tidak Hadir</span>
+                                <div class="gp-stat-value-wrap">
+                                    <span class="gp-stat-value">{{ $stats['guruTidakHadir'] }}</span>
+                                    <span class="gp-stat-unit">Guru</span>
+                                </div>
+                                <span class="gp-stat-subtext">Terdata izin / sakit hari ini</span>
+                            </div>
+                        </div>
+                        <a href="#" onclick="openModalStatGuruTidakHadir(); return false;" class="gp-stat-link text-theme-blue">
+                            Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: flex-start; color: #60a5fa;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" style="margin-top: 5px;"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+                        </div>
+
+                        <svg class="stat-card-wave wave-theme-blue" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <path d="M0 70 C 45 70, 70 48, 90 30 C 110 12, 125 4, 140 0 L 140 70 Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Guru Pengganti -->
+                <div class="mobile-gp-stat-slide">
+                    <div class="gp-stat-gradient-card card-theme-amber">
+                        <div class="gp-stat-left">
+                            <div class="gp-stat-circle-icon circle-icon-amber">
+                                <i class="fa-solid fa-user-group" style="font-size: 17px;"></i>
+                            </div>
+                            <div class="gp-stat-details">
+                                <span class="gp-stat-label text-theme-amber">Guru Pengganti</span>
+                                <div class="gp-stat-value-wrap">
+                                    <span class="gp-stat-value">{{ $stats['guruPengganti'] }}</span>
+                                    <span class="gp-stat-unit">Guru</span>
+                                </div>
+                                <span class="gp-stat-subtext">Bertugas piket & pengganti</span>
+                            </div>
+                        </div>
+                        <a href="#" onclick="openModalStatGuruPengganti(); return false;" class="gp-stat-link text-theme-amber">
+                            Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: flex-start; color: #fbbf24;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" style="margin-top: 5px;"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+                        </div>
+
+                        <svg class="stat-card-wave wave-theme-amber" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <path d="M0 70 C 45 70, 70 48, 90 30 C 110 12, 125 4, 140 0 L 140 70 Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Penugasan Aktif -->
+                <div class="mobile-gp-stat-slide">
+                    <div class="gp-stat-gradient-card card-theme-emerald">
+                        <div class="gp-stat-left">
+                            <div class="gp-stat-circle-icon circle-icon-emerald">
+                                <i class="fa-solid fa-calendar-check" style="font-size: 18px;"></i>
+                            </div>
+                            <div class="gp-stat-details">
+                                <span class="gp-stat-label text-theme-emerald">Penugasan Aktif</span>
+                                <div class="gp-stat-value-wrap">
+                                    <span class="gp-stat-value">{{ $stats['penugasanAktif'] }}</span>
+                                    <span class="gp-stat-unit">Penugasan</span>
+                                </div>
+                                <span class="gp-stat-subtext">Sesi jam berjalan hari ini</span>
+                            </div>
+                        </div>
+                        <a href="{{ route('piket.guru-pengganti', ['status' => 'aktif']) }}" class="gp-stat-link text-theme-emerald">
+                            Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: flex-start; color: #34d399;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+                            <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" style="margin-top: 5px;"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/></svg>
+                        </div>
+
+                        <svg class="stat-card-wave wave-theme-emerald" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                            <path d="M0 70 C 45 70, 70 48, 90 30 C 110 12, 125 4, 140 0 L 140 70 Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button type="button" class="m-stat-arrow m-stat-prev" onclick="moveStatCarousel(-1)" title="Slide Sebelumnya">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button" class="m-stat-arrow m-stat-next" onclick="moveStatCarousel(1)" title="Slide Berikutnya">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Dot Indicator (3 dots) -->
+        <div class="mobile-gp-stat-dots" id="statCarouselDots">
+            <span class="m-stat-dot active" onclick="jumpToStatSlide(0)"></span>
+            <span class="m-stat-dot" onclick="jumpToStatSlide(1)"></span>
+            <span class="m-stat-dot" onclick="jumpToStatSlide(2)"></span>
+        </div>
+    </div>
+
+    <!-- 4. Table Card "Daftar Penugasan Guru Pengganti" (Desktop View) -->
+    <div class="gp-table-card gp-desktop-table-card" id="penugasanTable">
         
         <div class="gp-table-header">
             <div class="gp-table-title-group">
@@ -1699,7 +2383,174 @@
 
     </div>
 
-</div>
+    <!-- ==================== MOBILE VIEW ==================== -->
+    <div class="mobile-gp-section">
+        
+        <!-- 1. Search & Filter Bar Card -->
+        <div class="mobile-gp-filter-card">
+            <div class="mobile-gp-filter-header">
+                <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+                    <div class="m-card-icon-wrap">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </div>
+                    <h3 style="font-size: 14.5px; font-weight: 800; color: #0f172a; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Daftar Penugasan</h3>
+                </div>
+                
+                <button type="button" onclick="openTrashModal()" class="m-btn-trash-pill" title="Lihat Data Sampah">
+                    <i class="fa-regular fa-trash-can"></i>
+                    <span>Sampah ({{ $trashCount }})</span>
+                </button>
+            </div>
+
+            <div class="mobile-gp-search-row">
+                <form action="{{ route('piket.guru-pengganti') }}" method="GET" class="m-search-form">
+                    @if($tanggalFilter)<input type="hidden" name="tanggal" value="{{ $tanggalFilter }}">@endif
+                    @if($idKelasFilter)<input type="hidden" name="id_kelas" value="{{ $idKelasFilter }}">@endif
+                    @if($idMapelFilter)<input type="hidden" name="id_mapel" value="{{ $idMapelFilter }}">@endif
+                    @if($statusFilter)<input type="hidden" name="status" value="{{ $statusFilter }}">@endif
+
+                    <div class="m-search-input-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="q" value="{{ $search }}" placeholder="Cari Guru / Mapel / Kelas..." class="m-search-input">
+                    </div>
+                    
+                    <button type="button" class="m-btn-filter-trigger" onclick="openMobileFilterModal()">
+                        <i class="fa-solid fa-filter"></i>
+                        <span>Filter</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 2. Mobile Cards List -->
+        <div class="mobile-gp-cards-list">
+            @php
+                $colorPalette = [
+                    ['bar' => '#38bdf8', 'bg' => '#e0f2fe', 'text' => '#0284c7'],
+                    ['bar' => '#f472b6', 'bg' => '#fce7f3', 'text' => '#db2777'],
+                    ['bar' => '#4ade80', 'bg' => '#dcfce7', 'text' => '#16a34a'],
+                    ['bar' => '#a78bfa', 'bg' => '#ede9fe', 'text' => '#7c3aed'],
+                    ['bar' => '#fb923c', 'bg' => '#ffedd5', 'text' => '#ea580c'],
+                ];
+            @endphp
+
+            @forelse($penugasans as $index => $row)
+                @php
+                    $tgl = isset($row->tanggal) ? \Carbon\Carbon::parse($row->tanggal) : null;
+                    $dayStr = $tgl ? $tgl->format('d') : sprintf('%02d', $index + 1);
+                    $monthOnly = $tgl ? strtoupper($tgl->format('M')) : 'SEP';
+                    $yearOnly  = $tgl ? $tgl->format('Y') : '2026';
+                    $tglFormatted = $tgl ? $tgl->format('d/m/Y') : '-';
+                    
+                    $stTeks = strtolower($row->status_teks ?? ($row->status ?? 'aktif'));
+                    $stBorderColor = '#2563eb';
+                    if ($stTeks === 'selesai') $stBorderColor = '#10b981';
+                    if ($stTeks === 'dibatalkan') $stBorderColor = '#ef4444';
+
+                    $guruTidakHadirNama = $row->guru_tidak_hadir_nama ?? ($row->guruTidakHadir->nama_guru ?? 'Guru Tidak Hadir');
+                    $guruPenggantiNama  = $row->guru_pengganti_nama ?? ($row->guruPengganti->nama_guru ?? 'Guru Pengganti');
+                    $kelasNama          = $row->kelas_nama ?? ($row->kelas->nama_kelas ?? '-');
+                    $mapelNama          = $row->mapel_nama ?? ($row->guruTidakHadir->mapel->nama_mapel ?? '-');
+                    $jamStr             = $row->jam ?? ($row->jam_pelajaran ?? '-');
+
+                    $themeIndex = abs(crc32($mapelNama)) % count($colorPalette);
+                    $theme = $colorPalette[$themeIndex];
+
+                    $jsonDataMobile = [
+                        'id_penugasan'         => $row->id_penugasan ?? null,
+                        'tanggal'              => $row->tanggal ?? '',
+                        'id_guru_tidak_hadir'  => $row->id_guru_tidak_hadir ?? null,
+                        'guru_tidak_hadir_nama'=> $guruTidakHadirNama,
+                        'id_guru_pengganti'    => $row->id_guru_pengganti ?? null,
+                        'guru_pengganti_nama'  => $guruPenggantiNama,
+                        'id_kelas'             => $row->id_kelas ?? null,
+                        'kelas_nama'           => $kelasNama,
+                        'mapel_nama'           => $mapelNama,
+                        'jam_pelajaran'        => $jamStr,
+                        'status'               => $stTeks,
+                        'materi_dititipkan'    => $row->materi_dititipkan ?? '',
+                        'tugas_dititipkan'     => $row->tugas_dititipkan ?? '',
+                        'file_tugas'           => $row->file_tugas ?? '',
+                        'catatan'              => $row->catatan ?? '',
+                    ];
+                @endphp
+
+                <div class="mobile-gp-card-item card-{{ $stTeks }}" style="border-left: 3.5px solid {{ $stBorderColor }};">
+                    <!-- Left: Tiered Date Column -->
+                    <div class="mobile-card-date-col date-{{ $stTeks }}">
+                        <span class="m-date-day">{{ $dayStr }}</span>
+                        <span class="m-date-month">{{ $monthOnly }}</span>
+                        <span class="m-date-year">{{ $yearOnly }}</span>
+                    </div>
+
+                    <!-- Right: Card Content -->
+                    <div class="mobile-card-content">
+                        <!-- Row 1: Status badge & Kelas badge -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+                            <span class="gp-status-badge gp-status-{{ $stTeks }}" style="font-size: 11px; padding: 2.5px 8px;">
+                                <span class="gp-status-dot"></span>
+                                {{ ucfirst($stTeks) }}
+                            </span>
+                            <span style="background: #f1f5f9; border: 1px solid #e2e8f0; color: #334155; font-size: 11px; font-weight: 700; padding: 2.5px 8px; border-radius: 6px;">
+                                {{ $kelasNama }}
+                            </span>
+                        </div>
+
+                        <!-- Row 2: Mata Pelajaran & Jam -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+                            <span class="mapel-pill-badge" style="background: {{ $theme['bg'] }}; color: {{ $theme['text'] }}; font-size: 11px; font-weight: 700; padding: 2.5px 8px; border-radius: 6px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                {{ $mapelNama }}
+                            </span>
+                            <span style="font-size: 11px; font-weight: 600; color: #64748b;">
+                                <i class="fa-regular fa-clock" style="color: #94a3b8; font-size: 10px;"></i> {{ $jamStr }}
+                            </span>
+                        </div>
+
+                        <!-- Row 3: Teacher Info Stack -->
+                        <div style="display: flex; flex-direction: column; gap: 3px; font-size: 12px; margin-top: 2px;">
+                            <div style="display: flex; align-items: center; gap: 6px; min-width: 0;">
+                                <i class="fa-solid fa-user-xmark" style="color: #ef4444; font-size: 11px; width: 14px; text-align: center; flex-shrink: 0;" title="Guru Tidak Hadir"></i>
+                                <span style="font-size: 11px; color: #64748b; font-weight: 600;">Izin:</span>
+                                <span style="font-weight: 700; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px;">{{ $guruTidakHadirNama }}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px; min-width: 0;">
+                                <i class="fa-solid fa-user-check" style="color: #10b981; font-size: 11px; width: 14px; text-align: center; flex-shrink: 0;" title="Guru Pengganti"></i>
+                                <span style="font-size: 11px; color: #64748b; font-weight: 600;">Ganti:</span>
+                                <span style="font-weight: 700; color: #2563eb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px;">{{ $guruPenggantiNama }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Row 4: Lihat Detail Button -->
+                        <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 4px; padding-top: 6px; border-top: 1px dashed #f1f5f9;">
+                            <button type="button" class="m-btn-lihat-detail" style="color: #2563eb; font-weight: 700; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; padding: 2px 0;" onclick='showDetailModalComplete(@json($jsonDataMobile))'>
+                                <span>Lihat Detail</span>
+                                <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 30px 16px; text-align: center; color: #94a3b8;">
+                    <i class="fa-regular fa-folder-open" style="font-size: 28px; color: #cbd5e1; margin-bottom: 8px;"></i>
+                    <p style="font-size: 12.5px; font-weight: 600; margin: 0;">Belum ada penugasan guru pengganti ditemukan.</p>
+                </div>
+            @endforelse
+        </div>
+
+        <!-- 3. Mobile Pagination Card -->
+        <div class="mobile-pagination-card">
+            <div style="font-size: 12px; color: #64748b; font-weight: 600;">
+                Data <strong style="color: #0f172a;">{{ count($penugasans) > 0 ? 1 : 0 }} - {{ count($penugasans) }}</strong> dari <strong style="color: #0f172a;">{{ count($penugasans) }}</strong>
+            </div>
+            <div class="m-pagination-pills">
+                <a href="#" class="m-pag-btn" title="Sebelumnya">&lsaquo;</a>
+                <a href="#" class="m-pag-btn active">1</a>
+                <a href="#" class="m-pag-btn" title="Berikutnya">&rsaquo;</a>
+            </div>
+        </div>
+
+    </div>
+    <!-- ==================== END MOBILE VIEW ==================== -->
 
 <!-- Modal 1: Detail Lengkap Penugasan Guru Pengganti -->
 <div id="detailModal" class="modal-overlay">
@@ -1710,7 +2561,7 @@
         </div>
 
         <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13px;">
-            <div style="background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="gp-detail-grid" style="background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                 <div><strong style="color: #64748b; font-size: 11.5px; display: block;">GURU TIDAK HADIR</strong> <div id="detailGuruUtama" style="color: #991b1b; font-weight: 800; font-size: 13.5px;"></div></div>
                 <div><strong style="color: #64748b; font-size: 11.5px; display: block;">GURU PENGGANTI</strong> <div id="detailGuruPengganti" style="color: #2563eb; font-weight: 800; font-size: 13.5px;"></div></div>
                 <div><strong style="color: #64748b; font-size: 11.5px; display: block;">TANGGAL & HARI</strong> <div id="detailTanggal" style="font-weight: 600;"></div></div>
@@ -1741,9 +2592,85 @@
             </div>
         </div>
 
-        <div style="margin-top: 20px; text-align: right;">
-            <button type="button" onclick="closeDetailModal()" class="gp-btn-submit" style="padding: 8px 20px;">Tutup Detail</button>
+        <div style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <form id="formDetailDelete" method="POST" action="" style="display: none;" onsubmit="return confirm('Pindahkan penugasan ini ke Sampah?')">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="gp-btn-delete-modal" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 8px 14px; border-radius: 9px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                    <i class="fa-regular fa-trash-can"></i> Pindahkan ke Sampah
+                </button>
+            </form>
+            <button type="button" onclick="closeDetailModal()" class="gp-btn-submit" style="padding: 8px 20px; margin-left: auto;">Tutup Detail</button>
         </div>
+    </div>
+</div>
+
+<!-- Modal Modern Filter Guru Pengganti (Mobile) -->
+<div id="mobileFilterModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(3px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;">
+    <div class="mobile-filter-modal-card">
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 34px; height: 34px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+                    <i class="fa-solid fa-filter"></i>
+                </div>
+                <div>
+                    <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0;">Filter Penugasan</h3>
+                    <p style="font-size: 11.5px; color: #64748b; margin: 2px 0 0 0;">Sesuaikan kriteria penugasan guru pengganti</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeMobileFilterModal()" style="background: #f1f5f9; border: none; width: 30px; height: 30px; border-radius: 8px; font-size: 16px; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+
+        <form action="{{ route('piket.guru-pengganti') }}" method="GET" style="display: flex; flex-direction: column; gap: 12px;">
+            @if($search)<input type="hidden" name="q" value="{{ $search }}">@endif
+            
+            <div>
+                <label style="display: block; font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 5px;">Tanggal Penugasan</label>
+                <input type="date" name="tanggal" value="{{ $tanggalFilter }}" class="m-filter-field">
+            </div>
+
+            <div>
+                <label style="display: block; font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 5px;">Kelas</label>
+                <select name="id_kelas" class="m-filter-field">
+                    <option value="">Semua Kelas</option>
+                    @foreach($kelasList as $k)
+                        <option value="{{ $k->id_kelas }}" {{ $idKelasFilter == $k->id_kelas ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label style="display: block; font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 5px;">Mata Pelajaran</label>
+                <select name="id_mapel" class="m-filter-field">
+                    <option value="">Semua Mata Pelajaran</option>
+                    @foreach($mapelList as $m)
+                        <option value="{{ $m->id_mapel }}" {{ $idMapelFilter == $m->id_mapel ? 'selected' : '' }}>{{ $m->nama_mapel }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label style="display: block; font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 5px;">Status</label>
+                <select name="status" class="m-filter-field">
+                    <option value="">Semua Status</option>
+                    <option value="aktif" {{ $statusFilter === 'aktif' ? 'selected' : '' }}>Aktif</option>
+                    <option value="selesai" {{ $statusFilter === 'selesai' ? 'selected' : '' }}>Selesai</option>
+                    <option value="dibatalkan" {{ $statusFilter === 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 8px;">
+                <a href="{{ route('piket.guru-pengganti') }}" class="m-btn-filter-reset">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>Reset</span>
+                </a>
+                <button type="submit" class="m-btn-filter-submit">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Terapkan Filter</span>
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -2663,12 +3590,120 @@
             fileBox.innerHTML = '<span style="color: #94a3b8; font-style: italic;">Tidak ada file tugas diunggah (Opsional).</span>';
         }
 
+        const formDel = document.getElementById('formDetailDelete');
+        if (formDel) {
+            if (data.id_penugasan && !isNaN(data.id_penugasan)) {
+                formDel.action = `{{ url('/guru-piket/guru-pengganti') }}/${data.id_penugasan}`;
+                formDel.style.display = 'inline-block';
+            } else {
+                formDel.style.display = 'none';
+            }
+        }
+
         document.getElementById('detailModal').style.display = 'flex';
     }
 
     function closeDetailModal() {
         document.getElementById('detailModal').style.display = 'none';
     }
+
+    // Modal Modern Filter Guru Pengganti (Mobile)
+    function openMobileFilterModal() {
+        const modal = document.getElementById('mobileFilterModal');
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+    function closeMobileFilterModal() {
+        const modal = document.getElementById('mobileFilterModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Close on backdrop click for mobileFilterModal
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterModal = document.getElementById('mobileFilterModal');
+        if (filterModal) {
+            filterModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeMobileFilterModal();
+                }
+            });
+        }
+    });
+
+    /* Mobile Stat Cards Carousel (3 Slides, Swipe, Dots, Manual Arrows) */
+    let currentStatSlide = 0;
+    const totalStatSlides = 3;
+    let statCarouselTimer = null;
+
+    function updateStatCarouselUI() {
+        const track = document.getElementById('mobileStatTrack');
+        if (track) {
+            track.style.transform = `translateX(-${currentStatSlide * 100}%)`;
+        }
+        const dots = document.querySelectorAll('#statCarouselDots .m-stat-dot');
+        dots.forEach((dot, idx) => {
+            if (idx === currentStatSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    function resetStatCarouselTimer() {
+        if (statCarouselTimer) clearInterval(statCarouselTimer);
+        statCarouselTimer = setInterval(() => {
+            moveStatCarousel(1);
+        }, 300000); // 5-minute gentle auto-rotation
+    }
+
+    function moveStatCarousel(direction) {
+        currentStatSlide = (currentStatSlide + direction + totalStatSlides) % totalStatSlides;
+        updateStatCarouselUI();
+        resetStatCarouselTimer();
+    }
+
+    function jumpToStatSlide(index) {
+        currentStatSlide = index;
+        updateStatCarouselUI();
+        resetStatCarouselTimer();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const statContainer = document.querySelector('.mobile-gp-stat-container');
+        if (statContainer) {
+            statContainer.addEventListener('mouseenter', function() {
+                statContainer.classList.add('is-hovered');
+            });
+            statContainer.addEventListener('mouseleave', function() {
+                statContainer.classList.remove('is-hovered');
+            });
+
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            statContainer.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            statContainer.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchEndX - touchStartX;
+                if (Math.abs(diff) > 40) {
+                    if (diff < 0) {
+                        moveStatCarousel(1);
+                    } else {
+                        moveStatCarousel(-1);
+                    }
+                }
+            }, { passive: true });
+
+            resetStatCarouselTimer();
+        }
+    });
 
     // Modal Edit Penugasan
     function openEditModal(data) {

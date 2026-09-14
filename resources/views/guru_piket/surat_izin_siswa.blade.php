@@ -1071,6 +1071,606 @@
         border: 1px solid #fecaca;
         color: #991b1b;
     }
+
+    /* ─── Mobile Responsive Additions (Strictly Hidden on Desktop) ─── */
+    .mobile-sis-stat-carousel-wrap,
+    .mobile-sis-section,
+    #mobileFilterModal,
+    .sis-btn-text-short {
+        display: none !important;
+    }
+
+    @media (max-width: 768px) {
+        .sis-desktop-table-card,
+        .sis-desktop-stat-grid,
+        .sis-btn-text-full {
+            display: none !important;
+        }
+
+        .mobile-sis-stat-carousel-wrap,
+        .mobile-sis-section {
+            display: flex !important;
+        }
+
+        #mobileFilterModal.active {
+            display: flex !important;
+        }
+
+        .sis-btn-text-short {
+            display: inline !important;
+        }
+
+        .sis-page-container {
+            padding-bottom: 24px;
+        }
+
+        /* Modal Overlay & Box on Mobile */
+        .sis-modal-overlay {
+            padding: 12px;
+        }
+
+        .sis-modal-box {
+            padding: 16px 14px;
+            border-radius: 18px;
+            max-height: 92vh;
+            width: 100%;
+        }
+
+        /* Mobile Stat Cards Carousel */
+        .mobile-sis-stat-carousel-wrap {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .mobile-sis-stat-container {
+            position: relative;
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            touch-action: pan-y;
+            background: transparent;
+        }
+
+        .mobile-sis-stat-track {
+            display: flex;
+            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            width: 100%;
+        }
+
+        .mobile-sis-stat-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .mobile-sis-stat-slide .sis-stat-card {
+            width: 100%;
+            margin: 0;
+            border-radius: 18px;
+            padding: 16px 18px;
+            box-sizing: border-box;
+        }
+
+        .m-stat-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.25s ease, transform 0.2s ease, visibility 0.25s ease;
+        }
+
+        .mobile-sis-stat-container:hover .m-stat-arrow,
+        .mobile-sis-stat-container.is-hovered .m-stat-arrow {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .m-stat-arrow:hover,
+        .m-stat-arrow:active {
+            color: #2563eb;
+            background: #f8fafc;
+            transform: translateY(-50%) scale(0.92);
+        }
+
+        .m-stat-prev { left: 8px; }
+        .m-stat-next { right: 8px; }
+
+        .mobile-sis-stat-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        .m-stat-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .m-stat-dot.active {
+            width: 20px;
+            height: 6px;
+            border-radius: 9999px;
+            background: #2563eb;
+        }
+
+        /* Banner & Card on Mobile */
+        .sis-sync-banner {
+            padding: 12px 14px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+        }
+
+        .sis-sync-right-graphic svg {
+            width: 36px;
+            height: 36px;
+        }
+
+        .sis-card {
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+
+        .sis-card-header {
+            padding: 14px 16px;
+        }
+
+        .sis-card-body {
+            padding: 16px;
+        }
+
+        /* Form Controls on Mobile */
+        .sis-form-grid {
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        .sis-input, .sis-select, .sis-file-container {
+            height: 42px;
+            min-height: 42px;
+            font-size: 13px;
+        }
+
+        .sis-form-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 14px;
+            width: 100%;
+        }
+
+        .sis-btn-reset, .sis-btn-submit {
+            width: 100%;
+            justify-content: center;
+            height: 42px;
+            min-height: 42px;
+            padding: 0 10px;
+            font-size: 12.5px;
+            border-radius: 9px;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .sis-btn-submit {
+            font-weight: 700;
+        }
+
+        .sis-btn-reset {
+            font-weight: 600;
+        }
+
+        /* Mobile Section: Filter Card + Cards List */
+        .mobile-sis-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .mobile-sis-filter-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mobile-sis-filter-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .m-card-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .m-btn-trash-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #e11d48;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+
+        .m-btn-trash-pill:hover,
+        .m-btn-trash-pill:active {
+            background: #ffe4e6;
+            border-color: #fda4af;
+            color: #be123c;
+        }
+
+        .mobile-sis-search-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .m-search-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .m-search-input-box {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-search-input-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        .m-search-input {
+            width: 100%;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            padding: 0 12px 0 34px !important;
+            font-size: 12.5px;
+            color: #1e293b;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .m-search-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .m-btn-filter-trigger {
+            height: 38px;
+            padding: 0 16px;
+            border-radius: 10px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            font-size: 12.5px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+            flex-shrink: 0;
+            transition: background 0.15s ease;
+            position: relative;
+        }
+
+        .m-btn-filter-trigger:hover,
+        .m-btn-filter-trigger:active {
+            background: #1d4ed8;
+        }
+
+        .m-filter-active-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #34d399;
+            border: 1.5px solid #ffffff;
+            margin-left: 2px;
+        }
+
+        /* Mobile Cards List */
+        .mobile-sis-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .mobile-sis-card-item {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: stretch;
+            padding: 12px 14px 12px 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .mobile-sis-card-item.card-sakit {
+            border-color: #bbf7d0;
+            background: #fcfffd;
+        }
+
+        .mobile-sis-card-item.card-izin {
+            border-color: #fde68a;
+            background: #fffdf7;
+        }
+
+        .mobile-sis-card-item.card-dispen {
+            border-color: #e9d5ff;
+            background: #fdfcff;
+        }
+
+        /* Tiered Date Column */
+        .mobile-card-date-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 58px;
+            padding: 2px 10px 2px 4px;
+            border-right: 1px solid #f1f5f9;
+            flex-shrink: 0;
+        }
+
+        .m-date-day {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.1;
+            text-align: center;
+        }
+
+        .date-sakit .m-date-day { color: #15803d; }
+        .date-izin .m-date-day { color: #b45309; }
+        .date-dispen .m-date-day { color: #7e22ce; }
+
+        .m-date-month {
+            font-size: 10px;
+            font-weight: 800;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+
+        .date-sakit .m-date-month { color: #16a34a; }
+        .date-izin .m-date-month { color: #d97706; }
+        .date-dispen .m-date-month { color: #9333ea; }
+
+        .m-date-year {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        .m-date-durasi-badge {
+            font-size: 9px;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 6px;
+            margin-top: 3px;
+            white-space: nowrap;
+        }
+
+        .date-sakit .m-date-durasi-badge { background: #dcfce7; color: #166534; }
+        .date-izin .m-date-durasi-badge { background: #fef3c7; color: #92400e; }
+        .date-dispen .m-date-durasi-badge { background: #f3e8ff; color: #6b21a8; }
+
+        /* Right Card Content */
+        .mobile-card-content {
+            flex: 1;
+            min-width: 0;
+            padding-left: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .m-card-badges-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .m-card-student-name {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.25;
+        }
+
+        .m-card-sub-info {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .m-card-class-badge {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #1e3a8a;
+            background: #eff6ff;
+            padding: 1px 6px;
+            border-radius: 6px;
+            border: 1px solid #dbeafe;
+        }
+
+        .m-card-reason-box {
+            font-size: 11.5px;
+            color: #334155;
+            background: #f8fafc;
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid #f1f5f9;
+            line-height: 1.35;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .m-card-footer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 4px;
+            padding-top: 6px;
+            border-top: 1px dashed #f1f5f9;
+        }
+
+        .m-btn-detail-link {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2563eb;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 6px;
+            border-radius: 6px;
+            transition: background 0.15s ease;
+        }
+
+        .m-btn-detail-link:hover {
+            background: #eff6ff;
+        }
+
+        .m-btn-modal-delete {
+            background: #fff1f2;
+            color: #e11d48;
+            border: 1px solid #fecdd3;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .m-btn-modal-delete:hover {
+            background: #ffe4e6;
+            color: #be123c;
+        }
+
+        .mobile-pagination-card {
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-radius: 14px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .m-filter-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .m-filter-select, .m-filter-input {
+            width: 100%;
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            padding: 0 12px;
+            font-size: 12.5px;
+            color: #1e293b;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .m-filter-select:focus, .m-filter-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+    }
 </style>
 @endsection
 
@@ -1106,8 +1706,8 @@
         </div>
     @endif
 
-    <!-- 1. Top 4 Stat Cards -->
-    <div class="sis-stats-grid">
+    <!-- 1. Top 4 Stat Cards (Desktop Grid) -->
+    <div class="sis-stats-grid sis-desktop-stat-grid">
         <!-- Card 1: Total Izin Hari Ini -->
         <div class="sis-stat-card">
             <div class="sis-stat-left">
@@ -1162,6 +1762,95 @@
                     <span class="sis-stat-sub">Lomba / Kegiatan Luar</span>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 1b. Mobile Stat Cards Carousel (Mobile View) -->
+    <div class="mobile-sis-stat-carousel-wrap">
+        <div class="mobile-sis-stat-container" id="mobileStatContainer">
+            <div class="mobile-sis-stat-track" id="mobileStatTrack">
+                
+                <!-- Slide 1: Total Izin Hari Ini -->
+                <div class="mobile-sis-stat-slide">
+                    <div class="sis-stat-card">
+                        <div class="sis-stat-left">
+                            <div class="sis-stat-icon blue">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div class="sis-stat-info">
+                                <span class="sis-stat-title">Total Izin Hari Ini</span>
+                                <span class="sis-stat-number">{{ $totalIzinHariIni }}</span>
+                                <span class="sis-stat-sub">Siswa Aktif (Sakit: {{ $sakitHariIni }}, Izin: {{ $izinHariIni }}, Dispen: {{ $dispenHariIni }})</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Sakit -->
+                <div class="mobile-sis-stat-slide">
+                    <div class="sis-stat-card">
+                        <div class="sis-stat-left">
+                            <div class="sis-stat-icon green">
+                                <i class="fa-solid fa-notes-medical"></i>
+                            </div>
+                            <div class="sis-stat-info">
+                                <span class="sis-stat-title" style="color: #15803d;">Sakit</span>
+                                <span class="sis-stat-number">{{ $sakitHariIni }}</span>
+                                <span class="sis-stat-sub">Surat Dokter / Orang Tua</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Izin -->
+                <div class="mobile-sis-stat-slide">
+                    <div class="sis-stat-card">
+                        <div class="sis-stat-left">
+                            <div class="sis-stat-icon orange">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </div>
+                            <div class="sis-stat-info">
+                                <span class="sis-stat-title" style="color: #b45309;">Izin</span>
+                                <span class="sis-stat-number">{{ $izinHariIni }}</span>
+                                <span class="sis-stat-sub">Izin Kepentingan Keluarga</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Dispen Luar Sekolah -->
+                <div class="mobile-sis-stat-slide">
+                    <div class="sis-stat-card">
+                        <div class="sis-stat-left">
+                            <div class="sis-stat-icon purple">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div class="sis-stat-info">
+                                <span class="sis-stat-title" style="color: #7e22ce;">Dispen Luar Sekolah</span>
+                                <span class="sis-stat-number">{{ $dispenHariIni }}</span>
+                                <span class="sis-stat-sub">Lomba / Kegiatan Luar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button type="button" class="m-stat-arrow m-stat-prev" id="statPrevBtn" onclick="prevSisStatSlide()" aria-label="Sebelumnya">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button" class="m-stat-arrow m-stat-next" id="statNextBtn" onclick="nextSisStatSlide()" aria-label="Selanjutnya">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Dot Indicators (4 Dots) -->
+        <div class="mobile-sis-stat-dots" id="mobileStatDots">
+            <span class="m-stat-dot active" onclick="goToSisStatSlide(0)"></span>
+            <span class="m-stat-dot" onclick="goToSisStatSlide(1)"></span>
+            <span class="m-stat-dot" onclick="goToSisStatSlide(2)"></span>
+            <span class="m-stat-dot" onclick="goToSisStatSlide(3)"></span>
         </div>
     </div>
 
@@ -1326,20 +2015,23 @@
                 <!-- Action Buttons: Reset & Submit -->
                 <div class="sis-form-actions">
                     <button type="button" class="sis-btn-reset" onclick="resetFormCustom()">
-                        <i class="fa-solid fa-rotate-right"></i> Reset Form
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span class="sis-btn-text-full">Reset Form</span>
+                        <span class="sis-btn-text-short">Reset</span>
                     </button>
 
                     <button type="submit" id="btnSubmitForm" class="sis-btn-submit">
                         <i class="fa-solid fa-paper-plane"></i>
-                        <span>Kirim &amp; Ter-absenkan Otomatis</span>
+                        <span class="sis-btn-text-full">Kirim &amp; Ter-absenkan Otomatis</span>
+                        <span class="sis-btn-text-short">Kirim Izin</span>
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 4. Card Daftar Data Surat Izin & Ketidakhadiran Siswa -->
-    <div class="sis-card">
+    <!-- 4. Card Daftar Data Surat Izin & Ketidakhadiran Siswa (Desktop View) -->
+    <div class="sis-card sis-desktop-table-card">
         <div class="sis-card-header">
             <div class="sis-card-header-left">
                 <div class="sis-card-icon">
@@ -1622,6 +2314,233 @@
         </div>
     </div>
 
+    <!-- 5. Mobile Section (Filter Card + Cards List + Pagination) -->
+    <div class="mobile-sis-section">
+        
+        <!-- Filter Card Mobile -->
+        <div class="mobile-sis-filter-card">
+            <div class="mobile-sis-filter-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="m-card-icon-wrap">
+                        <i class="fa-solid fa-table-list"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0;">Surat Izin Siswa</h2>
+                        <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-top: 1px;">
+                            Total: {{ $suratIzinList->total() }} Data Surat
+                        </div>
+                    </div>
+                </div>
+                @php
+                    $trashCount = \App\Models\SiswaSuratIzin::onlyTrashed()->count();
+                @endphp
+                <a href="{{ route('piket.surat-izin-siswa.trash') }}" class="m-btn-trash-pill" title="Lihat Sampah Data Izin Siswa">
+                    <i class="fa-regular fa-trash-can"></i> Sampah ({{ $trashCount }})
+                </a>
+            </div>
+
+            <!-- Search Bar + Filter Trigger Button -->
+            <div class="mobile-sis-search-row">
+                <form action="{{ route('piket.surat-izin-siswa') }}" method="GET" class="m-search-form">
+                    @if(request('id_kelas'))
+                        <input type="hidden" name="id_kelas" value="{{ request('id_kelas') }}">
+                    @endif
+                    @if(request('kategori'))
+                        <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+                    @endif
+                    @if(request('tanggal'))
+                        <input type="hidden" name="tanggal" value="{{ request('tanggal') }}">
+                    @endif
+                    <div class="m-search-input-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari Siswa / NIS / Keterangan..." class="m-search-input">
+                    </div>
+                    <button type="button" class="m-btn-filter-trigger" onclick="openMobileFilterModal()">
+                        <i class="fa-solid fa-filter"></i> Filter
+                        @if(request('id_kelas') || request('kategori') || request('tanggal'))
+                            <span class="m-filter-active-dot"></span>
+                        @endif
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Cards List Mobile -->
+        <div class="mobile-sis-cards-list">
+            @forelse($suratIzinList as $item)
+                @php
+                    $namaSiswa = $item->siswa->nama_siswa ?? 'Siswa';
+                    $namaKelas = $item->kelas->nama_kelas ?? '-';
+                    $waliKelasObj = $item->kelas->waliKelas ?? null;
+                    $waliNama = $waliKelasObj->nama_guru ?? null;
+                    $waliNip  = $waliKelasObj->nip ?? null;
+
+                    $petugasObj  = $item->petugasPiket;
+                    $petugasNama = $petugasObj->name ?? 'Petugas Piket';
+                    $petugasNip  = $petugasObj->nip ?? ($petugasObj->username ?? '-');
+
+                    $katClass = match($item->kategori) {
+                        'Sakit' => 'sakit',
+                        'Izin'  => 'izin',
+                        default => 'dispen'
+                    };
+
+                    $statusBg = match($item->status) {
+                        'Terverifikasi' => '#ecfdf5',
+                        'Ditolak'       => '#fef2f2',
+                        default         => '#fffbeb',
+                    };
+                    $statusColor = match($item->status) {
+                        'Terverifikasi' => '#065f46',
+                        'Ditolak'       => '#991b1b',
+                        default         => '#b45309',
+                    };
+                    $statusBorder = match($item->status) {
+                        'Terverifikasi' => '#a7f3d0',
+                        'Ditolak'       => '#fecaca',
+                        default         => '#fde68a',
+                    };
+
+                    $startDate = \Carbon\Carbon::parse($item->tanggal);
+                    $endDate = $item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai) : $startDate;
+                    $isMultiDay = ($item->tanggal_selesai && $item->tanggal !== $item->tanggal_selesai);
+
+                    if (!$isMultiDay) {
+                        $dayDisplay = $startDate->format('d');
+                        $monthDisplay = strtoupper($startDate->translatedFormat('M') ?: $startDate->format('M'));
+                        $yearDisplay = $startDate->format('Y');
+                    } elseif ($startDate->format('m Y') === $endDate->format('m Y')) {
+                        $dayDisplay = $startDate->format('d') . '-' . $endDate->format('d');
+                        $monthDisplay = strtoupper($startDate->translatedFormat('M') ?: $startDate->format('M'));
+                        $yearDisplay = $startDate->format('Y');
+                    } else {
+                        $dayDisplay = $startDate->format('d/m') . '-' . $endDate->format('d/m');
+                        $monthDisplay = $startDate->format('Y');
+                        $yearDisplay = '';
+                    }
+
+                    $durasiNum = $item->durasi_hari > 0 ? $item->durasi_hari : 1;
+                    $durasiText = $durasiNum . ' Hari';
+
+                    $itemDataJson = [
+                        'id_surat_izin' => $item->id_surat_izin,
+                        'nama_siswa'    => $namaSiswa,
+                        'nis'           => $item->siswa->nis ?? '-',
+                        'nama_kelas'    => $namaKelas,
+                        'wali_nama'     => $waliNama,
+                        'wali_nip'      => $waliNip,
+                        'tanggal'       => $item->tanggal,
+                        'tanggal_selesai' => $item->tanggal_selesai ?? $item->tanggal,
+                        'durasi_hari'   => $item->durasi_hari,
+                        'kategori'      => $item->kategori,
+                        'keterangan'    => $item->keterangan,
+                        'foto_url'      => $item->foto_url,
+                        'petugas_nama'  => $petugasNama,
+                        'petugas_nip'   => $petugasNip,
+                        'status'        => $item->status ?? 'Terverifikasi',
+                        'created_at'    => $item->created_at ? $item->created_at->format('Y-m-d H:i:s') : null,
+                    ];
+                @endphp
+
+                <div class="mobile-sis-card-item card-{{ $katClass }}">
+                    <!-- Left Tiered Date Column -->
+                    <div class="mobile-card-date-col date-{{ $katClass }}">
+                        <div class="m-date-day">{{ $dayDisplay }}</div>
+                        <div class="m-date-month">{{ $monthDisplay }}</div>
+                        @if($yearDisplay)
+                            <div class="m-date-year">{{ $yearDisplay }}</div>
+                        @endif
+                        <span class="m-date-durasi-badge">{{ $durasiText }}</span>
+                    </div>
+
+                    <!-- Right Card Content -->
+                    <div class="mobile-card-content">
+                        <!-- Badges Row -->
+                        <div class="m-card-badges-row">
+                            <span class="sis-badge-kategori {{ $katClass }}">
+                                @if($item->kategori == 'Sakit')
+                                    <i class="fa-solid fa-notes-medical"></i> Sakit
+                                @elseif($item->kategori == 'Izin')
+                                    <i class="fa-solid fa-envelope"></i> Izin
+                                @else
+                                    <i class="fa-solid fa-award"></i> Dispen
+                                @endif
+                            </span>
+
+                            <span style="background: {{ $statusBg }}; color: {{ $statusColor }}; border: 1px solid {{ $statusBorder }}; font-size: 10px; padding: 2px 7px; border-radius: 8px; font-weight: 800; display: inline-block; white-space: nowrap;">
+                                {{ $item->status ?? 'Terverifikasi' }}
+                            </span>
+                        </div>
+
+                        <!-- Student & Class Info -->
+                        <div>
+                            <div class="m-card-student-name">{{ $namaSiswa }}</div>
+                            <div class="m-card-sub-info">
+                                <span class="m-card-class-badge">{{ $namaKelas }}</span>
+                                <span>NIS: {{ $item->siswa->nis ?? '-' }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Wali Kelas Info if exists -->
+                        @if($waliNama)
+                            <div style="font-size: 10.5px; color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 4px;">
+                                <i class="fa-solid fa-user-tie" style="color: #94a3b8; font-size: 10px;"></i>
+                                <span>Wali: {{ $waliNama }}</span>
+                            </div>
+                        @endif
+
+                        <!-- Reason Quote Box -->
+                        <div class="m-card-reason-box">
+                            "{{ Str::limit($item->keterangan ?? 'Tidak ada keterangan.', 70) }}"
+                        </div>
+
+                        <!-- Foto Bukti Indicator -->
+                        @if($item->foto_url)
+                            <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                                <button type="button" class="sis-btn-preview-foto" onclick="showFotoModal('{{ $item->foto_url }}', '{{ $namaSiswa }} - {{ $item->kategori }}')" title="Lihat Bukti Foto" style="width: auto; height: 26px; padding: 0 8px; gap: 4px; font-size: 10.5px; font-weight: 600;">
+                                    <i class="fa-regular fa-image"></i>
+                                    <span>Bukti Foto Terlampir</span>
+                                </button>
+                            </div>
+                        @endif
+
+                        <!-- Footer Actions -->
+                        <div class="m-card-footer-row">
+                            <button type="button" class="sis-btn-action edit" onclick="openEditModal({{ json_encode($itemDataJson) }})" title="Edit Surat Izin" style="width: auto; height: 26px; padding: 0 8px; gap: 4px; font-size: 11px; font-weight: 700; border-radius: 7px;">
+                                <i class="fa-regular fa-pen-to-square"></i> Edit
+                            </button>
+                            <button type="button" class="m-btn-detail-link" onclick="openDetailModal({{ json_encode($itemDataJson) }})">
+                                Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="sis-card" style="text-align: center; padding: 36px 16px; margin-bottom: 0;">
+                    <div class="sis-empty-box" style="padding: 10px 0;">
+                        <div class="sis-empty-icon">
+                            <i class="fa-regular fa-folder-open"></i>
+                        </div>
+                        <div class="sis-empty-text">Belum ada data permintaan izin siswa yang di-input.</div>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Mobile Pagination Card -->
+        @if($suratIzinList->hasPages())
+            <div class="mobile-pagination-card">
+                <span style="font-size: 11.5px; font-weight: 600; color: #64748b;">
+                    {{ $suratIzinList->firstItem() ?? 0 }}-{{ $suratIzinList->lastItem() ?? 0 }} dari {{ $suratIzinList->total() }}
+                </span>
+                <div>
+                    {{ $suratIzinList->withQueryString()->links() }}
+                </div>
+            </div>
+        @endif
+
+    </div>
+
 </div>
 
 <!-- Modal Detail Surat Izin Siswa -->
@@ -1689,8 +2608,23 @@
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
-                <button type="button" class="sis-btn-submit" onclick="closeDetailModalDirect()" style="padding: 8px 20px; font-size: 12.5px;">Tutup Detail</button>
+            <!-- Footer: Option A Delete Button + Edit Button + Close Button -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; border-top: 1px solid #e2e8f0; padding-top: 14px; flex-wrap: wrap; gap: 8px;">
+                <form id="formDeleteDetail" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin memindahkan surat izin siswa ini ke sampah?');" style="margin: 0;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="m-btn-modal-delete">
+                        <i class="fa-regular fa-trash-can"></i> Pindahkan ke Sampah
+                    </button>
+                </form>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button type="button" id="det_btn_edit" class="sis-btn-reset" style="padding: 7px 14px; font-size: 12px; gap: 6px; font-weight: 700; border-radius: 10px;">
+                        <i class="fa-regular fa-pen-to-square"></i> Edit
+                    </button>
+                    <button type="button" class="sis-btn-submit" onclick="closeDetailModalDirect()" style="padding: 7px 18px; font-size: 12.5px; border-radius: 10px;">
+                        Tutup
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1822,6 +2756,55 @@
     @method('DELETE')
     <div id="bulkDeleteInputsContainer"></div>
 </form>
+
+<!-- Modal Filter Mobile Surat Izin Siswa -->
+<div id="mobileFilterModal" class="sis-modal-overlay">
+    <div class="sis-modal-box" style="max-width: 440px;">
+        <div class="sis-modal-header">
+            <h3><i class="fa-solid fa-filter" style="color: #2563eb;"></i> Filter Surat Izin Siswa</h3>
+            <button type="button" class="sis-modal-close" onclick="closeMobileFilterModal()">&times;</button>
+        </div>
+        <form action="{{ route('piket.surat-izin-siswa') }}" method="GET">
+            @if(request('q'))
+                <input type="hidden" name="q" value="{{ request('q') }}">
+            @endif
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                    <label class="m-filter-label"><i class="fa-solid fa-users" style="color: #2563eb;"></i> Kelas Siswa</label>
+                    <select name="id_kelas" class="m-filter-select">
+                        <option value="">-- Semua Kelas --</option>
+                        @foreach($kelases as $k)
+                            <option value="{{ $k->id_kelas }}" {{ request('id_kelas') == $k->id_kelas ? 'selected' : '' }}>
+                                {{ $k->nama_kelas }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="m-filter-label"><i class="fa-solid fa-tag" style="color: #2563eb;"></i> Kategori Ketidakhadiran</label>
+                    <select name="kategori" class="m-filter-select">
+                        <option value="">-- Semua Kategori --</option>
+                        <option value="Sakit" {{ request('kategori') == 'Sakit' ? 'selected' : '' }}>Sakit</option>
+                        <option value="Izin" {{ request('kategori') == 'Izin' ? 'selected' : '' }}>Izin</option>
+                        <option value="Dispen Luar Sekolah" {{ request('kategori') == 'Dispen Luar Sekolah' ? 'selected' : '' }}>Dispen Luar Sekolah</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="m-filter-label"><i class="fa-regular fa-calendar" style="color: #2563eb;"></i> Tanggal Izin</label>
+                    <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="m-filter-input">
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
+                <a href="{{ route('piket.surat-izin-siswa') }}" class="sis-btn-reset" style="text-decoration: none; justify-content: center; height: 42px; font-weight: 700;">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </a>
+                <button type="submit" class="sis-btn-submit" style="justify-content: center; height: 42px; font-weight: 700; border-radius: 10px; border: none; cursor: pointer;">
+                    <i class="fa-solid fa-check"></i> Terapkan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script>
     // File Input Name Display Handler
@@ -2033,6 +3016,19 @@
             fotoContainer.innerHTML = '<span style="font-size: 12px; color: #94a3b8; font-style: italic;">Tidak ada foto bukti yang terlampir.</span>';
         }
 
+        // Option A Delete Form & Edit Button Handler
+        const formDel = document.getElementById('formDeleteDetail');
+        if (formDel) {
+            formDel.action = `/guru-piket/surat-izin-siswa/${item.id_surat_izin}`;
+        }
+        const editBtn = document.getElementById('det_btn_edit');
+        if (editBtn) {
+            editBtn.onclick = function() {
+                closeDetailModalDirect();
+                openEditModal(item);
+            };
+        }
+
         document.getElementById('detailModal').classList.add('active');
     }
 
@@ -2118,9 +3114,81 @@
         return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + ' ' + d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     }
 
+    // Mobile Carousel Logic
+    let currentSisStatSlide = 0;
+    const totalSisStatSlides = 4;
+
+    function updateSisStatCarousel() {
+        const track = document.getElementById('mobileStatTrack');
+        if (!track) return;
+        track.style.transform = 'translateX(-' + (currentSisStatSlide * 100) + '%)';
+        
+        const dots = document.querySelectorAll('#mobileStatDots .m-stat-dot');
+        dots.forEach((dot, idx) => {
+            if (idx === currentSisStatSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    function nextSisStatSlide() {
+        currentSisStatSlide = (currentSisStatSlide + 1) % totalSisStatSlides;
+        updateSisStatCarousel();
+    }
+
+    function prevSisStatSlide() {
+        currentSisStatSlide = (currentSisStatSlide - 1 + totalSisStatSlides) % totalSisStatSlides;
+        updateSisStatCarousel();
+    }
+
+    function goToSisStatSlide(index) {
+        currentSisStatSlide = index;
+        updateSisStatCarousel();
+    }
+
+    function initSisStatCarousel() {
+        const container = document.getElementById('mobileStatContainer');
+        if (!container) return;
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        container.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        container.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            const swipeThreshold = 40;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                nextSisStatSlide();
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                prevSisStatSlide();
+            }
+        }, { passive: true });
+    }
+
+    function openMobileFilterModal() {
+        const modal = document.getElementById('mobileFilterModal');
+        if (modal) modal.classList.add('active');
+    }
+
+    function closeMobileFilterModal() {
+        const modal = document.getElementById('mobileFilterModal');
+        if (modal) modal.classList.remove('active');
+    }
+
+    window.addEventListener('click', function(e) {
+        const filterModal = document.getElementById('mobileFilterModal');
+        if (e.target === filterModal) closeMobileFilterModal();
+    });
+
     // Initialize Live Duration on Load
     document.addEventListener('DOMContentLoaded', function() {
         calculateDurasiLive();
+        initSisStatCarousel();
     });
 
     // Checkbox & Bulk Delete Handler

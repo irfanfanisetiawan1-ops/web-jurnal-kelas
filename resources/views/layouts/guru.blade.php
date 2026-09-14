@@ -918,7 +918,10 @@
                 align-items: center;
                 justify-content: space-between;
                 width: 100%;
+                max-width: 100%;
+                min-width: 0;
                 gap: 8px;
+                box-sizing: border-box;
             }
 
             .mobile-brand-group {
@@ -926,7 +929,8 @@
                 align-items: center;
                 gap: 8px;
                 text-decoration: none;
-                flex-shrink: 0;
+                flex: 1;
+                min-width: 0;
             }
 
             .mobile-brand-logo {
@@ -952,6 +956,8 @@
                 display: flex;
                 flex-direction: column;
                 line-height: 1.15;
+                min-width: 0;
+                overflow: hidden;
             }
 
             .mobile-brand-text .brand-school {
@@ -959,6 +965,9 @@
                 font-weight: 800;
                 color: #1e3a8a;
                 letter-spacing: -0.01em;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .mobile-brand-text .brand-school .brand-city {
@@ -969,6 +978,9 @@
                 font-size: 10.5px;
                 font-weight: 800;
                 color: #0f172a;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             /* Rotating Info Badge in Header */

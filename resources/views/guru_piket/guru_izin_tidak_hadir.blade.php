@@ -736,6 +736,478 @@
         background: #e2e8f0;
         color: #0f172a;
     }
+
+    /* Mobile Responsive Additions (Strictly Hidden on Desktop) */
+    .mobile-gith-stat-carousel-wrap,
+    .mobile-gith-section {
+        display: none !important;
+    }
+
+    @media (max-width: 768px) {
+        .gp-desktop-table-card,
+        .gp-desktop-stat-grid {
+            display: none !important;
+        }
+        .mobile-gith-stat-carousel-wrap,
+        .mobile-gith-section {
+            display: flex !important;
+        }
+        .gith-container {
+            padding-bottom: 24px;
+        }
+        .gith-modal-overlay {
+            padding: 12px;
+        }
+        .gith-modal-box {
+            padding: 16px 14px;
+            border-radius: 18px;
+            max-height: 92vh;
+            width: 100%;
+        }
+        #modalDetailContent {
+            gap: 10px !important;
+        }
+
+        /* Mobile Stat Cards Carousel */
+        .mobile-gith-stat-carousel-wrap {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .mobile-gith-stat-container {
+            position: relative;
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            touch-action: pan-y;
+            background: transparent;
+        }
+        .mobile-gith-stat-track {
+            display: flex;
+            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            width: 100%;
+        }
+        .mobile-gith-stat-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .mobile-gith-stat-slide .gith-stat-card {
+            width: 100%;
+            margin: 0;
+            border-radius: 18px;
+            padding: 16px 18px;
+            box-sizing: border-box;
+        }
+        .m-stat-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.25s ease, transform 0.2s ease, visibility 0.25s ease;
+        }
+        .mobile-gith-stat-container:hover .m-stat-arrow,
+        .mobile-gith-stat-container.is-hovered .m-stat-arrow {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+        .m-stat-arrow:hover,
+        .m-stat-arrow:active {
+            color: #2563eb;
+            background: #f8fafc;
+            transform: translateY(-50%) scale(0.92);
+        }
+        .m-stat-prev { left: 8px; }
+        .m-stat-next { right: 8px; }
+        .mobile-gith-stat-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+        .m-stat-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .m-stat-dot.active {
+            width: 20px;
+            height: 6px;
+            border-radius: 9999px;
+            background: #2563eb;
+        }
+
+        /* Mobile Section */
+        .mobile-gith-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+        .mobile-gith-filter-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .mobile-gith-filter-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .m-card-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .m-btn-trash-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #e11d48;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+        .m-btn-trash-pill:hover,
+        .m-btn-trash-pill:active {
+            background: #ffe4e6;
+            border-color: #fda4af;
+            color: #be123c;
+        }
+        .mobile-gith-search-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+        .m-search-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+        .m-search-input-box {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+        }
+        .m-search-input-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 13px;
+            pointer-events: none;
+        }
+        .m-search-input {
+            width: 100%;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            padding: 0 12px 0 34px;
+            font-size: 12.5px;
+            color: #1e293b;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+        .m-search-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .m-btn-filter-trigger {
+            height: 38px;
+            padding: 0 16px;
+            border-radius: 10px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            font-size: 12.5px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+            flex-shrink: 0;
+            transition: background 0.15s ease;
+            position: relative;
+        }
+        .m-btn-filter-trigger:hover,
+        .m-btn-filter-trigger:active {
+            background: #1d4ed8;
+        }
+        .m-filter-active-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #34d399;
+            border: 1.5px solid #ffffff;
+            margin-left: 2px;
+        }
+        .mobile-gith-btn-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #2563eb;
+            color: #ffffff;
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-size: 12.5px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Mobile Cards List */
+        .mobile-gith-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+        .mobile-gith-card-item {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: stretch;
+            padding: 12px 14px 12px 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .mobile-gith-card-item.card-selesai {
+            border-color: #e2e8f0;
+            background: #fafafa;
+        }
+        .mobile-gith-card-item.card-aktif {
+            border-color: #d1fae5;
+            background: #fcfffd;
+        }
+
+        /* Tiered Date Column */
+        .mobile-card-date-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 58px;
+            padding: 2px 10px 2px 4px;
+            border-right: 1px solid #f1f5f9;
+            flex-shrink: 0;
+        }
+        .date-aktif .m-date-day {
+            font-size: 18px;
+            font-weight: 800;
+            color: #065f46;
+            line-height: 1.1;
+            text-align: center;
+        }
+        .date-aktif .m-date-month {
+            font-size: 10px;
+            font-weight: 800;
+            color: #059669;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+        .date-aktif .m-date-year {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+        .date-selesai .m-date-day {
+            font-size: 18px;
+            font-weight: 800;
+            color: #475569;
+            line-height: 1.1;
+            text-align: center;
+        }
+        .date-selesai .m-date-month {
+            font-size: 10px;
+            font-weight: 800;
+            color: #64748b;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+        .date-selesai .m-date-year {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        /* Right Content */
+        .mobile-card-content {
+            flex: 1;
+            min-width: 0;
+            padding-left: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            justify-content: center;
+        }
+        .m-card-badges-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .m-card-teacher-name {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.25;
+        }
+        .m-card-sub-info {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+        }
+        .m-card-reason-box {
+            font-size: 11.5px;
+            color: #334155;
+            background: #f8fafc;
+            padding: 5px 8px;
+            border-radius: 6px;
+            border: 1px solid #f1f5f9;
+            line-height: 1.35;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .m-card-footer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 4px;
+            padding-top: 6px;
+            border-top: 1px dashed #f1f5f9;
+        }
+        .m-btn-detail-link {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2563eb;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 6px;
+            border-radius: 6px;
+            transition: background 0.15s ease;
+        }
+        .m-btn-detail-link:hover {
+            background: #eff6ff;
+        }
+        .m-btn-modal-delete {
+            background: #fff1f2;
+            color: #e11d48;
+            border: 1px solid #fecdd3;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .m-btn-modal-delete:hover {
+            background: #ffe4e6;
+            color: #be123c;
+        }
+        .mobile-pagination-card {
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-radius: 14px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+        .m-filter-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .m-filter-select, .m-filter-input {
+            width: 100%;
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            padding: 0 12px;
+            font-size: 12.5px;
+            color: #1e293b;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .m-filter-select:focus, .m-filter-input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+    }
 </style>
 @endsection
 
@@ -758,8 +1230,8 @@
 
 
 
-    <!-- 4 Stat Cards -->
-    <div class="gith-stats-grid">
+    <!-- 4 Stat Cards (Desktop Grid) -->
+    <div class="gith-stats-grid gp-desktop-stat-grid">
         <!-- Card 1: Total Izin Disetujui (Green) -->
         <div class="gith-stat-card green">
             <div class="gith-stat-left">
@@ -813,8 +1285,93 @@
         </div>
     </div>
 
-    <!-- Main White Card Container -->
-    <div class="gith-main-card">
+    <!-- 4 Stat Cards Carousel (Mobile View) -->
+    <div class="mobile-gith-stat-carousel-wrap">
+        <div class="mobile-gith-stat-container" id="mobileStatContainer">
+            <div class="mobile-gith-stat-track" id="mobileStatTrack">
+                
+                <!-- Slide 1: Total Izin Disetujui (Green) -->
+                <div class="mobile-gith-stat-slide">
+                    <div class="gith-stat-card green">
+                        <div class="gith-stat-left">
+                            <div class="gith-stat-icon green">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                            <div class="gith-stat-content">
+                                <h3>{{ $stats['totalApproved'] }} <span class="suffix">Guru</span></h3>
+                                <p>Total Izin Disetujui</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Izin Tidak Hadir Hari Ini (Purple) -->
+                <div class="mobile-gith-stat-slide">
+                    <div class="gith-stat-card purple">
+                        <div class="gith-stat-left">
+                            <div class="gith-stat-icon purple">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </div>
+                            <div class="gith-stat-content">
+                                <h3>{{ $stats['approvedHariIni'] }} <span class="suffix">Guru</span></h3>
+                                <p>Izin Tidak Hadir Hari Ini</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Kategori Cuti (Pink) -->
+                <div class="mobile-gith-stat-slide">
+                    <div class="gith-stat-card pink">
+                        <div class="gith-stat-left">
+                            <div class="gith-stat-icon pink">
+                                <i class="fa-regular fa-calendar-days"></i>
+                            </div>
+                            <div class="gith-stat-content">
+                                <h3>{{ $stats['totalCutiApproved'] }} <span class="suffix">Pengajuan</span></h3>
+                                <p>Kategori Cuti (> 3 Hari)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Perlu Pengganti (Amber) -->
+                <div class="mobile-gith-stat-slide">
+                    <div class="gith-stat-card amber">
+                        <div class="gith-stat-left">
+                            <div class="gith-stat-icon amber">
+                                <i class="fa-regular fa-file-lines"></i>
+                            </div>
+                            <div class="gith-stat-content">
+                                <h3>{{ $stats['perluPenugasanCount'] }} <span class="suffix">Perlu Pengganti</span></h3>
+                                <p>Izin Aktif Belum Ada Pengganti</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button type="button" class="m-stat-arrow m-stat-prev" id="statPrevBtn" onclick="prevStatSlide()" aria-label="Sebelumnya">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button" class="m-stat-arrow m-stat-next" id="statNextBtn" onclick="nextStatSlide()" aria-label="Selanjutnya">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Dot Indicators (4 Dots) -->
+        <div class="mobile-gith-stat-dots" id="mobileStatDots">
+            <span class="m-stat-dot active" onclick="goToStatSlide(0)"></span>
+            <span class="m-stat-dot" onclick="goToStatSlide(1)"></span>
+            <span class="m-stat-dot" onclick="goToStatSlide(2)"></span>
+            <span class="m-stat-dot" onclick="goToStatSlide(3)"></span>
+        </div>
+    </div>
+
+    <!-- Main White Card Container (Desktop View) -->
+    <div class="gith-main-card gp-desktop-table-card">
 
         <!-- Filter Bar - Clean Single Line Layout -->
         <form action="{{ route('piket.guru-izin-tidak-hadir') }}" method="GET" class="gith-filter-form">
@@ -1061,6 +1618,192 @@
         </div>
 
     </div>
+
+    <!-- Mobile Section (Filter Card + Cards List) -->
+    <div class="mobile-gith-section">
+        
+        <!-- Filter Card Mobile -->
+        <div class="mobile-gith-filter-card">
+            <div class="mobile-gith-filter-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="m-card-icon-wrap">
+                        <i class="fa-solid fa-clipboard-user"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0;">Guru Izin Tidak Hadir</h2>
+                        <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-top: 1px;">
+                            Total: {{ $guruIzinApprovedList->count() }} Guru Disetujui
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ route('piket.guru-izin-tidak-hadir.trash') }}" class="m-btn-trash-pill" title="Lihat Data Sampah">
+                    <i class="fa-regular fa-trash-can"></i> Sampah ({{ $trashedCount }})
+                </a>
+            </div>
+
+            <!-- Search Bar + Filter Trigger Button -->
+            <div class="mobile-gith-search-row">
+                <form action="{{ route('piket.guru-izin-tidak-hadir') }}" method="GET" class="m-search-form">
+                    @if($kategoriFilter)
+                        <input type="hidden" name="kategori" value="{{ $kategoriFilter }}">
+                    @endif
+                    @if(isset($statusBerlakuFilter) && $statusBerlakuFilter)
+                        <input type="hidden" name="status_berlaku" value="{{ $statusBerlakuFilter }}">
+                    @endif
+                    @if($tanggalFilter)
+                        <input type="hidden" name="tanggal" value="{{ $tanggalFilter }}">
+                    @endif
+                    @if($statusPenugasanFilter)
+                        <input type="hidden" name="status_penugasan" value="{{ $statusPenugasanFilter }}">
+                    @endif
+                    <div class="m-search-input-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="q" value="{{ $search }}" placeholder="Cari Guru / NIP / Alasan..." class="m-search-input">
+                    </div>
+                    <button type="button" class="m-btn-filter-trigger" onclick="openMobileFilterModal()">
+                        <i class="fa-solid fa-filter"></i> Filter
+                        @if($kategoriFilter || (isset($statusBerlakuFilter) && $statusBerlakuFilter) || $tanggalFilter || $statusPenugasanFilter)
+                            <span class="m-filter-active-dot"></span>
+                        @endif
+                    </button>
+                </form>
+            </div>
+
+            <!-- Action: Tambah Penugasan Guru Pengganti -->
+            <a href="{{ route('piket.guru-pengganti') }}" class="mobile-gith-btn-primary">
+                <i class="fa-solid fa-user-plus"></i> Tambah Penugasan Guru Pengganti
+            </a>
+        </div>
+
+        <!-- Cards List Mobile -->
+        <div class="mobile-gith-cards-list">
+            @forelse($guruIzinApprovedList as $item)
+                @php
+                    $startDate = \Carbon\Carbon::parse($item->tanggal_mulai);
+                    $endDate = $item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai) : $startDate;
+                    $isMultiDay = ($item->tanggal_selesai && $item->tanggal_mulai !== $item->tanggal_selesai);
+                    
+                    if (!$isMultiDay) {
+                        $dayDisplay = $startDate->format('d');
+                        $monthDisplay = strtoupper($startDate->translatedFormat('M') ?: $startDate->format('M'));
+                        $yearDisplay = $startDate->format('Y');
+                    } elseif ($startDate->format('m Y') === $endDate->format('m Y')) {
+                        $dayDisplay = $startDate->format('d') . '-' . $endDate->format('d');
+                        $monthDisplay = strtoupper($startDate->translatedFormat('M') ?: $startDate->format('M'));
+                        $yearDisplay = $startDate->format('Y');
+                    } else {
+                        $dayDisplay = $startDate->format('d/m') . '-' . $endDate->format('d/m');
+                        $monthDisplay = $startDate->format('Y');
+                        $yearDisplay = '';
+                    }
+
+                    $dateThemeClass = $item->is_expired ? 'date-selesai' : 'date-aktif';
+                    $cardThemeClass = $item->is_expired ? 'card-selesai' : 'card-aktif';
+                @endphp
+
+                <div class="mobile-gith-card-item {{ $cardThemeClass }}">
+                    <!-- Left Tiered Date Column -->
+                    <div class="mobile-card-date-col {{ $dateThemeClass }}">
+                        <div class="m-date-day">{{ $dayDisplay }}</div>
+                        <div class="m-date-month">{{ $monthDisplay }}</div>
+                        @if($yearDisplay)
+                            <div class="m-date-year">{{ $yearDisplay }}</div>
+                        @endif
+                    </div>
+
+                    <!-- Right Card Content -->
+                    <div class="mobile-card-content">
+                        <!-- Badges Row -->
+                        <div class="m-card-badges-row">
+                            <div>
+                                @if($item->kategori_izin === 'cuti')
+                                    <span class="gith-badge cuti">
+                                        <i class="fa-solid fa-umbrella-beach"></i> Cuti / Khusus
+                                    </span>
+                                @else
+                                    <span class="gith-badge biasa">
+                                        <i class="fa-solid fa-calendar-check"></i> Izin Biasa
+                                    </span>
+                                @endif
+                            </div>
+                            <div>
+                                @if($item->is_expired)
+                                    <span class="gith-badge expired-status">
+                                        <i class="fa-solid fa-circle-check"></i> Selesai
+                                    </span>
+                                @else
+                                    <span class="gith-badge active-status">
+                                        <i class="fa-solid fa-circle-play"></i> Aktif
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Teacher Info -->
+                        <div>
+                            <div class="m-card-teacher-name">{{ $item->guru->nama_guru ?? 'Guru' }}</div>
+                            <div class="m-card-sub-info">NIP: {{ $item->guru->nip ?? '-' }}</div>
+                        </div>
+
+                        <!-- Status Penugasan -->
+                        <div>
+                            @if($item->has_penugasan)
+                                <span class="gith-badge assigned" style="font-size: 10px; padding: 2px 6px;">
+                                    <i class="fa-solid fa-user-check"></i> Pengganti: {{ $item->penugasans_list->first()->guruPengganti->nama_guru ?? '-' }}
+                                </span>
+                            @else
+                                <span class="gith-badge pending" style="font-size: 10px; padding: 2px 6px;">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> Belum Ditugaskan
+                                </span>
+                            @endif
+                        </div>
+
+                        <!-- Reason Quote Box -->
+                        <div class="m-card-reason-box">
+                            "{{ Str::limit($item->alasan, 65) }}"
+                        </div>
+                        @if($item->materi_dititipkan || $item->tugas_dititipkan)
+                            <div style="font-size: 10px; color: #15803d; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+                                <i class="fa-solid fa-book-bookmark"></i> Titipan Pembelajaran Terlampir
+                            </div>
+                        @endif
+
+                        <!-- Footer Actions -->
+                        <div class="m-card-footer-row">
+                            <div>
+                                @if(!$item->is_expired)
+                                    <a href="{{ route('piket.guru-pengganti', ['id_guru_tidak_hadir' => $item->id_guru]) }}" class="gith-btn-action assign" style="padding: 4.5px 8px; font-size: 10.5px; text-decoration: none;">
+                                        <i class="fa-solid fa-user-plus"></i> Tugaskan
+                                    </a>
+                                @endif
+                            </div>
+                            <button type="button" class="m-btn-detail-link" onclick="openDetailModal({{ json_encode($item) }})">
+                                Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="gith-main-card" style="text-align: center; padding: 36px 16px;">
+                    <div class="gith-empty-state" style="padding: 10px 0;">
+                        <div class="gith-empty-title">Belum Ada Data Guru Izin Tidak Hadir</div>
+                        <div class="gith-empty-subtitle">Seluruh perizinan guru yang disetujui akan muncul di sini.</div>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Mobile Pagination Card -->
+        @if($guruIzinApprovedList->count() > 0)
+            <div class="mobile-pagination-card">
+                <span style="font-size: 11.5px; font-weight: 600; color: #64748b;">
+                    Total: {{ $guruIzinApprovedList->count() }} Data
+                </span>
+                <span class="gith-p-box active" style="min-width: 28px; height: 28px;">1</span>
+            </div>
+        @endif
+
+    </div>
 </div>
 
 <!-- Modal Detail Guru Izin Disetujui -->
@@ -1073,9 +1816,74 @@
         <div id="modalDetailContent" style="display: flex; flex-direction: column; gap: 14px; font-size: 13px;">
             <!-- Content Populated via JavaScript -->
         </div>
-        <div style="margin-top: 18px; text-align: right; border-top: 1px solid #e2e8f0; padding-top: 14px;">
-            <button class="gith-btn-reset" onclick="closeDetailModal()">Tutup</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; border-top: 1px solid #e2e8f0; padding-top: 14px; flex-wrap: wrap; gap: 8px;">
+            <form id="formDeleteDetail" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin memindahkan data guru izin ini ke sampah?');" style="margin: 0;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="m-btn-modal-delete">
+                    <i class="fa-regular fa-trash-can"></i> Pindahkan ke Sampah
+                </button>
+            </form>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <a id="dt_btn_assign" href="#" class="gith-btn-action assign" style="padding: 7px 12px; font-size: 11.5px; text-decoration: none; display: none;">
+                    <i class="fa-solid fa-user-plus"></i> Tugaskan Pengganti
+                </a>
+                <button type="button" class="gith-btn-reset" onclick="closeDetailModal()">Tutup</button>
+            </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal Filter Mobile Guru Izin Tidak Hadir -->
+<div id="mobileFilterModal" class="gith-modal-overlay">
+    <div class="gith-modal-box" style="max-width: 440px;">
+        <div class="gith-modal-header">
+            <h3><i class="fa-solid fa-filter" style="color: #2563eb;"></i> Filter Guru Izin Tidak Hadir</h3>
+            <button type="button" class="gith-modal-close" onclick="closeMobileFilterModal()">&times;</button>
+        </div>
+        <form action="{{ route('piket.guru-izin-tidak-hadir') }}" method="GET">
+            @if($search)
+                <input type="hidden" name="q" value="{{ $search }}">
+            @endif
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div>
+                    <label class="m-filter-label"><i class="fa-solid fa-layer-group" style="color: #2563eb;"></i> Kategori Izin</label>
+                    <select name="kategori" class="m-filter-select">
+                        <option value="">-- Semua Kategori --</option>
+                        <option value="biasa" {{ $kategoriFilter == 'biasa' ? 'selected' : '' }}>Izin Biasa (≤ 3 Hari)</option>
+                        <option value="cuti" {{ $kategoriFilter == 'cuti' ? 'selected' : '' }}>Cuti (> 3 Hari)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="m-filter-label"><i class="fa-solid fa-circle-check" style="color: #2563eb;"></i> Status Masa Berlaku</label>
+                    <select name="status_berlaku" class="m-filter-select">
+                        <option value="">-- Semua Status Berlaku --</option>
+                        <option value="aktif" {{ isset($statusBerlakuFilter) && $statusBerlakuFilter == 'aktif' ? 'selected' : '' }}>🟢 Aktif</option>
+                        <option value="selesai" {{ isset($statusBerlakuFilter) && $statusBerlakuFilter == 'selesai' ? 'selected' : '' }}>⚪ Selesai</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="m-filter-label"><i class="fa-regular fa-calendar" style="color: #2563eb;"></i> Tanggal Izin</label>
+                    <input type="date" name="tanggal" value="{{ $tanggalFilter }}" class="m-filter-input">
+                </div>
+                <div>
+                    <label class="m-filter-label"><i class="fa-solid fa-user-gear" style="color: #2563eb;"></i> Status Guru Pengganti</label>
+                    <select name="status_penugasan" class="m-filter-select">
+                        <option value="">-- Semua Status Pengganti --</option>
+                        <option value="belum" {{ $statusPenugasanFilter == 'belum' ? 'selected' : '' }}>⚠️ Belum Ditugaskan</option>
+                        <option value="sudah" {{ $statusPenugasanFilter == 'sudah' ? 'selected' : '' }}>✅ Sudah Ditugaskan</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
+                <a href="{{ route('piket.guru-izin-tidak-hadir') }}" class="gith-btn-reset" style="text-decoration: none; justify-content: center; height: 42px; font-weight: 700;">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </a>
+                <button type="submit" class="gith-btn-primary" style="justify-content: center; height: 42px; font-weight: 700; border-radius: 10px; border: none; cursor: pointer;">
+                    <i class="fa-solid fa-check"></i> Terapkan
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -1110,6 +1918,75 @@
 
 @section('scripts')
 <script>
+    let currentStatSlide = 0;
+    const totalStatSlides = 4;
+
+    function updateStatCarousel() {
+        const track = document.getElementById('mobileStatTrack');
+        if (!track) return;
+        track.style.transform = 'translateX(-' + (currentStatSlide * 100) + '%)';
+        
+        const dots = document.querySelectorAll('#mobileStatDots .m-stat-dot');
+        dots.forEach((dot, idx) => {
+            if (idx === currentStatSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    function nextStatSlide() {
+        currentStatSlide = (currentStatSlide + 1) % totalStatSlides;
+        updateStatCarousel();
+    }
+
+    function prevStatSlide() {
+        currentStatSlide = (currentStatSlide - 1 + totalStatSlides) % totalStatSlides;
+        updateStatCarousel();
+    }
+
+    function goToStatSlide(index) {
+        currentStatSlide = index;
+        updateStatCarousel();
+    }
+
+    function initStatCarousel() {
+        const container = document.getElementById('mobileStatContainer');
+        if (!container) return;
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        container.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        container.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleStatSwipe();
+        }, { passive: true });
+
+        function handleStatSwipe() {
+            const swipeThreshold = 40;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                nextStatSlide();
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                prevStatSlide();
+            }
+        }
+    }
+
+    function openMobileFilterModal() {
+        const modal = document.getElementById('mobileFilterModal');
+        if (modal) modal.classList.add('active');
+    }
+
+    function closeMobileFilterModal() {
+        const modal = document.getElementById('mobileFilterModal');
+        if (modal) modal.classList.remove('active');
+    }
+
     function openDetailModal(item) {
         let statusMasaHtml = item.is_expired 
             ? `<span class="gith-badge expired-status"><i class="fa-solid fa-circle-check"></i> Selesai</span>`
@@ -1216,6 +2093,23 @@
             </div>
         `;
 
+        // Update Option A delete form action
+        const deleteForm = document.getElementById('formDeleteDetail');
+        if (deleteForm) {
+            deleteForm.action = "{{ route('piket.guru-izin-tidak-hadir.destroy', ':id') }}".replace(':id', item.id_guru_izin);
+        }
+
+        // Update Tugaskan Pengganti button
+        const assignBtn = document.getElementById('dt_btn_assign');
+        if (assignBtn) {
+            if (!item.is_expired) {
+                assignBtn.href = "{{ route('piket.guru-pengganti') }}?id_guru_tidak_hadir=" + item.id_guru;
+                assignBtn.style.display = 'inline-flex';
+            } else {
+                assignBtn.style.display = 'none';
+            }
+        }
+
         document.getElementById('modalDetailContent').innerHTML = contentHtml;
         document.getElementById('modalDetailIzin').classList.add('active');
     }
@@ -1291,8 +2185,14 @@
     window.addEventListener('click', function(e) {
         const detailModal = document.getElementById('modalDetailIzin');
         const bulkModal = document.getElementById('bulkDeleteModal');
+        const filterModal = document.getElementById('mobileFilterModal');
         if (e.target === detailModal) closeDetailModal();
         if (e.target === bulkModal) closeBulkDeleteModal();
+        if (e.target === filterModal) closeMobileFilterModal();
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initStatCarousel();
     });
 </script>
 @endsection

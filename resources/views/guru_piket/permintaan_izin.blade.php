@@ -1011,16 +1011,567 @@
         border: 1px solid #fca5a5;
     }
 
+    .mobile-pi-stat-carousel-wrap,
+    .mobile-pi-section {
+        display: none;
+    }
+    .gp-btn-text-full {
+        display: inline;
+    }
+
     @media (max-width: 1024px) {
         .gp-stat-grid { grid-template-columns: repeat(2, 1fr); }
         .pi-header-illustration { display: none; }
     }
 
     @media (max-width: 768px) {
-        .gp-grid-2col { grid-template-columns: 1fr; }
-        .gp-stat-grid { grid-template-columns: 1fr; }
-        .gp-filter-form { flex-direction: column; align-items: stretch; }
-        .gp-table-footer { flex-direction: column; align-items: flex-start; }
+        .gp-desktop-table-card,
+        .gp-desktop-stat-grid {
+            display: none !important;
+        }
+        .mobile-pi-stat-carousel-wrap,
+        .mobile-pi-section {
+            display: flex !important;
+        }
+        .permintaan-izin-wrapper {
+            gap: 14px;
+        }
+        .pi-header-card {
+            display: none !important;
+        }
+        .gp-card {
+            padding: 16px;
+            border-radius: 16px;
+        }
+        .gp-form-header {
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+        }
+        .gp-header-icon-form {
+            width: 38px;
+            height: 38px;
+            font-size: 17px;
+            border-radius: 10px;
+        }
+        .gp-form-header-titles h2 {
+            font-size: 15px;
+        }
+        .gp-form-header-titles p {
+            font-size: 11.5px;
+        }
+        .gp-grid-2col {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 14px !important;
+        }
+        .gp-input, .gp-select, .gp-textarea {
+            font-size: 13px;
+        }
+        .gp-input, .gp-select {
+            height: 42px;
+            min-height: 42px;
+        }
+        .gp-file-input-wrapper {
+            min-height: 42px;
+        }
+        .gp-form-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 14px;
+            width: 100%;
+        }
+        .gp-btn-reset, .gp-btn-submit {
+            width: 100%;
+            justify-content: center;
+            height: 42px;
+            min-height: 42px;
+            padding: 0 10px;
+            font-size: 12.5px;
+            border-radius: 9px;
+            gap: 6px;
+            letter-spacing: 0.1px;
+            white-space: nowrap;
+        }
+        .gp-btn-text-full {
+            display: none;
+        }
+        .gp-btn-submit {
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+        }
+        .gp-btn-reset {
+            font-weight: 600;
+            box-shadow: none;
+        }
+        .gp-btn-reset i, .gp-btn-submit i {
+            font-size: 11.5px;
+        }
+        .modal-overlay {
+            padding: 12px;
+        }
+        .modal-content-custom {
+            padding: 16px;
+            border-radius: 16px;
+            max-height: 92vh;
+        }
+    }
+
+    /* Mobile Stat Cards Carousel */
+    .mobile-pi-stat-carousel-wrap {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .mobile-pi-stat-container {
+        position: relative;
+        width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        touch-action: pan-y;
+        background: transparent;
+    }
+    .mobile-pi-stat-track {
+        display: flex;
+        transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        width: 100%;
+    }
+    .mobile-pi-stat-slide {
+        flex: 0 0 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .mobile-pi-stat-slide .gp-stat-card {
+        width: 100%;
+        margin: 0;
+        border-radius: 20px;
+        padding: 18px 20px;
+    }
+    .m-stat-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ffffff;
+        color: #475569;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+        z-index: 5;
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+        transition: opacity 0.25s ease, transform 0.2s ease, visibility 0.25s ease;
+    }
+    .mobile-pi-stat-container:hover .m-stat-arrow,
+    .mobile-pi-stat-container.is-hovered .m-stat-arrow {
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+    }
+    .m-stat-arrow:hover,
+    .m-stat-arrow:active {
+        color: #2563eb;
+        background: #f8fafc;
+        transform: translateY(-50%) scale(0.92);
+    }
+    .m-stat-prev { left: 8px; }
+    .m-stat-next { right: 8px; }
+    .mobile-pi-stat-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+    .m-stat-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #cbd5e1;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+    .m-stat-dot.active {
+        width: 20px;
+        height: 6px;
+        border-radius: 9999px;
+        background: #2563eb;
+    }
+
+    /* Mobile Permintaan Izin Section */
+    .mobile-pi-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+    .mobile-pi-filter-card {
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.85);
+        border-radius: 16px;
+        padding: 14px 16px;
+        box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .mobile-pi-filter-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+    .m-card-icon-wrap {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+    .m-btn-trash-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fff1f2;
+        border: 1px solid #fecdd3;
+        padding: 6px 12px;
+        border-radius: 9999px;
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #e11d48;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+    }
+    .m-btn-trash-pill:hover,
+    .m-btn-trash-pill:active {
+        background: #ffe4e6;
+        border-color: #fda4af;
+        color: #be123c;
+    }
+    .mobile-pi-search-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+    .m-search-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+    }
+    .m-search-input-box {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+    }
+    .m-search-input-box i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 13px;
+        pointer-events: none;
+    }
+    .m-search-input {
+        width: 100%;
+        height: 38px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        padding: 0 12px 0 34px;
+        font-size: 12.5px;
+        color: #1e293b;
+        font-weight: 500;
+        outline: none;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+    .m-search-input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .m-btn-filter-trigger {
+        height: 38px;
+        padding: 0 16px;
+        border-radius: 10px;
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        font-size: 12.5px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        flex-shrink: 0;
+        transition: background 0.15s ease;
+        position: relative;
+    }
+    .m-btn-filter-trigger:hover,
+    .m-btn-filter-trigger:active {
+        background: #1d4ed8;
+    }
+    .m-filter-active-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #34d399;
+        border: 1.5px solid #ffffff;
+        margin-left: 2px;
+    }
+
+    /* Mobile Cards List */
+    .mobile-pi-cards-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    .mobile-pi-card-item {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.03);
+        display: flex;
+        align-items: stretch;
+        padding: 12px 14px 12px 10px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .mobile-pi-card-item.card-menunggu {
+        border-color: #e2e8f0;
+        background: #ffffff;
+    }
+    .mobile-pi-card-item.card-disetujui {
+        border-color: #d1fae5;
+        background: #fcfffd;
+    }
+    .mobile-pi-card-item.card-ditolak {
+        border-color: #fee2e2;
+        background: #fffcfc;
+    }
+
+    /* Left Tiered Date Column */
+    .mobile-card-date-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 56px;
+        padding: 2px 10px 2px 4px;
+        border-right: 1px solid #f1f5f9;
+        flex-shrink: 0;
+    }
+    .date-menunggu .m-date-day {
+        font-size: 18px;
+        font-weight: 800;
+        color: #1e3a8a;
+        line-height: 1.1;
+        text-align: center;
+    }
+    .date-menunggu .m-date-month {
+        font-size: 10px;
+        font-weight: 800;
+        color: #2563eb;
+        margin-top: 2px;
+        text-transform: uppercase;
+    }
+    .date-menunggu .m-date-year {
+        font-size: 9.5px;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+
+    .date-disetujui .m-date-day {
+        font-size: 18px;
+        font-weight: 800;
+        color: #065f46;
+        line-height: 1.1;
+        text-align: center;
+    }
+    .date-disetujui .m-date-month {
+        font-size: 10px;
+        font-weight: 800;
+        color: #059669;
+        margin-top: 2px;
+        text-transform: uppercase;
+    }
+    .date-disetujui .m-date-year {
+        font-size: 9.5px;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+
+    .date-ditolak .m-date-day {
+        font-size: 18px;
+        font-weight: 800;
+        color: #991b1b;
+        line-height: 1.1;
+        text-align: center;
+    }
+    .date-ditolak .m-date-month {
+        font-size: 10px;
+        font-weight: 800;
+        color: #dc2626;
+        margin-top: 2px;
+        text-transform: uppercase;
+    }
+    .date-ditolak .m-date-year {
+        font-size: 9.5px;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+
+    /* Right Card Content */
+    .mobile-card-content {
+        flex: 1;
+        min-width: 0;
+        padding-left: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        justify-content: center;
+    }
+    .m-card-badges-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+    }
+    .m-card-teacher-name {
+        font-size: 13.5px;
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1.25;
+    }
+    .m-card-sub-info {
+        font-size: 11.5px;
+        color: #64748b;
+        font-weight: 600;
+    }
+    .m-card-reason-box {
+        font-size: 11.5px;
+        color: #334155;
+        background: #f8fafc;
+        padding: 5px 8px;
+        border-radius: 6px;
+        border: 1px solid #f1f5f9;
+        line-height: 1.35;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    .m-card-footer-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 4px;
+        padding-top: 6px;
+        border-top: 1px dashed #f1f5f9;
+    }
+    .m-card-quick-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .m-btn-card-wa {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: #16a34a;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        text-decoration: none;
+    }
+    .m-btn-card-copy {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        color: #2563eb;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .m-btn-detail-link {
+        font-size: 12px;
+        font-weight: 700;
+        color: #2563eb;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 6px;
+        border-radius: 6px;
+        transition: background 0.15s ease;
+    }
+    .m-btn-detail-link:hover {
+        background: #eff6ff;
+    }
+    .m-btn-modal-delete {
+        background: #fff1f2;
+        color: #e11d48;
+        border: 1px solid #fecdd3;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+    }
+    .m-btn-modal-delete:hover {
+        background: #ffe4e6;
+        color: #be123c;
+    }
+
+    /* Mobile Pagination Card */
+    .mobile-pagination-card {
+        background: #ffffff;
+        border: 1px solid rgba(226, 232, 240, 0.85);
+        border-radius: 14px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.02);
     }
 </style>
 @endsection
@@ -1307,7 +1858,7 @@
                         <i class="fa-solid fa-rotate-left"></i> Reset Form
                     </button>
                     <button type="submit" class="gp-btn-submit">
-                        <i class="fa-solid fa-paper-plane"></i> Simpan Permintaan Izin Guru
+                        <i class="fa-solid fa-paper-plane"></i> Simpan<span class="gp-btn-text-full"> Permintaan Izin Guru</span>
                     </button>
                 </div>
             </div>
@@ -1326,7 +1877,7 @@
         $menungguCount = max(0, $totalIzin - $disetujuiCount - $ditolakCount);
     @endphp
 
-    <div class="gp-stat-grid">
+    <div class="gp-stat-grid gp-desktop-stat-grid">
         <!-- Card 1: Total Permintaan (Blue) -->
         <div class="gp-stat-card gp-stat-theme-blue">
             <div class="gp-stat-left">
@@ -1444,8 +1995,149 @@
         </div>
     </div>
 
-    <!-- 4. Table Card "Daftar Permintaan Izin Guru" -->
-    <div class="gp-table-card" id="daftarIzinTabel">
+    <!-- 3b. Carousel 4 Kartu Statistik (Mobile View) -->
+    <div class="mobile-pi-stat-carousel-wrap">
+        <div class="mobile-pi-stat-container" id="mobileStatContainer">
+            <div class="mobile-pi-stat-track" id="mobileStatTrack">
+                
+                <!-- Slide 1: Total Permintaan -->
+                <div class="mobile-pi-stat-slide">
+                    <div class="gp-stat-card gp-stat-theme-blue">
+                        <div class="gp-stat-left">
+                            <div class="gp-stat-circle-icon">
+                                <i class="fa-regular fa-file-lines"></i>
+                            </div>
+                            <div>
+                                <div class="gp-stat-label">Total Permintaan</div>
+                                <div class="gp-stat-val-group">
+                                    <div class="gp-stat-val">{{ $totalIzin }}</div>
+                                    <div class="gp-stat-unit">Permintaan</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#daftarIzinTabel" class="gp-stat-link">
+                            Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#2563eb"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="#2563eb" style="margin-top: -6px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                        </div>
+                        <svg class="stat-card-wave wave-theme" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 45C35 45 45 20 80 30C115 40 125 15 140 20V70H0V45Z" fill="currentColor" fill-opacity="0.08"/>
+                            <path d="M0 55C40 55 55 35 90 42C125 49 130 30 140 35V70H0V55Z" fill="currentColor" fill-opacity="0.14"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Disetujui -->
+                <div class="mobile-pi-stat-slide">
+                    <div class="gp-stat-card gp-stat-theme-green">
+                        <div class="gp-stat-left">
+                            <div class="gp-stat-circle-icon">
+                                <i class="fa-regular fa-circle-check"></i>
+                            </div>
+                            <div>
+                                <div class="gp-stat-label">Disetujui</div>
+                                <div class="gp-stat-val-group">
+                                    <div class="gp-stat-val">{{ $disetujuiCount }}</div>
+                                    <div class="gp-stat-unit">Permintaan</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ route('piket.permintaan-izin', ['status' => 'approved']) }}" class="gp-stat-link">
+                            Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="#059669" style="margin-top: -6px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                        </div>
+                        <svg class="stat-card-wave wave-theme" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 45C35 45 45 20 80 30C115 40 125 15 140 20V70H0V45Z" fill="currentColor" fill-opacity="0.08"/>
+                            <path d="M0 55C40 55 55 35 90 42C125 49 130 30 140 35V70H0V55Z" fill="currentColor" fill-opacity="0.14"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Menunggu -->
+                <div class="mobile-pi-stat-slide">
+                    <div class="gp-stat-card gp-stat-theme-amber">
+                        <div class="gp-stat-left">
+                            <div class="gp-stat-circle-icon">
+                                <i class="fa-regular fa-clock"></i>
+                            </div>
+                            <div>
+                                <div class="gp-stat-label">Menunggu</div>
+                                <div class="gp-stat-val-group">
+                                    <div class="gp-stat-val">{{ $menungguCount }}</div>
+                                    <div class="gp-stat-unit">Permintaan</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ route('piket.permintaan-izin', ['status' => 'pending']) }}" class="gp-stat-link">
+                            Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#d97706"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="#d97706" style="margin-top: -6px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                        </div>
+                        <svg class="stat-card-wave wave-theme" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 45C35 45 45 20 80 30C115 40 125 15 140 20V70H0V45Z" fill="currentColor" fill-opacity="0.08"/>
+                            <path d="M0 55C40 55 55 35 90 42C125 49 130 30 140 35V70H0V55Z" fill="currentColor" fill-opacity="0.14"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Ditolak -->
+                <div class="mobile-pi-stat-slide">
+                    <div class="gp-stat-card gp-stat-theme-rose">
+                        <div class="gp-stat-left">
+                            <div class="gp-stat-circle-icon">
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            </div>
+                            <div>
+                                <div class="gp-stat-label">Ditolak</div>
+                                <div class="gp-stat-val-group">
+                                    <div class="gp-stat-val">{{ $ditolakCount }}</div>
+                                    <div class="gp-stat-unit">Permintaan</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ route('piket.permintaan-izin', ['status' => 'rejected']) }}" class="gp-stat-link">
+                            Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#e11d48"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                            <svg width="8" height="8" viewBox="0 0 24 24" fill="#e11d48" style="margin-top: -6px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
+                        </div>
+                        <svg class="stat-card-wave wave-theme" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 45C35 45 45 20 80 30C115 40 125 15 140 20V70H0V45Z" fill="currentColor" fill-opacity="0.08"/>
+                            <path d="M0 55C40 55 55 35 90 42C125 49 130 30 140 35V70H0V55Z" fill="currentColor" fill-opacity="0.14"/>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Navigation Arrows -->
+            <button type="button" class="m-stat-arrow m-stat-prev" id="statPrevBtn" onclick="prevStatSlide()" aria-label="Sebelumnya">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button" class="m-stat-arrow m-stat-next" id="statNextBtn" onclick="nextStatSlide()" aria-label="Selanjutnya">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Dot Indicators (4 Dots) -->
+        <div class="mobile-pi-stat-dots" id="mobileStatDots">
+            <span class="m-stat-dot active" onclick="goToStatSlide(0)"></span>
+            <span class="m-stat-dot" onclick="goToStatSlide(1)"></span>
+            <span class="m-stat-dot" onclick="goToStatSlide(2)"></span>
+            <span class="m-stat-dot" onclick="goToStatSlide(3)"></span>
+        </div>
+    </div>
+
+    <!-- 4. Table Card "Daftar Permintaan Izin Guru" (Desktop View) -->
+    <div class="gp-table-card gp-desktop-table-card" id="daftarIzinTabel">
         <div class="gp-table-header">
             <div class="gp-table-title-group">
                 <div class="gp-table-icon-box">
@@ -1688,6 +2380,242 @@
             </div>
         </div>
     </div>
+
+    <!-- 4b. Mobile Permintaan Izin Section (Filter Card + Cards List) -->
+    <div class="mobile-pi-section">
+        
+        <!-- Filter Card Mobile -->
+        <div class="mobile-pi-filter-card">
+            <div class="mobile-pi-filter-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="m-card-icon-wrap">
+                        <i class="fa-regular fa-rectangle-list"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0;">Daftar Permintaan Izin</h2>
+                        <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-top: 1px;">
+                            Total: {{ $guruIzinList->count() }} Pengajuan
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ route('piket.permintaan-izin.trash') }}" class="m-btn-trash-pill" title="Lihat Data Sampah">
+                    <i class="fa-regular fa-trash-can"></i> Sampah ({{ $trashedCount }})
+                </a>
+            </div>
+
+            <!-- Search Bar + Filter Trigger Button -->
+            <div class="mobile-pi-search-row">
+                <form action="{{ route('piket.permintaan-izin') }}" method="GET" class="m-search-form">
+                    @if(request('status'))
+                        <input type="hidden" name="status" value="{{ request('status') }}">
+                    @endif
+                    @if(request('tanggal'))
+                        <input type="hidden" name="tanggal" value="{{ request('tanggal') }}">
+                    @endif
+                    <div class="m-search-input-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari Guru / NIP / Alasan..." class="m-search-input">
+                    </div>
+                    <button type="button" class="m-btn-filter-trigger" onclick="openMobileFilterModal()">
+                        <i class="fa-solid fa-filter"></i> Filter
+                        @if(request('status') || request('tanggal'))
+                            <span class="m-filter-active-dot"></span>
+                        @endif
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Cards List Mobile -->
+        <div class="mobile-pi-cards-list">
+            @forelse($guruIzinList as $iz)
+                @php
+                    $startDate = \Carbon\Carbon::parse($iz->tanggal_mulai);
+                    $endDate = $iz->tanggal_selesai ? \Carbon\Carbon::parse($iz->tanggal_selesai) : $startDate;
+                    $isMultiDay = ($iz->tanggal_selesai && $iz->tanggal_mulai !== $iz->tanggal_selesai);
+                    
+                    if (!$isMultiDay) {
+                        $dayDisplay = $startDate->format('d');
+                        $monthDisplay = strtoupper($startDate->translatedFormat('M') ?: $startDate->format('M'));
+                        $yearDisplay = $startDate->format('Y');
+                    } elseif ($startDate->format('m Y') === $endDate->format('m Y')) {
+                        $dayDisplay = $startDate->format('d') . '-' . $endDate->format('d');
+                        $monthDisplay = strtoupper($startDate->translatedFormat('M') ?: $startDate->format('M'));
+                        $yearDisplay = $startDate->format('Y');
+                    } else {
+                        $dayDisplay = $startDate->format('d/m') . '-' . $endDate->format('d/m');
+                        $monthDisplay = $startDate->format('Y');
+                        $yearDisplay = '';
+                    }
+
+                    $isCutiRow = ($iz->kategori_izin === 'cuti') || ($iz->tanggal_mulai && $iz->tanggal_selesai && \Carbon\Carbon::parse($iz->tanggal_mulai)->diffInDays(\Carbon\Carbon::parse($iz->tanggal_selesai)) + 1 > 3);
+                    $isRejectedRow = ($iz->status_waka === 'rejected' || $iz->status_waka_sdm === 'rejected' || $iz->status_kepsek === 'rejected' || $iz->status_final === 'rejected');
+                    $isApprovedFullRow = ($iz->status_waka === 'approved' && $iz->status_waka_sdm === 'approved' && $iz->status_kepsek === 'approved') || ($iz->status_final === 'approved');
+
+                    $cardStatusClass = $isRejectedRow ? 'card-ditolak' : ($isApprovedFullRow ? 'card-disetujui' : 'card-menunggu');
+                    $dateThemeClass = $isRejectedRow ? 'date-ditolak' : ($isApprovedFullRow ? 'date-disetujui' : 'date-menunggu');
+
+                    $tokenUrl = url("/approval/guru-izin/{$iz->token_approval}");
+                    $waTextCard = rawurlencode("Assalamu'alaikum Wr. Wb. Bapak/Ibu Waka & Kepala Sekolah,\n\n"
+                        . "Berikut pengajuan " . ($isCutiRow ? "CUTI / IZIN KHUSUS (> 3 HARI)" : "IZIN TIDAK HADIR") . " mengajar:\n"
+                        . "• Guru: " . ($iz->guru->nama_guru ?? 'Guru') . "\n"
+                        . "• Tanggal: " . ($iz->tanggal_mulai ?? '-') . "\n"
+                        . "• Alasan: " . $iz->alasan . "\n\n"
+                        . "Mohon dapat meninjau dan memilih persetujuan pada link berikut:\n\n"
+                        . $tokenUrl . "\n\n"
+                        . "Terima kasih.");
+                    $waUrlCard = "https://api.whatsapp.com/send?text=" . $waTextCard;
+
+                    $detailData = [
+                        'id_guru_izin' => $iz->id_guru_izin,
+                        'nama_guru' => $iz->guru->nama_guru ?? 'Guru Tidak Ditemukan',
+                        'nip' => $iz->guru->nip ?? '-',
+                        'tanggal' => ($iz->tanggal_mulai === $iz->tanggal_selesai || !$iz->tanggal_selesai) ? \Carbon\Carbon::parse($iz->tanggal_mulai)->format('d-m-Y') : \Carbon\Carbon::parse($iz->tanggal_mulai)->format('d-m-Y') . ' s/d ' . \Carbon\Carbon::parse($iz->tanggal_selesai)->format('d-m-Y'),
+                        'durasi' => $iz->durasi ?? '1 Hari Full',
+                        'kategori_izin' => $iz->kategori_izin ?? 'biasa',
+                        'is_cuti' => $isCutiRow,
+                        'alasan' => $iz->alasan,
+                        'keterangan_khusus' => $iz->keterangan_khusus ?? '-',
+                        'materi' => $iz->materi_dititipkan ?? '-',
+                        'foto_url' => $iz->foto_surat ? asset('uploads/guru_izin/' . $iz->foto_surat) : null,
+                        'file_tugas_url' => $iz->file_tugas_url,
+                        'status_waka' => ucfirst($iz->status_waka ?? 'pending'),
+                        'status_waka_sdm' => ucfirst($iz->status_waka_sdm ?? 'pending'),
+                        'status_kepsek' => ucfirst($iz->status_kepsek ?? 'pending'),
+                        'catatan_waka' => $iz->catatan_waka ?? '-',
+                        'catatan_kepsek' => $iz->catatan_kepsek ?? '-',
+                        'status_final' => $isRejectedRow ? 'Ditolak' : ($isApprovedFullRow ? 'Disetujui Full' : 'Dalam Proses'),
+                        'link' => $tokenUrl,
+                        'delete_url' => route('piket.permintaan-izin.destroy', $iz->id_guru_izin),
+                    ];
+                @endphp
+
+                <div class="mobile-pi-card-item {{ $cardStatusClass }}">
+                    <!-- Left Tiered Date -->
+                    <div class="mobile-card-date-col {{ $dateThemeClass }}">
+                        <span class="m-date-day">{{ $dayDisplay }}</span>
+                        <span class="m-date-month">{{ $monthDisplay }}</span>
+                        @if($yearDisplay)
+                            <span class="m-date-year">{{ $yearDisplay }}</span>
+                        @endif
+                    </div>
+
+                    <!-- Right Card Content -->
+                    <div class="mobile-card-content">
+                        <!-- Badges Row -->
+                        <div class="m-card-badges-row">
+                            <div>
+                                @if($isCutiRow)
+                                    <span class="gp-badge-kategori gp-badge-cuti"><i class="fa-solid fa-ribbon"></i> Cuti</span>
+                                @else
+                                    <span class="gp-badge-kategori gp-badge-biasa">Izin Biasa</span>
+                                @endif
+                            </div>
+                            <div>
+                                @if($isRejectedRow)
+                                    <span class="gp-status-badge gp-status-ditolak">Ditolak</span>
+                                @elseif($isApprovedFullRow)
+                                    <span class="gp-status-badge gp-status-disetujui">Disetujui</span>
+                                @else
+                                    <span class="gp-status-badge gp-status-menunggu">Menunggu</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Teacher Name & Info -->
+                        <div>
+                            <div class="m-card-teacher-name">
+                                {{ $iz->guru->nama_guru ?? 'Guru Tidak Ditemukan' }}
+                            </div>
+                            <div class="m-card-sub-info">
+                                @if($iz->guru && $iz->guru->nip) NIP. {{ $iz->guru->nip }} • @endif {{ $iz->guru->mapel->nama_mapel ?? '-' }}
+                            </div>
+                        </div>
+
+                        <!-- Reason Snippet -->
+                        <div class="m-card-reason-box">
+                            "{{ Str::limit($iz->alasan, 65) }}"
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="m-card-footer-row">
+                            <div class="m-card-quick-actions">
+                                <a href="{{ $waUrlCard }}" target="_blank" class="m-btn-card-wa" title="Kirim Link via WhatsApp">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                                <button type="button" class="m-btn-card-copy" onclick="copyToClipboard('{{ $tokenUrl }}')" title="Salin Link Persetujuan">
+                                    <i class="fa-regular fa-copy"></i>
+                                </button>
+                            </div>
+                            <button type="button" class="m-btn-detail-link" onclick='openDetailModal({{ json_encode($detailData) }})'>
+                                Lihat Detail <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="gp-card" style="text-align: center; padding: 36px 16px;">
+                    <div class="gp-empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <p>Belum ada data permintaan izin guru.</p>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Mobile Pagination Card -->
+        @if($guruIzinList->count() > 0)
+            <div class="mobile-pagination-card">
+                <span style="font-size: 11.5px; font-weight: 600; color: #64748b;">
+                    Total: {{ $guruIzinList->count() }} Data
+                </span>
+                <span class="gp-page-btn active" style="min-width: 28px; height: 28px;">1</span>
+            </div>
+        @endif
+    </div>
+</div>
+
+<!-- Modal Filter Mobile -->
+<div id="mobileFilterModal" class="modal-overlay">
+    <div class="modal-content-custom" style="max-width: 420px;">
+        <div class="modal-header-custom">
+            <div class="modal-title-custom">
+                <i class="fa-solid fa-filter" style="color: #2563eb;"></i>
+                <span>Filter Permintaan Izin</span>
+            </div>
+            <button type="button" onclick="closeMobileFilterModal()" style="background: none; border: none; font-size: 18px; color: #94a3b8; cursor: pointer;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form action="{{ route('piket.permintaan-izin') }}" method="GET">
+            @if(request('q'))
+                <input type="hidden" name="q" value="{{ request('q') }}">
+            @endif
+            <div class="gp-form-grid" style="gap: 12px;">
+                <div class="gp-form-group">
+                    <label class="gp-label"><i class="fa-solid fa-list-check" style="color: #2563eb;"></i> Status Permintaan</label>
+                    <select name="status" class="gp-select">
+                        <option value="">Semua Status</option>
+                        <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu</option>
+                        <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Disetujui</option>
+                        <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                    </select>
+                </div>
+                <div class="gp-form-group">
+                    <label class="gp-label"><i class="fa-regular fa-calendar" style="color: #2563eb;"></i> Tanggal Izin</label>
+                    <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="gp-input">
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid #f1f5f9;">
+                <a href="{{ route('piket.permintaan-izin') }}" class="gp-btn-reset" style="text-decoration: none; justify-content: center; height: 42px;">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </a>
+                <button type="submit" class="gp-btn-submit" style="justify-content: center; height: 42px;">
+                    <i class="fa-solid fa-check"></i> Terapkan
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- Modal Lihat Detail Lengkap -->
@@ -1760,7 +2688,14 @@
                 <span id="dt_link_display" style="font-family: monospace; color: #2563eb; font-weight: 700; word-break: break-all; user-select: all; display: inline-block; margin-top: 3px;"></span>
             </div>
         </div>
-        <div style="display: flex; justify-content: flex-end; margin-top: 18px; padding-top: 14px; border-top: 1px solid #f1f5f9;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid #f1f5f9; flex-wrap: wrap; gap: 8px;">
+            <form id="formDeleteDetail" method="POST" onsubmit="return confirm('Pindahkan data izin guru ini ke Sampah?');" style="margin: 0;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="m-btn-modal-delete">
+                    <i class="fa-regular fa-trash-can"></i> Pindahkan ke Sampah
+                </button>
+            </form>
             <button type="button" class="gp-btn-submit" onclick="closeDetailModal()">
                 Tutup Detail
             </button>
@@ -1909,11 +2844,81 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+let currentStatSlide = 0;
+const totalStatSlides = 4;
+
+function updateStatCarousel() {
+    const track = document.getElementById('mobileStatTrack');
+    if (!track) return;
+    track.style.transform = 'translateX(-' + (currentStatSlide * 100) + '%)';
+    
+    const dots = document.querySelectorAll('#mobileStatDots .m-stat-dot');
+    dots.forEach((dot, idx) => {
+        if (idx === currentStatSlide) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+function nextStatSlide() {
+    currentStatSlide = (currentStatSlide + 1) % totalStatSlides;
+    updateStatCarousel();
+}
+
+function prevStatSlide() {
+    currentStatSlide = (currentStatSlide - 1 + totalStatSlides) % totalStatSlides;
+    updateStatCarousel();
+}
+
+function goToStatSlide(index) {
+    currentStatSlide = index;
+    updateStatCarousel();
+}
+
+function initStatCarousel() {
+    const container = document.getElementById('mobileStatContainer');
+    if (!container) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    container.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleStatSwipe();
+    }, { passive: true });
+
+    function handleStatSwipe() {
+        const swipeThreshold = 40;
+        if (touchEndX < touchStartX - swipeThreshold) {
+            nextStatSlide();
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            prevStatSlide();
+        }
+    }
+}
+
+function openMobileFilterModal() {
+    const modal = document.getElementById('mobileFilterModal');
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeMobileFilterModal() {
+    const modal = document.getElementById('mobileFilterModal');
+    if (modal) modal.style.display = 'none';
+}
+
 $(document).ready(function() {
     $('#selectGuruSearch').select2({
         placeholder: "Cari NIP atau Nama Guru...",
         allowClear: true
     });
+    initStatCarousel();
 });
 
 function updateFileName(input, targetId) {
@@ -2072,6 +3077,11 @@ function openDetailModal(data) {
         if (fotoContainer) fotoContainer.style.display = 'block';
     } else {
         if (fotoContainer) fotoContainer.style.display = 'none';
+    }
+
+    if (data.delete_url) {
+        const formDel = document.getElementById('formDeleteDetail');
+        if (formDel) formDel.action = data.delete_url;
     }
 
     document.getElementById('detailModal').style.display = 'flex';

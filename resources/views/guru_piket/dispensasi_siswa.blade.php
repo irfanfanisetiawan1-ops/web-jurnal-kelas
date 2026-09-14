@@ -893,13 +893,705 @@
         background-color: #2563eb;
         color: #ffffff;
     }
+    /* ─── Mobile Responsive Additions (Strictly Hidden on Desktop) ─── */
+    .mobile-page-topbar,
+    .mobile-dispen-stat-carousel-wrap,
+    .mobile-dispen-section,
+    #mobileFilterModal,
+    .dispen-btn-text-short {
+        display: none !important;
+    }
+
+    @media (max-width: 768px) {
+        .dispen-desktop-table-card,
+        .dispen-desktop-stat-grid,
+        .dispen-btn-text-full {
+            display: none !important;
+        }
+
+        .mobile-page-topbar {
+            display: flex !important;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .mobile-back-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e3a8a;
+            font-size: 15px;
+            text-decoration: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .mobile-back-btn:active {
+            background: #eff6ff;
+            transform: scale(0.95);
+        }
+
+        .mobile-topbar-title-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mobile-topbar-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin: 0;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .mobile-topbar-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            display: block;
+            margin-top: 1px;
+        }
+
+        .m-btn-trash-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            padding: 5px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #e11d48;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            flex-shrink: 0;
+        }
+
+        .m-trash-badge {
+            background: #e11d48;
+            color: #ffffff;
+            font-size: 9.5px;
+            padding: 1px 5px;
+            border-radius: 9999px;
+            font-weight: 800;
+        }
+
+        .mobile-dispen-stat-carousel-wrap,
+        .mobile-dispen-section {
+            display: flex !important;
+        }
+
+        #mobileFilterModal.active {
+            display: flex !important;
+        }
+
+        .dispen-btn-text-short {
+            display: inline !important;
+        }
+
+        .dispen-page-container {
+            padding-bottom: 24px;
+        }
+
+        /* Mobile Stat Cards Carousel */
+        .mobile-dispen-stat-carousel-wrap {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .mobile-dispen-stat-container {
+            position: relative;
+            width: 100%;
+            border-radius: 18px;
+            overflow: hidden;
+            touch-action: pan-y;
+            background: transparent;
+        }
+
+        .mobile-dispen-stat-track {
+            display: flex;
+            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            width: 100%;
+        }
+
+        .mobile-dispen-stat-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .mobile-dispen-stat-slide .dispen-stat-card {
+            width: 100%;
+            margin: 0;
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-sizing: border-box;
+        }
+
+        .m-stat-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.25s ease, transform 0.2s ease, visibility 0.25s ease;
+        }
+
+        .mobile-dispen-stat-container:hover .m-stat-arrow,
+        .mobile-dispen-stat-container.is-hovered .m-stat-arrow {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .m-stat-arrow:hover,
+        .m-stat-arrow:active {
+            color: #2563eb;
+            background: #f8fafc;
+            transform: translateY(-50%) scale(0.92);
+        }
+
+        .m-stat-prev { left: 8px; }
+        .m-stat-next { right: 8px; }
+
+        .mobile-dispen-stat-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        .m-stat-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .m-stat-dot.active {
+            width: 20px;
+            height: 6px;
+            border-radius: 9999px;
+            background: #2563eb;
+        }
+
+        /* Card & Form on Mobile */
+        .dispen-card {
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+
+        .dispen-card-header {
+            padding: 14px 16px;
+        }
+
+        .dispen-card-body {
+            padding: 16px;
+        }
+
+        .dispen-form-grid, .dispen-form-grid-3 {
+            grid-template-columns: 1fr !important;
+            gap: 14px;
+        }
+
+        .dispen-input, .dispen-textarea, .select2-container .select2-selection--single {
+            min-height: 42px !important;
+            font-size: 13px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 42px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 40px !important;
+            padding-left: 12px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 40px !important;
+        }
+
+        .dispen-form-actions {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 8px !important;
+            margin-top: 16px;
+            padding-top: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dispen-btn-reset, .dispen-btn-submit {
+            width: 100% !important;
+            justify-content: center !important;
+            height: 42px !important;
+            min-height: 42px !important;
+            padding: 0 8px !important;
+            font-size: 12.5px !important;
+            border-radius: 10px !important;
+            gap: 6px !important;
+            white-space: nowrap !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Mobile Section: Filter Card + Cards List */
+        .mobile-dispen-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .mobile-dispen-filter-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mobile-dispen-filter-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .m-card-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .mobile-dispen-search-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .m-search-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .m-search-input-box {
+            position: relative;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-search-input-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        .m-search-input {
+            width: 100%;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            padding: 0 12px 0 34px !important;
+            font-size: 12.5px;
+            color: #1e293b;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .m-search-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .m-btn-filter-trigger {
+            height: 38px;
+            padding: 0 16px;
+            border-radius: 10px;
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            font-size: 12.5px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+            flex-shrink: 0;
+            transition: background 0.15s ease;
+            position: relative;
+        }
+
+        .m-btn-filter-trigger:hover,
+        .m-btn-filter-trigger:active {
+            background: #1d4ed8;
+        }
+
+        .m-filter-active-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #34d399;
+            border: 1.5px solid #ffffff;
+            margin-left: 2px;
+        }
+
+        /* Mobile Cards List */
+        .mobile-dispen-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .mobile-dispen-card-item {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px 16px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .mobile-dispen-card-item.is-approved {
+            border-left: 4px solid #10b981;
+        }
+
+        .mobile-dispen-card-item.is-pending {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .mobile-dispen-card-item.is-rejected {
+            border-left: 4px solid #ef4444;
+        }
+
+        .m-dispen-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .m-dispen-title-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-dispen-student-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1e3a8a;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .m-dispen-meta-sub {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 2px;
+        }
+
+        .m-dispen-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            padding: 10px 12px;
+        }
+
+        .m-dispen-info-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .m-dispen-info-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 0.02em;
+        }
+
+        .m-dispen-info-val {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .m-dispen-alasan-box {
+            background: #f8fafc;
+            border-left: 3px solid #cbd5e1;
+            padding: 8px 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 12px;
+            font-style: italic;
+            color: #475569;
+            line-height: 1.4;
+        }
+
+        .m-dispen-action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+            margin-top: 2px;
+        }
+
+        .m-btn-detail-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #2563eb;
+            background: #eff6ff;
+            border: 1px solid #dbeafe;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .m-btn-detail-link:active {
+            background: #dbeafe;
+            transform: scale(0.97);
+        }
+
+        .m-dispen-quick-icons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .m-dispen-icon-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #475569;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .m-dispen-icon-btn.m-btn-link:hover {
+            background: #eff6ff;
+            color: #2563eb;
+            border-color: #bfdbfe;
+        }
+
+        .m-dispen-icon-btn.m-btn-wa {
+            background: #f0fdf4;
+            color: #16a34a;
+            border-color: #bbf7d0;
+        }
+
+        .m-dispen-icon-btn.m-btn-barcode {
+            background: #fdf4ff;
+            color: #9333ea;
+            border-color: #f0abfc;
+        }
+
+        .m-dispen-icon-btn.m-btn-edit {
+            background: #fffbeb;
+            color: #d97706;
+            border-color: #fde68a;
+        }
+
+        .m-dispen-icon-btn.m-btn-del {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        /* Modal Filter Mobile Bottom Sheet */
+        .mobile-filter-modal-wrap {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 99999;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .mobile-filter-sheet {
+            background: #ffffff;
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: sheetSlideUp 0.25s ease-out;
+            max-height: 85vh;
+        }
+
+        @keyframes sheetSlideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .mobile-filter-sheet-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mobile-filter-sheet-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mobile-filter-sheet-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            overflow-y: auto;
+        }
+
+        .mobile-filter-actions-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .mobile-filter-sheet-close {
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="dispen-page-container">
 
-    <!-- ─── TOP 4 STAT CARDS (TANPA PANAH / CHEVRON) ─── -->
+    <!-- ─── MOBILE TOPBAR (TITLE + SAMPAH PILL) ─── -->
+    <div class="mobile-page-topbar">
+        <div class="mobile-topbar-title-wrap">
+            <h1 class="mobile-topbar-title">Dispensasi Siswa</h1>
+            <span class="mobile-topbar-sub">Kelola permohonan dispen siswa</span>
+        </div>
+        <div class="mobile-topbar-right">
+            @php
+                $trashCount = \App\Models\SiswaDispen::onlyTrashed()->count();
+            @endphp
+            <a href="{{ route('piket.dispensasi-siswa.trash') }}" class="m-btn-trash-pill" title="Sampah">
+                <i class="fa-solid fa-trash-can"></i>
+                <span>Sampah</span>
+                @if($trashCount > 0)
+                    <span class="m-trash-badge">{{ $trashCount }}</span>
+                @endif
+            </a>
+        </div>
+    </div>
+
+    <!-- ─── TOP 4 STAT CARDS DATA CALCULATION ─── -->
     @php
         $hasStatusWaka = \Illuminate\Support\Facades\Schema::hasColumn('siswa_dispen', 'status_waka');
         $countApproved = $hasStatusWaka
@@ -913,59 +1605,148 @@
             : \App\Models\SiswaDispen::where('status_wali_kelas', 'rejected')->count();
     @endphp
 
-    <div class="dispen-stats-grid">
-        <!-- Card 1: Total Pengajuan -->
-        <div class="dispen-stat-card">
-            <div class="dispen-stat-left">
-                <div class="dispen-stat-icon blue">
-                    <i class="fa-solid fa-file-signature"></i>
+    <!-- ─── MOBILE 4-STAT CAROUSEL (SWIPEABLE + DOT INDICATORS) ─── -->
+    <div class="mobile-dispen-stat-carousel-wrap">
+        <div class="mobile-dispen-stat-container" id="mobileDispenStatContainer">
+            <button type="button" class="m-stat-arrow m-stat-prev" onclick="prevDispenStatSlide()" aria-label="Sebelumnya">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button type="button" class="m-stat-arrow m-stat-next" onclick="nextDispenStatSlide()" aria-label="Berikutnya">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <div class="mobile-dispen-stat-track" id="mobileDispenStatTrack">
+                <!-- Slide 1: Total Pengajuan -->
+                <div class="mobile-dispen-stat-slide">
+                    <div class="dispen-stat-card">
+                        <div class="dispen-stat-left">
+                            <div class="dispen-stat-icon blue">
+                                <i class="fa-solid fa-file-signature"></i>
+                            </div>
+                            <div class="dispen-stat-info">
+                                <span class="dispen-stat-title">Total Pengajuan</span>
+                                <span class="dispen-stat-number">{{ $totalPengajuan }}</span>
+                                <span class="dispen-stat-sub">Semua permohonan dispen</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="dispen-stat-info">
-                    <span class="dispen-stat-title">Total Pengajuan</span>
-                    <span class="dispen-stat-number">{{ $totalPengajuan }}</span>
-                    <span class="dispen-stat-sub">Semua permohonan dispen</span>
+
+                <!-- Slide 2: Disetujui -->
+                <div class="mobile-dispen-stat-slide">
+                    <div class="dispen-stat-card">
+                        <div class="dispen-stat-left">
+                            <div class="dispen-stat-icon green">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <div class="dispen-stat-info">
+                                <span class="dispen-stat-title">Disetujui</span>
+                                <span class="dispen-stat-number">{{ $countApproved }}</span>
+                                <span class="dispen-stat-sub">Telah di-ACC oleh Waka</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Menunggu -->
+                <div class="mobile-dispen-stat-slide">
+                    <div class="dispen-stat-card">
+                        <div class="dispen-stat-left">
+                            <div class="dispen-stat-icon amber">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div class="dispen-stat-info">
+                                <span class="dispen-stat-title">Menunggu</span>
+                                <span class="dispen-stat-number">{{ $countPending }}</span>
+                                <span class="dispen-stat-sub">Menunggu verifikasi Waka</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Ditolak -->
+                <div class="mobile-dispen-stat-slide">
+                    <div class="dispen-stat-card">
+                        <div class="dispen-stat-left">
+                            <div class="dispen-stat-icon rose">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                            </div>
+                            <div class="dispen-stat-info">
+                                <span class="dispen-stat-title">Ditolak</span>
+                                <span class="dispen-stat-number">{{ $countRejected }}</span>
+                                <span class="dispen-stat-sub">Ditolak / tidak diizinkan</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Card 2: Disetujui -->
-        <div class="dispen-stat-card">
-            <div class="dispen-stat-left">
-                <div class="dispen-stat-icon green">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
-                <div class="dispen-stat-info">
-                    <span class="dispen-stat-title">Disetujui</span>
-                    <span class="dispen-stat-number">{{ $countApproved }}</span>
-                    <span class="dispen-stat-sub">Telah di-ACC oleh Waka</span>
+        <!-- Carousel Dots -->
+        <div class="mobile-dispen-stat-dots" id="mobileDispenStatDots">
+            <span class="m-stat-dot active" onclick="goToDispenStatSlide(0)"></span>
+            <span class="m-stat-dot" onclick="goToDispenStatSlide(1)"></span>
+            <span class="m-stat-dot" onclick="goToDispenStatSlide(2)"></span>
+            <span class="m-stat-dot" onclick="goToDispenStatSlide(3)"></span>
+        </div>
+    </div>
+
+    <!-- ─── TOP 4 STAT CARDS DESKTOP ─── -->
+    <div class="dispen-desktop-stat-grid">
+        <div class="dispen-stats-grid">
+            <!-- Card 1: Total Pengajuan -->
+            <div class="dispen-stat-card">
+                <div class="dispen-stat-left">
+                    <div class="dispen-stat-icon blue">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <div class="dispen-stat-info">
+                        <span class="dispen-stat-title">Total Pengajuan</span>
+                        <span class="dispen-stat-number">{{ $totalPengajuan }}</span>
+                        <span class="dispen-stat-sub">Semua permohonan dispen</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Card 3: Menunggu -->
-        <div class="dispen-stat-card">
-            <div class="dispen-stat-left">
-                <div class="dispen-stat-icon amber">
-                    <i class="fa-solid fa-clock"></i>
-                </div>
-                <div class="dispen-stat-info">
-                    <span class="dispen-stat-title">Menunggu</span>
-                    <span class="dispen-stat-number">{{ $countPending }}</span>
-                    <span class="dispen-stat-sub">Menunggu verifikasi Waka</span>
+            <!-- Card 2: Disetujui -->
+            <div class="dispen-stat-card">
+                <div class="dispen-stat-left">
+                    <div class="dispen-stat-icon green">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div class="dispen-stat-info">
+                        <span class="dispen-stat-title">Disetujui</span>
+                        <span class="dispen-stat-number">{{ $countApproved }}</span>
+                        <span class="dispen-stat-sub">Telah di-ACC oleh Waka</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Card 4: Ditolak -->
-        <div class="dispen-stat-card">
-            <div class="dispen-stat-left">
-                <div class="dispen-stat-icon rose">
-                    <i class="fa-solid fa-circle-xmark"></i>
+            <!-- Card 3: Menunggu -->
+            <div class="dispen-stat-card">
+                <div class="dispen-stat-left">
+                    <div class="dispen-stat-icon amber">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="dispen-stat-info">
+                        <span class="dispen-stat-title">Menunggu</span>
+                        <span class="dispen-stat-number">{{ $countPending }}</span>
+                        <span class="dispen-stat-sub">Menunggu verifikasi Waka</span>
+                    </div>
                 </div>
-                <div class="dispen-stat-info">
-                    <span class="dispen-stat-title">Ditolak</span>
-                    <span class="dispen-stat-number">{{ $countRejected }}</span>
-                    <span class="dispen-stat-sub">Ditolak / tidak diizinkan</span>
+            </div>
+
+            <!-- Card 4: Ditolak -->
+            <div class="dispen-stat-card">
+                <div class="dispen-stat-left">
+                    <div class="dispen-stat-icon rose">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div class="dispen-stat-info">
+                        <span class="dispen-stat-title">Ditolak</span>
+                        <span class="dispen-stat-number">{{ $countRejected }}</span>
+                        <span class="dispen-stat-sub">Ditolak / tidak diizinkan</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1147,18 +1928,22 @@
                 <!-- Action Buttons Form -->
                 <div class="dispen-form-actions">
                     <button type="reset" class="dispen-btn-reset" onclick="resetFileUploads()">
-                        <i class="fa-solid fa-rotate-left"></i> Reset Form
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span class="dispen-btn-text-full">Reset Form</span>
+                        <span class="dispen-btn-text-short">Reset</span>
                     </button>
                     <button type="submit" class="dispen-btn-submit">
-                        <i class="fa-solid fa-link"></i> Simpan Data & Buat Link Persetujuan Waka
+                        <i class="fa-solid fa-link"></i>
+                        <span class="dispen-btn-text-full">Simpan Data & Buat Link Persetujuan Waka</span>
+                        <span class="dispen-btn-text-short">Simpan & Link</span>
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- ─── DAFTAR DATA SURAT DISPENSASI SISWA ─── -->
-    <div class="dispen-card">
+    <!-- ─── DAFTAR DATA SURAT DISPENSASI SISWA (DESKTOP VIEW) ─── -->
+    <div class="dispen-card dispen-desktop-table-card">
         <div class="dispen-card-header">
             <div class="dispen-card-header-left">
                 <div class="dispen-card-icon">
@@ -1397,6 +2182,234 @@
         @endif
     </div>
 
+    <!-- ─── DAFTAR DATA DISPENSASI SISWA (MOBILE VIEW: CARD LIST) ─── -->
+    <div class="mobile-dispen-section">
+        <!-- Mobile Filter Card -->
+        <div class="mobile-dispen-filter-card">
+            <div class="mobile-dispen-filter-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="m-card-icon-wrap">
+                        <i class="fa-solid fa-file-shield"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 14.5px; font-weight: 800; color: #1e3a8a; margin: 0;">Riwayat Dispensasi</h2>
+                        <span style="font-size: 11px; font-weight: 600; color: #64748b;">Total {{ $totalPengajuan }} Pengajuan Dispen</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search & Filter Row -->
+            <div class="mobile-dispen-search-row">
+                <form action="{{ route('piket.dispensasi-siswa') }}" method="GET" class="m-search-form">
+                    @if(request('status'))
+                        <input type="hidden" name="status" value="{{ request('status') }}">
+                    @endif
+                    @if(request('tanggal'))
+                        <input type="hidden" name="tanggal" value="{{ request('tanggal') }}">
+                    @endif
+                    <div class="m-search-input-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari siswa, NISN, kode..." class="m-search-input">
+                    </div>
+                    <button type="button" class="m-btn-filter-trigger" onclick="openMobileFilterModal()">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span>Filter</span>
+                        @if(request('status') || request('tanggal') || request('q'))
+                            <span class="m-filter-active-dot"></span>
+                        @endif
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Mobile Card List -->
+        <div class="mobile-dispen-cards-list">
+            @forelse($dispenList as $d)
+                @php
+                    $statusDispen = $d->status_waka ?? $d->status_wali_kelas ?? 'pending';
+                    $appUrl = url("/approval/dispen/{$d->token_wali_kelas}");
+                    $hpWaka = $d->no_hp_waka ?? ($d->wakaUser->no_hp ?? null);
+                    $waWakaLink = null;
+                    if ($hpWaka) {
+                        $hpFmt = preg_replace('/[^0-9]/', '', $hpWaka);
+                        if (str_starts_with($hpFmt, '0')) $hpFmt = '62' . substr($hpFmt, 1);
+                        $msgWa = "*PERMOHONAN PERSETUJUAN DISPENSASI SISWA*\n"
+                            . "Halo Bapak/Ibu Waka,\nAda permohonan dispensasi siswa (Kode: {$d->kode_dispen}, Siswa: " . ($d->siswa->nama_siswa ?? '-') . ").\nMohon verifikasi di link berikut:\n{$appUrl}";
+                        $waWakaLink = "https://api.whatsapp.com/send?phone={$hpFmt}&text=" . urlencode($msgWa);
+                    }
+                @endphp
+
+                <div class="mobile-dispen-card-item is-{{ $statusDispen }}">
+                    <!-- Card Top: Avatar/Icon + Name + Status Badge -->
+                    <div class="m-dispen-header-row">
+                        <div class="m-dispen-title-box">
+                            <div class="m-card-icon-wrap" style="width: 38px; height: 38px;">
+                                <i class="fa-solid fa-user-graduate"></i>
+                            </div>
+                            <div style="min-width: 0; flex: 1;">
+                                <div class="m-dispen-student-name">{{ $d->siswa->nama_siswa ?? '-' }}</div>
+                                <div class="m-dispen-meta-sub">
+                                    <span style="background: #f1f5f9; padding: 1px 6px; border-radius: 5px; font-weight: 700; color: #475569;">
+                                        {{ $d->kelas->nama_kelas ?? ($d->siswa->kelas->nama_kelas ?? '-') }}
+                                    </span>
+                                    <span>•</span>
+                                    <span style="font-family: monospace; font-weight: 700; color: #2563eb;">{{ $d->kode_dispen }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            @if($statusDispen === 'approved')
+                                <span class="status-badge status-approved" style="font-size: 11px; padding: 4px 9px;">
+                                    <i class="fa-solid fa-circle-check"></i> Disetujui
+                                </span>
+                            @elseif($statusDispen === 'rejected')
+                                <span class="status-badge status-rejected" style="font-size: 11px; padding: 4px 9px;">
+                                    <i class="fa-solid fa-circle-xmark"></i> Ditolak
+                                </span>
+                            @else
+                                <span class="status-badge status-pending" style="font-size: 11px; padding: 4px 9px;">
+                                    <i class="fa-solid fa-clock"></i> Menunggu
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Info Grid: Tanggal & Waktu, Waka -->
+                    <div class="m-dispen-info-grid">
+                        <div class="m-dispen-info-cell">
+                            <span class="m-dispen-info-label"><i class="fa-regular fa-calendar-days"></i> Tanggal</span>
+                            <span class="m-dispen-info-val">{{ \Carbon\Carbon::parse($d->tanggal)->format('d/m/Y') }}</span>
+                        </div>
+                        <div class="m-dispen-info-cell">
+                            <span class="m-dispen-info-label"><i class="fa-regular fa-clock"></i> Jam Keluar - Kembali</span>
+                            <span class="m-dispen-info-val" style="color: #d97706;">{{ $d->jam_keluar ?? '00:00' }} - {{ $d->jam_kembali ?? '00:00' }}</span>
+                        </div>
+                        <div class="m-dispen-info-cell" style="grid-column: 1 / -1;">
+                            <span class="m-dispen-info-label"><i class="fa-solid fa-user-tie"></i> Waka Tujuan</span>
+                            <span class="m-dispen-info-val">{{ $d->nama_waka ?? ($d->wakaUser->name ?? '-') }} @if($d->nip_waka) <span style="font-weight: normal; font-size: 11px; color: #64748b;">(NIP: {{ $d->nip_waka }})</span> @endif</span>
+                        </div>
+                    </div>
+
+                    <!-- Alasan / Keperluan -->
+                    <div class="m-dispen-alasan-box">
+                        "{{ $d->alasan }}"
+                    </div>
+
+                    <!-- Barcode indicator if approved -->
+                    @if($statusDispen === 'approved')
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #faf5ff; border: 1px solid #f3e8ff; border-radius: 10px; padding: 6px 10px;">
+                            <span style="font-size: 11px; font-weight: 700; color: #7e22ce; display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-solid fa-qrcode"></i> Barcode Validasi Satpam
+                            </span>
+                            <button type="button" onclick="showBarcodeModal({{ json_encode($d) }})" style="border: none; background: #9333ea; color: #ffffff; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">
+                                Tampilkan
+                            </button>
+                        </div>
+                    @endif
+
+                    <!-- Action Row -->
+                    <div class="m-dispen-action-row">
+                        <button type="button" onclick="showDetailModal({{ json_encode($d) }})" class="m-btn-detail-link">
+                            <span>Lihat Detail</span>
+                            <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
+                        </button>
+
+                        <div class="m-dispen-quick-icons">
+                            <!-- Salin Link Button -->
+                            <button type="button" onclick="copyLink(`{{ $appUrl }}`)" class="m-dispen-icon-btn m-btn-link" title="Salin Link Persetujuan">
+                                <i class="fa-solid fa-link"></i>
+                            </button>
+
+                            <!-- WhatsApp Button (if pending) -->
+                            @if($waWakaLink && $statusDispen === 'pending')
+                                <a href="{{ $waWakaLink }}" target="_blank" class="m-dispen-icon-btn m-btn-wa" title="Kirim WA ke Waka">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                            @endif
+
+                            <!-- Edit Button (if pending) -->
+                            @if($statusDispen === 'pending')
+                                <button type="button" onclick="showEditModal({{ json_encode($d) }})" class="m-dispen-icon-btn m-btn-edit" title="Edit Data">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            @endif
+
+                            <!-- Delete to trash Button (Option A) -->
+                            <form action="{{ route('piket.dispensasi-siswa.destroy', $d->id_siswa_dispen) }}" method="POST" style="display: inline; margin: 0;" onsubmit="return confirm('Pindahkan data dispensasi siswa ini ke Sampah?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="m-dispen-icon-btn m-btn-del" title="Hapus ke Sampah">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="dispen-card" style="border-radius: 16px; padding: 32px 16px; text-align: center;">
+                    <div class="dispen-empty-icon" style="margin: 0 auto 12px auto;">
+                        <i class="fa-regular fa-folder-open"></i>
+                    </div>
+                    <h3 class="dispen-empty-title">Belum ada permohonan dispensasi</h3>
+                    <p class="dispen-empty-desc">Gunakan form di atas untuk mencatat pengajuan izin keluar siswa.</p>
+                </div>
+            @endforelse
+
+            @if($dispenList->hasPages())
+                <div style="padding: 12px; background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0;">
+                    {{ $dispenList->links() }}
+                </div>
+            @endif
+        </div>
+    </div>
+
+</div>
+
+<!-- ─── MODAL FILTER MOBILE (BOTTOM SHEET) ─── -->
+<div id="mobileFilterModal" class="mobile-filter-modal-wrap">
+    <div class="mobile-filter-sheet">
+        <div class="mobile-filter-sheet-header">
+            <h3 class="mobile-filter-sheet-title">
+                <i class="fa-solid fa-sliders" style="color: #2563eb;"></i> Filter Dispensasi Siswa
+            </h3>
+            <button type="button" class="mobile-filter-sheet-close" onclick="closeMobileFilterModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <form action="{{ route('piket.dispensasi-siswa') }}" method="GET" class="mobile-filter-sheet-body">
+            <div>
+                <label style="font-size: 12px; font-weight: 700; color: #1e293b; display: block; margin-bottom: 6px;">Pencarian Kata Kunci</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 13px;"></i>
+                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Nama siswa, NISN, atau kode..." class="dispen-input" style="padding-left: 36px; height: 42px; border-radius: 10px;">
+                </div>
+            </div>
+
+            <div>
+                <label style="font-size: 12px; font-weight: 700; color: #1e293b; display: block; margin-bottom: 6px;">Status Verifikasi Waka</label>
+                <select name="status" class="dispen-input" style="height: 42px; border-radius: 10px;">
+                    <option value="">Semua Status Waka</option>
+                    <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Menunggu Waka</option>
+                    <option value="approved" {{ request('status') === 'approved' ? 'selected' : '' }}>Disetujui Waka</option>
+                    <option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Ditolak Waka</option>
+                </select>
+            </div>
+
+            <div>
+                <label style="font-size: 12px; font-weight: 700; color: #1e293b; display: block; margin-bottom: 6px;">Tanggal Dispensasi</label>
+                <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="dispen-input" style="height: 42px; border-radius: 10px;">
+            </div>
+
+            <div class="mobile-filter-actions-row">
+                <a href="{{ route('piket.dispensasi-siswa') }}" class="dispen-btn-reset" style="height: 42px; justify-content: center; text-decoration: none; display: flex; align-items: center;">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </a>
+                <button type="submit" class="dispen-btn-submit" style="height: 42px; justify-content: center;">
+                    <i class="fa-solid fa-check"></i> Terapkan
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- ─── MODAL DETAIL DISPENSASI ─── -->
@@ -1536,12 +2549,79 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+let currentDispenStatSlide = 0;
+const totalDispenStatSlides = 4;
+
+function updateDispenStatCarousel() {
+    const track = document.getElementById('mobileDispenStatTrack');
+    const dots = document.querySelectorAll('#mobileDispenStatDots .m-stat-dot');
+    if (track) {
+        track.style.transform = `translateX(-${currentDispenStatSlide * 100}%)`;
+    }
+    dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentDispenStatSlide);
+    });
+}
+
+function nextDispenStatSlide() {
+    currentDispenStatSlide = (currentDispenStatSlide + 1) % totalDispenStatSlides;
+    updateDispenStatCarousel();
+}
+
+function prevDispenStatSlide() {
+    currentDispenStatSlide = (currentDispenStatSlide - 1 + totalDispenStatSlides) % totalDispenStatSlides;
+    updateDispenStatCarousel();
+}
+
+function goToDispenStatSlide(index) {
+    currentDispenStatSlide = index;
+    updateDispenStatCarousel();
+}
+
+function initDispenStatCarousel() {
+    const container = document.getElementById('mobileDispenStatContainer');
+    if (!container) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    container.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const swipeThreshold = 40;
+        if (touchEndX < touchStartX - swipeThreshold) {
+            nextDispenStatSlide();
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            prevDispenStatSlide();
+        }
+    }, { passive: true });
+}
+
+function openMobileFilterModal() {
+    const modal = document.getElementById('mobileFilterModal');
+    if (modal) modal.classList.add('active');
+}
+
+function closeMobileFilterModal() {
+    const modal = document.getElementById('mobileFilterModal');
+    if (modal) modal.classList.remove('active');
+}
+
+window.addEventListener('click', function(e) {
+    const filterModal = document.getElementById('mobileFilterModal');
+    if (e.target === filterModal) closeMobileFilterModal();
+});
+
 $(document).ready(function() {
     $('.select2-search').select2({
         placeholder: "Cari & Pilih Data...",
         allowClear: true,
         width: '100%'
     });
+    initDispenStatCarousel();
 });
 
 function handleFileChange(input, nameElemId, boxId) {
@@ -1728,6 +2808,19 @@ function showDetailModal(data) {
                     <i class="fa-solid fa-copy"></i> Salin
                 </button>
             </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
+            <form action="{{ url('/guru-piket/dispensasi-siswa') }}/${data.id_siswa_dispen}" method="POST" style="margin: 0;" onsubmit="return confirm('Pindahkan data dispensasi siswa ini ke Sampah?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="dispen-btn-reset" style="height: 36px; padding: 0 14px; border-radius: 8px; font-weight: 700; gap: 6px; color: #dc2626; border-color: #fca5a5; background: #fee2e2;">
+                    <i class="fa-solid fa-trash-can"></i> Pindahkan ke Sampah
+                </button>
+            </form>
+            <button type="button" onclick="closeDetailModal()" class="dispen-btn-reset" style="height: 36px; padding: 0 16px;">
+                Tutup
+            </button>
         </div>
     `;
 
