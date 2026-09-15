@@ -195,7 +195,7 @@ class WakaController extends Controller
             $query->where('id_kelas', $kelasFilter);
         }
 
-        $jadwals = $query->orderBy('hari')->orderBy('id_jam_pelajaran')->get();
+        $jadwals = $query->orderBy('hari')->orderBy('id_jam')->get();
         $kelasList = Kelas::orderBy('nama_kelas')->get();
 
         return view('waka.jadwal', compact('jadwals', 'kelasList', 'hariFilter', 'kelasFilter'));
@@ -442,7 +442,7 @@ class WakaController extends Controller
         $guruList = Guru::with('mapel')->orderBy('nama_guru')->get();
         $jadwals = Jadwal::with(['kelas', 'mapel', 'guru', 'ruangan', 'jamPelajaran'])
             ->orderBy('hari')
-            ->orderBy('id_jam_pelajaran')
+            ->orderBy('id_jam')
             ->get();
 
         return view('waka.jadwal_mengajar', compact('guruList', 'jadwals'));
