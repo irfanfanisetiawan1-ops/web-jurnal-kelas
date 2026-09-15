@@ -51,24 +51,30 @@ class ApprovalPublicController extends Controller
             return redirect()->back()->withErrors(['auth' => 'Kepala Sekolah sudah pernah memberikan respon persetujuan untuk pengajuan izin ini.'])->withInput();
         }
 
-        $loginInput = trim($request->nip_username);
+        $rawInput = trim($request->nip_username);
+        $cleanedDigits = preg_replace('/[^0-9]/', '', $rawInput);
+        $loginInput = (strlen($cleanedDigits) === 18) ? $cleanedDigits : $rawInput;
 
         // 1. Verifikasi Format NIP jika seluruhnya angka (NIP PNS/ASN = 18 digit)
-        if (ctype_digit($loginInput) && strlen($loginInput) !== 18) {
+        if (ctype_digit($cleanedDigits) && strlen($cleanedDigits) !== 18 && strlen($rawInput) !== 18) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Format NIP '{$loginInput}' tidak valid! (NIP PNS/ASN harus terdiri dari tepat 18 digit angka, saat ini: " . strlen($loginInput) . " digit)."
+                'auth' => "Verifikasi Gagal: Format NIP '{$rawInput}' tidak valid! (NIP PNS/ASN harus terdiri dari tepat 18 digit angka, saat ini: " . strlen($cleanedDigits) . " digit)."
             ])->withInput();
         }
 
         // 2. Verifikasi Ketersediaan User di tabel users (Data Pengguna Role TU)
-        $user = User::where('nip', $loginInput)
-            ->orWhere('username', $loginInput)
-            ->orWhere('email', $loginInput)
-            ->first();
+        $user = User::where(function($q) use ($loginInput, $cleanedDigits) {
+            $q->where('nip', $loginInput)
+              ->orWhere('username', $loginInput)
+              ->orWhere('email', $loginInput);
+            if (!empty($cleanedDigits)) {
+                $q->orWhere('nip', $cleanedDigits);
+            }
+        })->first();
 
         if (!$user) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: NIP / Username '{$loginInput}' tidak terdaftar pada data Pengguna sistem (Role TU)!"
+                'auth' => "Verifikasi Gagal: NIP / Username '{$rawInput}' tidak terdaftar pada data Pengguna sistem (Role TU)!"
             ])->withInput();
         }
 
@@ -82,13 +88,13 @@ class ApprovalPublicController extends Controller
         // 4. Verifikasi Password Akun
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Password akun yang Anda masukkan untuk NIP/Username '{$loginInput}' tidak sesuai dengan data Pengguna di database!"
+                'auth' => "Verifikasi Gagal: Password akun yang Anda masukkan untuk NIP/Username '{$rawInput}' tidak sesuai dengan data Pengguna di database!"
             ])->withInput();
         }
 
         // 5. Verifikasi Otorisasi Peran / Jabatan
         if ($request->role_approver === 'waka') {
-            $isValidWaka = ($user->role === 'waka') || (method_exists($user, 'isWakaKurikulum') && $user->isWakaKurikulum()) || ($user->role === 'waka') || in_array($user->role, ['admin', 'tu']);
+            $isValidWaka = ($user->role === 'waka') || (method_exists($user, 'isWakaKurikulum') && $user->isWakaKurikulum()) || in_array($user->role, ['admin', 'tu']);
             if (!$isValidWaka) {
                 return redirect()->back()->withErrors([
                     'auth' => "Verifikasi Gagal: Akun '{$user->name}' (NIP: {$user->nip}) ber-role '{$user->role_label}', tidak memiliki kewenangan sebagai Waka Kurikulum. Silakan gunakan NIP & Password akun Waka Kurikulum yang sah."
@@ -204,24 +210,30 @@ class ApprovalPublicController extends Controller
             ])->withInput();
         }
 
-        $loginInput = trim($request->nip_username);
+        $rawInput = trim($request->nip_username);
+        $cleanedDigits = preg_replace('/[^0-9]/', '', $rawInput);
+        $loginInput = (strlen($cleanedDigits) === 18) ? $cleanedDigits : $rawInput;
 
         // 1. Verifikasi Format NIP jika digit angka 18
-        if (ctype_digit($loginInput) && strlen($loginInput) !== 18) {
+        if (ctype_digit($cleanedDigits) && strlen($cleanedDigits) !== 18 && strlen($rawInput) !== 18) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Format NIP '{$loginInput}' tidak valid! (NIP PNS/ASN harus terdiri dari tepat 18 digit angka, saat ini: " . strlen($loginInput) . " digit)."
+                'auth' => "Verifikasi Gagal: Format NIP '{$rawInput}' tidak valid! (NIP PNS/ASN harus terdiri dari tepat 18 digit angka, saat ini: " . strlen($cleanedDigits) . " digit)."
             ])->withInput();
         }
 
         // 2. Verifikasi Ketersediaan User di tabel users (Data Pengguna Role TU)
-        $user = User::where('nip', $loginInput)
-            ->orWhere('username', $loginInput)
-            ->orWhere('email', $loginInput)
-            ->first();
+        $user = User::where(function($q) use ($loginInput, $cleanedDigits) {
+            $q->where('nip', $loginInput)
+              ->orWhere('username', $loginInput)
+              ->orWhere('email', $loginInput);
+            if (!empty($cleanedDigits)) {
+                $q->orWhere('nip', $cleanedDigits);
+            }
+        })->first();
 
         if (!$user) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: NIP / Username '{$loginInput}' tidak terdaftar pada data Pengguna sistem (Role TU)!"
+                'auth' => "Verifikasi Gagal: NIP / Username '{$rawInput}' tidak terdaftar pada data Pengguna sistem (Role TU)!"
             ])->withInput();
         }
 
@@ -235,15 +247,15 @@ class ApprovalPublicController extends Controller
         // 4. Verifikasi Password Akun
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Password akun yang Anda masukkan untuk NIP/Username '{$loginInput}' tidak sesuai dengan data Pengguna di database!"
+                'auth' => "Verifikasi Gagal: Password akun yang Anda masukkan untuk NIP/Username '{$rawInput}' tidak sesuai dengan data Pengguna di database!"
             ])->withInput();
         }
 
-        // 5. Verifikasi Otorisasi Waka
-        $isValidWaka = ($user->role === 'waka') || (method_exists($user, 'isWaka') && $user->isWaka()) || in_array($user->role, ['admin', 'tu']);
+        // 5. Verifikasi Otorisasi Waka Kesiswaan
+        $isValidWaka = ($user->role === 'waka_kesiswaan') || in_array($user->role, ['admin', 'tu', 'waka']);
         if (!$isValidWaka) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Akun '{$user->name}' (NIP: {$user->nip}) ber-role '{$user->role_label}', tidak memiliki kewenangan sebagai Waka. Silakan gunakan NIP & Password akun Waka yang sah."
+                'auth' => "Verifikasi Gagal: Akun '{$user->name}' (NIP: {$user->nip}) ber-role '{$user->role_label}', tidak memiliki kewenangan sebagai Waka Kesiswaan. Silakan gunakan NIP & Password akun Waka Kesiswaan yang sah."
             ])->withInput();
         }
 
@@ -257,7 +269,7 @@ class ApprovalPublicController extends Controller
         // Update Data Dispensasi Siswa
         $dispen->status_waka = $request->action;
         $dispen->status_wali_kelas = $request->action;
-        $dispen->catatan_waka = $request->catatan ?? ($request->action === 'approved' ? 'Disetujui oleh Waka' : 'Ditolak oleh Waka');
+        $dispen->catatan_waka = $request->catatan ?? ($request->action === 'approved' ? 'Disetujui oleh Waka Kesiswaan' : 'Ditolak oleh Waka Kesiswaan');
         $dispen->waktu_approval_waka = now();
 
         if ($request->action === 'approved') {
@@ -268,19 +280,23 @@ class ApprovalPublicController extends Controller
             $jamRange  = ($dispen->jam_keluar ?? '00:00') . ' s/d ' . ($dispen->jam_kembali ?? '00:00');
             $tglIndo   = \Carbon\Carbon::parse($dispen->tanggal)->format('d-m-Y');
 
+            $linkFotoSiswa = $dispen->foto_siswa_live ? asset($dispen->foto_siswa_live) : null;
             $linkKartu = $dispen->foto_kartu_identitas ? asset($dispen->foto_kartu_identitas) : null;
             $linkSurat = $dispen->foto_surat_dispen ? asset($dispen->foto_surat_dispen) : null;
             $linkDispenPage = url("/approval/dispen/{$token}");
 
             $pesanWaSatpam = "OFFICIAL NOTIFIKASI DISPENSASI SISWA (EDU JOURNAL)\n"
                 . "===============================================\n\n"
-                . "Memberitahukan bahwa permohonan dispensasi siswa berikut telah DISETUJUI oleh Waka ({$user->name}):\n\n"
+                . "Memberitahukan bahwa permohonan dispensasi siswa berikut telah DISETUJUI oleh Waka Kesiswaan ({$user->name}):\n\n"
                 . "* Kode Dispen: {$dispen->kode_dispen}\n"
                 . "* Nama Siswa: {$namaSiswa}\n"
                 . "* Kelas: {$namaKelas}\n"
                 . "* Tanggal & Jam: {$tglIndo} ({$jamRange})\n"
                 . "* Alasan Dispen: {$dispen->alasan}\n";
 
+            if ($linkFotoSiswa) {
+                $pesanWaSatpam .= "* Lihat Foto Siswa (Live Kamera): {$linkFotoSiswa}\n";
+            }
             if ($linkKartu) {
                 $pesanWaSatpam .= "* Lihat Foto Kartu Pelajar: {$linkKartu}\n";
             }
@@ -289,13 +305,20 @@ class ApprovalPublicController extends Controller
             }
 
             $pesanWaSatpam .= "\n* Link Verifikasi Detail: {$linkDispenPage}\n\n"
-                . "STATUS: TERVERIFIKASI & DISETUJUI WAKA.\n"
-                . "Petugas Satpam dapat mencocokkan fisik Kartu Identitas Siswa/Kartu Pelajar dengan foto terlampir, lalu membiarkan siswa keluar sekolah";
+                . "STATUS: TERVERIFIKASI & DISETUJUI WAKA KESISWAAN.\n"
+                . "Petugas Satpam dapat mencocokkan fisik & wajah Siswa serta Kartu Pelajar dengan foto live terlampir, lalu membiarkan siswa keluar sekolah.";
 
-            $waSatpamUrl = "https://api.whatsapp.com/send?text=" . urlencode($pesanWaSatpam);
+            $satpamUser = User::where('role', 'satpam')->first();
+            $hpSatpam = $satpamUser && $satpamUser->no_hp ? preg_replace('/[^0-9]/', '', $satpamUser->no_hp) : '';
+            if (str_starts_with($hpSatpam, '0')) {
+                $hpSatpam = '62' . substr($hpSatpam, 1);
+            }
+            $waSatpamUrl = !empty($hpSatpam)
+                ? "https://api.whatsapp.com/send?phone={$hpSatpam}&text=" . urlencode($pesanWaSatpam)
+                : "https://api.whatsapp.com/send?text=" . urlencode($pesanWaSatpam);
 
             return redirect()->back()->with([
-                'success'         => "Otentikasi Berhasil! Status persetujuan dispensasi siswa oleh Waka ({$user->name}) telah DISETUJUI. Data siswa otomatis dikirim ke Portal Satpam.",
+                'success'         => "Otentikasi Berhasil! Status persetujuan dispensasi siswa oleh Waka Kesiswaan ({$user->name}) telah DISETUJUI. Data siswa otomatis dikirim ke Portal Satpam.",
                 'wa_satpam_url'   => $waSatpamUrl,
                 'pesan_wa_satpam' => $pesanWaSatpam,
             ]);
@@ -303,7 +326,7 @@ class ApprovalPublicController extends Controller
             $dispen->status_satpam = 'ditolak';
             $dispen->save();
 
-            return redirect()->back()->with('success', "Otentikasi Berhasil! Permohonan dispensasi siswa telah DITOLAK oleh Waka ({$user->name}) dengan alasan: \"{$request->catatan}\". Catatan penolakan akan tampil pada Halaman Guru Piket.");
+            return redirect()->back()->with('success', "Otentikasi Berhasil! Permohonan dispensasi siswa telah DITOLAK oleh Waka Kesiswaan ({$user->name}) dengan alasan: \"{$request->catatan}\". Catatan penolakan akan tampil pada Halaman Guru Piket.");
         }
     }
 }

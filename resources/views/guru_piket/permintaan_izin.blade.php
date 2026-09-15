@@ -299,7 +299,7 @@
                     <i class="fa-brands fa-whatsapp"></i> Link Persetujuan Otomatis Siap Kirim
                 </h4>
                 <p style="margin: 0; font-size: 12.5px; color: #047857;">
-                    Klik tombol Kirim WhatsApp atau Salin Link di bawah untuk meneruskan ke Waka & Kepsek:
+                    Klik tombol Kirim WhatsApp atau Salin Link di bawah untuk meneruskan ke Waka Kurikulum, Waka SDM & Kepsek:
                 </p>
                 <div style="margin-top: 8px; background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid #a7f3d0; font-family: monospace; font-size: 12px; color: #0f172a; word-break: break-all; user-select: all;">
                     {{ session('approval_url') }}
@@ -542,7 +542,7 @@
                         <th>GURU</th>
                         <th>TANGGAL & KATEGORI</th>
                         <th>ALASAN</th>
-                        <th>STATUS WAKA</th>
+                        <th>STATUS WAKA KURIKULUM</th>
                         <th>STATUS WAKA SDM</th>
                         <th>STATUS KEPSEK</th>
                         <th>STATUS FINAL</th>
@@ -555,7 +555,7 @@
                         $tokenUrl = url("/approval/guru-izin/{$iz->token_approval}");
                         $isCutiRow = ($iz->kategori_izin === 'cuti') || ($iz->tanggal_mulai && $iz->tanggal_selesai && \Carbon\Carbon::parse($iz->tanggal_mulai)->diffInDays(\Carbon\Carbon::parse($iz->tanggal_selesai)) + 1 > 3);
 
-                        $waTextTable = rawurlencode("Assalamu'alaikum Wr. Wb. Bapak/Ibu Waka & Kepala Sekolah,\n\n"
+                        $waTextTable = rawurlencode("Assalamu'alaikum Wr. Wb. Bapak/Ibu Waka Kurikulum, Waka SDM & Kepala Sekolah,\n\n"
                             . "Berikut pengajuan " . ($isCutiRow ? "CUTI / IZIN KHUSUS (> 3 HARI)" : "IZIN TIDAK HADIR") . " mengajar:\n"
                             . "• Guru: " . ($iz->guru->nama_guru ?? 'Guru') . "\n"
                             . "• Tanggal: " . ($iz->tanggal_mulai ?? '-') . "\n"

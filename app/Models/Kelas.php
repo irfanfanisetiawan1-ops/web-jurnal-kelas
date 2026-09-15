@@ -49,6 +49,14 @@ class Kelas extends Model
     }
 
     /**
+     * Alias relasi siswa
+     */
+    public function siswa()
+    {
+        return $this->hasMany(Siswa::class, 'id_kelas', 'id_kelas');
+    }
+
+    /**
      * Relasi ke Jadwal yang ada di kelas ini
      */
     public function jadwals()

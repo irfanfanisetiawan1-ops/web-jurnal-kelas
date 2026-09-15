@@ -920,8 +920,8 @@
                                 @endif
                             </td>
                             <td>
-                                @if($j->dokumentasi)
-                                    <img src="{{ asset('storage/' . $j->dokumentasi) }}" class="photo-thumb-box" alt="Bukti Foto">
+                                @if($j->dokumentasi_url)
+                                    <img src="{{ $j->dokumentasi_url }}" class="photo-thumb-box" alt="Bukti Foto">
                                 @else
                                     <div class="photo-thumb-box" title="Foto tidak diupload"></div>
                                 @endif

@@ -79,22 +79,79 @@ class JurnalMengajarController extends Controller
     }
 
     /**
-     * API Response untuk mengambil daftar siswa berdasarkan ID Jadwal (Kelas)
+     * API Response untuk mengambil daftar siswa berdasarkan ID Jadwal (Kelas) beserta status izin auto-sync
      */
-    public function getSiswaByJadwal($id_jadwal)
+    public function getSiswaByJadwal(Request $request, $id_jadwal)
     {
         $jadwal = Jadwal::find($id_jadwal);
         if (!$jadwal) {
             return response()->json([], 404);
         }
 
+        $tanggalTarget = $request->input('tanggal') ?? \Carbon\Carbon::now('Asia/Jakarta')->toDateString();
+
         $siswas = Siswa::where('id_kelas', $jadwal->id_kelas)
             ->orderBy('nama_siswa', 'asc')
             ->get();
 
+        // Cek SiswaSuratIzin aktif pada tanggalTarget
+        $suratIzinAktif = \App\Models\SiswaSuratIzin::where('id_kelas', $jadwal->id_kelas)
+            ->where(function($q) use ($tanggalTarget) {
+                $q->whereDate('tanggal', '<=', $tanggalTarget)
+                  ->where(function($sq) use ($tanggalTarget) {
+                      $sq->whereNull('tanggal_selesai')
+                         ->orWhereDate('tanggal_selesai', '>=', $tanggalTarget);
+                  });
+            })
+            ->whereIn('status', ['Terverifikasi', 'disetujui'])
+            ->get()
+            ->keyBy('id_siswa');
+
+        // Cek SiswaDispen aktif pada tanggalTarget
+        $dispenAktif = \App\Models\SiswaDispen::where('id_kelas', $jadwal->id_kelas)
+            ->whereDate('tanggal', $tanggalTarget)
+            ->where('status_waka', 'approved')
+            ->get()
+            ->keyBy('id_siswa');
+
+        $resultSiswas = $siswas->map(function($s) use ($suratIzinAktif, $dispenAktif) {
+            $defaultStatus = 'Hadir';
+            $keteranganIzin = null;
+            $isAutoIzin = false;
+
+            if (isset($suratIzinAktif[$s->id_siswa])) {
+                $surat = $suratIzinAktif[$s->id_siswa];
+                $kat = strtolower(trim($surat->kategori ?? 'izin'));
+                if (str_contains($kat, 'sakit')) {
+                    $defaultStatus = 'Sakit';
+                } elseif (str_contains($kat, 'dispen')) {
+                    $defaultStatus = 'Izin';
+                } else {
+                    $defaultStatus = 'Izin';
+                }
+                $keteranganIzin = "Surat {$surat->kategori}: " . ($surat->keterangan ?? 'Izin Terverifikasi');
+                $isAutoIzin = true;
+            } elseif (isset($dispenAktif[$s->id_siswa])) {
+                $dispen = $dispenAktif[$s->id_siswa];
+                $defaultStatus = 'Izin';
+                $keteranganIzin = "Dispensasi: " . ($dispen->alasan ?? 'Dispensasi Disetujui');
+                $isAutoIzin = true;
+            }
+
+            return [
+                'id_siswa'        => $s->id_siswa,
+                'nama_siswa'      => $s->nama_siswa,
+                'nis'             => $s->nis ?? '-',
+                'nisn'            => $s->nisn ?? '-',
+                'default_status'  => $defaultStatus,
+                'keterangan_izin' => $keteranganIzin,
+                'is_auto_izin'    => $isAutoIzin,
+            ];
+        });
+
         return response()->json([
             'kelas' => $jadwal->kelas->nama_kelas ?? '-',
-            'siswas' => $siswas
+            'siswas' => $resultSiswas
         ]);
     }
 
@@ -103,6 +160,11 @@ class JurnalMengajarController extends Controller
      */
     public function store(Request $request)
     {
+        $activeTa = \App\Models\TahunAjaran::getActive();
+        if ($activeTa && !$activeTa->buka_jurnal) {
+            return back()->withInput()->with('error', "Pengisian Jurnal Mengajar untuk Tahun Ajaran '{$activeTa->nama_lengkap}' saat ini sedang dikunci (Arsip) oleh Tata Usaha.");
+        }
+
         $request->validate([
             'id_jadwal'             => 'required|exists:jadwal,id_jadwal',
             'tanggal'               => 'required|date',
@@ -159,6 +221,7 @@ class JurnalMengajarController extends Controller
         ]);
 
         // Simpan detail ketidakhadiran siswa jika ada
+        $recordedSiswaIds = [];
         if ($request->has('ketidakhadiran') && is_array($request->ketidakhadiran)) {
             foreach ($request->ketidakhadiran as $item) {
                 if (!empty($item['id_siswa']) && !empty($item['keterangan'])) {
@@ -167,6 +230,37 @@ class JurnalMengajarController extends Controller
                         'id_siswa'   => $item['id_siswa'],
                         'keterangan' => $item['keterangan'],
                     ]);
+                    $recordedSiswaIds[] = $item['id_siswa'];
+                }
+            }
+        }
+
+        // Pastikan siswa dengan surat izin/dispen aktif pada tanggal jurnal otomatis tercatat di JurnalDetailKetidakhadiran
+        if ($jadwal) {
+            $suratIzinAktif = \App\Models\SiswaSuratIzin::where('id_kelas', $jadwal->id_kelas)
+                ->where(function($q) use ($request) {
+                    $q->whereDate('tanggal', '<=', $request->tanggal)
+                      ->where(function($sq) use ($request) {
+                          $sq->whereNull('tanggal_selesai')
+                             ->orWhereDate('tanggal_selesai', '>=', $request->tanggal);
+                      });
+                })
+                ->whereIn('status', ['Terverifikasi', 'disetujui'])
+                ->get();
+
+            foreach ($suratIzinAktif as $surat) {
+                if (!in_array($surat->id_siswa, $recordedSiswaIds)) {
+                    $kat = str_contains(strtolower($surat->kategori), 'sakit') ? 'Sakit' : 'Izin';
+                    JurnalDetailKetidakhadiran::firstOrCreate(
+                        [
+                            'id_jurnal' => $jurnal->id_jurnal,
+                            'id_siswa'  => $surat->id_siswa,
+                        ],
+                        [
+                            'keterangan' => $kat,
+                        ]
+                    );
+                    $recordedSiswaIds[] = $surat->id_siswa;
                 }
             }
         }

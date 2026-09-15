@@ -60,4 +60,9 @@ class SiswaTelat extends Model
     {
         return $this->belongsTo(Pengumuman::class, 'id_pengumuman', 'id_pengumuman');
     }
+
+    public function pelanggaran()
+    {
+        return $this->hasOne(PelanggaranSiswa::class, 'id_siswa_telat', 'id_siswa_telat');
+    }
 }

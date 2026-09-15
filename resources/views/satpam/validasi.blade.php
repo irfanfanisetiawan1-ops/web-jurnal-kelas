@@ -769,7 +769,7 @@
     // Helper untuk format URL gambar agar terhindar dari broken link
     function formatImageUrl(path) {
         if (!path) return '';
-        if (path.startsWith('http://') || path.startsWith('https://')) return path;
+        if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:image')) return path;
         if (path.startsWith('/')) return path;
         return '{{ asset("") }}' + path;
     }
@@ -794,7 +794,7 @@
             cameraActiveValidasi = true;
         } else {
             if (html5QrcodeScannerValidasi) {
-                html5QrcodeScannerValidasi.clear();
+                try { html5QrcodeScannerValidasi.clear(); } catch(e) {}
             }
             if (scannerTranslateTimerValidasi) clearInterval(scannerTranslateTimerValidasi);
             box.style.display = 'none';
@@ -958,7 +958,8 @@
                     }
                 }).catch(err => {
                     if (cameraActiveValidasi) {
-                        document.getElementById('reader').innerHTML = '';
+                        const readerElem = document.getElementById('reader');
+                        if (readerElem) readerElem.innerHTML = '';
                         html5QrcodeScannerValidasi = new Html5QrcodeScanner("reader", { 
                             fps: 10, 
                             qrbox: { width: 250, height: 250 } 
@@ -969,7 +970,8 @@
                 });
             } catch (e) {
                 if (cameraActiveValidasi) {
-                    document.getElementById('reader').innerHTML = '';
+                    const readerElem = document.getElementById('reader');
+                    if (readerElem) readerElem.innerHTML = '';
                     html5QrcodeScannerValidasi = new Html5QrcodeScanner("reader", { 
                         fps: 10, 
                         qrbox: { width: 250, height: 250 } 
@@ -1035,19 +1037,52 @@
                 `;
             }
 
-            let fotoKartuHtml = '';
+            let fotoSiswaLiveSrc = d.foto_siswa_live ? formatImageUrl(d.foto_siswa_live) : null;
             let fotoKartuSrc = d.foto_kartu_identitas ? formatImageUrl(d.foto_kartu_identitas) : null;
-            if (fotoKartuSrc) {
-                fotoKartuHtml = `
-                    <div style="margin-top: 10px; padding: 10px; background: #ffffff; border-radius: 10px; border: 1px solid #cbd5e1; text-align: center;">
-                        <div style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; margin-bottom: 4px;"><i class="fa-solid fa-address-card" style="color: #10b981;"></i> Foto Kartu Identitas / Pelajar Siswa:</div>
-                        <a href="${fotoKartuSrc}" target="_blank">
-                            <img src="${fotoKartuSrc}" style="max-width: 100%; max-height: 180px; object-fit: contain; border-radius: 6px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180?text=Gambar+Identitas';">
-                        </a>
-                        <div style="font-size: 10.5px; color: #059669; margin-top: 4px; font-weight: 700;">Satpam: Periksa & cocokkan fisik kartu ini dengan siswa di pintu gerbang.</div>
+
+            let photosGridHtml = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 14px; margin-bottom: 14px;">
+                    <!-- 1. Foto Kartu Identitas / Pelajar Siswa -->
+                    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+                        <div style="font-size: 11px; font-weight: 800; color: #334155; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-address-card" style="color: #10b981; font-size: 13px;"></i> Foto Kartu Identitas / Pelajar Siswa
+                        </div>
+                        ${fotoKartuSrc ? `
+                            <a href="${fotoKartuSrc}" target="_blank" title="Klik untuk memperbesar Foto Kartu Identitas">
+                                <img src="${fotoKartuSrc}" style="width: 100%; max-height: 180px; object-fit: contain; border-radius: 8px; border: 1px solid #cbd5e1; background: #f8fafc;" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Kartu+Pelajar+Tidak+Ditemukan';">
+                            </a>
+                            <div style="font-size: 10.5px; color: #059669; margin-top: 6px; font-weight: 700;">
+                                <i class="fa-solid fa-shield-halved"></i> Periksa & cocokkan fisik kartu ini di gerbang
+                            </div>
+                        ` : `
+                            <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; width: 100%; padding: 22px 10px; color: #94a3b8; font-size: 12px; font-weight: 600;">
+                                <i class="fa-solid fa-id-card" style="font-size: 24px; color: #cbd5e1; margin-bottom: 6px;"></i><br>
+                                Tidak ada Foto Kartu Identitas
+                            </div>
+                        `}
                     </div>
-                `;
-            }
+
+                    <!-- 2. Foto Siswa (Live Kamera) -->
+                    <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(37,99,235,0.05);">
+                        <div style="font-size: 11px; font-weight: 800; color: #1e40af; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-camera-retro" style="color: #2563eb; font-size: 13px;"></i> Foto Siswa (Live Kamera)
+                        </div>
+                        ${fotoSiswaLiveSrc ? `
+                            <a href="${fotoSiswaLiveSrc}" target="_blank" title="Klik untuk memperbesar Foto Live Siswa">
+                                <img src="${fotoSiswaLiveSrc}" style="width: 100%; max-height: 180px; object-fit: contain; border-radius: 8px; border: 1px solid #bfdbfe; background: #ffffff;" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200?text=Foto+Live+Tidak+Ditemukan';">
+                            </a>
+                            <div style="font-size: 10.5px; color: #1d4ed8; margin-top: 6px; font-weight: 700;">
+                                <i class="fa-solid fa-circle-check"></i> Foto Live saat pengajuan di Pos Piket
+                            </div>
+                        ` : `
+                            <div style="background: #ffffff; border: 1px dashed #bfdbfe; border-radius: 8px; width: 100%; padding: 22px 10px; color: #94a3b8; font-size: 12px; font-weight: 600;">
+                                <i class="fa-solid fa-camera-slash" style="font-size: 24px; color: #93c5fd; margin-bottom: 6px;"></i><br>
+                                Tidak ada Foto Siswa (Live Kamera)
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
 
             let actionForm = '';
             if (d.barcode_status === 'aktif') {
@@ -1076,9 +1111,26 @@
                 <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Jam Dispen: <strong>${d.jam_keluar} s/d ${d.jam_kembali} WIB</strong></p>
                 <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Disetujui Waka: <strong>${d.nama_waka}</strong> (${d.waktu_approval_waka})</p>
                 <p style="margin: 4px 0 12px; font-size: 13px; color: #64748b;">Alasan: "${d.alasan}"</p>
-                ${fotoKartuHtml}
+                ${photosGridHtml}
                 ${actionForm}
             `;
+        })
+        .catch(err => {
+            console.error("Validasi search error:", err);
+            const resBox = document.getElementById('validasiResultBox');
+            const content = document.getElementById('validasiResultContent');
+            if (resBox && content) {
+                resBox.style.display = 'block';
+                content.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size: 11px; font-weight: 800; color: #dc2626; text-transform: uppercase;">Error Sistem</span>
+                        <button type="button" onclick="resetValidasiSearchResult()" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                    <div style="color: #dc2626; font-weight: 700;"><i class="fa-solid fa-circle-xmark"></i> Terjadi kesalahan saat memeriksa data. Silakan coba lagi.</div>
+                `;
+            }
         });
     }
 
@@ -1105,8 +1157,9 @@
             satpamBadgeText = '<span class="badge-satpam satpam-belum"><i class="fa-solid fa-clock"></i> Belum Keluar (Menunggu Validasi Gate)</span>';
         }
 
-        let fotoKartuSrc = item.foto_kartu_identitas ? formatImageUrl(item.foto_kartu_identitas) : null;
-        let fotoSuratSrc = item.foto_surat_dispen ? formatImageUrl(item.foto_surat_dispen) : null;
+        let fotoSiswaLiveSrc = item.foto_siswa_live_url || (item.foto_siswa_live ? formatImageUrl(item.foto_siswa_live) : null);
+        let fotoKartuSrc = item.foto_kartu_url || (item.foto_kartu_identitas ? formatImageUrl(item.foto_kartu_identitas) : null);
+        let fotoSuratSrc = item.foto_surat_url || (item.foto_surat_dispen ? formatImageUrl(item.foto_surat_dispen) : null);
         let fotoSiswaSrc = (item.siswa && item.siswa.foto) ? formatImageUrl('uploads/profile_photos/' + item.siswa.foto) : null;
 
         let bodyHtml = `
@@ -1163,12 +1216,13 @@
                     <span class="val">${item.catatan_satpam}</span>
                 </div>` : ''}
 
-                ${(fotoKartuSrc || fotoSuratSrc || fotoSiswaSrc) ? `
+                ${(fotoSiswaLiveSrc || fotoKartuSrc || fotoSuratSrc || fotoSiswaSrc) ? `
                 <div class="detail-section-title"><i class="fa-solid fa-image"></i> Lampiran & Bukti Foto Pengajuan</div>
                 <div class="detail-image-box">
-                    ${fotoKartuSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Kartu Identitas Siswa:</div><a href="${fotoKartuSrc}" target="_blank"><img src="${fotoKartuSrc}" alt="Foto Identitas" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Gambar+Identitas';"></a></div>` : ''}
-                    ${fotoSuratSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Surat Dispen:</div><a href="${fotoSuratSrc}" target="_blank"><img src="${fotoSuratSrc}" alt="Surat Dispen" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Surat+Dispen';"></a></div>` : ''}
-                    ${fotoSiswaSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Foto Siswa:</div><a href="${fotoSiswaSrc}" target="_blank"><img src="${fotoSiswaSrc}" alt="Foto Profil Siswa" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Siswa';"></a></div>` : ''}
+                    ${fotoKartuSrc ? `<div><div style="font-size:11px; color:#059669; margin-bottom:4px; font-weight:800;"><i class="fa-solid fa-address-card"></i> Foto Kartu Identitas / Pelajar:</div><a href="${fotoKartuSrc}" target="_blank"><img src="${fotoKartuSrc}" alt="Foto Identitas" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Gambar+Identitas';"></a></div>` : ''}
+                    ${fotoSiswaLiveSrc ? `<div><div style="font-size:11px; color:#1d4ed8; margin-bottom:4px; font-weight:800;"><i class="fa-solid fa-camera"></i> Foto Siswa (Live Kamera):</div><a href="${fotoSiswaLiveSrc}" target="_blank" title="Klik untuk perbesar Foto Live Siswa"><img src="${fotoSiswaLiveSrc}" alt="Foto Siswa Live" style="border: 2px solid #3b82f6; border-radius: 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Live';"></a></div>` : ''}
+                    ${fotoSuratSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;"><i class="fa-solid fa-file-lines"></i> Surat Dispen:</div><a href="${fotoSuratSrc}" target="_blank"><img src="${fotoSuratSrc}" alt="Surat Dispen" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Surat+Dispen';"></a></div>` : ''}
+                    ${fotoSiswaSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;"><i class="fa-solid fa-user"></i> Foto Profil Siswa:</div><a href="${fotoSiswaSrc}" target="_blank"><img src="${fotoSiswaSrc}" alt="Foto Profil Siswa" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Siswa';"></a></div>` : ''}
                 </div>` : ''}
             </div>
         `;

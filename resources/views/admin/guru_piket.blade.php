@@ -516,12 +516,6 @@
                 </h2>
                 <p>Masukkan data petugas piket untuk pendaftaran hak akses piket harian. Akun juga tersimpan di Master Data Pengguna.</p>
             </div>
-            <a href="{{ route('admin.guru-piket.trash') }}" class="btn-trash">
-                <i class="fa-solid fa-trash-can"></i> Lihat Tong Sampah
-                @if(isset($trashedCount) && $trashedCount > 0)
-                    <span class="badge-count">{{ $trashedCount }}</span>
-                @endif
-            </a>
         </div>
 
         @if(count($guruPikets) > 0)
@@ -554,17 +548,13 @@
 
             <div class="form-grid-3" style="{{ count($guruPikets) > 0 ? 'opacity: 0.6; pointer-events: none;' : '' }}">
                 <div class="form-group">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <label for="nip" style="margin-bottom: 0;">NIP (18 Digit) <span style="color:#ef4444;">*</span></label>
-                        <span id="nipCounter" style="font-size: 12px; font-weight: 700; color: #ef4444;">0/18 digit</span>
-                    </div>
-                    <input type="text" id="nip" name="nip" value="{{ old('nip') }}"
-                        class="form-control @error('nip') is-invalid @enderror"
-                        placeholder="Contoh: 198501012010011001" maxlength="18" minlength="18" inputmode="numeric"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 18); updateNipCounter(this, 18, 'nipMsg');"
+                    <label for="username">Username Petugas Piket <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="username" name="username" value="{{ old('username') }}"
+                        class="form-control @error('username') is-invalid @enderror"
+                        placeholder="Contoh: piket / piket_smea" maxlength="50"
                         {{ count($guruPikets) > 0 ? 'disabled readonly' : '' }} required>
-                    <small id="nipMsg" style="display:block; font-size:12px; font-weight:600; margin-top:4px; color:#ef4444;">Wajib diisi tepat 18 digit angka.</small>
-                    @error('nip')
+                    <small style="display:block; font-size:12px; font-weight:600; margin-top:4px; color:#64748b;">Digunakan untuk login Petugas Piket (tanpa NIP).</small>
+                    @error('username')
                         <small style="color:#ef4444; font-weight:600;"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</small>
                     @enderror
                 </div>
@@ -640,6 +630,12 @@
                 </div>
                 <button type="submit" class="btn-filter">Cari</button>
                 <a href="{{ route('admin.guru-piket') }}" class="btn-reset">Reset</a>
+                <a href="{{ route('admin.guru-piket.trash') }}" class="btn-trash" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Lihat Data Guru Piket di Tempat Sampah">
+                    <i class="fa-solid fa-trash-can"></i> Lihat Sampah
+                    @if(isset($trashedCount) && $trashedCount > 0)
+                        <span class="badge-count">{{ $trashedCount }}</span>
+                    @endif
+                </a>
             </form>
         </div>
 
@@ -649,7 +645,7 @@
                     <tr>
                         <th style="width:50px;">NO</th>
                         <th>NAMA PETUGAS PIKET</th>
-                        <th>NIP / USERNAME</th>
+                        <th>USERNAME</th>
                         <th>JK</th>
                         <th>NO HP</th>
                         <th>STATUS VERIFIKASI</th>
@@ -665,8 +661,7 @@
                                 <div style="font-size:12px; color:#64748b; margin-top:2px;">Role: Petugas Piket</div>
                             </td>
                             <td>
-                                <span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $u->nip }}</span>
-                                <div style="font-size:12px; color:#64748b;">User: {{ $u->username ?? '-' }}</div>
+                                <span style="font-family:monospace; font-weight:800; color:#0284c7; background:#f0f9ff; padding:4px 10px; border-radius:8px; border:1px solid #bae6fd;">{{ $u->username ?? '-' }}</span>
                             </td>
                             <td>
                                 @if(optional($u->guru)->jenis_kelamin == 'L')
@@ -771,8 +766,8 @@
 
                     <div style="display:flex; gap:12px;">
                         <div class="form-group" style="flex:1;">
-                            <label>NIP *</label>
-                            <input type="text" name="nip" id="edit_nip" class="form-control" maxlength="18" required>
+                            <label>Username Petugas *</label>
+                            <input type="text" name="username" id="edit_username" class="form-control" maxlength="50" required>
                         </div>
                         <div class="form-group" style="flex:1;">
                             <label>Email</label>
@@ -880,10 +875,9 @@
             <div class="modal-body">
                 <table style="width:100%; border-collapse:collapse; font-size:14px;">
                     <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Nama Lengkap:</td><td id="detail_name" style="font-weight:700; color:#0f172a;"></td></tr>
-                    <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">NIP:</td><td id="detail_nip" style="font-weight:700; color:#0f172a;"></td></tr>
+                    <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Username Petugas:</td><td id="detail_username" style="font-weight:700; color:#0284c7;"></td></tr>
                     <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Jenis Kelamin:</td><td id="detail_jk" style="font-weight:700; color:#0f172a;"></td></tr>
                     <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Nomor HP / WA:</td><td id="detail_no_hp" style="font-weight:700; color:#0f172a;"></td></tr>
-                    <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Username:</td><td id="detail_username"></td></tr>
                     <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Email:</td><td id="detail_email"></td></tr>
                     <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Role:</td><td id="detail_role"></td></tr>
                     <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Status Verifikasi:</td><td id="detail_status"></td></tr>
@@ -948,14 +942,12 @@
         if (form) {
             form.addEventListener('submit', function(e) {
                 const errors = [];
-                const nipVal  = document.getElementById('nip').value.trim();
-                const namaVal = document.getElementById('name').value.trim();
-                const passVal = document.getElementById('password').value;
+                const usernameVal = document.getElementById('username') ? document.getElementById('username').value.trim() : '';
+                const namaVal     = document.getElementById('name').value.trim();
+                const passVal     = document.getElementById('password').value;
 
-                if (!nipVal) {
-                    errors.push('NIP wajib diisi 18 digit angka.');
-                } else if (nipVal.length !== 18) {
-                    errors.push('NIP harus berisi tepat 18 digit angka (saat ini baru ' + nipVal.length + ' digit).');
+                if (!usernameVal) {
+                    errors.push('Username Petugas Piket wajib diisi.');
                 }
 
                 if (!namaVal) {
@@ -999,7 +991,7 @@
     function openEditModal(user) {
         document.getElementById('formEditUser').action = '/admin/verifikasi-guru/' + user.id + '/update-role';
         document.getElementById('edit_name').value = user.name || '';
-        document.getElementById('edit_nip').value = user.nip || '';
+        if (document.getElementById('edit_username')) document.getElementById('edit_username').value = user.username || '';
         document.getElementById('edit_email').value = user.email || '';
         document.getElementById('edit_role').value = user.role || 'piket';
         document.getElementById('edit_status').value = user.status_verifikasi || 'verified';
@@ -1122,7 +1114,6 @@
 
     function openDetailModal(user) {
         document.getElementById('detail_name').innerText = user.name || '-';
-        document.getElementById('detail_nip').innerText = user.nip || '-';
         document.getElementById('detail_username').innerText = user.username || '-';
         document.getElementById('detail_email').innerText = user.email || '-';
         document.getElementById('detail_role').innerText = user.role ? user.role.toUpperCase() : 'PIKET';

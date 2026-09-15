@@ -438,12 +438,6 @@
                 <h2><i class="fa-solid fa-square-plus" style="color:#2563eb;"></i> Tambah Jam Pelajaran Baru</h2>
                 <p>Masukkan rentang waktu resmi KBM (Senin-Kamis & Jumat) serta label sesi pembelajaran baru.</p>
             </div>
-            <a href="{{ route('jam-pelajaran.trash') }}" class="btn-trash">
-                <i class="fa-solid fa-trash-can"></i> Lihat Sampah Jam
-                @if(isset($trashedCount) && $trashedCount > 0)
-                    <span class="badge-count">{{ $trashedCount }}</span>
-                @endif
-            </a>
         </div>
 
         <form id="formTambahJam" action="{{ route('jam-pelajaran.store') }}" method="POST" onsubmit="return validateJamForm(event)">
@@ -823,6 +817,12 @@
             <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-left:auto;">
                 <button type="submit" class="btn-filter">Cari</button>
                 <a href="{{ route('jam-pelajaran.index') }}" class="btn-reset">Reset</a>
+                <a href="{{ route('jam-pelajaran.trash') }}" class="btn-trash" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Lihat Data Jam Pelajaran di Tempat Sampah">
+                    <i class="fa-solid fa-trash-can"></i> Lihat Sampah
+                    @if(isset($trashedCount) && $trashedCount > 0)
+                        <span class="badge-count">{{ $trashedCount }}</span>
+                    @endif
+                </a>
                 <button type="button" id="btnBulkDelete" class="btn-action btn-delete" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,29,72,0.15); border: none;" disabled onclick="confirmBulkDelete()" title="Pilih sesi jam pelajaran dengan mencentang checkbox untuk menghapus secara massal">
                     <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
                 </button>

@@ -189,26 +189,53 @@
     }
 
     .btn-tambah-user {
-        background: #ffffff;
+        background: linear-gradient(180deg, #ffffff 0%, #f8fafc 55%, #f1f5f9 100%);
         color: #1e293b;
-        border: 1px solid #cbd5e1;
-        padding: 10px 22px;
+        border: 1.5px solid #cbd5e1;
+        padding: 6px 18px 6px 8px;
         border-radius: 25px;
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: 700;
+        letter-spacing: 0.15px;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 9px;
         cursor: pointer;
         text-decoration: none;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn-tambah-icon-wrap {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.35);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .btn-tambah-user:hover {
-        background: #4f46e5;
-        color: #ffffff;
-        border-color: #4f46e5;
+        background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+        color: #1d4ed8;
+        border-color: #3b82f6;
+        transform: translateY(-1.5px);
+        box-shadow: 0 6px 18px -2px rgba(37, 99, 235, 0.2), inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+
+    .btn-tambah-user:hover .btn-tambah-icon-wrap {
+        transform: rotate(90deg) scale(1.06);
+        box-shadow: 0 3px 8px rgba(37, 99, 235, 0.45);
+    }
+
+    .btn-tambah-user:active {
+        transform: translateY(0) scale(0.98);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     .btn-filter-toggle {
@@ -328,6 +355,127 @@
         font-size: 12px;
         font-weight: 700;
         color: #475569;
+    }
+
+    /* Toggle Switch ON/OFF Real-time Styling */
+    .user-status-switch-wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        user-select: none;
+    }
+
+    .user-toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .user-toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+
+    .user-toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cbd5e1;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 24px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    .user-toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #ffffff;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    .user-toggle-switch input:checked + .user-toggle-slider {
+        background-color: #22c55e;
+    }
+
+    .user-toggle-switch input:focus + .user-toggle-slider {
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    .user-toggle-switch input:checked + .user-toggle-slider:before {
+        transform: translateX(20px);
+    }
+
+    .user-toggle-switch input:disabled + .user-toggle-slider {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    .user-status-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        transition: color 0.2s;
+        min-width: 48px;
+        text-align: left;
+    }
+
+    .user-status-label.status-on {
+        color: #16a34a;
+    }
+
+    .user-status-label.status-off {
+        color: #64748b;
+    }
+
+    /* Floating Real-time Toast */
+    .realtime-toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        background: #0f172a;
+        color: #ffffff;
+        font-size: 13.5px;
+        font-weight: 600;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+
+    .realtime-toast.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .realtime-toast.toast-success {
+        border-left: 5px solid #22c55e;
+    }
+
+    .realtime-toast.toast-error {
+        border-left: 5px solid #ef4444;
     }
 
     /* Role Badges */
@@ -688,6 +836,84 @@
         cursor: pointer;
     }
 
+    .btn-grey-batch {
+        background: #64748b;
+        color: #ffffff;
+        border: 1px solid #475569;
+        padding: 10px 18px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 5px rgba(100, 116, 139, 0.25);
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    .btn-grey-batch:hover {
+        background: #475569;
+        border-color: #334155;
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(71, 85, 105, 0.35);
+    }
+    .btn-grey-batch:active {
+        transform: translateY(0);
+    }
+
+    .btn-bulk-delete {
+        background: #e11d48;
+        color: #ffffff;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-size: 13.5px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(225, 29, 72, 0.2);
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    .btn-bulk-delete:disabled,
+    .btn-bulk-delete.is-disabled {
+        background: #f1f5f9;
+        color: #94a3b8;
+        border: 1px solid #cbd5e1;
+        opacity: 0.6;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+    .btn-bulk-delete:not(:disabled):hover {
+        background: #be123c;
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+    }
+    .btn-bulk-delete:not(:disabled):active {
+        transform: translateY(0);
+    }
+    .badge-count-bulk {
+        background: rgba(255, 255, 255, 0.25);
+        color: inherit;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 20px;
+        min-width: 20px;
+        text-align: center;
+    }
+    .btn-bulk-delete:disabled .badge-count-bulk,
+    .btn-bulk-delete.is-disabled .badge-count-bulk {
+        background: #e2e8f0;
+        color: #64748b;
+    }
+
     @media (max-width: 992px) {
         .role-cards-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -735,11 +961,16 @@
     </a>
 </div>
 
-<div class="role-cards-grid" style="grid-template-columns: repeat(5, 1fr); margin-bottom: 24px;">
+<div class="role-cards-grid" style="grid-template-columns: repeat(6, 1fr); margin-bottom: 24px;">
     <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'waka'])) }}" 
        class="role-card {{ request('role') == 'waka' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Waka Kurikulum">
         <div class="role-title">Waka Kurikulum</div>
         <div class="role-count">{{ $countWaka ?? 0 }}</div>
+    </a>
+    <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'waka_kesiswaan'])) }}" 
+       class="role-card {{ request('role') == 'waka_kesiswaan' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Waka Kesiswaan">
+        <div class="role-title">Waka Kesiswaan</div>
+        <div class="role-count">{{ $countWakaKesiswaan ?? 0 }}</div>
     </a>
     <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => 'waka_sdm'])) }}" 
        class="role-card {{ request('role') == 'waka_sdm' ? 'active' : '' }}" style="text-decoration:none;" title="Klik untuk filter akun Waka SDM">
@@ -781,7 +1012,9 @@
 
     <div class="action-buttons-group">
         <button type="button" class="btn-tambah-user" onclick="openModal('modalTambahUser')">
-            <i class="fa-solid fa-plus"></i>
+            <span class="btn-tambah-icon-wrap">
+                <i class="fa-solid fa-plus"></i>
+            </span>
             <span>Tambah Pengguna</span>
         </button>
 
@@ -795,6 +1028,12 @@
             <span>Lihat Sampah Pengguna</span>
             <span class="badge-count">{{ $trashedCount ?? 0 }}</span>
         </a>
+
+        <button type="button" id="btnBulkDeleteUsers" class="btn-bulk-delete is-disabled" disabled onclick="confirmBulkDeleteUsers()" title="Pilih akun pengguna dengan mencentang checkbox untuk menghapus secara massal">
+            <i class="fa-solid fa-trash-can"></i>
+            <span>Hapus Terpilih</span>
+            <span class="badge-count-bulk" id="bulkDeleteCount">0</span>
+        </button>
     </div>
 </div>
 
@@ -820,9 +1059,11 @@
         </div>
 
         <div style="flex:1; min-width:180px;">
-            <label style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:4px; display:block;">Status Verifikasi</label>
+            <label style="font-size:12px; font-weight:700; color:#64748b; margin-bottom:4px; display:block;">Status Akun / Verifikasi</label>
             <select name="status" class="form-control">
                 <option value="">-- Semua Status --</option>
+                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif (ON)</option>
+                <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Nonaktif (OFF)</option>
                 <option value="verified" {{ request('status') == 'verified' ? 'selected' : '' }}>Verified (Disetujui)</option>
                 <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending (Menunggu)</option>
                 <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected (Ditolak)</option>
@@ -834,115 +1075,147 @@
     </form>
 </div>
 
-<!-- Table Data Pengguna -->
-<div class="users-table-container">
-    <div style="overflow-x: auto;">
-        <table class="custom-users-table">
-            <thead>
-                <tr>
-                    <th style="width: 60px;">No</th>
-                    <th>Nama</th>
-                    <th>Password</th>
-                    <th>Role</th>
-                    <th>Dibuat Pada</th>
-                    <th style="width: 340px; min-width: 320px; white-space: nowrap; text-align: center;">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($users as $index => $u)
-                    <tr data-user="{{ json_encode($u) }}" onclick="openDetailModalFromEl(this)" style="cursor: pointer;" title="Klik baris data ini untuk melihat rincian detail akun {{ $u->name }}">
-                        <td>{{ $users->firstItem() + $index }}</td>
-                        <td>
-                            <div style="font-weight: 700; color: #0f172a;">{{ $u->name }}</div>
-                            <div style="font-size: 12px; color: #64748b;">
-                                {{ $u->role === 'orang_tua' ? 'NISN' : 'NIP' }}: {{ $u->nip ?? '-' }} | Username: {{ $u->username ?? '-' }}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="password-simple-badge" title="Password terenkripsi (Bcrypt)">
-                                <i class="fa-solid fa-lock" style="font-size:11px; color:#4f46e5;"></i>
-                                <span>Terenkripsi</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="role-badge">
-                                <span>
-                                    {{ $u->role_label }}
-                                </span>
-                                @if(in_array($u->role, ['admin', 'tu']))
-                                    <span class="pill-super">Super</span>
-                                @endif
-                                @if($u->status_verifikasi === 'pending')
-                                    <span class="pill-pending">Pending</span>
-                                @endif
-                            </div>
-                        </td>
-                        <td style="font-size: 13px; color: #475569;">
-                            {{ $u->created_at ? $u->created_at->format('d/m/Y') : '11/02/2026' }}
-                        </td>
-                        <td style="white-space: nowrap;" onclick="event.stopPropagation();">
-                            <div class="table-actions" style="justify-content: center;">
-                                @if($u->status_verifikasi === 'pending')
-                                    <form action="{{ route('admin.verifikasi-guru.approve', $u->id) }}" method="POST" style="display:inline-flex; flex-shrink:0; margin:0;">
-                                        @csrf
-                                        <button type="submit" class="btn-action-badge btn-action-approve" title="Setujui: Mengonfirmasi dan mengaktifkan pendaftaran akun">
-                                            <i class="fa-solid fa-circle-check"></i> <span>Setujui</span>
-                                        </button>
-                                    </form>
-                                    <form action="{{ route('admin.verifikasi-guru.reject', $u->id) }}" method="POST" style="display:inline-flex; flex-shrink:0; margin:0;">
-                                        @csrf
-                                        <button type="submit" class="btn-action-badge btn-action-reject" title="Tolak: Menolak pendaftaran akun guru ini">
-                                            <i class="fa-solid fa-circle-xmark"></i> <span>Tolak</span>
-                                        </button>
-                                    </form>
-                                @else
-                                    <button type="button" class="btn-action-badge btn-action-view" data-user="{{ json_encode($u) }}" onclick="openDetailModalFromEl(this)" title="Lihat Detail: Menampilkan rincian lengkap data profil & akun pengguna">
-                                        <i class="fa-solid fa-eye"></i> <span>Detail</span>
-                                    </button>
+<!-- Table Data Pengguna Form Bulk Delete -->
+<form id="formBulkDeleteUsers" action="{{ route('admin.users.destroy-batch') }}" method="POST">
+    @csrf
+    @method('DELETE')
 
-                                    <button type="button" class="btn-action-badge btn-action-edit" data-user="{{ json_encode($u) }}" onclick="openEditModalFromEl(this)" title="Edit Role: Mengubah NIP, nama, email, role hak akses & status akun">
-                                        <i class="fa-solid fa-pen-to-square"></i> <span>Edit</span>
-                                    </button>
-
-                                    <button type="button" class="btn-action-badge btn-action-key" onclick="openResetPasswordModal({{ $u->id }}, '{{ addslashes($u->name) }}')" title="Ubah Password: Mengubah password akun ini dengan password baru">
-                                        <i class="fa-solid fa-key"></i> <span>Ubah Pass</span>
-                                    </button>
-
-                                    @if($u->id !== Auth::id())
-                                        <form action="{{ route('admin.users.destroy', $u->id) }}" method="POST" onsubmit="return confirm('Pindahkan akun {{ addslashes($u->name) }} ({{ addslashes($u->getRoleLabelAttribute()) }}) ke Tempat Sampah?')" style="display:inline-flex; flex-shrink:0; margin:0;">
+    <div class="users-table-container">
+        <div style="overflow-x: auto;">
+            <table class="custom-users-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px; text-align: center;">
+                            <input type="checkbox" id="selectAllUsers" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" title="Pilih Semua di Halaman Ini" onchange="toggleSelectAllUsers(this)">
+                        </th>
+                        <th style="width: 50px;">No</th>
+                        <th>Nama</th>
+                        <th>Password</th>
+                        <th>Role</th>
+                        <th>Dibuat Pada</th>
+                        <th style="width: 140px; text-align: center;">Status</th>
+                        <th style="width: 340px; min-width: 320px; white-space: nowrap; text-align: center;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($users as $index => $u)
+                        <tr data-user="{{ json_encode($u) }}" onclick="openDetailModalFromEl(this)" style="cursor: pointer;" title="Klik baris data ini untuk melihat rincian detail akun {{ $u->name }}">
+                            <td style="text-align: center;" onclick="event.stopPropagation();">
+                                <input type="checkbox" name="ids[]" value="{{ $u->id }}" class="user-select-checkbox" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" onchange="updateBulkDeleteState()" {{ $u->id === Auth::id() ? 'disabled title="Tidak dapat menghapus akun Anda sendiri yang sedang digunakan"' : '' }}>
+                            </td>
+                            <td>{{ $users->firstItem() + $index }}</td>
+                            <td>
+                                <div style="font-weight: 700; color: #0f172a;">{{ $u->name }}</div>
+                                <div style="font-size: 12px; color: #64748b;">
+                                    @if(in_array($u->role, ['piket', 'satpam']))
+                                        Username: <strong style="color: #0284c7;">{{ $u->username ?? '-' }}</strong> <span style="font-size: 11px; color: #64748b;">(Akun Petugas - Tanpa NIP)</span>
+                                    @else
+                                        {{ $u->role === 'orang_tua' ? 'NISN' : 'NIP' }}: {{ $u->nip ?? '-' }} | Username: {{ $u->username ?? '-' }}
+                                    @endif
+                                </div>
+                            </td>
+                            <td>
+                                <div class="password-simple-badge" title="Password terenkripsi (Bcrypt)">
+                                    <i class="fa-solid fa-lock" style="font-size:11px; color:#4f46e5;"></i>
+                                    <span>Terenkripsi</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="role-badge">
+                                    <span>
+                                        {{ $u->role_label }}
+                                    </span>
+                                    @if(in_array($u->role, ['admin', 'tu']))
+                                        <span class="pill-super">Super</span>
+                                    @endif
+                                    @if($u->status_verifikasi === 'pending')
+                                        <span class="pill-pending">Pending</span>
+                                    @endif
+                                </div>
+                            </td>
+                            <td style="font-size: 13px; color: #475569;">
+                                {{ $u->created_at ? $u->created_at->format('d/m/Y') : '11/02/2026' }}
+                            </td>
+                            <td style="text-align: center; white-space: nowrap;" onclick="event.stopPropagation();">
+                                <div class="user-status-switch-wrapper" style="justify-content: center;">
+                                    <label class="user-toggle-switch" title="{{ $u->id === Auth::id() ? 'Akun Anda sedang aktif digunakan (tidak dapat dinonaktifkan)' : ($u->isActive() ? 'Klik untuk Menonaktifkan akun ini (OFF)' : 'Klik untuk Mengaktifkan akun ini (ON)') }}">
+                                        <input type="checkbox" 
+                                               id="toggle-user-{{ $u->id }}" 
+                                               class="user-active-checkbox"
+                                               {{ $u->isActive() ? 'checked' : '' }} 
+                                               {{ $u->id === Auth::id() ? 'disabled' : '' }}
+                                               onchange="handleUserToggle(this, {{ $u->id }}, '{{ addslashes($u->name) }}')">
+                                        <span class="user-toggle-slider"></span>
+                                    </label>
+                                    <span class="user-status-label {{ $u->isActive() ? 'status-on' : 'status-off' }}" id="status-label-{{ $u->id }}">
+                                        {{ $u->isActive() ? 'Aktif' : 'Nonaktif' }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td style="white-space: nowrap;" onclick="event.stopPropagation();">
+                                <div class="table-actions" style="justify-content: center;">
+                                    @if($u->status_verifikasi === 'pending')
+                                        <form action="{{ route('admin.verifikasi-guru.approve', $u->id) }}" method="POST" style="display:inline-flex; flex-shrink:0; margin:0;">
                                             @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn-action-badge btn-action-delete" title="Hapus Akun: Memindahkan akun pengguna ini ke Tempat Sampah">
-                                                <i class="fa-solid fa-trash-can"></i> <span>Hapus</span>
+                                            <button type="submit" class="btn-action-badge btn-action-approve" title="Setujui: Mengonfirmasi dan mengaktifkan pendaftaran akun">
+                                                <i class="fa-solid fa-circle-check"></i> <span>Setujui</span>
                                             </button>
                                         </form>
-                                    @endif
-                                @endif
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px; color: #94a3b8;">
-                            <i class="fa-solid fa-user-slash" style="font-size: 32px; margin-bottom: 10px; display: block;"></i>
-                            Tidak ada data pengguna yang ditemukan.
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                                        <form action="{{ route('admin.verifikasi-guru.reject', $u->id) }}" method="POST" style="display:inline-flex; flex-shrink:0; margin:0;">
+                                            @csrf
+                                            <button type="submit" class="btn-action-badge btn-action-reject" title="Tolak: Menolak pendaftaran akun guru ini">
+                                                <i class="fa-solid fa-circle-xmark"></i> <span>Tolak</span>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <button type="button" class="btn-action-badge btn-action-view" data-user="{{ json_encode($u) }}" onclick="event.stopPropagation(); openDetailModalFromEl(this);" title="Lihat Detail: Menampilkan rincian lengkap data profil & akun pengguna">
+                                            <i class="fa-solid fa-eye"></i> <span>Detail</span>
+                                        </button>
 
-    <!-- Pagination Footer -->
-    <div class="table-footer">
-        <div>
-            Menampilkan {{ $users->firstItem() ?? 0 }} - {{ $users->lastItem() ?? 0 }} dari {{ $users->total() }} data
+                                        <button type="button" class="btn-action-badge btn-action-edit" data-user="{{ json_encode($u) }}" onclick="event.stopPropagation(); openEditModalFromEl(this);" title="Edit Role: Mengubah NIP, nama, email, role hak akses & status akun">
+                                            <i class="fa-solid fa-pen-to-square"></i> <span>Edit</span>
+                                        </button>
+
+                                        <button type="button" class="btn-action-badge btn-action-key" onclick="event.stopPropagation(); openResetPasswordModal({{ $u->id }}, '{{ addslashes($u->name) }}');" title="Ubah Password: Mengubah password akun ini dengan password baru">
+                                            <i class="fa-solid fa-key"></i> <span>Ubah Pass</span>
+                                        </button>
+
+                                        @if($u->id !== Auth::id())
+                                            <form action="{{ route('admin.users.destroy', $u->id) }}" method="POST" onclick="event.stopPropagation();" onsubmit="return confirm('Pindahkan akun {{ addslashes($u->name) }} ({{ addslashes($u->getRoleLabelAttribute()) }}) ke Tempat Sampah?')" style="display:inline-flex; flex-shrink:0; margin:0;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn-action-badge btn-action-delete" title="Hapus Akun: Memindahkan akun pengguna ini ke Tempat Sampah">
+                                                    <i class="fa-solid fa-trash-can"></i> <span>Hapus</span>
+                                                </button>
+                                            </form>
+                                        @endif
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">
+                                <i class="fa-solid fa-user-slash" style="font-size: 32px; margin-bottom: 10px; display: block;"></i>
+                                Tidak ada data pengguna yang ditemukan.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-        <div>
-            {{ $users->links() }}
+
+        <!-- Pagination Footer -->
+        <div class="table-footer">
+            <div>
+                Menampilkan {{ $users->firstItem() ?? 0 }} - {{ $users->lastItem() ?? 0 }} dari {{ $users->total() }} data
+            </div>
+            <div>
+                {{ $users->links() }}
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 
 <!-- ─────────────────────────────────────────────────────────────────────────── -->
@@ -1031,12 +1304,32 @@
                                     data-nisn="{{ $s->nisn }}"
                                     data-nama="{{ $s->nama_siswa }}"
                                     data-jk="{{ $s->jenis_kelamin }}"
+                                    data-tanggal-lahir="{{ (!empty($s->tanggal_lahir) && $s->tanggal_lahir !== '0000-00-00') ? \Carbon\Carbon::parse($s->tanggal_lahir)->format('Y-m-d') : '' }}"
                                     data-kelas="{{ $s->kelas ? $s->kelas->nama_kelas : '-' }}">
                                 {{ $s->nama_siswa }} (NISN: {{ $s->nisn }}) - Kelas {{ $s->kelas ? $s->kelas->nama_kelas : '-' }}
                             </option>
                         @endforeach
                     </select>
                     <small style="color:#1e40af; font-size:11px; margin-top:6px; display:block;">Pilih siswa di atas untuk otomatis mengisi NISN, Nama Pengguna, dan Password akun Orang Tua.</small>
+                </div>
+
+                {{-- Fitur Tombol Abu-abu: Tambah Akun Ortu Dari Semua Siswa (Khusus Role Orang Tua) --}}
+                <div id="batchOrtuContainer" style="display:none; background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:12px; padding:14px 16px; margin-bottom:16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                        <div style="flex:1; min-width:220px;">
+                            <div style="font-size:13px; font-weight:800; color:#334155;">
+                                <i class="fa-solid fa-users-gear" style="color:#64748b; margin-right:6px;"></i> Pembuatan Akun Ortu Sekaligus Banyak
+                            </div>
+                            <div style="font-size:11.5px; color:#64748b; margin-top:3px; line-height:1.4;">
+                                Buat akun Orang Tua otomatis untuk semua siswa di Daftar Data Siswa. Password menggunakan <strong>tanggal lahir siswa</strong> (default: <code>ortu123</code> jika belum ada tanggal lahir). Siswa yang sudah berakun akan otomatis dilewati.
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" id="btnBatchOrtu" onclick="confirmGenerateAllOrangTua()" class="btn-grey-batch" title="Klik untuk membuat akun Orang Tua dari seluruh siswa di Daftar Data Siswa">
+                                <i class="fa-solid fa-user-group"></i> Tambah Akun Ortu Dari Semua Siswa
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Banner Informasi Data Terkunci dari Master Siswa --}}
@@ -1051,15 +1344,15 @@
                     <strong>Data Terisi Otomatis &amp; Terkunci:</strong> Data NIP, Nama, Jenis Kelamin, HP, dan Role dikunci karena dipilih dari Data Master Guru. Untuk mengedit manual, pilih <em>'-- Ketik NIP Manual atau Pilih dari Master Guru --'</em> pada pilihan di atas.
                 </div>
 
-                <div style="display:flex; gap:12px;">
-                    <div class="form-group" style="flex:1;">
+                <div style="display:flex; gap:12px;" id="nipUsernameRow">
+                    <div class="form-group" style="flex:1;" id="nipGroup">
                         <label id="nipLabel">NIP * (18 Digit)</label>
                         <input type="text" name="nip" id="add_nip" class="form-control" placeholder="198001012005011000"
-                               maxlength="18" minlength="5" inputmode="numeric"
+                               maxlength="30" minlength="5" inputmode="numeric"
                                oninput="handleNipInput(this);" required>
                     </div>
-                    <div class="form-group" style="flex:1;">
-                        <label>Username (Opsional)</label>
+                    <div class="form-group" style="flex:1;" id="usernameGroup">
+                        <label id="usernameLabel">Username (Opsional)</label>
                         <input type="text" name="username" id="add_username" class="form-control" placeholder="username.guru">
                     </div>
                 </div>
@@ -1099,6 +1392,7 @@
                             <option value="piket">Guru Piket</option>
                             <option value="wali_kelas">Wali Kelas</option>
                             <option value="waka">Waka Kurikulum</option>
+                            <option value="waka_kesiswaan">Waka Kesiswaan</option>
                             <option value="waka_sdm">Waka SDM (Kepegawaian)</option>
                             <option value="kepala_sekolah">Kepala Sekolah</option>
                             <option value="satpam">Satpam Gerbang</option>
@@ -1150,6 +1444,11 @@
     </div>
 </div>
 
+{{-- Form Submit Hidden untuk Pembuatan Massal Akun Orang Tua --}}
+<form id="formGenerateAllOrangTua" action="{{ route('admin.users.generate-all-orang-tua') }}" method="POST" style="display:none;">
+    @csrf
+</form>
+
 
 <!-- Modal 2: Edit Hak Akses & Role -->
 <div class="modal-backdrop" id="modalEditUser">
@@ -1167,11 +1466,15 @@
                 </div>
 
                 <div style="display:flex; gap:12px;">
-                    <div class="form-group" style="flex:1;">
+                    <div class="form-group" style="flex:1;" id="editNipGroup">
                         <label id="edit_nip_label">NIP * (18 Digit)</label>
                         <input type="text" name="nip" id="edit_nip" class="form-control"
-                               maxlength="18" minlength="18" inputmode="numeric"
+                               maxlength="30" inputmode="numeric"
                                oninput="handleEditNipInput(this);" required>
+                    </div>
+                    <div class="form-group" style="flex:1;" id="editUsernameGroup">
+                        <label id="edit_username_label">Username (Opsional)</label>
+                        <input type="text" name="username" id="edit_username" class="form-control" placeholder="username.akun">
                     </div>
                     <div class="form-group" style="flex:1;">
                         <label>Email</label>
@@ -1206,6 +1509,7 @@
                             <option value="piket">Guru Piket</option>
                             <option value="wali_kelas">Wali Kelas</option>
                             <option value="waka">Waka Kurikulum</option>
+                            <option value="waka_kesiswaan">Waka Kesiswaan</option>
                             <option value="waka_sdm">Waka SDM (Kepegawaian)</option>
                             <option value="kepala_sekolah">Kepala Sekolah</option>
                             <option value="satpam">Satpam Gerbang</option>
@@ -1216,10 +1520,34 @@
                     <div class="form-group" style="flex:1;">
                         <label>Status Verifikasi *</label>
                         <select name="status_verifikasi" id="edit_status" class="form-control" required>
-                            <option value="verified">Verified (Aktif)</option>
+                            <option value="verified">Verified (Disetujui)</option>
                             <option value="pending">Pending</option>
                             <option value="rejected">Rejected (Ditolak)</option>
                         </select>
+                    </div>
+
+                    <div class="form-group" style="flex:1;">
+                        <label>Status Akun (ON/OFF) *</label>
+                        <select name="is_active" id="edit_is_active" class="form-control" required>
+                            <option value="1">Aktif (ON)</option>
+                            <option value="0">Nonaktif (OFF)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px; padding:12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">
+                    <div style="font-size:12px; font-weight:700; color:#475569; margin-bottom:8px;">
+                        <i class="fa-solid fa-key" style="color:#6366f1;"></i> Ganti Password (Opsional — Kosongkan jika tidak ingin diubah)
+                    </div>
+                    <div style="display:flex; gap:12px;">
+                        <div class="form-group" style="flex:1; margin-bottom:0;">
+                            <label style="font-size:12px;">Password Baru</label>
+                            <input type="password" name="password" id="edit_password" class="form-control" placeholder="Minimal 6 karakter">
+                        </div>
+                        <div class="form-group" style="flex:1; margin-bottom:0;">
+                            <label style="font-size:12px;">Konfirmasi Password</label>
+                            <input type="password" name="password_confirmation" id="edit_password_confirmation" class="form-control" placeholder="Ulangi password baru">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1287,13 +1615,15 @@
         <div class="modal-body">
             <table style="width:100%; border-collapse:collapse; font-size:14px;">
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Nama Lengkap:</td><td id="detail_name" style="font-weight:700; color:#0f172a;"></td></tr>
-                <tr><td style="padding:8px 0; color:#64748b; font-weight:600;" id="detail_nip_label">NIP:</td><td id="detail_nip" style="font-weight:700; color:#0f172a;"></td></tr>
+                <tr id="detail_nip_row"><td style="padding:8px 0; color:#64748b; font-weight:600;" id="detail_nip_label">NIP:</td><td id="detail_nip" style="font-weight:700; color:#0f172a;"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Jenis Kelamin:</td><td id="detail_jk" style="font-weight:700; color:#0f172a;"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Nomor HP / WA:</td><td id="detail_no_hp" style="font-weight:700; color:#0f172a;"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Username:</td><td id="detail_username"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Email:</td><td id="detail_email"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Role:</td><td id="detail_role"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Status Verifikasi:</td><td id="detail_status"></td></tr>
+                <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Status Akun (ON/OFF):</td><td id="detail_is_active"></td></tr>
+                <tr id="detail_siswa_row" style="display:none;"><td style="padding:8px 0; color:#1e40af; font-weight:700;"><i class="fa-solid fa-graduation-cap"></i> Data Siswa Anak:</td><td id="detail_siswa_text" style="font-weight:700; color:#1e40af;"></td></tr>
                 <tr><td style="padding:8px 0; color:#64748b; font-weight:600;">Dibuat Pada:</td><td id="detail_created_at"></td></tr>
             </table>
         </div>
@@ -1301,6 +1631,12 @@
             <button type="button" class="btn-secondary" onclick="closeModal('modalDetailUser')">Tutup</button>
         </div>
     </div>
+</div>
+
+<!-- Floating Real-time Toast Component -->
+<div id="realtimeToast" class="realtime-toast">
+    <i id="realtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:18px; color:#22c55e;"></i>
+    <span id="realtimeToastMsg">Status akun berhasil diperbarui.</span>
 </div>
 
 @endsection
@@ -1495,12 +1831,30 @@
     }
 
     function handleEditRoleChange(role) {
+        const editNipGroup = document.getElementById('editNipGroup');
         const editNipLabel = document.getElementById('edit_nip_label');
         const editNipInput = document.getElementById('edit_nip');
+        const editUsernameLabel = document.getElementById('edit_username_label');
+        const editUsernameInput = document.getElementById('edit_username');
 
-        if (role === 'orang_tua') {
+        if (role === 'piket' || role === 'satpam') {
+            if (editNipGroup) editNipGroup.style.display = 'none';
+            if (editNipInput) {
+                editNipInput.required = false;
+                editNipInput.value = '';
+            }
+            if (editUsernameLabel) {
+                editUsernameLabel.innerHTML = 'Username Petugas * <span style="color:#ef4444;">(Wajib)</span>';
+            }
+            if (editUsernameInput) {
+                editUsernameInput.required = true;
+                editUsernameInput.placeholder = role === 'piket' ? 'Contoh: piket' : 'Contoh: Satpam';
+            }
+        } else if (role === 'orang_tua') {
+            if (editNipGroup) editNipGroup.style.display = 'block';
             if (editNipLabel) editNipLabel.innerText = 'NISN * (10 Digit)';
             if (editNipInput) {
+                editNipInput.required = true;
                 editNipInput.placeholder = 'Masukkan 10 digit NISN';
                 editNipInput.setAttribute('maxlength', '10');
                 editNipInput.setAttribute('minlength', '10');
@@ -1508,12 +1862,24 @@
                     editNipInput.value = editNipInput.value.replace(/[^0-9]/g, '').slice(0, 10);
                 }
             }
+            if (editUsernameLabel) editUsernameLabel.innerText = 'Username (Opsional)';
+            if (editUsernameInput) {
+                editUsernameInput.required = false;
+                editUsernameInput.placeholder = 'username.ortu';
+            }
         } else {
+            if (editNipGroup) editNipGroup.style.display = 'block';
             if (editNipLabel) editNipLabel.innerText = 'NIP * (18 Digit)';
             if (editNipInput) {
+                editNipInput.required = true;
                 editNipInput.placeholder = '198001012005011000';
                 editNipInput.setAttribute('maxlength', '18');
                 editNipInput.setAttribute('minlength', '18');
+            }
+            if (editUsernameLabel) editUsernameLabel.innerText = 'Username (Opsional)';
+            if (editUsernameInput) {
+                editUsernameInput.required = false;
+                editUsernameInput.placeholder = 'username.guru';
             }
         }
     }
@@ -1532,15 +1898,20 @@
         document.getElementById('formEditUser').action = '/admin/verifikasi-guru/' + user.id + '/update-role';
         document.getElementById('edit_name').value = user.name || '';
         document.getElementById('edit_nip').value = user.nip || '';
+        document.getElementById('edit_username').value = user.username || '';
         document.getElementById('edit_email').value = user.email || '';
         document.getElementById('edit_role').value = user.role || 'guru';
         document.getElementById('edit_status').value = user.status_verifikasi || 'verified';
+        document.getElementById('edit_is_active').value = (user.is_active !== false && user.is_active !== 0 && user.is_active !== '0') ? '1' : '0';
         
         let jkVal = (user.guru && user.guru.jenis_kelamin) ? user.guru.jenis_kelamin : (user.jenis_kelamin || '');
         let noHpVal = (user.guru && user.guru.no_hp) ? user.guru.no_hp : (user.no_hp || '');
         
         if (document.getElementById('edit_jk')) document.getElementById('edit_jk').value = jkVal;
         if (document.getElementById('edit_no_hp')) document.getElementById('edit_no_hp').value = noHpVal;
+
+        if (document.getElementById('edit_password')) document.getElementById('edit_password').value = '';
+        if (document.getElementById('edit_password_confirmation')) document.getElementById('edit_password_confirmation').value = '';
 
         handleEditRoleChange(user.role || 'guru');
         openModal('modalEditUser');
@@ -1657,9 +2028,14 @@
         document.getElementById('detail_name').innerText = user.name || '-';
 
         const isOrtu = user.role === 'orang_tua';
+        const isPetugas = user.role === 'piket' || user.role === 'satpam';
         const nipLabel = document.getElementById('detail_nip_label');
+        const nipRow = document.getElementById('detail_nip_row');
         if (nipLabel) {
             nipLabel.innerText = isOrtu ? 'NISN:' : 'NIP:';
+        }
+        if (nipRow) {
+            nipRow.style.display = isPetugas ? 'none' : '';
         }
 
         document.getElementById('detail_nip').innerText = user.nip || '-';
@@ -1667,6 +2043,12 @@
         document.getElementById('detail_email').innerText = user.email || '-';
         document.getElementById('detail_role').innerText = user.role ? user.role.toUpperCase() : '-';
         document.getElementById('detail_status').innerText = user.status_verifikasi ? user.status_verifikasi.toUpperCase() : '-';
+        
+        const isActive = (user.is_active !== false && user.is_active !== 0 && user.is_active !== '0');
+        document.getElementById('detail_is_active').innerHTML = isActive
+            ? '<span style="color:#16a34a; font-weight:700;"><i class="fa-solid fa-circle-check"></i> Aktif (ON)</span>'
+            : '<span style="color:#ef4444; font-weight:700;"><i class="fa-solid fa-circle-xmark"></i> Nonaktif (OFF)</span>';
+
         document.getElementById('detail_created_at').innerText = user.created_at ? new Date(user.created_at).toLocaleDateString('id-ID') : '-';
 
         let jkText = '-';
@@ -1676,8 +2058,21 @@
             jkText = user.jenis_kelamin === 'L' ? 'Laki-laki' : (user.jenis_kelamin === 'P' ? 'Perempuan' : '-');
         }
         let noHpText = (user.guru && user.guru.no_hp) ? user.guru.no_hp : (user.no_hp || '-');
-
+        if (document.getElementById('detail_no_hp')) document.getElementById('detail_no_hp').innerText = noHpText;
         if (document.getElementById('detail_jk')) document.getElementById('detail_jk').innerText = jkText;
+
+        const siswaRow = document.getElementById('detail_siswa_row');
+        const siswaText = document.getElementById('detail_siswa_text');
+        if (user.role === 'orang_tua' && user.siswa) {
+            if (siswaRow) siswaRow.style.display = '';
+            if (siswaText) {
+                const kelasNama = (user.siswa.kelas && user.siswa.kelas.nama_kelas) ? user.siswa.kelas.nama_kelas : '-';
+                siswaText.innerText = user.siswa.nama_siswa + ' (NISN: ' + user.siswa.nisn + ') - Kelas: ' + kelasNama;
+            }
+        } else {
+            if (siswaRow) siswaRow.style.display = 'none';
+        }
+
         openModal('modalDetailUser');
     }
 
@@ -1814,29 +2209,76 @@
     function handleRoleChange(role) {
         const guruContainer = document.getElementById('guruPickerContainer');
         const siswaContainer = document.getElementById('siswaPickerContainer');
+        const batchOrtuContainer = document.getElementById('batchOrtuContainer');
+        const nipGroup = document.getElementById('nipGroup');
         const nipLabel = document.getElementById('nipLabel');
         const nipInput = document.getElementById('add_nip');
+        const usernameLabel = document.getElementById('usernameLabel');
+        const usernameInput = document.getElementById('add_username');
         const idSiswaInput = document.getElementById('add_id_siswa');
         const siswaLockBanner = document.getElementById('siswaLockBanner');
+        const guruLockBanner = document.getElementById('guruLockBanner');
 
-        if (role === 'orang_tua') {
+        if (role === 'piket' || role === 'satpam') {
+            if (guruContainer) guruContainer.style.display = 'none';
+            if (siswaContainer) siswaContainer.style.display = 'none';
+            if (batchOrtuContainer) batchOrtuContainer.style.display = 'none';
+            if (siswaLockBanner) siswaLockBanner.style.display = 'none';
+            if (guruLockBanner) guruLockBanner.style.display = 'none';
+
+            if (nipGroup) nipGroup.style.display = 'none';
+            if (nipInput) {
+                nipInput.required = false;
+                nipInput.value = '';
+            }
+
+            if (usernameLabel) {
+                usernameLabel.innerHTML = 'Username Petugas * <span style="color:#ef4444;">(Wajib - Tanpa NIP)</span>';
+            }
+            if (usernameInput) {
+                usernameInput.required = true;
+                usernameInput.placeholder = role === 'piket' ? 'Contoh: piket' : 'Contoh: Satpam';
+            }
+            if (idSiswaInput) idSiswaInput.value = '';
+        } else if (role === 'orang_tua') {
             if (guruContainer) guruContainer.style.display = 'none';
             if (siswaContainer) siswaContainer.style.display = 'block';
+            if (batchOrtuContainer) batchOrtuContainer.style.display = 'block';
+            if (guruLockBanner) guruLockBanner.style.display = 'none';
+
+            if (nipGroup) nipGroup.style.display = 'block';
             if (nipLabel) nipLabel.innerText = 'NISN * (10 Digit)';
             if (nipInput) {
+                nipInput.required = true;
                 nipInput.placeholder = 'Contoh: 0002024001';
                 nipInput.setAttribute('maxlength', '10');
                 nipInput.setAttribute('minlength', '10');
             }
+
+            if (usernameLabel) usernameLabel.innerText = 'Username (Opsional)';
+            if (usernameInput) {
+                usernameInput.required = false;
+                usernameInput.placeholder = 'username.ortu';
+            }
         } else {
             if (guruContainer) guruContainer.style.display = 'block';
             if (siswaContainer) siswaContainer.style.display = 'none';
+            if (batchOrtuContainer) batchOrtuContainer.style.display = 'none';
             if (siswaLockBanner) siswaLockBanner.style.display = 'none';
+
+            if (nipGroup) nipGroup.style.display = 'block';
             if (nipLabel) nipLabel.innerText = 'NIP * (18 Digit)';
             if (nipInput) {
+                nipInput.required = true;
                 nipInput.placeholder = '198001012005011000';
-                nipInput.setAttribute('maxlength', '18');
+                nipInput.setAttribute('maxlength', '30');
                 nipInput.setAttribute('minlength', '18');
+            }
+
+            if (usernameLabel) usernameLabel.innerText = 'Username (Opsional)';
+            if (usernameInput) {
+                usernameInput.required = false;
+                usernameInput.placeholder = 'username.guru';
             }
             if (idSiswaInput) idSiswaInput.value = '';
         }
@@ -1922,14 +2364,16 @@
         const nisn = option.getAttribute('data-nisn') || '';
         const nama = option.getAttribute('data-nama') || '';
         const jk = option.getAttribute('data-jk') || 'L';
+        const tglLahir = option.getAttribute('data-tanggal-lahir') || '';
+        const defaultPassword = tglLahir ? tglLahir : 'ortu123';
 
         if (idSiswaInput) idSiswaInput.value = idSiswa;
         if (nipInput) nipInput.value = nisn;
         if (nameInput) nameInput.value = 'Orang Tua - ' + nama;
         if (jkSelect) jkSelect.value = jk || 'L';
         if (usernameInput) usernameInput.value = 'ortu.' + nisn;
-        if (passInput) passInput.value = 'ortu123';
-        if (passConfirmInput) passConfirmInput.value = 'ortu123';
+        if (passInput) passInput.value = defaultPassword;
+        if (passConfirmInput) passConfirmInput.value = defaultPassword;
 
         // KUNCI pengisian data agar tidak dapat diubah manual selagi siswa dipilih
         inputsToLock.forEach(el => {
@@ -1951,6 +2395,172 @@
 
         if (typeof validatePasswordMatch === 'function') {
             validatePasswordMatch();
+        }
+    }
+
+    function confirmGenerateAllOrangTua() {
+        const totalSiswa = {{ count($siswaList) }};
+        const pesan = `Buat Akun Orang Tua untuk Seluruh Data Siswa (${totalSiswa} siswa)?\n\n` +
+            `• Sistem akan otomatis membuat akun role Orang Tua untuk setiap siswa yang belum memiliki akun.\n` +
+            `• Password: Menggunakan Tanggal Lahir Siswa (atau default: 'ortu123' jika tanggal lahir belum ada).\n` +
+            `• Siswa yang sudah memiliki akun Orang Tua akan dilewati secara aman (tidak duplikat).\n\n` +
+            `Klik OK untuk melanjutkan proses pembuatan massal.`;
+
+        if (confirm(pesan)) {
+            const btn = document.getElementById('btnBatchOrtu');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses Akun Ortu...';
+                btn.style.opacity = '0.75';
+                btn.style.cursor = 'not-allowed';
+            }
+            document.getElementById('formGenerateAllOrangTua').submit();
+        }
+    }
+
+    function toggleSelectAllUsers(master) {
+        const checkboxes = document.querySelectorAll('.user-select-checkbox:not(:disabled)');
+        checkboxes.forEach(cb => {
+            cb.checked = master.checked;
+        });
+        updateBulkDeleteState();
+    }
+
+    function updateBulkDeleteState() {
+        const checkboxes = document.querySelectorAll('.user-select-checkbox:not(:disabled)');
+        const checked = document.querySelectorAll('.user-select-checkbox:checked');
+        const master = document.getElementById('selectAllUsers');
+        const btn = document.getElementById('btnBulkDeleteUsers');
+        const countBadge = document.getElementById('bulkDeleteCount');
+
+        if (countBadge) countBadge.innerText = checked.length;
+
+        if (master) {
+            master.checked = checkboxes.length > 0 && checked.length === checkboxes.length;
+            master.indeterminate = checked.length > 0 && checked.length < checkboxes.length;
+        }
+
+        if (btn) {
+            if (checked.length > 0) {
+                btn.disabled = false;
+                btn.classList.remove('is-disabled');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('is-disabled');
+            }
+        }
+    }
+
+    function confirmBulkDeleteUsers() {
+        const checked = document.querySelectorAll('.user-select-checkbox:checked');
+        if (checked.length === 0) {
+            alert('Silakan pilih minimal satu akun pengguna untuk dihapus.');
+            return;
+        }
+
+        const count = checked.length;
+        const pesan = `Apakah Anda yakin ingin memindahkan ${count} akun pengguna terpilih ke Tempat Sampah?\n\n` +
+            `• Akun yang dihapus akan masuk ke status Tempat Sampah (Soft Delete).\n` +
+            `• Anda dapat memulihkannya kembali kapan saja melalui menu 'Lihat Sampah Pengguna'.\n\n` +
+            `Klik OK untuk melanjutkan penghapusan.`;
+
+        if (confirm(pesan)) {
+            const btn = document.getElementById('btnBulkDeleteUsers');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Menghapus...</span>';
+            }
+            document.getElementById('formBulkDeleteUsers').submit();
+        }
+    }
+
+    let toastTimeout = null;
+    function showRealtimeToast(message, isSuccess = true) {
+        const toast = document.getElementById('realtimeToast');
+        const toastMsg = document.getElementById('realtimeToastMsg');
+        const toastIcon = document.getElementById('realtimeToastIcon');
+
+        if (!toast || !toastMsg) return;
+
+        toastMsg.innerText = message;
+        if (isSuccess) {
+            toast.className = 'realtime-toast show toast-success';
+            if (toastIcon) {
+                toastIcon.className = 'fa-solid fa-circle-check';
+                toastIcon.style.color = '#22c55e';
+            }
+        } else {
+            toast.className = 'realtime-toast show toast-error';
+            if (toastIcon) {
+                toastIcon.className = 'fa-solid fa-circle-exclamation';
+                toastIcon.style.color = '#ef4444';
+            }
+        }
+
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    async function handleUserToggle(checkbox, userId, userName) {
+        const isChecked = checkbox.checked;
+        const label = document.getElementById('status-label-' + userId);
+        const originalChecked = !isChecked;
+
+        // Visual feedback immediately
+        if (label) {
+            label.innerText = isChecked ? 'Aktif' : 'Nonaktif';
+            label.className = 'user-status-label ' + (isChecked ? 'status-on' : 'status-off');
+        }
+
+        checkbox.disabled = true;
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]') 
+                ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                : '{{ csrf_token() }}';
+
+            const response = await fetch(`/admin/users/${userId}/toggle-active`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    is_active: isChecked ? 1 : 0
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                checkbox.checked = data.is_active;
+                if (label) {
+                    label.innerText = data.is_active ? 'Aktif' : 'Nonaktif';
+                    label.className = 'user-status-label ' + (data.is_active ? 'status-on' : 'status-off');
+                }
+                showRealtimeToast(data.message || `Status akun '${userName}' berhasil diubah menjadi ${data.is_active ? 'Aktif (ON)' : 'Nonaktif (OFF)'}.`, true);
+            } else {
+                checkbox.checked = originalChecked;
+                if (label) {
+                    label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                    label.className = 'user-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+                }
+                showRealtimeToast(data.message || 'Gagal mengubah status akun pengguna.', false);
+            }
+        } catch (error) {
+            console.error('Error toggling user status:', error);
+            checkbox.checked = originalChecked;
+            if (label) {
+                label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                label.className = 'user-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+            }
+            showRealtimeToast('Terjadi kesalahan koneksi saat mengubah status akun.', false);
+        } finally {
+            checkbox.disabled = false;
         }
     }
 </script>

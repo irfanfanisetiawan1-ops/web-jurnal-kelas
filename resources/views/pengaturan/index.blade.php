@@ -307,15 +307,9 @@
 
 @section('content')
 
-<!-- Header Top Bar -->
-<div class="page-header-container">
-    <div class="page-title-group">
-        <h1>Pengaturan Akun & Sistem</h1>
-        <p>Kelola profil pribadi, keamanan password, serta preferensi aplikasi EDU JOURNAL</p>
-    </div>
-</div>
 @php
-    $hasSecErr = isset($errors) && ($errors->has('current_password') || $errors->has('password') || $errors->has('password_confirmation'));
+    $errorsBag = $errors ?? session('errors') ?? new \Illuminate\Support\ViewErrorBag;
+    $hasSecErr = $errorsBag->has('current_password') || $errorsBag->has('password') || $errorsBag->has('password_confirmation');
     $activeTabReq = request('tab');
     $isSecurityActive = session('active_tab') === 'security' || $activeTabReq === 'security' || $hasSecErr;
     $isPrefActive = session('active_tab') === 'preferences' || $activeTabReq === 'preferences';
@@ -351,7 +345,8 @@
                 @if($user->isAdmin() || $user->isTu()) Preferensi &amp; Notifikasi TU
                 @elseif($user->isKepalaSekolah()) Preferensi &amp; Manajerial Kepsek
                 @elseif($user->isWakaSdm()) Preferensi &amp; Manajerial Waka SDM
-                @elseif($user->isWaka()) Preferensi &amp; Manajerial Waka
+                @elseif($user->isWakaKesiswaan()) Preferensi &amp; Manajerial Waka Kesiswaan
+                @elseif($user->isWaka()) Preferensi &amp; Manajerial Waka Kurikulum
                 @elseif($user->isSatpam()) Preferensi &amp; Notifikasi Satpam
                 @elseif($user->isGuruPiket()) Preferensi &amp; Tugas Piket
                 @elseif($user->isWaliKelas() || $kelasWali) Preferensi &amp; Wali Kelas
@@ -445,8 +440,9 @@
                                     <i class="fa-solid fa-user-check"></i>
                                     @if($user->isAdmin() || $user->isTu()) {{ $user->role_label }}
                                     @elseif($user->isKepalaSekolah()) Kepala Sekolah / Pimpinan Lembaga
-                                    @elseif($user->isWakaSdm()) WAKA (SDM)
-                                    @elseif($user->isWaka()) WAKA (Kurikulum &amp; SDM)
+                                    @elseif($user->isWakaSdm()) Waka SDM (Kepegawaian)
+                                    @elseif($user->isWakaKesiswaan()) Waka Kesiswaan
+                                    @elseif($user->isWaka()) Waka Kurikulum
                                     @elseif($user->isSatpam()) Satpam Gerbang / Petugas Keamanan
                                     @elseif($user->isGuruPiket()) Petugas Piket Harian
                                     @elseif($user->isWaliKelas() || $kelasWali) Wali Kelas ({{ $kelasWali->nama_kelas ?? 'Perwalian' }})
@@ -531,22 +527,37 @@
 
                             <div class="form-group full-width">
                                 <label>Wewenang &amp; Cakupan Operasional Waka SDM</label>
-                                <input type="text" class="form-control" value="Persetujuan Izin Guru/Pendidik, Kehadiran &amp; KBM Guru, Direktori SDM, dan Pengumuman SDM" readonly title="Wewenang Akses Waka SDM">
+                                <input type="text" class="form-control" value="Persetujuan Izin Guru/Pendidik (Tahap 1), Kehadiran &amp; KBM Guru, Direktori SDM, dan Pengumuman SDM" readonly title="Wewenang Akses Waka SDM">
                             </div>
-                        @elseif($user->isWaka())
+                        @elseif($user->isWakaKesiswaan())
                             <div class="form-group">
                                 <label>Jabatan Kedinasan</label>
-                                <input type="text" class="form-control" value="Wakil Kepala Sekolah (Waka Kurikulum & SDM)" readonly title="Jabatan Kedinasan Waka">
+                                <input type="text" class="form-control" value="Wakil Kepala Sekolah (Waka Kesiswaan)" readonly title="Jabatan Kedinasan Waka Kesiswaan">
                             </div>
 
                             <div class="form-group">
                                 <label>Mata Pelajaran Diampu</label>
-                                <input type="text" class="form-control" value="{{ $guru && $guru->mapel ? $guru->mapel->nama_mapel : 'Non-Spesifik / Waka Kurikulum & SDM' }}" readonly title="Mapel diampu sesuai data master sekolah">
+                                <input type="text" class="form-control" value="{{ $guru && $guru->mapel ? $guru->mapel->nama_mapel : 'Non-Spesifik / Waka Kesiswaan' }}" readonly title="Mapel diampu sesuai data master sekolah">
                             </div>
 
                             <div class="form-group full-width">
-                                <label>Wewenang &amp; Cakupan Operasional Waka</label>
-                                <input type="text" class="form-control" value="Persetujuan Izin Guru/Siswa, Pengaturan Master Jadwal, Monitoring Rekap Jurnal & Broadcast Pengumuman" readonly title="Wewenang Akses Waka">
+                                <label>Wewenang &amp; Cakupan Operasional Waka Kesiswaan</label>
+                                <input type="text" class="form-control" value="Persetujuan Dispensasi &amp; Izin Siswa, Presensi Siswa, Pelanggaran Siswa, dan Pengumuman Kesiswaan" readonly title="Wewenang Akses Waka Kesiswaan">
+                            </div>
+                        @elseif($user->isWaka())
+                            <div class="form-group">
+                                <label>Jabatan Kedinasan</label>
+                                <input type="text" class="form-control" value="Wakil Kepala Sekolah (Waka Kurikulum)" readonly title="Jabatan Kedinasan Waka Kurikulum">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mata Pelajaran Diampu</label>
+                                <input type="text" class="form-control" value="{{ $guru && $guru->mapel ? $guru->mapel->nama_mapel : 'Konsentrasi BD' }}" readonly title="Mapel diampu sesuai data master sekolah">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Wewenang &amp; Cakupan Operasional Waka Kurikulum</label>
+                                <input type="text" class="form-control" value="Persetujuan Izin Guru (Tahap 1), Monitoring Rekap Jurnal Kelas, Master Jadwal, dan Broadcast Pengumuman" readonly title="Wewenang Akses Waka Kurikulum">
                             </div>
                         @elseif($user->isSatpam())
                             <div class="form-group">
@@ -588,9 +599,14 @@
                             </div>
 
                             @if($siswaConnected && $siswaConnected->kelas)
-                            <div class="form-group full-width">
+                            <div class="form-group">
                                 <label>Kelas &amp; Jurusan Anak</label>
                                 <input type="text" class="form-control" value="Kelas {{ $siswaConnected->kelas->nama_kelas }} — {{ $siswaConnected->kelas->jurusan ? $siswaConnected->kelas->jurusan->nama_jurusan : '-' }}" readonly title="Kelas Siswa">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Wali Kelas Anak</label>
+                                <input type="text" class="form-control" value="{{ $siswaConnected->kelas->waliKelas ? $siswaConnected->kelas->waliKelas->nama_guru . ' (NIP: ' . ($siswaConnected->kelas->waliKelas->nip ?? '-') . ')' : 'Belum Ditentukan' }}" readonly title="Wali Kelas Siswa">
                             </div>
                             @endif
                         @else
@@ -938,20 +954,20 @@
 
                         </div>
                     </form>
-                @elseif($user->isWaka() || $user->isWakaSdm())
+                @elseif($user->isWaka() || $user->isWakaSdm() || $user->isWakaKesiswaan())
                     <form action="{{ route('pengaturan.update-preferences') }}" method="POST">
                         @csrf
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
                             <!-- Card 1: Status & Ringkasan Manajerial Waka -->
                             <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
-                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Status &amp; Ringkasan Manajerial {{ $user->isWakaSdm() ? 'Waka SDM' : 'Waka' }}</h3>
-                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Ringkasan indikator utama pengawasan {{ $user->isWakaSdm() ? 'SDM & Kepegawaian Pendidik' : 'Kurikulum, SDM, dan jadwal pembelajaran' }}</p>
+                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Status &amp; Ringkasan Manajerial @if($user->isWakaSdm()) Waka SDM @elseif($user->isWakaKesiswaan()) Waka Kesiswaan @else Waka Kurikulum @endif</h3>
+                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Ringkasan indikator utama pengawasan @if($user->isWakaSdm()) SDM &amp; Kepegawaian Pendidik @elseif($user->isWakaKesiswaan()) Kedisiplinan &amp; Perizinan Siswa @else Kurikulum, Jadwal, &amp; KBM Pembelajaran @endif</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
                                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
                                         <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Kedudukan / Jabatan</label>
-                                        <div class="readonly-field-tan" style="color: #4f46e5; font-weight: 800;"><i class="fa-solid fa-user-gear"></i> {{ $user->isWakaSdm() ? 'Wakil Kepala Sekolah (Waka SDM & Kepegawaian)' : 'Wakil Kepala Sekolah (Waka Kurikulum & SDM)' }}</div>
+                                        <div class="readonly-field-tan" style="color: #4f46e5; font-weight: 800;"><i class="fa-solid fa-user-gear"></i> @if($user->isWakaSdm()) Wakil Kepala Sekolah (Waka SDM &amp; Kepegawaian) @elseif($user->isWakaKesiswaan()) Wakil Kepala Sekolah (Waka Kesiswaan) @else Wakil Kepala Sekolah (Waka Kurikulum) @endif</div>
                                     </div>
 
                                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
@@ -989,7 +1005,7 @@
 
                             <!-- Card 2: Notifikasi & Alerts Manajerial Waka -->
                             <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
-                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi &amp; Peringatan Manajerial Waka</h3>
+                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi &amp; Peringatan Manajerial @if($user->isWakaSdm()) Waka SDM @elseif($user->isWakaKesiswaan()) Waka Kesiswaan @else Waka Kurikulum @endif</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola pemberitahuan instan untuk memantau aktivitas KBM dan perizinan sekolah</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -1086,7 +1102,7 @@
 
                             <div style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #4f46e5;">
-                                    <i class="fa-solid fa-sliders"></i> Simpan Preferensi Waka
+                                    <i class="fa-solid fa-sliders"></i> Simpan Preferensi @if($user->isWakaSdm()) Waka SDM @elseif($user->isWakaKesiswaan()) Waka Kesiswaan @else Waka Kurikulum @endif
                                 </button>
                             </div>
 
@@ -1521,18 +1537,20 @@
                             </div>
 
                         </div>
+                    </form>
                 @elseif($user->isOrangTua())
                     <form action="{{ route('pengaturan.update-preferences') }}" method="POST">
                         @csrf
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
-                            <!-- Card 1: Informasi Siswa Terhubung -->
+                            <!-- Card 1: Data Putra / Putri & Ringkasan Presensi -->
                             <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
-                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Data Putra / Putri Terhubung</h3>
-                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Detail data siswa yang dipantau dari akun Orang Tua Anda</p>
+                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Data Putra / Putri &amp; Status Akademik</h3>
+                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Detail data siswa yang dipantau dari akun Orang Tua Anda serta ringkasan presensi bulan berjalan</p>
 
                                 @php
                                     $siswaOrtu = $siswaOrangTua ?? ($user->siswa ?? \App\Models\Siswa::withoutGlobalScopes()->where('id_siswa', $user->id_siswa)->orWhere('nisn', $user->nip)->first());
+                                    $waliGuru = $siswaOrtu && $siswaOrtu->kelas && $siswaOrtu->kelas->waliKelas ? $siswaOrtu->kelas->waliKelas : null;
                                 @endphp
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
@@ -1542,21 +1560,47 @@
                                     </div>
 
                                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">NISN Siswa</label>
-                                        <div class="readonly-field-tan">{{ $siswaOrtu ? $siswaOrtu->nisn : ($user->nip ?? '-') }}</div>
+                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">NISN &amp; NIS</label>
+                                        <div class="readonly-field-tan">{{ $siswaOrtu ? 'NISN: ' . $siswaOrtu->nisn . ($siswaOrtu->nis ? ' | NIS: ' . $siswaOrtu->nis : '') : ($user->nip ?? '-') }}</div>
                                     </div>
 
                                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
                                         <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Kelas &amp; Jurusan</label>
-                                        <div class="readonly-field-tan">{{ $siswaOrtu && $siswaOrtu->kelas ? 'Kelas ' . $siswaOrtu->kelas->nama_kelas : 'Belum Ditentukan' }}</div>
+                                        <div class="readonly-field-tan">{{ $siswaOrtu && $siswaOrtu->kelas ? 'Kelas ' . $siswaOrtu->kelas->nama_kelas . ($siswaOrtu->kelas->jurusan ? ' — ' . $siswaOrtu->kelas->jurusan->nama_jurusan : '') : 'Belum Ditentukan' }}</div>
                                     </div>
+
+                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Wali Kelas</label>
+                                        <div class="readonly-field-tan">{{ $waliGuru ? $waliGuru->nama_guru . ' (NIP: ' . ($waliGuru->nip ?? '-') . ')' : 'Belum Ditentukan' }}</div>
+                                    </div>
+
+                                    @if(isset($ortuMetrics))
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px;">
+                                        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; text-align: center;">
+                                            <div style="font-size: 22px; font-weight: 800; color: #1d4ed8;">{{ $ortuMetrics['persen_hadir'] ?? 100 }}%</div>
+                                            <div style="font-size: 11.5px; font-weight: 700; color: #1e40af; margin-top: 2px;">Tingkat Kehadiran</div>
+                                        </div>
+                                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px; text-align: center;">
+                                            <div style="font-size: 22px; font-weight: 800; color: #15803d;">{{ $ortuMetrics['hadir'] ?? 0 }}</div>
+                                            <div style="font-size: 11.5px; font-weight: 700; color: #166534; margin-top: 2px;">Hadir Bulan Ini</div>
+                                        </div>
+                                        <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 12px; padding: 14px; text-align: center;">
+                                            <div style="font-size: 22px; font-weight: 800; color: #a16207;">{{ ($ortuMetrics['sakit'] ?? 0) + ($ortuMetrics['izin'] ?? 0) }}</div>
+                                            <div style="font-size: 11.5px; font-weight: 700; color: #854d0e; margin-top: 2px;">Sakit &amp; Izin</div>
+                                        </div>
+                                        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 14px; text-align: center;">
+                                            <div style="font-size: 22px; font-weight: 800; color: #b91c1c;">{{ $ortuMetrics['alfa'] ?? 0 }}</div>
+                                            <div style="font-size: 11.5px; font-weight: 700; color: #991b1b; margin-top: 2px;">Tanpa Keterangan</div>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
 
                             <!-- Card 2: Notifikasi & Peringatan Orang Tua -->
                             <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi &amp; Peringatan Orang Tua</h3>
-                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola pemberitahuan aktivitas presensi dan jurnal anak Anda</p>
+                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola pemberitahuan aktivitas presensi dan perkembangan sekolah putra/putri Anda</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
                                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
@@ -1574,8 +1618,8 @@
 
                                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
                                         <div>
-                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemberitahuan Status Izin / Dispensasi</div>
-                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pemberitahuan saat pengajuan izin atau dispensasi putra/putri Anda diproses oleh sekolah</div>
+                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemberitahuan Status Izin &amp; Dispensasi</div>
+                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pemberitahuan langsung saat pengajuan surat izin atau dispensasi putra/putri Anda diproses oleh sekolah</div>
                                         </div>
                                         <div>
                                             <label class="toggle-switch">
@@ -1587,14 +1631,86 @@
 
                                     <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
                                         <div>
-                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Laporan Rekap Bulanan Presensi Anak</div>
-                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Kirimkan rangkuman rekapitulasi presensi bulanan putra/putri Anda</div>
+                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Laporan Rekapitulasi Presensi Bulanan</div>
+                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Terima rangkuman rekapitulasi kehadiran dan keterlambatan putra/putri Anda di akhir bulan</div>
                                         </div>
                                         <div>
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="ortu_notif_laporan" value="1" {{ ($systemSettings['ortu_notif_laporan'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
                                             </label>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div>
+                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Broadcast Pengumuman Sekolah</div>
+                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pemberitahuan informasi penting, jadwal libur, dan edaran resmi dari pihak sekolah</div>
+                                        </div>
+                                        <div>
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" name="ortu_notif_pengumuman" value="1" {{ ($systemSettings['ortu_notif_pengumuman'] ?? '1') == '1' ? 'checked' : '' }}>
+                                                <span class="slider-round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Preferensi Tampilan & Ekspor Laporan -->
+                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Unduhan Laporan</h3>
+                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Format berkas default saat mengunduh rekap presensi dan surat permohonan izin</p>
+
+                                <div style="display: flex; flex-direction: column; gap: 16px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div style="flex: 1;">
+                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Format Default Ekspor Rekap Presensi</div>
+                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pilih format berkas default saat mencetak laporan kehadiran putra/putri Anda</div>
+                                        </div>
+                                        <div style="width: 220px;">
+                                            <select name="ortu_export_format" class="form-control">
+                                                <option value="pdf" {{ ($systemSettings['ortu_export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF (.pdf)</option>
+                                                <option value="excel" {{ ($systemSettings['ortu_export_format'] ?? 'pdf') == 'excel' ? 'selected' : '' }}>Excel Spreadsheet (.xlsx)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Hotline Bantuan & Kontak Cepat Sekolah -->
+                            <div style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-radius: 16px; border: 1px solid #bfdbfe; padding: 24px;">
+                                <h3 style="font-size: 17px; font-weight: 800; color: #1e3a8a; margin-bottom: 2px;">
+                                    <i class="fa-solid fa-headset" style="margin-right: 6px; color: #2563eb;"></i> Layanan Bantuan &amp; Hotline Sekolah
+                                </h3>
+                                <p style="font-size: 12.5px; color: #475569; font-weight: 600; margin-bottom: 16px;">Hubungi Wali Kelas atau Customer Service sekolah jika ada kendala terkait presensi dan pembelajaran anak</p>
+
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;">
+                                    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+                                        <div style="width: 40px; height: 40px; border-radius: 10px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">
+                                            <i class="fa-solid fa-user-tie"></i>
+                                        </div>
+                                        <div style="flex: 1; overflow: hidden;">
+                                            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Wali Kelas</div>
+                                            <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $waliGuru ? $waliGuru->nama_guru : 'Belum Ditugaskan' }}</div>
+                                            @if($waliGuru && !empty($waliGuru->no_hp))
+                                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $waliGuru->no_hp) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #059669; font-weight: 700; text-decoration: none; margin-top: 2px;">
+                                                    <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+                                        <div style="width: 40px; height: 40px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </div>
+                                        <div style="flex: 1; overflow: hidden;">
+                                            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Hotline CS Sekolah</div>
+                                            <div style="font-size: 13.5px; font-weight: 800; color: #0f172a;">{{ $systemSettings['cs_whatsapp'] ?? '081234567890' }}</div>
+                                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $systemSettings['cs_whatsapp'] ?? '6281234567890') }}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #2563eb; font-weight: 700; text-decoration: none; margin-top: 2px;">
+                                                <i class="fa-brands fa-whatsapp"></i> Hubungi CS
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

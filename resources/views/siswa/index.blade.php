@@ -29,6 +29,9 @@
         padding: 24px;
         margin-bottom: 24px;
         box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .card-top-header {
@@ -108,12 +111,15 @@
 
     .form-grid-3 {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 16px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .form-group {
         margin-bottom: 16px;
+        min-width: 0;
     }
 
     .form-group label {
@@ -247,9 +253,13 @@
 
     /* Table Custom */
     .table-responsive {
+        width: 100%;
+        max-width: 100%;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         border-radius: 14px;
         border: 1px solid #e2e8f0;
+        box-sizing: border-box;
     }
 
     .table-custom {
@@ -391,6 +401,120 @@
         color: #9f1239;
         border: 1px solid #fecdd3;
     }
+
+    /* Toggle Switch ON/OFF Real-time Styling */
+    .siswa-status-switch-wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        user-select: none;
+    }
+
+    .siswa-toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .siswa-toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+
+    .siswa-toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cbd5e1;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 24px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    .siswa-toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #ffffff;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    .siswa-toggle-switch input:checked + .siswa-toggle-slider {
+        background-color: #22c55e;
+    }
+
+    .siswa-toggle-switch input:focus + .siswa-toggle-slider {
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    .siswa-toggle-switch input:checked + .siswa-toggle-slider:before {
+        transform: translateX(20px);
+    }
+
+    .siswa-toggle-switch input:disabled + .siswa-toggle-slider {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    .siswa-status-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        transition: color 0.2s;
+        min-width: 48px;
+        text-align: left;
+    }
+
+    .siswa-status-label.status-on {
+        color: #16a34a;
+    }
+
+    .siswa-status-label.status-off {
+        color: #64748b;
+    }
+
+    /* Floating Real-time Toast */
+    .realtime-toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        background: #1e293b;
+        color: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+        font-size: 13.5px;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(20px);
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: 420px;
+    }
+
+    .realtime-toast.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
 </style>
 @endsection
 
@@ -441,12 +565,6 @@
                     <i class="fa-solid fa-user-graduate"></i> Data Siswa Alumni
                     @if(isset($alumniCount) && $alumniCount > 0)
                         <span class="badge-count">{{ $alumniCount }}</span>
-                    @endif
-                </a>
-                <a href="{{ route('siswa.trash') }}" class="btn-trash">
-                    <i class="fa-solid fa-trash-can"></i> Lihat Tong Sampah
-                    @if(isset($trashedCount) && $trashedCount > 0)
-                        <span class="badge-count">{{ $trashedCount }}</span>
                     @endif
                 </a>
             </div>
@@ -827,6 +945,15 @@
                     </select>
                 </div>
 
+                <!-- Filter Status (ON / OFF) -->
+                <div style="min-width: 130px;">
+                    <select name="status" onchange="updateSelectMutedState(this);" class="filter-select">
+                        <option value="">Semua Status</option>
+                        <option value="active" {{ (isset($status) && $status === 'active') ? 'selected' : '' }}>Aktif (ON)</option>
+                        <option value="inactive" {{ (isset($status) && $status === 'inactive') ? 'selected' : '' }}>Nonaktif (OFF)</option>
+                    </select>
+                </div>
+
                 <!-- Filter Urutan (Sorting) -->
                 <div style="min-width: 140px;">
                     <select name="sort" onchange="updateSelectMutedState(this);" class="filter-select">
@@ -863,7 +990,12 @@
                     @if(!empty($jenis_kelamin))
                         <span class="badge-kelas" style="background:#fce7f3; color:#9d174d;"><i class="fa-solid fa-venus-mars"></i> {{ $jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</span>
                     @endif
-                    @if(empty($search) && empty($tingkat) && empty($id_jurusan) && empty($id_kelas) && empty($jenis_kelamin))
+                    @if(!empty($status))
+                        <span class="badge-kelas" style="background:{{ $status == 'active' ? '#ecfdf5' : '#f1f5f9' }}; color:{{ $status == 'active' ? '#166534' : '#475569' }};">
+                            <i class="fa-solid fa-power-off"></i> Status: {{ $status == 'active' ? 'Aktif (ON)' : 'Nonaktif (OFF)' }}
+                        </span>
+                    @endif
+                    @if(empty($search) && empty($tingkat) && empty($id_jurusan) && empty($id_kelas) && empty($jenis_kelamin) && empty($status))
                         <span style="color:#94a3b8; font-style:italic;">Semua Data Siswa</span>
                     @endif
                 </div>
@@ -874,6 +1006,12 @@
                     </button>
                     <a href="{{ route('siswa.index') }}" class="btn-reset" style="padding: 9px 18px;">
                         <i class="fa-solid fa-rotate-left"></i> Reset
+                    </a>
+                    <a href="{{ route('siswa.trash') }}" class="btn-trash" style="padding: 9px 16px; border-radius: 12px; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Lihat Data Siswa di Tempat Sampah">
+                        <i class="fa-solid fa-trash-can"></i> Lihat Sampah
+                        @if(isset($trashedCount) && $trashedCount > 0)
+                            <span class="badge-count">{{ $trashedCount }}</span>
+                        @endif
                     </a>
                     <button type="button" id="btnBulkDelete" class="btn-action btn-delete" style="padding: 9px 16px; border-radius: 12px; font-size: 13px; opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,29,72,0.15); border: none;" disabled onclick="confirmBulkDelete()" title="Pilih siswa dengan mencentang checkbox untuk menghapus secara massal">
                         <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
@@ -900,6 +1038,7 @@
                             <th>KELAS</th>
                             <th>TEMPAT & TGL LAHIR</th>
                             <th>ALAMAT</th>
+                            <th style="text-align:center; min-width: 110px;">STATUS</th>
                             <th style="text-align:center; min-width: 220px;">AKSI</th>
                         </tr>
                     </thead>
@@ -931,6 +1070,20 @@
                                 </td>
                                 <td>{{ $s->alamat_lengkap ? \Illuminate\Support\Str::limit($s->alamat_lengkap, 35) : '-' }}</td>
                                 <td style="text-align:center;">
+                                    <div class="siswa-status-switch-wrapper">
+                                        <label class="siswa-toggle-switch" title="Klik untuk mengaktifkan / menonaktifkan data siswa">
+                                            <input type="checkbox" 
+                                                   id="toggle-siswa-{{ $s->id_siswa }}"
+                                                   {{ ($s->is_active ?? 1) ? 'checked' : '' }} 
+                                                   onchange="handleSiswaToggle(this, {{ $s->id_siswa }}, '{{ addslashes($s->nama_siswa) }}')">
+                                            <span class="siswa-toggle-slider"></span>
+                                        </label>
+                                        <span id="status-label-siswa-{{ $s->id_siswa }}" class="siswa-status-label {{ ($s->is_active ?? 1) ? 'status-on' : 'status-off' }}">
+                                            {{ ($s->is_active ?? 1) ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td style="text-align:center;">
                                     <div class="action-buttons">
                                         <!-- 1. LIHAT (Detail) - Disebelah kiri Edit & Hapus -->
                                         <a href="{{ route('siswa.show', $s->id_siswa) }}" class="btn-action btn-view" title="Lihat Detail Siswa">
@@ -951,7 +1104,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="9" style="text-align:center; padding:36px; color:#94a3b8;">
+                                <td colspan="10" style="text-align:center; padding:36px; color:#94a3b8;">
                                     <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>
                                     Belum ada data Siswa yang terdaftar.
                                 </td>
@@ -2355,5 +2508,108 @@
             formBulk.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
+
+    /* Real-time Siswa Toggle Handler */
+    let siswaToastTimeout = null;
+
+    function showSiswaRealtimeToast(message, isSuccess = true) {
+        const toast = document.getElementById('siswaRealtimeToast');
+        const icon  = document.getElementById('siswaRealtimeToastIcon');
+        const msg   = document.getElementById('siswaRealtimeToastMsg');
+
+        if (!toast || !icon || !msg) return;
+
+        msg.innerHTML = message;
+        toast.classList.add('show');
+
+        if (isSuccess) {
+            toast.style.background = '#0f172a';
+            toast.style.borderLeft = '4px solid #22c55e';
+            if (icon) {
+                icon.className = 'fa-solid fa-circle-check';
+                icon.style.color = '#22c55e';
+            }
+        } else {
+            toast.style.background = '#0f172a';
+            toast.style.borderLeft = '4px solid #ef4444';
+            if (icon) {
+                icon.className = 'fa-solid fa-circle-xmark';
+                icon.style.color = '#ef4444';
+            }
+        }
+
+        if (siswaToastTimeout) clearTimeout(siswaToastTimeout);
+        siswaToastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    async function handleSiswaToggle(checkbox, siswaId, siswaName) {
+        const isChecked = checkbox.checked;
+        const label = document.getElementById('status-label-siswa-' + siswaId);
+        const originalChecked = !isChecked;
+
+        // Visual feedback immediately
+        if (label) {
+            label.innerText = isChecked ? 'Aktif' : 'Nonaktif';
+            label.className = 'siswa-status-label ' + (isChecked ? 'status-on' : 'status-off');
+        }
+
+        checkbox.disabled = true;
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]') 
+                ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                : '{{ csrf_token() }}';
+
+            const response = await fetch(`/siswa/${siswaId}/toggle-active`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    is_active: isChecked ? 1 : 0
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                checkbox.checked = data.is_active;
+                if (label) {
+                    label.innerText = data.is_active ? 'Aktif' : 'Nonaktif';
+                    label.className = 'siswa-status-label ' + (data.is_active ? 'status-on' : 'status-off');
+                }
+                showSiswaRealtimeToast(data.message || `Data Siswa '${siswaName}' berhasil diubah menjadi ${data.is_active ? 'Aktif (ON)' : 'Nonaktif (OFF)'}.`, true);
+            } else {
+                checkbox.checked = originalChecked;
+                if (label) {
+                    label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                    label.className = 'siswa-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+                }
+                showSiswaRealtimeToast(data.message || 'Gagal mengubah status Data Siswa.', false);
+            }
+        } catch (error) {
+            console.error('Error toggling siswa status:', error);
+            checkbox.checked = originalChecked;
+            if (label) {
+                label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                label.className = 'siswa-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+            }
+            showSiswaRealtimeToast('Terjadi kesalahan koneksi saat mengubah status Data Siswa.', false);
+        } finally {
+            checkbox.disabled = false;
+        }
+    }
 </script>
+
+<!-- Floating Real-time Toast Component -->
+<div id="siswaRealtimeToast" class="realtime-toast">
+    <i id="siswaRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:18px; color:#22c55e;"></i>
+    <span id="siswaRealtimeToastMsg">Status data siswa berhasil diperbarui.</span>
+</div>
+
 @endsection

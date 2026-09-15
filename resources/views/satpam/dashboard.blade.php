@@ -1168,6 +1168,20 @@
                 `;
             }
 
+            let fotoSiswaLiveHtml = '';
+            let fotoSiswaLiveSrc = d.foto_siswa_live ? formatImageUrl(d.foto_siswa_live) : null;
+            if (fotoSiswaLiveSrc) {
+                fotoSiswaLiveHtml = `
+                    <div style="margin-top: 10px; padding: 10px; background: #eff6ff; border-radius: 10px; border: 1.5px solid #93c5fd; text-align: center;">
+                        <div style="font-size: 11px; font-weight: 800; color: #1e40af; text-transform: uppercase; margin-bottom: 4px;"><i class="fa-solid fa-camera" style="color: #2563eb;"></i> Foto Siswa (Live Kamera Pos Guru Piket):</div>
+                        <a href="${fotoSiswaLiveSrc}" target="_blank" title="Klik untuk perbesar Foto Live Siswa">
+                            <img src="${fotoSiswaLiveSrc}" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px; border: 1px solid #bfdbfe;" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180?text=Foto+Siswa';">
+                        </a>
+                        <div style="font-size: 10.5px; color: #1d4ed8; margin-top: 4px; font-weight: 700;"><i class="fa-solid fa-shield-check"></i> Cocokkan fisik &amp; wajah siswa di gerbang dengan foto kamera live ini.</div>
+                    </div>
+                `;
+            }
+
             let fotoKartuHtml = '';
             let fotoKartuSrc = d.foto_kartu_identitas ? formatImageUrl(d.foto_kartu_identitas) : null;
             if (fotoKartuSrc) {
@@ -1209,6 +1223,7 @@
                 <p style="margin: 4px 0; font-size: 12.5px; color: #64748b;">Jam Keluar: <strong>${d.jam_keluar}</strong> s/d <strong>${d.jam_kembali}</strong></p>
                 <p style="margin: 4px 0; font-size: 12.5px; color: #64748b;">Disetujui Waka: <strong>${d.nama_waka}</strong> (${d.waktu_approval_waka})</p>
                 <p style="margin: 4px 0; font-size: 12.5px; color: #64748b;">Alasan Dispen: "${d.alasan}"</p>
+                ${fotoSiswaLiveHtml}
                 ${fotoKartuHtml}
                 ${actionForm}
             `;
@@ -1238,6 +1253,7 @@
             satpamBadgeText = '<span class="status-badge badge-yellow"><i class="fa-solid fa-clock"></i> Belum Keluar (Menunggu Validasi Gate)</span>';
         }
 
+        let fotoSiswaLiveSrc = item.foto_siswa_live ? formatImageUrl(item.foto_siswa_live) : null;
         let fotoKartuSrc = item.foto_kartu_identitas ? formatImageUrl(item.foto_kartu_identitas) : null;
         let fotoSuratSrc = item.foto_surat_dispen ? formatImageUrl(item.foto_surat_dispen) : null;
         let fotoSiswaSrc = (item.siswa && item.siswa.foto) ? formatImageUrl('uploads/profile_photos/' + item.siswa.foto) : null;
@@ -1296,12 +1312,13 @@
                     <span class="val">${item.catatan_satpam}</span>
                 </div>` : ''}
 
-                ${(fotoKartuSrc || fotoSuratSrc || fotoSiswaSrc) ? `
+                ${(fotoSiswaLiveSrc || fotoKartuSrc || fotoSuratSrc || fotoSiswaSrc) ? `
                 <div class="detail-section-title"><i class="fa-solid fa-image"></i> Lampiran & Bukti Foto Pengajuan</div>
                 <div class="detail-image-box">
+                    ${fotoSiswaLiveSrc ? `<div><div style="font-size:11px; color:#1d4ed8; margin-bottom:4px; font-weight:800;"><i class="fa-solid fa-camera"></i> Foto Siswa (Live Kamera):</div><a href="${fotoSiswaLiveSrc}" target="_blank" title="Klik untuk perbesar Foto Live Siswa"><img src="${fotoSiswaLiveSrc}" alt="Foto Siswa Live" style="border: 2px solid #3b82f6; border-radius: 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Live';"></a></div>` : ''}
                     ${fotoKartuSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Kartu Identitas Siswa:</div><a href="${fotoKartuSrc}" target="_blank"><img src="${fotoKartuSrc}" alt="Foto Identitas" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Gambar+Identitas';"></a></div>` : ''}
                     ${fotoSuratSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Surat Dispen:</div><a href="${fotoSuratSrc}" target="_blank"><img src="${fotoSuratSrc}" alt="Surat Dispen" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Surat+Dispen';"></a></div>` : ''}
-                    ${fotoSiswaSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Foto Siswa:</div><a href="${fotoSiswaSrc}" target="_blank"><img src="${fotoSiswaSrc}" alt="Foto Profil Siswa" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Siswa';"></a></div>` : ''}
+                    ${fotoSiswaSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Foto Profil Siswa:</div><a href="${fotoSiswaSrc}" target="_blank"><img src="${fotoSiswaSrc}" alt="Foto Profil Siswa" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Siswa';"></a></div>` : ''}
                 </div>` : ''}
             </div>
         `;

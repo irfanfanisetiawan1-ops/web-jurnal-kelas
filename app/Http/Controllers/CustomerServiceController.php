@@ -54,8 +54,12 @@ class CustomerServiceController extends Controller
             $layout = 'layouts.admin';
         } elseif ($user->isKepalaSekolah()) {
             $layout = 'layouts.kepala_sekolah';
-        } elseif ($user->isWaka()) {
-            $layout = $user->isWakaSdm() ? 'layouts.waka_sdm' : 'layouts.waka';
+        } elseif ($user->isWakaKurikulum()) {
+            $layout = 'layouts.waka_kurikulum';
+        } elseif ($user->isWakaSdm()) {
+            $layout = 'layouts.waka_sdm';
+        } elseif ($user->isWaka() || $user->isWakaKesiswaan()) {
+            $layout = 'layouts.waka';
         } elseif ($user->isOrangTua()) {
             $layout = 'layouts.orang_tua';
         } else {

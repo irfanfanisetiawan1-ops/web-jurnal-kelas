@@ -20,6 +20,7 @@ class SiswaController extends Controller
         $id_jurusan    = $request->query('id_jurusan');
         $id_kelas      = $request->query('id_kelas');
         $jenis_kelamin = $request->query('jenis_kelamin');
+        $status        = $request->query('status');
         $sort          = $request->query('sort', 'nama_asc');
 
         $query = Siswa::with('kelas.jurusan')
@@ -58,6 +59,14 @@ class SiswaController extends Controller
             $query->where('jenis_kelamin', $jenis_kelamin);
         }
 
+        if ($status === 'active') {
+            $query->where(function($q) {
+                $q->where('is_active', 1)->orWhereNull('is_active');
+            });
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', 0);
+        }
+
         if ($sort === 'nama_desc') {
             $query->orderBy('nama_siswa', 'desc');
         } elseif ($sort === 'nis_asc') {
@@ -68,16 +77,17 @@ class SiswaController extends Controller
             $query->orderBy('nama_siswa', 'asc');
         }
 
-        $siswas          = $query->get();
-        $kelass          = Kelas::with('jurusan')->orderBy('nama_kelas')->get();
-        $jurusans        = \App\Models\Jurusan::orderBy('kode_jurusan')->get();
-        $trashedCount    = Siswa::onlyTrashed()->where(function($q) { $q->where('is_alumni', 0)->orWhereNull('is_alumni'); })->count();
-        $alumniCount     = Siswa::where('is_alumni', 1)->count();
-        $totalAktifCount = Siswa::where(function($q) { $q->where('is_alumni', 0)->orWhereNull('is_alumni'); })->count();
+        $siswas             = $query->get();
+        $kelass             = Kelas::with('jurusan')->orderBy('nama_kelas')->get();
+        $jurusans           = \App\Models\Jurusan::orderBy('kode_jurusan')->get();
+        $trashedCount       = Siswa::onlyTrashed()->where(function($q) { $q->where('is_alumni', 0)->orWhereNull('is_alumni'); })->count();
+        $alumniCount        = Siswa::where('is_alumni', 1)->count();
+        $totalAktifCount    = Siswa::where(function($q) { $q->where('is_alumni', 0)->orWhereNull('is_alumni'); })->where(function($q) { $q->where('is_active', 1)->orWhereNull('is_active'); })->count();
+        $totalNonaktifCount = Siswa::where(function($q) { $q->where('is_alumni', 0)->orWhereNull('is_alumni'); })->where('is_active', 0)->count();
 
         return view('siswa.index', compact(
-            'siswas', 'kelass', 'jurusans', 'trashedCount', 'alumniCount', 'totalAktifCount',
-            'search', 'tingkat', 'id_jurusan', 'id_kelas', 'jenis_kelamin', 'sort'
+            'siswas', 'kelass', 'jurusans', 'trashedCount', 'alumniCount', 'totalAktifCount', 'totalNonaktifCount',
+            'search', 'tingkat', 'id_jurusan', 'id_kelas', 'jenis_kelamin', 'status', 'sort'
         ));
     }
 
@@ -593,5 +603,43 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.alumni')
                          ->with('success', "Siswa \"{$siswa->nama_siswa}\" berhasil dikembalikan menjadi Siswa Aktif!");
+    }
+
+    /**
+     * [TOGGLE ACTIVE] Aktifkan atau nonaktifkan data siswa secara real-time
+     */
+    public function toggleActive(Request $request, $id)
+    {
+        $siswa = Siswa::withoutGlobalScope('active_student')->findOrFail($id);
+
+        if ($request->has('is_active')) {
+            $siswa->is_active = $request->boolean('is_active');
+        } else {
+            $siswa->is_active = ($siswa->is_active == 1 || is_null($siswa->is_active)) ? false : true;
+        }
+
+        $siswa->save();
+
+        $statusText = $siswa->is_active ? 'diaktifkan (ON)' : 'dinonaktifkan (OFF)';
+        $message    = "Data Siswa '{$siswa->nama_siswa}' berhasil {$statusText} secara real-time.";
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success'      => true,
+                'is_active'    => (bool) $siswa->is_active,
+                'status_label' => $siswa->is_active ? 'Aktif' : 'Nonaktif',
+                'siswa_name'   => $siswa->nama_siswa,
+                'message'      => $message,
+                'siswa'        => [
+                    'id_siswa'   => $siswa->id_siswa,
+                    'nama_siswa' => $siswa->nama_siswa,
+                    'nis'        => $siswa->nis,
+                    'nisn'       => $siswa->nisn,
+                    'is_active'  => (bool) $siswa->is_active,
+                ]
+            ]);
+        }
+
+        return back()->with('success', $message);
     }
 }

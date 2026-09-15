@@ -238,6 +238,17 @@
                 </div>
             </div>
 
+            <div class="info-item">
+                <div class="label">Status Data Guru</div>
+                <div class="value">
+                    @if($guru->isActive())
+                        <span style="color:#16a34a; font-weight:800; display:inline-flex; align-items:center; gap:5px;"><i class="fa-solid fa-circle-check"></i> Aktif (ON)</span>
+                    @else
+                        <span style="color:#ef4444; font-weight:800; display:inline-flex; align-items:center; gap:5px;"><i class="fa-solid fa-circle-xmark"></i> Nonaktif (OFF)</span>
+                    @endif
+                </div>
+            </div>
+
             <div class="info-item" style="grid-column: 1 / -1;">
                 <div class="label">Wali Kelas Dari</div>
                 <div class="value">

@@ -412,15 +412,18 @@
         if (!jadwalId) return;
 
         const container = document.getElementById('siswaPresensiContainer');
+        const tglInput = document.getElementById('tanggal');
+        const tglVal = tglInput ? tglInput.value : '';
+
         container.innerHTML = `
             <div style="text-align:center; padding:20px; color:#6366f1;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="10"/></svg>
-                <p style="font-size:13px; font-weight:700; margin-top:8px;">Memuat daftar siswa...</p>
+                <p style="font-size:13px; font-weight:700; margin-top:8px;">Memuat data siswa & sinkronisasi surat izin...</p>
             </div>
             <style>@keyframes spin { 100% { transform: rotate(360deg); } }</style>
         `;
 
-        fetch(`/api/jadwal-siswa/${jadwalId}`)
+        fetch(`{{ url('jurnal-mengajar/api/siswa-by-jadwal') }}/${jadwalId}?tanggal=${encodeURIComponent(tglVal)}`)
             .then(res => res.json())
             .then(data => {
                 if (!data.siswas || data.siswas.length === 0) {
@@ -433,11 +436,9 @@
                 }
 
                 let html = `
-                    <div style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:13px; font-weight:800; color:#3730a3; background:#e0e7ff; padding:3px 10px; border-radius:8px;">
-                            Kelas: ${data.kelas} (${data.siswas.length} Siswa)
-                        </span>
-                        <small style="color:#64748b;">Default: Semua siswa Dianggap Hadir</small>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-size:13px; font-weight:700; color:#334155;">Daftar Siswa Kelas: <strong>${data.kelas}</strong> (${data.siswas.length} Siswa)</span>
+                        <small style="color:#64748b;">Default: Hadir (Auto-Sync Surat Izin Guru Piket Aktif)</small>
                     </div>
                     <div class="absence-table-wrap">
                         <table class="absence-table">
@@ -453,31 +454,43 @@
                 `;
 
                 data.siswas.forEach((siswa, idx) => {
+                    const defStatus = siswa.default_status || 'Hadir';
+                    const isAuto = siswa.is_auto_izin;
+                    const ketIzin = siswa.keterangan_izin;
+
                     html += `
-                        <tr>
+                        <tr style="${isAuto ? 'background: #fcfaff;' : ''}">
                             <td style="font-weight:700; color:#94a3b8;">${idx + 1}</td>
                             <td style="font-weight:600; color:#64748b;">${siswa.nisn}</td>
-                            <td style="font-weight:700; color:#0f172a;">${siswa.nama_siswa}</td>
+                            <td style="font-weight:700; color:#0f172a;">
+                                <div>${siswa.nama_siswa}</div>
+                                ${isAuto ? `<div style="font-size: 11px; color: #7c3aed; font-weight: 700; margin-top: 2px;"><i class="fa-solid fa-circle-check"></i> ${ketIzin}</div>` : ''}
+                            </td>
                             <td style="text-align: right;">
                                 <div class="status-radio-group" style="justify-content: flex-end;">
                                     <label class="status-radio-label">
-                                        <input type="radio" name="siswa_status_${siswa.id_siswa}" value="Hadir" checked onchange="toggleKetidakhadiranInput(${idx}, ${siswa.id_siswa}, 'Hadir')">
+                                        <input type="radio" name="siswa_status_${siswa.id_siswa}" value="Hadir" ${defStatus === 'Hadir' ? 'checked' : ''} onchange="toggleKetidakhadiranInput(${idx}, ${siswa.id_siswa}, 'Hadir')">
                                         <span style="color:#15803d;">Hadir</span>
                                     </label>
                                     <label class="status-radio-label">
-                                        <input type="radio" name="siswa_status_${siswa.id_siswa}" value="Sakit" onchange="toggleKetidakhadiranInput(${idx}, ${siswa.id_siswa}, 'Sakit')">
+                                        <input type="radio" name="siswa_status_${siswa.id_siswa}" value="Sakit" ${defStatus === 'Sakit' ? 'checked' : ''} onchange="toggleKetidakhadiranInput(${idx}, ${siswa.id_siswa}, 'Sakit')">
                                         <span style="color:#1d4ed8;">Sakit</span>
                                     </label>
                                     <label class="status-radio-label">
-                                        <input type="radio" name="siswa_status_${siswa.id_siswa}" value="Izin" onchange="toggleKetidakhadiranInput(${idx}, ${siswa.id_siswa}, 'Izin')">
+                                        <input type="radio" name="siswa_status_${siswa.id_siswa}" value="Izin" ${defStatus === 'Izin' ? 'checked' : ''} onchange="toggleKetidakhadiranInput(${idx}, ${siswa.id_siswa}, 'Izin')">
                                         <span style="color:#d97706;">Izin</span>
                                     </label>
                                     <label class="status-radio-label">
-                                        <input type="radio" name="siswa_status_${siswa.id_siswa}" value="Alpa" onchange="toggleKetidakhadiranInput(${idx}, ${siswa.id_siswa}, 'Alpa')">
+                                        <input type="radio" name="siswa_status_${siswa.id_siswa}" value="Alpa" ${defStatus === 'Alpa' ? 'checked' : ''} onchange="toggleKetidakhadiranInput(${idx}, ${siswa.id_siswa}, 'Alpa')">
                                         <span style="color:#e11d48;">Alpa</span>
                                     </label>
                                 </div>
-                                <div id="input_wrap_${siswa.id_siswa}"></div>
+                                <div id="input_wrap_${siswa.id_siswa}">
+                                    ${defStatus !== 'Hadir' ? `
+                                        <input type="hidden" name="ketidakhadiran[${siswa.id_siswa}][id_siswa]" value="${siswa.id_siswa}">
+                                        <input type="hidden" name="ketidakhadiran[${siswa.id_siswa}][keterangan]" value="${defStatus}">
+                                    ` : ''}
+                                </div>
                             </td>
                         </tr>
                     `;
@@ -518,6 +531,16 @@
         const initialJadwalId = document.getElementById('id_jadwal').value;
         if (initialJadwalId) {
             loadSiswaByJadwal(initialJadwalId);
+        }
+
+        const tglInput = document.getElementById('tanggal');
+        if (tglInput) {
+            tglInput.addEventListener('change', function() {
+                const jId = document.getElementById('id_jadwal').value;
+                if (jId) {
+                    loadSiswaByJadwal(jId);
+                }
+            });
         }
 
         const form = document.getElementById('createForm');

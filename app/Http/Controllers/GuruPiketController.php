@@ -22,6 +22,7 @@ use App\Models\SiswaDispen;
 use App\Models\SiswaSuratIzin;
 use App\Models\SiswaTelat;
 use App\Models\JurnalDetailKetidakhadiran;
+use App\Models\VerifikasiJurnalPiket;
 use App\Models\User;
 
 class GuruPiketController extends Controller
@@ -48,184 +49,140 @@ class GuruPiketController extends Controller
      */
     public function dashboard()
     {
+        $now = Carbon::now('Asia/Jakarta');
         $hariIni = $this->getHariIndo();
-        $todayDate = Carbon::now('Asia/Jakarta')->toDateString();
+        $todayDate = $now->toDateString();
 
         // 1. Jadwal Hari Ini untuk seluruh kelas
         $jadwalsToday = Jadwal::with(['kelas', 'mapel', 'ruangan', 'guru', 'jamMulai', 'jamSelesai'])
             ->where('hari', $hariIni)
+            ->orderBy('id_jam_mulai', 'asc')
             ->get();
 
-        if ($jadwalsToday->isEmpty()) {
-            $jadwalsToday = Jadwal::with(['kelas', 'mapel', 'ruangan', 'guru', 'jamMulai', 'jamSelesai'])
-                ->whereIn('hari', ['Jumat', 'Senin', 'Kamis'])
-                ->get();
-        }
+        $totalJadwalToday = $jadwalsToday->count();
 
-        $totalJadwalToday = max($jadwalsToday->count(), 1);
-
-        // 2. Stat Cards Data
+        // 2. Stat Cards Data Riil
         // Card 1: Total Jurnal Hari Ini
         $totalJurnalHariIni = JurnalMengajar::whereDate('tanggal', $todayDate)->count();
-        if ($totalJurnalHariIni === 0) {
-            $totalJurnalHariIni = 42; // Realistis fallback demo
-        }
 
-        // Card 2: Guru Tidak Hadir
+        // Card 2: Guru Tidak Hadir Resmi Hari Ini
         $guruTidakHadirCount = GuruIzin::whereDate('tanggal_mulai', '<=', $todayDate)
             ->whereDate('tanggal_selesai', '>=', $todayDate)
+            ->where(function($q) {
+                $q->where('status_piket', 'disetujui')
+                  ->orWhere('status_waka', 'approved')
+                  ->orWhere('status_kepsek', 'approved')
+                  ->orWhereNull('status_piket');
+            })
             ->count();
-        if ($guruTidakHadirCount === 0) {
-            $guruTidakHadirCount = 5; // Demo fallback
-        }
 
         // Card 3: Guru Pengganti Penugasan Hari Ini
         $guruPenggantiCount = PenugasanGuruPengganti::whereDate('tanggal', $todayDate)
             ->where('status', 'aktif')
             ->count();
-        if ($guruPenggantiCount === 0) {
-            $guruPenggantiCount = 4; // Demo fallback
-        }
 
         // Card 4: % Kelas Sudah Terisi
-        $kelasTerisiPercentage = min(100, round(($totalJurnalHariIni / max($totalJadwalToday, 1)) * 100));
-        if ($kelasTerisiPercentage < 50) {
-            $kelasTerisiPercentage = 90; // Presentation fallback
-        }
+        $kelasTerisiPercentage = $totalJadwalToday > 0 
+            ? min(100, round(($totalJurnalHariIni / $totalJadwalToday) * 100)) 
+            : 0;
 
-        // 3. Table 1: Monitoring Jurnal Mengajar Hari Ini
-        $monitoringJurnalToday = JurnalMengajar::with(['jadwal.guru', 'jadwal.mapel', 'jadwal.kelas', 'jadwal.jamMulai', 'jadwal.jamSelesai', 'guruPengganti'])
-            ->whereDate('tanggal', $todayDate)
-            ->orderBy('id_jurnal', 'desc')
-            ->limit(5)
-            ->get();
+        // 3. Table 1: Monitoring Jurnal Mengajar Hari Ini (Riil Database)
+        $monitoringJurnalToday = JurnalMengajar::with([
+            'jadwal.guru', 
+            'jadwal.mapel', 
+            'jadwal.kelas', 
+            'jadwal.jamMulai', 
+            'jadwal.jamSelesai', 
+            'guruPengganti'
+        ])
+        ->whereDate('tanggal', $todayDate)
+        ->orderBy('id_jurnal', 'desc')
+        ->limit(6)
+        ->get();
 
-        if ($monitoringJurnalToday->isEmpty()) {
-            // Mock dataset jika jurnal belum diisi hari ini
-            $monitoringJurnalToday = collect([
-                (object)[
-                    'jam' => '07.00 - 08.30',
-                    'guru_nama' => 'Pak Budi Santoso, S.Pd',
-                    'mapel_nama' => 'Matematika',
-                    'kelas_nama' => 'XI RPL 1',
-                    'status_teks' => 'Terisi',
-                ],
-                (object)[
-                    'jam' => '08.00 - 09.30',
-                    'guru_nama' => 'Rina Melati, S.Pd',
-                    'mapel_nama' => 'Bahasa Indonesia',
-                    'kelas_nama' => 'XI RPL 2',
-                    'status_teks' => 'Terisi',
-                ],
-                (object)[
-                    'jam' => '09.30 - 10.30',
-                    'guru_nama' => 'Arif Hidayat, S.Pd',
-                    'mapel_nama' => 'PJOK',
-                    'kelas_nama' => 'X TKJ 2',
-                    'status_teks' => 'Terisi',
-                ],
-                (object)[
-                    'jam' => '10.30 - 12.00',
-                    'guru_nama' => 'Dewi Lestari, S.Pd',
-                    'mapel_nama' => 'Fisika',
-                    'kelas_nama' => 'XI TKI 1',
-                    'status_teks' => 'Terisi',
-                ],
-                (object)[
-                    'jam' => '12.30 - 14.00',
-                    'guru_nama' => 'Yusuf Amar, S.Pd',
-                    'mapel_nama' => 'Bahasa Inggris',
-                    'kelas_nama' => 'XI TKJ 1',
-                    'status_teks' => 'Terisi',
-                ],
-            ]);
-        }
-
-        // 4. Table 2: Penugasan Guru Pengganti Hari Ini
-        $penugasanToday = PenugasanGuruPengganti::with(['guruTidakHadir.mapel', 'guruPengganti', 'kelas', 'jadwal'])
-            ->whereDate('tanggal', $todayDate)
-            ->where('status', 'aktif')
-            ->orderBy('id_penugasan', 'desc')
-            ->get();
-
-        if ($penugasanToday->isEmpty()) {
-            $penugasanToday = collect([
-                (object)[
-                    'id_penugasan' => 1,
-                    'guru_tidak_hadir_nama' => 'Bu Rina Melati',
-                    'mapel_nama' => 'Bahasa Indonesia',
-                    'guru_pengganti_nama' => 'Pak Andi Pratama',
-                    'kelas_nama' => 'XI RPL 1',
-                    'jam' => '08.00 - 09.30',
-                ],
-                (object)[
-                    'id_penugasan' => 2,
-                    'guru_tidak_hadir_nama' => 'Pak Dedi Kurnia',
-                    'mapel_nama' => 'Kimia',
-                    'guru_pengganti_nama' => 'Bu Sinta Ayu',
-                    'kelas_nama' => 'X TKI 2',
-                    'jam' => '10.30 - 12.00',
-                ],
-                (object)[
-                    'id_penugasan' => 3,
-                    'guru_tidak_hadir_nama' => 'Bu Lilis Suryani',
-                    'mapel_nama' => 'Seni Budaya',
-                    'guru_pengganti_nama' => 'Pak Agus Setiawan',
-                    'kelas_nama' => 'X RPL 1',
-                    'jam' => '12.30 - 14.00',
-                ],
-                (object)[
-                    'id_penugasan' => 4,
-                    'guru_tidak_hadir_nama' => 'Pak Joko Susilo',
-                    'mapel_nama' => 'Informatika',
-                    'guru_pengganti_nama' => 'Bu Yuniarti',
-                    'kelas_nama' => 'XI TKJ 1',
-                    'jam' => '14.00 - 15.30',
-                ],
-            ]);
-        }
+        // 4. Table 2: Penugasan Guru Pengganti Hari Ini (Riil Database)
+        $penugasanToday = PenugasanGuruPengganti::with([
+            'guruTidakHadir.mapel', 
+            'guruPengganti', 
+            'kelas', 
+            'jadwal.jamMulai', 
+            'jadwal.jamSelesai'
+        ])
+        ->whereDate('tanggal', $todayDate)
+        ->where('status', 'aktif')
+        ->orderBy('id_penugasan', 'desc')
+        ->limit(6)
+        ->get();
 
         // 5. Widget Timeline Jadwal Hari Ini
-        $timelineJadwal = $jadwalsToday->take(4);
+        $timelineJadwal = $jadwalsToday->take(6);
+        foreach ($timelineJadwal as $jItem) {
+            $jItem->sudah_diisi = JurnalMengajar::where('id_jadwal', $jItem->id_jadwal)
+                ->whereDate('tanggal', $todayDate)
+                ->exists();
+        }
 
-        // 6. Widget Chart Jurnal Mingguan (Senin - Jumat)
+        // 6. Widget Chart Jurnal Mingguan (Senin - Jumat) dari Database Riil
+        $startOfWeek = $now->copy()->startOfWeek(Carbon::MONDAY)->toDateString();
+        $endOfWeek   = $now->copy()->endOfWeek(Carbon::FRIDAY)->toDateString();
+
+        $jurnalsByDay = JurnalMengajar::whereBetween('tanggal', [$startOfWeek, $endOfWeek])
+            ->selectRaw('DATE(tanggal) as tgl, COUNT(*) as aggregate')
+            ->groupBy('tgl')
+            ->pluck('aggregate', 'tgl')
+            ->toArray();
+
+        $seninDate  = $now->copy()->startOfWeek(Carbon::MONDAY)->toDateString();
+        $selasaDate = $now->copy()->startOfWeek(Carbon::MONDAY)->addDays(1)->toDateString();
+        $rabuDate   = $now->copy()->startOfWeek(Carbon::MONDAY)->addDays(2)->toDateString();
+        $kamisDate  = $now->copy()->startOfWeek(Carbon::MONDAY)->addDays(3)->toDateString();
+        $jumatDate  = $now->copy()->startOfWeek(Carbon::MONDAY)->addDays(4)->toDateString();
+
         $jurnalMingguan = [
-            'senin' => 32,
-            'selasa' => 45,
-            'rabu' => 50,
-            'kamis' => 38,
-            'jumat' => 46,
+            'senin'  => $jurnalsByDay[$seninDate] ?? 0,
+            'selasa' => $jurnalsByDay[$selasaDate] ?? 0,
+            'rabu'   => $jurnalsByDay[$rabuDate] ?? 0,
+            'kamis'  => $jurnalsByDay[$kamisDate] ?? 0,
+            'jumat'  => $jurnalsByDay[$jumatDate] ?? 0,
         ];
 
-        // 7. Widget Pengumuman List
-        $pengumumanList = Pengumuman::orderBy('tanggal', 'desc')->limit(3)->get();
-        if ($pengumumanList->isEmpty()) {
-            $pengumumanList = collect([
-                (object)[
-                    'id_pengumuman' => 1,
-                    'judul' => 'Rapat Guru akan dilaksanakan hari ini pukul 13.00 WIB di Ruang Guru.',
-                    'tanggal_formatted' => '22 Agustus 2026 | 08.00',
-                    'icon' => 'fa-bell',
-                ],
-                (object)[
-                    'id_pengumuman' => 2,
-                    'judul' => 'Seluruh jurnal mengajar harap diinput sebelum pukul 15.00 WIB.',
-                    'tanggal_formatted' => '22 Agustus 2026 | 07.45',
-                    'icon' => 'fa-file-lines',
-                ],
-                (object)[
-                    'id_pengumuman' => 3,
-                    'judul' => 'Pastikan penugasan guru pengganti sudah sesuai jadwal.',
-                    'tanggal_formatted' => '22 Agustus 2026 | 07.30',
-                    'icon' => 'fa-circle-info',
-                ],
-            ]);
+        // Jika minggu ini belum ada jurnal, hitung akumulasi jurnal per hari dalam data riil
+        if (max(array_values($jurnalMingguan)) === 0) {
+            $recentDayCounts = JurnalMengajar::selectRaw('DAYNAME(tanggal) as day_name, COUNT(*) as aggregate')
+                ->groupBy('day_name')
+                ->pluck('aggregate', 'day_name')
+                ->toArray();
+
+            $jurnalMingguan = [
+                'senin'  => $recentDayCounts['Monday'] ?? 0,
+                'selasa' => $recentDayCounts['Tuesday'] ?? 0,
+                'rabu'   => $recentDayCounts['Wednesday'] ?? 0,
+                'kamis'  => $recentDayCounts['Thursday'] ?? 0,
+                'jumat'  => $recentDayCounts['Friday'] ?? 0,
+            ];
         }
+
+        // 7. Widget Pengumuman List Riil
+        $pengumumanList = Pengumuman::where('status', 'aktif')
+            ->orWhereNull('status')
+            ->orderBy('tanggal', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->limit(4)
+            ->get();
+
+        // 8. Verifikasi Harian Guru Piket & Jam Selesai KBM
+        $isJumat = (strtolower(trim($hariIni)) === 'jumat');
+        $jamSelesaiSekolah = $isJumat ? '15:35' : '15:00';
+        $isJamSekolahSelesai = ($now->format('H:i') >= $jamSelesaiSekolah);
+        $verifikasiHariIni = VerifikasiJurnalPiket::where('tanggal', $todayDate)
+            ->where('status', 'terverifikasi')
+            ->first();
 
         return view('guru_piket.dashboard', compact(
             'hariIni',
             'todayDate',
             'totalJurnalHariIni',
+            'totalJadwalToday',
             'guruTidakHadirCount',
             'guruPenggantiCount',
             'kelasTerisiPercentage',
@@ -233,7 +190,10 @@ class GuruPiketController extends Controller
             'penugasanToday',
             'timelineJadwal',
             'jurnalMingguan',
-            'pengumumanList'
+            'pengumumanList',
+            'jamSelesaiSekolah',
+            'isJamSekolahSelesai',
+            'verifikasiHariIni'
         ));
     }
 
@@ -242,19 +202,39 @@ class GuruPiketController extends Controller
      */
     public function jurnalMengajar(Request $request)
     {
-        $todayDate = Carbon::now('Asia/Jakarta')->toDateString();
-        
+        $now = Carbon::now('Asia/Jakarta');
+        $todayDate = $now->toDateString();
+
         $search = $request->input('q');
-        $tglMulai = $request->input('tgl_mulai', '2026-08-01');
-        $tglSelesai = $request->input('tgl_selesai', $todayDate);
-        $idGuruFilter = $request->input('id_guru');
+
+        // Filter tanggal: default ke hari ini jika tidak ditentukan
+        // Jika user secara sengaja mengirim ?tanggal=kosong, tampilkan semua
+        if ($request->has('tanggal')) {
+            $tanggalFilter = $request->input('tanggal');
+        } else {
+            $tanggalFilter = $todayDate;
+        }
+
+        $idGuruFilter  = $request->input('id_guru');
         $idKelasFilter = $request->input('id_kelas');
         $idMapelFilter = $request->input('id_mapel');
+        $statusFilter  = $request->input('status'); // 'terlaksana', 'belum', 'semua'
 
-        $query = JurnalMengajar::with(['jadwal.guru', 'jadwal.mapel', 'jadwal.kelas', 'jadwal.ruangan', 'guruPengganti']);
+        // Query riil jurnal mengajar
+        $query = JurnalMengajar::with([
+            'jadwal.guru',
+            'jadwal.mapel',
+            'jadwal.kelas',
+            'jadwal.ruangan',
+            'jadwal.jamMulai',
+            'jadwal.jamSelesai',
+            'guruPengganti',
+            'verifikasiPiket.guru',
+            'detailKetidakhadiran.siswa'
+        ]);
 
-        if ($tglMulai && $tglSelesai) {
-            $query->whereBetween('tanggal', [$tglMulai, $tglSelesai]);
+        if (!empty($tanggalFilter)) {
+            $query->whereDate('tanggal', $tanggalFilter);
         }
 
         if ($idKelasFilter) {
@@ -264,8 +244,10 @@ class GuruPiketController extends Controller
         }
 
         if ($idGuruFilter) {
-            $query->whereHas('jadwal', function($q) use ($idGuruFilter) {
-                $q->where('id_guru', $idGuruFilter);
+            $query->where(function($q) use ($idGuruFilter) {
+                $q->whereHas('jadwal', function($qG) use ($idGuruFilter) {
+                    $qG->where('id_guru', $idGuruFilter);
+                })->orWhere('id_guru_pengganti', $idGuruFilter);
             });
         }
 
@@ -275,9 +257,16 @@ class GuruPiketController extends Controller
             });
         }
 
+        if ($statusFilter === 'terlaksana') {
+            $query->where('status_kehadiran_guru', 'Hadir');
+        } elseif ($statusFilter === 'belum') {
+            $query->where('status_kehadiran_guru', '!=', 'Hadir');
+        }
+
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('materi', 'like', "%{$search}%")
+                  ->orWhere('catatan', 'like', "%{$search}%")
                   ->orWhereHas('jadwal.guru', function($qG) use ($search) {
                       $qG->where('nama_guru', 'like', "%{$search}%");
                   })
@@ -286,102 +275,106 @@ class GuruPiketController extends Controller
                   })
                   ->orWhereHas('jadwal.kelas', function($qK) use ($search) {
                       $qK->where('nama_kelas', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('guruPengganti', function($qP) use ($search) {
+                      $qP->where('nama_guru', 'like', "%{$search}%");
                   });
             });
         }
 
-        $jurnals = $query->orderBy('id_jurnal', 'desc')->get();
+        // Urutkan tanggal terbaru & sesi KBM
+        $jurnals = $query->orderBy('tanggal', 'desc')
+                         ->orderBy('id_jurnal', 'desc')
+                         ->paginate(15)
+                         ->withQueryString();
 
-        // 4 Stat Cards calculation
-        $totalPertemuan = max($jurnals->count(), 28);
-        $terlaksana = max($jurnals->where('status_kehadiran_guru', 'Hadir')->count(), 24);
-        $belumTerlaksana = max($totalPertemuan - $terlaksana, 4);
-        $pctBelum = round(($belumTerlaksana / max($totalPertemuan, 1)) * 100, 2);
-
-        $guruAktif = max($jurnals->pluck('jadwal.id_guru')->filter()->unique()->count(), 12);
-
-        $stats = [
-            'totalPertemuan' => $totalPertemuan,
-            'terlaksana' => $terlaksana,
-            'belumTerlaksana' => $belumTerlaksana,
-            'pctBelum' => $pctBelum,
-            'guruAktif' => $guruAktif,
-        ];
-
-        if ($jurnals->isEmpty()) {
-            // Mock dataset sesuai screenshot jika DB kosong pada periode ini
-            $jurnals = collect([
-                (object)[
-                    'id_jurnal' => 101,
-                    'tanggal' => '2026-06-05',
-                    'tanggal_formatted_day' => '05',
-                    'tanggal_formatted_month' => 'JUN 2026',
-                    'mapel_nama' => 'Matematika',
-                    'kelas_nama' => 'X RPL 1',
-                    'guru_nama' => 'Budi Santoso, S.Pd',
-                    'materi' => 'Persamaan Linear Satu Variabel',
-                    'pertemuan_ke' => '12 / 36',
-                    'status_teks' => 'Terlaksana',
-                    'status_class' => 'badge-success',
-                ],
-                (object)[
-                    'id_jurnal' => 102,
-                    'tanggal' => '2026-06-05',
-                    'tanggal_formatted_day' => '05',
-                    'tanggal_formatted_month' => 'JUN 2026',
-                    'mapel_nama' => 'Bahasa Indonesia',
-                    'kelas_nama' => 'X RPL 1',
-                    'guru_nama' => 'Siti Nurhaliza, S.Pd',
-                    'materi' => 'Unsur Intrinsik dalam Cerita',
-                    'pertemuan_ke' => '10 / 36',
-                    'status_teks' => 'Terlaksana',
-                    'status_class' => 'badge-success',
-                ],
-                (object)[
-                    'id_jurnal' => 103,
-                    'tanggal' => '2026-06-04',
-                    'tanggal_formatted_day' => '04',
-                    'tanggal_formatted_month' => 'JUN 2026',
-                    'mapel_nama' => 'Informatika',
-                    'kelas_nama' => 'X RPL 1',
-                    'guru_nama' => 'Andi Wijaya, S.Kom',
-                    'materi' => 'Pengertian Algoritma dan Flowchart',
-                    'pertemuan_ke' => '8 / 36',
-                    'status_teks' => 'Terlaksana',
-                    'status_class' => 'badge-success',
-                ],
-                (object)[
-                    'id_jurnal' => 104,
-                    'tanggal' => '2026-06-04',
-                    'tanggal_formatted_day' => '04',
-                    'tanggal_formatted_month' => 'JUN 2026',
-                    'mapel_nama' => 'Bahasa Inggris',
-                    'kelas_nama' => 'X RPL 1',
-                    'guru_nama' => 'Dwi Lestari, S.Pd',
-                    'materi' => 'Generic Structure of Narrative Text',
-                    'pertemuan_ke' => '9 / 36',
-                    'status_teks' => 'Belum Terlaksana',
-                    'status_class' => 'badge-danger',
-                ],
-                (object)[
-                    'id_jurnal' => 105,
-                    'tanggal' => '2026-06-03',
-                    'tanggal_formatted_day' => '03',
-                    'tanggal_formatted_month' => 'JUN 2026',
-                    'mapel_nama' => 'PKn',
-                    'kelas_nama' => 'X RPL 1',
-                    'guru_nama' => 'Agus Setiawan, S.Pd',
-                    'materi' => 'Makna Sila ke - 1 Pancasila',
-                    'pertemuan_ke' => '7 / 36',
-                    'status_teks' => 'Terlaksana',
-                    'status_class' => 'badge-success',
-                ],
-            ]);
+        // Hitung 4 Kartu Statistik Dinamis dari Database Riil
+        $statsQuery = JurnalMengajar::query();
+        if (!empty($tanggalFilter)) {
+            $statsQuery->whereDate('tanggal', $tanggalFilter);
+            
+            // Hitung total sesi jadwal KBM pada hari tersebut
+            $targetCarbon = Carbon::parse($tanggalFilter);
+            $daysIndo = [
+                'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+                'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+            ];
+            $dayNameTarget = $daysIndo[$targetCarbon->format('l')] ?? '';
+            $totalJadwalHari = Jadwal::where('hari', $dayNameTarget)->count();
+        } else {
+            $totalJadwalHari = Jadwal::count();
         }
 
+        $totalPertemuan = $statsQuery->count();
+        $terlaksana = (clone $statsQuery)->where('status_kehadiran_guru', 'Hadir')->count();
+        
+        if (!empty($tanggalFilter)) {
+            $belumTerlaksana = max(0, $totalJadwalHari - $terlaksana);
+            $totalSesiAcuan = max($totalJadwalHari, $totalPertemuan);
+        } else {
+            $belumTerlaksana = (clone $statsQuery)->where('status_kehadiran_guru', '!=', 'Hadir')->count();
+            $totalSesiAcuan = max($totalPertemuan, 1);
+        }
+        $pctBelum = $totalSesiAcuan > 0 ? round(($belumTerlaksana / $totalSesiAcuan) * 100, 1) : 0;
+
+        // Guru Aktif
+        $guruAktif = (clone $statsQuery)->with('jadwal')->get()->pluck('jadwal.id_guru')->filter()->unique()->count();
+
+        $stats = [
+            'totalPertemuan'  => $totalPertemuan,
+            'terlaksana'      => $terlaksana,
+            'belumTerlaksana' => $belumTerlaksana,
+            'pctBelum'        => $pctBelum,
+            'guruAktif'       => $guruAktif,
+        ];
+
+        // TIME GATING UNTUK TANDA TANGAN VALIDASI GURU PIKET:
+        // Cek apakah jam pembelajaran sekolah pada tanggal yang dilihat telah berakhir
+        // Master Jam Pelajaran TU (ALOKASI JAM KBM BARU):
+        // - Senin-Kamis: Jam Ke-10 selesai pukul 15:00 WIB
+        // - Jumat: Jam Ke-13 selesai pukul 15:35 WIB
+        $dateForSignature = !empty($tanggalFilter) ? $tanggalFilter : $todayDate;
+        $carbonSigDate = Carbon::parse($dateForSignature);
+        $daysIndo = [
+            'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+        ];
+        $dayNameSig = $daysIndo[$carbonSigDate->format('l')] ?? 'Senin';
+        $isJumatSig = (strtolower(trim($dayNameSig)) === 'jumat');
+        $jamSelesaiSekolah = $isJumatSig ? '15:35' : '15:00';
+
+        $isPastDate   = ($dateForSignature < $todayDate);
+        $isTodayDate  = ($dateForSignature === $todayDate);
+        $isFutureDate = ($dateForSignature > $todayDate);
+
+        if ($isPastDate) {
+            $isJamSekolahSelesai = true; // Hari kemarin sudah pasti berakhir
+        } elseif ($isTodayDate) {
+            $currentTimeStr = $now->format('H:i');
+            $isJamSekolahSelesai = ($currentTimeStr >= $jamSelesaiSekolah);
+        } else {
+            $isJamSekolahSelesai = false; // Tanggal depan belum dimulai
+        }
+
+        // Cek data Tanda Tangan & Verifikasi Guru Piket pada tanggal tersebut
+        $verifikasiHariIni = VerifikasiJurnalPiket::with('guru')
+            ->where('tanggal', $dateForSignature)
+            ->where('status', 'terverifikasi')
+            ->first();
+
+        // Master lists untuk filter & form tanda tangan
         $guruList = Guru::orderBy('nama_guru')->get();
         $kelasList = Kelas::orderBy('nama_kelas')->get();
         $mapelList = Mapel::orderBy('nama_mapel')->get();
+
+        // Akun Guru Piket yang sedang login (default TTD)
+        $currentUser = Auth::user();
+        $defaultGuruPiket = null;
+        if ($currentUser && $currentUser->id_guru) {
+            $defaultGuruPiket = Guru::find($currentUser->id_guru);
+        } elseif ($currentUser && $currentUser->nip) {
+            $defaultGuruPiket = Guru::where('nip', $currentUser->nip)->first();
+        }
 
         return view('guru_piket.jurnal_mengajar', compact(
             'jurnals',
@@ -390,12 +383,248 @@ class GuruPiketController extends Controller
             'mapelList',
             'stats',
             'search',
-            'tglMulai',
-            'tglSelesai',
+            'tanggalFilter',
             'idGuruFilter',
             'idKelasFilter',
-            'idMapelFilter'
+            'idMapelFilter',
+            'statusFilter',
+            'dateForSignature',
+            'dayNameSig',
+            'jamSelesaiSekolah',
+            'isJamSekolahSelesai',
+            'isTodayDate',
+            'isPastDate',
+            'verifikasiHariIni',
+            'defaultGuruPiket'
         ));
+    }
+
+    /**
+     * Detail Lengkap Jurnal Mengajar (JSON API untuk Modal Detail)
+     */
+    public function detailJurnalMengajar($id)
+    {
+        $jurnal = JurnalMengajar::with([
+            'jadwal.kelas',
+            'jadwal.guru',
+            'jadwal.mapel',
+            'jadwal.ruangan',
+            'jadwal.jamMulai',
+            'jadwal.jamSelesai',
+            'guruPengganti',
+            'detailKetidakhadiran.siswa',
+            'verifikasiPiket.guru'
+        ])->findOrFail($id);
+
+        $tglCarbon = Carbon::parse($jurnal->tanggal);
+        $daysIndo = [
+            'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+        ];
+        $hariTeks = $daysIndo[$tglCarbon->format('l')] ?? '-';
+
+        // Hitung total siswa kelas
+        $totalSiswaKelas = 0;
+        if ($jurnal->jadwal && $jurnal->jadwal->id_kelas) {
+            $totalSiswaKelas = Siswa::where('id_kelas', $jurnal->jadwal->id_kelas)->count();
+        }
+
+        $absenList = $jurnal->detailKetidakhadiran->map(function($d) {
+            return [
+                'id_siswa'   => $d->id_siswa,
+                'nama_siswa' => $d->siswa->nama_siswa ?? 'Siswa',
+                'nisn'       => $d->siswa->nisn ?? ($d->siswa->nis ?? '-'),
+                'keterangan' => $d->keterangan ?? 'Izin',
+            ];
+        });
+
+        $sakitCount = $absenList->where('keterangan', 'Sakit')->count();
+        $izinCount  = $absenList->where('keterangan', 'Izin')->count();
+        $alpaCount  = $absenList->where('keterangan', 'Alpa')->count();
+        $totalAbsen = $absenList->count();
+        $hadirCount = max(0, $totalSiswaKelas - $totalAbsen);
+
+        // Verifikasi piket data
+        $jurnalDateStr = Carbon::parse($jurnal->tanggal)->toDateString();
+        $verif = VerifikasiJurnalPiket::where('tanggal', $jurnalDateStr)
+            ->where('status', 'terverifikasi')
+            ->first();
+        $verifData = null;
+        if ($verif) {
+            $verifData = [
+                'is_verified'      => true,
+                'nama_guru_piket'  => $verif->nama_guru_piket,
+                'nip_guru_piket'   => $verif->nip_guru_piket ?? '-',
+                'waktu_verifikasi' => Carbon::parse($verif->waktu_verifikasi)->translatedFormat('d F Y, H:i') . ' WIB',
+                'tanda_tangan'     => $verif->tanda_tangan,
+                'catatan'          => $verif->catatan ?? '-',
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'data'    => [
+                'id_jurnal'             => $jurnal->id_jurnal,
+                'tanggal'               => $jurnal->tanggal,
+                'hari'                  => $hariTeks,
+                'tanggal_formatted'     => $tglCarbon->translatedFormat('d F Y'),
+                'mapel'                 => $jurnal->jadwal->mapel->nama_mapel ?? ($jurnal->mapel_nama ?? '-'),
+                'kode_mapel'            => $jurnal->jadwal->mapel->kode_mapel ?? '-',
+                'kelas'                 => $jurnal->jadwal->kelas->nama_kelas ?? ($jurnal->kelas_nama ?? '-'),
+                'ruangan'               => $jurnal->jadwal->ruangan->nama_ruangan ?? '-',
+                'jam_ke'                => $jurnal->jadwal->jam_range ?? ($jurnal->jam_ke ?? '-'),
+                'waktu_kbm'             => ($jurnal->jadwal->waktu_mulai_effective ?? '07:00') . ' - ' . ($jurnal->jadwal->waktu_selesai_effective ?? '08:20') . ' WIB',
+                'jumlah_jp'             => ($jurnal->jadwal->jumlah_jp ?? 2) . ' JP',
+                'guru'                  => $jurnal->jadwal->guru->nama_guru ?? '-',
+                'nip_guru'              => $jurnal->jadwal->guru->nip ?? '-',
+                'is_guru_pengganti'     => $jurnal->id_guru_pengganti ? true : false,
+                'guru_pengganti'        => $jurnal->guruPengganti->nama_guru ?? null,
+                'materi'                => $jurnal->materi ?? '-',
+                'pertemuan_ke'          => $jurnal->pertemuan_ke ?? 'Ke-1',
+                'catatan'               => $jurnal->catatan ?? 'Tidak ada catatan khusus.',
+                'kondisi_kelas'         => $jurnal->kondisi_kelas ?? 'Kondusif',
+                'status_kehadiran_guru' => $jurnal->status_kehadiran_guru ?? 'Hadir',
+                'dokumentasi_url'       => $jurnal->dokumentasi_url,
+                'total_siswa'           => $totalSiswaKelas,
+                'hadir_count'           => $hadirCount,
+                'sakit_count'           => $sakitCount,
+                'izin_count'            => $izinCount,
+                'alpa_count'            => $alpaCount,
+                'daftar_absen'          => $absenList->values()->toArray(),
+                'verifikasi_piket'      => $verifData,
+            ]
+        ]);
+    }
+
+    /**
+     * Simpan Tanda Tangan & Validasi Harian Guru Piket
+     */
+    public function simpanTandaTanganPiket(Request $request)
+    {
+        $request->validate([
+            'tanggal'      => 'required|date',
+            'id_guru'      => 'required|exists:guru,id_guru',
+            'tanda_tangan' => 'required|string',
+            'catatan'      => 'nullable|string',
+        ]);
+
+        $now = Carbon::now('Asia/Jakarta');
+        $todayDate = $now->toDateString();
+        $tanggal = $request->tanggal;
+
+        // Cek ketentuan jam KBM sekolah selesai
+        $carbonDate = Carbon::parse($tanggal);
+        $daysIndo = [
+            'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+        ];
+        $dayName = $daysIndo[$carbonDate->format('l')] ?? 'Senin';
+        $isJumat = (strtolower(trim($dayName)) === 'jumat');
+        $jamSelesaiSekolah = $isJumat ? '15:35' : '15:00';
+
+        if ($tanggal === $todayDate && $now->format('H:i') < $jamSelesaiSekolah) {
+            return redirect()->back()->with('error', "Peringatan: Tanda tangan validasi jurnal harian oleh Guru Piket belum dapat dilakukan karena jam pembelajaran sekolah hari ini belum berakhir (KBM sekolah berakhir pukul {$jamSelesaiSekolah} WIB).");
+        }
+
+        if ($tanggal > $todayDate) {
+            return redirect()->back()->with('error', "Peringatan: Tidak dapat menandatangani jurnal mengajar untuk tanggal yang belum berlangsung.");
+        }
+
+        $guru = Guru::findOrFail($request->id_guru);
+
+        // Hitung total jurnal terkirim pada tanggal ini
+        $totalJurnal = JurnalMengajar::whereDate('tanggal', $tanggal)->count();
+
+        // Simpan atau update verifikasi tanda tangan (termasuk pemulihan jika pernah dibatalkan)
+        $verif = VerifikasiJurnalPiket::withTrashed()->whereDate('tanggal', $tanggal)->first();
+        if ($verif) {
+            if ($verif->trashed()) {
+                $verif->restore();
+            }
+            $verif->update([
+                'id_guru'                   => $guru->id_guru,
+                'nama_guru_piket'           => $guru->nama_guru,
+                'nip_guru_piket'            => $guru->nip,
+                'tanda_tangan'              => $request->tanda_tangan,
+                'catatan'                   => $request->catatan,
+                'waktu_verifikasi'          => $now,
+                'ip_address'                => $request->ip(),
+                'user_agent'                => $request->userAgent(),
+                'total_jurnal_diverifikasi' => $totalJurnal,
+                'status'                    => 'terverifikasi',
+            ]);
+        } else {
+            VerifikasiJurnalPiket::create([
+                'tanggal'                   => $tanggal,
+                'id_guru'                   => $guru->id_guru,
+                'nama_guru_piket'           => $guru->nama_guru,
+                'nip_guru_piket'            => $guru->nip,
+                'tanda_tangan'              => $request->tanda_tangan,
+                'catatan'                   => $request->catatan,
+                'waktu_verifikasi'          => $now,
+                'ip_address'                => $request->ip(),
+                'user_agent'                => $request->userAgent(),
+                'total_jurnal_diverifikasi' => $totalJurnal,
+                'status'                    => 'terverifikasi',
+            ]);
+        }
+
+        return redirect()->route('piket.jurnal-mengajar', ['tanggal' => $tanggal])
+            ->with('success', "Tanda tangan validasi dan verifikasi Guru Piket berhasil disimpan! Sebanyak {$totalJurnal} Jurnal Mengajar pada tanggal " . Carbon::parse($tanggal)->translatedFormat('d F Y') . " resmi divalidasi dan ditandatangani oleh {$guru->nama_guru}.");
+    }
+
+    /**
+     * Batalkan Tanda Tangan Guru Piket (jika perlu koreksi)
+     */
+    public function batalTandaTanganPiket(Request $request)
+    {
+        $request->validate([
+            'tanggal' => 'required|date'
+        ]);
+
+        $verif = VerifikasiJurnalPiket::whereDate('tanggal', $request->tanggal)->first();
+        if ($verif) {
+            $verif->forceDelete();
+            return redirect()->route('piket.jurnal-mengajar', ['tanggal' => $request->tanggal])
+                ->with('success', 'Status tanda tangan verifikasi jurnal harian untuk tanggal ' . Carbon::parse($request->tanggal)->translatedFormat('d F Y') . ' berhasil dibatalkan. Anda dapat menandatangani ulang kembali.');
+        }
+
+        return redirect()->back()->with('error', 'Data verifikasi tidak ditemukan.');
+    }
+
+    /**
+     * Cetak Rekap Jurnal Harian dengan Tanda Tangan Resmi Guru Piket
+     */
+    public function cetakRekapHarian(Request $request)
+    {
+        $tanggal = $request->input('tanggal', Carbon::now('Asia/Jakarta')->toDateString());
+        $jurnals = JurnalMengajar::with([
+            'jadwal.guru',
+            'jadwal.mapel',
+            'jadwal.kelas',
+            'jadwal.ruangan',
+            'jadwal.jamMulai',
+            'jadwal.jamSelesai',
+            'guruPengganti',
+            'detailKetidakhadiran.siswa'
+        ])
+        ->whereDate('tanggal', $tanggal)
+        ->orderBy('id_jurnal', 'asc')
+        ->get();
+
+        $verifikasi = VerifikasiJurnalPiket::with('guru')
+            ->where('tanggal', $tanggal)
+            ->where('status', 'terverifikasi')
+            ->first();
+
+        $tglCarbon = Carbon::parse($tanggal);
+        $daysIndo = [
+            'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+        ];
+        $hariTeks = $daysIndo[$tglCarbon->format('l')] ?? 'Senin';
+
+        return view('guru_piket.jurnal_mengajar_cetak', compact('jurnals', 'verifikasi', 'tanggal', 'hariTeks', 'tglCarbon'));
     }
 
     /**
@@ -413,23 +642,91 @@ class GuruPiketController extends Controller
             "Expires"             => "0"
         ];
 
-        $jurnals = JurnalMengajar::with(['jadwal.guru', 'jadwal.mapel', 'jadwal.kelas'])->limit(100)->get();
+        $tanggalFilter = $request->input('tanggal');
+        $idGuruFilter  = $request->input('id_guru');
+        $idKelasFilter = $request->input('id_kelas');
+        $idMapelFilter = $request->input('id_mapel');
+        $search        = $request->input('q');
+
+        $query = JurnalMengajar::with([
+            'jadwal.guru',
+            'jadwal.mapel',
+            'jadwal.kelas',
+            'jadwal.ruangan',
+            'jadwal.jamMulai',
+            'jadwal.jamSelesai',
+            'guruPengganti',
+            'verifikasiPiket.guru',
+            'detailKetidakhadiran'
+        ]);
+
+        if (!empty($tanggalFilter)) {
+            $query->whereDate('tanggal', $tanggalFilter);
+        }
+
+        if ($idKelasFilter) {
+            $query->whereHas('jadwal', fn($q) => $q->where('id_kelas', $idKelasFilter));
+        }
+
+        if ($idGuruFilter) {
+            $query->where(function($q) use ($idGuruFilter) {
+                $q->whereHas('jadwal', fn($qG) => $qG->where('id_guru', $idGuruFilter))
+                  ->orWhere('id_guru_pengganti', $idGuruFilter);
+            });
+        }
+
+        if ($idMapelFilter) {
+            $query->whereHas('jadwal', fn($q) => $q->where('id_mapel', $idMapelFilter));
+        }
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('materi', 'like', "%{$search}%")
+                  ->orWhereHas('jadwal.guru', fn($qG) => $qG->where('nama_guru', 'like', "%{$search}%"))
+                  ->orWhereHas('jadwal.mapel', fn($qM) => $qM->where('nama_mapel', 'like', "%{$search}%"))
+                  ->orWhereHas('jadwal.kelas', fn($qK) => $qK->where('nama_kelas', 'like', "%{$search}%"));
+            });
+        }
+
+        $jurnals = $query->orderBy('tanggal', 'desc')->get();
 
         $callback = function() use ($jurnals) {
             $file = fopen('php://output', 'w');
             fputs($file, "\xEF\xBB\xBF"); // UTF-8 BOM
-            fputcsv($file, ['No', 'Tanggal', 'Mata Pelajaran', 'Kelas', 'Guru', 'Materi', 'Pertemuan', 'Status']);
+            fputcsv($file, [
+                'No', 'Tanggal', 'Jam KBM', 'Waktu WIB', 'Kelas', 'Ruang', 'Mata Pelajaran',
+                'Guru Pengampu', 'Guru Pengganti', 'Materi Pembelajaran', 'Pertemuan Ke',
+                'Kondisi Kelas', 'Status Kehadiran Guru', 'Ketidakhadiran Siswa',
+                'Status Verifikasi Piket', 'Guru Piket Pengesah', 'Waktu Verifikasi'
+            ]);
 
             foreach ($jurnals as $index => $j) {
+                $guruPengampu = $j->jadwal->guru->nama_guru ?? '-';
+                $guruPengganti = $j->guruPengganti->nama_guru ?? '-';
+                $verif = $j->verifikasiPiket;
+                $isVerif = ($verif && $verif->status === 'terverifikasi');
+
+                $absenCount = $j->detailKetidakhadiran->count();
+                $ketAbsen = $absenCount > 0 ? "{$absenCount} Siswa Absen" : "Semua Siswa Hadir";
+
                 fputcsv($file, [
                     $index + 1,
                     $j->tanggal,
-                    $j->jadwal->mapel->nama_mapel ?? '-',
+                    $j->jadwal->jam_range ?? '-',
+                    ($j->jadwal->waktu_mulai_effective ?? '07:00') . ' - ' . ($j->jadwal->waktu_selesai_effective ?? '08:20'),
                     $j->jadwal->kelas->nama_kelas ?? '-',
-                    $j->jadwal->guru->nama_guru ?? '-',
+                    $j->jadwal->ruangan->nama_ruangan ?? '-',
+                    $j->jadwal->mapel->nama_mapel ?? '-',
+                    $guruPengampu,
+                    $guruPengganti !== '-' ? $guruPengganti : '-',
                     $j->materi ?? '-',
-                    $j->pertemuan_ke ?? '1 / 36',
-                    $j->status_kehadiran_guru ?? 'Terlaksana',
+                    $j->pertemuan_ke ?? 'Ke-1',
+                    $j->kondisi_kelas ?? 'Kondusif',
+                    $j->status_kehadiran_guru ?? 'Hadir',
+                    $ketAbsen,
+                    $isVerif ? 'Terverifikasi Piket' : 'Menunggu Verifikasi',
+                    $isVerif ? $verif->nama_guru_piket : '-',
+                    $isVerif ? Carbon::parse($verif->waktu_verifikasi)->format('Y-m-d H:i') : '-',
                 ]);
             }
             fclose($file);
@@ -465,6 +762,16 @@ class GuruPiketController extends Controller
 
         if ($statusFilter) {
             $query->where('status', strtolower($statusFilter));
+        }
+
+        if ($idMapelFilter) {
+            $query->where(function($q) use ($idMapelFilter) {
+                $q->whereHas('jadwal', function($qJ) use ($idMapelFilter) {
+                    $qJ->where('id_mapel', $idMapelFilter);
+                })->orWhereHas('guruTidakHadir', function($qG) use ($idMapelFilter) {
+                    $qG->where('id_mapel', $idMapelFilter);
+                });
+            });
         }
 
         if ($search) {
@@ -503,24 +810,53 @@ class GuruPiketController extends Controller
         // Ambil data Master Jam Pelajaran dari database (Role TU / Admin)
         $jamPelajaranList = \App\Models\JamPelajaran::orderBy('id_jam')->get();
 
-        // Ambil data guru piket yang terdaftar di Halaman Guru Piket (Role TU - User role piket)
-        $piketUsers = \App\Models\User::whereIn('role', ['piket', 'guru_piket'])->get();
-        $piketUserGuruIds = $piketUsers->pluck('id_guru')->filter()->toArray();
-        $piketNips = $piketUsers->pluck('nip')->filter()->toArray();
-        $piketGuruIdsByNip = \App\Models\Guru::whereIn('nip', $piketNips)->pluck('id_guru')->toArray();
-        
-        $piketJurnalGuruIds = \App\Models\JurnalPiket::whereDate('tanggal', $todayDate)->pluck('id_guru')->filter()->toArray();
+        // Tentukan Target Tanggal Penugasan (Default Hari Ini)
+        $targetDate = $tanggalFilter ?: $todayDate;
+        $selectedGuruTidakHadirId = $request->input('id_guru_tidak_hadir', $request->input('id_guru_izin'));
 
-        $allPiketGuruIds = array_unique(array_merge($piketUserGuruIds, $piketGuruIdsByNip, $piketJurnalGuruIds));
+        $tglCarbon = Carbon::parse($targetDate);
+        $daysIndo = [
+            'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+        ];
+        $monthsIndo = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni',
+            7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+        $targetDayName = $daysIndo[$tglCarbon->format('l')] ?? '-';
+        $targetDateFormatted = $targetDayName . ', ' . $tglCarbon->format('d') . ' ' . ($monthsIndo[(int)$tglCarbon->format('m')] ?? '') . ' ' . $tglCarbon->format('Y');
+
+        // Ambil data guru piket yang terdaftar pada JadwalGuruPiket pada tanggal tersebut (Role Waka Kurikulum)
+        $piketRecords = \App\Models\JadwalGuruPiket::with(['guru.mapel'])
+            ->whereDate('tanggal', $targetDate)
+            ->orderBy('slot_ke')
+            ->get();
+
+        $piketGuruIds = [];
+        $piketSlotMap = [];
+        foreach ($piketRecords as $rec) {
+            if ($rec->guru) {
+                $piketGuruIds[] = $rec->guru->id_guru;
+                $piketSlotMap[$rec->guru->id_guru] = $rec->slot_ke;
+            }
+        }
+
+        // Fallback: Jika belum ada di JadwalGuruPiket, ambil user role piket
+        if (empty($piketGuruIds)) {
+            $piketUsers = \App\Models\User::whereIn('role', ['piket', 'guru_piket'])->get();
+            $piketUserGuruIds = $piketUsers->pluck('id_guru')->filter()->toArray();
+            $piketNips = $piketUsers->pluck('nip')->filter()->toArray();
+            $piketGuruIdsByNip = \App\Models\Guru::whereIn('nip', $piketNips)->pluck('id_guru')->toArray();
+            $piketGuruIds = array_unique(array_merge($piketUserGuruIds, $piketGuruIdsByNip));
+        }
 
         $guruList = Guru::with(['mapel', 'user'])
             ->where('nama_guru', '!=', 'Petugas Piket')
             ->orderBy('nama_guru')
             ->get()
-            ->map(function($g) use ($allPiketGuruIds, $piketNips) {
-                $g->is_piket_today = in_array($g->id_guru, $allPiketGuruIds) 
-                    || in_array($g->nip, $piketNips)
-                    || ($g->user && in_array($g->user->role, ['piket', 'guru_piket']));
+            ->map(function($g) use ($piketGuruIds, $piketSlotMap) {
+                $g->is_piket_today = in_array($g->id_guru, $piketGuruIds);
+                $g->slot_piket = $piketSlotMap[$g->id_guru] ?? 1;
                 return $g;
             });
 
@@ -528,9 +864,6 @@ class GuruPiketController extends Controller
         $guruList = $guruList->sortByDesc('is_piket_today')->values();
 
         // Data Guru Tidak Hadir (Khusus yang terdata di GuruIzin & TELAH DISETUJUI oleh Waka dan Kepala Sekolah)
-        $targetDate = $tanggalFilter ?: $todayDate;
-        $selectedGuruTidakHadirId = $request->input('id_guru_tidak_hadir', $request->input('id_guru_izin'));
-
         $approvedQuery = GuruIzin::with(['guru.mapel'])
             ->whereHas('guru', function($q) {
                 $q->where('nama_guru', '!=', 'Petugas Piket');
@@ -580,7 +913,10 @@ class GuruPiketController extends Controller
             'idKelasFilter',
             'idMapelFilter',
             'statusFilter',
-            'todayDate'
+            'todayDate',
+            'targetDate',
+            'targetDayName',
+            'targetDateFormatted'
         ));
     }
 
@@ -696,11 +1032,16 @@ class GuruPiketController extends Controller
     }
 
     /**
-     * Simpan Penugasan Guru Pengganti (Support Single & Sehari Penuh + Deteksi Bentrok)
+     * Simpan Penugasan Guru Pengganti (Support Single, Checklist Multi-Sesi, & Sehari Penuh + Deteksi Bentrok)
      */
     public function storeGuruPengganti(Request $request)
     {
         $isSehariPenuh = $request->has('sehari_penuh') && ($request->sehari_penuh == '1' || $request->sehari_penuh == 'on');
+        $selectedJadwalIds = $request->input('selected_jadwal_ids', []);
+        if (!is_array($selectedJadwalIds)) {
+            $selectedJadwalIds = array_filter(explode(',', $selectedJadwalIds));
+        }
+        $hasMultiJadwal = count($selectedJadwalIds) > 0;
 
         $rules = [
             'tanggal'             => 'required|date',
@@ -712,7 +1053,7 @@ class GuruPiketController extends Controller
             'file_tugas'          => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx,jpg,png,zip|max:10000',
         ];
 
-        if (!$isSehariPenuh) {
+        if (!$isSehariPenuh && !$hasMultiJadwal) {
             $rules['id_kelas']      = 'required|integer';
             $rules['jam_pelajaran'] = 'required|string';
         }
@@ -750,6 +1091,54 @@ class GuruPiketController extends Controller
                 if (!$tugasDititipkan)  $tugasDititipkan  = $guruIzin->tugas_dititipkan;
                 if (!$fileName && $guruIzin->file_tugas) $fileName = $guruIzin->file_tugas;
             }
+        }
+
+        // PROSES PENUGASAN MULTI-SESI / CHECKLIST JAM PELAJARAN
+        if ($hasMultiJadwal && !$isSehariPenuh) {
+            $jadwals = Jadwal::with(['kelas', 'mapel', 'jamMulai', 'jamSelesai'])
+                ->whereIn('id_jadwal', $selectedJadwalIds)
+                ->get();
+
+            if ($jadwals->isEmpty()) {
+                return redirect()->back()->withInput()->withErrors([
+                    'jam_pelajaran' => 'Sesi jadwal yang dipilih tidak valid!'
+                ]);
+            }
+
+            // Validasi bentrok untuk setiap jadwal yang dicentang sebelum simpan
+            foreach ($jadwals as $j) {
+                $jamStr = $j->jam_range_formatted;
+                $conflict = $this->checkPenugasanConflicts($request->id_guru_pengganti, $j->id_kelas, $request->tanggal, $jamStr);
+                if ($conflict) {
+                    return redirect()->back()->withInput()->withErrors([
+                        'id_guru_pengganti' => $conflict
+                    ]);
+                }
+            }
+
+            // Simpan seluruh sesi jadwal yang dicentang
+            $createdCount = 0;
+            foreach ($jadwals as $j) {
+                $jamStr = $j->jam_range_formatted;
+                PenugasanGuruPengganti::create([
+                    'tanggal'             => $request->tanggal,
+                    'id_jadwal'           => $j->id_jadwal,
+                    'id_guru_tidak_hadir' => $request->id_guru_tidak_hadir,
+                    'id_guru_pengganti'   => $request->id_guru_pengganti,
+                    'id_kelas'            => $j->id_kelas,
+                    'jam_pelajaran'       => $jamStr,
+                    'catatan'             => $request->catatan,
+                    'materi_dititipkan'   => $materiDititipkan,
+                    'tugas_dititipkan'    => $tugasDititipkan,
+                    'file_tugas'          => $fileName,
+                    'status'              => 'aktif',
+                    'id_petugas_piket'    => Auth::id(),
+                ]);
+                $createdCount++;
+            }
+
+            return redirect()->route('piket.guru-pengganti')
+                ->with('success', "Penugasan Guru Pengganti berhasil dibuat untuk {$createdCount} sesi jam pelajaran yang dipilih!");
         }
 
         // PROSES PENUGASAN SEHARI PENUH (OTOMATIS MASUKKAN SEMUA JAM & KELAS SESUAI JADWAL GURU)
@@ -1028,20 +1417,213 @@ class GuruPiketController extends Controller
     }
 
     /**
-     * Halaman Jadwal Hari Ini
+     * AJAX Endpoint: Ambil daftar Guru Piket & Guru Mengajar Lainnya berdasarkan Tanggal Penugasan
+     */
+    public function getPiketGuruByDate(Request $request)
+    {
+        $tanggal = $request->query('tanggal', Carbon::now('Asia/Jakarta')->toDateString());
+        
+        $tglCarbon = Carbon::parse($tanggal);
+        $daysIndo = [
+            'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+        ];
+        $monthsIndo = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni',
+            7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+        $hariTeks = $daysIndo[$tglCarbon->format('l')] ?? '-';
+        $formattedDate = $hariTeks . ', ' . $tglCarbon->format('d') . ' ' . ($monthsIndo[(int)$tglCarbon->format('m')] ?? '') . ' ' . $tglCarbon->format('Y');
+
+        // 1. Ambil data guru piket yang terdaftar pada JadwalGuruPiket pada tanggal tersebut (Role Waka Kurikulum)
+        $piketRecords = \App\Models\JadwalGuruPiket::with(['guru.mapel'])
+            ->whereDate('tanggal', $tanggal)
+            ->orderBy('slot_ke')
+            ->get();
+
+        $piketGuruIds = [];
+        $piketGurus = [];
+
+        foreach ($piketRecords as $rec) {
+            if ($rec->guru) {
+                $piketGuruIds[] = $rec->guru->id_guru;
+                $piketGurus[] = [
+                    'id_guru'    => $rec->guru->id_guru,
+                    'nama_guru'  => $rec->guru->nama_guru,
+                    'nip'        => $rec->guru->nip ?? '-',
+                    'mapel_nama' => $rec->guru->mapel->nama_mapel ?? 'Guru',
+                    'slot_ke'    => $rec->slot_ke,
+                ];
+            }
+        }
+
+        // Fallback: Jika belum ada di JadwalGuruPiket, ambil user ber-role piket
+        if (empty($piketGurus)) {
+            $piketUsers = \App\Models\User::whereIn('role', ['piket', 'guru_piket'])->get();
+            $piketUserGuruIds = $piketUsers->pluck('id_guru')->filter()->toArray();
+            $piketNips = $piketUsers->pluck('nip')->filter()->toArray();
+            $piketGuruIdsByNip = \App\Models\Guru::whereIn('nip', $piketNips)->pluck('id_guru')->toArray();
+            $fallbackPiketIds = array_unique(array_merge($piketUserGuruIds, $piketGuruIdsByNip));
+
+            if (!empty($fallbackPiketIds)) {
+                $fallbackGurus = Guru::with('mapel')->whereIn('id_guru', $fallbackPiketIds)->where('nama_guru', '!=', 'Petugas Piket')->get();
+                foreach ($fallbackGurus as $g) {
+                    $piketGuruIds[] = $g->id_guru;
+                    $piketGurus[] = [
+                        'id_guru'    => $g->id_guru,
+                        'nama_guru'  => $g->nama_guru,
+                        'nip'        => $g->nip ?? '-',
+                        'mapel_nama' => $g->mapel->nama_mapel ?? 'Guru',
+                        'slot_ke'    => 1,
+                    ];
+                }
+            }
+        }
+
+        // 2. Ambil seluruh data guru mengajar lainnya
+        $otherGurus = Guru::with('mapel')
+            ->whereNotIn('id_guru', $piketGuruIds)
+            ->where('nama_guru', '!=', 'Petugas Piket')
+            ->orderBy('nama_guru')
+            ->get()
+            ->map(function($g) {
+                return [
+                    'id_guru'    => $g->id_guru,
+                    'nama_guru'  => $g->nama_guru,
+                    'nip'        => $g->nip ?? '-',
+                    'mapel_nama' => $g->mapel->nama_mapel ?? 'Guru',
+                ];
+            });
+
+        return response()->json([
+            'success'        => true,
+            'tanggal'        => $tanggal,
+            'hari'           => $hariTeks,
+            'formatted_date' => $formattedDate,
+            'piket_gurus'    => $piketGurus,
+            'other_gurus'    => $otherGurus,
+        ]);
+    }
+
+    /**
+     * Halaman Jadwal Hari Ini (Monitoring Jadwal KBM Guru Piket)
      */
     public function jadwalHariIni(Request $request)
     {
-        $hariIni = $this->getHariIndo();
-        $hariFilter = $request->input('hari', $hariIni);
-        $todayDate = Carbon::now('Asia/Jakarta')->toDateString();
+        $now = Carbon::now('Asia/Jakarta');
+        $todayDate = $now->toDateString();
+        $currentTimeStr = $now->format('H:i');
 
-        $tanggalFilter = $request->input('tanggal', '2026-06-05');
+        // Filter tanggal: default ke hari ini
+        $tanggalFilter = $request->input('tanggal', $todayDate);
+        if (empty($tanggalFilter)) {
+            $tanggalFilter = $todayDate;
+        }
+
+        $carbonFilter = Carbon::parse($tanggalFilter);
+        $daysIndo = [
+            'Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'
+        ];
+        $hariFilter = $daysIndo[$carbonFilter->format('l')] ?? 'Senin';
+        $isToday = ($tanggalFilter === $todayDate);
+        $isPast = ($tanggalFilter < $todayDate);
+        $isFuture = ($tanggalFilter > $todayDate);
+
         $idKelasFilter = $request->input('id_kelas');
         $idMapelFilter = $request->input('id_mapel');
+        $idGuruFilter  = $request->input('id_guru');
+        $statusFilter  = $request->input('status'); // 'berlangsung', 'selesai', 'belum'
+        $search        = $request->input('q');
 
-        $query = Jadwal::with(['kelas', 'mapel', 'guru', 'ruangan', 'jamMulai', 'jamSelesai'])
-            ->where('hari', ucfirst($hariFilter));
+        // Penugasan Guru Pengganti pada tanggal terpilih
+        $penugasanMap = PenugasanGuruPengganti::with('guruPengganti')
+            ->whereDate('tanggal', $tanggalFilter)
+            ->get()
+            ->keyBy('id_jadwal');
+
+        // Query seluruh jadwal pada hari tersebut untuk perhitungan 4 stat cards & ringkasan per kelas
+        $allJadwalsHari = Jadwal::with(['kelas', 'mapel', 'guru', 'ruangan', 'jamMulai', 'jamSelesai', 'jurnalMengajars' => function($q) use ($tanggalFilter) {
+            $q->whereDate('tanggal', $tanggalFilter);
+        }])
+            ->where('hari', $hariFilter)
+            ->orderBy('id_jam_mulai', 'asc')
+            ->get();
+
+        // 4 Stat Cards Calculation
+        $totalJadwal = $allJadwalsHari->count();
+        $sedangBerlangsung = 0;
+        $sudahSelesai = 0;
+        $belumDimulai = 0;
+
+        foreach ($allJadwalsHari as $j) {
+            if ($isPast) {
+                $sudahSelesai++;
+            } elseif ($isFuture) {
+                $belumDimulai++;
+            } else {
+                if ($currentTimeStr >= $j->waktu_selesai_effective) {
+                    $sudahSelesai++;
+                } elseif ($currentTimeStr >= $j->waktu_mulai_effective) {
+                    $sedangBerlangsung++;
+                } else {
+                    $belumDimulai++;
+                }
+            }
+        }
+
+        $stats = [
+            'totalJadwal'       => $totalJadwal,
+            'sedangBerlangsung' => $sedangBerlangsung,
+            'sudahSelesai'      => $sudahSelesai,
+            'belumDimulai'      => $belumDimulai,
+        ];
+
+        // Ringkasan per Kelas (Data Riil)
+        $ringkasanPerKelas = Kelas::orderBy('nama_kelas')->get()->map(function($k) use ($allJadwalsHari, $isPast, $isFuture, $currentTimeStr) {
+            $kelasJadwals = $allJadwalsHari->where('id_kelas', $k->id_kelas);
+            $total = $kelasJadwals->count();
+            if ($total === 0) return null;
+
+            $sedang = 0; $selesai = 0; $belum = 0;
+            foreach ($kelasJadwals as $j) {
+                if ($isPast) {
+                    $selesai++;
+                } elseif ($isFuture) {
+                    $belum++;
+                } else {
+                    if ($currentTimeStr >= $j->waktu_selesai_effective) {
+                        $selesai++;
+                    } elseif ($currentTimeStr >= $j->waktu_mulai_effective) {
+                        $sedang++;
+                    } else {
+                        $belum++;
+                    }
+                }
+            }
+
+            return (object)[
+                'id_kelas'   => $k->id_kelas,
+                'nama_kelas' => $k->nama_kelas,
+                'total'      => $total,
+                'sedang'     => $sedang,
+                'selesai'    => $selesai,
+                'belum'      => $belum,
+            ];
+        })->filter()->values();
+
+        // Query Daftar Jadwal yang ditampilkan (dengan filter & search)
+        $query = Jadwal::with([
+            'kelas',
+            'mapel',
+            'guru',
+            'ruangan',
+            'jamMulai',
+            'jamSelesai',
+            'jurnalMengajars' => function($q) use ($tanggalFilter) {
+                $q->whereDate('tanggal', $tanggalFilter);
+            }
+        ])->where('hari', $hariFilter);
 
         if ($idKelasFilter) {
             $query->where('id_kelas', $idKelasFilter);
@@ -1051,231 +1633,471 @@ class GuruPiketController extends Controller
             $query->where('id_mapel', $idMapelFilter);
         }
 
-        $jadwals = $query->orderBy('id_jam_mulai', 'asc')->get();
-
-        // Calculate 4 Stat Cards
-        $totalJadwal = max($jadwals->count(), 24);
-        $sedangBerlangsung = 6;
-        $sudahSelesai = 10;
-        $belumDimulai = 8;
-
-        $stats = [
-            'totalJadwal' => $totalJadwal,
-            'sedangBerlangsung' => $sedangBerlangsung,
-            'sudahSelesai' => $sudahSelesai,
-            'belumDimulai' => $belumDimulai,
-        ];
-
-        if ($jadwals->isEmpty()) {
-            // Mock dataset sesuai screenshot media_1787319645923.png
-            $jadwals = collect([
-                (object)[
-                    'id_jadwal' => 1,
-                    'jam_pelajaran_format' => '07.00 - 08.30',
-                    'mapel_nama' => 'Matematika',
-                    'kelas_nama' => 'Kelas XI RPL 1',
-                    'ruangan_nama' => 'Ruang 57',
-                    'guru_nama' => 'Budi Santoso, S.Pd',
-                    'status_teks' => 'Sedang Berlangsung',
-                    'status_class' => 'badge-green',
-                ],
-                (object)[
-                    'id_jadwal' => 2,
-                    'jam_pelajaran_format' => '08.39 - 10.00',
-                    'mapel_nama' => 'Bahasa Indonesia',
-                    'kelas_nama' => 'Kelas XI AKL 2',
-                    'ruangan_nama' => 'Ruang 02',
-                    'guru_nama' => 'Rina Melati, S.Pd',
-                    'status_teks' => 'Sedang Berlangsung',
-                    'status_class' => 'badge-green',
-                ],
-                (object)[
-                    'id_jadwal' => 3,
-                    'jam_pelajaran_format' => '10.15 - 11.45',
-                    'mapel_nama' => 'Informatika',
-                    'kelas_nama' => 'Kelas XI RPL 2',
-                    'ruangan_nama' => 'Ruang 58',
-                    'guru_nama' => 'Agus Setiawan, S.Pd',
-                    'status_teks' => 'Belum Dimulai',
-                    'status_class' => 'badge-orange',
-                ],
-                (object)[
-                    'id_jadwal' => 4,
-                    'jam_pelajaran_format' => '12.30 - 14.00',
-                    'mapel_nama' => 'PPKn',
-                    'kelas_nama' => 'Kelas X TKI 1',
-                    'ruangan_nama' => 'Ruang 18',
-                    'guru_nama' => 'Dewi Lestari, S.Pd',
-                    'status_teks' => 'Belum Dimulai',
-                    'status_class' => 'badge-purple',
-                ],
-            ]);
+        if ($idGuruFilter) {
+            $query->where('id_guru', $idGuruFilter);
         }
 
-        // Summary per class widget data
-        $ringkasanPerKelas = collect([
-            (object)['nama_kelas' => 'X RPL 1', 'total' => 5, 'sedang' => 2, 'selesai' => 2, 'belum' => 1],
-            (object)['nama_kelas' => 'XI RPL 1', 'total' => 6, 'sedang' => 2, 'selesai' => 3, 'belum' => 1],
-            (object)['nama_kelas' => 'XI AKL 2', 'total' => 4, 'sedang' => 1, 'selesai' => 2, 'belum' => 1],
-            (object)['nama_kelas' => 'X TKJ 1', 'total' => 5, 'sedang' => 1, 'selesai' => 2, 'belum' => 2],
-        ]);
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->whereHas('guru', function($qG) use ($search) {
+                    $qG->where('nama_guru', 'like', "%{$search}%");
+                })->orWhereHas('mapel', function($qM) use ($search) {
+                    $qM->where('nama_mapel', 'like', "%{$search}%");
+                })->orWhereHas('kelas', function($qK) use ($search) {
+                    $qK->where('nama_kelas', 'like', "%{$search}%");
+                })->orWhereHas('ruangan', function($qR) use ($search) {
+                    $qR->where('nama_ruangan', 'like', "%{$search}%");
+                });
+            });
+        }
 
+        $jadwals = $query->orderBy('id_jam_mulai', 'asc')
+            ->orderBy('id_kelas', 'asc')
+            ->paginate(15)
+            ->appends($request->query());
+
+        // Master lists untuk dropdown filter
         $kelasList = Kelas::orderBy('nama_kelas')->get();
         $mapelList = Mapel::orderBy('nama_mapel')->get();
+        $guruList  = Guru::orderBy('nama_guru')->get();
+
+        // Data Widget Guru Izin & Pengganti Hari Ini
+        $guruTidakHadirCount = GuruIzin::whereDate('tanggal_mulai', '<=', $tanggalFilter)
+            ->whereDate('tanggal_selesai', '>=', $tanggalFilter)
+            ->count();
+        $guruPenggantiCount = PenugasanGuruPengganti::whereDate('tanggal', $tanggalFilter)->count();
+        $guruIzinList = GuruIzin::with('guru')
+            ->whereDate('tanggal_mulai', '<=', $tanggalFilter)
+            ->whereDate('tanggal_selesai', '>=', $tanggalFilter)
+            ->limit(3)
+            ->get();
 
         return view('guru_piket.jadwal_hari_ini', compact(
             'jadwals',
             'ringkasanPerKelas',
             'kelasList',
             'mapelList',
+            'guruList',
             'stats',
             'tanggalFilter',
             'idKelasFilter',
             'idMapelFilter',
+            'idGuruFilter',
+            'statusFilter',
+            'search',
             'hariFilter',
-            'hariIni'
+            'isToday',
+            'isPast',
+            'isFuture',
+            'currentTimeStr',
+            'penugasanMap',
+            'guruTidakHadirCount',
+            'guruPenggantiCount',
+            'guruIzinList'
         ));
     }
 
     /**
      * Halaman Rekap Kehadiran Guru
      */
-    public function rekapKehadiran(Request $request)
+    /**
+     * Helper to process rekap kehadiran rows and stats
+     */
+    private function getRekapKehadiranData(Request $request)
     {
         $todayDate = Carbon::now('Asia/Jakarta')->toDateString();
-
-        $search = $request->input('q');
-        $tanggalFilter = $request->input('tanggal', '2026-06-05');
+        $tanggalFilter = $request->input('tanggal', $todayDate);
+        $search = trim($request->input('q', ''));
         $idGuruFilter = $request->input('id_guru');
         $idMapelFilter = $request->input('id_mapel');
+        $idKelasFilter = $request->input('id_kelas');
+        $statusFilter = $request->input('status_filter');
 
-        $query = JurnalMengajar::with(['jadwal.guru', 'jadwal.mapel', 'jadwal.kelas', 'guruPengganti']);
+        // Mapping hari dalam Bahasa Indonesia
+        $cDate = Carbon::parse($tanggalFilter);
+        $hariMap = [
+            'Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'
+        ];
+        $hariFilter = $hariMap[$cDate->format('l')] ?? 'Senin';
 
-        if ($tanggalFilter) {
-            $query->whereDate('tanggal', $tanggalFilter);
-        }
+        // 1. Ambil seluruh jadwal pada hari tersebut dari database
+        $allJadwals = Jadwal::with(['guru', 'mapel', 'kelas', 'ruangan', 'jamMulai', 'jamSelesai'])
+            ->where('hari', $hariFilter)
+            ->orderBy('id_jam_mulai', 'asc')
+            ->orderBy('id_kelas', 'asc')
+            ->get();
 
-        if ($idGuruFilter) {
-            $query->whereHas('jadwal', function($q) use ($idGuruFilter) {
-                $q->where('id_guru', $idGuruFilter);
+        // 2. Ambil data Guru Izin yang disetujui / aktif pada tanggal tersebut
+        $guruIzinList = GuruIzin::with('guru')
+            ->whereDate('tanggal_mulai', '<=', $tanggalFilter)
+            ->whereDate('tanggal_selesai', '>=', $tanggalFilter)
+            ->where(function($q) {
+                $q->where(function($sub) {
+                    $sub->whereIn('status_waka', ['approved', 'Disetujui'])
+                        ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                })
+                ->orWhereIn('status_final', ['approved', 'Disetujui'])
+                ->orWhereIn('status_piket', ['approved', 'Disetujui']);
+            })
+            ->get()
+            ->keyBy('id_guru');
+
+        // 3. Ambil data Penugasan Guru Pengganti aktif pada tanggal tersebut
+        $penugasanPenggantiList = PenugasanGuruPengganti::with(['guruPengganti', 'guruTidakHadir', 'jadwal'])
+            ->whereDate('tanggal', $tanggalFilter)
+            ->get();
+
+        // 4. Ambil data Jurnal Mengajar pada tanggal tersebut
+        $jurnalMengajarList = JurnalMengajar::with(['guruPengganti', 'jadwal.guru'])
+            ->whereDate('tanggal', $tanggalFilter)
+            ->get()
+            ->keyBy('id_jadwal');
+
+        // 5. Proses setiap baris jadwal dan kalkulasi statistik presensi
+        $processedRows = collect();
+        $counter = 1;
+
+        $statHadir = 0;
+        $statIzin = 0;
+        $statTidakHadir = 0;
+        $statDigantikan = 0;
+
+        foreach ($allJadwals as $jadwal) {
+            $penugasan = $penugasanPenggantiList->first(function($p) use ($jadwal) {
+                return ($p->id_jadwal && $p->id_jadwal == $jadwal->id_jadwal) || 
+                       ($p->id_guru_tidak_hadir == $jadwal->id_guru && $p->id_kelas == $jadwal->id_kelas);
             });
+            $guruIzin = $guruIzinList->get($jadwal->id_guru);
+            $jurnal = $jurnalMengajarList->get($jadwal->id_jadwal);
+
+            // Format jam & sesi
+            $jamKeText = 'Jam ke ' . ($jadwal->id_jam_mulai ?? 1) . ($jadwal->id_jam_selesai && $jadwal->id_jam_selesai != $jadwal->id_jam_mulai ? ' - ' . $jadwal->id_jam_selesai : '');
+            $waktuMulai = $jadwal->waktu_mulai_effective ?? '07:00';
+            $waktuSelesai = $jadwal->waktu_selesai_effective ?? '08:30';
+            $jamMengajarFormatted = substr($waktuMulai, 0, 5) . ' - ' . substr($waktuSelesai, 0, 5);
+
+            // Logika penentuan status kehadiran
+            $statusTeks = 'Hadir';
+            $statusKey = 'hadir';
+            $keterangan = '-';
+            $guruPenggantiNama = null;
+
+            if ($penugasan && $penugasan->guruPengganti) {
+                $statusTeks = 'Digantikan';
+                $statusKey = 'digantikan';
+                $guruPenggantiNama = $penugasan->guruPengganti->nama_guru;
+                $keterangan = 'Digantikan oleh: ' . $guruPenggantiNama . ($guruIzin ? ' (' . ($guruIzin->kategori_izin ?: 'Izin') . ')' : '');
+                $statDigantikan++;
+            } elseif ($jurnal && $jurnal->id_guru_pengganti && $jurnal->guruPengganti) {
+                $statusTeks = 'Digantikan';
+                $statusKey = 'digantikan';
+                $guruPenggantiNama = $jurnal->guruPengganti->nama_guru;
+                $keterangan = 'Digantikan oleh: ' . $guruPenggantiNama;
+                $statDigantikan++;
+            } elseif ($guruIzin) {
+                $kategori = strtolower($guruIzin->kategori_izin ?: $guruIzin->alasan ?: 'izin');
+                if (str_contains($kategori, 'sakit') || str_contains($kategori, 'alpa')) {
+                    $statusTeks = 'Tidak Hadir';
+                    $statusKey = 'tidak_hadir';
+                    $keterangan = ($guruIzin->kategori_izin ?: 'Sakit') . ($guruIzin->alasan ? ': ' . $guruIzin->alasan : '');
+                    $statTidakHadir++;
+                } else {
+                    $statusTeks = 'Izin';
+                    $statusKey = 'izin';
+                    $keterangan = ($guruIzin->kategori_izin ?: 'Izin') . ($guruIzin->alasan ? ': ' . $guruIzin->alasan : '');
+                    $statIzin++;
+                }
+            } elseif ($jurnal && $jurnal->status_kehadiran_guru && $jurnal->status_kehadiran_guru !== 'Hadir') {
+                if (in_array($jurnal->status_kehadiran_guru, ['Sakit', 'Tanpa Keterangan'])) {
+                    $statusTeks = 'Tidak Hadir';
+                    $statusKey = 'tidak_hadir';
+                    $keterangan = $jurnal->status_kehadiran_guru . ($jurnal->catatan_kbm ? ': ' . $jurnal->catatan_kbm : '');
+                    $statTidakHadir++;
+                } else {
+                    $statusTeks = 'Izin';
+                    $statusKey = 'izin';
+                    $keterangan = 'Izin' . ($jurnal->catatan_kbm ? ': ' . $jurnal->catatan_kbm : '');
+                    $statIzin++;
+                }
+            } else {
+                $statusTeks = 'Hadir';
+                $statusKey = 'hadir';
+                $keterangan = ($jurnal && $jurnal->catatan_kbm) ? $jurnal->catatan_kbm : '-';
+                $statHadir++;
+            }
+
+            $item = (object)[
+                'no'                   => $counter++,
+                'id_jadwal'            => $jadwal->id_jadwal,
+                'id_guru'              => $jadwal->id_guru,
+                'guru_nama'            => $jadwal->guru->nama_guru ?? 'Guru Pengampu',
+                'guru_nip'             => $jadwal->guru->nip ?? '-',
+                'id_mapel'             => $jadwal->id_mapel,
+                'mapel_nama'           => $jadwal->mapel->nama_mapel ?? 'Mata Pelajaran',
+                'id_kelas'             => $jadwal->id_kelas,
+                'kelas_nama'           => $jadwal->kelas->nama_kelas ?? 'Kelas',
+                'ruangan_nama'         => $jadwal->ruangan->nama_ruangan ?? 'Ruang Kelas',
+                'jam_ke'               => $jamKeText,
+                'jam'                  => $jamMengajarFormatted,
+                'status_teks'          => $statusTeks,
+                'status_key'           => $statusKey,
+                'keterangan'           => $keterangan,
+                'guru_pengganti_nama'  => $guruPenggantiNama,
+                'has_jurnal'           => $jurnal ? true : false,
+                'jurnal'               => $jurnal,
+                'materi'               => $jurnal->materi ?? ($penugasan->materi_dititipkan ?? '-'),
+            ];
+
+            $processedRows->push($item);
         }
-
-        if ($idMapelFilter) {
-            $query->whereHas('jadwal', function($q) use ($idMapelFilter) {
-                $q->where('id_mapel', $idMapelFilter);
-            });
-        }
-
-        if ($search) {
-            $query->whereHas('jadwal.guru', function($qG) use ($search) {
-                $qG->where('nama_guru', 'like', "%{$search}%");
-            });
-        }
-
-        $kehadiranList = $query->orderBy('id_jurnal', 'desc')->get();
-
-        // 4 Stat Cards
-        $hadirCount = 32;
-        $izinCount = 3;
-        $tidakHadirCount = 5;
-        $digantikanCount = 4;
 
         $stats = [
-            'hadir'      => $hadirCount,
-            'izin'       => $izinCount,
-            'tidakHadir' => $tidakHadirCount,
-            'digantikan' => $digantikanCount,
+            'total'      => $allJadwals->count(),
+            'hadir'      => $statHadir,
+            'izin'       => $statIzin,
+            'tidakHadir' => $statTidakHadir,
+            'digantikan' => $statDigantikan,
         ];
 
-        if ($kehadiranList->isEmpty()) {
-            // Mock dataset sesuai screenshot media_1787320563693.png
-            $kehadiranList = collect([
-                (object)[
-                    'no' => 1,
-                    'guru_nama' => 'Budi Santoso, S.Pd',
-                    'mapel_nama' => 'Bahasa Indonesia',
-                    'kelas_nama' => 'XI RPL 1',
-                    'jam' => '07.00 - 08.30',
-                    'status_teks' => 'Hadir',
-                    'status_class' => 'badge-success',
-                    'keterangan' => '-',
-                ],
-                (object)[
-                    'no' => 2,
-                    'guru_nama' => 'Rina Melati, S.Pd',
-                    'mapel_nama' => 'Matematika',
-                    'kelas_nama' => 'XI RPL 2',
-                    'jam' => '08.00 - 09.30',
-                    'status_teks' => 'Tidak Hadir',
-                    'status_class' => 'badge-danger',
-                    'keterangan' => 'Sakit',
-                ],
-                (object)[
-                    'no' => 3,
-                    'guru_nama' => 'Dewi Lestari, S.Pd',
-                    'mapel_nama' => 'PJOK',
-                    'kelas_nama' => 'X MP 1',
-                    'jam' => '10.30 - 12.00',
-                    'status_teks' => 'Izin',
-                    'status_class' => 'badge-warning',
-                    'keterangan' => 'Urusan Keluarga',
-                ],
-                (object)[
-                    'no' => 4,
-                    'guru_nama' => 'Arif Hidayat, S.Pd',
-                    'mapel_nama' => 'Bahasa Inggris',
-                    'kelas_nama' => 'X TKJ 2',
-                    'jam' => '09.30 - 10.30',
-                    'status_teks' => 'Digantikan',
-                    'status_class' => 'badge-info',
-                    'keterangan' => 'Oleh: Bagas P.',
-                ],
-                (object)[
-                    'no' => 5,
-                    'guru_nama' => 'Ahmad Faisal, S.Pd',
-                    'mapel_nama' => 'Bahasa Jawa',
-                    'kelas_nama' => 'X RPL 1',
-                    'jam' => '12.30 - 14.00',
-                    'status_teks' => 'Hadir',
-                    'status_class' => 'badge-success',
-                    'keterangan' => '-',
-                ],
-                (object)[
-                    'no' => 6,
-                    'guru_nama' => 'Lilis Suryani, S.Pd',
-                    'mapel_nama' => 'Informatika',
-                    'kelas_nama' => 'X RPL 2',
-                    'jam' => '07.00 - 08.30',
-                    'status_teks' => 'Hadir',
-                    'status_class' => 'badge-success',
-                    'keterangan' => '-',
-                ],
-            ]);
+        // Rekap Siswa Terkait pada Tanggal Tersebut
+        $qTelat  = trim($request->input('q_telat', ''));
+        $qDispen = trim($request->input('q_dispen', ''));
+        $qSurat  = trim($request->input('q_surat', ''));
+        $activeTab = $request->input('tab', 'guru');
+
+        $siswaTelatQuery = SiswaTelat::with(['siswa', 'kelas'])
+            ->whereDate('tanggal', $tanggalFilter);
+
+        $siswaDispenQuery = SiswaDispen::with(['siswa', 'kelas'])
+            ->whereDate('tanggal', $tanggalFilter);
+
+        $siswaSuratIzinQuery = SiswaSuratIzin::with(['siswa', 'kelas'])
+            ->whereDate('tanggal', '<=', $tanggalFilter)
+            ->where(function($q) use ($tanggalFilter) {
+                $q->where(function($sub) use ($tanggalFilter) {
+                    $sub->whereNotNull('tanggal_selesai')
+                        ->whereDate('tanggal_selesai', '>=', $tanggalFilter);
+                })
+                ->orWhere(function($sub) use ($tanggalFilter) {
+                    $sub->whereNull('tanggal_selesai')
+                        ->whereDate('tanggal', '>=', $tanggalFilter);
+                });
+            });
+
+        if ($idKelasFilter) {
+            $siswaTelatQuery->where(function($q) use ($idKelasFilter) {
+                $q->where('id_kelas', $idKelasFilter)->orWhereHas('siswa', function($s) use ($idKelasFilter) {
+                    $s->where('id_kelas', $idKelasFilter);
+                });
+            });
+            $siswaDispenQuery->where(function($q) use ($idKelasFilter) {
+                $q->where('id_kelas', $idKelasFilter)->orWhereHas('siswa', function($s) use ($idKelasFilter) {
+                    $s->where('id_kelas', $idKelasFilter);
+                });
+            });
+            $siswaSuratIzinQuery->where(function($q) use ($idKelasFilter) {
+                $q->where('id_kelas', $idKelasFilter)->orWhereHas('siswa', function($s) use ($idKelasFilter) {
+                    $s->where('id_kelas', $idKelasFilter);
+                });
+            });
         }
 
+        $searchTelat = $qTelat ?: ($activeTab === 'siswa' ? $search : '');
+        if ($searchTelat) {
+            $siswaTelatQuery->where(function($q) use ($searchTelat) {
+                $q->whereHas('siswa', function($s) use ($searchTelat) {
+                    $s->where('nama_siswa', 'LIKE', "%{$searchTelat}%")
+                      ->orWhere('nisn', 'LIKE', "%{$searchTelat}%")
+                      ->orWhere('nis', 'LIKE', "%{$searchTelat}%");
+                })
+                ->orWhere('alasan', 'LIKE', "%{$searchTelat}%")
+                ->orWhere('tindakan_hukuman', 'LIKE', "%{$searchTelat}%")
+                ->orWhere('jam_terlambat', 'LIKE', "%{$searchTelat}%");
+            });
+        }
+
+        $searchDispen = $qDispen ?: ($activeTab === 'siswa' ? $search : '');
+        if ($searchDispen) {
+            $siswaDispenQuery->where(function($q) use ($searchDispen) {
+                $q->whereHas('siswa', function($s) use ($searchDispen) {
+                    $s->where('nama_siswa', 'LIKE', "%{$searchDispen}%")
+                      ->orWhere('nisn', 'LIKE', "%{$searchDispen}%")
+                      ->orWhere('nis', 'LIKE', "%{$searchDispen}%");
+                })
+                ->orWhere('alasan', 'LIKE', "%{$searchDispen}%")
+                ->orWhere('tempat', 'LIKE', "%{$searchDispen}%")
+                ->orWhere('kode_dispen', 'LIKE', "%{$searchDispen}%");
+            });
+        }
+
+        $searchSurat = $qSurat ?: ($activeTab === 'siswa' ? $search : '');
+        if ($searchSurat) {
+            $siswaSuratIzinQuery->where(function($q) use ($searchSurat) {
+                $q->whereHas('siswa', function($s) use ($searchSurat) {
+                    $s->where('nama_siswa', 'LIKE', "%{$searchSurat}%")
+                      ->orWhere('nisn', 'LIKE', "%{$searchSurat}%")
+                      ->orWhere('nis', 'LIKE', "%{$searchSurat}%");
+                })
+                ->orWhere('kategori', 'LIKE', "%{$searchSurat}%")
+                ->orWhere('keterangan', 'LIKE', "%{$searchSurat}%");
+            });
+        }
+
+        $siswaTelatList = $siswaTelatQuery->orderBy('id_siswa_telat', 'desc')->get();
+        $siswaDispenList = $siswaDispenQuery->orderBy('id_siswa_dispen', 'desc')->get();
+        $siswaSuratIzinList = $siswaSuratIzinQuery->orderBy('id_surat_izin', 'desc')->get();
+
+        $siswaStats = [
+            'telat'     => $siswaTelatList->count(),
+            'dispen'    => $siswaDispenList->count(),
+            'suratIzin' => $siswaSuratIzinList->count(),
+        ];
+
+        // Verifikasi Tanda Tangan Guru Piket Hari Ini
+        $verifikasiPiket = VerifikasiJurnalPiket::whereDate('tanggal', $tanggalFilter)->first();
+
+        return [
+            'allRows'            => $processedRows,
+            'stats'              => $stats,
+            'siswaStats'         => $siswaStats,
+            'siswaTelatList'     => $siswaTelatList,
+            'siswaDispenList'    => $siswaDispenList,
+            'siswaSuratIzinList' => $siswaSuratIzinList,
+            'tanggalFilter'      => $tanggalFilter,
+            'hariFilter'         => $hariFilter,
+            'search'             => $search,
+            'qTelat'             => $qTelat,
+            'qDispen'            => $qDispen,
+            'qSurat'             => $qSurat,
+            'idGuruFilter'       => $idGuruFilter,
+            'idMapelFilter'      => $idMapelFilter,
+            'idKelasFilter'      => $idKelasFilter,
+            'statusFilter'       => $statusFilter,
+            'todayDate'          => $todayDate,
+            'verifikasiPiket'    => $verifikasiPiket,
+            'activeTab'          => $request->input('tab', 'guru'),
+        ];
+    }
+
+    /**
+     * Halaman Rekap Kehadiran Guru & Siswa
+     */
+    public function rekapKehadiran(Request $request)
+    {
+        $data = $this->getRekapKehadiranData($request);
+
+        $allRows = $data['allRows'];
+        $stats = $data['stats'];
+        $tanggalFilter = $data['tanggalFilter'];
+        $hariFilter = $data['hariFilter'];
+        $search = $data['search'];
+        $qTelat = $data['qTelat'];
+        $qDispen = $data['qDispen'];
+        $qSurat = $data['qSurat'];
+        $idGuruFilter = $data['idGuruFilter'];
+        $idMapelFilter = $data['idMapelFilter'];
+        $idKelasFilter = $data['idKelasFilter'];
+        $statusFilter = $data['statusFilter'];
+        $todayDate = $data['todayDate'];
+        $siswaStats = $data['siswaStats'];
+        $siswaTelatList = $data['siswaTelatList'];
+        $siswaDispenList = $data['siswaDispenList'];
+        $siswaSuratIzinList = $data['siswaSuratIzinList'];
+        $verifikasiPiket = $data['verifikasiPiket'];
+        $activeTab = $data['activeTab'];
+
+        // Filter koleksi berdasarkan input pencarian & dropdown filter
+        $filteredRows = $allRows->filter(function($row) use ($search, $idGuruFilter, $idMapelFilter, $idKelasFilter, $statusFilter) {
+            if ($idGuruFilter && $row->id_guru != $idGuruFilter) return false;
+            if ($idMapelFilter && $row->id_mapel != $idMapelFilter) return false;
+            if ($idKelasFilter && $row->id_kelas != $idKelasFilter) return false;
+            if ($statusFilter && $row->status_key != $statusFilter) return false;
+            if ($search) {
+                $needle = strtolower($search);
+                $haystack = strtolower($row->guru_nama . ' ' . $row->mapel_nama . ' ' . $row->kelas_nama . ' ' . $row->ruangan_nama . ' ' . $row->keterangan . ' ' . ($row->guru_pengganti_nama ?? ''));
+                if (!str_contains($haystack, $needle)) return false;
+            }
+            return true;
+        })->values();
+
+        // Pagination menggunakan LengthAwarePaginator (15 item per halaman)
+        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 15;
+        $currentItems = $filteredRows->slice(($currentPage - 1) * $perPage, $perPage)->all();
+
+        $kehadiranList = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentItems,
+            $filteredRows->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        // Master lists untuk dropdown filter
         $guruList  = Guru::orderBy('nama_guru')->get();
         $mapelList = Mapel::orderBy('nama_mapel')->get();
+        $kelasList = Kelas::orderBy('nama_kelas')->get();
 
         return view('guru_piket.rekap_kehadiran', compact(
             'kehadiranList',
             'guruList',
             'mapelList',
+            'kelasList',
             'stats',
+            'siswaStats',
+            'siswaTelatList',
+            'siswaDispenList',
+            'siswaSuratIzinList',
             'search',
+            'qTelat',
+            'qDispen',
+            'qSurat',
             'tanggalFilter',
+            'hariFilter',
             'idGuruFilter',
             'idMapelFilter',
-            'todayDate'
+            'idKelasFilter',
+            'statusFilter',
+            'todayDate',
+            'verifikasiPiket',
+            'activeTab'
         ));
     }
 
     /**
-     * Export Rekap Kehadiran to CSV
+     * Export Rekap Kehadiran to CSV (100% Real Database)
      */
     public function exportRekapKehadiranCsv(Request $request)
     {
-        $filename = "rekap_kehadiran_guru_" . date('Y-m-d_H-i') . ".csv";
+        $data = $this->getRekapKehadiranData($request);
+        $allRows = $data['allRows'];
+        $search = $data['search'];
+        $idGuruFilter = $data['idGuruFilter'];
+        $idMapelFilter = $data['idMapelFilter'];
+        $idKelasFilter = $data['idKelasFilter'];
+        $statusFilter = $data['statusFilter'];
+        $tanggalFilter = $data['tanggalFilter'];
+        $hariFilter = $data['hariFilter'];
+        $siswaTelatList = $data['siswaTelatList'];
+        $siswaDispenList = $data['siswaDispenList'];
+        $siswaSuratIzinList = $data['siswaSuratIzinList'];
+
+        // Terapkan filter yang sama
+        $filteredRows = $allRows->filter(function($row) use ($search, $idGuruFilter, $idMapelFilter, $idKelasFilter, $statusFilter) {
+            if ($idGuruFilter && $row->id_guru != $idGuruFilter) return false;
+            if ($idMapelFilter && $row->id_mapel != $idMapelFilter) return false;
+            if ($idKelasFilter && $row->id_kelas != $idKelasFilter) return false;
+            if ($statusFilter && $row->status_key != $statusFilter) return false;
+            if ($search) {
+                $needle = strtolower($search);
+                $haystack = strtolower($row->guru_nama . ' ' . $row->mapel_nama . ' ' . $row->kelas_nama . ' ' . $row->ruangan_nama . ' ' . $row->keterangan . ' ' . ($row->guru_pengganti_nama ?? ''));
+                if (!str_contains($haystack, $needle)) return false;
+            }
+            return true;
+        })->values();
+
+        $filename = "rekap_kehadiran_guru_dan_siswa_" . $tanggalFilter . "_" . date('His') . ".csv";
 
         $headers = [
             "Content-type"        => "text/csv; charset=UTF-8",
@@ -1285,23 +2107,78 @@ class GuruPiketController extends Controller
             "Expires"             => "0"
         ];
 
-        $callback = function() {
+        $callback = function() use ($filteredRows, $tanggalFilter, $hariFilter, $siswaTelatList, $siswaDispenList, $siswaSuratIzinList) {
             $file = fopen('php://output', 'w');
-            fputs($file, "\xEF\xBB\xBF");
-            fputcsv($file, ['No', 'Nama Guru', 'Mata Pelajaran', 'Kelas', 'Jam Mengajar', 'Status', 'Keterangan']);
+            fputs($file, "\xEF\xBB\xBF"); // UTF-8 BOM
+            fputcsv($file, ['REKAPITULASI KEHADIRAN GURU & SESI KBM — SMKN 1 BOYOLANGU']);
+            fputcsv($file, ['Tanggal', $tanggalFilter, 'Hari', $hariFilter]);
+            fputcsv($file, []);
+            fputcsv($file, ['BAGIAN 1: REKAP PRESENSI GURU & SESI KBM']);
+            fputcsv($file, ['No', 'Nama Guru', 'NIP', 'Mata Pelajaran', 'Kelas', 'Ruangan', 'Sesi Jam', 'Waktu Mengajar', 'Status Kehadiran', 'Guru Pengganti', 'Keterangan']);
 
-            $mockRows = [
-                [1, 'Budi Santoso, S.Pd', 'Bahasa Indonesia', 'XI RPL 1', '07.00 - 08.30', 'Hadir', '-'],
-                [2, 'Rina Melati, S.Pd', 'Matematika', 'XI RPL 2', '08.00 - 09.30', 'Tidak Hadir', 'Sakit'],
-                [3, 'Dewi Lestari, S.Pd', 'PJOK', 'X MP 1', '10.30 - 12.00', 'Izin', 'Urusan Keluarga'],
-                [4, 'Arif Hidayat, S.Pd', 'Bahasa Inggris', 'X TKJ 2', '09.30 - 10.30', 'Digantikan', 'Oleh: Bagas P.'],
-                [5, 'Ahmad Faisal, S.Pd', 'Bahasa Jawa', 'X RPL 1', '12.30 - 14.00', 'Hadir', '-'],
-                [6, 'Lilis Suryani, S.Pd', 'Informatika', 'X RPL 2', '07.00 - 08.30', 'Hadir', '-'],
-            ];
-
-            foreach ($mockRows as $r) {
-                fputcsv($file, $r);
+            $no = 1;
+            foreach ($filteredRows as $r) {
+                fputcsv($file, [
+                    $no++,
+                    $r->guru_nama,
+                    $r->guru_nip,
+                    $r->mapel_nama,
+                    $r->kelas_nama,
+                    $r->ruangan_nama,
+                    $r->jam_ke,
+                    $r->jam,
+                    $r->status_teks,
+                    $r->guru_pengganti_nama ?? '-',
+                    $r->keterangan,
+                ]);
             }
+
+            fputcsv($file, []);
+            fputcsv($file, ['BAGIAN 2: LOG SISWA TERLAMBAT']);
+            fputcsv($file, ['No', 'Nama Siswa', 'Kelas', 'Jam Masuk', 'Alasan Terlambat', 'Tindakan / Sanksi']);
+            $noS = 1;
+            foreach ($siswaTelatList as $st) {
+                fputcsv($file, [
+                    $noS++,
+                    $st->siswa->nama_siswa ?? 'Siswa',
+                    $st->kelas->nama_kelas ?? ($st->siswa->kelas->nama_kelas ?? '-'),
+                    $st->jam_masuk ?? '-',
+                    $st->alasan ?? '-',
+                    $st->tindakan ?? 'Diberi Izin Masuk'
+                ]);
+            }
+
+            fputcsv($file, []);
+            fputcsv($file, ['BAGIAN 3: LOG SISWA DISPENSASI']);
+            fputcsv($file, ['No', 'Nama Siswa', 'Kelas', 'Kegiatan Dispensasi', 'Waktu Dispensasi', 'Status Approval']);
+            $noD = 1;
+            foreach ($siswaDispenList as $sd) {
+                fputcsv($file, [
+                    $noD++,
+                    $sd->siswa->nama_siswa ?? 'Siswa',
+                    $sd->kelas->nama_kelas ?? ($sd->siswa->kelas->nama_kelas ?? '-'),
+                    $sd->alasan ?? ($sd->tempat ?? '-'),
+                    $sd->tanggal . ' (' . ($sd->jam_keluar ?? '07:00') . ' - ' . ($sd->jam_kembali ?? 'Selesai') . ')',
+                    $sd->status_waka ?? 'Approved'
+                ]);
+            }
+
+            fputcsv($file, []);
+            fputcsv($file, ['BAGIAN 4: LOG SURAT IZIN SISWA']);
+            fputcsv($file, ['No', 'Nama Siswa', 'Kelas', 'Kategori Izin', 'Rentang Tanggal', 'Keterangan', 'Status Verification']);
+            $noI = 1;
+            foreach ($siswaSuratIzinList as $si) {
+                fputcsv($file, [
+                    $noI++,
+                    $si->siswa->nama_siswa ?? 'Siswa',
+                    $si->kelas->nama_kelas ?? ($si->siswa->kelas->nama_kelas ?? '-'),
+                    $si->kategori ?? 'Izin',
+                    $si->rentang_tanggal_text,
+                    $si->keterangan ?? '-',
+                    $si->status ?? 'Terverifikasi'
+                ]);
+            }
+
             fclose($file);
         };
 
@@ -1309,21 +2186,62 @@ class GuruPiketController extends Controller
     }
 
     /**
-     * Cetak Rekap Kehadiran View
+     * Cetak Rekap Kehadiran View (100% Real Database)
      */
     public function printRekapKehadiran(Request $request)
     {
-        $todayDate = Carbon::now('Asia/Jakarta')->toDateString();
-        $kehadiranList = collect([
-            (object)['no' => 1, 'guru_nama' => 'Budi Santoso, S.Pd', 'mapel_nama' => 'Bahasa Indonesia', 'kelas_nama' => 'XI RPL 1', 'jam' => '07.00 - 08.30', 'status_teks' => 'Hadir', 'keterangan' => '-'],
-            (object)['no' => 2, 'guru_nama' => 'Rina Melati, S.Pd', 'mapel_nama' => 'Matematika', 'kelas_nama' => 'XI RPL 2', 'jam' => '08.00 - 09.30', 'status_teks' => 'Tidak Hadir', 'keterangan' => 'Sakit'],
-            (object)['no' => 3, 'guru_nama' => 'Dewi Lestari, S.Pd', 'mapel_nama' => 'PJOK', 'kelas_nama' => 'X MP 1', 'jam' => '10.30 - 12.00', 'status_teks' => 'Izin', 'keterangan' => 'Urusan Keluarga'],
-            (object)['no' => 4, 'guru_nama' => 'Arif Hidayat, S.Pd', 'mapel_nama' => 'Bahasa Inggris', 'kelas_nama' => 'X TKJ 2', 'jam' => '09.30 - 10.30', 'status_teks' => 'Digantikan', 'keterangan' => 'Oleh: Bagas P.'],
-            (object)['no' => 5, 'guru_nama' => 'Ahmad Faisal, S.Pd', 'mapel_nama' => 'Bahasa Jawa', 'kelas_nama' => 'X RPL 1', 'jam' => '12.30 - 14.00', 'status_teks' => 'Hadir', 'keterangan' => '-'],
-            (object)['no' => 6, 'guru_nama' => 'Lilis Suryani, S.Pd', 'mapel_nama' => 'Informatika', 'kelas_nama' => 'X RPL 2', 'jam' => '07.00 - 08.30', 'status_teks' => 'Hadir', 'keterangan' => '-'],
-        ]);
+        $data = $this->getRekapKehadiranData($request);
+        $allRows = $data['allRows'];
+        $stats = $data['stats'];
+        $search = $data['search'];
+        $idGuruFilter = $data['idGuruFilter'];
+        $idMapelFilter = $data['idMapelFilter'];
+        $idKelasFilter = $data['idKelasFilter'];
+        $statusFilter = $data['statusFilter'];
+        $tanggalFilter = $data['tanggalFilter'];
+        $hariFilter = $data['hariFilter'];
+        $todayDate = $data['todayDate'];
+        $siswaTelatList = $data['siswaTelatList'];
+        $siswaDispenList = $data['siswaDispenList'];
+        $siswaSuratIzinList = $data['siswaSuratIzinList'];
+        $siswaStats = $data['siswaStats'];
 
-        return view('guru_piket.rekap_kehadiran_print', compact('kehadiranList', 'todayDate'));
+        // Terapkan filter yang sama
+        $filteredRows = $allRows->filter(function($row) use ($search, $idGuruFilter, $idMapelFilter, $idKelasFilter, $statusFilter) {
+            if ($idGuruFilter && $row->id_guru != $idGuruFilter) return false;
+            if ($idMapelFilter && $row->id_mapel != $idMapelFilter) return false;
+            if ($idKelasFilter && $row->id_kelas != $idKelasFilter) return false;
+            if ($statusFilter && $row->status_key != $statusFilter) return false;
+            if ($search) {
+                $needle = strtolower($search);
+                $haystack = strtolower($row->guru_nama . ' ' . $row->mapel_nama . ' ' . $row->kelas_nama . ' ' . $row->ruangan_nama . ' ' . $row->keterangan . ' ' . ($row->guru_pengganti_nama ?? ''));
+                if (!str_contains($haystack, $needle)) return false;
+            }
+            return true;
+        })->values();
+
+        // Verifikasi Tanda Tangan Guru Piket
+        $verifikasiPiket = VerifikasiJurnalPiket::whereDate('tanggal', $tanggalFilter)->first();
+
+        // Petugas Piket aktif
+        $petugasPiketUser = auth()->user();
+        $petugasPiketNama = $verifikasiPiket->nama_guru_piket ?? ($petugasPiketUser->guru->nama_guru ?? ($petugasPiketUser->name ?? 'Petugas Piket'));
+        $petugasPiketNip  = $verifikasiPiket->nip_guru_piket ?? ($petugasPiketUser->nip ?? ($petugasPiketUser->guru->nip ?? '-'));
+
+        return view('guru_piket.rekap_kehadiran_print', [
+            'kehadiranList'      => $filteredRows,
+            'stats'              => $stats,
+            'siswaStats'         => $siswaStats,
+            'siswaTelatList'     => $siswaTelatList,
+            'siswaDispenList'    => $siswaDispenList,
+            'siswaSuratIzinList' => $siswaSuratIzinList,
+            'tanggalFilter'      => $tanggalFilter,
+            'hariFilter'         => $hariFilter,
+            'todayDate'          => $todayDate,
+            'verifikasiPiket'  => $verifikasiPiket,
+            'petugasPiketNama' => $petugasPiketNama,
+            'petugasPiketNip'  => $petugasPiketNip,
+        ]);
     }
 
     /**
@@ -1719,6 +2637,7 @@ class GuruPiketController extends Controller
                 'foto_surat'        => $fotoName,
                 'token_approval'    => $token,
                 'status_waka'       => 'pending',
+                'status_waka_sdm'   => 'pending',
                 'status_kepsek'     => 'pending',
                 'status_final'      => 'pending',
                 'is_pengajuan_guru' => 0,
@@ -1737,7 +2656,7 @@ class GuruPiketController extends Controller
         }
 
         $approvalUrl = url("/approval/guru-izin/{$token}");
-        $waMessage = "Assalamu'alaikum Wr. Wb. Bapak/Ibu Waka & Kepala Sekolah,\n\n"
+        $waMessage = "Assalamu'alaikum Wr. Wb. Bapak/Ibu Waka Kurikulum, Waka SDM & Kepala Sekolah,\n\n"
             . "Berikut pengajuan " . ($isCuti ? "CUTI / IZIN KHUSUS (> 3 HARI)" : "IZIN TIDAK HADIR") . " mengajar:\n"
             . "• Nama Guru: {$namaGuru}\n"
             . "• Tanggal Izin: {$tglFormatted} ({$durasi})\n"
@@ -1754,7 +2673,7 @@ class GuruPiketController extends Controller
         $waUrl = "https://api.whatsapp.com/send?text=" . rawurlencode($waMessage);
 
         return redirect()->route('piket.permintaan-izin')->with([
-            'success'      => 'Permintaan izin guru berhasil diisikan & diproses! Link persetujuan telah otomatis dibuat dan dikirim ke Waka & Kepsek.',
+            'success'      => 'Permintaan izin guru berhasil diisikan & diproses! Link persetujuan telah otomatis dibuat dan dikirim ke Waka Kurikulum, Waka SDM & Kepsek.',
             'approval_url' => $approvalUrl,
             'wa_url'       => $waUrl,
             'guru_nama'    => $namaGuru,
@@ -2205,11 +3124,19 @@ class GuruPiketController extends Controller
      */
     public function dispensasiSiswa(Request $request)
     {
-        $siswaList = Siswa::with('kelas')->orderBy('nama_siswa')->get();
-        $wakaList  = User::where('role', 'waka')
+        $siswaList = Siswa::with('kelas.jurusan')->orderBy('nama_siswa')->get();
+        $guruList  = Guru::orderBy('nama_guru')->get();
+        $wakaList  = User::where('role', 'waka_kesiswaan')
             ->where(function($q) {
                 $q->whereNull('status_verifikasi')->orWhere('status_verifikasi', 'verified');
             })->orderBy('name')->get();
+
+        if ($wakaList->isEmpty()) {
+            $wakaList = User::whereIn('role', ['waka_kesiswaan', 'waka'])
+                ->where(function($q) {
+                    $q->whereNull('status_verifikasi')->orWhere('status_verifikasi', 'verified');
+                })->orderBy('name')->get();
+        }
 
         $query = SiswaDispen::with(['siswa', 'kelas', 'wakaUser']);
 
@@ -2244,6 +3171,7 @@ class GuruPiketController extends Controller
 
         return view('guru_piket.dispensasi_siswa', compact(
             'siswaList',
+            'guruList',
             'wakaList',
             'dispenList',
             'totalPengajuan'
@@ -2262,6 +3190,7 @@ class GuruPiketController extends Controller
             'jam_keluar'           => 'required|string',
             'jam_kembali'          => 'required|string',
             'alasan'               => 'required|string|max:500',
+            'tempat'               => 'nullable|string|max:255',
             'foto_surat_dispen'    => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
             'foto_kartu_identitas' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:4096',
         ], [
@@ -2312,11 +3241,99 @@ class GuruPiketController extends Controller
             $fotoKartuPath = 'uploads/dispensasi/' . $nameKartu;
         }
 
+        // Simpan Foto Siswa Live dari Kamera Perangkat (Wajib Live)
+        $fotoSiswaLivePath = null;
+        if ($request->filled('foto_siswa_live') && str_contains($request->foto_siswa_live, 'data:image')) {
+            $liveDir = public_path('uploads/dispensasi/siswa');
+            if (!file_exists($liveDir)) {
+                mkdir($liveDir, 0755, true);
+            }
+            $dataUriParts = explode(',', $request->foto_siswa_live);
+            if (isset($dataUriParts[1])) {
+                $decoded = base64_decode($dataUriParts[1]);
+                $fn = 'siswa_live_' . time() . '_' . Str::random(6) . '.jpg';
+                file_put_contents($liveDir . '/' . $fn, $decoded);
+                $fotoSiswaLivePath = 'uploads/dispensasi/siswa/' . $fn;
+            }
+        }
+
+        $sigDir = public_path('uploads/dispensasi/signatures');
+        if (!file_exists($sigDir)) {
+            mkdir($sigDir, 0755, true);
+        }
+
+        $ttdSiswaPath = null;
+        if ($request->hasFile('ttd_siswa_file')) {
+            $f = $request->file('ttd_siswa_file');
+            $fn = 'ttd_siswa_' . time() . '_' . Str::random(6) . '.' . $f->getClientOriginalExtension();
+            $f->move($sigDir, $fn);
+            $ttdSiswaPath = 'uploads/dispensasi/signatures/' . $fn;
+        } elseif ($request->filled('ttd_siswa_data') && str_contains($request->ttd_siswa_data, 'data:image')) {
+            $dataUriParts = explode(',', $request->ttd_siswa_data);
+            if (isset($dataUriParts[1])) {
+                $decoded = base64_decode($dataUriParts[1]);
+                $fn = 'ttd_siswa_' . time() . '_' . Str::random(6) . '.png';
+                file_put_contents($sigDir . '/' . $fn, $decoded);
+                $ttdSiswaPath = 'uploads/dispensasi/signatures/' . $fn;
+            }
+        }
+
+        $ttdGuruPiketPath = null;
+        if ($request->hasFile('ttd_guru_piket_file')) {
+            $f = $request->file('ttd_guru_piket_file');
+            $fn = 'ttd_piket_' . time() . '_' . Str::random(6) . '.' . $f->getClientOriginalExtension();
+            $f->move($sigDir, $fn);
+            $ttdGuruPiketPath = 'uploads/dispensasi/signatures/' . $fn;
+        } elseif ($request->filled('ttd_guru_piket_data') && str_contains($request->ttd_guru_piket_data, 'data:image')) {
+            $dataUriParts = explode(',', $request->ttd_guru_piket_data);
+            if (isset($dataUriParts[1])) {
+                $decoded = base64_decode($dataUriParts[1]);
+                $fn = 'ttd_piket_' . time() . '_' . Str::random(6) . '.png';
+                file_put_contents($sigDir . '/' . $fn, $decoded);
+                $ttdGuruPiketPath = 'uploads/dispensasi/signatures/' . $fn;
+            }
+        }
+
+        // Validasi Wajib Tanda Tangan Guru Piket & Siswa
+        if (!$ttdGuruPiketPath) {
+            return redirect()->back()->withInput()->withErrors([
+                'ttd_guru_piket' => 'Tanda tangan Guru Piket wajib diisi. Silakan lakukan tanda tangan digital pada kolom Guru Piket.'
+            ]);
+        }
+
+        if (!$ttdSiswaPath) {
+            return redirect()->back()->withInput()->withErrors([
+                'ttd_siswa' => 'Tanda tangan Siswa yang mengajukan dispensasi wajib diisi. Silakan lakukan tanda tangan digital pada kolom Siswa.'
+            ]);
+        }
+
         $siswa = Siswa::with('kelas')->findOrFail($request->id_siswa);
         $waka  = User::findOrFail($request->id_user_waka);
         
         $userPiket = Auth::user();
-        $kode  = 'DSP-' . date('Ymd') . '-' . strtoupper(Str::random(4));
+        
+        // Data Guru Piket dari Dropdown Guru TU
+        $namaGuruPiket = 'Guru Piket';
+        $nipGuruPiket  = '-';
+        $idGuruPiket   = null;
+
+        if ($request->filled('id_guru_piket_select')) {
+            $selectedGuru = Guru::find($request->id_guru_piket_select);
+            if ($selectedGuru) {
+                $namaGuruPiket = $selectedGuru->nama_guru;
+                $nipGuruPiket  = !empty($selectedGuru->nip) ? $selectedGuru->nip : '-';
+                $idGuruPiket   = $selectedGuru->id_guru;
+            }
+        } elseif ($request->filled('nama_guru_piket')) {
+            $namaGuruPiket = $request->nama_guru_piket;
+            $nipGuruPiket  = $request->filled('nip_guru_piket') ? $request->nip_guru_piket : '-';
+        } elseif ($userPiket) {
+            $namaGuruPiket = $userPiket->name;
+            $nipGuruPiket  = !empty($userPiket->nip) ? $userPiket->nip : '-';
+            $idGuruPiket   = $userPiket->id;
+        }
+
+        $kode  = $request->filled('kode_dispen') ? trim($request->kode_dispen) : ('DSP-' . date('Ymd') . '-' . strtoupper(Str::random(4)));
         $token = Str::random(40);
 
         $dispen = SiswaDispen::create([
@@ -2326,16 +3343,21 @@ class GuruPiketController extends Controller
             'nama_waka'            => $waka->name,
             'nip_waka'             => $waka->nip,
             'no_hp_waka'           => $waka->no_hp,
-            'id_guru_piket'        => $userPiket ? $userPiket->id : null,
-            'nama_guru_piket'      => $userPiket ? $userPiket->name : 'Guru Piket',
+            'id_guru_piket'        => $idGuruPiket,
+            'nama_guru_piket'      => $namaGuruPiket,
+            'nip_guru_piket'       => $nipGuruPiket,
             'kode_dispen'          => $kode,
             'token_wali_kelas'     => $token,
             'tanggal'              => $request->tanggal,
             'jam_keluar'           => $request->jam_keluar,
             'jam_kembali'          => $request->jam_kembali,
             'alasan'               => $request->alasan,
+            'tempat'               => $request->tempat ?? null,
             'foto_surat_dispen'    => $fotoSuratPath,
             'foto_kartu_identitas' => $fotoKartuPath,
+            'foto_siswa_live'      => $fotoSiswaLivePath,
+            'ttd_siswa'            => $ttdSiswaPath,
+            'ttd_guru_piket'       => $ttdGuruPiketPath,
             'status_waka'          => 'pending',
             'status_wali_kelas'    => 'pending',
             'status_satpam'        => 'belum_keluar',
@@ -2364,6 +3386,9 @@ class GuruPiketController extends Controller
                 . "• *Rencana Jam*: {$request->jam_keluar} s/d {$request->jam_kembali}\n"
                 . "• *Alasan*: {$request->alasan}\n";
 
+            if ($fotoSiswaLivePath) {
+                $pesanWa .= "• *Foto Siswa (Live Kamera)*: Ada (Terlampir pada link)\n";
+            }
             if ($fotoKartuPath) {
                 $pesanWa .= "• *Foto Kartu Identitas*: Ada (Terlampir pada link)\n";
             }
@@ -2443,6 +3468,20 @@ class GuruPiketController extends Controller
             $nameKartu = 'kartu_' . time() . '_' . Str::random(6) . '.' . $fileKartu->getClientOriginalExtension();
             $fileKartu->move($destinationPath, $nameKartu);
             $dispen->foto_kartu_identitas = 'uploads/dispensasi/' . $nameKartu;
+        }
+
+        if ($request->filled('foto_siswa_live') && str_contains($request->foto_siswa_live, 'data:image')) {
+            $liveDir = public_path('uploads/dispensasi/siswa');
+            if (!file_exists($liveDir)) {
+                mkdir($liveDir, 0755, true);
+            }
+            $dataUriParts = explode(',', $request->foto_siswa_live);
+            if (isset($dataUriParts[1])) {
+                $decoded = base64_decode($dataUriParts[1]);
+                $fn = 'siswa_live_' . time() . '_' . Str::random(6) . '.jpg';
+                file_put_contents($liveDir . '/' . $fn, $decoded);
+                $dispen->foto_siswa_live = 'uploads/dispensasi/siswa/' . $fn;
+            }
         }
 
         $waka = User::findOrFail($request->id_user_waka);
@@ -3002,22 +4041,8 @@ class GuruPiketController extends Controller
         $checkTime         = substr($jamInputClean, 0, 5);
 
         foreach ($jadwals as $j) {
-            $startTime = null;
-            $endTime   = null;
-
-            if ($isJumat && $j->jamMulai && $j->jamMulai->jam_mulai_jumat) {
-                $startTime = substr($j->jamMulai->jam_mulai_jumat, 0, 5);
-            }
-            if ($isJumat && $j->jamSelesai && $j->jamSelesai->jam_selesai_jumat) {
-                $endTime = substr($j->jamSelesai->jam_selesai_jumat, 0, 5);
-            }
-
-            if (!$startTime && $j->jamMulai) {
-                $startTime = substr($j->jamMulai->jam_mulai, 0, 5);
-            }
-            if (!$endTime && $j->jamSelesai) {
-                $endTime = substr($j->jamSelesai->jam_selesai, 0, 5);
-            }
+            $startTime = $j->waktu_mulai_effective;
+            $endTime   = $j->waktu_selesai_effective;
 
             if ($startTime && $endTime) {
                 if ($checkTime >= $startTime && $checkTime <= $endTime) {

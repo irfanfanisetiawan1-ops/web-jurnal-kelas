@@ -104,6 +104,37 @@
         gap: 4px;
     }
 
+    .btn-auto-gen {
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.2s ease;
+    }
+    .btn-auto-gen:hover {
+        background: #dbeafe;
+        border-color: #93c5fd;
+        color: #1d4ed8;
+    }
+    .field-feedback {
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .field-feedback.is-valid { color: #16a34a; }
+    .field-feedback.is-invalid { color: #dc2626; }
+    .field-feedback.is-warning { color: #d97706; }
+
     .form-actions {
         display: flex;
         align-items: center;
@@ -260,19 +291,29 @@
 
             <div class="form-grid-2">
                 <div class="form-group">
-                    <label for="kode_mapel">Kode Mapel <span style="color:#ef4444;">*</span></label>
-                    <input type="text" id="kode_mapel" name="kode_mapel" value="{{ old('kode_mapel', $mapel->kode_mapel) }}"
-                        class="form-control {{ $errors->has('kode_mapel') ? 'is-invalid' : '' }}" required>
-                    @error('kode_mapel')
+                    <label for="nama_mapel">Nama Mata Pelajaran <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="nama_mapel" name="nama_mapel" value="{{ old('nama_mapel', $mapel->nama_mapel) }}"
+                        class="form-control {{ $errors->has('nama_mapel') ? 'is-invalid' : '' }}" required
+                        maxlength="100" autocomplete="off" oninput="handleNamaEdit(this.value)">
+                    <div id="namaEditFeedback" class="field-feedback"></div>
+                    @error('nama_mapel')
                         <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="nama_mapel">Nama Mata Pelajaran <span style="color:#ef4444;">*</span></label>
-                    <input type="text" id="nama_mapel" name="nama_mapel" value="{{ old('nama_mapel', $mapel->nama_mapel) }}"
-                        class="form-control {{ $errors->has('nama_mapel') ? 'is-invalid' : '' }}" required>
-                    @error('nama_mapel')
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <label for="kode_mapel" style="margin-bottom:0;">Kode Mapel <span style="color:#ef4444;">*</span></label>
+                        <button type="button" class="btn-auto-gen" onclick="triggerGenKodeEdit()" title="Generate otomatis kode mapel">
+                            Generate Otomatis
+                        </button>
+                    </div>
+                    <input type="text" id="kode_mapel" name="kode_mapel" value="{{ old('kode_mapel', $mapel->kode_mapel) }}"
+                        class="form-control {{ $errors->has('kode_mapel') ? 'is-invalid' : '' }}" required
+                        maxlength="15" autocomplete="off" style="text-transform:uppercase; font-family:monospace; font-weight:700; letter-spacing:0.5px;"
+                        oninput="handleKodeEdit(this.value)">
+                    <div id="kodeEditFeedback" class="field-feedback"></div>
+                    @error('kode_mapel')
                         <p class="error-msg"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</p>
                     @enderror
                 </div>
@@ -283,7 +324,7 @@
                     <i class="fa-solid fa-xmark"></i> Batal
                 </a>
                 <button type="button" class="btn-update" onclick="openConfirmModal()">
-                    <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
+                    Simpan Perubahan
                 </button>
             </div>
         </form>
@@ -296,7 +337,7 @@
                 <i class="fa-solid fa-pen-to-square"></i>
             </div>
             <h3>Simpan Perubahan?</h3>
-            <p>Apakah Anda yakin ingin memperbarui data mata pelajaran <strong style="color:#0f172a;">{{ $mapel->nama_mapel }}</strong>?</p>
+            <p>Apakah Anda yakin ingin memperbarui data mata pelajaran <strong style="color:#0f172a;" id="confirmMapelName">{{ $mapel->nama_mapel }}</strong>?</p>
             <div class="modal-actions">
                 <button type="button" class="btn-m-cancel" onclick="closeConfirmModal()">Periksa Lagi</button>
                 <button type="button" class="btn-m-confirm" onclick="submitForm()">Ya, Simpan</button>
@@ -305,32 +346,135 @@
     </div>
 
     <script>
+        const currentMapelId = {{ $mapel->id_mapel }};
+        const existingMapels = @json($existingMapelsList ?? []);
+
+        const knownMapelPrefixes = {
+            'BAHASA INDONESIA': 'BIN', 'BAHASA INGGRIS': 'BIG', 'BAHASA JAWA': 'BJAW', 'BAHASA JEPANG': 'BJEP',
+            'BAHASA JERMAN': 'BJER', 'BAHASA ARAB': 'BARB', 'BAHASA MANDARIN': 'BMND', 'MATEMATIKA': 'MAT',
+            'PENDIDIKAN AGAMA ISLAM': 'PAI', 'PENDIDIKAN AGAMA KRISTEN': 'PAK', 'PENDIDIKAN AGAMA KATOLIK': 'PKAT',
+            'PENDIDIKAN AGAMA HINDU': 'PAH', 'PENDIDIKAN AGAMA BUDDHA': 'PAB', 'PENDIDIKAN AGAMA KHONGHUCU': 'PAKH',
+            'PENDIDIKAN PANCASILA': 'PPKN', 'PENDIDIKAN KEWARGANEGARAAN': 'PKN', 'PENDIDIKAN JASMANI': 'PJOK',
+            'PENJASKES': 'PJOK', 'SENI BUDAYA': 'SEN', 'SENI RUPA': 'SRUP', 'SENI MUSIK': 'SMUS', 'SENI TARI': 'STAR',
+            'SENI TEATER': 'STEA', 'SEJARAH': 'SEJ', 'INFORMATIKA': 'INF', 'BIMBINGAN KONSELING': 'BK',
+            'PROJEK ILMU PENGETAHUAN ALAM DAN SOSIAL': 'IPAS', 'ILMU PENGETAHUAN ALAM': 'IPA', 'ILMU PENGETAHUAN SOSIAL': 'IPS',
+            'KODING DAN KECERDASAN ARTIFISIAL': 'KDK', 'KREATIVITAS, INOVASI, DAN KEWIRAUSAHAAN': 'PKK', 'KONSENTRASI KEAHLIAN': 'KKA'
+        };
+
+        function calcKodeEdit(nama) {
+            if (!nama || !nama.trim()) return '';
+            const cleanName = nama.trim().toUpperCase();
+            let prefix = null;
+            for (const [key, code] of Object.entries(knownMapelPrefixes)) {
+                if (cleanName.includes(key)) { prefix = code; break; }
+            }
+            if (!prefix) {
+                const words = cleanName.split(/[\s,\-_]+/);
+                if (words.length >= 2) {
+                    let acronym = '';
+                    const stopWords = ['DAN', 'YANG', 'UNTUK', 'DI', 'KE', 'DARI', 'BUDI', 'PEKERTI', 'KELAS', 'TINGKAT'];
+                    for (const w of words) {
+                        if (!stopWords.includes(w) && w.length > 0) acronym += w.charAt(0);
+                    }
+                    prefix = (acronym.length >= 2 && acronym.length <= 6) ? acronym : words[0].substring(0, 3);
+                } else {
+                    const alphanumeric = cleanName.replace(/[^A-Z0-9]/g, '');
+                    prefix = alphanumeric.substring(0, Math.min(4, alphanumeric.length));
+                }
+            }
+            prefix = (prefix || 'MPL').replace(/[^A-Z0-9]/g, '');
+            const usedCodes = existingMapels.filter(m => m.id !== currentMapelId).map(m => (m.kode || '').toUpperCase());
+            let index = 1, candidate = '';
+            do {
+                candidate = prefix + '-' + String(index).padStart(2, '0');
+                index++;
+            } while (usedCodes.includes(candidate) && index < 1000);
+            return candidate;
+        }
+
+        function handleNamaEdit(val) {
+            val = (val || '').trim();
+            const namaInput = document.getElementById('nama_mapel');
+            const feedback = document.getElementById('namaEditFeedback');
+
+            if (!val) {
+                feedback.innerHTML = '';
+                namaInput.classList.remove('is-invalid');
+            } else {
+                const dup = existingMapels.find(m => m.id !== currentMapelId && m.nama_lower === val.toLowerCase());
+                if (dup) {
+                    namaInput.classList.add('is-invalid');
+                    feedback.className = dup.is_trash ? 'field-feedback is-warning' : 'field-feedback is-invalid';
+                    feedback.innerHTML = `Nama mapel sudah terdaftar pada mapel lain (${dup.kode}).`;
+                } else {
+                    namaInput.classList.remove('is-invalid');
+                    feedback.className = 'field-feedback is-valid';
+                    feedback.innerHTML = `Nama mapel valid.`;
+                }
+            }
+        }
+
+        function triggerGenKodeEdit() {
+            const nama = document.getElementById('nama_mapel').value;
+            const code = calcKodeEdit(nama || 'Mapel');
+            const kodeInput = document.getElementById('kode_mapel');
+            kodeInput.value = code;
+            handleKodeEdit(code);
+        }
+
+        function handleKodeEdit(val) {
+            val = (val || '').trim().toUpperCase();
+            const kodeInput = document.getElementById('kode_mapel');
+            const feedback = document.getElementById('kodeEditFeedback');
+            kodeInput.value = val;
+
+            if (!val) {
+                feedback.innerHTML = '';
+                kodeInput.classList.remove('is-invalid');
+                return;
+            }
+
+            if (!/^[A-Z0-9\-_]+$/.test(val)) {
+                kodeInput.classList.add('is-invalid');
+                feedback.className = 'field-feedback is-invalid';
+                feedback.innerHTML = `Format kode tidak valid.`;
+                return;
+            }
+
+            const dup = existingMapels.find(m => m.id !== currentMapelId && m.kode === val);
+            if (dup) {
+                kodeInput.classList.add('is-invalid');
+                feedback.className = dup.is_trash ? 'field-feedback is-warning' : 'field-feedback is-invalid';
+                feedback.innerHTML = `Kode sudah dipakai oleh "${dup.nama}".`;
+            } else {
+                kodeInput.classList.remove('is-invalid');
+                feedback.className = 'field-feedback is-valid';
+                feedback.innerHTML = `Kode mapel valid &amp; tersedia.`;
+            }
+        }
+
         function openConfirmModal() {
             const form = document.getElementById('editForm');
-            const kodeMapel = document.getElementById('kode_mapel').value.trim();
+            const kodeMapel = document.getElementById('kode_mapel').value.trim().toUpperCase();
             const namaMapel = document.getElementById('nama_mapel').value.trim();
 
             let errors = [];
-            if (!kodeMapel) {
-                errors.push('Kode Mapel wajib diisi!');
-            } else if (kodeMapel.length > 15) {
-                errors.push('Kode Mapel maksimal 15 karakter!');
+            if (!namaMapel) errors.push('Nama Mata Pelajaran wajib diisi!');
+            if (existingMapels.find(m => m.id !== currentMapelId && m.nama_lower === namaMapel.toLowerCase())) {
+                errors.push(`Nama Mata Pelajaran "${namaMapel}" sudah digunakan oleh mapel lain!`);
             }
-
-            if (!namaMapel) {
-                errors.push('Nama Mapel wajib diisi!');
-            } else if (namaMapel.length > 100) {
-                errors.push('Nama Mapel maksimal 100 karakter!');
+            if (!kodeMapel) errors.push('Kode Mapel wajib diisi!');
+            if (kodeMapel && existingMapels.find(m => m.id !== currentMapelId && m.kode === kodeMapel)) {
+                errors.push(`Kode Mapel "${kodeMapel}" sudah digunakan oleh mapel lain!`);
             }
 
             if (errors.length > 0) {
                 alert('⚠️ PERINGATAN VALIDASI DATA:\n\n' + errors.map((err, i) => (i + 1) + '. ' + err).join('\n'));
-                if (!kodeMapel) document.getElementById('kode_mapel').focus();
-                else if (!namaMapel) document.getElementById('nama_mapel').focus();
                 return;
             }
 
             if (!form.checkValidity()) { form.reportValidity(); return; }
+            document.getElementById('confirmMapelName').textContent = namaMapel;
             document.getElementById('modalConfirm').classList.add('active');
         }
 

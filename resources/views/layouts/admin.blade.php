@@ -31,6 +31,8 @@
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         /* Sidebar Navigation */
@@ -341,6 +343,11 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            min-width: 0;
+            width: calc(100% - var(--sidebar-width));
+            max-width: calc(100vw - var(--sidebar-width));
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
 
         /* Topbar Header */
@@ -355,6 +362,8 @@
             top: 0;
             z-index: 90;
             border-bottom: 1px solid #e2e8f0;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .search-box {
@@ -395,6 +404,9 @@
         .content-body {
             padding: 24px 28px;
             flex: 1;
+            min-width: 0;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Global Page Header Container (Top-Left Title & Subtitle) */
@@ -524,7 +536,11 @@
 
         @media (max-width: 992px) {
             .sidebar { transform: translateX(-100%); }
-            .main-wrapper { margin-left: 0; }
+            .main-wrapper { 
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+            }
         }
     </style>
     @yield('styles')
@@ -602,6 +618,10 @@
             </a>
 
             <div class="menu-category">AKADEMIK</div>
+            <a href="{{ route('admin.tahun-ajaran.index') }}" class="nav-item {{ request()->routeIs('admin.tahun-ajaran*') ? 'active' : '' }}">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>Tahun Ajaran</span>
+            </a>
             <a href="{{ route('jadwal.index') }}" class="nav-item {{ request()->routeIs('jadwal.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-calendar-days"></i>
                 <span>Jadwal Pelajaran</span>
@@ -665,7 +685,7 @@
             <div style="display: flex; align-items: center; gap: 12px;">
                 <div class="ta-selector">
                     <i class="fa-solid fa-graduation-cap" style="color: #64748b;"></i>
-                    <span>T.A. 2025/2026 - Semester Genap</span>
+                    <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2026/2027' }} - Semester {{ $activeTahunAjaran->semester ?? 'Ganjil' }}</span>
                     <i class="fa-solid fa-chevron-down" style="font-size:11px;"></i>
                 </div>
 

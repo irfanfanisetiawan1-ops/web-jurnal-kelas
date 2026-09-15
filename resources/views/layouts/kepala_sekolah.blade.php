@@ -265,6 +265,10 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            min-width: 0;
+            max-width: calc(100vw - var(--sidebar-width));
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
 
         /* Topbar Header */
@@ -364,6 +368,10 @@
         .content-body {
             padding: 24px 28px;
             flex: 1;
+            min-width: 0;
+            max-width: 100%;
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
 
         /* Alert notifications */
@@ -415,7 +423,7 @@
             <div class="menu-category">UTAMA</div>
             <a href="{{ route('kepala-sekolah.dashboard') }}" class="nav-item {{ request()->routeIs('kepala-sekolah.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-border-all"></i>
-                <span>Dashboard Kepala Sekolah</span>
+                <span>Dashboard</span>
             </a>
 
             @php
@@ -429,11 +437,6 @@
                         {{ $pendingCount }}
                     </span>
                 @endif
-            </a>
-
-            <a href="{{ route('kepala-sekolah.kehadiran-guru') }}" class="nav-item {{ request()->routeIs('kepala-sekolah.kehadiran-guru*') ? 'active' : '' }}">
-                <i class="fa-solid fa-user-check"></i>
-                <span>Kehadiran Guru</span>
             </a>
 
             <a href="{{ route('kepala-sekolah.guru-izin-tidak-hadir') }}" class="nav-item {{ request()->routeIs('kepala-sekolah.guru-izin-tidak-hadir*') ? 'active' : '' }}">
@@ -453,7 +456,7 @@
 
             <a href="{{ route('kepala-sekolah.jurnal-pembelajaran') }}" class="nav-item {{ request()->routeIs('kepala-sekolah.jurnal-pembelajaran*') ? 'active' : '' }}">
                 <i class="fa-solid fa-book-bookmark"></i>
-                <span>Jurnal pembelajaran</span>
+                <span>Jurnal Mengajar Guru</span>
             </a>
 
             <a href="{{ route('kepala-sekolah.laporan') }}" class="nav-item {{ request()->routeIs('kepala-sekolah.laporan*') ? 'active' : '' }}">
@@ -509,7 +512,7 @@
             <div class="topbar-right">
                 <div class="semester-pill">
                     <i class="fa-solid fa-graduation-cap" style="color: #64748b; font-size: 14px;"></i>
-                    <span>T.A. 2025/2026 - Semester Genap</span>
+                    <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2026/2027' }} - Semester {{ $activeTahunAjaran->semester ?? 'Ganjil' }}</span>
                     <i class="fa-solid fa-chevron-down" style="font-size:11px; color: #94a3b8;"></i>
                 </div>
 

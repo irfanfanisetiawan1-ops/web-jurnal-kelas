@@ -209,6 +209,310 @@
         border-color: #93c5fd;
     }
 
+    /* Unified Schedule Selector Panel */
+    .jadwal-unified-panel {
+        background: linear-gradient(135deg, #f8fafc 0%, #f0fdf4 100%);
+        border: 1.5px solid #86efac;
+        border-radius: 14px;
+        padding: 16px 18px;
+        margin-top: 4px;
+        margin-bottom: 6px;
+        box-shadow: 0 4px 14px rgba(22, 163, 74, 0.06);
+        transition: all 0.25s ease;
+    }
+
+    .jadwal-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #dcfce7;
+    }
+
+    .jadwal-panel-title-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .jadwal-panel-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: #dcfce7;
+        color: #15803d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        flex-shrink: 0;
+    }
+
+    .jadwal-panel-title {
+        margin: 0;
+        font-size: 13.5px;
+        font-weight: 800;
+        color: #14532d;
+        letter-spacing: -0.01em;
+    }
+
+    .jadwal-panel-subtitle {
+        margin: 2px 0 0 0;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #166534;
+        opacity: 0.9;
+    }
+
+    .jadwal-panel-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .btn-panel-action {
+        padding: 6px 13px;
+        border-radius: 8px;
+        font-size: 11.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .btn-select-all {
+        background: #ffffff;
+        border: 1.5px solid #22c55e;
+        color: #15803d;
+    }
+    .btn-select-all:hover {
+        background: #22c55e;
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(34, 197, 94, 0.2);
+    }
+
+    .btn-unselect-all {
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        color: #64748b;
+    }
+    .btn-unselect-all:hover {
+        background: #f1f5f9;
+        color: #334155;
+        border-color: #94a3b8;
+    }
+
+    /* Sehari Penuh Quick Banner */
+    .jadwal-sehari-penuh-card {
+        margin-top: 10px;
+        background: #ffffff;
+        border: 1.5px solid #bfdbfe;
+        border-radius: 10px;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        transition: all 0.2s ease;
+    }
+
+    .jadwal-sehari-penuh-card.active {
+        background: #eff6ff;
+        border-color: #3b82f6;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+    }
+
+    .sehari-penuh-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        font-size: 12.5px;
+        color: #1e40af;
+        margin: 0;
+        user-select: none;
+    }
+
+    /* Grid of Session Cards */
+    .jadwal-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .jadwal-card-item {
+        background: #ffffff;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 12px;
+        padding: 12px 14px;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        user-select: none;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .jadwal-card-item:hover {
+        border-color: #86efac;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .jadwal-card-item.selected {
+        border-color: #22c55e;
+        background: #f0fdf4;
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+    }
+
+    .jadwal-card-item.sehari-penuh-selected {
+        border-color: #3b82f6;
+        background: #eff6ff;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    }
+
+    .jadwal-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .jadwal-card-checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .jadwal-card-checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #16a34a;
+        cursor: pointer;
+    }
+
+    .jadwal-sesi-badge {
+        font-size: 10.5px;
+        font-weight: 800;
+        background: #e0f2fe;
+        color: #0369a1;
+        padding: 2px 8px;
+        border-radius: 6px;
+        letter-spacing: 0.02em;
+    }
+
+    .jadwal-card-item.selected .jadwal-sesi-badge {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .jadwal-card-item.sehari-penuh-selected .jadwal-sesi-badge {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .jadwal-card-class {
+        font-weight: 800;
+        font-size: 13.5px;
+        color: #0f172a;
+    }
+
+    .jadwal-card-mapel {
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .jadwal-card-time {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #2563eb;
+        background: #eff6ff;
+        padding: 4px 8px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+    }
+
+    .jadwal-card-item.selected .jadwal-card-time {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .jadwal-card-footer-hint {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 2px;
+        padding-top: 6px;
+        border-top: 1px dashed #e2e8f0;
+    }
+
+    .jadwal-card-item.selected .jadwal-card-footer-hint {
+        color: #16a34a;
+        border-color: #bbf7d0;
+    }
+
+    /* Live Feedback Footer Bar */
+    .jadwal-feedback-bar {
+        margin-top: 10px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .jadwal-feedback-single {
+        background: #e0f2fe;
+        color: #0369a1;
+        border: 1px solid #bae6fd;
+    }
+
+    .jadwal-feedback-multi {
+        background: #dcfce7;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+    }
+
+    .jadwal-feedback-all {
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
+    }
+
+    .jadwal-empty-alert {
+        padding: 14px 16px;
+        border-radius: 10px;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        color: #92400e;
+        font-size: 12.5px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
     /* Filter Card */
     .filter-card {
         background: #ffffff;
@@ -720,14 +1024,21 @@
                     </div>
                     <select name="id_guru_pengganti" id="select_guru_pengganti" data-old-val="{{ old('id_guru_pengganti') }}" class="form-input @error('id_guru_pengganti') input-error-border @enderror" required>
                         <option value="">-- Pilih Guru Pengganti --</option>
-                        <optgroup label="📌 Guru Piket Hari Ini (Tampil Utama)">
+                        <optgroup label="📌 Guru Piket pada Tanggal Tersebut (Hari {{ $targetDateFormatted ?? '-' }})" id="optgroup_guru_piket_main">
+                            @php
+                                $hasPiketInitial = false;
+                            @endphp
                             @foreach($guruList as $g)
                                 @if(!empty($g->is_piket_today))
+                                    @php $hasPiketInitial = true; @endphp
                                     <option value="{{ $g->id_guru }}" {{ old('id_guru_pengganti') == $g->id_guru ? 'selected' : '' }}>
-                                        [Guru Piket] {{ $g->nama_guru }} (NIP: {{ $g->nip ?? '-' }})
+                                        [Guru Piket{{ !empty($g->slot_piket) ? ' S'.$g->slot_piket : '' }}] {{ $g->nama_guru }} (NIP: {{ $g->nip ?? '-' }}) ({{ $g->mapel->nama_mapel ?? 'Guru' }})
                                     </option>
                                 @endif
                             @endforeach
+                            @if(!$hasPiketInitial)
+                                <option value="" disabled>(Tidak ada jadwal guru piket terdaftar pada tanggal ini)</option>
+                            @endif
                         </optgroup>
                     </select>
                     
@@ -740,21 +1051,51 @@
                     @enderror
                 </div>
 
-                <!-- OPSI PENUGASAN SEHARI PENUH (OTOMATIS SEMUA JAM & KELAS SESUAI JADWAL GURU) -->
-                <div class="form-group-full" style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 12px 16px;">
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 800; color: #1e40af; font-size: 13.5px; margin: 0;">
-                        <input type="checkbox" name="sehari_penuh" id="check_sehari_penuh" value="1" {{ old('sehari_penuh') ? 'checked' : '' }} onchange="toggleSehariPenuh(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
-                        <span><i class="fa-solid fa-calendar-week"></i> Guru Tidak Hadir Sehari Penuh (Otomatis Tambahkan Semua Jam Pelajaran & Kelas Hari Ini)</span>
-                    </label>
-                    <div id="preview_sehari_penuh_box" style="display: none; margin-top: 10px; font-size: 12.5px; background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #93c5fd; color: #1e3a8a;">
-                        <i class="fa-solid fa-spinner fa-spin"></i> Memuat jadwal guru tidak hadir...
+                <!-- UNIFIED PANEL SESI JADWAL GURU TIDAK HADIR -->
+                <div id="wrapper_jadwal_unified" class="form-group-full jadwal-unified-panel" style="display: none;">
+                    <div class="jadwal-panel-header">
+                        <div class="jadwal-panel-title-group">
+                            <div class="jadwal-panel-icon">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="jadwal-panel-title">Sesi Jadwal KBM Guru Tidak Hadir</h4>
+                                <p class="jadwal-panel-subtitle" id="jadwal_panel_subtitle">
+                                    Pilih satu atau beberapa sesi KBM untuk dialihkan ke Guru Pengganti:
+                                </p>
+                            </div>
+                        </div>
+                        <div class="jadwal-panel-actions">
+                            <button type="button" class="btn-panel-action btn-select-all" onclick="toggleSelectAllJadwal(true)">
+                                <i class="fa-solid fa-check-double"></i> Pilih Semua (Sehari Penuh)
+                            </button>
+                            <button type="button" class="btn-panel-action btn-unselect-all" onclick="toggleSelectAllJadwal(false)">
+                                <i class="fa-solid fa-rotate-left"></i> Reset Pilihan
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- Mode Sehari Penuh Quick Banner Toggle -->
+                    <div class="jadwal-sehari-penuh-card" id="sehari_penuh_strip">
+                        <label class="sehari-penuh-label">
+                            <input type="checkbox" name="sehari_penuh" id="check_sehari_penuh" value="1" {{ old('sehari_penuh') ? 'checked' : '' }} onchange="toggleSehariPenuh(this)" style="width: 18px; height: 18px; accent-color: #2563eb; cursor: pointer;">
+                            <span>
+                                <strong><i class="fa-solid fa-calendar-week" style="color: #2563eb;"></i> Mode Penugasan Sehari Penuh</strong> — Otomatis tugaskan guru pengganti untuk seluruh sesi KBM guru ini pada tanggal terpilih
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Grid Cards Sesi KBM -->
+                    <div id="jadwal_cards_grid" class="jadwal-cards-grid"></div>
+
+                    <!-- Dynamic Feedback Bar -->
+                    <div id="jadwal_feedback_bar" class="jadwal-feedback-bar" style="display: none;"></div>
                 </div>
 
                 <!-- ROW 2: Tanggal Penugasan, Jam Pelajaran (Master TU), dan Kelas -->
                 <div>
                     <label class="form-label">Tanggal Penugasan <span style="color: #ef4444;">*</span></label>
-                    <input type="date" name="tanggal" id="input_tanggal_penugasan" value="{{ old('tanggal', $todayDate) }}" class="form-input @error('tanggal') input-error-border @enderror" required onchange="onTanggalPenugasanChanged()">
+                    <input type="date" name="tanggal" id="input_tanggal_penugasan" value="{{ old('tanggal', $targetDate ?? $todayDate) }}" class="form-input @error('tanggal') input-error-border @enderror" required onchange="onTanggalPenugasanChanged()">
                     
                     <div id="label_hari_penugasan" style="font-size: 12.5px; font-weight: 800; color: #2563eb; margin-top: 6px; display: flex; align-items: center; gap: 6px;">
                         <i class="fa-solid fa-calendar-day"></i> Hari: <span id="text_nama_hari">-</span>
@@ -770,15 +1111,24 @@
                 </div>
 
                 <div id="wrapper_jam_pelajaran">
-                    <label class="form-label">Jam Pelajaran (Master TU) <span style="color: #ef4444;">*</span></label>
+                    <label class="form-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                        <span>Jam Pelajaran (Master TU) <span style="color: #ef4444;">*</span></span>
+                        <span id="lock_badge_jam" style="display: none; font-size: 11px; padding: 2px 8px; border-radius: 6px; background: #fee2e2; color: #b91c1c; font-weight: 700;">
+                            <i class="fa-solid fa-lock"></i> Terkunci Otomatis
+                        </span>
+                    </label>
                     <select name="jam_pelajaran" id="select_jam_pelajaran" data-old-val="{{ old('jam_pelajaran') }}" class="form-input @error('jam_pelajaran') input-error-border @enderror" required>
                         <option value="">-- Pilih Jam Pelajaran (Master TU) --</option>
                     </select>
 
                     <!-- Fitur Pencarian Jam Pelajaran (Di Bawah Fitur Pengisian) -->
-                    <div style="position: relative; margin-top: 6px;">
+                    <div id="wrapper_search_jam" style="position: relative; margin-top: 6px;">
                         <input type="text" id="search_jam_pelajaran" class="form-input" placeholder="🔍 Cari Sesi Jam Pelajaran (misal: 1, 7-8, 10:15)..." onkeyup="filterSelectOptions('select_jam_pelajaran', this.value)" style="padding-left: 30px; font-size: 11.5px; height: 34px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
                         <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 10px; top: 10px; color: #94a3b8; font-size: 12px;"></i>
+                    </div>
+
+                    <div id="lock_hint_jam" style="display: none; font-size: 11.5px; color: #0284c7; margin-top: 5px; font-weight: 600;">
+                        <i class="fa-solid fa-circle-info"></i> Jam pelajaran otomatis ditentukan oleh kartu sesi KBM yang dipilih di atas.
                     </div>
 
                     @error('jam_pelajaran')
@@ -787,13 +1137,23 @@
                 </div>
 
                 <div id="wrapper_kelas">
-                    <label class="form-label">Kelas <span style="color: #ef4444;">*</span></label>
+                    <label class="form-label" style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                        <span>Kelas <span style="color: #ef4444;">*</span></span>
+                        <span id="lock_badge_kelas" style="display: none; font-size: 11px; padding: 2px 8px; border-radius: 6px; background: #fee2e2; color: #b91c1c; font-weight: 700;">
+                            <i class="fa-solid fa-lock"></i> Terkunci Otomatis
+                        </span>
+                    </label>
                     <select name="id_kelas" id="select_kelas" class="form-input @error('id_kelas') input-error-border @enderror" required>
                         <option value="">-- Pilih Kelas --</option>
                         @foreach($kelasList as $k)
                             <option value="{{ $k->id_kelas }}" {{ old('id_kelas') == $k->id_kelas ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
                         @endforeach
                     </select>
+
+                    <div id="lock_hint_kelas" style="display: none; font-size: 11.5px; color: #0284c7; margin-top: 5px; font-weight: 600;">
+                        <i class="fa-solid fa-circle-info"></i> Kelas otomatis ditentukan oleh kartu sesi KBM yang dipilih di atas.
+                    </div>
+
                     @error('id_kelas')
                         <div class="field-error-text">{{ $message }}</div>
                     @enderror
@@ -1415,7 +1775,7 @@
     ];
 
     // Data Guru Mengajar Lainnya untuk Toggle Guru Pengganti
-    const guruMengajarLainnyaList = [
+    let guruMengajarLainnyaList = [
         @foreach($guruList as $g)
             @if(empty($g->is_piket_today))
                 { id_guru: "{{ $g->id_guru }}", nama_guru: "{{ addslashes($g->nama_guru) }}", nip: "{{ addslashes($g->nip ?? '-') }}", mapel: "{{ addslashes($g->mapel->nama_mapel ?? 'Guru') }}" },
@@ -1429,12 +1789,7 @@
         updateJamOptionsByDate();
         validateTanggalPenugasan();
         fetchJadwalGuruTidakHadirList();
-
-        // Jika opsi sehari penuh dicentang, re-fetch preview jadwal
-        const chkSehariPenuh = document.getElementById('check_sehari_penuh');
-        if (chkSehariPenuh && chkSehariPenuh.checked) {
-            fetchJadwalSehariPenuhPreview();
-        }
+        fetchPiketGuruByDate();
     }
 
     function resetFormDirectPenugasan() {
@@ -1459,6 +1814,10 @@
         const selJam = document.getElementById('select_jam_pelajaran');
         if (selJam) selJam.value = '';
 
+        if (typeof setManualInputsLocked === 'function') {
+            setManualInputsLocked(false);
+        }
+
         const materiField = document.getElementById('materi_dititipkan_field');
         if (materiField) materiField.value = '';
 
@@ -1474,14 +1833,22 @@
         const chkSehariPenuh = document.getElementById('check_sehari_penuh');
         if (chkSehariPenuh) {
             chkSehariPenuh.checked = false;
-            toggleSehariPenuh(chkSehariPenuh);
         }
 
-        const wrapperJadwal = document.getElementById('wrapper_jadwal_pilihan');
-        if (wrapperJadwal) wrapperJadwal.style.display = 'none';
+        const wrapperUnified = document.getElementById('wrapper_jadwal_unified');
+        if (wrapperUnified) wrapperUnified.style.display = 'none';
 
-        const listContainer = document.getElementById('jadwal_pilihan_list');
-        if (listContainer) listContainer.innerHTML = '';
+        const cardsGrid = document.getElementById('jadwal_cards_grid');
+        if (cardsGrid) cardsGrid.innerHTML = '';
+
+        const feedbackBar = document.getElementById('jadwal_feedback_bar');
+        if (feedbackBar) {
+            feedbackBar.style.display = 'none';
+            feedbackBar.innerHTML = '';
+        }
+
+        const sehariStrip = document.getElementById('sehari_penuh_strip');
+        if (sehariStrip) sehariStrip.classList.remove('active');
 
         document.querySelectorAll('.input-error-border').forEach(el => el.classList.remove('input-error-border'));
 
@@ -1669,163 +2036,473 @@
         jamSelect.appendChild(grpMulti);
     }
 
-    // Toggle Sehari Penuh Feature (Lock Jam & Kelas + Fetch Preview)
+    // Toggle Sehari Penuh Feature
     function toggleSehariPenuh(chk) {
-        const selectJam   = document.getElementById('select_jam_pelajaran');
-        const selectKelas = document.getElementById('select_kelas');
-        const previewBox  = document.getElementById('preview_sehari_penuh_box');
+        const sehariStrip = document.getElementById('sehari_penuh_strip');
+        const checkboxes  = document.querySelectorAll('.cb-jadwal-sesi');
 
         if (chk.checked) {
-            if (selectJam) {
-                selectJam.disabled = true;
-                selectJam.removeAttribute('required');
-                selectJam.style.background = '#f1f5f9';
-            }
-            if (selectKelas) {
-                selectKelas.disabled = true;
-                selectKelas.removeAttribute('required');
-                selectKelas.style.background = '#f1f5f9';
-            }
-            if (previewBox) {
-                previewBox.style.display = 'block';
-                fetchJadwalSehariPenuhPreview();
-            }
+            checkboxes.forEach(cb => { cb.checked = true; });
+            if (sehariStrip) sehariStrip.classList.add('active');
         } else {
-            if (selectJam) {
-                selectJam.disabled = false;
-                selectJam.setAttribute('required', 'required');
-                selectJam.style.background = '#ffffff';
-            }
-            if (selectKelas) {
-                selectKelas.disabled = false;
-                selectKelas.setAttribute('required', 'required');
-                selectKelas.style.background = '#ffffff';
-            }
-            if (previewBox) {
-                previewBox.style.display = 'none';
-                previewBox.innerHTML = '';
-            }
+            checkboxes.forEach(cb => { cb.checked = false; });
+            if (sehariStrip) sehariStrip.classList.remove('active');
         }
+        onJadwalSelectionChanged();
     }
 
     // Handler Perubahan Guru Tidak Hadir
     function onGuruTidakHadirChanged(selectElem) {
         autoFillMateriFromIzin(selectElem);
         fetchJadwalGuruTidakHadirList();
-
-        const chkSehariPenuh = document.getElementById('check_sehari_penuh');
-        if (chkSehariPenuh && chkSehariPenuh.checked) {
-            fetchJadwalSehariPenuhPreview();
-        }
     }
 
-    // Fetch List Jadwal Guru Tidak Hadir untuk Opsi Klik Cepat
+    // Fetch List Jadwal Guru Tidak Hadir (Unified Cards Renderer)
     function fetchJadwalGuruTidakHadirList() {
         const selectGuruHadir = document.getElementById('select_guru_tidak_hadir');
-        const inputTanggal   = document.getElementById('input_tanggal_penugasan');
-        const wrapperJadwal  = document.getElementById('wrapper_jadwal_pilihan');
-        const listContainer  = document.getElementById('jadwal_pilihan_list');
+        const inputTanggal    = document.getElementById('input_tanggal_penugasan');
+        const wrapperUnified  = document.getElementById('wrapper_jadwal_unified');
+        const cardsGrid       = document.getElementById('jadwal_cards_grid');
+        const feedbackBar     = document.getElementById('jadwal_feedback_bar');
+        const subtitleElem    = document.getElementById('jadwal_panel_subtitle');
+        const chkSehariPenuh  = document.getElementById('check_sehari_penuh');
+        const sehariStrip     = document.getElementById('sehari_penuh_strip');
 
-        if (!selectGuruHadir || !inputTanggal || !wrapperJadwal || !listContainer) return;
+        if (!selectGuruHadir || !inputTanggal || !wrapperUnified || !cardsGrid) return;
 
         const idGuru  = selectGuruHadir.value;
         const tanggal = inputTanggal.value;
 
         if (!idGuru) {
-            wrapperJadwal.style.display = 'none';
-            listContainer.innerHTML = '';
+            wrapperUnified.style.display = 'none';
+            cardsGrid.innerHTML = '';
+            if (feedbackBar) feedbackBar.style.display = 'none';
             return;
         }
+
+        cardsGrid.innerHTML = `<div style="grid-column: 1 / -1; padding: 20px; text-align: center; color: #166534; font-weight: 700;">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size: 18px; margin-right: 8px;"></i> Memuat sesi jadwal KBM guru pada tanggal ini...
+        </div>`;
+        wrapperUnified.style.display = 'block';
 
         fetch(`{{ route('piket.guru-pengganti.jadwal-guru') }}?id_guru=${idGuru}&tanggal=${tanggal}`)
             .then(res => res.json())
             .then(data => {
                 if (data.success && data.jadwals && data.jadwals.length > 0) {
-                    let html = '';
-                    data.jadwals.forEach(j => {
-                        html += `<button type="button" class="btn-schedule-chip" onclick='applyScheduleChoice(${j.id_jadwal}, ${j.id_kelas}, "${j.jam_pelajaran}")' style="background: #ffffff; border: 1px solid #86efac; color: #14532d; padding: 6px 12px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 11.5px; transition: all 0.2s ease;">
-                            <i class="fa-solid fa-clock" style="color: #16a34a;"></i> ${j.nama_kelas} (${j.nama_mapel}) — ${j.jam_pelajaran}
-                        </button>`;
+                    if (subtitleElem) {
+                        subtitleElem.innerHTML = `Ditemukan <strong>${data.jadwals.length} Sesi KBM</strong> pada hari <strong>${data.hari} (${tanggal})</strong>. Klik sesi yang ingin dialihkan:`;
+                    }
+                    if (sehariStrip) sehariStrip.style.display = 'flex';
+
+                    let cardsHtml = '';
+                    data.jadwals.forEach((j, idx) => {
+                        cardsHtml += `
+                        <div class="jadwal-card-item" id="card_jadwal_${j.id_jadwal}" onclick="onCardContainerClick(event, ${j.id_jadwal})">
+                            <div class="jadwal-card-top">
+                                <div class="jadwal-card-checkbox-group">
+                                    <input type="checkbox" name="selected_jadwal_ids[]" value="${j.id_jadwal}" id="cb_jadwal_${j.id_jadwal}" data-id-jadwal="${j.id_jadwal}" data-jam="${j.jam_pelajaran}" data-id-kelas="${j.id_kelas}" data-kelas-name="${j.nama_kelas}" class="cb-jadwal-sesi" onchange="onJadwalSelectionChanged()" onclick="event.stopPropagation()">
+                                    <span class="jadwal-card-class">${j.nama_kelas}</span>
+                                </div>
+                                <span class="jadwal-sesi-badge">Sesi ${idx + 1}</span>
+                            </div>
+                            <div class="jadwal-card-mapel">
+                                <i class="fa-solid fa-book-bookmark" style="color: #64748b;"></i> ${j.nama_mapel}
+                            </div>
+                            <div class="jadwal-card-time">
+                                <i class="fa-solid fa-clock"></i> ${j.jam_pelajaran}
+                            </div>
+                            <div class="jadwal-card-footer-hint">
+                                <span class="hint-text"><i class="fa-solid fa-hand-pointer"></i> Klik sesi untuk memilih</span>
+                                <span class="badge-status-pill" id="pill_jadwal_${j.id_jadwal}" style="display: none; font-size: 11px; font-weight: 800; color: #16a34a;"><i class="fa-solid fa-check"></i> Terpilih</span>
+                            </div>
+                        </div>`;
                     });
-                    listContainer.innerHTML = html;
-                    wrapperJadwal.style.display = 'block';
+
+                    cardsGrid.innerHTML = cardsHtml;
+
+                    // Tambahkan opsi sesi mengajar ke dropdown jam
+                    updateJamOptionsWithTeacherSchedules(data.jadwals);
+
+                    // Re-sync selection state if sehari_penuh is checked
+                    if (chkSehariPenuh && chkSehariPenuh.checked) {
+                        toggleSehariPenuh(chkSehariPenuh);
+                    } else {
+                        onJadwalSelectionChanged();
+                    }
                 } else {
-                    wrapperJadwal.style.display = 'block';
-                    listContainer.innerHTML = `<span style="color: #dc2626; font-style: italic;"><i class="fa-solid fa-info-circle"></i> Guru ini tidak memiliki jadwal mengajar pada hari ${data.hari || ''} (${tanggal}).</span>`;
+                    if (subtitleElem) {
+                        subtitleElem.innerText = `Guru tidak memiliki jadwal KBM terjadwal pada hari ${data.hari || ''} (${tanggal}).`;
+                    }
+                    if (sehariStrip) sehariStrip.style.display = 'none';
+                    if (feedbackBar) feedbackBar.style.display = 'none';
+                    cardsGrid.innerHTML = `
+                    <div class="jadwal-empty-alert" style="grid-column: 1 / -1;">
+                        <i class="fa-solid fa-circle-info" style="font-size: 18px; color: #d97706;"></i>
+                        <div>
+                            <strong>Tidak Ada Jadwal KBM Terjadwal:</strong> Guru ini tidak memiliki jam mengajar pada hari ${data.hari || ''} (${tanggal}). Anda tetap dapat mengisi <u>Jam Pelajaran (Master TU)</u> & <u>Kelas</u> secara manual di kolom bawah.
+                        </div>
+                    </div>`;
+                    onJadwalSelectionChanged();
                 }
             })
             .catch(err => {
-                wrapperJadwal.style.display = 'none';
+                cardsGrid.innerHTML = `<div class="jadwal-empty-alert" style="grid-column: 1 / -1; color: #dc2626; border-color: #fca5a5; background: #fef2f2;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat jadwal guru tidak hadir.
+                </div>`;
             });
     }
 
-    // Terapkan Sesi Jadwal yang Dipilih
-    function applyScheduleChoice(idJadwal, idKelas, jamPelajaran) {
-        const inputJadwal = document.getElementById('input_id_jadwal');
-        if (inputJadwal) inputJadwal.value = idJadwal;
-        
-        const selectKelas = document.getElementById('select_kelas');
-        if (selectKelas) selectKelas.value = idKelas;
+    // Click anywhere on card to toggle
+    function onCardContainerClick(event, idJadwal) {
+        const cb = document.getElementById(`cb_jadwal_${idJadwal}`);
+        if (cb) {
+            cb.checked = !cb.checked;
+            onJadwalSelectionChanged();
+        }
+    }
 
+    // Helper to Lock / Unlock Manual Jam Pelajaran & Kelas Inputs
+    function setManualInputsLocked(locked, reasonText = '') {
         const selectJam = document.getElementById('select_jam_pelajaran');
-        if (selectJam) {
-            let found = Array.from(selectJam.options).some(opt => opt.value === jamPelajaran);
-            if (!found) {
-                const opt = document.createElement('option');
-                opt.value = jamPelajaran;
-                opt.textContent = jamPelajaran;
-                selectJam.appendChild(opt);
-            }
-            selectJam.value = jamPelajaran;
-        }
+        const searchJam = document.getElementById('search_jam_pelajaran');
+        const selectKelas = document.getElementById('select_kelas');
+        const badgeJam = document.getElementById('lock_badge_jam');
+        const badgeKelas = document.getElementById('lock_badge_kelas');
+        const hintJam = document.getElementById('lock_hint_jam');
+        const hintKelas = document.getElementById('lock_hint_kelas');
 
-        document.querySelectorAll('.btn-schedule-chip').forEach(btn => {
-            btn.style.background = '#ffffff';
-            btn.style.borderColor = '#86efac';
-            btn.style.color = '#14532d';
-        });
-        if (event && event.currentTarget) {
-            event.currentTarget.style.background = '#dcfce7';
-            event.currentTarget.style.borderColor = '#22c55e';
-            event.currentTarget.style.color = '#15803d';
+        if (locked) {
+            if (selectJam) {
+                selectJam.disabled = true;
+                selectJam.removeAttribute('required');
+                selectJam.style.background = '#f1f5f9';
+                selectJam.style.color = '#64748b';
+                selectJam.style.cursor = 'not-allowed';
+                selectJam.style.borderColor = '#cbd5e1';
+            }
+            if (searchJam) {
+                searchJam.disabled = true;
+                searchJam.style.background = '#f1f5f9';
+                searchJam.style.color = '#94a3b8';
+                searchJam.style.cursor = 'not-allowed';
+                searchJam.value = '';
+            }
+            if (selectKelas) {
+                selectKelas.disabled = true;
+                selectKelas.removeAttribute('required');
+                selectKelas.style.background = '#f1f5f9';
+                selectKelas.style.color = '#64748b';
+                selectKelas.style.cursor = 'not-allowed';
+                selectKelas.style.borderColor = '#cbd5e1';
+            }
+            if (badgeJam) {
+                badgeJam.style.display = 'inline-flex';
+                if (reasonText) badgeJam.innerHTML = `<i class="fa-solid fa-lock" style="margin-right: 4px;"></i> ${reasonText}`;
+            }
+            if (badgeKelas) {
+                badgeKelas.style.display = 'inline-flex';
+                if (reasonText) badgeKelas.innerHTML = `<i class="fa-solid fa-lock" style="margin-right: 4px;"></i> ${reasonText}`;
+            }
+            if (hintJam) hintJam.style.display = 'block';
+            if (hintKelas) hintKelas.style.display = 'block';
+        } else {
+            if (selectJam) {
+                selectJam.disabled = false;
+                selectJam.style.background = '#ffffff';
+                selectJam.style.color = '';
+                selectJam.style.cursor = '';
+                selectJam.style.borderColor = '';
+            }
+            if (searchJam) {
+                searchJam.disabled = false;
+                searchJam.style.background = '#ffffff';
+                searchJam.style.color = '';
+                searchJam.style.cursor = '';
+            }
+            if (selectKelas) {
+                selectKelas.disabled = false;
+                selectKelas.style.background = '#ffffff';
+                selectKelas.style.color = '';
+                selectKelas.style.cursor = '';
+                selectKelas.style.borderColor = '';
+            }
+            if (badgeJam) badgeJam.style.display = 'none';
+            if (badgeKelas) badgeKelas.style.display = 'none';
+            if (hintJam) hintJam.style.display = 'none';
+            if (hintKelas) hintKelas.style.display = 'none';
         }
     }
 
-    // Fetch Preview Jadwal Sehari Penuh via AJAX
-    function fetchJadwalSehariPenuhPreview() {
-        const selectGuruHadir = document.getElementById('select_guru_tidak_hadir');
-        const inputTanggal   = document.getElementById('input_tanggal_penugasan');
-        const previewBox     = document.getElementById('preview_sehari_penuh_box');
+    // Unified Selection Handler
+    function onJadwalSelectionChanged() {
+        const checkboxes = document.querySelectorAll('.cb-jadwal-sesi');
+        const checked = document.querySelectorAll('.cb-jadwal-sesi:checked');
+        const totalCards = checkboxes.length;
+        const checkedCount = checked.length;
 
-        if (!selectGuruHadir || !inputTanggal || !previewBox) return;
+        const feedbackBar = document.getElementById('jadwal_feedback_bar');
+        const chkSehariPenuh = document.getElementById('check_sehari_penuh');
+        const sehariStrip = document.getElementById('sehari_penuh_strip');
+        const selectJam = document.getElementById('select_jam_pelajaran');
+        const selectKelas = document.getElementById('select_kelas');
+        const inputJadwal = document.getElementById('input_id_jadwal');
 
-        const idGuru  = selectGuruHadir.value;
-        const tanggal = inputTanggal.value;
+        checkboxes.forEach(cb => {
+            const card = document.getElementById(`card_jadwal_${cb.value}`);
+            const pill = document.getElementById(`pill_jadwal_${cb.value}`);
+            if (card) {
+                if (cb.checked) {
+                    card.classList.add('selected');
+                    if (checkedCount === totalCards && totalCards > 0) {
+                        card.classList.add('sehari-penuh-selected');
+                    } else {
+                        card.classList.remove('sehari-penuh-selected');
+                    }
+                    if (pill) pill.style.display = 'inline-flex';
+                } else {
+                    card.classList.remove('selected', 'sehari-penuh-selected');
+                    if (pill) pill.style.display = 'none';
+                }
+            }
+        });
 
-        if (!idGuru) {
-            previewBox.innerHTML = '<span style="color: #dc2626;"><i class="fa-solid fa-circle-exclamation"></i> Silakan pilih Guru Tidak Hadir terlebih dahulu!</span>';
-            return;
+        if (checkedCount === 0) {
+            if (feedbackBar) {
+                feedbackBar.style.display = 'none';
+                feedbackBar.className = 'jadwal-feedback-bar';
+                feedbackBar.innerHTML = '';
+            }
+            if (chkSehariPenuh) chkSehariPenuh.checked = false;
+            if (sehariStrip) sehariStrip.classList.remove('active');
+
+            if (inputJadwal) inputJadwal.value = '';
+            setManualInputsLocked(false);
+            if (selectJam) {
+                selectJam.setAttribute('required', 'required');
+            }
+            if (selectKelas) {
+                selectKelas.setAttribute('required', 'required');
+            }
+        } else if (checkedCount === 1) {
+            const firstCb = checked[0];
+            const jamVal = firstCb.getAttribute('data-jam');
+            const kelasVal = firstCb.getAttribute('data-id-kelas');
+            const kelasName = firstCb.getAttribute('data-kelas-name');
+            const idJadwalVal = firstCb.getAttribute('data-id-jadwal');
+
+            if (inputJadwal) inputJadwal.value = idJadwalVal;
+            setManualInputsLocked(false);
+
+            if (selectKelas && kelasVal) selectKelas.value = kelasVal;
+            if (selectJam && jamVal) {
+                let found = Array.from(selectJam.options).some(o => o.value === jamVal);
+                if (!found) {
+                    const opt = document.createElement('option');
+                    opt.value = jamVal;
+                    opt.textContent = jamVal;
+                    selectJam.appendChild(opt);
+                }
+                selectJam.value = jamVal;
+            }
+
+            if (selectJam) {
+                selectJam.removeAttribute('required');
+            }
+            if (selectKelas) {
+                selectKelas.removeAttribute('required');
+            }
+
+            if (chkSehariPenuh) chkSehariPenuh.checked = (totalCards === 1);
+            if (sehariStrip) {
+                if (totalCards === 1) {
+                    sehariStrip.classList.add('active');
+                    setManualInputsLocked(true, 'Terkunci (Sehari Penuh)');
+                } else {
+                    sehariStrip.classList.remove('active');
+                }
+            }
+
+            if (feedbackBar) {
+                feedbackBar.style.display = 'flex';
+                feedbackBar.className = 'jadwal-feedback-bar jadwal-feedback-single';
+                feedbackBar.innerHTML = `<i class="fa-solid fa-circle-info" style="font-size: 15px;"></i> <span><strong>1 Sesi Terpilih (${kelasName} — ${jamVal}):</strong> Jam Pelajaran & Kelas pada form di bawah telah otomatis disesuaikan.</span>`;
+            }
+        } else if (checkedCount > 1 && checkedCount < totalCards) {
+            if (inputJadwal) inputJadwal.value = '';
+            setManualInputsLocked(true, 'Terkunci (Multi-Sesi)');
+
+            if (chkSehariPenuh) chkSehariPenuh.checked = false;
+            if (sehariStrip) sehariStrip.classList.remove('active');
+
+            if (feedbackBar) {
+                feedbackBar.style.display = 'flex';
+                feedbackBar.className = 'jadwal-feedback-bar jadwal-feedback-multi';
+                feedbackBar.innerHTML = `<i class="fa-solid fa-check-double" style="font-size: 15px;"></i> <span><strong>${checkedCount} Sesi Terpilih:</strong> Kolom Jam Pelajaran & Kelas dikunci otomatis. Sistem akan membuat ${checkedCount} penugasan guru pengganti sekaligus untuk setiap sesi jam pelajaran & kelas yang dicentang saat form disimpan.</span>`;
+            }
+        } else if (checkedCount === totalCards && totalCards > 0) {
+            if (inputJadwal) inputJadwal.value = '';
+            setManualInputsLocked(true, 'Terkunci (Sehari Penuh)');
+
+            if (chkSehariPenuh) chkSehariPenuh.checked = true;
+            if (sehariStrip) sehariStrip.classList.add('active');
+
+            if (feedbackBar) {
+                feedbackBar.style.display = 'flex';
+                feedbackBar.className = 'jadwal-feedback-bar jadwal-feedback-all';
+                feedbackBar.innerHTML = `<i class="fa-solid fa-calendar-check" style="font-size: 16px;"></i> <span><strong>Penugasan Sehari Penuh Aktif (${checkedCount} Sesi Terpilih):</strong> Kolom Jam Pelajaran & Kelas dikunci otomatis. Semua sesi KBM guru tidak hadir pada hari ini akan otomatis dibuatkan penugasan sekaligus saat form disimpan.</span>`;
+            }
         }
+    }
 
-        previewBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memuat jadwal mengajar guru pada tanggal tersebut...';
+    function toggleSelectAllJadwal(selectAll) {
+        const checkboxes = document.querySelectorAll('.cb-jadwal-sesi');
+        checkboxes.forEach(cb => {
+            cb.checked = selectAll;
+        });
+        const chkSehariPenuh = document.getElementById('check_sehari_penuh');
+        if (chkSehariPenuh) chkSehariPenuh.checked = selectAll;
+        onJadwalSelectionChanged();
+    }
 
-        fetch(`{{ route('piket.guru-pengganti.jadwal-guru') }}?id_guru=${idGuru}&tanggal=${tanggal}`)
+    // Dynamic Fetch Opsi Guru Piket Berdasarkan Tanggal Penugasan
+    function fetchPiketGuruByDate() {
+        const inputTanggal = document.getElementById('input_tanggal_penugasan');
+        const selectPengganti = document.getElementById('select_guru_pengganti');
+        if (!inputTanggal || !selectPengganti) return;
+
+        const tanggal = inputTanggal.value;
+        if (!tanggal) return;
+
+        fetch(`{{ route('piket.guru-pengganti.piket-date') }}?tanggal=${tanggal}`)
             .then(res => res.json())
             .then(data => {
-                if (data.success && data.jadwals && data.jadwals.length > 0) {
-                    let html = `<strong><i class="fa-solid fa-check-circle" style="color: #16a34a;"></i> Ditemukan ${data.total_sesi} Sesi Mengajar pada Hari ${data.hari}:</strong><ul style="margin: 6px 0 0 20px; padding: 0;">`;
-                    data.jadwals.forEach(j => {
-                        html += `<li><strong>${j.nama_kelas}</strong> | ${j.nama_mapel} — <span style="color: #2563eb; font-weight:700;">${j.jam_pelajaran}</span></li>`;
-                    });
-                    html += `</ul><div style="font-size: 11.5px; color: #475569; margin-top: 6px; font-style: italic;">*Semua sesi jadwal di atas akan otomatis dibuatkan penugasan guru pengganti sekaligus saat form disimpan. Jam & Kelas dikunci selama mode ini aktif.</div>`;
-                    previewBox.innerHTML = html;
-                } else {
-                    previewBox.innerHTML = `<span style="color: #dc2626;"><i class="fa-solid fa-triangle-exclamation"></i> Guru ini tidak memiliki jadwal mengajar pada hari ${data.hari || ''} (${tanggal}). Penugasan sehari penuh tidak dapat diterapkan.</span>`;
+                if (data.success) {
+                    const currentSelectedVal = selectPengganti.value || selectPengganti.getAttribute('data-old-val');
+                    
+                    // Update list guru mengajar lainnya secara global
+                    guruMengajarLainnyaList = (data.other_gurus || []).map(g => ({
+                        id_guru: g.id_guru,
+                        nama_guru: g.nama_guru,
+                        nip: g.nip,
+                        mapel: g.mapel_nama
+                    }));
+
+                    selectPengganti.innerHTML = '<option value="">-- Pilih Guru Pengganti --</option>';
+
+                    const optgrpPiket = document.createElement('optgroup');
+                    optgrpPiket.id = 'optgroup_guru_piket_main';
+                    optgrpPiket.label = `📌 Guru Piket pada Tanggal Tersebut (Hari ${data.formatted_date})`;
+
+                    if (data.piket_gurus && data.piket_gurus.length > 0) {
+                        data.piket_gurus.forEach(g => {
+                            const opt = document.createElement('option');
+                            opt.value = g.id_guru;
+                            opt.textContent = `[Guru Piket S${g.slot_ke || 1}] ${g.nama_guru} (NIP: ${g.nip || '-'}) (${g.mapel_nama})`;
+                            if (currentSelectedVal && currentSelectedVal == g.id_guru) {
+                                opt.selected = true;
+                            }
+                            optgrpPiket.appendChild(opt);
+                        });
+                    } else {
+                        const opt = document.createElement('option');
+                        opt.disabled = true;
+                        opt.textContent = '(Tidak ada jadwal guru piket terdaftar pada tanggal ini)';
+                        optgrpPiket.appendChild(opt);
+                    }
+                    selectPengganti.appendChild(optgrpPiket);
+
+                    // Re-append Guru Mengajar Lainnya jika sebelumnya dibuka atau guru tergolong guru lain
+                    const isSelectedInPiket = (data.piket_gurus || []).some(g => g.id_guru == currentSelectedVal);
+                    if (isGuruLainnyaVisible || (currentSelectedVal && !isSelectedInPiket)) {
+                        isGuruLainnyaVisible = false;
+                        toggleGuruMengajarLainnya(true);
+                    }
+                    if (currentSelectedVal) {
+                        selectPengganti.value = currentSelectedVal;
+                    }
                 }
             })
             .catch(err => {
-                previewBox.innerHTML = '<span style="color: #dc2626;"><i class="fa-solid fa-circle-exclamation"></i> Gagal memuat jadwal mengajar.</span>';
+                console.error("Gagal memuat daftar guru piket per tanggal:", err);
             });
+    }
+
+    // Dynamic Fetch Opsi Guru Piket untuk Modal Edit Berdasarkan Tanggal Penugasan
+    function fetchEditPiketGuruByDate() {
+        const inputTanggal = document.getElementById('edit_input_tanggal');
+        const selectPengganti = document.getElementById('edit_select_guru_pengganti');
+        if (!inputTanggal || !selectPengganti) return;
+
+        const tanggal = inputTanggal.value;
+        if (!tanggal) return;
+
+        fetch(`{{ route('piket.guru-pengganti.piket-date') }}?tanggal=${tanggal}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const currentSelectedVal = selectPengganti.value;
+
+                    selectPengganti.innerHTML = '<option value="">-- Pilih Guru Pengganti --</option>';
+
+                    const optgrpPiket = document.createElement('optgroup');
+                    optgrpPiket.id = 'edit_optgroup_guru_piket_main';
+                    optgrpPiket.label = `📌 Guru Piket pada Tanggal Tersebut (Hari ${data.formatted_date})`;
+
+                    if (data.piket_gurus && data.piket_gurus.length > 0) {
+                        data.piket_gurus.forEach(g => {
+                            const opt = document.createElement('option');
+                            opt.value = g.id_guru;
+                            opt.textContent = `[Guru Piket S${g.slot_ke || 1}] ${g.nama_guru} (NIP: ${g.nip || '-'}) (${g.mapel_nama})`;
+                            if (currentSelectedVal && currentSelectedVal == g.id_guru) {
+                                opt.selected = true;
+                            }
+                            optgrpPiket.appendChild(opt);
+                        });
+                    } else {
+                        const opt = document.createElement('option');
+                        opt.disabled = true;
+                        opt.textContent = '(Tidak ada jadwal guru piket terdaftar pada tanggal ini)';
+                        optgrpPiket.appendChild(opt);
+                    }
+                    selectPengganti.appendChild(optgrpPiket);
+
+                    const isSelectedInPiket = (data.piket_gurus || []).some(g => g.id_guru == currentSelectedVal);
+                    if (isEditGuruLainnyaVisible || (currentSelectedVal && !isSelectedInPiket)) {
+                        isEditGuruLainnyaVisible = false;
+                        toggleEditGuruMengajarLainnya(true);
+                    }
+                    if (currentSelectedVal) {
+                        selectPengganti.value = currentSelectedVal;
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Gagal memuat daftar guru piket per tanggal di modal edit:", err);
+            });
+    }
+
+    // Sisipkan Sesi Mengajar Guru Tidak Hadir di Paling Atas Dropdown Jam Pelajaran
+    function updateJamOptionsWithTeacherSchedules(jadwals) {
+        const jamSelect = document.getElementById('select_jam_pelajaran');
+        if (!jamSelect || !jadwals || jadwals.length === 0) return;
+
+        const oldOptGroup = document.getElementById('optgroup_jadwal_guru_tidak_hadir');
+        if (oldOptGroup) oldOptGroup.remove();
+
+        const grpTeacher = document.createElement('optgroup');
+        grpTeacher.id = 'optgroup_jadwal_guru_tidak_hadir';
+        grpTeacher.label = '📌 Sesi Mengajar Guru Tidak Hadir pada Tanggal Ini (Otomatis Sync Kelas)';
+
+        jadwals.forEach(j => {
+            const opt = document.createElement('option');
+            opt.value = j.jam_pelajaran;
+            opt.textContent = `[Jadwal Mengajar] ${j.nama_kelas} (${j.nama_mapel}) — ${j.jam_pelajaran}`;
+            opt.setAttribute('data-id-jadwal', j.id_jadwal);
+            opt.setAttribute('data-id-kelas', j.id_kelas);
+            grpTeacher.appendChild(opt);
+        });
+
+        jamSelect.insertBefore(grpTeacher, jamSelect.children[1] || null);
     }
 
     // Filter Real-Time Options Dropdown Berdasarkan Nama / NIP
@@ -1838,7 +2515,7 @@
         // Auto-expand "Guru Mengajar Lainnya" saat pengguna mengetik kata kunci pencarian
         if (term.length >= 1) {
             if (selectId === 'select_guru_tidak_hadir') toggleGuruTidakHadirLainnya(true);
-            if (selectId === 'select_guru_pengganti') toggleGuruMengajarLainnya();
+            if (selectId === 'select_guru_pengganti') toggleGuruMengajarLainnya(true);
             if (selectId === 'edit_select_guru_tidak_hadir') toggleEditGuruTidakHadirLainnya(true);
             if (selectId === 'edit_select_guru_pengganti') toggleEditGuruMengajarLainnya(true);
         }
@@ -1913,12 +2590,14 @@
 
     // Toggle Guru Mengajar Lainnya (Guru Pengganti - Add Form)
     let isGuruLainnyaVisible = false;
-    function toggleGuruMengajarLainnya() {
+    function toggleGuruMengajarLainnya(forceShow = false) {
         const selectElem = document.getElementById('select_guru_pengganti');
         const btn = document.getElementById('btnToggleGuruLainnya');
         if (!selectElem || !btn) return;
 
-        if (!isGuruLainnyaVisible) {
+        if (forceShow || !isGuruLainnyaVisible) {
+            if (document.getElementById('optgroup_guru_lainnya_dynamic')) return;
+
             const grp = document.createElement('optgroup');
             grp.id = 'optgroup_guru_lainnya_dynamic';
             grp.label = 'Guru Mengajar Lainnya';
@@ -2130,6 +2809,7 @@
         updateEditNamaHariLabel();
         updateEditJamOptionsByDate(targetJamVal);
         fetchEditJadwalGuruTidakHadirList();
+        fetchEditPiketGuruByDate();
     }
 
     function updateEditNamaHariLabel() {
@@ -2349,6 +3029,32 @@
     // Client-side validation: cegah tanggal lalu & guru sama
     document.addEventListener('DOMContentLoaded', function() {
         onTanggalPenugasanChanged();
+
+        const selectJamPelajaran = document.getElementById('select_jam_pelajaran');
+        if (selectJamPelajaran) {
+            selectJamPelajaran.addEventListener('change', function() {
+                const selectedOpt = this.options[this.selectedIndex];
+                if (selectedOpt) {
+                    const idJadwal = selectedOpt.getAttribute('data-id-jadwal');
+                    const idKelas = selectedOpt.getAttribute('data-id-kelas');
+                    if (idJadwal) {
+                        const inputJadwal = document.getElementById('input_id_jadwal');
+                        if (inputJadwal) inputJadwal.value = idJadwal;
+
+                        // Centang checklist terkait
+                        const checkboxes = document.querySelectorAll('.cb-jadwal-sesi');
+                        checkboxes.forEach(cb => {
+                            cb.checked = (cb.value == idJadwal);
+                        });
+                        onJadwalSelectionChanged();
+                    }
+                    if (idKelas) {
+                        const selectKelas = document.getElementById('select_kelas');
+                        if (selectKelas) selectKelas.value = idKelas;
+                    }
+                }
+            });
+        }
 
         const selectPengganti = document.getElementById('select_guru_pengganti');
         if (selectPengganti) {

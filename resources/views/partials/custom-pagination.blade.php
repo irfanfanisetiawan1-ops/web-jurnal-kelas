@@ -1,8 +1,8 @@
-@if ($paginator->hasPages())
-    <div class="custom-pagination-bar">
-        <div class="pagination-info">
-            Menampilkan <strong style="color: #0f172a;">{{ $paginator->firstItem() }}</strong> – <strong style="color: #0f172a;">{{ $paginator->lastItem() }}</strong> dari <strong style="color: #0f172a;">{{ $paginator->total() }}</strong> Data
-        </div>
+<div class="custom-pagination-bar">
+    <div class="pagination-info">
+        Menampilkan <strong style="color: #0f172a;">{{ $paginator->firstItem() ?? 0 }}</strong> – <strong style="color: #0f172a;">{{ $paginator->lastItem() ?? 0 }}</strong> dari <strong style="color: #0f172a;">{{ number_format($paginator->total(), 0, ',', '.') }}</strong> Data
+    </div>
+    @if ($paginator->hasPages())
         <ul class="pagination-list">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
@@ -37,5 +37,5 @@
                 <li class="page-item disabled"><span class="page-link">&rsaquo;</span></li>
             @endif
         </ul>
-    </div>
-@endif
+    @endif
+</div>

@@ -18,15 +18,16 @@
         font-weight: 800;
     }
 
-    .main-grid {
+    .form-grid-2 {
         display: grid;
-        grid-template-columns: 1fr 400px;
-        gap: 24px;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
     }
 
-    @media (max-width: 1100px) {
-        .main-grid {
+    @media (max-width: 768px) {
+        .form-grid-2 {
             grid-template-columns: 1fr;
+            gap: 12px;
         }
     }
 
@@ -122,10 +123,19 @@
         box-shadow: 0 0 0 3px rgba(59, 84, 144, 0.15);
     }
 
+    .btn-submit-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 14px;
+    }
+
     .btn-submit {
-        background: #2b395b;
-        color: white;
-        padding: 12px 28px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: #ffffff;
+        padding: 11px 24px;
         border-radius: 12px;
         font-size: 14px;
         font-weight: 700;
@@ -135,12 +145,75 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        width: 100%;
-        box-shadow: 0 4px 12px rgba(43, 57, 91, 0.25);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         transition: all 0.2s ease;
     }
     .btn-submit:hover {
-        background: #1e2942;
+        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+        transform: translateY(-1px);
+    }
+
+    .btn-reset-form {
+        background: #fbbf24;
+        color: #78350f;
+        border: 1px solid #fde68a;
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: 0 2px 6px rgba(251, 191, 36, 0.2);
+        transition: all 0.2s ease;
+    }
+    .btn-reset-form:hover {
+        background: #f59e0b;
+        color: #78350f;
+        transform: translateY(-1px);
+    }
+
+    /* Auto Generate & Realtime Validation Elements */
+    .btn-auto-gen {
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+        padding: 3px 10px;
+        border-radius: 8px;
+        font-size: 11.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: all 0.2s ease;
+    }
+    .btn-auto-gen:hover {
+        background: #dbeafe;
+        border-color: #93c5fd;
+        color: #1d4ed8;
+        transform: translateY(-1px);
+    }
+    .field-feedback {
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        line-height: 1.4;
+    }
+    .field-feedback.is-valid {
+        color: #16a34a;
+    }
+    .field-feedback.is-invalid {
+        color: #dc2626;
+    }
+    .field-feedback.is-warning {
+        color: #d97706;
     }
 
     /* Filter & Reset Buttons */
@@ -285,20 +358,78 @@
         border-color: #e11d48;
     }
 
-    /* Detail Card Specific Styles (Matching Screenshot) */
-    .detail-mapel-card {
+    /* Detail Mapel Modal Specific Styles (Matching Screenshot) */
+    .modal-detail-box {
         background: #fdfbf7;
         border: 1.5px solid #f3ebd7;
-        border-radius: 22px;
-        padding: 24px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+        border-radius: 24px;
+        padding: 26px 28px;
+        max-width: 460px;
+        width: 90%;
+        box-shadow: 0 25px 50px rgba(15, 23, 42, 0.3);
+        text-align: left;
+        position: relative;
+        animation: modalFadeIn 0.2s ease-out;
+        max-height: 88vh;
+        display: flex;
+        flex-direction: column;
+    }
+    @keyframes modalFadeIn {
+        from { opacity: 0; transform: scale(0.95) translateY(10px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    .detail-mapel-card h3 {
+    .modal-detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        padding-bottom: 14px;
+        border-bottom: 1.5px solid #f3ebd7;
+    }
+
+    .modal-detail-header h3 {
         font-size: 20px;
         font-weight: 800;
         color: #0f172a;
-        margin-bottom: 16px;
+        margin: 0;
+    }
+
+    .btn-close-modal {
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        color: #64748b;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.15s ease;
+    }
+    .btn-close-modal:hover {
+        background: #e2e8f0;
+        color: #0f172a;
+        transform: scale(1.05);
+    }
+
+    .modal-detail-body {
+        overflow-y: auto;
+        padding-right: 4px;
+        flex: 1;
+    }
+
+    .modal-detail-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1.5px solid #f3ebd7;
+        gap: 12px;
+        flex-wrap: wrap;
     }
 
     .detail-row {
@@ -514,233 +645,534 @@
         </div>
     @endif
 
-    <div class="main-grid">
-
-        <!-- SISI KIRI: Tabel Daftar Mapel + Bar Pencarian -->
-        <div>
-            <div class="card">
-                <div class="card-top-header">
-                    <div>
-                        <h2><i class="fa-solid fa-book-bookmark" style="color:#3b5490;"></i> Master Data - Mapel</h2>
-                        <p>Pengelolaan mata pelajaran dan daftar guru pengampu.</p>
-                    </div>
-
-                    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                        <a href="{{ route('mapel.trash') }}" class="btn-trash">
-                            <i class="fa-solid fa-trash-can"></i> Lihat Sampah Mapel
-                            @if(isset($trashedCount) && $trashedCount > 0)
-                                <span class="badge-count">{{ $trashedCount }}</span>
-                            @endif
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Form Pencarian -->
-                <form action="{{ route('mapel.index') }}" method="GET" style="display:flex; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
-                    @if(isset($selected_id))
-                        <input type="hidden" name="selected_id" value="{{ $selected_id }}">
-                    @endif
-                    <div style="position:relative; flex:1; min-width:220px;">
-                        <input type="text" name="search" class="form-control" style="padding-left:36px; background:#ffffff;" value="{{ $search ?? '' }}" placeholder="Cari Nama / Kode Mapel..">
-                        <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
-                    </div>
-
-                    <button type="submit" class="btn-filter">Cari</button>
-                    <a href="{{ route('mapel.index') }}" class="btn-reset">Reset</a>
-                    <button type="button" id="btnBulkDelete" class="btn-action btn-delete" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,29,72,0.15); border: none;" disabled onclick="confirmBulkDelete()" title="Pilih mapel dengan mencentang checkbox untuk menghapus secara massal">
-                        <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
-                    </button>
-                </form>
-
-                <form id="formBulkDelete" action="{{ route('mapel.destroy-batch') }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-
-                    <div class="table-responsive">
-                        <table class="table-custom">
-                            <thead>
-                                <tr>
-                                    <th style="width: 40px; text-align: center;">
-                                        <input type="checkbox" id="selectAllMapel" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" title="Pilih Semua (Select All)">
-                                    </th>
-                                    <th style="width: 50px;">NO</th>
-                                    <th>KODE</th>
-                                    <th>NAMA MAPEL</th>
-                                    <th style="text-align:center;">JUMLAH PENGAMPU</th>
-                                    <th style="text-align:center; min-width: 220px;">AKSI</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($mapels as $index => $m)
-                                    <tr class="{{ isset($selectedMapel) && $selectedMapel->id_mapel == $m->id_mapel ? 'active-row' : '' }}">
-                                        <td style="text-align: center;">
-                                            <input type="checkbox" name="ids[]" value="{{ $m->id_mapel }}" class="mapel-select-checkbox" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" onchange="updateBulkDeleteState()">
-                                        </td>
-                                        <td><strong>{{ $index + 1 }}</strong></td>
-                                        <td><span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $m->kode_mapel ?? '-' }}</span></td>
-                                        <td><strong>{{ $m->nama_mapel }}</strong></td>
-                                        <td style="text-align:center;">
-                                            <span style="background:#fce7f3; color:#be185d; font-weight:800; padding:4px 12px; border-radius:10px; font-size:12px;">
-                                                {{ $m->gurus_count ?? count($m->gurus) }}
-                                            </span>
-                                        </td>
-                                        <td style="text-align:center;">
-                                            <div class="action-buttons">
-                                                <!-- 1. LIHAT DETAIL - Disebelah kiri Edit & Hapus -->
-                                                <a href="{{ route('mapel.index', ['search' => $search ?? '', 'selected_id' => $m->id_mapel]) }}" class="btn-action btn-view" title="Lihat Detail Mapel & Guru Pengampu">
-                                                    <i class="fa-solid fa-eye"></i> Lihat Detail
-                                                </a>
-
-                                                <!-- 2. EDIT - Disebelah kiri Hapus -->
-                                                <a href="{{ route('mapel.edit', $m->id_mapel) }}" class="btn-action btn-edit" title="Edit Data Mapel">
-                                                    <i class="fa-solid fa-pen-to-square"></i> Edit
-                                                </a>
-
-                                                <!-- 3. HAPUS - Paling kanan -->
-                                                <button type="button" class="btn-action btn-delete" onclick="if(confirm('Apakah Anda yakin ingin memindahkan {{ addslashes($m->nama_mapel) }} ke tempat sampah?')) { document.getElementById('singleDeleteForm-{{ $m->id_mapel }}').submit(); }" title="Hapus Mapel">
-                                                    <i class="fa-solid fa-trash-can"></i> Hapus
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" style="text-align:center; padding:36px; color:#94a3b8;">
-                                            <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>
-                                            Belum ada data Mata Pelajaran.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-
-                @foreach($mapels as $m)
-                    <form id="singleDeleteForm-{{ $m->id_mapel }}" action="{{ route('mapel.destroy', $m->id_mapel) }}" method="POST" style="display:none;">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-                @endforeach
+    <!-- Card 1 (Atas): Form Tambah Mapel -->
+    <div class="card">
+        <div class="card-top-header">
+            <div>
+                <h2><i class="fa-solid fa-book-medical" style="color:#3b5490;"></i> Tambah Mapel</h2>
+                <p>Input data mata pelajaran baru ke dalam kurikulum dengan validasi anti-bentrok.</p>
+            </div>
+            <div>
+                <span style="font-size:12px; background:#eff6ff; color:#1d4ed8; font-weight:700; padding:6px 14px; border-radius:12px; border:1px solid #bfdbfe; display:inline-flex; align-items:center; gap:6px;">
+                    Validasi Anti-Bentrok
+                </span>
             </div>
         </div>
 
-        <!-- SISI KANAN: Card Form Tambah Mapel + Panel Detail Mapel -->
-        <div>
+        <form id="formTambahMapel" action="{{ route('mapel.store') }}" method="POST" onsubmit="return validateMapelForm(event)">
+            @csrf
 
-            <!-- Card 1: Form Tambah Mapel -->
-            <div class="card">
-                <h2 style="font-size:18px; font-weight:800; color:#0f172a; margin-bottom:16px;">
-                    <i class="fa-solid fa-square-plus" style="color:#2563eb;"></i> Tambah Mapel
-                </h2>
+            <div class="form-grid-2">
+                <!-- Nama Mapel -->
+                <div class="form-group">
+                    <label for="nama_mapel">Nama Mata Pelajaran <span style="color:#ef4444;">*</span></label>
+                    <input
+                        type="text"
+                        id="nama_mapel"
+                        name="nama_mapel"
+                        value="{{ old('nama_mapel') }}"
+                        class="form-control @error('nama_mapel') is-invalid @enderror"
+                        placeholder="Contoh: Bahasa Indonesia, Matematika"
+                        maxlength="100"
+                        required
+                        autocomplete="off"
+                        oninput="handleNamaMapelInput(this.value)"
+                    >
+                    <div id="namaMapelFeedback" class="field-feedback"></div>
+                    @error('nama_mapel')
+                        <small style="color:#ef4444; font-weight:600; display:block; margin-top:4px;">{{ $message }}</small>
+                    @enderror
+                </div>
 
-                <form id="formTambahMapel" action="{{ route('mapel.store') }}" method="POST" onsubmit="return validateMapelForm(event)">
-                    @csrf
-
-                    <div class="form-group">
-                        <label for="kode_mapel">Kode Mapel <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="kode_mapel" name="kode_mapel" value="{{ old('kode_mapel') }}" class="form-control @error('kode_mapel') is-invalid @enderror" placeholder="Contoh: ING-10" required>
-                        @error('kode_mapel')
-                            <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
-                        @enderror
+                <!-- Kode Mapel -->
+                <div class="form-group">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <label for="kode_mapel" style="margin-bottom:0;">Kode Mapel <span style="color:#ef4444;">*</span></label>
+                        <button type="button" id="btnAutoKode" class="btn-auto-gen" onclick="triggerManualGenerateKode()" title="Generate ulang kode otomatis">
+                            Generate Otomatis
+                        </button>
                     </div>
-
-                    <div class="form-group">
-                        <label for="nama_mapel">Nama Mapel <span style="color:#ef4444;">*</span></label>
-                        <input type="text" id="nama_mapel" name="nama_mapel" value="{{ old('nama_mapel') }}" class="form-control @error('nama_mapel') is-invalid @enderror" placeholder="Masukkan Nama Mapel" required>
-                        @error('nama_mapel')
-                            <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <button type="submit" class="btn-submit">
-                        <i class="fa-solid fa-floppy-disk"></i> Simpan Mapel
-                    </button>
-                </form>
+                    <input
+                        type="text"
+                        id="kode_mapel"
+                        name="kode_mapel"
+                        value="{{ old('kode_mapel') }}"
+                        class="form-control @error('kode_mapel') is-invalid @enderror"
+                        placeholder="Contoh: BIN-01, MAT-01, INF-01"
+                        maxlength="15"
+                        required
+                        autocomplete="off"
+                        style="text-transform:uppercase; font-family:monospace; font-weight:700; letter-spacing:0.5px;"
+                        oninput="handleKodeMapelInput(this.value)"
+                    >
+                    <div id="kodeMapelFeedback" class="field-feedback"></div>
+                    @error('kode_mapel')
+                        <small style="color:#ef4444; font-weight:600; display:block; margin-top:4px;">{{ $message }}</small>
+                    @enderror
+                </div>
             </div>
 
-            <script>
-                function validateMapelForm(e) {
-                    const kodeMapel = document.getElementById('kode_mapel').value.trim();
-                    const namaMapel = document.getElementById('nama_mapel').value.trim();
+            <div class="btn-submit-container">
+                <button type="button" onclick="resetFormTambahMapel()" class="btn-reset-form" title="Kosongkan Isian Form">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Form
+                </button>
+                <button type="submit" class="btn-submit" id="btnSubmitMapel">
+                    <i class="fa-solid fa-floppy-disk"></i> Simpan Mapel
+                </button>
+            </div>
+        </form>
+    </div>
 
-                    let errors = [];
-                    if (!kodeMapel) {
-                        errors.push('Kode Mapel wajib diisi!');
-                    } else if (kodeMapel.length > 15) {
-                        errors.push('Kode Mapel maksimal 15 karakter!');
+    <!-- Card 2 (Bawah): Master Data - Mapel -->
+    <div class="card">
+        <div class="card-top-header">
+            <div>
+                <h2><i class="fa-solid fa-book-bookmark" style="color:#3b5490;"></i> Master Data - Mapel</h2>
+                <p>Pengelolaan mata pelajaran dan daftar guru pengampu.</p>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <a href="{{ route('mapel.trash') }}" class="btn-trash">
+                    <i class="fa-solid fa-trash-can"></i> Lihat Sampah Mapel
+                    @if(isset($trashedCount) && $trashedCount > 0)
+                        <span class="badge-count">{{ $trashedCount }}</span>
+                    @endif
+                </a>
+            </div>
+        </div>
+
+        <!-- Form Pencarian -->
+        <form action="{{ route('mapel.index') }}" method="GET" style="display:flex; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+            @if(isset($selected_id))
+                <input type="hidden" name="selected_id" value="{{ $selected_id }}">
+            @endif
+            <div style="position:relative; flex:1; min-width:220px;">
+                <input type="text" name="search" class="form-control" style="padding-left:36px; background:#ffffff;" value="{{ $search ?? '' }}" placeholder="Cari Nama / Kode Mapel..">
+                <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
+            </div>
+
+            <button type="submit" class="btn-filter">Cari</button>
+            <a href="{{ route('mapel.index') }}" class="btn-reset">Reset</a>
+            <button type="button" id="btnBulkDelete" class="btn-action btn-delete" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,29,72,0.15); border: none;" disabled onclick="confirmBulkDelete()" title="Pilih mapel dengan mencentang checkbox untuk menghapus secara massal">
+                <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
+            </button>
+        </form>
+
+        <form id="formBulkDelete" action="{{ route('mapel.destroy-batch') }}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px; text-align: center;">
+                                <input type="checkbox" id="selectAllMapel" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" title="Pilih Semua (Select All)">
+                            </th>
+                            <th style="width: 50px;">NO</th>
+                            <th>KODE</th>
+                            <th>NAMA MAPEL</th>
+                            <th style="text-align:center;">JUMLAH PENGAMPU</th>
+                            <th style="text-align:center; min-width: 220px;">AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($mapels as $index => $m)
+                            <tr>
+                                <td style="text-align: center;">
+                                    <input type="checkbox" name="ids[]" value="{{ $m->id_mapel }}" class="mapel-select-checkbox" style="width: 17px; height: 17px; cursor: pointer; accent-color: #e11d48;" onchange="updateBulkDeleteState()">
+                                </td>
+                                <td><strong>{{ $index + 1 }}</strong></td>
+                                <td><span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $m->kode_mapel ?? '-' }}</span></td>
+                                <td><strong>{{ $m->nama_mapel }}</strong></td>
+                                <td style="text-align:center;">
+                                    <span style="background:#fce7f3; color:#be185d; font-weight:800; padding:4px 12px; border-radius:10px; font-size:12px;">
+                                        {{ $m->gurus_count ?? count($m->gurus) }}
+                                    </span>
+                                </td>
+                                <td style="text-align:center;">
+                                    <div class="action-buttons">
+                                        <!-- 1. LIHAT DETAIL - Pop up Modal -->
+                                        <button type="button" class="btn-action btn-view" onclick="openDetailModal({{ $m->id_mapel }})" title="Lihat Detail Mapel & Guru Pengampu">
+                                            <i class="fa-solid fa-eye"></i> Lihat Detail
+                                        </button>
+
+                                        <!-- 2. EDIT - Disebelah kiri Hapus -->
+                                        <a href="{{ route('mapel.edit', $m->id_mapel) }}" class="btn-action btn-edit" title="Edit Data Mapel">
+                                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                                        </a>
+
+                                        <!-- 3. HAPUS - Paling kanan -->
+                                        <button type="button" class="btn-action btn-delete" onclick="if(confirm('Apakah Anda yakin ingin memindahkan {{ addslashes($m->nama_mapel) }} ke tempat sampah?')) { document.getElementById('singleDeleteForm-{{ $m->id_mapel }}').submit(); }" title="Hapus Mapel">
+                                            <i class="fa-solid fa-trash-can"></i> Hapus
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding:36px; color:#94a3b8;">
+                                    <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>
+                                    Belum ada data Mata Pelajaran.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        @foreach($mapels as $m)
+            <form id="singleDeleteForm-{{ $m->id_mapel }}" action="{{ route('mapel.destroy', $m->id_mapel) }}" method="POST" style="display:none;">
+                @csrf
+                @method('DELETE')
+            </form>
+        @endforeach
+    </div>
+
+    <script>
+                const existingMapels = @json($existingMapelsList ?? []);
+                let userHasManuallyEditedKode = false;
+
+                // Kamus Singkatan Baku Mapel Sekolah Indonesia
+                const knownMapelPrefixes = {
+                    'BAHASA INDONESIA': 'BIN',
+                    'BAHASA INGGRIS': 'BIG',
+                    'BAHASA JAWA': 'BJAW',
+                    'BAHASA JEPANG': 'BJEP',
+                    'BAHASA JERMAN': 'BJER',
+                    'BAHASA ARAB': 'BARB',
+                    'BAHASA MANDARIN': 'BMND',
+                    'MATEMATIKA': 'MAT',
+                    'PENDIDIKAN AGAMA ISLAM': 'PAI',
+                    'PENDIDIKAN AGAMA KRISTEN': 'PAK',
+                    'PENDIDIKAN AGAMA KATOLIK': 'PKAT',
+                    'PENDIDIKAN AGAMA HINDU': 'PAH',
+                    'PENDIDIKAN AGAMA BUDDHA': 'PAB',
+                    'PENDIDIKAN AGAMA KHONGHUCU': 'PAKH',
+                    'PENDIDIKAN PANCASILA': 'PPKN',
+                    'PENDIDIKAN KEWARGANEGARAAN': 'PKN',
+                    'PENDIDIKAN JASMANI': 'PJOK',
+                    'PENJASKES': 'PJOK',
+                    'SENI BUDAYA': 'SEN',
+                    'SENI RUPA': 'SRUP',
+                    'SENI MUSIK': 'SMUS',
+                    'SENI TARI': 'STAR',
+                    'SENI TEATER': 'STEA',
+                    'SEJARAH': 'SEJ',
+                    'INFORMATIKA': 'INF',
+                    'BIMBINGAN KONSELING': 'BK',
+                    'PROJEK ILMU PENGETAHUAN ALAM DAN SOSIAL': 'IPAS',
+                    'ILMU PENGETAHUAN ALAM': 'IPA',
+                    'ILMU PENGETAHUAN SOSIAL': 'IPS',
+                    'KODING DAN KECERDASAN ARTIFISIAL': 'KDK',
+                    'KREATIVITAS, INOVASI, DAN KEWIRAUSAHAAN': 'PKK',
+                    'KONSENTRASI KEAHLIAN': 'KKA'
+                };
+
+                function calculateAutoKode(nama) {
+                    if (!nama || !nama.trim()) return '';
+                    const cleanName = nama.trim().toUpperCase();
+
+                    let prefix = null;
+                    for (const [key, code] of Object.entries(knownMapelPrefixes)) {
+                        if (cleanName.includes(key)) {
+                            prefix = code;
+                            break;
+                        }
                     }
 
+                    if (!prefix) {
+                        const words = cleanName.split(/[\s,\-_]+/);
+                        if (words.length >= 2) {
+                            let acronym = '';
+                            const stopWords = ['DAN', 'YANG', 'UNTUK', 'DI', 'KE', 'DARI', 'BUDI', 'PEKERTI', 'KELAS', 'TINGKAT'];
+                            for (const w of words) {
+                                if (!stopWords.includes(w) && w.length > 0) {
+                                    acronym += w.charAt(0);
+                                }
+                            }
+                            if (acronym.length >= 2 && acronym.length <= 6) {
+                                prefix = acronym;
+                            } else {
+                                prefix = words[0].substring(0, 3);
+                            }
+                        } else {
+                            const alphanumeric = cleanName.replace(/[^A-Z0-9]/g, '');
+                            prefix = alphanumeric.substring(0, Math.min(4, alphanumeric.length));
+                        }
+                    }
+
+                    prefix = (prefix || 'MPL').replace(/[^A-Z0-9]/g, '');
+                    if (!prefix) prefix = 'MPL';
+
+                    // Ambil list kode yang sudah ada di database
+                    const usedCodes = existingMapels.map(m => (m.kode || '').toUpperCase());
+
+                    let index = 1;
+                    let candidate = '';
+                    do {
+                        candidate = prefix + '-' + String(index).padStart(2, '0');
+                        index++;
+                    } while (usedCodes.includes(candidate) && index < 1000);
+
+                    return candidate;
+                }
+
+                function handleNamaMapelInput(val) {
+                    const namaInput = document.getElementById('nama_mapel');
+                    const kodeInput = document.getElementById('kode_mapel');
+                    const namaFeedback = document.getElementById('namaMapelFeedback');
+
+                    val = val.trim();
+
+                    // 1. Validasi Nama Mapel
+                    if (!val) {
+                        namaFeedback.innerHTML = '';
+                        namaInput.classList.remove('is-invalid');
+                    } else {
+                        const valLower = val.toLowerCase();
+                        const duplicate = existingMapels.find(m => m.nama_lower === valLower);
+                        if (duplicate) {
+                            namaInput.classList.add('is-invalid');
+                            if (duplicate.is_trash) {
+                                namaFeedback.className = 'field-feedback is-warning';
+                                namaFeedback.innerHTML = `Nama mapel ini ada di Tempat Sampah (Kode: ${duplicate.kode}).`;
+                            } else {
+                                namaFeedback.className = 'field-feedback is-invalid';
+                                namaFeedback.innerHTML = `Nama mapel sudah terdaftar dengan kode <strong>${duplicate.kode}</strong>.`;
+                            }
+                        } else if (val.length < 2) {
+                            namaInput.classList.add('is-invalid');
+                            namaFeedback.className = 'field-feedback is-invalid';
+                            namaFeedback.innerHTML = `Nama mapel minimal 2 karakter.`;
+                        } else {
+                            namaInput.classList.remove('is-invalid');
+                            namaFeedback.className = 'field-feedback is-valid';
+                            namaFeedback.innerHTML = `Nama mata pelajaran valid &amp; tersedia.`;
+                        }
+                    }
+
+                    // 2. Auto-generate kode jika user belum edit manual kode
+                    if (!userHasManuallyEditedKode && val) {
+                        const autoCode = calculateAutoKode(val);
+                        kodeInput.value = autoCode;
+                        handleKodeMapelInput(autoCode, false);
+                    } else if (!val && !userHasManuallyEditedKode) {
+                        kodeInput.value = '';
+                        document.getElementById('kodeMapelFeedback').innerHTML = '';
+                        kodeInput.classList.remove('is-invalid');
+                    }
+                }
+
+                function triggerManualGenerateKode() {
+                    const nama = document.getElementById('nama_mapel').value;
+                    const autoCode = calculateAutoKode(nama || 'Mapel');
+                    const kodeInput = document.getElementById('kode_mapel');
+                    kodeInput.value = autoCode;
+                    userHasManuallyEditedKode = false;
+                    handleKodeMapelInput(autoCode, false);
+                }
+
+                function handleKodeMapelInput(val, isManual = true) {
+                    if (isManual) {
+                        userHasManuallyEditedKode = true;
+                    }
+
+                    const kodeInput = document.getElementById('kode_mapel');
+                    const feedback = document.getElementById('kodeMapelFeedback');
+
+                    val = (val || '').trim().toUpperCase();
+                    kodeInput.value = val;
+
+                    if (!val) {
+                        feedback.innerHTML = '';
+                        kodeInput.classList.remove('is-invalid');
+                        return;
+                    }
+
+                    // Cek format kriteria kode
+                    const validFormat = /^[A-Z0-9\-_]+$/.test(val);
+                    if (!validFormat) {
+                        kodeInput.classList.add('is-invalid');
+                        feedback.className = 'field-feedback is-invalid';
+                        feedback.innerHTML = `Hanya boleh huruf kapital, angka, (-) dan (_).`;
+                        return;
+                    }
+
+                    if (val.length < 2) {
+                        kodeInput.classList.add('is-invalid');
+                        feedback.className = 'field-feedback is-invalid';
+                        feedback.innerHTML = `Kode minimal 2 karakter.`;
+                        return;
+                    }
+
+                    if (val.length > 15) {
+                        kodeInput.classList.add('is-invalid');
+                        feedback.className = 'field-feedback is-invalid';
+                        feedback.innerHTML = `Kode maksimal 15 karakter.`;
+                        return;
+                    }
+
+                    // Cek duplikasi di existingMapels
+                    const duplicate = existingMapels.find(m => m.kode === val);
+                    if (duplicate) {
+                        kodeInput.classList.add('is-invalid');
+                        if (duplicate.is_trash) {
+                            feedback.className = 'field-feedback is-warning';
+                            feedback.innerHTML = `Kode ada pada mapel "${duplicate.nama}" di Tempat Sampah.`;
+                        } else {
+                            feedback.className = 'field-feedback is-invalid';
+                            feedback.innerHTML = `Kode sudah dipakai oleh <strong>${duplicate.nama}</strong>.`;
+                        }
+                    } else {
+                        kodeInput.classList.remove('is-invalid');
+                        feedback.className = 'field-feedback is-valid';
+                        feedback.innerHTML = `Kode Mapel valid &amp; siap digunakan.`;
+                    }
+                }
+
+                function validateMapelForm(e) {
+                    const kodeInput = document.getElementById('kode_mapel');
+                    const namaInput = document.getElementById('nama_mapel');
+                    const kodeMapel = kodeInput.value.trim().toUpperCase();
+                    const namaMapel = namaInput.value.trim();
+
+                    let errors = [];
+
                     if (!namaMapel) {
-                        errors.push('Nama Mapel wajib diisi!');
+                        errors.push('Nama Mata Pelajaran wajib diisi!');
+                    } else if (namaMapel.length < 2) {
+                        errors.push('Nama Mata Pelajaran minimal 2 karakter!');
                     } else if (namaMapel.length > 100) {
-                        errors.push('Nama Mapel maksimal 100 karakter!');
+                        errors.push('Nama Mata Pelajaran maksimal 100 karakter!');
+                    }
+
+                    // Cek bentrok nama
+                    const dupName = existingMapels.find(m => m.nama_lower === namaMapel.toLowerCase());
+                    if (dupName) {
+                        if (dupName.is_trash) {
+                            errors.push(`Mata Pelajaran "${dupName.nama}" sudah ada di Tempat Sampah. Silakan pulihkan data.`);
+                        } else {
+                            errors.push(`Mata Pelajaran "${dupName.nama}" sudah terdaftar dengan kode ${dupName.kode}!`);
+                        }
+                    }
+
+                    if (!kodeMapel) {
+                        // Jika kosong, isi otomatis
+                        const autoCode = calculateAutoKode(namaMapel);
+                        kodeInput.value = autoCode;
+                    } else {
+                        if (kodeMapel.length < 2) {
+                            errors.push('Kode Mapel minimal 2 karakter!');
+                        } else if (kodeMapel.length > 15) {
+                            errors.push('Kode Mapel maksimal 15 karakter!');
+                        } else if (!/^[A-Z0-9\-_]+$/.test(kodeMapel)) {
+                            errors.push('Kode Mapel hanya boleh berisi huruf kapital, angka, strip (-), dan garis bawah (_)!');
+                        }
+
+                        // Cek bentrok kode
+                        const dupCode = existingMapels.find(m => m.kode === kodeMapel);
+                        if (dupCode) {
+                            if (dupCode.is_trash) {
+                                errors.push(`Kode Mapel "${kodeMapel}" sudah terdaftar pada data di Tempat Sampah ("${dupCode.nama}")!`);
+                            } else {
+                                errors.push(`Kode Mapel "${kodeMapel}" sudah digunakan oleh mata pelajaran "${dupCode.nama}"!`);
+                            }
+                        }
                     }
 
                     if (errors.length > 0) {
                         e.preventDefault();
-                        alert('⚠️ PERINGATAN VALIDASI DATA:\n\n' + errors.map((err, i) => (i + 1) + '. ' + err).join('\n'));
-                        if (!kodeMapel) document.getElementById('kode_mapel').focus();
-                        else if (!namaMapel) document.getElementById('nama_mapel').focus();
+                        alert('⚠️ PERINGATAN VALIDASI MAPEL:\n\n' + errors.map((err, i) => (i + 1) + '. ' + err).join('\n'));
+                        if (!namaMapel) namaInput.focus();
+                        else if (!kodeMapel) kodeInput.focus();
                         return false;
+                    }
+
+                    const btn = document.getElementById('btnSubmitMapel');
+                    if (btn) {
+                        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...';
+                        btn.style.opacity = '0.75';
+                        btn.style.pointerEvents = 'none';
                     }
                     return true;
                 }
+
+                function resetFormTambahMapel() {
+                    const form = document.getElementById('formTambahMapel');
+                    if (form) form.reset();
+                    userHasManuallyEditedKode = false;
+
+                    const namaInput = document.getElementById('nama_mapel');
+                    const kodeInput = document.getElementById('kode_mapel');
+                    const namaFeedback = document.getElementById('namaMapelFeedback');
+                    const kodeFeedback = document.getElementById('kodeMapelFeedback');
+
+                    if (namaInput) {
+                        namaInput.value = '';
+                        namaInput.classList.remove('is-invalid');
+                    }
+                    if (kodeInput) {
+                        kodeInput.value = '';
+                        kodeInput.classList.remove('is-invalid');
+                    }
+                    if (namaFeedback) {
+                        namaFeedback.innerHTML = '';
+                        namaFeedback.className = 'field-feedback';
+                    }
+                    if (kodeFeedback) {
+                        kodeFeedback.innerHTML = '';
+                        kodeFeedback.className = 'field-feedback';
+                    }
+                }
             </script>
 
-            <!-- Card 2: Panel Detail Mapel (Sesuai Screenshot User) -->
-            @if(isset($selectedMapel))
-                <div class="detail-mapel-card">
-                    <h3>Detail Mapel</h3>
+    <!-- Pop-up Modal Detail Mapel -->
+    <div class="modal-bg" id="modalDetailMapel" role="dialog" aria-modal="true" aria-labelledby="modalDetailTitle">
+        <div class="modal-detail-box">
+            <div class="modal-detail-header">
+                <h3 id="modalDetailTitle">Detail Mapel</h3>
+                <button type="button" class="btn-close-modal" onclick="closeDetailModal()" title="Tutup">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
 
-                    <div class="detail-row">
-                        <span class="label">Nama Mapel :</span>
-                        <span class="badge-highlight-yellow">{{ $selectedMapel->nama_mapel }}</span>
-                    </div>
-
-                    <div class="detail-row">
-                        <span class="label">Kode Mapel :</span>
-                        <span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $selectedMapel->kode_mapel }}</span>
-                    </div>
-
-                    <div class="detail-row">
-                        <span class="label">Jumlah Pengampu :</span>
-                        <span class="badge-pink-pill">{{ $selectedMapel->gurus_count ?? count($selectedMapel->gurus) }}</span>
-                    </div>
-
-                    <div class="pengampu-header">
-                        <span class="title">Daftar Pengampu :</span>
-                        <span class="badge-semua">Semua</span>
-                    </div>
-
-                    @if(isset($selectedMapel->gurus) && count($selectedMapel->gurus) > 0)
-                        @foreach($selectedMapel->gurus as $guru)
-                            <div class="teacher-item-card">
-                                <div>
-                                    <i class="fa-solid fa-user-tie" style="margin-right:6px; opacity:0.8;"></i>
-                                    {{ $guru->nama_guru }}
-                                </div>
-                                <a href="{{ route('guru.show', $guru->id_guru) }}" style="color:#ffffff; opacity:0.9; text-decoration:none; font-size:12px;" title="Lihat Profil Guru">
-                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                </a>
-                            </div>
-                        @endforeach
-                    @else
-                        <div style="background:#f1f5f9; color:#64748b; padding:16px; border-radius:14px; text-align:center; font-size:13px; font-weight:600;">
-                            <i class="fa-solid fa-info-circle" style="margin-right:4px;"></i> Belum ada guru pengampu untuk mata pelajaran ini.
-                        </div>
-                    @endif
-
-                    <div style="margin-top:20px; text-align:right;">
-                        <a href="{{ route('mapel.show', $selectedMapel->id_mapel) }}" style="color:#2563eb; font-size:13px; font-weight:700; text-decoration:none;">
-                            <i class="fa-solid fa-up-right-and-down-left-from-center"></i> Halaman Detail Lengkap &rarr;
-                        </a>
-                    </div>
+            <div class="modal-detail-body">
+                <div class="detail-row">
+                    <span class="label">Nama Mapel :</span>
+                    <span class="badge-highlight-yellow" id="modalDetailNama">-</span>
                 </div>
-            @endif
 
+                <div class="detail-row">
+                    <span class="label">Kode Mapel :</span>
+                    <span style="font-family:monospace; font-weight:700; color:#3b5490;" id="modalDetailKode">-</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Jumlah Pengampu :</span>
+                    <span class="badge-pink-pill" id="modalDetailJumlah">0</span>
+                </div>
+
+                <div class="pengampu-header">
+                    <span class="title">Daftar Pengampu :</span>
+                    <span class="badge-semua">Semua</span>
+                </div>
+
+                <div id="modalDetailGuruList">
+                    <!-- Guru items dynamically inserted here -->
+                </div>
+            </div>
+
+            <div class="modal-detail-footer">
+                <button type="button" class="btn-m-cancel" style="padding: 9px 18px; font-size: 13px; max-width: 110px;" onclick="closeDetailModal()">
+                    Tutup
+                </button>
+                <a href="#" id="modalDetailLinkFull" style="color:#2563eb; font-size:13.5px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+                    Halaman Detail Lengkap &rarr;
+                </a>
+            </div>
         </div>
-
     </div>
 
     <!-- Modal Confirm Bulk Delete -->
@@ -759,6 +1191,71 @@
     </div>
 
     <script>
+        const allMapelsData = @json($mapels);
+        const selectedIdOnLoad = {{ isset($selected_id) && $selected_id ? $selected_id : 'null' }};
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function openDetailModal(id) {
+            const mapel = allMapelsData.find(m => m.id_mapel == id);
+            if (!mapel) return;
+
+            document.getElementById('modalDetailNama').textContent = mapel.nama_mapel;
+            document.getElementById('modalDetailKode').textContent = mapel.kode_mapel || '-';
+            const count = (mapel.gurus_count !== undefined && mapel.gurus_count !== null)
+                ? mapel.gurus_count
+                : (mapel.gurus ? mapel.gurus.length : 0);
+            document.getElementById('modalDetailJumlah').textContent = count;
+
+            const guruList = document.getElementById('modalDetailGuruList');
+            guruList.innerHTML = '';
+
+            const gurus = mapel.gurus || [];
+            if (gurus.length > 0) {
+                gurus.forEach(g => {
+                    const item = document.createElement('div');
+                    item.className = 'teacher-item-card';
+                    item.innerHTML = `
+                        <div>
+                            <i class="fa-solid fa-user-tie" style="margin-right:6px; opacity:0.8;"></i>
+                            ${escapeHtml(g.nama_guru)}
+                        </div>
+                        <a href="/guru/${g.id_guru}" style="color:#ffffff; opacity:0.9; text-decoration:none; font-size:12px;" title="Lihat Profil Guru">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    `;
+                    guruList.appendChild(item);
+                });
+            } else {
+                guruList.innerHTML = `
+                    <div style="background:#f1f5f9; color:#64748b; padding:16px; border-radius:14px; text-align:center; font-size:13px; font-weight:600;">
+                        <i class="fa-solid fa-info-circle" style="margin-right:4px;"></i> Belum ada guru pengampu untuk mata pelajaran ini.
+                    </div>
+                `;
+            }
+
+            const linkFull = document.getElementById('modalDetailLinkFull');
+            if (linkFull) {
+                linkFull.href = '/mapel/' + mapel.id_mapel;
+            }
+
+            const modal = document.getElementById('modalDetailMapel');
+            if (modal) modal.classList.add('active');
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('modalDetailMapel');
+            if (modal) modal.classList.remove('active');
+        }
+
         function updateBulkDeleteState() {
             const checkedBoxes = document.querySelectorAll('.mapel-select-checkbox:checked');
             const totalBoxes   = document.querySelectorAll('.mapel-select-checkbox');
@@ -829,11 +1326,30 @@
                 });
             }
 
+            const modalDetail = document.getElementById('modalDetailMapel');
+            if (modalDetail) {
+                modalDetail.addEventListener('click', function(e) {
+                    if (e.target === this) closeDetailModal();
+                });
+            }
+
             const modalBulk = document.getElementById('modalConfirmBulkDelete');
             if (modalBulk) {
                 modalBulk.addEventListener('click', function(e) {
                     if (e.target === this) closeBulkDeleteModal();
                 });
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeDetailModal();
+                    closeBulkDeleteModal();
+                }
+            });
+
+            // Jika ada query parameter selected_id, buka modal otomatis
+            if (selectedIdOnLoad) {
+                openDetailModal(selectedIdOnLoad);
             }
         });
     </script>

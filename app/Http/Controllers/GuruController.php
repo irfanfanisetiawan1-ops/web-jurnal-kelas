@@ -19,6 +19,7 @@ class GuruController extends Controller
         $id_mapel      = $request->query('id_mapel');
         $jenis_kelamin = $request->query('jenis_kelamin');
         $role          = $request->query('role');
+        $status        = $request->query('status');
 
         $query = Guru::with(['mapel', 'user'])->orderBy('nama_guru', 'asc');
 
@@ -45,11 +46,17 @@ class GuruController extends Controller
             });
         }
 
+        if ($status === 'active') {
+            $query->where('is_active', 1);
+        } elseif ($status === 'inactive') {
+            $query->where('is_active', 0);
+        }
+
         $gurus        = $query->get();
         $mapelList    = Mapel::orderBy('nama_mapel')->get();
         $trashedCount = Guru::onlyTrashed()->count();
 
-        return view('guru.index', compact('gurus', 'mapelList', 'trashedCount', 'search', 'id_mapel', 'jenis_kelamin', 'role'));
+        return view('guru.index', compact('gurus', 'mapelList', 'trashedCount', 'search', 'id_mapel', 'jenis_kelamin', 'role', 'status'));
     }
 
     /**
@@ -316,5 +323,48 @@ class GuruController extends Controller
 
         return redirect()->route('guru.index')
             ->with('success', "Berhasil menambahkan {$savedCount} data guru sekaligus ke database!");
+    }
+
+    /**
+     * Toggle status aktif / nonaktif data guru secara real-time.
+     * Aturan sinkronisasi:
+     * - Jika data guru dinonaktifkan, akun user milik guru tersebut otomatis dinonaktifkan (is_active = 0).
+     * - Jika data guru diaktifkan, akun user milik guru tersebut otomatis diaktifkan (is_active = 1).
+     */
+    public function toggleActive(Request $request, $id)
+    {
+        $guru = Guru::findOrFail($id);
+
+        if ($request->has('is_active')) {
+            $guru->is_active = $request->boolean('is_active');
+        } else {
+            $guru->is_active = !$guru->is_active;
+        }
+
+        $guru->save();
+
+        // Sinkronisasi otomatis ke Akun Pengguna (User)
+        $user = User::where('id_guru', $guru->id_guru)->orWhere('nip', $guru->nip)->first();
+        if ($user) {
+            $user->is_active = (bool) $guru->is_active;
+            $user->save();
+        }
+
+        $statusText = $guru->is_active ? 'diaktifkan (ON)' : 'dinonaktifkan (OFF)';
+        $syncNote   = $user ? ' dan akun penggunanya' : '';
+        $message    = "Data Guru '{$guru->nama_guru}'{$syncNote} berhasil {$statusText}.";
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success'      => true,
+                'is_active'    => (bool) $guru->is_active,
+                'user_synced'  => (bool) ($user !== null),
+                'status_label' => $guru->is_active ? 'Aktif' : 'Nonaktif',
+                'guru_name'    => $guru->nama_guru,
+                'message'      => $message,
+            ]);
+        }
+
+        return back()->with('success', $message);
     }
 }

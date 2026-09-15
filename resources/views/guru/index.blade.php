@@ -283,6 +283,127 @@
         box-shadow: 0 3px 8px rgba(225, 29, 72, 0.25);
     }
 
+    /* Toggle Switch ON/OFF Real-time Styling */
+    .guru-status-switch-wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        user-select: none;
+    }
+
+    .guru-toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+        flex-shrink: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .guru-toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+
+    .guru-toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cbd5e1;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 24px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    .guru-toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #ffffff;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    .guru-toggle-switch input:checked + .guru-toggle-slider {
+        background-color: #22c55e;
+    }
+
+    .guru-toggle-switch input:focus + .guru-toggle-slider {
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    .guru-toggle-switch input:checked + .guru-toggle-slider:before {
+        transform: translateX(20px);
+    }
+
+    .guru-toggle-switch input:disabled + .guru-toggle-slider {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    .guru-status-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        transition: color 0.2s;
+        min-width: 48px;
+        text-align: left;
+    }
+
+    .guru-status-label.status-on {
+        color: #16a34a;
+    }
+
+    .guru-status-label.status-off {
+        color: #64748b;
+    }
+
+    /* Floating Real-time Toast */
+    .realtime-toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        background: #0f172a;
+        color: #ffffff;
+        font-size: 13.5px;
+        font-weight: 600;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+
+    .realtime-toast.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .realtime-toast.toast-success {
+        border-left: 5px solid #22c55e;
+    }
+
+    .realtime-toast.toast-error {
+        border-left: 5px solid #ef4444;
+    }
+
     .badge-role {
         padding: 4px 10px;
         border-radius: 8px;
@@ -439,12 +560,6 @@
                 <h2><i class="fa-solid fa-user-plus" style="color:#2563eb;"></i> Tambah Guru</h2>
                 <p>Masukkan detail data guru untuk pendaftaran baru.</p>
             </div>
-            <a href="{{ route('guru.trash') }}" class="btn-trash">
-                <i class="fa-solid fa-trash-can"></i> Lihat Tong Sampah
-                @if(isset($trashedCount) && $trashedCount > 0)
-                    <span class="badge-count">{{ $trashedCount }}</span>
-                @endif
-            </a>
         </div>
 
         <!-- Alert Banner Alasan Gagal Simpan (JS Generated) -->
@@ -735,11 +850,23 @@
                     <option value="piket" {{ (isset($role) && $role == 'piket') ? 'selected' : '' }}>Piket</option>
                     <option value="wali_kelas" {{ (isset($role) && $role == 'wali_kelas') ? 'selected' : '' }}>Wali Kelas</option>
                 </select>
+
+                <select name="status" class="form-control" style="width: 140px; background:#ffffff;">
+                    <option value="">Semua Status</option>
+                    <option value="active" {{ (isset($status) && $status == 'active') ? 'selected' : '' }}>Aktif (ON)</option>
+                    <option value="inactive" {{ (isset($status) && $status == 'inactive') ? 'selected' : '' }}>Nonaktif (OFF)</option>
+                </select>
             </div>
 
             <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-left:auto;">
                 <button type="submit" class="btn-filter">Cari</button>
                 <a href="{{ route('guru.index') }}" class="btn-reset">Reset</a>
+                <a href="{{ route('guru.trash') }}" class="btn-trash" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Lihat Data Guru di Tempat Sampah">
+                    <i class="fa-solid fa-trash-can"></i> Lihat Sampah
+                    @if(isset($trashedCount) && $trashedCount > 0)
+                        <span class="badge-count">{{ $trashedCount }}</span>
+                    @endif
+                </a>
                 <button type="button" id="btnBulkDelete" class="btn-action btn-delete" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,29,72,0.15); border: none;" disabled onclick="confirmBulkDelete()" title="Pilih guru dengan mencentang checkbox untuk menghapus secara massal">
                     <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
                 </button>
@@ -763,6 +890,7 @@
                             <th>ROLE</th>
                             <th>NO HP</th>
                             <th>MAPEL UTAMA</th>
+                            <th style="text-align:center; min-width: 130px;">STATUS</th>
                             <th style="text-align:center; min-width: 220px;">AKSI</th>
                         </tr>
                     </thead>
@@ -792,6 +920,21 @@
                                 </td>
                                 <td>{{ $g->no_hp ?? '-' }}</td>
                                 <td>{{ $g->mapel->nama_mapel ?? '-' }}</td>
+                                <td style="text-align: center; white-space: nowrap;">
+                                    <div class="guru-status-switch-wrapper" style="justify-content: center;">
+                                        <label class="guru-toggle-switch" title="{{ $g->isActive() ? 'Klik untuk Menonaktifkan Data Guru ini (OFF)' : 'Klik untuk Mengaktifkan Data Guru ini (ON)' }}">
+                                            <input type="checkbox" 
+                                                   id="toggle-guru-{{ $g->id_guru }}" 
+                                                   class="guru-active-checkbox"
+                                                   {{ $g->isActive() ? 'checked' : '' }} 
+                                                   onchange="handleGuruToggle(this, {{ $g->id_guru }}, '{{ addslashes($g->nama_guru) }}')">
+                                            <span class="guru-toggle-slider"></span>
+                                        </label>
+                                        <span class="guru-status-label {{ $g->isActive() ? 'status-on' : 'status-off' }}" id="status-label-guru-{{ $g->id_guru }}">
+                                            {{ $g->isActive() ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    </div>
+                                </td>
                                 <td style="text-align:center;">
                                     <div class="action-buttons">
                                         <!-- 1. LIHAT (Detail) - Disebelah kiri Edit & Hapus -->
@@ -813,7 +956,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" style="text-align:center; padding:36px; color:#94a3b8;">
+                                <td colspan="9" style="text-align:center; padding:36px; color:#94a3b8;">
                                     <i class="fa-solid fa-folder-open" style="font-size:32px; margin-bottom:8px; display:block;"></i>
                                     Belum ada data Guru & Pegawai.
                                 </td>
@@ -1513,5 +1656,102 @@
             addBulkGuruRows(3);
         }
     });
+
+    let guruToastTimeout = null;
+    function showGuruRealtimeToast(message, isSuccess = true) {
+        const toast = document.getElementById('guruRealtimeToast');
+        const toastMsg = document.getElementById('guruRealtimeToastMsg');
+        const toastIcon = document.getElementById('guruRealtimeToastIcon');
+
+        if (!toast || !toastMsg) return;
+
+        toastMsg.innerText = message;
+        if (isSuccess) {
+            toast.className = 'realtime-toast show toast-success';
+            if (toastIcon) {
+                toastIcon.className = 'fa-solid fa-circle-check';
+                toastIcon.style.color = '#22c55e';
+            }
+        } else {
+            toast.className = 'realtime-toast show toast-error';
+            if (toastIcon) {
+                toastIcon.className = 'fa-solid fa-circle-exclamation';
+                toastIcon.style.color = '#ef4444';
+            }
+        }
+
+        if (guruToastTimeout) clearTimeout(guruToastTimeout);
+        guruToastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    async function handleGuruToggle(checkbox, guruId, guruName) {
+        const isChecked = checkbox.checked;
+        const label = document.getElementById('status-label-guru-' + guruId);
+        const originalChecked = !isChecked;
+
+        // Visual feedback immediately
+        if (label) {
+            label.innerText = isChecked ? 'Aktif' : 'Nonaktif';
+            label.className = 'guru-status-label ' + (isChecked ? 'status-on' : 'status-off');
+        }
+
+        checkbox.disabled = true;
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]') 
+                ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                : '{{ csrf_token() }}';
+
+            const response = await fetch(`/guru/${guruId}/toggle-active`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    is_active: isChecked ? 1 : 0
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                checkbox.checked = data.is_active;
+                if (label) {
+                    label.innerText = data.is_active ? 'Aktif' : 'Nonaktif';
+                    label.className = 'guru-status-label ' + (data.is_active ? 'status-on' : 'status-off');
+                }
+                showGuruRealtimeToast(data.message || `Data Guru '${guruName}' berhasil diubah menjadi ${data.is_active ? 'Aktif (ON)' : 'Nonaktif (OFF)'}.`, true);
+            } else {
+                checkbox.checked = originalChecked;
+                if (label) {
+                    label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                    label.className = 'guru-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+                }
+                showGuruRealtimeToast(data.message || 'Gagal mengubah status Data Guru.', false);
+            }
+        } catch (error) {
+            console.error('Error toggling guru status:', error);
+            checkbox.checked = originalChecked;
+            if (label) {
+                label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                label.className = 'guru-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+            }
+            showGuruRealtimeToast('Terjadi kesalahan koneksi saat mengubah status Data Guru.', false);
+        } finally {
+            checkbox.disabled = false;
+        }
+    }
 </script>
+
+<!-- Floating Real-time Toast Component -->
+<div id="guruRealtimeToast" class="realtime-toast">
+    <i id="guruRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:18px; color:#22c55e;"></i>
+    <span id="guruRealtimeToastMsg">Status data guru berhasil diperbarui.</span>
+</div>
+
 @endsection

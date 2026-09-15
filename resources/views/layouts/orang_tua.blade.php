@@ -385,10 +385,23 @@
 
             <a href="{{ route('orang-tua.dashboard') }}" class="nav-item {{ request()->routeIs('orang-tua.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-border-all"></i>
-                <span>Dashboard OTRU</span>
+                <span>Dashboard Orang Tua</span>
+            </a>
+
+            <a href="{{ route('orang-tua.monitoring-presensi') }}" class="nav-item {{ request()->routeIs('orang-tua.monitoring-presensi') ? 'active' : '' }}">
+                <i class="fa-solid fa-users-viewfinder"></i>
+                <span>Monitoring Presensi</span>
+                <span class="badge" style="margin-left: auto; background: #22c55e; color: #ffffff; font-size: 9px; font-weight: 900; padding: 2px 7px; border-radius: 12px; letter-spacing: 0.5px; text-transform: uppercase;">
+                    LIVE
+                </span>
             </a>
 
             <div class="menu-category">DATA MASTER</div>
+
+            <a href="{{ route('orang-tua.data-anak') }}" class="nav-item {{ request()->routeIs('orang-tua.data-anak') ? 'active' : '' }}">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span>Data Anak</span>
+            </a>
 
             <a href="{{ route('orang-tua.izin') }}" class="nav-item {{ request()->routeIs('orang-tua.izin') ? 'active' : '' }}">
                 <i class="fa-solid fa-file-signature"></i>
@@ -397,7 +410,7 @@
 
             <a href="{{ route('orang-tua.laporan') }}" class="nav-item {{ request()->routeIs('orang-tua.laporan') ? 'active' : '' }}">
                 <i class="fa-solid fa-chart-column"></i>
-                <span>Laporan</span>
+                <span>Laporan Kehadiran</span>
             </a>
         </nav>
 
@@ -449,7 +462,7 @@
             <div class="topbar-right">
                 <div class="semester-pill">
                     <i class="fa-solid fa-graduation-cap" style="color: #64748b; font-size: 14px;"></i>
-                    <span>T.A. 2025/2026 - Semester Genap</span>
+                    <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2026/2027' }} - Semester {{ $activeTahunAjaran->semester ?? 'Ganjil' }}</span>
                     <i class="fa-solid fa-chevron-down" style="font-size:11px; color: #94a3b8;"></i>
                 </div>
                 <button type="button" class="notification-btn" title="Notifikasi">

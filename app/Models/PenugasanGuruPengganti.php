@@ -33,6 +33,11 @@ class PenugasanGuruPengganti extends Model
         return $this->belongsTo(Guru::class, 'id_guru_tidak_hadir', 'id_guru');
     }
 
+    public function guruUtama()
+    {
+        return $this->belongsTo(Guru::class, 'id_guru_tidak_hadir', 'id_guru');
+    }
+
     public function guruPengganti()
     {
         return $this->belongsTo(Guru::class, 'id_guru_pengganti', 'id_guru');
@@ -46,6 +51,25 @@ class PenugasanGuruPengganti extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+    }
+
+    public function petugasPiket()
+    {
+        return $this->belongsTo(User::class, 'id_petugas_piket', 'id');
+    }
+
+    /**
+     * Aksesor Mapel untuk Penugasan Guru Pengganti
+     */
+    public function getMapelAttribute()
+    {
+        if ($this->jadwal && $this->jadwal->mapel) {
+            return $this->jadwal->mapel;
+        }
+        if ($this->guruTidakHadir && $this->guruTidakHadir->mapel) {
+            return $this->guruTidakHadir->mapel;
+        }
+        return null;
     }
 
     /**
@@ -103,10 +127,22 @@ class PenugasanGuruPengganti extends Model
 
         try {
             $selesaiTime = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $now->toDateString() . ' ' . $selesaiStr, 'Asia/Jakarta');
-            return $now->diffInMinutes($selesaiTime, false);
+            $diffSeconds = $now->diffInSeconds($selesaiTime, false);
+            if ($diffSeconds <= 0) return 0;
+            return (int) ceil($diffSeconds / 60);
         } catch (\Exception $e) {
-            return 60;
+            return 0;
         }
+    }
+
+    /**
+     * Cek apakah jam pelajaran sudah selesai
+     */
+    public function getIsJamSudahSelesaiAttribute()
+    {
+        $now = \Carbon\Carbon::now('Asia/Jakarta');
+        $currentTimeStr = $now->format('H:i');
+        return ($currentTimeStr >= $this->waktu_selesai_effective);
     }
 
     /**
@@ -114,15 +150,14 @@ class PenugasanGuruPengganti extends Model
      */
     public function getHampirHabisAttribute()
     {
-        if (!$this->sudah_masuk_jam) {
+        if (!$this->sudah_masuk_jam || $this->is_jam_sudah_selesai) {
             return false;
         }
         if ($this->is_diisi_hari_ini) {
             return false;
         }
         $sisa = $this->sisa_menit_selesai;
-        // Peringatan aktif jika sisa menit antara 0 s/d 5 menit (atau jika jam sudah lewat sedikit tapi jurnal belum diisi)
-        return $sisa <= 5;
+        return ($sisa > 0 && $sisa <= 5);
     }
 
     /**

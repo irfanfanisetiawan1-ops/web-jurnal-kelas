@@ -8,8 +8,8 @@
     .guru-izin-container {
         width: 100%;
         max-width: 100%;
+        min-width: 0;
         box-sizing: border-box;
-        overflow-x: hidden;
     }
 
     /* Dashboard Page Header Style (Matching Dashboard Guru Piket) */
@@ -21,6 +21,12 @@
         flex-wrap: wrap;
         gap: 16px;
         width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .header-left {
+        min-width: 0;
     }
 
     .header-left h1 {
@@ -38,6 +44,11 @@
         font-weight: 600;
         margin-top: 4px;
         margin-bottom: 0;
+    }
+
+    .header-actions-group {
+        display: flex;
+        align-items: center;
     }
 
     .btn-action-primary {
@@ -64,10 +75,12 @@
     /* Stats Grid Cards - Fitted */
     .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 16px;
         margin-bottom: 20px;
         width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
     }
 
     .stat-card {
@@ -80,6 +93,8 @@
         gap: 14px;
         border: 1px solid #e2e8f0;
         transition: transform 0.2s ease;
+        min-width: 0;
+        box-sizing: border-box;
     }
     .stat-card:hover {
         transform: translateY(-2px);
@@ -101,38 +116,51 @@
     .stat-icon.purple{ background: #f3e8ff; color: #9333ea; }
     .stat-icon.amber { background: #fef3c7; color: #d97706; }
 
+    .stat-info {
+        min-width: 0;
+    }
+
     .stat-info h3 {
         font-size: 20px;
         font-weight: 800;
         color: #0f172a;
         line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .stat-info p {
         font-size: 11.5px;
         color: #64748b;
         font-weight: 600;
         margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     /* Filter Bar Responsive Fitting */
     .filter-bar-container {
-        padding: 12px 16px;
+        padding: 14px 18px;
         background: #f8fafc;
         border-bottom: 1px solid #e2e8f0;
         width: 100%;
+        min-width: 0;
         box-sizing: border-box;
     }
 
     .filter-bar-container form {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
         flex-wrap: wrap;
         width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
     }
 
     .filter-input {
-        padding: 7px 12px;
+        padding: 8px 12px;
         background: #ffffff;
         border: 1px solid #cbd5e1;
         border-radius: 8px;
@@ -141,21 +169,39 @@
         font-family: inherit;
         outline: none;
         transition: border-color 0.15s ease;
-        flex: 1 1 130px;
-        min-width: 110px;
+        flex: 1 1 135px;
+        min-width: 120px;
         max-width: 100%;
         box-sizing: border-box;
     }
 
+    .filter-input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
     .filter-input-search {
-        flex: 1.5 1 170px;
-        min-width: 140px;
+        flex: 1.5 1 180px;
+        min-width: 160px;
+    }
+
+    .filter-input-select-long {
+        flex: 1.3 1 185px;
+        min-width: 175px;
+    }
+
+    .filter-actions-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-left: auto;
     }
 
     .btn-filter-dark {
         background: #384972;
         color: #ffffff;
-        padding: 7px 14px;
+        padding: 8px 15px;
         border-radius: 8px;
         font-size: 12px;
         font-weight: 700;
@@ -174,7 +220,7 @@
     .btn-reset-light {
         background: #e2e8f0;
         color: #475569;
-        padding: 7px 14px;
+        padding: 8px 15px;
         border-radius: 8px;
         font-size: 12px;
         font-weight: 700;
@@ -190,11 +236,35 @@
     }
     .btn-reset-light:hover { background: #cbd5e1; color: #0f172a; }
 
+    .btn-bulk-delete-danger {
+        background: #ef4444;
+        color: #ffffff;
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        opacity: 0.5;
+        pointer-events: none;
+        transition: all 0.15s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .btn-bulk-delete-danger.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .btn-bulk-delete-danger.active:hover { background: #dc2626; }
+
     .btn-trash-pink {
         background: #fee2e2;
         color: #991b1b;
         border: 1px solid #fca5a5;
-        padding: 7px 14px;
+        padding: 8px 15px;
         border-radius: 8px;
         font-size: 12px;
         font-weight: 700;
@@ -218,12 +288,26 @@
         overflow: hidden;
         width: 100%;
         max-width: 100%;
+        min-width: 0;
         box-sizing: border-box;
+    }
+
+    .mobile-scroll-hint {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 14px;
+        background: #eff6ff;
+        border-bottom: 1px solid #dbeafe;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #1e40af;
     }
 
     .table-responsive {
         width: 100%;
         max-width: 100%;
+        min-width: 0;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
@@ -231,8 +315,9 @@
     .custom-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 12.5px;
+        font-size: 11.5px;
         text-align: left;
+        table-layout: auto;
     }
 
     .custom-table th {
@@ -240,15 +325,15 @@
         color: #475569;
         font-weight: 800;
         text-transform: uppercase;
-        font-size: 10.5px;
-        letter-spacing: 0.5px;
-        padding: 12px 14px;
+        font-size: 10px;
+        letter-spacing: 0.3px;
+        padding: 9px 7px;
         border-bottom: 1px solid #e2e8f0;
         white-space: nowrap;
     }
 
     .custom-table td {
-        padding: 12px 14px;
+        padding: 9px 7px;
         border-bottom: 1px solid #f1f5f9;
         vertical-align: middle;
         color: #334155;
@@ -271,11 +356,11 @@
     .guru-profile-box {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
     }
     .guru-avatar-circle {
-        width: 38px;
-        height: 38px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         background: #e0e7ff;
         color: #3730a3;
@@ -283,7 +368,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 13px;
+        font-size: 11.5px;
         flex-shrink: 0;
     }
     .guru-avatar-circle.expired {
@@ -293,21 +378,23 @@
     .guru-name {
         font-weight: 700;
         color: #0f172a;
-        font-size: 13px;
+        font-size: 12px;
+        line-height: 1.2;
     }
     .guru-nip {
-        font-size: 11px;
+        font-size: 10.5px;
         color: #64748b;
     }
 
     .badge-status {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        padding: 3px 8px;
+        gap: 3px;
+        padding: 2px 6px;
         border-radius: 20px;
-        font-size: 10.5px;
+        font-size: 9.5px;
         font-weight: 700;
+        white-space: nowrap;
     }
     .badge-approved { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
     .badge-cuti     { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
@@ -324,20 +411,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 5px;
+        gap: 3px;
         flex-wrap: nowrap;
     }
 
     .btn-action-icon {
-        padding: 6px 10px;
-        border-radius: 8px;
-        font-size: 11.5px;
+        padding: 4px 7px;
+        border-radius: 6px;
+        font-size: 10.5px;
         font-weight: 700;
         border: none;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
+        gap: 3px;
         text-decoration: none;
         transition: all 0.15s ease;
         white-space: nowrap;
@@ -362,6 +449,7 @@
         opacity: 0;
         visibility: hidden;
         transition: all 0.2s ease;
+        padding: 16px;
     }
     .modal-overlay.active {
         opacity: 1;
@@ -370,7 +458,7 @@
     .modal-box {
         background: #ffffff;
         border-radius: 20px;
-        width: 90%;
+        width: 100%;
         max-width: 650px;
         max-height: 90vh;
         overflow-y: auto;
@@ -378,6 +466,7 @@
         box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
         transform: scale(0.95);
         transition: transform 0.2s ease;
+        box-sizing: border-box;
     }
     .modal-overlay.active .modal-box {
         transform: scale(1);
@@ -406,6 +495,111 @@
         cursor: pointer;
     }
     .modal-close:hover { background: #e2e8f0; color: #0f172a; }
+
+    /* ======================================================== */
+    /* RESPONSIVE MEDIA QUERIES (MOBILE & TABLET ADAPTATION)   */
+    /* ======================================================== */
+    @media (max-width: 1200px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .mobile-scroll-hint {
+            display: flex;
+        }
+        .custom-table {
+            min-width: 860px;
+            width: 860px;
+        }
+        .filter-actions-group {
+            margin-left: 0;
+            width: 100%;
+            justify-content: flex-start;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-page-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+        .header-actions-group {
+            width: 100%;
+        }
+        .btn-action-primary {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 13px;
+        }
+        .filter-bar-container {
+            padding: 12px;
+        }
+        .filter-bar-container form {
+            gap: 8px;
+        }
+        .filter-input,
+        .filter-input-search,
+        .filter-input-select-long {
+            flex: 1 1 100%;
+            width: 100%;
+            min-width: 100%;
+            font-size: 12.5px;
+            padding: 9px 12px;
+        }
+        .filter-actions-group {
+            width: 100%;
+            margin-left: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .btn-filter-dark,
+        .btn-reset-light,
+        .btn-bulk-delete-danger,
+        .btn-trash-pink {
+            width: 100%;
+            justify-content: center;
+            padding: 9px 12px;
+            font-size: 12px;
+        }
+        .modal-box {
+            width: 95%;
+            padding: 16px;
+            border-radius: 16px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .header-left h1 {
+            font-size: 20px;
+        }
+        .header-left p {
+            font-size: 12px;
+        }
+        .stat-card {
+            padding: 12px 14px;
+        }
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+        }
+        .stat-info h3 {
+            font-size: 17px;
+        }
+        .filter-actions-group {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 @endsection
 
@@ -496,47 +690,52 @@
 
                 <input type="date" name="tanggal" value="{{ $tanggalFilter }}" class="filter-input">
 
-                <select name="status_penugasan" class="filter-input">
+                <select name="status_penugasan" class="filter-input filter-input-select-long">
                     <option value="">-- Status Guru Pengganti --</option>
                     <option value="belum" {{ $statusPenugasanFilter == 'belum' ? 'selected' : '' }}>⚠️ Belum Ditugaskan</option>
                     <option value="sudah" {{ $statusPenugasanFilter == 'sudah' ? 'selected' : '' }}>✅ Sudah Ditugaskan</option>
                 </select>
 
-                <button type="submit" class="btn-filter-dark">
-                    <i class="fa-solid fa-filter"></i> Filter
-                </button>
+                <div class="filter-actions-group">
+                    <button type="submit" class="btn-filter-dark">
+                        <i class="fa-solid fa-filter"></i> Filter
+                    </button>
 
-                <a href="{{ route('piket.guru-izin-tidak-hadir') }}" class="btn-reset-light">
-                    <i class="fa-solid fa-rotate-left"></i> Reset
-                </a>
+                    <a href="{{ route('piket.guru-izin-tidak-hadir') }}" class="btn-reset-light">
+                        <i class="fa-solid fa-rotate-left"></i> Reset
+                    </a>
 
-                <button type="button" id="btnBulkDelete" onclick="confirmBulkDelete()" style="background: #ef4444; color: #ffffff; padding: 9px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; opacity: 0.5; pointer-events: none; transition: all 0.2s ease; white-space: nowrap; width: auto; height: auto;" title="Hapus Data Terpilih">
-                    <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="selectedCount">0</span>)
-                </button>
+                    <button type="button" id="btnBulkDelete" onclick="confirmBulkDelete()" class="btn-bulk-delete-danger" title="Hapus Data Terpilih">
+                        <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="selectedCount">0</span>)
+                    </button>
 
-                <!-- Tombol Sampah diletakkan di sebelah kanan tombol Reset -->
-                <a href="{{ route('piket.guru-izin-tidak-hadir.trash') }}" class="btn-trash-pink" style="margin-left: auto;">
-                    <i class="fa-solid fa-trash-can"></i> Sampah ({{ $trashedCount }})
-                </a>
+                    <a href="{{ route('piket.guru-izin-tidak-hadir.trash') }}" class="btn-trash-pink" title="Lihat Data Sampah">
+                        <i class="fa-solid fa-trash-can"></i> Sampah ({{ $trashedCount }})
+                    </a>
+                </div>
             </form>
         </div>
 
         <!-- Main Data Table -->
+        <div class="mobile-scroll-hint">
+            <i class="fa-solid fa-arrows-left-right"></i>
+            <span>Geser tabel ke kanan / kiri untuk melihat detail status & aksi lengkap</span>
+        </div>
         <div class="table-responsive">
             <table class="custom-table">
                 <thead>
                     <tr>
-                        <th style="width: 40px; text-align: center;">
-                            <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" style="width: 16px; height: 16px; cursor: pointer;">
+                        <th style="width: 32px; text-align: center; padding: 9px 4px;">
+                            <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" style="width: 15px; height: 15px; cursor: pointer;">
                         </th>
-                        <th style="width: 40px;">NO</th>
+                        <th style="width: 32px; text-align: center; padding: 9px 4px;">NO</th>
                         <th>GURU TIDAK HADIR</th>
                         <th>TANGGAL & KATEGORI</th>
                         <th>ALASAN & TITIPAN MATERI</th>
                         <th>STATUS PERSETUJUAN</th>
                         <th>PENUGASAN PENGGANTI</th>
                         <th>STATUS BERLAKU</th>
-                        <th style="text-align: center; width: 230px;">AKSI</th>
+                        <th style="text-align: center; width: 175px;">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -624,7 +823,7 @@
                             <td style="text-align: center;">
                                 <div class="action-button-group">
                                     @if(!$item->is_expired)
-                                        <a href="{{ route('piket.guru-pengganti', ['id_guru_tidak_hadir' => $item->id_guru]) }}" class="btn-action-icon btn-assign" title="Tugaskan Guru Pengganti">
+                                        <a href="{{ route('piket.guru-pengganti', ['id_guru_tidak_hadir' => $item->id_guru, 'tanggal' => $item->tanggal_mulai]) }}" class="btn-action-icon btn-assign" title="Tugaskan Guru Pengganti">
                                             <i class="fa-solid fa-user-plus"></i> Tugaskan
                                         </a>
                                     @endif
@@ -723,6 +922,40 @@
             `;
         }
 
+        // INFORMASI PENUGASAN GURU PENGGANTI (SINKRON GURU PIKET)
+        if (item.penugasans_list && item.penugasans_list.length > 0) {
+            contentHtml += `
+                <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 12px; border-radius: 10px;">
+                    <strong style="color: #047857; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-user-check"></i> Penugasan Guru Pengganti (Tersinkron):
+                    </strong>
+                    <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+                        ${item.penugasans_list.map(p => `
+                            <div style="background: #ffffff; padding: 8px 12px; border-radius: 8px; border: 1px solid #d1fae5; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+                                <div>
+                                    <strong style="color: #065f46; font-size: 12.5px;">${p.guru_pengganti ? p.guru_pengganti.nama_guru : 'Guru Pengganti'}</strong>
+                                    <div style="color: #047857; font-size: 11px; margin-top: 1px;">Tanggal: ${p.tanggal} ${p.jam_pelajaran ? ' | ' + p.jam_pelajaran : ''}</div>
+                                </div>
+                                <span class="badge-status badge-assigned">Status: ${p.status ? p.status.toUpperCase() : 'AKTIF'}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        } else if (!item.is_expired) {
+            contentHtml += `
+                <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 12px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                    <div>
+                        <strong style="color: #b45309;"><i class="fa-solid fa-triangle-exclamation"></i> Belum Ada Guru Pengganti:</strong>
+                        <div style="font-size: 11.5px; color: #92400e; margin-top: 2px;">Izin ini aktif dan siap untuk ditugaskan guru pengganti.</div>
+                    </div>
+                    <a href="{{ route('piket.guru-pengganti') }}?id_guru_tidak_hadir=${item.id_guru}&tanggal=${item.tanggal_mulai}" class="btn-action-icon btn-assign" style="text-decoration: none; padding: 6px 12px;">
+                        <i class="fa-solid fa-user-plus"></i> Tugaskan Sekarang
+                    </a>
+                </div>
+            `;
+        }
+
         // PRATINJAU FOTO SURAT / DOKUMEN BUKTI CUTI
         if (item.foto_url) {
             contentHtml += `
@@ -775,6 +1008,26 @@
             `;
         }
 
+        // JADWAL MENGAJAR TERDAMPAK GURU
+        if (item.jadwals_list && item.jadwals_list.length > 0) {
+            contentHtml += `
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 10px;">
+                    <strong style="color: #334155; display: block; margin-bottom: 6px;">
+                        <i class="fa-solid fa-calendar-days" style="color: #2563eb;"></i> Jadwal Mengajar Guru Ini:
+                    </strong>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px;">
+                        ${item.jadwals_list.map(j => `
+                            <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 8px; font-size: 11px;">
+                                <div style="font-weight: 700; color: #0f172a;">${j.kelas ? j.kelas.nama_kelas : '-'}</div>
+                                <div style="color: #64748b; font-size: 10.5px;">${j.mapel ? j.mapel.nama_mapel : '-'}</div>
+                                <div style="color: #2563eb; font-weight: 700; margin-top: 2px; font-size: 10px;">${j.hari || '-'}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
         contentHtml += `
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 12px; border-radius: 10px;">
                 <strong style="color: #334155;"><i class="fa-solid fa-shield-check" style="color: #16a34a;"></i> Bukti Kelayakan Persetujuan:</strong>
@@ -818,11 +1071,9 @@
 
         if (btnBulk) {
             if (count > 0) {
-                btnBulk.style.opacity = '1';
-                btnBulk.style.pointerEvents = 'auto';
+                btnBulk.classList.add('active');
             } else {
-                btnBulk.style.opacity = '0.5';
-                btnBulk.style.pointerEvents = 'none';
+                btnBulk.classList.remove('active');
             }
         }
     }

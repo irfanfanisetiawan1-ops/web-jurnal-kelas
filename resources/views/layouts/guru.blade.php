@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Portal Guru — EDU JOURNAL')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,6 +32,9 @@
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
         }
 
         /* Sidebar Navigation */
@@ -241,6 +245,10 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            min-width: 0;
+            width: calc(100% - var(--sidebar-width));
+            max-width: calc(100% - var(--sidebar-width));
+            overflow-x: hidden;
         }
 
         /* Topbar Header */
@@ -298,6 +306,68 @@
             font-size: 14px;
         }
 
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .role-switcher-pill {
+            display: inline-flex;
+            align-items: center;
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 3px 4px 3px 12px;
+            gap: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .role-indicator-badge {
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-switch-role-inline {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            padding: 5px 12px;
+            border-radius: 14px;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-switch-role-inline:hover {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-switch-role-inline.to-guru {
+            background: #f1f5f9;
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
+
+        .btn-switch-role-inline.to-guru:hover {
+            background: #0f172a;
+            color: #ffffff;
+            border-color: #0f172a;
+        }
+
         .topbar-right {
             display: flex;
             align-items: center;
@@ -350,6 +420,9 @@
         .content-body {
             padding: 24px 28px;
             flex: 1;
+            min-width: 0;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Global Page Header Container (Top-Left Title & Subtitle) */
@@ -599,6 +672,26 @@
                             break;
                         }
                     }
+
+                    // Cek jadwal mengajar reguler guru/wali kelas yang hampir habis (5 menit terakhir)
+                    $daysInIndo = [
+                        'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+                        'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+                    ];
+                    $todayIndo = $daysInIndo[\Carbon\Carbon::now('Asia/Jakarta')->format('l')] ?? '';
+                    $jadwalUrgentGuru = null;
+                    if ($gId && $todayIndo && !request()->routeIs('guru.jurnal-harian*')) {
+                        $jadwalsTodayUser = \App\Models\Jadwal::with(['mapel', 'kelas', 'jamMulai', 'jamSelesai'])
+                            ->where('id_guru', $gId)
+                            ->where('hari', $todayIndo)
+                            ->get();
+                        foreach ($jadwalsTodayUser as $jUrg) {
+                            if ($jUrg->hampir_habis) {
+                                $jadwalUrgentGuru = $jUrg;
+                                break;
+                            }
+                        }
+                    }
                 @endphp
 
                 <div class="menu-category">MENU PETUGAS PIKET</div>
@@ -670,6 +763,11 @@
                     <span>Rekap Kehadiran</span>
                 </a>
 
+                <a href="{{ route('piket.pengumuman') }}" class="nav-item {{ request()->routeIs('piket.pengumuman*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Pengumuman</span>
+                </a>
+
                 <a href="{{ route('pengaturan.index') }}" class="nav-item {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-gear"></i>
                     <span>Pengaturan</span>
@@ -679,11 +777,54 @@
                     $unreadPengumumanCount = 0;
                     if (Auth::check()) {
                         $uId = Auth::id();
-                        $unreadPengumumanCount = \App\Models\Pengumuman::where('status', 'aktif')
-                            ->whereNull('deleted_at')
-                            ->whereDoesntHave('reads', function($q) use ($uId) {
-                                $q->where('user_id', $uId);
-                            })->count();
+                        $delIds = \App\Models\PengumumanDihapus::where('user_id', $uId)->pluck('id_pengumuman');
+                        $readIds = \App\Models\PengumumanDibaca::where('user_id', $uId)->pluck('id_pengumuman');
+                        
+                        $unreadQuery = \App\Models\Pengumuman::whereNotIn('id_pengumuman', $delIds)
+                            ->whereNotIn('id_pengumuman', $readIds);
+
+                        $userAuth = Auth::user();
+                        $guruId = $userAuth->id_guru ?? null;
+                        if (!$guruId && $userAuth->nip) {
+                            $findG = \App\Models\Guru::where('nip', $userAuth->nip)->first();
+                            if ($findG) $guruId = $findG->id_guru;
+                        }
+                        if ($guruId && !$userAuth->isAdmin() && !$userAuth->isWaka()) {
+                            $unreadQuery->where(function($q) use ($guruId) {
+                                $q->where('kategori', '!=', 'Siswa Telat')
+                                  ->orWhere(function($sub) use ($guruId) {
+                                      $sub->where('kategori', 'Siswa Telat')
+                                          ->where('id_guru', $guruId);
+                                  });
+                            });
+                        }
+                        $unreadPengumumanCount = $unreadQuery->count();
+
+                        // Hitung Surat Dispen Siswa Belum Dibaca (Relevan Wali Kelas / Guru Mengajar)
+                        $unreadSuratDispenCount = 0;
+                        $kWaliId = \App\Models\Kelas::whereIn('wali_kelas', array_filter([$userAuth->nip, optional($findG ?? null)->nip]))->value('id_kelas');
+                        $jGuru = $guruId ? \App\Models\Jadwal::with(['jamMulai', 'jamSelesai'])->where('id_guru', $guruId)->get() : collect();
+                        $kMengajarIds = $jGuru->pluck('id_kelas')->unique()->filter()->toArray();
+                        $allKIds = array_unique(array_filter(array_merge([$kWaliId], $kMengajarIds)));
+
+                        if ($userAuth->isAdmin() || $userAuth->isWaka()) {
+                            $candidateDispens = \App\Models\SiswaDispen::where('status_waka', 'approved')->get();
+                        } elseif (!empty($allKIds)) {
+                            $candidateDispens = \App\Models\SiswaDispen::where('status_waka', 'approved')
+                                ->whereIn('id_kelas', $allKIds)
+                                ->get();
+                        } else {
+                            $candidateDispens = collect();
+                        }
+
+                        $readDispenIds = \App\Models\SiswaDispenDibaca::where('user_id', $uId)->pluck('id_siswa_dispen')->toArray();
+                        foreach ($candidateDispens as $cd) {
+                            if (!in_array($cd->id_siswa_dispen, $readDispenIds)) {
+                                if ($userAuth->isAdmin() || $userAuth->isWaka() || \App\Http\Controllers\GuruPortalController::isDispenRelevantForGuru($cd, $guruId, $kWaliId, $jGuru)) {
+                                    $unreadSuratDispenCount++;
+                                }
+                            }
+                        }
                     }
                 @endphp
 
@@ -697,11 +838,9 @@
                 <a href="{{ route('guru.pengumuman') }}" class="nav-item {{ request()->routeIs('guru.pengumuman*') ? 'active' : '' }}">
                     <i class="fa-solid fa-bullhorn"></i>
                     <span>Pengumuman</span>
-                    @if($unreadPengumumanCount > 0)
-                        <span class="badge" style="margin-left: auto; background: #ef4444; color: #ffffff; font-size: 11px; font-weight: 900; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4); padding: 0;">
-                            {{ $unreadPengumumanCount }}
-                        </span>
-                    @endif
+                    <span id="sidebarPengumumanUnreadBadge" class="badge" style="margin-left: auto; background: #ef4444; color: #ffffff; font-size: 11px; font-weight: 900; width: 22px; height: 22px; border-radius: 50%; display: {{ $unreadPengumumanCount > 0 ? 'inline-flex' : 'none' }}; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4); padding: 0;">
+                        {{ $unreadPengumumanCount }}
+                    </span>
                 </a>
 
                 <a href="{{ route('guru.jadwal') }}" class="nav-item {{ request()->routeIs('guru.jadwal') ? 'active' : '' }}">
@@ -724,19 +863,22 @@
                     <span>Permintaan Izin Saya</span>
                 </a>
 
+                <a href="{{ route('guru.surat-dispen') }}" class="nav-item {{ request()->routeIs('guru.surat-dispen*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-file-signature"></i>
+                    <span>Surat Dispen Siswa</span>
+                    <span id="sidebarSuratDispenUnreadBadge" class="badge" style="margin-left: auto; background: #ef4444; color: #ffffff; font-size: 11px; font-weight: 900; width: 22px; height: 22px; border-radius: 50%; display: {{ ($unreadSuratDispenCount ?? 0) > 0 ? 'inline-flex' : 'none' }}; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4); padding: 0;">
+                        {{ $unreadSuratDispenCount ?? 0 }}
+                    </span>
+                </a>
+
                 <a href="{{ route('guru.nilai-rapor') }}" class="nav-item {{ request()->routeIs('guru.nilai-rapor*') ? 'active' : '' }}">
                     <i class="fa-solid fa-graduation-cap"></i>
-                    <span>Nilai & Rapor</span>
+                    <span>Nilai Siswa</span>
                 </a>
 
                 <a href="{{ route('guru.riwayat-jurnal') }}" class="nav-item {{ request()->routeIs('guru.riwayat-jurnal') ? 'active' : '' }}">
                     <i class="fa-solid fa-book-open"></i>
                     <span>Riwayat Jurnal</span>
-                </a>
-
-                <a href="{{ route('guru.beralih-ke-guru-piket') }}" class="nav-item {{ request()->routeIs('guru.beralih-ke-guru-piket*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-right-left"></i>
-                    <span>Beralih ke Guru Piket</span>
                 </a>
 
                 <a href="{{ route('pengaturan.index') }}" class="nav-item {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
@@ -798,12 +940,61 @@
     <div class="main-wrapper">
         <header class="topbar">
             <div class="topbar-left">
+                @php
+                    $uCheck = Auth::user();
+                    $canSwitch = false;
+                    $modeAktif = 'guru';
+
+                    if ($uCheck) {
+                        if ($uCheck->role === 'piket' && session()->has('original_guru_user_id')) {
+                            $canSwitch = true;
+                            $modeAktif = 'piket';
+                        } elseif (in_array($uCheck->role, ['guru', 'wali_kelas'])) {
+                            if (\App\Models\JadwalGuruPiket::isUserPiketHariIni($uCheck)) {
+                                $canSwitch = true;
+                                $modeAktif = 'guru';
+                            }
+                        }
+                    }
+                @endphp
+
+                @if($canSwitch)
+                    <div class="role-switcher-pill">
+                        @if($modeAktif === 'guru')
+                            <div class="role-indicator-badge">
+                                <i class="fa-solid fa-chalkboard-user" style="color:#2563eb;"></i>
+                                <span>Guru Mengajar</span>
+                            </div>
+                            <form action="{{ route('auth.switch-mode') }}" method="POST" style="margin:0;">
+                                @csrf
+                                <input type="hidden" name="mode" value="piket">
+                                <button type="submit" class="btn-switch-role-inline" title="Beralih langsung ke ruang kerja Guru Piket hari ini tanpa logout">
+                                    <i class="fa-solid fa-repeat"></i>
+                                    <span>Beralih ke Guru Piket</span>
+                                </button>
+                            </form>
+                        @else
+                            <div class="role-indicator-badge">
+                                <i class="fa-solid fa-shield-halved" style="color:#10b981;"></i>
+                                <span style="color:#065f46;">Guru Piket Aktif</span>
+                            </div>
+                            <form action="{{ route('auth.switch-mode') }}" method="POST" style="margin:0;">
+                                @csrf
+                                <input type="hidden" name="mode" value="guru">
+                                <button type="submit" class="btn-switch-role-inline to-guru" title="Beralih kembali ke ruang kerja Guru Mengajar tanpa logout">
+                                    <i class="fa-solid fa-repeat"></i>
+                                    <span>Kembali ke Guru Mengajar</span>
+                                </button>
+                            </form>
+                        @endif
+                    </div>
+                @endif
             </div>
 
             <div class="topbar-right">
                 <div class="semester-pill">
                     <i class="fa-solid fa-graduation-cap" style="color: #64748b; font-size: 14px;"></i>
-                    <span>T.A. 2025/2026 - Semester Genap</span>
+                    <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2026/2027' }} - Semester {{ $activeTahunAjaran->semester ?? 'Ganjil' }}</span>
                     <i class="fa-solid fa-chevron-down" style="font-size:11px; color: #94a3b8;"></i>
                 </div>
                 <button type="button" class="notification-btn" title="Notifikasi" style="position: relative;">
@@ -819,6 +1010,52 @@
         </header>
 
         <main class="content-body">
+            @if(isset($jadwalUrgentGuru) && $jadwalUrgentGuru && $jadwalUrgentGuru->hampir_habis)
+                <div id="globalReminderGuruAlert" data-end-time="{{ $jadwalUrgentGuru->waktu_selesai_effective }}" class="alert alert-warning" style="background:#fff7ed; border:2px solid #ea580c; color:#9a3412; font-weight:700; border-radius:14px; margin-bottom:20px; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; box-shadow:0 4px 15px rgba(234,88,12,0.15); transition: all 0.4s ease;">
+                    <div style="display:flex; align-items:center; gap:14px;">
+                        <div style="width:42px; height:42px; background:#ffedd5; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; color:#ea580c; font-size:20px; animation: pulse 1.5s infinite;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <div style="font-size:14px; font-weight:800; color:#9a3412;">PERINGATAN 5 MENIT TERAKHIR SISTEM JURNAL MENGAJAR</div>
+                            <div style="font-size:12.5px; font-weight:600; color:#c2410c; margin-top:2px;">
+                                Jam pelajaran <strong>{{ $jadwalUrgentGuru->mapel->nama_mapel ?? 'Mata Pelajaran' }} ({{ $jadwalUrgentGuru->kelas->nama_kelas ?? 'Kelas' }})</strong> tersisa <strong><span id="globalReminderSisaSpan">{{ $jadwalUrgentGuru->sisa_menit_selesai <= 1 ? 'kurang dari 1' : (int)$jadwalUrgentGuru->sisa_menit_selesai }}</span> menit lagi</strong> sebelum jam berakhir (Pukul {{ $jadwalUrgentGuru->waktu_selesai_effective }} WIB). Mohon segera lengkapi jurnal mengajar Anda!
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('guru.jurnal-harian', ['id_jadwal' => $jadwalUrgentGuru->id_jadwal]) }}" class="btn" style="background:#ea580c; color:#ffffff; font-weight:800; padding:10px 18px; border-radius:10px; text-decoration:none; font-size:12.5px; white-space:nowrap; box-shadow:0 2px 6px rgba(234,88,12,0.3); display:inline-flex; align-items:center; gap:6px;">
+                        <i class="fa-solid fa-pen-to-square"></i> Isi Jurnal Sekarang
+                    </a>
+                </div>
+                <script>
+                    (function() {
+                        const alertBox = document.getElementById('globalReminderGuruAlert');
+                        if (!alertBox) return;
+                        const endTimeStr = alertBox.getAttribute('data-end-time');
+                        if (!endTimeStr) return;
+                        function checkTime() {
+                            const now = new Date();
+                            const [endH, endM] = endTimeStr.split(':').map(Number);
+                            const endDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endH, endM, 0);
+                            const diffSec = Math.floor((endDateTime - now) / 1000);
+                            if (diffSec <= 0) {
+                                alertBox.style.opacity = '0';
+                                alertBox.style.transform = 'translateY(-10px)';
+                                setTimeout(() => alertBox.remove(), 500);
+                                return;
+                            }
+                            const diffMin = Math.ceil(diffSec / 60);
+                            const sSpan = document.getElementById('globalReminderSisaSpan');
+                            if (sSpan) {
+                                sSpan.textContent = (diffMin <= 1) ? `kurang dari 1 (${diffSec} dtk)` : diffMin;
+                            }
+                        }
+                        checkTime();
+                        setInterval(checkTime, 1000);
+                    })();
+                </script>
+            @endif
+
             @if(isset($penugasanUrgent) && $penugasanUrgent)
                 <div class="alert alert-warning" style="background:#fffbebf0; border:1px solid #fde68a; color:#b45309; font-weight:700; border-radius:14px; margin-bottom:20px; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; box-shadow:0 4px 15px rgba(217,119,6,0.15);">
                     <div style="display:flex; align-items:center; gap:14px;">

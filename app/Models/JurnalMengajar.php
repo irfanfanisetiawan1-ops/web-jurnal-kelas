@@ -55,11 +55,71 @@ class JurnalMengajar extends Model
     }
 
     /**
+     * Helper Accessor: Guru
+     */
+    public function getGuruAttribute()
+    {
+        return $this->jadwal->guru ?? $this->guruPengganti ?? null;
+    }
+
+    /**
+     * Helper Accessor: Kelas
+     */
+    public function getKelasAttribute()
+    {
+        return $this->jadwal->kelas ?? null;
+    }
+
+    /**
+     * Helper Accessor: Mapel
+     */
+    public function getMapelAttribute()
+    {
+        return $this->jadwal->mapel ?? null;
+    }
+
+    protected $appends = ['dokumentasi_url'];
+
+    /**
      * Accessor untuk format tanggal Indonesia (e.g. 2026-07-28 -> 28 Juli 2026)
      */
     public function getTanggalFormattedAttribute()
     {
         if (!$this->tanggal) return '-';
         return date('d-m-Y', strtotime($this->tanggal));
+    }
+
+    /**
+     * Accessor untuk URL foto dokumentasi / kehadiran
+     */
+    public function getDokumentasiUrlAttribute()
+    {
+        if (!$this->dokumentasi) return null;
+
+        if (str_starts_with($this->dokumentasi, 'http://') || str_starts_with($this->dokumentasi, 'https://')) {
+            return $this->dokumentasi;
+        }
+
+        if (file_exists(public_path('uploads/dokumentasi/' . $this->dokumentasi))) {
+            return asset('uploads/dokumentasi/' . $this->dokumentasi);
+        }
+
+        if (file_exists(public_path('storage/' . $this->dokumentasi))) {
+            return asset('storage/' . $this->dokumentasi);
+        }
+
+        if (file_exists(storage_path('app/public/' . $this->dokumentasi))) {
+            return asset('storage/' . $this->dokumentasi);
+        }
+
+        return asset('uploads/dokumentasi/' . $this->dokumentasi);
+    }
+
+    /**
+     * Relasi ke Verifikasi & Tanda Tangan Guru Piket Harian
+     */
+    public function verifikasiPiket()
+    {
+        return $this->hasOne(VerifikasiJurnalPiket::class, 'tanggal', 'tanggal');
     }
 }

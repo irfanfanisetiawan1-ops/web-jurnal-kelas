@@ -11,8 +11,11 @@ class Siswa extends Model
 
     protected $table      = 'siswa';
     protected $primaryKey = 'id_siswa';
-    protected $fillable   = ['nis', 'nisn', 'nama_siswa', 'jenis_kelamin', 'id_kelas', 'kota_lahir', 'tanggal_lahir', 'alamat_lengkap', 'is_alumni'];
-    protected $casts      = ['is_alumni' => 'boolean'];
+    protected $fillable   = ['nis', 'nisn', 'nama_siswa', 'jenis_kelamin', 'id_kelas', 'kota_lahir', 'tanggal_lahir', 'alamat_lengkap', 'is_alumni', 'is_active'];
+    protected $casts      = [
+        'is_alumni' => 'boolean',
+        'is_active' => 'boolean',
+    ];
     public    $timestamps = false;
 
     // Beritahu Laravel kolom soft delete di tabel ini
@@ -30,6 +33,11 @@ class Siswa extends Model
     public function kelas()
     {
         return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+    }
+
+    public function isActive(): bool
+    {
+        return (bool) ($this->is_active ?? true);
     }
 
     public function getJenisKelaminTeksAttribute()

@@ -521,12 +521,6 @@
                 <h2><i class="fa-solid fa-user-plus" style="color:#0284c7;"></i> Tambah & Penugasan Wali Kelas Baru</h2>
                 <p>Pilih kelas bimbingan dan tentukan Wali Kelas baik dari daftar guru terdaftar maupun data guru baru.</p>
             </div>
-            <a href="{{ route('admin.wali-kelas.trash') }}" class="btn-trash">
-                <i class="fa-solid fa-trash-can"></i> Lihat Tong Sampah
-                @if(isset($trashedCount) && $trashedCount > 0)
-                    <span class="badge-count">{{ $trashedCount }}</span>
-                @endif
-            </a>
         </div>
 
         <!-- Alert Banner Alasan Gagal Simpan (JS Generated) -->
@@ -912,6 +906,12 @@
             <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-left:auto;">
                 <button type="submit" class="btn-filter">Cari</button>
                 <a href="{{ route('admin.wali-kelas-list') }}" class="btn-reset">Reset</a>
+                <a href="{{ route('admin.wali-kelas.trash') }}" class="btn-trash" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Lihat Data Wali Kelas di Tempat Sampah">
+                    <i class="fa-solid fa-trash-can"></i> Lihat Sampah
+                    @if(isset($trashedCount) && $trashedCount > 0)
+                        <span class="badge-count">{{ $trashedCount }}</span>
+                    @endif
+                </a>
                 <button type="button" id="btnBulkDelete" class="btn-action btn-delete" style="padding: 10px 18px; border-radius: 12px; font-size: 13.5px; opacity: 0.5; cursor: not-allowed; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(225,29,72,0.15); border: none;" disabled onclick="confirmBulkDelete()" title="Pilih wali kelas dengan mencentang checkbox untuk menghapus secara massal">
                     <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
                 </button>

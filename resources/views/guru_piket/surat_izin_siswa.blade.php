@@ -3,11 +3,100 @@
 @section('title', 'Surat Izin Siswa — EDU JOURNAL')
 
 @section('styles')
+<!-- Select2 CSS for Searchable Class & Student Select -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
     .surat-izin-container {
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    /* Style Override Select2 & Prevent Horizontal Overflow */
+    .select2-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .select2-container .select2-selection--single {
+        background-color: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        height: 42px;
+        padding: 6px 12px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        width: 100% !important;
+    }
+
+    .select2-container--default .select2-selection--single:focus,
+    .select2-container--default.select2-container--open .select2-selection--single {
+        background-color: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #1e293b;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: normal;
+        padding-left: 0;
+        padding-right: 24px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px;
+        right: 8px;
+        top: 1px;
+    }
+
+    .select2-dropdown {
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .select2-search--dropdown {
+        padding: 8px;
+    }
+
+    .select2-search__field {
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+        padding: 7px 10px !important;
+        font-size: 12.5px !important;
+        outline: none !important;
+        font-family: inherit !important;
+        box-sizing: border-box !important;
+    }
+
+    .select2-search__field:focus {
+        border-color: #2563eb !important;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
+    }
+
+    .select2-results__option {
+        padding: 9px 12px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #2563eb;
+        color: #ffffff;
     }
 
     .dashboard-page-header {
@@ -583,17 +672,17 @@
                 @csrf
                 
                 <div class="form-grid">
-                    <!-- 1. Pilih Kelas Filter Dropdown -->
-                    <div class="form-group">
+                    <!-- 1. Pilih Kelas Filter Dropdown (Searchable Select2) -->
+                    <div class="form-group" style="min-width: 0;">
                         <label class="form-label-custom">1. Pilih Kelas Siswa <span style="color:#ef4444;">*</span></label>
-                        <select id="form_select_kelas" class="select-custom" onchange="filterSiswaByKelasForm()" required>
-                            <option value="">-- Pilih Kelas --</option>
+                        <select id="form_select_kelas" name="id_kelas_form" class="select-custom" style="width: 100%;" required>
+                            <option value="">-- Cari / Pilih Kelas Siswa --</option>
                             @foreach($kelases as $kls)
                                 @php
                                     $waliNama = $kls->waliKelas->nama_guru ?? '';
                                     $waliNip  = $kls->waliKelas->nip ?? '';
                                 @endphp
-                                <option value="{{ $kls->id_kelas }}" data-wali-nama="{{ $waliNama }}" data-wali-nip="{{ $waliNip }}">
+                                <option value="{{ $kls->id_kelas }}" data-wali-nama="{{ $waliNama }}" data-wali-nip="{{ $waliNip }}" {{ old('id_kelas_form') == $kls->id_kelas ? 'selected' : '' }}>
                                     {{ $kls->nama_kelas }}
                                 </option>
                             @endforeach
@@ -605,16 +694,11 @@
                         </div>
                     </div>
 
-                    <!-- 2. Pilih Siswa -->
-                    <div class="form-group">
+                    <!-- 2. Pilih Siswa (Searchable Select2) -->
+                    <div class="form-group" style="min-width: 0;">
                         <label class="form-label-custom">2. Pilih Siswa yang Izin <span style="color:#ef4444;">*</span></label>
-                        <select name="id_siswa" id="form_select_siswa" class="select-custom" required disabled>
+                        <select name="id_siswa" id="form_select_siswa" class="select-custom" style="width: 100%;" required disabled>
                             <option value="">-- Pilih Kelas Terlebih Dahulu --</option>
-                            @foreach($siswas as $sis)
-                                <option value="{{ $sis->id_siswa }}" data-kelas="{{ $sis->id_kelas }}">
-                                    {{ $sis->nama_siswa }} ({{ $sis->kelas->nama_kelas ?? 'Kelas' }})
-                                </option>
-                            @endforeach
                         </select>
                     </div>
 
@@ -1093,12 +1177,61 @@
     </div>
 </div>
 
+@section('scripts')
+<!-- Select2 JS & jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
-    // Dynamic Filter Student by Class & Display Wali Kelas Info
+    // Master data array of all students for Select2 filtering
+    const allSiswaMaster = [
+        @foreach($siswas as $sis)
+        {
+            id: "{{ $sis->id_siswa }}",
+            nama: "{{ addslashes($sis->nama_siswa) }}",
+            nis: "{{ addslashes($sis->nisn ?? $sis->nis ?? '') }}",
+            id_kelas: "{{ $sis->id_kelas }}",
+            nama_kelas: "{{ addslashes($sis->kelas->nama_kelas ?? 'Kelas') }}"
+        },
+        @endforeach
+    ];
+
+    $(document).ready(function() {
+        // Init Select2 for Kelas Dropdown
+        $('#form_select_kelas').select2({
+            placeholder: '-- Cari / Pilih Kelas Siswa --',
+            allowClear: true,
+            width: '100%'
+        }).on('change', function() {
+            filterSiswaByKelasForm();
+        });
+
+        // Init Select2 for Siswa Dropdown
+        $('#form_select_siswa').select2({
+            placeholder: '-- Cari / Pilih Siswa yang Izin --',
+            allowClear: true,
+            width: '100%'
+        });
+
+        calculateDurasiLive();
+
+        // Auto restore selection if old input exists (e.g. after validation error)
+        const oldSiswaId = "{{ old('id_siswa') }}";
+        const oldKelasId = "{{ old('id_kelas_form') }}";
+        if (oldKelasId) {
+            $('#form_select_kelas').val(oldKelasId).trigger('change');
+            if (oldSiswaId) {
+                setTimeout(() => {
+                    $('#form_select_siswa').val(oldSiswaId).trigger('change');
+                }, 150);
+            }
+        }
+    });
+
+    // Dynamic Filter Student by Class & Display Wali Kelas Info (Select2 Compatible)
     function filterSiswaByKelasForm() {
         const selectKelas = document.getElementById('form_select_kelas');
-        const selectedOption = selectKelas.options[selectKelas.selectedIndex];
-        const selectedKelasId = selectKelas.value;
+        const selectedKelasId = $('#form_select_kelas').val();
 
         const waliBadge = document.getElementById('form_wali_kelas_badge');
         const waliText  = document.getElementById('form_wali_kelas_text');
@@ -1108,8 +1241,9 @@
             waliBadge.className = 'wali-kelas-badge';
             waliText.textContent = '-- Pilih Kelas Terlebih Dahulu --';
         } else {
-            const waliNama = selectedOption.getAttribute('data-wali-nama');
-            const waliNip  = selectedOption.getAttribute('data-wali-nip');
+            const selectedOption = selectKelas.options[selectKelas.selectedIndex];
+            const waliNama = selectedOption ? selectedOption.getAttribute('data-wali-nama') : '';
+            const waliNip  = selectedOption ? selectedOption.getAttribute('data-wali-nip') : '';
 
             if (waliNama && waliNama.trim() !== '') {
                 const nipStr = (waliNip && waliNip.trim() !== '') ? ` (NIP: ${waliNip})` : '';
@@ -1123,36 +1257,32 @@
             }
         }
 
-        // Filter Student Dropdown
-        const siswaSelect = document.getElementById('form_select_siswa');
-        const options = siswaSelect.querySelectorAll('option');
-
-        siswaSelect.selectedIndex = 0;
+        // Filter Student Select2 Dropdown
+        const $siswaSelect = $('#form_select_siswa');
+        $siswaSelect.empty();
 
         if (!selectedKelasId) {
-            siswaSelect.disabled = true;
-            options[0].textContent = '-- Pilih Kelas Terlebih Dahulu --';
+            $siswaSelect.append(new Option('-- Pilih Kelas Terlebih Dahulu --', '', true, true));
+            $siswaSelect.prop('disabled', true);
+            $siswaSelect.trigger('change');
             return;
         }
 
-        siswaSelect.disabled = false;
-        options[0].textContent = '-- Pilih Siswa --';
+        const filteredSiswa = allSiswaMaster.filter(s => String(s.id_kelas) === String(selectedKelasId));
 
-        let countVisible = 0;
-        options.forEach((opt, idx) => {
-            if (idx === 0) return;
-            const optKelasId = opt.getAttribute('data-kelas');
-            if (optKelasId === selectedKelasId) {
-                opt.style.display = 'block';
-                countVisible++;
-            } else {
-                opt.style.display = 'none';
-            }
-        });
-
-        if (countVisible === 0) {
-            options[0].textContent = '-- Tidak ada siswa di kelas ini --';
+        if (filteredSiswa.length === 0) {
+            $siswaSelect.append(new Option('-- Tidak Ada Siswa Terdaftar di Kelas Ini --', '', true, true));
+            $siswaSelect.prop('disabled', true);
+        } else {
+            $siswaSelect.prop('disabled', false);
+            $siswaSelect.append(new Option('-- Cari / Pilih Siswa yang Izin --', '', true, true));
+            filteredSiswa.forEach(s => {
+                const label = `${s.nama} (${s.nama_kelas})${s.nis ? ' - NIS/NISN: ' + s.nis : ''}`;
+                $siswaSelect.append(new Option(label, s.id));
+            });
         }
+
+        $siswaSelect.trigger('change');
     }
 
     // Live Calculate Durasi Hari & Strict Date Validation
@@ -1162,6 +1292,8 @@
         const durasiBadge = document.getElementById('durasiPillBadge');
         const warningBox = document.getElementById('dateValidationWarning');
         const btnSubmit = document.getElementById('btnSubmitForm');
+
+        if (!tglMulaiInput || !tglSelesaiInput) return;
 
         const valMulai = tglMulaiInput.value;
         const valSelesai = tglSelesaiInput.value;
@@ -1173,26 +1305,34 @@
 
         if (dateSelesai < dateMulai) {
             tglSelesaiInput.classList.add('is-invalid');
-            warningBox.style.display = 'flex';
-            durasiBadge.textContent = 'Invalid Date';
-            durasiBadge.style.background = '#fee2e2';
-            durasiBadge.style.color = '#991b1b';
-            btnSubmit.disabled = true;
-            btnSubmit.style.opacity = '0.5';
-            btnSubmit.style.cursor = 'not-allowed';
+            if (warningBox) warningBox.style.display = 'flex';
+            if (durasiBadge) {
+                durasiBadge.textContent = 'Invalid Date';
+                durasiBadge.style.background = '#fee2e2';
+                durasiBadge.style.color = '#991b1b';
+            }
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.style.opacity = '0.5';
+                btnSubmit.style.cursor = 'not-allowed';
+            }
         } else {
             tglSelesaiInput.classList.remove('is-invalid');
-            warningBox.style.display = 'none';
-            btnSubmit.disabled = false;
-            btnSubmit.style.opacity = '1';
-            btnSubmit.style.cursor = 'pointer';
+            if (warningBox) warningBox.style.display = 'none';
+            if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.style.opacity = '1';
+                btnSubmit.style.cursor = 'pointer';
+            }
 
             const diffTime = Math.abs(dateSelesai - dateMulai);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
-            durasiBadge.textContent = diffDays + ' Hari';
-            durasiBadge.style.background = '#e0e7ff';
-            durasiBadge.style.color = '#3730a3';
+            if (durasiBadge) {
+                durasiBadge.textContent = diffDays + ' Hari';
+                durasiBadge.style.background = '#e0e7ff';
+                durasiBadge.style.color = '#3730a3';
+            }
         }
     }
 
@@ -1200,6 +1340,8 @@
         const tglMulaiInput = document.getElementById('edit_tanggal');
         const tglSelesaiInput = document.getElementById('edit_tanggal_selesai');
         const durasiBadge = document.getElementById('editDurasiPill');
+
+        if (!tglMulaiInput || !tglSelesaiInput) return;
 
         const valMulai = tglMulaiInput.value;
         const valSelesai = tglSelesaiInput.value;
@@ -1212,15 +1354,16 @@
         if (dateSelesai >= dateMulai) {
             const diffTime = Math.abs(dateSelesai - dateMulai);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-            durasiBadge.textContent = diffDays + ' Hari';
+            if (durasiBadge) durasiBadge.textContent = diffDays + ' Hari';
         } else {
-            durasiBadge.textContent = 'Invalid';
+            if (durasiBadge) durasiBadge.textContent = 'Invalid';
         }
     }
 
     // Reset Form Custom
     function resetFormCustom() {
         document.getElementById('suratIzinInputForm').reset();
+        $('#form_select_kelas').val('').trigger('change');
         filterSiswaByKelasForm();
         calculateDurasiLive();
     }
@@ -1374,11 +1517,6 @@
         return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + ' ' + d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     }
 
-    // Initialize Live Duration on Load
-    document.addEventListener('DOMContentLoaded', function() {
-        calculateDurasiLive();
-    });
-
     // Fitur Checkbox & Hapus Massal Surat Izin Siswa
     function toggleSelectAll(masterCheckbox) {
         const checkboxes = document.querySelectorAll('.surat-checkbox');
@@ -1444,6 +1582,7 @@
         document.getElementById('bulkDeleteForm').submit();
     }
 </script>
+@endsection
 
 <!-- Form Hidden untuk Hapus Massal Surat Izin -->
 <form id="bulkDeleteForm" action="{{ route('piket.surat-izin-siswa.bulk-delete') }}" method="POST" style="display: none;">

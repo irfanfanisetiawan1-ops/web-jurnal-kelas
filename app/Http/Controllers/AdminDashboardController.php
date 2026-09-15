@@ -268,10 +268,10 @@ class AdminDashboardController extends Controller
         $statusFilter = $request->query('status');
         $search       = $request->query('search');
 
-        $query = User::with('guru.mapel');
+        $query = User::with(['guru.mapel', 'siswa.kelas']);
 
         // Filter Role
-        if ($roleFilter && in_array($roleFilter, ['tu', 'admin', 'guru', 'piket', 'wali_kelas', 'waka', 'waka_sdm', 'satpam', 'kepala_sekolah', 'orang_tua'])) {
+        if ($roleFilter && in_array($roleFilter, ['tu', 'admin', 'guru', 'piket', 'wali_kelas', 'waka', 'waka_kesiswaan', 'waka_sdm', 'satpam', 'kepala_sekolah', 'orang_tua'])) {
             if ($roleFilter === 'admin') {
                 $query->whereIn('role', ['admin', 'tu']);
             } else {
@@ -279,9 +279,15 @@ class AdminDashboardController extends Controller
             }
         }
 
-        // Filter Status
-        if ($statusFilter && in_array($statusFilter, ['pending', 'verified', 'rejected'])) {
-            $query->where('status_verifikasi', $statusFilter);
+        // Filter Status (Aktif / Nonaktif / Verifikasi)
+        if ($statusFilter) {
+            if ($statusFilter === 'active') {
+                $query->where('is_active', 1);
+            } elseif ($statusFilter === 'inactive') {
+                $query->where('is_active', 0);
+            } elseif (in_array($statusFilter, ['pending', 'verified', 'rejected'])) {
+                $query->where('status_verifikasi', $statusFilter);
+            }
         }
 
         // Search Query
@@ -307,6 +313,7 @@ class AdminDashboardController extends Controller
         $countGuruMapel     = User::where('role', 'guru')->count();
         $countWaliKelas     = User::where('role', 'wali_kelas')->count();
         $countWaka          = User::where('role', 'waka')->count();
+        $countWakaKesiswaan = User::where('role', 'waka_kesiswaan')->count();
         $countWakaSdm       = User::where('role', 'waka_sdm')->count();
         $countKepalaSekolah = User::where('role', 'kepala_sekolah')->count();
         $countSatpam        = User::where('role', 'satpam')->count();
@@ -326,6 +333,7 @@ class AdminDashboardController extends Controller
             'countGuruMapel',
             'countWaliKelas',
             'countWaka',
+            'countWakaKesiswaan',
             'countWakaSdm',
             'countKepalaSekolah',
             'countSatpam',
@@ -344,19 +352,46 @@ class AdminDashboardController extends Controller
      */
     public function storeUser(Request $request)
     {
-        $isOrtu = $request->role === 'orang_tua';
-        $nipRule = $isOrtu ? 'required|numeric|digits:10' : 'required|numeric|digits:18';
+        $role = $request->role;
+        $isPiketOrSatpam = in_array($role, ['piket', 'satpam']);
+        $isOrtu = $role === 'orang_tua';
+
+        // Validasi batasan akun unik (Maksimal 1 akun untuk Guru Piket dan Satpam)
+        if ($isPiketOrSatpam) {
+            $existingPetugas = User::where('role', $role)->first();
+            if ($existingPetugas) {
+                $roleLabel = $role === 'piket' ? 'Guru Piket' : 'Satpam Gerbang';
+                return back()->withInput()->with('error', "Gagal membuat akun: Akun {$roleLabel} sudah ada dalam sistem ({$existingPetugas->name}, Username: {$existingPetugas->username}). Sistem dirancang maksimal 1 akun untuk {$roleLabel}.");
+            }
+        }
+
+        // Sanitize NIP / NISN (hapus spasi dan karakter non-digit) jika bukan piket/satpam
+        if (!$isPiketOrSatpam) {
+            $cleanedNip = preg_replace('/[^0-9]/', '', $request->nip ?? '');
+            $request->merge(['nip' => $cleanedNip]);
+        }
+
+        if ($isPiketOrSatpam) {
+            $nipRule = 'nullable';
+            $usernameRule = 'required|string|max:50|alpha_dash|unique:users,username';
+        } elseif ($isOrtu) {
+            $nipRule = 'required|numeric|digits:10';
+            $usernameRule = 'nullable|string|max:50|unique:users,username';
+        } else {
+            $nipRule = 'required|numeric|digits:18';
+            $usernameRule = 'nullable|string|max:50|unique:users,username';
+        }
         $nipDigitsMsg = $isOrtu ? 'NISN harus berisi tepat 10 digit angka.' : 'NIP harus berisi tepat 18 digit angka.';
 
         $request->validate([
             'name'              => 'required|string|max:100',
             'nip'               => $nipRule,
-            'username'          => 'nullable|string|max:50|unique:users,username',
+            'username'          => $usernameRule,
             'email'             => 'nullable|email|max:100|unique:users,email',
             'no_hp'             => 'nullable|numeric|digits_between:10,15',
             'jenis_kelamin'     => 'nullable|in:L,P',
             'password'          => 'required|string|min:6|confirmed',
-            'role'              => 'required|in:tu,admin,guru,piket,wali_kelas,waka,waka_sdm,satpam,kepala_sekolah,orang_tua',
+            'role'              => 'required|in:tu,admin,guru,piket,wali_kelas,waka,waka_kesiswaan,waka_sdm,satpam,kepala_sekolah,orang_tua',
             'status_verifikasi' => 'required|in:pending,verified,rejected',
             'id_guru'           => 'nullable|exists:guru,id_guru',
             'id_siswa'          => 'nullable|exists:siswa,id_siswa',
@@ -366,7 +401,9 @@ class AdminDashboardController extends Controller
             'nip.numeric'          => $isOrtu ? 'NISN harus berupa angka.' : 'NIP harus berupa angka.',
             'nip.digits'           => $nipDigitsMsg,
             'nip.digits_between'   => $nipDigitsMsg,
-            'username.unique'      => 'Username sudah digunakan.',
+            'username.required'    => 'Username wajib diisi untuk akun ' . ($role === 'piket' ? 'Guru Piket.' : 'Satpam.'),
+            'username.alpha_dash'  => 'Username hanya boleh berisi huruf, angka, tanda hubung (-), dan garis bawah (_).',
+            'username.unique'      => 'Username sudah digunakan oleh akun lain.',
             'email.unique'         => 'Email sudah digunakan.',
             'no_hp.numeric'        => 'Nomor HP harus berupa angka.',
             'no_hp.digits_between' => 'Nomor HP harus berisi antara 10 hingga 15 digit angka.',
@@ -376,31 +413,32 @@ class AdminDashboardController extends Controller
             'role.in'              => 'Role pengguna tidak valid.',
         ]);
 
-        $nip  = trim($request->nip);
-        $role = $request->role;
+        $nip = $isPiketOrSatpam ? null : trim($request->nip);
 
         // Auto-link id_siswa untuk role Orang Tua
         $idSiswa = $request->id_siswa ?: null;
-        if ($role === 'orang_tua' && !$idSiswa) {
+        if ($role === 'orang_tua' && !$idSiswa && $nip) {
             $matchedSiswa = Siswa::withoutGlobalScopes()->where('nisn', $nip)->orWhere('nis', $nip)->first();
             if ($matchedSiswa) {
                 $idSiswa = $matchedSiswa->id_siswa;
             }
         }
 
-        // 1. Cek apakah NIP/NISN sudah memiliki akun di tabel users
-        $existingUser = User::withTrashed()->where('nip', $nip)->first();
-        if ($existingUser) {
-            if ($existingUser->trashed()) {
-                return back()->withInput()->with('error', "Gagal membuat akun: NIP/NISN '{$nip}' ({$existingUser->name}) berada di Tempat Sampah (Soft Deleted). Silakan pulihkan akun dari Tempat Sampah.");
+        // 1. Cek apakah NIP/NISN sudah memiliki akun di tabel users (jika bukan piket/satpam)
+        if ($nip) {
+            $existingUser = User::withTrashed()->where('nip', $nip)->first();
+            if ($existingUser) {
+                if ($existingUser->trashed()) {
+                    return back()->withInput()->with('error', "Gagal membuat akun: NIP/NISN '{$nip}' ({$existingUser->name}) berada di Tempat Sampah (Soft Deleted). Silakan pulihkan akun dari Tempat Sampah.");
+                }
+                return back()->withInput()->with('error', "Gagal membuat akun: NIP/NISN '{$nip}' sudah memiliki akun pengguna aktif ({$existingUser->name}).");
             }
-            return back()->withInput()->with('error', "Gagal membuat akun: NIP/NISN '{$nip}' sudah memiliki akun pengguna aktif ({$existingUser->name}).");
         }
 
-        // 2. Auto-sync / Auto-create Master Data Guru jika role berbasis guru/piket/wali_kelas
-        $guru = Guru::where('nip', $nip)->first();
-
-        if (in_array($role, ['guru', 'piket', 'wali_kelas'])) {
+        // 2. Auto-sync / Auto-create Master Data Guru jika role guru / waka
+        $guru = null;
+        if ($nip && in_array($role, ['guru', 'wali_kelas', 'waka', 'waka_kesiswaan', 'waka_sdm'])) {
+            $guru = Guru::where('nip', $nip)->first();
             if (!$guru) {
                 $guru = Guru::create([
                     'nip'           => $nip,
@@ -418,10 +456,10 @@ class AdminDashboardController extends Controller
         }
 
         // 3. Auto-sync idGuru
-        $idGuru = $guru ? $guru->id_guru : $request->id_guru;
+        $idGuru = $guru ? $guru->id_guru : ($isPiketOrSatpam ? null : $request->id_guru);
 
         // 4. Auto-generate username jika kosong
-        $username = $request->username;
+        $username = trim($request->username ?? '');
         if (empty($username)) {
             $baseName = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', explode(' ', $request->name)[0]));
             $username = $role . '.' . $baseName . rand(10, 99);
@@ -446,6 +484,124 @@ class AdminDashboardController extends Controller
         User::syncWaliKelasRoles();
 
         return back()->with('success', "Pengguna baru '{$user->name}' ({$user->getRoleLabelAttribute()}) berhasil ditambahkan dan tersinkronisasi!");
+    }
+
+    /**
+     * Buat Akun Pengguna Role Orang Tua dari Seluruh Data Siswa secara Massal
+     */
+    public function generateAllOrangTua(Request $request)
+    {
+        // 1. Ambil seluruh data siswa yang aktif (belum dihapus / bukan alumni)
+        $siswas = Siswa::select('id_siswa', 'nisn', 'nama_siswa', 'jenis_kelamin', 'id_kelas', 'tanggal_lahir')->get();
+
+        if ($siswas->isEmpty()) {
+            return back()->with('error', 'Tidak ditemukan data siswa aktif untuk pembuatan akun Orang Tua.');
+        }
+
+        // 2. Ambil data akun yang sudah ada untuk validasi dan pencegahan duplikasi
+        $existingOrtuNips = User::where('role', 'orang_tua')->pluck('nip')->filter()->flip()->toArray();
+        $existingOrtuSiswaIds = User::where('role', 'orang_tua')->whereNotNull('id_siswa')->pluck('id_siswa')->filter()->flip()->toArray();
+        $existingAllNips = User::pluck('nip')->filter()->flip()->toArray();
+        $existingUsernames = User::pluck('username')->filter()->flip()->toArray();
+
+        // 3. Precompute hash password default untuk performa tinggi (~1-2 detik untuk seluruh data siswa)
+        $defaultPassword = 'ortu123';
+        $defaultHash = Hash::make($defaultPassword);
+        $hashCache = [$defaultPassword => $defaultHash];
+
+        $getHash = function ($pass) use (&$hashCache) {
+            if (!isset($hashCache[$pass])) {
+                $hashCache[$pass] = Hash::make($pass);
+            }
+            return $hashCache[$pass];
+        };
+
+        $recordsToInsert = [];
+        $createdCount = 0;
+        $skippedCount = 0;
+        $invalidNisnCount = 0;
+        $now = Carbon::now();
+
+        foreach ($siswas as $siswa) {
+            $rawNisn = trim($siswa->nisn ?? '');
+            $cleanNisn = preg_replace('/[^0-9]/', '', $rawNisn);
+
+            // Validasi NISN (harus ada dan minimal 5 digit angka)
+            if (empty($cleanNisn)) {
+                $invalidNisnCount++;
+                continue;
+            }
+
+            // Validasi duplikasi: Cek apakah siswa sudah punya akun Orang Tua atau NIP/NISN sudah dipakai
+            if (isset($existingOrtuSiswaIds[$siswa->id_siswa]) || isset($existingOrtuNips[$cleanNisn]) || isset($existingAllNips[$cleanNisn])) {
+                $skippedCount++;
+                continue;
+            }
+
+            // Tentukan password: Jika ada tanggal lahir, gunakan tanggal lahir (format YYYY-MM-DD), jika belum ada gunakan default ortu123
+            $plainPassword = $defaultPassword;
+            if (!empty($siswa->tanggal_lahir) && $siswa->tanggal_lahir !== '0000-00-00') {
+                try {
+                    $plainPassword = Carbon::parse($siswa->tanggal_lahir)->format('Y-m-d');
+                } catch (\Exception $e) {
+                    $plainPassword = $defaultPassword;
+                }
+            }
+
+            // Generate username unik
+            $username = 'ortu.' . $cleanNisn;
+            if (isset($existingUsernames[$username])) {
+                $username = 'ortu.' . $cleanNisn . '_' . $siswa->id_siswa;
+            }
+
+            // Jenis Kelamin
+            $jk = in_array(strtoupper($siswa->jenis_kelamin ?? ''), ['L', 'P']) ? strtoupper($siswa->jenis_kelamin) : 'L';
+
+            $recordsToInsert[] = [
+                'name'              => 'Orang Tua - ' . trim($siswa->nama_siswa),
+                'nip'               => $cleanNisn,
+                'username'          => $username,
+                'email'             => null,
+                'no_hp'             => null,
+                'jenis_kelamin'     => $jk,
+                'foto'              => null,
+                'role'              => 'orang_tua',
+                'status_verifikasi' => 'verified',
+                'id_guru'           => null,
+                'id_siswa'          => $siswa->id_siswa,
+                'id_kelas'          => $siswa->id_kelas,
+                'password'          => $getHash($plainPassword),
+                'password_plain'    => $plainPassword,
+                'created_at'        => $now,
+                'updated_at'        => $now,
+            ];
+
+            // Tandai agar tidak duplikat di iterasi berikutnya
+            $existingOrtuNips[$cleanNisn] = true;
+            $existingOrtuSiswaIds[$siswa->id_siswa] = true;
+            $existingAllNips[$cleanNisn] = true;
+            $existingUsernames[$username] = true;
+            $createdCount++;
+        }
+
+        // 4. Lakukan bulk insert dalam chunk
+        if (!empty($recordsToInsert)) {
+            DB::transaction(function () use ($recordsToInsert) {
+                foreach (array_chunk($recordsToInsert, 200) as $chunk) {
+                    User::insert($chunk);
+                }
+            });
+        }
+
+        $msg = "Proses selesai! Berhasil membuat {$createdCount} akun Orang Tua baru secara massal.";
+        if ($skippedCount > 0) {
+            $msg .= " ({$skippedCount} siswa dilewati karena sudah memiliki akun).";
+        }
+        if ($invalidNisnCount > 0) {
+            $msg .= " ({$invalidNisnCount} data siswa dilewati karena NISN tidak valid).";
+        }
+
+        return back()->with('success', $msg);
     }
 
     /**
@@ -475,7 +631,7 @@ class AdminDashboardController extends Controller
         $user = User::findOrFail($id);
         
         $request->validate([
-            'role'    => 'nullable|in:tu,admin,guru,piket,wali_kelas,waka,waka_sdm,satpam,kepala_sekolah,orang_tua',
+            'role'    => 'nullable|in:tu,admin,guru,piket,wali_kelas,waka,waka_kesiswaan,waka_sdm,satpam,kepala_sekolah,orang_tua',
             'id_guru' => 'nullable|exists:guru,id_guru',
         ]);
 
@@ -506,20 +662,49 @@ class AdminDashboardController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $isOrtu = $request->role === 'orang_tua';
-        $nipRule = $isOrtu ? 'required|numeric|digits:10|unique:users,nip,' . $id : 'required|numeric|digits:18|unique:users,nip,' . $id;
+        $role = $request->role;
+        $isPiketOrSatpam = in_array($role, ['piket', 'satpam']);
+        $isOrtu = $role === 'orang_tua';
+
+        // Validasi batasan akun unik (Maksimal 1 akun untuk Guru Piket dan Satpam)
+        if ($isPiketOrSatpam) {
+            $existingPetugas = User::where('role', $role)->where('id', '!=', $id)->first();
+            if ($existingPetugas) {
+                $roleLabel = $role === 'piket' ? 'Guru Piket' : 'Satpam Gerbang';
+                return back()->withInput()->with('error', "Gagal mengubah role: Akun {$roleLabel} sudah ada dalam sistem ({$existingPetugas->name}, Username: {$existingPetugas->username}). Sistem dirancang maksimal 1 akun untuk {$roleLabel}.");
+            }
+        }
+
+        // Sanitize NIP / NISN (hapus spasi dan karakter non-digit) jika bukan piket/satpam
+        if (!$isPiketOrSatpam) {
+            $cleanedNip = preg_replace('/[^0-9]/', '', $request->nip ?? '');
+            $request->merge(['nip' => $cleanedNip]);
+        }
+
+        if ($isPiketOrSatpam) {
+            $nipRule = 'nullable';
+            $usernameRule = ['required', 'string', 'max:50', 'alpha_dash', \Illuminate\Validation\Rule::unique('users', 'username')->ignore($id)->whereNull('deleted_at')];
+        } elseif ($isOrtu) {
+            $nipRule = ['required', 'numeric', 'digits:10', \Illuminate\Validation\Rule::unique('users', 'nip')->ignore($id)->whereNull('deleted_at')];
+            $usernameRule = ['nullable', 'string', 'max:50', \Illuminate\Validation\Rule::unique('users', 'username')->ignore($id)->whereNull('deleted_at')];
+        } else {
+            $nipRule = ['required', 'numeric', 'digits:18', \Illuminate\Validation\Rule::unique('users', 'nip')->ignore($id)->whereNull('deleted_at')];
+            $usernameRule = ['nullable', 'string', 'max:50', \Illuminate\Validation\Rule::unique('users', 'username')->ignore($id)->whereNull('deleted_at')];
+        }
         $nipDigitsMsg = $isOrtu ? 'NISN harus berisi tepat 10 digit angka.' : 'NIP harus berisi tepat 18 digit angka.';
 
         $request->validate([
             'name'              => 'required|string|max:100',
             'email'             => 'nullable|email|max:100|unique:users,email,' . $id,
-            'role'              => 'required|in:tu,admin,guru,piket,wali_kelas,waka,waka_sdm,satpam,kepala_sekolah,orang_tua',
+            'role'              => 'required|in:tu,admin,guru,piket,wali_kelas,waka,waka_kesiswaan,waka_sdm,satpam,kepala_sekolah,orang_tua',
             'status_verifikasi' => 'required|in:pending,verified,rejected',
             'nip'               => $nipRule,
+            'username'          => $usernameRule,
             'id_guru'           => 'nullable|exists:guru,id_guru',
             'id_siswa'          => 'nullable|exists:siswa,id_siswa',
             'jenis_kelamin'     => 'nullable|in:L,P',
             'no_hp'             => 'nullable|numeric|digits_between:10,15',
+            'password'          => 'nullable|string|min:6|confirmed',
         ], [
             'name.required'        => 'Nama lengkap wajib diisi.',
             'nip.required'         => $isOrtu ? 'NISN wajib diisi.' : 'NIP wajib diisi.',
@@ -527,34 +712,39 @@ class AdminDashboardController extends Controller
             'nip.digits'           => $nipDigitsMsg,
             'nip.digits_between'   => $nipDigitsMsg,
             'nip.unique'           => $isOrtu ? 'NISN sudah terdaftar pada akun lain.' : 'NIP sudah terdaftar di sistem.',
+            'username.required'    => 'Username wajib diisi untuk akun ' . ($role === 'piket' ? 'Guru Piket.' : 'Satpam.'),
+            'username.alpha_dash'  => 'Username hanya boleh berisi huruf, angka, tanda hubung (-), dan garis bawah (_).',
+            'username.unique'      => 'Username sudah digunakan oleh akun lain.',
             'email.email'          => 'Format email tidak valid.',
             'email.unique'         => 'Email sudah digunakan.',
             'no_hp.numeric'        => 'Nomor HP harus berupa angka.',
             'no_hp.digits_between' => 'Nomor HP harus berisi antara 10 hingga 15 digit angka.',
+            'password.min'         => 'Password minimal 6 karakter jika ingin diubah.',
+            'password.confirmed'   => 'Konfirmasi password baru tidak cocok.',
             'role.in'              => 'Role pengguna tidak valid.',
             'status_verifikasi.in' => 'Status verifikasi tidak valid.',
         ]);
 
-        $nip    = trim($request->nip);
+        $nip    = $isPiketOrSatpam ? null : trim($request->nip);
         $oldNip = $user->nip;
-        $role   = $request->role;
 
         // Auto-link id_siswa untuk role Orang Tua
         $idSiswa = $request->id_siswa ?: $user->id_siswa;
-        if ($role === 'orang_tua' && !$idSiswa) {
+        if ($role === 'orang_tua' && !$idSiswa && $nip) {
             $matchedSiswa = Siswa::withoutGlobalScopes()->where('nisn', $nip)->orWhere('nis', $nip)->first();
             if ($matchedSiswa) {
                 $idSiswa = $matchedSiswa->id_siswa;
             }
         }
 
-        // Auto-find atau Auto-create record Guru jika role berbasis guru (guru, piket, wali_kelas)
-        $guru = Guru::where('nip', $nip)->first();
-        if (!$guru && $user->id_guru) {
-            $guru = Guru::find($user->id_guru);
-        }
+        // Auto-find atau Auto-create record Guru jika role berbasis guru/waka
+        $guru = null;
+        if ($nip && in_array($role, ['guru', 'wali_kelas', 'waka', 'waka_kesiswaan', 'waka_sdm'])) {
+            $guru = Guru::where('nip', $nip)->first();
+            if (!$guru && $user->id_guru) {
+                $guru = Guru::find($user->id_guru);
+            }
 
-        if (in_array($role, ['guru', 'piket', 'wali_kelas'])) {
             if (!$guru) {
                 $guru = Guru::create([
                     'nip'           => $nip,
@@ -570,39 +760,135 @@ class AdminDashboardController extends Controller
                     'no_hp'         => $request->no_hp ?: $guru->no_hp,
                 ]);
             }
-        } elseif ($guru) {
-            $guru->update([
-                'nip'           => $nip,
-                'nama_guru'     => $request->name,
-                'jenis_kelamin' => $request->jenis_kelamin ?: $guru->jenis_kelamin,
-                'no_hp'         => $request->no_hp ?: $guru->no_hp,
-            ]);
         }
 
         // Sinkronisasi perubahan NIP pada tabel kelas jika guru ini bertugas sebagai wali kelas
-        if ($oldNip && $oldNip !== $nip) {
+        if ($oldNip && $nip && $oldNip !== $nip) {
             Kelas::where('wali_kelas', $oldNip)->update(['wali_kelas' => $nip]);
         }
 
         // Hubungkan id_kelas jika terdaftar di tabel kelas
-        $kelasWali = Kelas::where('wali_kelas', $nip)->first();
-        $idKelas   = $kelasWali ? $kelasWali->id_kelas : ($role === 'wali_kelas' ? $user->id_kelas : null);
+        $idKelas = null;
+        if ($nip) {
+            $kelasWali = Kelas::where('wali_kelas', $nip)->first();
+            $idKelas   = $kelasWali ? $kelasWali->id_kelas : ($role === 'wali_kelas' ? $user->id_kelas : null);
+        }
 
         $user->name              = $request->name;
         $user->email             = $request->email ?: null;
         $user->role              = $role;
         $user->status_verifikasi = $request->status_verifikasi;
         $user->nip               = $nip;
-        $user->id_guru           = $guru ? $guru->id_guru : $user->id_guru;
-        $user->id_siswa          = $idSiswa;
+        if ($isPiketOrSatpam) {
+            $user->username = trim($request->username);
+            $user->id_guru  = null;
+            $user->id_siswa = null;
+        } else {
+            if ($request->filled('username')) {
+                $user->username = trim($request->username);
+            }
+            $user->id_guru  = $guru ? $guru->id_guru : $user->id_guru;
+            $user->id_siswa = $idSiswa;
+        }
         $user->no_hp             = $request->no_hp ?: $user->no_hp;
         $user->jenis_kelamin     = $request->jenis_kelamin ?: $user->jenis_kelamin;
         $user->id_kelas          = $idKelas;
+
+        // Update password jika diisikan pada form edit
+        if ($request->filled('password')) {
+            $user->password       = Hash::make($request->password);
+            $user->password_plain = $request->password;
+        }
+
+        if ($request->has('is_active')) {
+            $user->is_active = $request->boolean('is_active');
+        }
+
         $user->save();
 
         User::syncWaliKelasRoles();
 
-        return back()->with('success', "Data dan hak akses akun '{$user->name}' berhasil diperbarui.");
+        return back()->with('success', "Data dan hak akses akun '{$user->name}' ({$user->getRoleLabelAttribute()}) berhasil diperbarui.");
+    }
+
+    /**
+     * Toggle status aktif / nonaktif akun pengguna secara real-time (AJAX / Form)
+     */
+    public function toggleActive(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id === Auth::id()) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success'   => false,
+                    'message'   => 'Anda tidak dapat menonaktifkan akun Anda sendiri yang sedang aktif digunakan!',
+                    'is_active' => (bool) $user->is_active,
+                ], 422);
+            }
+            return back()->with('error', 'Anda tidak dapat menonaktifkan akun Anda sendiri yang sedang digunakan!');
+        }
+
+        if ($request->has('is_active')) {
+            $user->is_active = $request->boolean('is_active');
+        } else {
+            $user->is_active = !$user->is_active;
+        }
+
+        $user->save();
+
+        $statusText = $user->is_active ? 'diaktifkan (ON)' : 'dinonaktifkan (OFF)';
+        $message    = "Status akun '{$user->name}' berhasil {$statusText}.";
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success'      => true,
+                'is_active'    => (bool) $user->is_active,
+                'status_label' => $user->is_active ? 'Aktif' : 'Nonaktif',
+                'user_name'    => $user->name,
+                'message'      => $message,
+            ]);
+        }
+
+        return back()->with('success', $message);
+    }
+
+    /**
+     * Hapus Banyak Pengguna Sekaligus (Soft Delete)
+     */
+    public function destroyBatchUsers(Request $request)
+    {
+        $request->validate([
+            'ids'   => 'required|array|min:1',
+            'ids.*' => 'exists:users,id',
+        ], [
+            'ids.required' => 'Silakan pilih minimal satu akun pengguna untuk dihapus.',
+            'ids.min'      => 'Silakan pilih minimal satu akun pengguna untuk dihapus.',
+            'ids.*.exists' => 'Akun pengguna yang dipilih tidak valid atau tidak ditemukan.',
+        ]);
+
+        $ids = array_map('intval', $request->ids);
+        $currentUserId = Auth::id();
+
+        // Lindungi akun sendiri yang sedang aktif agar tidak terhapus
+        $ids = array_values(array_filter($ids, fn($id) => $id !== $currentUserId));
+
+        if (empty($ids)) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri yang sedang digunakan!');
+        }
+
+        // Cek jika mencoba menghapus semua akun TU
+        $tuToDeleteCount = User::whereIn('id', $ids)->where('role', 'tu')->count();
+        $totalTuCount = User::where('role', 'tu')->count();
+        if ($totalTuCount > 0 && $tuToDeleteCount >= $totalTuCount) {
+            return back()->with('error', 'Tidak dapat menghapus seluruh akun Administrator TU! Sisakan minimal 1 akun TU.');
+        }
+
+        $deletedCount = User::whereIn('id', $ids)->delete(); // Soft delete
+
+        User::syncWaliKelasRoles();
+
+        return back()->with('success', "Berhasil memindahkan {$deletedCount} akun pengguna terpilih ke Tempat Sampah.");
     }
 
     // Soft Delete User Management
@@ -749,28 +1035,25 @@ class AdminDashboardController extends Controller
     public function storeGuruPiket(Request $request)
     {
         // Enforce maximum 1 active piket account in the system
-        $existingPiketCount = User::whereIn('role', ['piket', 'guru_piket'])->count();
+        $existingPiketCount = User::where('role', 'piket')->count();
         if ($existingPiketCount > 0) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Fitur Tambah Guru Piket Baru saat ini dikunci karena akun Guru Piket sudah ada di sistem (maksimal 1 akun). Silakan hapus akun yang ada terlebih dahulu jika ingin mendaftarkan akun piket baru.');
+                ->with('error', 'Fitur Tambah Guru Piket Baru saat ini dikunci karena akun Guru Piket sudah ada di sistem (maksimal 1 akun). Silakan edit akun yang sudah ada atau hapus terlebih dahulu jika ingin mendaftarkan akun piket baru.');
         }
 
         $request->validate([
-            'nip'           => 'required|numeric|digits:18',
+            'username'      => 'required|string|max:50|alpha_dash|unique:users,username',
             'name'          => 'required|string|max:100',
-            'username'      => 'nullable|string|max:50|unique:users,username',
             'email'         => 'nullable|email|max:100|unique:users,email',
             'password'      => 'required|string|min:6',
             'jenis_kelamin' => 'nullable|in:L,P',
             'no_hp'         => 'nullable|numeric|digits_between:10,15',
-            'id_guru'       => 'nullable|exists:guru,id_guru',
         ], [
-            'nip.required'         => 'NIP wajib diisi.',
-            'nip.numeric'          => 'NIP harus berupa angka.',
-            'nip.digits'           => 'NIP harus berisi tepat 18 digit angka.',
+            'username.required'    => 'Username petugas piket wajib diisi.',
+            'username.alpha_dash'  => 'Username hanya boleh berisi huruf, angka, tanda hubung (-), dan garis bawah (_).',
+            'username.unique'      => 'Username sudah digunakan oleh akun lain.',
             'name.required'        => 'Nama lengkap wajib diisi.',
-            'username.unique'      => 'Username sudah terdaftar.',
             'email.unique'         => 'Email sudah terdaftar.',
             'password.required'    => 'Password wajib diisi.',
             'password.min'         => 'Password minimal 6 karakter.',
@@ -778,66 +1061,25 @@ class AdminDashboardController extends Controller
             'no_hp.digits_between' => 'Nomor HP harus berisi antara 10 hingga 15 digit angka.',
         ]);
 
-        // Cek / buat relasi Guru
-        $idGuru = $request->id_guru;
-        if (empty($idGuru)) {
-            $guru = Guru::where('nip', $request->nip)->first();
-            if (!$guru) {
-                $guru = Guru::create([
-                    'nip'           => $request->nip,
-                    'nama_guru'     => $request->name,
-                    'jenis_kelamin' => $request->jenis_kelamin,
-                    'no_hp'         => $request->no_hp,
-                ]);
-            } else {
-                $guru->update([
-                    'nama_guru'     => $request->name,
-                    'jenis_kelamin' => $request->jenis_kelamin ?? $guru->jenis_kelamin,
-                    'no_hp'         => $request->no_hp ?? $guru->no_hp,
-                ]);
-            }
-            $idGuru = $guru->id_guru;
-        }
+        $username = trim($request->username);
 
-        // Auto-generate username jika tidak diisi
-        $username = $request->username;
-        if (empty($username)) {
-            $baseName = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', explode(' ', $request->name)[0]));
-            $username = 'piket.' . $baseName . rand(10, 99);
-        }
-
-        // Cek apakah akun user sudah ada
-        $user = User::withTrashed()->where('nip', $request->nip)->first();
-        if ($user) {
-            if ($user->trashed()) {
-                $user->restore();
-            }
-            $user->update([
-                'name'              => $request->name,
-                'username'          => $username,
-                'email'             => $request->email ?? $user->email,
-                'role'              => 'piket',
-                'status_verifikasi' => 'verified',
-                'id_guru'           => $idGuru,
-                'password'          => Hash::make($request->password),
-                'password_plain'    => $request->password,
-            ]);
-        } else {
-            $user = User::create([
-                'name'              => $request->name,
-                'nip'               => $request->nip,
-                'username'          => $username,
-                'email'             => $request->email ?? null,
-                'password'          => Hash::make($request->password),
-                'password_plain'    => $request->password,
-                'role'              => 'piket',
-                'status_verifikasi' => 'verified',
-                'id_guru'           => $idGuru,
-            ]);
-        }
+        $user = User::create([
+            'name'              => $request->name,
+            'nip'               => null,
+            'username'          => $username,
+            'email'             => $request->email ?: null,
+            'no_hp'             => $request->no_hp ?: null,
+            'jenis_kelamin'     => $request->jenis_kelamin ?: null,
+            'password'          => Hash::make($request->password),
+            'password_plain'    => $request->password,
+            'role'              => 'piket',
+            'status_verifikasi' => 'verified',
+            'id_guru'           => null,
+            'id_siswa'          => null,
+        ]);
 
         return redirect()->route('admin.guru-piket')
-            ->with('success', "Petugas Piket '{$user->name}' berhasil ditambahkan!");
+            ->with('success', "Petugas Piket '{$user->name}' (Username: {$user->username}) berhasil ditambahkan!");
     }
 
     /**

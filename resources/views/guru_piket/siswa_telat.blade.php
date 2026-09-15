@@ -447,13 +447,19 @@
 
     <!-- Flash Messages -->
     @if(session('success'))
-        <div style="background: #d1fae5; border: 1px solid #a7f3d0; color: #065f46; padding: 14px 20px; border-radius: 12px; margin-bottom: 20px; font-size: 13.5px; font-weight: 700; display: flex; align-items: center; justify-content: space-between;">
-            <div>
-                <i class="fa-solid fa-circle-check" style="margin-right: 8px;"></i> {{ session('success') }}
+        <div style="background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; padding: 16px 20px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);">
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700;">
+                <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #10b981;"></i>
+                <div>
+                    <div>{{ session('success') }}</div>
+                    <div style="font-size: 12px; font-weight: 500; color: #047857; margin-top: 2px;">
+                        Data berhasil disimpan di sistem dan tersinkronisasi dengan portal Guru Mengajar & database.
+                    </div>
+                </div>
             </div>
             @if(session('wa_url'))
-                <a href="{{ session('wa_url') }}" target="_blank" class="badge-wa-ok" style="font-size: 12px; padding: 6px 12px;">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 15px;"></i> Kirim WA Ke {{ session('guru_nama') }}
+                <a href="{{ session('wa_url') }}" target="_blank" class="badge-wa-ok" style="font-size: 12.5px; padding: 8px 14px; text-decoration: none; border-radius: 8px; font-weight: 800; background: #25d366; color: #ffffff; box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3);">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 15px;"></i> Buka Chat WA Manual ({{ session('guru_nama') }})
                 </a>
             @endif
         </div>
@@ -910,11 +916,6 @@
                 triggerScheduleLookup(idSiswa);
             }
         });
-
-        @if(session('wa_url'))
-            // Auto open WhatsApp direct URL link if flash session present
-            window.open("{{ session('wa_url') }}", "_blank");
-        @endif
     });
 
     function updateBatchState() {
