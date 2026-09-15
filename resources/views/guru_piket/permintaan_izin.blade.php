@@ -1011,27 +1011,102 @@
         border: 1px solid #fca5a5;
     }
 
+    /* Stat Cards Desktop Grid */
+    .gp-desktop-stat-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 16px;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    /* Strictly Hide Mobile Elements on Desktop by Default */
     .mobile-pi-stat-carousel-wrap,
-    .mobile-pi-section {
-        display: none;
+    .mobile-pi-section,
+    #mobileFilterModal {
+        display: none !important;
     }
     .gp-btn-text-full {
         display: inline;
     }
 
+    @media (min-width: 769px) {
+        .mobile-pi-stat-carousel-wrap,
+        .mobile-pi-section,
+        #mobileFilterModal {
+            display: none !important;
+        }
+    }
+
     @media (max-width: 1024px) {
-        .gp-stat-grid { grid-template-columns: repeat(2, 1fr); }
+        .gp-desktop-stat-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 14px !important;
+        }
         .pi-header-illustration { display: none; }
     }
 
     @media (max-width: 768px) {
-        .gp-desktop-table-card,
-        .gp-desktop-stat-grid {
+        .gp-desktop-stat-grid,
+        .gp-desktop-table-card {
             display: none !important;
         }
-        .mobile-pi-stat-carousel-wrap,
         .mobile-pi-section {
             display: flex !important;
+        }
+        #mobileFilterModal.active {
+            display: flex !important;
+        }
+        .mobile-pi-stat-carousel-wrap {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-bottom: 16px !important;
+            box-sizing: border-box !important;
+        }
+        .mobile-pi-stat-container {
+            position: relative !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            border-radius: 20px !important;
+            overflow: hidden !important;
+            touch-action: pan-y !important;
+            background: transparent !important;
+            box-sizing: border-box !important;
+        }
+        .mobile-pi-stat-track {
+            display: flex !important;
+            width: 100% !important;
+            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+            box-sizing: border-box !important;
+        }
+        .mobile-pi-stat-slide {
+            flex: 0 0 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 0 !important;
+        }
+        .mobile-pi-stat-slide .gp-stat-card {
+            width: 100% !important;
+            margin: 0 !important;
+            border-radius: 20px !important;
+            padding: 16px 18px !important;
+            box-sizing: border-box !important;
+        }
+        .m-stat-arrow {
+            display: flex !important;
+        }
+        .mobile-pi-stat-dots {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            margin-top: 4px !important;
+            margin-bottom: 2px !important;
         }
         .permintaan-izin-wrapper {
             gap: 14px;
@@ -1118,32 +1193,7 @@
         }
     }
 
-    /* Mobile Stat Cards Carousel */
-    .mobile-pi-stat-carousel-wrap {
-        position: relative;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-    .mobile-pi-stat-container {
-        position: relative;
-        width: 100%;
-        border-radius: 20px;
-        overflow: hidden;
-        touch-action: pan-y;
-        background: transparent;
-    }
-    .mobile-pi-stat-track {
-        display: flex;
-        transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-        width: 100%;
-    }
-    .mobile-pi-stat-slide {
-        flex: 0 0 100%;
-        width: 100%;
-        box-sizing: border-box;
-    }
+    /* Mobile Stat Cards Carousel Sub-components */
     .mobile-pi-stat-slide .gp-stat-card {
         width: 100%;
         margin: 0;
@@ -1211,7 +1261,6 @@
 
     /* Mobile Permintaan Izin Section */
     .mobile-pi-section {
-        display: flex;
         flex-direction: column;
         gap: 12px;
         width: 100%;
@@ -1579,6 +1628,25 @@
 @section('content')
 <div class="permintaan-izin-wrapper">
 
+    <!-- ─── MOBILE TOPBAR (TITLE + SAMPAH PILL) ─── -->
+    <div class="mobile-page-topbar">
+        <div class="mobile-topbar-title-wrap">
+            <h1 class="mobile-topbar-title">Permintaan Izin Guru</h1>
+            <span class="mobile-topbar-sub">Verifikasi dan persetujuan pengajuan izin guru</span>
+        </div>
+        @if(isset($trashedCount))
+            <div class="mobile-topbar-right">
+                <a href="{{ route('piket.permintaan-izin.trash') }}" class="m-btn-trash-pill" title="Sampah">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Sampah</span>
+                    @if($trashedCount > 0)
+                        <span class="m-trash-badge">{{ $trashedCount }}</span>
+                    @endif
+                </a>
+            </div>
+        @endif
+    </div>
+
     <!-- 1. Header Card with Soft Blue Gradient & Airplane Illustration -->
     <div class="pi-header-card">
         <div class="pi-header-left">
@@ -1877,8 +1945,9 @@
         $menungguCount = max(0, $totalIzin - $disetujuiCount - $ditolakCount);
     @endphp
 
-    <div class="gp-stat-grid gp-desktop-stat-grid">
-        <!-- Card 1: Total Permintaan (Blue) -->
+    <!-- 3. Kartu Statistik: 4 Kolom Grid di Desktop -->
+    <div class="gp-desktop-stat-grid">
+        <!-- Card 1: Total Permintaan -->
         <div class="gp-stat-card gp-stat-theme-blue">
             <div class="gp-stat-left">
                 <div class="gp-stat-circle-icon">
@@ -1892,22 +1961,20 @@
                     </div>
                 </div>
             </div>
-            <a href="#daftarIzinTabel" class="gp-stat-link">
+            <a href="#daftarIzinTabel" class="gp-stat-link" onclick="scrollToDaftarIzin(event)">
                 Lihat Detail <i class="fa-solid fa-arrow-right"></i>
             </a>
-            <!-- Corner Sparkle -->
             <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="#2563eb"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
                 <svg width="8" height="8" viewBox="0 0 24 24" fill="#2563eb" style="margin-top: -6px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
             </div>
-            <!-- Bottom Wave -->
             <svg class="stat-card-wave wave-theme" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 45C35 45 45 20 80 30C115 40 125 15 140 20V70H0V45Z" fill="currentColor" fill-opacity="0.08"/>
                 <path d="M0 55C40 55 55 35 90 42C125 49 130 30 140 35V70H0V55Z" fill="currentColor" fill-opacity="0.14"/>
             </svg>
         </div>
 
-        <!-- Card 2: Disetujui (Green) -->
+        <!-- Card 2: Disetujui -->
         <div class="gp-stat-card gp-stat-theme-green">
             <div class="gp-stat-left">
                 <div class="gp-stat-circle-icon">
@@ -1924,19 +1991,17 @@
             <a href="{{ route('piket.permintaan-izin', ['status' => 'approved']) }}" class="gp-stat-link">
                 Lihat Detail <i class="fa-solid fa-arrow-right"></i>
             </a>
-            <!-- Corner Sparkle -->
             <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="#059669"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
                 <svg width="8" height="8" viewBox="0 0 24 24" fill="#059669" style="margin-top: -6px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
             </div>
-            <!-- Bottom Wave -->
             <svg class="stat-card-wave wave-theme" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 45C35 45 45 20 80 30C115 40 125 15 140 20V70H0V45Z" fill="currentColor" fill-opacity="0.08"/>
                 <path d="M0 55C40 55 55 35 90 42C125 49 130 30 140 35V70H0V55Z" fill="currentColor" fill-opacity="0.14"/>
             </svg>
         </div>
 
-        <!-- Card 3: Menunggu (Amber) -->
+        <!-- Card 3: Menunggu -->
         <div class="gp-stat-card gp-stat-theme-amber">
             <div class="gp-stat-left">
                 <div class="gp-stat-circle-icon">
@@ -1953,19 +2018,17 @@
             <a href="{{ route('piket.permintaan-izin', ['status' => 'pending']) }}" class="gp-stat-link">
                 Lihat Detail <i class="fa-solid fa-arrow-right"></i>
             </a>
-            <!-- Corner Sparkle -->
             <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="#d97706"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
                 <svg width="8" height="8" viewBox="0 0 24 24" fill="#d97706" style="margin-top: -6px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
             </div>
-            <!-- Bottom Wave -->
             <svg class="stat-card-wave wave-theme" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 45C35 45 45 20 80 30C115 40 125 15 140 20V70H0V45Z" fill="currentColor" fill-opacity="0.08"/>
                 <path d="M0 55C40 55 55 35 90 42C125 49 130 30 140 35V70H0V55Z" fill="currentColor" fill-opacity="0.14"/>
             </svg>
         </div>
 
-        <!-- Card 4: Ditolak (Rose) -->
+        <!-- Card 4: Ditolak -->
         <div class="gp-stat-card gp-stat-theme-rose">
             <div class="gp-stat-left">
                 <div class="gp-stat-circle-icon">
@@ -1982,12 +2045,10 @@
             <a href="{{ route('piket.permintaan-izin', ['status' => 'rejected']) }}" class="gp-stat-link">
                 Lihat Detail <i class="fa-solid fa-arrow-right"></i>
             </a>
-            <!-- Corner Sparkle -->
             <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="#e11d48"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
                 <svg width="8" height="8" viewBox="0 0 24 24" fill="#e11d48" style="margin-top: -6px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
             </div>
-            <!-- Bottom Wave -->
             <svg class="stat-card-wave wave-theme" viewBox="0 0 140 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 45C35 45 45 20 80 30C115 40 125 15 140 20V70H0V45Z" fill="currentColor" fill-opacity="0.08"/>
                 <path d="M0 55C40 55 55 35 90 42C125 49 130 30 140 35V70H0V55Z" fill="currentColor" fill-opacity="0.14"/>
@@ -1995,7 +2056,7 @@
         </div>
     </div>
 
-    <!-- 3b. Carousel 4 Kartu Statistik (Mobile View) -->
+    <!-- 3b. Kartu Statistik: Swipeable Carousel di Mobile -->
     <div class="mobile-pi-stat-carousel-wrap">
         <div class="mobile-pi-stat-container" id="mobileStatContainer">
             <div class="mobile-pi-stat-track" id="mobileStatTrack">
@@ -2015,7 +2076,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#daftarIzinTabel" class="gp-stat-link">
+                        <a href="#daftarIzinTabel" class="gp-stat-link" onclick="scrollToDaftarIzin(event)">
                             Lihat Detail <i class="fa-solid fa-arrow-right"></i>
                         </a>
                         <div class="stat-corner-elem" style="display: flex; gap: 3px; align-items: center; opacity: 0.55;">
@@ -2382,7 +2443,7 @@
     </div>
 
     <!-- 4b. Mobile Permintaan Izin Section (Filter Card + Cards List) -->
-    <div class="mobile-pi-section">
+    <div class="mobile-pi-section" id="daftarIzinMobile">
         
         <!-- Filter Card Mobile -->
         <div class="mobile-pi-filter-card">
@@ -2848,6 +2909,7 @@ let currentStatSlide = 0;
 const totalStatSlides = 4;
 
 function updateStatCarousel() {
+    if (window.innerWidth > 768) return;
     const track = document.getElementById('mobileStatTrack');
     if (!track) return;
     track.style.transform = 'translateX(-' + (currentStatSlide * 100) + '%)';
@@ -2894,6 +2956,7 @@ function initStatCarousel() {
     }, { passive: true });
 
     function handleStatSwipe() {
+        if (window.innerWidth > 768) return;
         const swipeThreshold = 40;
         if (touchEndX < touchStartX - swipeThreshold) {
             nextStatSlide();
@@ -2903,14 +2966,39 @@ function initStatCarousel() {
     }
 }
 
+window.addEventListener('resize', function() {
+    const track = document.getElementById('mobileStatTrack');
+    if (window.innerWidth > 768) {
+        if (track) track.style.transform = 'none';
+    } else {
+        updateStatCarousel();
+    }
+});
+
+function scrollToDaftarIzin(e) {
+    if (window.innerWidth <= 768) {
+        e.preventDefault();
+        const target = document.getElementById('daftarIzinMobile');
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+}
+
 function openMobileFilterModal() {
     const modal = document.getElementById('mobileFilterModal');
-    if (modal) modal.style.display = 'flex';
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+    }
 }
 
 function closeMobileFilterModal() {
     const modal = document.getElementById('mobileFilterModal');
-    if (modal) modal.style.display = 'none';
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+    }
 }
 
 $(document).ready(function() {

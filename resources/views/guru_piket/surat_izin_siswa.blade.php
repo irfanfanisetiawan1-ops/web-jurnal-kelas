@@ -1677,6 +1677,26 @@
 @section('content')
 <div class="sis-page-container">
 
+    <!-- ─── MOBILE TOPBAR (TITLE + SAMPAH PILL) ─── -->
+    <div class="mobile-page-topbar">
+        <div class="mobile-topbar-title-wrap">
+            <h1 class="mobile-topbar-title">Surat Izin Siswa</h1>
+            <span class="mobile-topbar-sub">Kelola permohonan izin siswa</span>
+        </div>
+        @php
+            $trashCountSis = \App\Models\SiswaSuratIzin::onlyTrashed()->count();
+        @endphp
+        <div class="mobile-topbar-right">
+            <a href="{{ route('piket.surat-izin-siswa.trash') }}" class="m-btn-trash-pill" title="Sampah">
+                <i class="fa-solid fa-trash-can"></i>
+                <span>Sampah</span>
+                @if($trashCountSis > 0)
+                    <span class="m-trash-badge">{{ $trashCountSis }}</span>
+                @endif
+            </a>
+        </div>
+    </div>
+
     <!-- Flash Messages -->
     @if(session('success'))
         <div class="sis-alert sis-alert-success">

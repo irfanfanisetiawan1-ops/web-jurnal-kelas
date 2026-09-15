@@ -705,12 +705,9 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 12px 16px;
-            margin-bottom: 2px;
-            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e2e8f0;
             width: 100%;
             max-width: 100%;
             min-width: 0;
@@ -745,25 +742,20 @@
         }
 
         .mobile-topbar-title {
-            font-size: 15.5px;
+            font-size: 18px;
             font-weight: 800;
             color: #1e3a8a;
             margin: 0;
-            line-height: 1.25;
+            line-height: 1.2;
             letter-spacing: -0.01em;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .mobile-topbar-sub {
-            font-size: 11px;
+            font-size: 11.5px;
+            font-weight: 600;
             color: #64748b;
             margin-top: 2px;
             display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         /* Profile Summary Card */
@@ -1100,9 +1092,9 @@
     <div class="piket-mobile-wrap">
         <!-- 1. Mobile Top Bar -->
         <div class="mobile-page-topbar">
-            <div class="mobile-topbar-text-group">
-                <h1 class="mobile-topbar-title">Pengaturan Piket</h1>
-                <p class="mobile-topbar-subtitle">Profil, Keamanan &amp; Preferensi Petugas</p>
+            <div class="mobile-topbar-title-wrap">
+                <h1 class="mobile-topbar-title">Pengaturan</h1>
+                <span class="mobile-topbar-sub">Profil, Keamanan &amp; Preferensi Petugas</span>
             </div>
         </div>
 

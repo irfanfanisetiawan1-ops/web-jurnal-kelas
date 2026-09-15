@@ -228,6 +228,7 @@ Route::middleware(['auth'])->group(function () {
     // ── Dedicated Guru Piket Portal ──
     Route::prefix('guru-piket')->name('piket.')->group(function () {
         Route::get('/dashboard',              [GuruPiketController::class, 'dashboard'])->name('dashboard');
+        Route::get('/menu',                   [GuruPiketController::class, 'menu'])->name('menu');
         Route::get('/pengumuman',             [GuruPortalController::class, 'pengumuman'])->name('pengumuman');
         Route::get('/jurnal-mengajar',        [GuruPiketController::class, 'jurnalMengajar'])->name('jurnal-mengajar');
         Route::get('/jurnal-mengajar/export', [GuruPiketController::class, 'exportJurnalMengajarCsv'])->name('jurnal-mengajar.export');

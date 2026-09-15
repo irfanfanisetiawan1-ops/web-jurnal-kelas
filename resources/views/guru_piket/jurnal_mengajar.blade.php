@@ -1907,6 +1907,20 @@
     <!-- ==================== MOBILE VIEW ==================== -->
     <div class="mobile-jurnal-view">
 
+        <!-- ─── MOBILE TOPBAR (TITLE + CSV EXPORT PILL) ─── -->
+        <div class="mobile-page-topbar">
+            <div class="mobile-topbar-title-wrap">
+                <h1 class="mobile-topbar-title">Jurnal Mengajar</h1>
+                <span class="mobile-topbar-sub">Pantau dan kelola seluruh aktivitas jurnal mengajar</span>
+            </div>
+            <div class="mobile-topbar-right">
+                <a href="{{ route('piket.jurnal-mengajar.export') }}" class="m-btn-pill-action" title="Ekspor CSV">
+                    <i class="fa-solid fa-file-arrow-down" style="color: #2563eb;"></i>
+                    <span>CSV</span>
+                </a>
+            </div>
+        </div>
+
         <!-- 1. Banner Carousel "Halo, Petugas Piket!" (5 Slides with Exact Desktop Themes) -->
         <div class="mobile-carousel-container">
             <div class="mobile-carousel-track" id="mobileCarouselTrack">

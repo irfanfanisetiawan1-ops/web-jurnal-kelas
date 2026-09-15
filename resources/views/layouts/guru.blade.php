@@ -867,6 +867,7 @@
             display: none;
         }
 
+        .mobile-page-topbar,
         .mobile-bottom-sheet-backdrop,
         .mobile-bottom-sheet {
             display: none;
@@ -1315,6 +1316,183 @@
                 height: 4.5px;
                 background: #cbd5e1;
                 border-radius: 9999px;
+            }
+
+            /* ─── Global Mobile Page Topbar (Standard Header for All Guru Piket Pages) ─── */
+            .mobile-page-topbar {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 12px !important;
+                margin-bottom: 16px !important;
+                padding-bottom: 14px !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .mobile-page-topbar .mobile-topbar-title-wrap {
+                flex: 1 !important;
+                min-width: 0 !important;
+            }
+
+            .mobile-page-topbar .mobile-topbar-title {
+                font-size: 18px !important;
+                font-weight: 800 !important;
+                color: #1e3a8a !important;
+                margin: 0 !important;
+                line-height: 1.2 !important;
+                letter-spacing: -0.01em !important;
+            }
+
+            .mobile-page-topbar .mobile-topbar-sub {
+                font-size: 11.5px !important;
+                font-weight: 600 !important;
+                color: #64748b !important;
+                display: block !important;
+                margin-top: 2px !important;
+                line-height: 1.3 !important;
+            }
+
+            .mobile-page-topbar .mobile-topbar-right,
+            .mobile-page-topbar .mobile-topbar-right-actions {
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                flex-shrink: 0 !important;
+            }
+
+            .mobile-page-topbar .m-btn-trash-pill {
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 5px !important;
+                background: #fff1f2 !important;
+                border: 1px solid #fecdd3 !important;
+                padding: 5px 10px !important;
+                border-radius: 9999px !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                color: #e11d48 !important;
+                cursor: pointer !important;
+                text-decoration: none !important;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+                flex-shrink: 0 !important;
+                transition: all 0.2s ease !important;
+            }
+
+            .mobile-page-topbar .m-btn-trash-pill:hover,
+            .mobile-page-topbar .m-btn-trash-pill:active {
+                background: #ffe4e6 !important;
+                border-color: #fda4af !important;
+                color: #be123c !important;
+                transform: scale(0.96) !important;
+            }
+
+            .mobile-page-topbar .m-trash-badge {
+                background: #e11d48 !important;
+                color: #ffffff !important;
+                font-size: 9.5px !important;
+                font-weight: 800 !important;
+                padding: 1px 6px !important;
+                border-radius: 9999px !important;
+                line-height: 1.3 !important;
+            }
+
+            .mobile-page-topbar .m-badge-date-pill {
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 5px !important;
+                background: #eff6ff !important;
+                border: 1px solid #bfdbfe !important;
+                padding: 5px 10px !important;
+                border-radius: 9999px !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                color: #2563eb !important;
+                flex-shrink: 0 !important;
+            }
+
+            .mobile-page-topbar .m-btn-pill-action {
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 5px !important;
+                background: #f8fafc !important;
+                border: 1px solid #e2e8f0 !important;
+                padding: 5px 10px !important;
+                border-radius: 9999px !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                color: #1e293b !important;
+                text-decoration: none !important;
+                cursor: pointer !important;
+                flex-shrink: 0 !important;
+                transition: all 0.2s ease !important;
+            }
+
+            .mobile-page-topbar .m-btn-pill-action:hover,
+            .mobile-page-topbar .m-btn-pill-action:active {
+                background: #f1f5f9 !important;
+                border-color: #cbd5e1 !important;
+                transform: scale(0.96) !important;
+            }
+
+            /* Header Halaman Menu (Konsisten dengan Dispensasi Siswa & Halaman Lainnya) */
+            .bs-menu-header {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 12px !important;
+                padding: 4px 18px 14px 18px !important;
+                margin-bottom: 0 !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+                background: #ffffff !important;
+                flex-shrink: 0 !important;
+            }
+
+            .bs-menu-header .mobile-topbar-title-wrap {
+                flex: 1 !important;
+                min-width: 0 !important;
+            }
+
+            .bs-menu-header .mobile-topbar-title {
+                font-size: 18px !important;
+                font-weight: 800 !important;
+                color: #1e3a8a !important;
+                margin: 0 !important;
+                line-height: 1.2 !important;
+                letter-spacing: -0.01em !important;
+            }
+
+            .bs-menu-header .mobile-topbar-sub {
+                font-size: 11.5px !important;
+                font-weight: 600 !important;
+                color: #64748b !important;
+                display: block !important;
+                margin-top: 2px !important;
+                line-height: 1.3 !important;
+            }
+
+            .bs-close-btn {
+                background: #f1f5f9;
+                border: 1px solid #e2e8f0;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #64748b;
+                cursor: pointer;
+                font-size: 13px;
+                transition: all 0.2s ease;
+                flex-shrink: 0;
+            }
+
+            .bs-close-btn:hover,
+            .bs-close-btn:active {
+                background: #e2e8f0;
+                color: #0f172a;
+                transform: scale(0.95);
             }
 
             .bottom-sheet-body {
@@ -1939,6 +2117,32 @@
     <div id="mobileBottomSheet" class="mobile-bottom-sheet" aria-label="Menu Navigasi Mobile">
         <div class="bottom-sheet-handle-bar" id="bottomSheetHandleBar">
             <div class="bottom-sheet-handle"></div>
+        </div>
+
+        @php
+            $menuSubtitle = 'Akses semua fitur dan menu petugas piket';
+            if (Auth::check()) {
+                if (Auth::user()->isSatpam()) {
+                    $menuSubtitle = 'Akses fitur dan menu petugas satpam';
+                } elseif (Auth::user()->isWaka()) {
+                    $menuSubtitle = 'Akses fitur dan menu wakil kepala sekolah';
+                } elseif (Auth::user()->isKepalaSekolah()) {
+                    $menuSubtitle = 'Akses fitur dan menu kepala sekolah';
+                } elseif (Auth::user()->isGuru()) {
+                    $menuSubtitle = 'Akses fitur dan menu guru mengajar';
+                }
+            }
+        @endphp
+
+        <!-- Header Halaman Menu (Konsisten dengan format Dispensasi Siswa & Halaman Lainnya) -->
+        <div class="mobile-page-topbar bs-menu-header">
+            <div class="mobile-topbar-title-wrap">
+                <h1 class="mobile-topbar-title">Menu</h1>
+                <span class="mobile-topbar-sub">{{ $menuSubtitle }}</span>
+            </div>
+            <button type="button" class="bs-close-btn" onclick="closeBottomSheet()" aria-label="Tutup Menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
 
         <div class="bottom-sheet-body">

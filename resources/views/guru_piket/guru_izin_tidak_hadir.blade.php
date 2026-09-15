@@ -1214,6 +1214,25 @@
 @section('content')
 <div class="gith-container">
 
+    <!-- ─── MOBILE TOPBAR (TITLE + SAMPAH PILL) ─── -->
+    <div class="mobile-page-topbar">
+        <div class="mobile-topbar-title-wrap">
+            <h1 class="mobile-topbar-title">Guru Izin Tidak Hadir</h1>
+            <span class="mobile-topbar-sub">Data ketidakhadiran guru dan status penugasan pengganti</span>
+        </div>
+        @if(isset($trashedCount))
+            <div class="mobile-topbar-right">
+                <a href="{{ route('piket.guru-izin-tidak-hadir.trash') }}" class="m-btn-trash-pill" title="Sampah">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Sampah</span>
+                    @if($trashedCount > 0)
+                        <span class="m-trash-badge">{{ $trashedCount }}</span>
+                    @endif
+                </a>
+            </div>
+        @endif
+    </div>
+
     <!-- Flash Alert Notifications -->
     @if(session('success'))
         <div style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; padding: 11px 16px; border-radius: 12px; margin-bottom: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; font-size: 12.5px;">

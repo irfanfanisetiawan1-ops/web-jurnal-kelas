@@ -1682,6 +1682,25 @@
 @section('content')
 <div class="guru-pengganti-wrapper">
 
+    <!-- ─── MOBILE TOPBAR (TITLE + SAMPAH PILL) ─── -->
+    <div class="mobile-page-topbar">
+        <div class="mobile-topbar-title-wrap">
+            <h1 class="mobile-topbar-title">Guru Pengganti</h1>
+            <span class="mobile-topbar-sub">Kelola penugasan dan riwayat guru pengganti</span>
+        </div>
+        @if(isset($trashCount))
+            <div class="mobile-topbar-right">
+                <button type="button" onclick="openTrashModal()" class="m-btn-trash-pill" title="Sampah">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Sampah</span>
+                    @if($trashCount > 0)
+                        <span class="m-trash-badge">{{ $trashCount }}</span>
+                    @endif
+                </button>
+            </div>
+        @endif
+    </div>
+
     <!-- Alert Notifications -->
     @if(session('success'))
         <div class="gp-alert gp-alert-success">
