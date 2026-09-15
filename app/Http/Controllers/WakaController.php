@@ -389,7 +389,34 @@ class WakaController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * Halaman Persetujuan Izin & Dispensasi Siswa (Waka Kesiswaan)
+=======
+     * Halaman Data Master Jadwal
+     */
+    public function jadwal(Request $request)
+    {
+        $hariFilter = $request->input('hari');
+        $kelasFilter = $request->input('id_kelas');
+
+        $query = Jadwal::with(['kelas', 'mapel', 'guru', 'ruangan', 'jamPelajaran']);
+
+        if ($hariFilter) {
+            $query->where('hari', $hariFilter);
+        }
+        if ($kelasFilter) {
+            $query->where('id_kelas', $kelasFilter);
+        }
+
+        $jadwals = $query->orderBy('hari')->orderBy('id_jam')->get();
+        $kelasList = Kelas::orderBy('nama_kelas')->get();
+
+        return view('waka.jadwal', compact('jadwals', 'kelasList', 'hariFilter', 'kelasFilter'));
+    }
+
+    /**
+     * Halaman Persetujuan Izin (Full History & Filter)
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
      */
     public function persetujuanIzin(Request $request)
     {
@@ -652,7 +679,17 @@ class WakaController extends Controller
      */
     public function jadwalMengajar(Request $request)
     {
+<<<<<<< HEAD
         return redirect()->route('waka.jadwal', ['view_mode' => 'matriks_guru']);
+=======
+        $guruList = Guru::with('mapel')->orderBy('nama_guru')->get();
+        $jadwals = Jadwal::with(['kelas', 'mapel', 'guru', 'ruangan', 'jamPelajaran'])
+            ->orderBy('hari')
+            ->orderBy('id_jam')
+            ->get();
+
+        return view('waka.jadwal_mengajar', compact('guruList', 'jadwals'));
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
     }
 
     /**

@@ -1,26 +1,47 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Data Siswa — EDU JOURNAL')
+@section('title', 'Master Data Siswa — EDU JOURNAL')
 
 @section('styles')
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Custom Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+</script>
 <style>
-    .breadcrumb-text {
-        font-size: 14px;
-        color: #475569;
-        font-weight: 600;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
     }
-    .breadcrumb-text a {
-        color: #3b5490;
-        text-decoration: none;
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
     }
-    .breadcrumb-text span {
-        color: #0f172a;
-        font-weight: 800;
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 9999px;
     }
+<<<<<<< HEAD
 
     .card {
         background: #ffffff;
@@ -166,91 +187,31 @@
         font-size: 14px;
         font-weight: 700;
         border: none;
+=======
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+    /* Date picker indicator styling */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
         cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-        transition: all 0.2s ease;
+        opacity: 0.6;
     }
-    .btn-submit:hover {
-        opacity: 0.95;
-        transform: translateY(-1px);
+    input[type="date"]::-webkit-calendar-picker-indicator:hover {
+        opacity: 1;
     }
 
-    /* Filter & Reset Buttons */
-    .btn-filter {
-        background: #3b5490;
-        color: #ffffff;
-        padding: 10px 22px;
-        border-radius: 12px;
-        font-size: 13.5px;
-        font-weight: 700;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        box-shadow: 0 2px 6px rgba(59, 84, 144, 0.2);
-    }
-    .btn-filter:hover {
-        background: #2e4375;
-        color: #ffffff;
-    }
-
-    .btn-reset {
-        background: #fbbf24;
-        color: #78350f;
-        padding: 10px 22px;
-        border-radius: 12px;
-        font-size: 13.5px;
-        font-weight: 700;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 6px rgba(251, 191, 36, 0.2);
-    }
-    .btn-reset:hover {
-        background: #f59e0b;
-        color: #78350f;
-    }
-
-    /* Filter Select Placeholder (Samar / Soft Gray seperti input cari) */
-    .filter-select {
-        width: 100%;
-        color: #94a3b8 !important;
-        font-weight: 500 !important;
-        font-size: 13.5px;
-        background: #ffffff;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 12px;
-        padding: 10px 14px;
-        outline: none;
+    /* Soft Select Styling */
+    .filter-select-custom {
         transition: all 0.2s ease;
     }
-    .filter-select:focus {
-        border-color: #3b5490;
-        box-shadow: 0 0 0 3px rgba(59, 84, 144, 0.15);
-    }
-    .filter-select.has-value {
+    .filter-select-custom.has-value {
         color: #0f172a !important;
         font-weight: 700 !important;
-        border-color: #3b5490;
-    }
-    .filter-select option {
-        color: #1e293b;
-        font-weight: 600;
-    }
-    .filter-select option[value=""] {
-        color: #94a3b8;
-        font-weight: 500;
+        border-color: #2563eb !important;
     }
 
+<<<<<<< HEAD
     /* Table Custom */
     .table-responsive {
         width: 100%;
@@ -384,22 +345,55 @@
         padding: 14px 18px;
         border-radius: 14px;
         margin-bottom: 20px;
+=======
+    /* Header Controls Final Dimensions */
+    .header-controls {
+        width: fit-content;
+        flex: 0 0 auto;
+        margin-left: auto;
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        font-size: 14px;
-        font-weight: 600;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        gap: 8px;
     }
-    .alert-success {
-        background: #ecfdf5;
-        color: #065f46;
-        border: 1px solid #a7f3d0;
+    .header-control {
+        flex: 0 0 auto;
+        box-sizing: border-box;
     }
-    .alert-error {
-        background: #fff1f2;
-        color: #9f1239;
-        border: 1px solid #fecdd3;
+    .ta-selector.academic-year.header-control {
+        width: 220px;
+        min-width: 220px;
+        max-width: 220px;
+        flex: 0 0 220px;
+        box-sizing: border-box;
+    }
+    .live-lesson-hour-card.kbm-status.header-control {
+        width: 170px;
+        min-width: 170px;
+        max-width: 170px;
+        flex: 0 0 170px;
+        box-sizing: border-box;
+    }
+    .live-clock-card.date-time.header-control {
+        width: 220px;
+        min-width: 220px;
+        max-width: 220px;
+        flex: 0 0 220px;
+        box-sizing: border-box;
+    }
+    .live-clock-wrapper {
+        display: contents;
+    }
+
+    @media (max-width: 640px) {
+        .page-header-main-title {
+            font-size: 18px !important;
+            white-space: normal !important;
+        }
+        .page-header-sub-title {
+            font-size: 11px !important;
+            white-space: normal !important;
+        }
     }
 
     /* Toggle Switch ON/OFF Real-time Styling */
@@ -518,48 +512,73 @@
 </style>
 @endsection
 
+@section('topbar_left')
+<div class="title-header-wrapper" style="display: flex; flex-direction: column; justify-content: center; min-width: 0; flex: 0 1 auto;">
+    <h1 class="page-header-main-title" style="font-size: 17px; font-weight: 700; color: #0f2744; letter-spacing: -0.01em; line-height: 1.2; margin: 0; white-space: nowrap;">
+        Manajemen Data Siswa
+    </h1>
+    <p class="page-header-sub-title" style="font-size: 11px; color: #64748b; font-weight: 500; margin: 1px 0 0 0; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 520px;">
+        Data Induk Siswa &bull; Validasi NISN &bull; Distribusi Kelas &amp; Riwayat Pendaftaran
+    </p>
+</div>
+@endsection
+
 @section('content')
 
-    <!-- Header Top Bar -->
-    <div class="page-header-container">
-        <div class="page-title-group">
-            <h1>Master Data — Siswa</h1>
-            <p>Kelola data induk siswa, NISN, status kelas, dan riwayat pendaftaran siswa</p>
-        </div>
+<!-- BEGIN: ActionPillNav & Auxiliary Buttons -->
+<section class="flex items-center justify-between flex-wrap gap-2.5 mb-4" data-purpose="action-navigation-bar">
+    <!-- Action Navigation Buttons (3 Tabs) -->
+    <div class="flex items-center gap-1 bg-slate-200/60 p-1 rounded-xl border border-slate-300/40">
+        <!-- Tab 1: Tambah Manual -->
+        <button class="tab-button inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-brand-700 text-white shadow-sm transition-all cursor-pointer" id="tab-btn-manual" onclick="switchInputTab('manual')" type="button">
+            <span class="material-symbols-outlined text-[16px]">person_add</span>
+            <span>Tambah Manual</span>
+        </button>
+        <!-- Tab 2: Import File Excel -->
+        <button class="tab-button inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-700 hover:bg-white/80 transition-all cursor-pointer" id="tab-btn-excel" onclick="switchInputTab('excel')" type="button">
+            <span class="material-symbols-outlined text-[16px] text-emerald-600">upload_file</span>
+            <span>Import File Excel</span>
+        </button>
+        <!-- Tab 3: Input Cepat & Massal -->
+        <button class="tab-button inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-700 hover:bg-white/80 transition-all cursor-pointer" id="tab-btn-massal" onclick="switchInputTab('massal')" type="button">
+            <span class="material-symbols-outlined text-[16px] text-indigo-600">playlist_add</span>
+            <span>Input Cepat &amp; Massal</span>
+        </button>
     </div>
 
-    <div class="breadcrumb-text">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <span>Manajemen Data Siswa</span>
+    <!-- Auxiliary Actions: Alumni & Tong Sampah -->
+    <div class="flex items-center gap-2">
+        <a href="{{ route('siswa.alumni') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 transition-all no-underline shadow-sm">
+            <span class="material-symbols-outlined text-[16px]">group</span>
+            <span>Data Siswa Alumni</span>
+            @if(isset($alumniCount) && $alumniCount > 0)
+                <span class="bg-brand-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ml-0.5">{{ $alumniCount }}</span>
+            @endif
+        </a>
+        <a href="{{ route('siswa.trash') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-all no-underline shadow-sm">
+            <span class="material-symbols-outlined text-[16px]">delete_outline</span>
+            <span>Lihat Tong Sampah</span>
+            @if(isset($trashedCount) && $trashedCount > 0)
+                <span class="bg-amber-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ml-0.5">{{ $trashedCount }}</span>
+            @endif
+        </a>
     </div>
+</section>
+<!-- END: ActionPillNav -->
 
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
+<!-- BEGIN: Panel 1 - Tambah Manual -->
+<section class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm transition-all mb-4" data-purpose="form-manual-entry" id="panel-manual">
+    <!-- Form Header -->
+    <div class="flex items-start gap-3 pb-3.5 border-b border-slate-100 justify-between">
+        <div class="flex items-start gap-3">
+            <div class="p-2 bg-brand-50 text-brand-600 rounded-xl">
+                <span class="material-symbols-outlined text-xl">person_add</span>
             </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert-custom alert-error">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-triangle-exclamation" style="font-size:18px;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
-
-    <!-- Card 1: Form Tambah Siswa Baru -->
-    <div class="card">
-        <div class="card-top-header">
             <div>
-                <h2>Tambah Siswa Baru</h2>
-                <p>Masukkan detail data siswa untuk pendaftaran siswa baru.</p>
+                <h3 class="text-sm font-bold text-slate-800">Tambah Siswa Baru</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Masukkan detail data siswa untuk pendaftaran siswa baru.</p>
             </div>
+<<<<<<< HEAD
             <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                 <a href="{{ route('siswa.alumni') }}" class="btn-alumni">
                     <i class="fa-solid fa-user-graduate"></i> Data Siswa Alumni
@@ -769,130 +788,106 @@
             <button type="button" id="btnProcessExcel" onclick="processExcelFile()" class="btn-submit" style="background: #2563eb; padding: 11px 24px; border-radius: 10px; font-size: 13.5px; font-weight: 700; margin:0;">
                 <i class="fa-solid fa-file-import"></i> Proses File Data Siswa
             </button>
+=======
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
         </div>
     </div>
 
-    <!-- Card 1.5: Form Tambah Siswa Baru Secara Cepat dan Banyak -->
-    <div class="card" style="border-top: 4px solid #10b981;">
-        <div class="card-top-header">
+    <!-- Alert Banner Alasan Gagal Simpan (JS Client Validation) -->
+    <div id="formErrorReasonBanner" class="hidden mt-3 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-start justify-between gap-3">
+        <div class="flex items-start gap-2.5">
+            <span class="material-symbols-outlined text-rose-600 text-lg shrink-0 mt-0.5">warning</span>
             <div>
-                <h2 style="margin: 0;">Tambah Siswa Baru Secara Cepat dan Banyak</h2>
+                <h4 class="font-bold text-xs text-rose-900">Data belum bisa disimpan! Silakan perbaiki pengisian berikut:</h4>
+                <ul id="formErrorReasonList" class="list-disc list-inside mt-1 text-[11px] text-rose-700 space-y-0.5"></ul>
             </div>
         </div>
+        <button type="button" onclick="document.getElementById('formErrorReasonBanner').classList.add('hidden')" class="text-rose-500 hover:text-rose-700 cursor-pointer">
+            <span class="material-symbols-outlined text-base">close</span>
+        </button>
+    </div>
 
-        @if($errors->has('siswa'))
-            <div class="alert-custom alert-error" style="margin-bottom: 20px;">
-                <div style="display:flex; align-items:flex-start; gap:12px;">
-                    <i class="fa-solid fa-triangle-exclamation" style="font-size:22px; color:#dc2626; flex-shrink:0; margin-top:2px;"></i>
-                    <div>
-                        <h4 style="font-size:15px; font-weight:800; margin:0 0 4px 0; color:#9f1239;">Gagal Menyimpan Data Siswa Massal!</h4>
-                        <p style="margin:0; font-size:13.5px; color:#881337;">{{ $errors->first('siswa') }}</p>
-                    </div>
+    <form id="formSiswaIndex" action="{{ route('siswa.store') }}" method="POST" class="mt-4 space-y-3.5" novalidate>
+        @csrf
+
+        <!-- Row 1: NIS, NISN, Nama Lengkap, Jenis Kelamin, Kelas -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-12 gap-3">
+            <!-- NIS -->
+            <div class="lg:col-span-2">
+                <div class="flex items-center justify-between mb-1">
+                    <label for="nis" class="text-[11px] font-semibold text-slate-700">NIS <span class="text-rose-500">*</span></label>
+                    <span id="nisCounter" class="text-[10px] font-bold text-rose-500">0/10 digit</span>
                 </div>
-                <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-        @endif
-
-        <!-- Alert Banner Alasan Gagal Simpan Bulk (JS Generated) -->
-        <div id="bulkErrorReasonBanner" class="alert-custom alert-error" style="display: none; margin-bottom: 20px;">
-            <div style="display:flex; align-items:flex-start; gap:12px;">
-                <i class="fa-solid fa-triangle-exclamation" style="font-size:22px; color:#dc2626; flex-shrink:0; margin-top:2px;"></i>
-                <div>
-                    <h4 style="font-size:15px; font-weight:800; margin:0 0 4px 0; color:#9f1239;">Data masal belum bisa disimpan! Silakan perbaiki pengisian berikut:</h4>
-                    <ul id="bulkErrorReasonList" style="margin: 4px 0 0 18px; padding: 0; font-size: 13.5px; color: #881337; line-height: 1.6;"></ul>
-                </div>
-            </div>
-            <button type="button" onclick="document.getElementById('bulkErrorReasonBanner').style.display='none'" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-
-        <form id="formSiswaBulk" action="{{ route('siswa.store-batch') }}" method="POST" novalidate>
-            @csrf
-
-            <!-- Selection Kelas Target (Per Kelas) -->
-            <div class="form-group" style="max-width: 480px; margin-bottom: 20px;">
-                <label for="bulk_id_kelas" style="font-size: 14px; font-weight: 800; color: #0f172a;">
-                    Pilih Kelas Target (Per Kelas) <span style="color:#ef4444;">*</span>
-                </label>
-                <select id="bulk_id_kelas" name="id_kelas" class="form-control @error('id_kelas') is-invalid @enderror" required style="border-color: #10b981; font-weight: 700;">
-                    <option value="">-- Pilih Kelas Target --</option>
-                    @foreach($kelass as $k)
-                        <option value="{{ $k->id_kelas }}" {{ old('id_kelas') == $k->id_kelas ? 'selected' : '' }}>
-                            {{ $k->nama_kelas }} (Estimasi Kapasitas: {{ $k->jumlah_siswa }} Siswa)
-                        </option>
-                    @endforeach
-                </select>
-                <small style="display:block; font-size:12px; color:#64748b; margin-top:4px;">
-                    <i class="fa-solid fa-circle-info"></i> Seluruh data siswa yang diisi di bawah akan dimasukkan langsung ke kelas ini.
-                </small>
-                @error('id_kelas')
-                    <small style="color:#ef4444; font-weight:600; display:block; margin-top:4px;"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</small>
+                <input type="text" id="nis" name="nis" value="{{ old('nis') }}"
+                    class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 focus:border-brand-500 focus:ring-brand-500 @error('nis') border-rose-500 @enderror"
+                    placeholder="Contoh: 123 / 2122100001" maxlength="10" minlength="3" inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateDigitCounter(this, 'nisCounter', 10, 'nisMsg', true);"
+                    required>
+                <small id="nisMsg" class="block text-[10px] font-medium text-rose-500 mt-0.5">Wajib diisi 3 hingga 10 digit angka.</small>
+                @error('nis')
+                    <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</small>
                 @enderror
             </div>
 
-            <!-- Table Input Massal Siswa -->
-            <div class="table-responsive" style="margin-bottom: 20px; border-color: #cbd5e1;">
-                <table class="table-custom" id="tableBulkSiswa" style="min-width: 1100px;">
-                    <thead>
-                        <tr style="background: #f0fdf4;">
-                            <th style="width: 45px; text-align: center;">NO</th>
-                            <th style="width: 140px;">NIS (3-10 DIGIT) <span style="color:#ef4444;">*</span></th>
-                            <th style="width: 140px;">NISN (10 DIGIT) <span style="color:#ef4444;">*</span></th>
-                            <th style="width: 200px;">NAMA LENGKAP SISWA <span style="color:#ef4444;">*</span></th>
-                            <th style="width: 130px;">JENIS KELAMIN <span style="color:#ef4444;">*</span></th>
-                            <th style="width: 150px;">KOTA LAHIR <span style="color:#64748b; font-size:10px;">(Opsional)</span></th>
-                            <th style="width: 150px;">TGL LAHIR <span style="color:#ef4444;">*</span></th>
-                            <th>ALAMAT LENGKAP <span style="color:#64748b; font-size:10px;">(Opsional)</span></th>
-                            <th style="width: 90px; text-align: center;">AKSI</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bulkTableBody">
-                        <!-- Dynamic Rows injected via JS -->
-                    </tbody>
-                </table>
+            <!-- NISN -->
+            <div class="lg:col-span-2">
+                <div class="flex items-center justify-between mb-1">
+                    <label for="nisn" class="text-[11px] font-semibold text-slate-700">NISN <span class="text-rose-500">*</span></label>
+                    <span id="nisnCounter" class="text-[10px] font-bold text-rose-500">0/10 digit</span>
+                </div>
+                <input type="text" id="nisn" name="nisn" value="{{ old('nisn') }}"
+                    class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 focus:border-brand-500 focus:ring-brand-500 @error('nisn') border-rose-500 @enderror"
+                    placeholder="Contoh: 0051234567" maxlength="10" minlength="10" inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateDigitCounter(this, 'nisnCounter', 10, 'nisnMsg');"
+                    required>
+                <small id="nisnMsg" class="block text-[10px] font-medium text-rose-500 mt-0.5">Wajib diisi tepat 10 digit angka.</small>
+                @error('nisn')
+                    <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</small>
+                @enderror
             </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 16px;">
-                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                    <button type="button" class="btn-filter" style="background: #64748b; margin:0; padding: 9px 16px; font-size: 12.5px;" onclick="addBulkRow()">
-                        <i class="fa-solid fa-plus"></i> Tambah Baris Siswa
-                    </button>
-                    <button type="button" class="btn-filter" style="background: #64748b; margin:0; padding: 9px 16px; font-size: 12.5px;" onclick="addMultipleBulkRows(5)">
-                        <i class="fa-solid fa-plus"></i> +5 Baris
-                    </button>
-                    <button type="button" class="btn-reset" onclick="resetAllBulkFields()" title="Kosongkan isian data pada seluruh baris tabel siswa" style="margin:0; padding: 9px 16px; font-size: 12.5px; background: #fbbf24; color: #78350f; border: 1px solid #fde68a; font-weight: 700;">
-                        <i class="fa-solid fa-rotate-left"></i> Reset
-                    </button>
-                    <button type="button" class="btn-reset" onclick="clearBulkRows()" title="Hapus seluruh baris tabel siswa" style="margin:0; padding: 9px 16px; font-size: 12.5px;">
-                        <i class="fa-solid fa-trash-can"></i> Kosongkan Tabel
-                    </button>
-                    <span style="font-size: 13px; font-weight: 700; color: #475569; margin-left: 8px;">
-                        Total: <span id="totalBulkRowsCount" style="color: #2563eb;">0</span> baris siswa
-                    </span>
-                </div>
-
-                <div class="btn-submit-container" style="margin-top: 0;">
-                    <button type="submit" class="btn-submit" style="background: #2563eb; padding: 11px 24px; font-size: 13.5px; border-radius: 10px; font-weight: 700; margin:0;">
-                        <i class="fa-solid fa-floppy-disk"></i> Simpan Data Siswa
-                    </button>
-                </div>
+            <!-- Nama Lengkap -->
+            <div class="sm:col-span-2 md:col-span-3 lg:col-span-4">
+                <label for="nama_siswa" class="block text-[11px] font-semibold text-slate-700 mb-1">Nama Lengkap Siswa <span class="text-rose-500">*</span></label>
+                <input type="text" id="nama_siswa" name="nama_siswa" value="{{ old('nama_siswa') }}"
+                    class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 focus:border-brand-500 focus:ring-brand-500 @error('nama_siswa') border-rose-500 @enderror"
+                    placeholder="Nama Lengkap Siswa" required>
+                @error('nama_siswa')
+                    <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5">{{ $message }}</small>
+                @enderror
             </div>
-        </form>
-    </div>
 
-    <!-- Card 2: Daftar Data Siswa -->
-    <div class="card">
-        <div class="card-top-header" style="margin-bottom: 16px;">
-            <div>
-                <h2><i class="fa-solid fa-users" style="color:#3b5490;"></i> Daftar Data Siswa ({{ count($siswas) }})</h2>
-                <p>Kelola dan pantau seluruh data siswa yang terdaftar dalam sistem.</p>
+            <!-- Jenis Kelamin -->
+            <div class="lg:col-span-2">
+                <label for="jenis_kelamin" class="block text-[11px] font-semibold text-slate-700 mb-1">Jenis Kelamin <span class="text-rose-500">*</span></label>
+                <select id="jenis_kelamin" name="jenis_kelamin"
+                    class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 focus:border-brand-500 focus:ring-brand-500 text-slate-700 @error('jenis_kelamin') border-rose-500 @enderror" required>
+                    <option value="">-- Pilih JK --</option>
+                    <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-laki (L)</option>
+                    <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan (P)</option>
+                </select>
+                @error('jenis_kelamin')
+                    <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5">{{ $message }}</small>
+                @enderror
             </div>
-            @if(isset($totalAktifCount) && $totalAktifCount > 0)
-                <div style="font-size: 13px; font-weight: 700; color: #1e293b; background: #f1f5f9; padding: 6px 14px; border-radius: 20px; border: 1px solid #cbd5e1;">
-                    Total Siswa Aktif: <strong style="color: #2563eb;">{{ $totalAktifCount }}</strong>
-                </div>
-            @endif
+
+            <!-- Kelas -->
+            <div class="lg:col-span-2">
+                <label for="id_kelas" class="block text-[11px] font-semibold text-slate-700 mb-1">Kelas <span class="text-rose-500">*</span></label>
+                <select id="id_kelas" name="id_kelas"
+                    class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 focus:border-brand-500 focus:ring-brand-500 text-slate-700 @error('id_kelas') border-rose-500 @enderror" required>
+                    <option value="">-- Pilih Kelas --</option>
+                    @foreach($kelass as $k)
+                        <option value="{{ $k->id_kelas }}" {{ old('id_kelas') == $k->id_kelas ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
+                    @endforeach
+                </select>
+                @error('id_kelas')
+                    <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5">{{ $message }}</small>
+                @enderror
+            </div>
         </div>
 
+<<<<<<< HEAD
         <!-- Form Filter Lengkap (Tingkat X, XI, XII, Jurusan, Kelas, JK, Sorting) -->
         <form action="{{ route('siswa.index') }}" method="GET" style="background:#f8fafc; padding:16px 20px; border-radius:14px; border:1px solid #cbd5e1; margin-bottom:20px;">
             <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom: 12px;">
@@ -1017,13 +1012,43 @@
                         <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="bulkDeleteCount">0</span>)
                     </button>
                 </div>
+=======
+        <!-- Row 2: Kota Lahir & Tanggal Lahir -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+                <label for="kota_lahir" class="block text-[11px] font-semibold text-slate-700 mb-1">Kota Lahir <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                <input type="text" id="kota_lahir" name="kota_lahir" value="{{ old('kota_lahir') }}"
+                    class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 focus:border-brand-500 focus:ring-brand-500 @error('kota_lahir') border-rose-500 @enderror"
+                    placeholder="Kota/Tempat Lahir (boleh dikosongkan)">
+                <small class="text-[10px] text-slate-400 mt-0.5 block">Opsional — boleh tidak diisi jika belum diketahui.</small>
+                @error('kota_lahir')
+                    <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5">{{ $message }}</small>
+                @enderror
             </div>
-        </form>
+            <div>
+                <label for="tanggal_lahir" class="block text-[11px] font-semibold text-slate-700 mb-1">Tanggal Lahir <span class="text-rose-500">*</span></label>
+                <input type="date" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
+                    class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 focus:border-brand-500 focus:ring-brand-500 text-slate-700 @error('tanggal_lahir') border-rose-500 @enderror" required>
+                @error('tanggal_lahir')
+                    <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5">{{ $message }}</small>
+                @enderror
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
+            </div>
+        </div>
 
-        <form id="formBulkDelete" action="{{ route('siswa.destroy-batch') }}" method="POST">
-            @csrf
-            @method('DELETE')
+        <!-- Row 3: Alamat Lengkap -->
+        <div>
+            <label for="alamat_lengkap" class="block text-[11px] font-semibold text-slate-700 mb-1">Alamat Lengkap <span class="text-slate-400 font-normal">(Opsional)</span></label>
+            <textarea id="alamat_lengkap" name="alamat_lengkap" rows="2"
+                class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 focus:border-brand-500 focus:ring-brand-500 @error('alamat_lengkap') border-rose-500 @enderror"
+                placeholder="Masukkan Alamat Lengkap Siswa (boleh dikosongkan)">{{ old('alamat_lengkap') }}</textarea>
+            <small class="text-[10px] text-slate-400 mt-0.5 block">Opsional — boleh tidak diisi jika belum diketahui.</small>
+            @error('alamat_lengkap')
+                <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5">{{ $message }}</small>
+            @enderror
+        </div>
 
+<<<<<<< HEAD
             <div class="table-responsive">
                 <table class="table-custom">
                     <thead>
@@ -1112,262 +1137,822 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-        </form>
+=======
+        <!-- Form Buttons -->
+        <div class="flex items-center justify-between pt-1">
+            <button type="button" onclick="resetSingleSiswaForm()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span>Reset Form</span>
+            </button>
+            <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-semibold bg-brand-700 hover:bg-brand-800 text-white shadow-sm transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span>Simpan Data Siswa</span>
+            </button>
+        </div>
+    </form>
+</section>
+<!-- END: Panel 1 -->
 
-        <form id="singleDeleteSiswaForm" action="" method="POST" style="display:none;">
-            @csrf
-            @method('DELETE')
-        </form>
+<!-- BEGIN: Panel 2 - Import File Excel (Multi-Format: PDF, Word, Excel, CSV) -->
+<section class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm space-y-3.5 transition-all mb-4 hidden" data-purpose="form-excel-import" id="panel-excel">
+    <!-- Section Header -->
+    <div class="flex items-start justify-between flex-wrap gap-3 pb-3 border-b border-slate-100">
+        <div class="flex items-start gap-3">
+            <div class="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+                <span class="material-symbols-outlined text-xl">file_upload</span>
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-slate-800">Tambah Siswa Baru via Import File (Multi-Format)</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Unggah file (.xlsx, .xls, .csv, .pdf, atau .docx) berisi daftar siswa baru, lalu klik <span class="font-semibold text-slate-700">Proses File Data Siswa</span> untuk memasukkan ke tabel.</p>
+            </div>
+        </div>
+        <!-- Download Template Action -->
+        <a href="{{ route('siswa.download-template') }}" onclick="downloadTemplateExcelJS(event)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-700 hover:bg-brand-800 text-white shadow-sm transition-all no-underline">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+            <span>Download Template Excel (.xlsx)</span>
+        </a>
     </div>
 
-    <script>
-        function deleteSingleSiswa(id, nama) {
-            if (confirm(`Apakah Anda yakin ingin memindahkan ${nama} ke tempat sampah?`)) {
-                const form = document.getElementById('singleDeleteSiswaForm');
-                form.action = "{{ url('/siswa') }}/" + id;
-                form.submit();
-            }
-        }
+    <!-- Instructions Alert Box -->
+    <div class="bg-emerald-50/70 border border-emerald-200/80 rounded-xl p-3 flex gap-2.5 text-xs text-emerald-900 leading-relaxed">
+        <span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">info</span>
+        <div class="space-y-0.5">
+            <h4 class="font-bold text-[11px] text-emerald-800">Petunjuk Penggunaan Fitur Import File:</h4>
+            <p class="text-[10.5px] text-emerald-700/90 leading-normal">
+                1. Unduh template file Excel dengan menekan tombol <strong>Download Template Excel (.xlsx)</strong> di atas.<br>
+                2. Sistem mendukung format: <strong>.xlsx, .xls, .csv, .pdf, .docx, .doc</strong> (Maks: 10MB).<br>
+                3. Pastikan data berisi kolom: <strong>NIS, NISN, Nama Lengkap Siswa, Jenis Kelamin (L/P), Kota Lahir, Tanggal Lahir (YYYY-MM-DD), Alamat Lengkap</strong>.<br>
+                4. Tentukan <strong>Kelas Target</strong> (opsional) atau biarkan sistem mendeteksi kelas secara otomatis dari file.<br>
+                5. Pilih <strong>Mode Masukkan Data</strong> (Ganti / Timpa atau Tambahkan), lalu klik <strong>Proses File Data Siswa</strong>.
+            </p>
+        </div>
+    </div>
 
-        function updateDigitCounter(input, counterId, targetLen, msgId, isNis = false) {
-            const counter = document.getElementById(counterId);
-            const msgEle  = document.getElementById(msgId);
-            const len     = input.value.length;
+    <!-- Feedback Alert Banner Pasca Proses File (JS Generated) -->
+    <div id="excelProcessAlert" class="hidden p-3 rounded-xl border flex items-start justify-between gap-2.5 text-xs">
+        <div class="flex items-start gap-2.5 w-full">
+            <span id="excelAlertIcon" class="material-symbols-outlined text-lg shrink-0 mt-0.5">check_circle</span>
+            <div class="flex-1">
+                <h4 id="excelAlertTitle" class="font-bold text-xs"></h4>
+                <p id="excelAlertMsg" class="mt-0.5 text-[11px] leading-normal"></p>
+                <ul id="excelAlertDetails" class="list-disc list-inside mt-1 text-[11px] space-y-0.5 hidden"></ul>
+            </div>
+        </div>
+        <button type="button" onclick="document.getElementById('excelProcessAlert').classList.add('hidden')" class="hover:opacity-75 cursor-pointer">
+            <span class="material-symbols-outlined text-base">close</span>
+        </button>
+    </div>
 
-            if (counter) {
-                if (isNis) {
-                    counter.textContent = len + '/10 digit';
-                    counter.style.color = (len >= 3 && len <= 10) ? '#10b981' : '#ef4444';
+    <!-- Loading Indicator -->
+    <div id="importFileLoading" class="hidden text-center p-4 bg-teal-50 border border-teal-200 rounded-xl">
+        <i class="fa-solid fa-spinner fa-spin text-xl text-teal-600 mb-1.5"></i>
+        <p id="importFileLoadingMsg" class="text-xs font-bold text-teal-800">Sedang membaca file data siswa...</p>
+    </div>
+
+    <!-- Import Options Form Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <!-- File Input -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+            <label for="excel_file_input" class="block text-[11px] font-semibold text-slate-700 mb-1.5">Pilih File Data Siswa <span class="text-rose-500">*</span></label>
+            <input type="file" id="excel_file_input" accept=".xlsx,.xls,.csv,.pdf,.doc,.docx" class="w-full text-xs text-slate-500 file:mr-2.5 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-white file:text-slate-700 hover:file:bg-slate-100 border border-slate-200 rounded-lg p-1 bg-white cursor-pointer" onchange="onSiswaFileSelected(this)">
+            <p id="importFileTypeHint" class="text-[10px] text-slate-400 mt-1">Format: <strong>.pdf, .docx, .doc, .xlsx, .xls, .csv</strong> (Maks: 10MB)</p>
+        </div>
+
+        <!-- Target Class -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+            <label for="excel_target_kelas" class="block text-[11px] font-semibold text-slate-700 mb-1.5">Pilih Kelas Target (Opsional)</label>
+            <select id="excel_target_kelas" onchange="syncTargetKelasToBulk(this.value)" class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2.5 bg-white focus:ring-brand-500 text-slate-700">
+                <option value="">-- Otomatis Dari File / Ikuti Pilihan Bulk --</option>
+                @foreach($kelass as $k)
+                    <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }} (Estimasi: {{ $k->jumlah_siswa }} Siswa)</option>
+                @endforeach
+            </select>
+            <p class="text-[10px] text-slate-400 mt-1">Jika dipilih, otomatis mengatur Kelas Target pada seluruh data.</p>
+        </div>
+
+        <!-- Insertion Mode -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+            <label for="excel_import_mode" class="block text-[11px] font-semibold text-slate-700 mb-1.5">Mode Masukkan Data</label>
+            <select id="excel_import_mode" class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2.5 bg-white focus:ring-brand-500 text-slate-700">
+                <option value="replace">Ganti / Timpa Seluruh Baris Tabel</option>
+                <option value="append">Tambahkan ke Baris yang Ada</option>
+            </select>
+            <p class="text-[10px] text-slate-400 mt-1">Pilih apakah data file menggantikan atau menambahkan baris.</p>
+        </div>
+    </div>
+
+    <!-- Action Footer -->
+    <div class="flex items-center justify-between pt-1">
+        <button type="button" onclick="clearExcelFileInput()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-all cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+            <span>Reset File</span>
+        </button>
+        <button type="button" id="btnProcessExcel" onclick="processImportFile()" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+            <span>Proses File Data Siswa</span>
+        </button>
+    </div>
+</section>
+<!-- END: Panel 2 -->
+
+<!-- BEGIN: Panel 3 - Input Cepat & Massal -->
+<section class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm space-y-3.5 transition-all mb-4 hidden" data-purpose="form-quick-bulk-entry" id="panel-massal">
+    <div class="flex items-start justify-between flex-wrap gap-3 pb-3 border-b border-slate-100">
+        <div class="flex items-start gap-3">
+            <div class="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
+                <span class="material-symbols-outlined text-xl">groups</span>
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-slate-800">Tambah Siswa Baru Secara Cepat dan Banyak (Input Massal Per Kelas)</h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Masukkan data banyak siswa sekaligus berdasarkan <strong>Per Kelas</strong> dalam 1 kali simpan.</p>
+            </div>
+        </div>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span class="material-symbols-outlined text-[15px]">dataset</span>
+            <span>Mode Input Massal Per Kelas</span>
+        </div>
+    </div>
+
+    @if($errors->has('siswa') || $errors->has('id_kelas'))
+        <div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-start justify-between gap-2.5 text-xs">
+            <div class="flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-rose-600 text-lg shrink-0 mt-0.5">error</span>
+                <div>
+                    <h4 class="font-bold text-xs text-rose-900">Gagal Menyimpan Data Siswa Massal!</h4>
+                    <p class="mt-0.5 text-[11px]">{{ $errors->first('siswa') ?? $errors->first('id_kelas') }}</p>
+                </div>
+            </div>
+            <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700 cursor-pointer">
+                <span class="material-symbols-outlined text-base">close</span>
+            </button>
+        </div>
+    @endif
+
+    <!-- Alert Banner Alasan Gagal Simpan Bulk (JS Generated) -->
+    <div id="bulkErrorReasonBanner" class="hidden p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 flex items-start justify-between gap-2.5 text-xs">
+        <div class="flex items-start gap-2.5">
+            <span class="material-symbols-outlined text-rose-600 text-lg shrink-0 mt-0.5">warning</span>
+            <div>
+                <h4 class="font-bold text-xs text-rose-900">Data massal belum bisa disimpan! Silakan perbaiki pengisian berikut:</h4>
+                <ul id="bulkErrorReasonList" class="list-disc list-inside mt-1 text-[11px] text-rose-700 space-y-0.5"></ul>
+            </div>
+        </div>
+        <button type="button" onclick="document.getElementById('bulkErrorReasonBanner').classList.add('hidden')" class="text-rose-500 hover:text-rose-700 cursor-pointer">
+            <span class="material-symbols-outlined text-base">close</span>
+        </button>
+    </div>
+
+    <form id="formSiswaBulk" action="{{ route('siswa.store-batch') }}" method="POST" class="space-y-3" novalidate>
+        @csrf
+
+        <!-- Class Selector Target -->
+        <div class="max-w-xs space-y-1">
+            <label for="bulk_id_kelas" class="block text-[11px] font-semibold text-slate-700">Pilih Kelas Target (Per Kelas) <span class="text-rose-500">*</span></label>
+            <select id="bulk_id_kelas" name="id_kelas" class="w-full text-xs rounded-lg border-slate-200 px-2.5 py-1.5 text-slate-700 focus:ring-brand-500 @error('id_kelas') border-rose-500 @enderror" required>
+                <option value="">-- Pilih Kelas Target --</option>
+                @foreach($kelass as $k)
+                    <option value="{{ $k->id_kelas }}" {{ old('id_kelas') == $k->id_kelas ? 'selected' : '' }}>
+                        {{ $k->nama_kelas }} (Estimasi: {{ $k->jumlah_siswa }} Siswa)
+                    </option>
+                @endforeach
+            </select>
+            <p class="text-[10px] text-slate-400">Seluruh data siswa yang diisi di bawah akan dimasukkan langsung ke kelas ini.</p>
+            @error('id_kelas')
+                <small class="text-rose-500 font-semibold text-[10.5px] block mt-0.5">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <!-- Bulk Entry Interactive Table -->
+        <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-left border-collapse text-xs" id="tableBulkSiswa" style="min-width: 1050px;">
+                <thead class="bg-slate-50/80 text-[10.5px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                    <tr>
+                        <th class="py-2.5 px-2.5 w-12 text-center">NO</th>
+                        <th class="py-2.5 px-2.5 w-36">NIS (3-10 DIGIT) <span class="text-rose-500">*</span></th>
+                        <th class="py-2.5 px-2.5 w-36">NISN (10 DIGIT) <span class="text-rose-500">*</span></th>
+                        <th class="py-2.5 px-2.5 w-48">NAMA LENGKAP SISWA <span class="text-rose-500">*</span></th>
+                        <th class="py-2.5 px-2.5 w-28">JENIS KELAMIN <span class="text-rose-500">*</span></th>
+                        <th class="py-2.5 px-2.5 w-36">KOTA LAHIR <span class="text-slate-400 font-normal">(Opsional)</span></th>
+                        <th class="py-2.5 px-2.5 w-36">TGL LAHIR <span class="text-rose-500">*</span></th>
+                        <th class="py-2.5 px-2.5">ALAMAT LENGKAP <span class="text-slate-400 font-normal">(Opsional)</span></th>
+                        <th class="py-2.5 px-2.5 w-20 text-center">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody id="bulkTableBody" class="divide-y divide-slate-200/80 text-slate-700">
+                    <!-- Dynamic Rows injected via JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bulk Action Controls & Submit -->
+        <div class="flex items-center justify-between flex-wrap gap-2.5 pt-1">
+            <div class="flex items-center gap-1.5 flex-wrap">
+                <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-700 hover:bg-emerald-800 text-white transition-all cursor-pointer" onclick="addBulkRow()">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Tambah Baris Siswa</span>
+                </button>
+                <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition-all cursor-pointer" onclick="addMultipleBulkRows(5)">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>+5 Baris</span>
+                </button>
+                <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-all cursor-pointer" onclick="resetAllBulkFields()" title="Kosongkan isian data pada seluruh baris tabel">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Reset Baris</span>
+                </button>
+                <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-all cursor-pointer" onclick="clearBulkRows()" title="Hapus seluruh baris tabel siswa">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Kosongkan Tabel</span>
+                </button>
+                <span class="text-xs text-slate-500 font-medium ml-1">Total: <strong id="totalBulkRowsCount" class="text-slate-800">0</strong> baris siswa</span>
+            </div>
+
+            <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span>Simpan Data Siswa</span>
+            </button>
+        </div>
+    </form>
+</section>
+<!-- END: Panel 3 -->
+
+<!-- BEGIN: StudentListSection -->
+<section class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-sm space-y-3.5" data-purpose="student-datatable-card">
+    <!-- Title & Subtitle -->
+    <div class="flex items-start justify-between flex-wrap gap-3 pb-1">
+        <div class="flex items-start gap-3">
+            <div class="p-2 bg-brand-50 text-brand-600 rounded-xl">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-slate-800">Daftar Data Siswa <span class="text-brand-600">({{ count($siswas) }})</span></h3>
+                <p class="text-[11px] text-slate-400 mt-0.5">Kelola dan pantau seluruh data siswa yang terdaftar dalam sistem.</p>
+            </div>
+        </div>
+
+        @if(isset($totalAktifCount) && $totalAktifCount > 0)
+            <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl">
+                <span>Total Siswa Aktif:</span>
+                <strong class="text-brand-600 font-bold">{{ $totalAktifCount }}</strong>
+            </div>
+        @endif
+    </div>
+
+    <!-- Filter & Search Toolbar (GET form to route siswa.index) -->
+    <form action="{{ route('siswa.index') }}" method="GET" class="bg-slate-50/80 border border-slate-200/80 rounded-xl p-3 space-y-2.5">
+        <!-- Row 1: Search & Filter Selectors -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-12 gap-2">
+            <!-- Search Input -->
+            <div class="relative sm:col-span-2 md:col-span-3 lg:col-span-2 xl:col-span-3">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-slate-400">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                </span>
+                <input type="text" name="search" value="{{ $search ?? '' }}"
+                    class="w-full text-xs rounded-lg border-slate-200 pl-8 pr-2.5 py-1.5 bg-white focus:border-brand-500 focus:ring-brand-500"
+                    placeholder="Cari Siswa / NIS / NISN...">
+            </div>
+
+            <!-- Filter Tingkat (X, XI, XII) -->
+            <div class="sm:col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
+                <select name="tingkat" id="filter_tingkat" onchange="filterKelasDropdown(this.value); updateSelectMutedState(this);"
+                    class="filter-select-custom w-full text-xs rounded-lg border-slate-200 py-1.5 px-2 bg-white text-slate-600 focus:ring-brand-500">
+                    <option value="">Semua Tingkat</option>
+                    <option value="X" {{ (isset($tingkat) && $tingkat == 'X') ? 'selected' : '' }}>Kelas X</option>
+                    <option value="XI" {{ (isset($tingkat) && $tingkat == 'XI') ? 'selected' : '' }}>Kelas XI</option>
+                    <option value="XII" {{ (isset($tingkat) && $tingkat == 'XII') ? 'selected' : '' }}>Kelas XII</option>
+                </select>
+            </div>
+
+            <!-- Filter Jurusan -->
+            <div class="sm:col-span-1 md:col-span-2 lg:col-span-1 xl:col-span-2">
+                <select name="id_jurusan" onchange="updateSelectMutedState(this);"
+                    class="filter-select-custom w-full text-xs rounded-lg border-slate-200 py-1.5 px-2 bg-white text-slate-600 focus:ring-brand-500">
+                    <option value="">Semua Jurusan</option>
+                    @foreach($jurusans as $j)
+                        <option value="{{ $j->id_jurusan }}" {{ (isset($id_jurusan) && $id_jurusan == $j->id_jurusan) ? 'selected' : '' }}>
+                            {{ $j->kode_jurusan }} - {{ $j->nama_jurusan }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Filter Kelas -->
+            <div class="sm:col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-2">
+                <select name="id_kelas" id="filter_id_kelas" onchange="updateSelectMutedState(this);"
+                    class="filter-select-custom w-full text-xs rounded-lg border-slate-200 py-1.5 px-2 bg-white text-slate-600 focus:ring-brand-500">
+                    <option value="">Semua Kelas</option>
+                    @foreach($kelass as $k)
+                        <option value="{{ $k->id_kelas }}" data-nama="{{ $k->nama_kelas }}" {{ (isset($id_kelas) && $id_kelas == $k->id_kelas) ? 'selected' : '' }}>
+                            {{ $k->nama_kelas }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Filter Jenis Kelamin -->
+            <div class="sm:col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-2">
+                <select name="jenis_kelamin" onchange="updateSelectMutedState(this);"
+                    class="filter-select-custom w-full text-xs rounded-lg border-slate-200 py-1.5 px-2 bg-white text-slate-600 focus:ring-brand-500">
+                    <option value="">Semua JK</option>
+                    <option value="L" {{ (isset($jenis_kelamin) && $jenis_kelamin == 'L') ? 'selected' : '' }}>Laki-laki</option>
+                    <option value="P" {{ (isset($jenis_kelamin) && $jenis_kelamin == 'P') ? 'selected' : '' }}>Perempuan</option>
+                </select>
+            </div>
+
+            <!-- Sort -->
+            <div class="sm:col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-2">
+                <select name="sort" onchange="updateSelectMutedState(this);"
+                    class="filter-select-custom w-full text-xs rounded-lg border-slate-200 py-1.5 px-2 bg-white text-slate-600 focus:ring-brand-500">
+                    <option value="nama_asc" {{ (isset($sort) && $sort == 'nama_asc') ? 'selected' : '' }}>A - Z</option>
+                    <option value="nama_desc" {{ (isset($sort) && $sort == 'nama_desc') ? 'selected' : '' }}>Z - A</option>
+                    <option value="nis_asc" {{ (isset($sort) && $sort == 'nis_asc') ? 'selected' : '' }}>NIS ↑</option>
+                    <option value="nis_desc" {{ (isset($sort) && $sort == 'nis_desc') ? 'selected' : '' }}>NIS ↓</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Row 2: Active Filter Pills & Action Buttons -->
+        <div class="flex items-center justify-between flex-wrap gap-2.5 pt-2 border-t border-slate-200/60">
+            <!-- Left: Active Filter Pills -->
+            <div class="flex items-center gap-1.5 flex-wrap text-xs">
+                <span class="font-bold text-slate-400 uppercase text-[10px] tracking-wider mr-1">Filter Aktif:</span>
+                @if(!empty($search))
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10.5px] font-semibold bg-sky-50 text-sky-700 border border-sky-200">
+                        <i class="fa-solid fa-magnifying-glass text-[9px]"></i> "{{ $search }}"
+                    </span>
+                @endif
+                @if(!empty($tingkat))
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10.5px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                        <i class="fa-solid fa-layer-group text-[9px]"></i> Kelas {{ $tingkat }}
+                    </span>
+                @endif
+                @if(!empty($id_jurusan))
+                    @php $selJur = $jurusans->firstWhere('id_jurusan', $id_jurusan); @endphp
+                    @if($selJur)
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10.5px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <i class="fa-solid fa-book text-[9px]"></i> {{ $selJur->kode_jurusan }}
+                        </span>
+                    @endif
+                @endif
+                @if(!empty($id_kelas))
+                    @php $selKls = $kelass->firstWhere('id_kelas', $id_kelas); @endphp
+                    @if($selKls)
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10.5px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                            <i class="fa-solid fa-door-open text-[9px]"></i> {{ $selKls->nama_kelas }}
+                        </span>
+                    @endif
+                @endif
+                @if(!empty($jenis_kelamin))
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10.5px] font-semibold bg-pink-50 text-pink-700 border border-pink-200">
+                        <i class="fa-solid fa-venus-mars text-[9px]"></i> {{ $jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}
+                    </span>
+                @endif
+                @if(empty($search) && empty($tingkat) && empty($id_jurusan) && empty($id_kelas) && empty($jenis_kelamin))
+                    <span class="text-slate-400 italic text-[10.5px]">Semua Data Siswa</span>
+                @endif
+            </div>
+
+            <!-- Right: Filter Actions & Bulk Delete -->
+            <div class="flex items-center gap-1.5">
+                <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-700 hover:bg-brand-800 text-white transition-all cursor-pointer shadow-sm">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Cari</span>
+                </button>
+                <a href="{{ route('siswa.index') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-all no-underline">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Reset</span>
+                </a>
+                <button type="button" id="btnBulkDelete" onclick="confirmBulkDelete()" disabled
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-all opacity-50 cursor-not-allowed"
+                    title="Pilih siswa dengan mencentang checkbox untuk menghapus secara massal">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Hapus Terpilih (<span id="bulkDeleteCount">0</span>)</span>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Form Bulk Delete Wrapper -->
+    <form id="formBulkDelete" action="{{ route('siswa.destroy-batch') }}" method="POST">
+        @csrf
+        @method('DELETE')
+
+        <!-- DataTable Container -->
+        <div class="overflow-x-auto border border-slate-200/80 rounded-xl">
+            <table class="w-full text-left border-collapse text-xs">
+                <thead class="bg-slate-50/80 text-[10.5px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200 whitespace-nowrap">
+                    <tr>
+                        <th class="py-2.5 px-3 w-10 text-center">
+                            <input type="checkbox" id="selectAllSiswa" class="rounded border-slate-300 text-brand-600 focus:ring-brand-500 cursor-pointer" title="Pilih Semua (Select All)">
+                        </th>
+                        <th class="py-2.5 px-3">NIS</th>
+                        <th class="py-2.5 px-3">NISN</th>
+                        <th class="py-2.5 px-3">NAMA SISWA</th>
+                        <th class="py-2.5 px-3">JK</th>
+                        <th class="py-2.5 px-3">KELAS</th>
+                        <th class="py-2.5 px-3">TEMPAT &amp; TGL LAHIR</th>
+                        <th class="py-2.5 px-3">ALAMAT</th>
+                        <th class="py-2.5 px-3 text-center">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200/70 text-slate-700">
+                    @forelse($siswas as $s)
+                        <tr class="hover:bg-slate-50/70 transition-colors">
+                            <td class="py-2 px-3 text-center whitespace-nowrap">
+                                <input type="checkbox" name="ids[]" value="{{ $s->id_siswa }}" class="siswa-select-checkbox rounded border-slate-300 text-brand-600 focus:ring-brand-500 cursor-pointer" onchange="updateBulkDeleteState()">
+                            </td>
+                            <td class="py-2 px-3 font-semibold text-slate-800 whitespace-nowrap">
+                                {{ $s->nis ?? '-' }}
+                            </td>
+                            <td class="py-2 px-3 font-mono font-medium text-brand-600 whitespace-nowrap">
+                                {{ $s->nisn }}
+                            </td>
+                            <td class="py-2 px-3 font-bold text-slate-900">
+                                {{ $s->nama_siswa }}
+                            </td>
+                            <td class="py-2 px-3 whitespace-nowrap">
+                                @if($s->jenis_kelamin == 'L')
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] font-semibold bg-sky-50 text-sky-700 border border-sky-200">Laki-laki</span>
+                                @elseif($s->jenis_kelamin == 'P')
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">Perempuan</span>
+                                @else
+                                    <span class="text-slate-400">-</span>
+                                @endif
+                            </td>
+                            <td class="py-2 px-3 font-medium text-slate-800 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                                    {{ $s->kelas->nama_kelas ?? '-' }}
+                                </span>
+                            </td>
+                            <td class="py-2 px-3 text-slate-600 whitespace-nowrap">
+                                @if($s->kota_lahir || $s->tanggal_lahir)
+                                    {{ $s->kota_lahir ?? '' }}{{ $s->kota_lahir && $s->tanggal_lahir ? ', ' : '' }}{{ $s->tanggal_lahir ? \Carbon\Carbon::parse($s->tanggal_lahir)->format('d/m/Y') : '' }}
+                                @else
+                                    <span class="text-slate-400">-</span>
+                                @endif
+                            </td>
+                            <td class="py-2 px-3 text-slate-600 max-w-[200px] truncate" title="{{ $s->alamat_lengkap }}">
+                                {{ $s->alamat_lengkap ? \Illuminate\Support\Str::limit($s->alamat_lengkap, 35) : '-' }}
+                            </td>
+                            <td class="py-2 px-3 text-center whitespace-nowrap">
+                                <div class="flex items-center justify-center gap-1">
+                                    <!-- 1. LIHAT (Detail) -->
+                                    <a href="{{ route('siswa.show', $s->id_siswa) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10.5px] font-semibold bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 no-underline transition-all" title="Lihat Detail Siswa">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+                                        <span>Lihat</span>
+                                    </a>
+
+                                    <!-- 2. EDIT -->
+                                    <a href="{{ route('siswa.edit', $s->id_siswa) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10.5px] font-semibold bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 no-underline transition-all" title="Edit Data Siswa">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+                                        <span>Edit</span>
+                                    </a>
+
+                                    <!-- 3. HAPUS -->
+                                    <button type="button" onclick="deleteSingleSiswa({{ $s->id_siswa }}, '{{ addslashes($s->nama_siswa) }}')" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10.5px] font-semibold bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition-all cursor-pointer" title="Hapus Siswa">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                        </svg>
+                                        <span>Hapus</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" class="text-center py-10 text-slate-400">
+                                <span class="material-symbols-outlined text-3xl mb-1.5 text-slate-300 block">folder_open</span>
+                                <p class="text-xs font-semibold">Belum ada data Siswa yang terdaftar dalam sistem.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    <!-- DataTable Footer -->
+    <div class="flex items-center justify-between flex-wrap gap-3 pt-2 text-xs text-slate-500 border-t border-slate-100">
+        <div>
+            Menampilkan <strong class="text-slate-800 font-semibold">{{ count($siswas) }}</strong> data siswa
+            @if(isset($totalAktifCount))
+                dari total <strong class="text-slate-800 font-semibold">{{ $totalAktifCount }}</strong> siswa aktif
+            @endif
+        </div>
+    </div>
+</section>
+<!-- END: StudentListSection -->
+
+<!-- Form Delete Siswa Tunggal (Hidden) -->
+<form id="singleDeleteSiswaForm" action="" method="POST" style="display:none;">
+    @csrf
+    @method('DELETE')
+</form>
+
+@endsection
+
+@section('scripts')
+<!-- Library SheetJS, PDF.js, & Mammoth.js untuk Multi-Format File Reader di Sisi Client -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+
+<script>
+    if (typeof pdfjsLib !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    const availableClasses = @json($kelass);
+
+    /* =========================================================
+     * 1. TAB SWITCHING FUNCTIONALITY
+     * ========================================================= */
+    function switchInputTab(tabKey) {
+        const tabs = ['manual', 'excel', 'massal'];
+        
+        const activeClass = 'tab-button inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-brand-700 text-white shadow-sm transition-all cursor-pointer';
+        const inactiveClass = 'tab-button inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-brand-700 hover:bg-white/80 transition-all cursor-pointer';
+
+        tabs.forEach(function(t) {
+            const panel = document.getElementById('panel-' + t);
+            const btn = document.getElementById('tab-btn-' + t);
+
+            if (panel) {
+                if (t === tabKey) {
+                    panel.classList.remove('hidden');
                 } else {
-                    counter.textContent = len + '/' + targetLen + ' digit';
-                    counter.style.color = (len === targetLen) ? '#10b981' : '#ef4444';
+                    panel.classList.add('hidden');
                 }
             }
 
-            if (msgEle) {
-                if (isNis) {
-                    if (len === 0) {
-                        msgEle.textContent = 'Wajib diisi 3 hingga 10 digit angka.';
-                        msgEle.style.color = '#ef4444';
-                    } else if (len < 3) {
-                        msgEle.textContent = 'Belum cukup, minimal 3 digit (kurang ' + (3 - len) + ' digit lagi).';
-                        msgEle.style.color = '#ef4444';
-                    } else {
-                        msgEle.textContent = '✓ Format ' + len + ' digit angka sudah sesuai.';
-                        msgEle.style.color = '#10b981';
-                    }
+            if (btn) {
+                if (t === tabKey) {
+                    btn.className = activeClass;
                 } else {
-                    if (len === 0) {
-                        msgEle.textContent = 'Wajib diisi tepat ' + targetLen + ' digit angka.';
-                        msgEle.style.color = '#ef4444';
-                    } else if (len < targetLen) {
-                        msgEle.textContent = 'Belum lengkap, baru ' + len + ' digit (kurang ' + (targetLen - len) + ' digit lagi).';
-                        msgEle.style.color = '#ef4444';
-                    } else {
-                        msgEle.textContent = '✓ Format ' + targetLen + ' digit angka sudah sesuai.';
-                        msgEle.style.color = '#10b981';
-                    }
+                    btn.className = inactiveClass;
                 }
             }
+        });
+    }
+
+
+    /* =========================================================
+     * 2. SINGLE DELETE SISWA
+     * ========================================================= */
+    function deleteSingleSiswa(id, nama) {
+        if (confirm(`Apakah Anda yakin ingin memindahkan siswa "${nama}" ke tempat sampah?`)) {
+            const form = document.getElementById('singleDeleteSiswaForm');
+            form.action = "{{ url('/siswa') }}/" + id;
+            form.submit();
         }
+    }
 
-        /* JavaScript Fitur Input Massal Siswa Baru (Bulk) */
-        let bulkRowIndex = 0;
+    /* =========================================================
+     * 3. DIGIT COUNTER FOR SINGLE STUDENT FORM
+     * ========================================================= */
+    function updateDigitCounter(input, counterId, targetLen, msgId, isNis = false) {
+        const counter = document.getElementById(counterId);
+        const msgEle  = document.getElementById(msgId);
+        const len     = input.value.length;
 
-        function createBulkRowHTML(index, data = {}) {
-            const nisVal     = data.nis || '';
-            const nisnVal    = data.nisn || '';
-            const namaVal    = data.nama_siswa || '';
-            const jkVal      = data.jenis_kelamin || '';
-            const kotaVal    = data.kota_lahir || '';
-            const tglVal     = data.tanggal_lahir || '';
-            const alamatVal  = data.alamat_lengkap || '';
-            const idKelasVal = data.id_kelas || '';
-            const kelasName  = data.kelas_name || '';
-
-            let badgeKelas = '';
-            if (kelasName) {
-                badgeKelas = `<small style="display:block; font-size:10.5px; font-weight:800; color:#0284c7; margin-top:3px; background:#e0f2fe; padding:2px 6px; border-radius:6px;" title="Kelas dari file Excel">${kelasName}</small>`;
-            }
-
-            return `
-                <tr id="bulkRow_${index}" class="bulk-siswa-row">
-                    <td style="text-align:center; font-weight:700; color:#64748b;" class="row-number">
-                        1
-                        ${badgeKelas}
-                        <input type="hidden" name="siswa[${index}][id_kelas]" class="bulk-id-kelas" value="${idKelasVal}">
-                    </td>
-                    <td>
-                        <input type="text" name="siswa[${index}][nis]" value="${nisVal}"
-                            class="form-control bulk-nis" placeholder="3-10 Digit" maxlength="10" inputmode="numeric"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateBulkDigitCounter(this, 'counter_nis_${index}', 10, true);" required>
-                        <small id="counter_nis_${index}" style="display:block; font-size:11px; font-weight:700; margin-top:2px; color:#ef4444;">0/10 digit</small>
-                    </td>
-                    <td>
-                        <input type="text" name="siswa[${index}][nisn]" value="${nisnVal}"
-                            class="form-control bulk-nisn" placeholder="10 Digit" maxlength="10" inputmode="numeric"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateBulkDigitCounter(this, 'counter_nisn_${index}', 10);" required>
-                        <small id="counter_nisn_${index}" style="display:block; font-size:11px; font-weight:700; margin-top:2px; color:#ef4444;">0/10 digit</small>
-                    </td>
-                    <td>
-                        <input type="text" name="siswa[${index}][nama_siswa]" value="${namaVal}"
-                            class="form-control bulk-nama" placeholder="Nama Lengkap Siswa" required>
-                    </td>
-                    <td>
-                        <select name="siswa[${index}][jenis_kelamin]" class="form-control bulk-jk" required>
-                            <option value="">-- Pilih --</option>
-                            <option value="L" ${jkVal === 'L' ? 'selected' : ''}>Laki-laki</option>
-                            <option value="P" ${jkVal === 'P' ? 'selected' : ''}>Perempuan</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" name="siswa[${index}][kota_lahir]" value="${kotaVal}"
-                            class="form-control bulk-kota" placeholder="Opsional">
-                    </td>
-                    <td>
-                        <input type="date" name="siswa[${index}][tanggal_lahir]" value="${tglVal}"
-                            class="form-control bulk-tgl" required>
-                    </td>
-                    <td>
-                        <input type="text" name="siswa[${index}][alamat_lengkap]" value="${alamatVal}"
-                            class="form-control bulk-alamat" placeholder="Opsional">
-                    </td>
-                    <td style="text-align:center;">
-                        <div style="display:flex; gap:4px; justify-content:center; align-items:center;">
-                            <button type="button" class="btn-action btn-edit" style="background:#fef3c7; color:#b45309; border-color:#fde68a; padding:5px 8px; border-radius:8px;" onclick="resetSingleBulkRow(this)" title="Reset isian baris siswa ini">
-                                <i class="fa-solid fa-rotate-left"></i>
-                            </button>
-                            <button type="button" class="btn-action btn-delete" style="padding:5px 8px; border-radius:8px;" onclick="removeBulkRow(this)" title="Hapus Baris">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `;
-        }
-
-        function updateBulkDigitCounter(input, counterId, targetLen, isNis = false) {
-            const counter = document.getElementById(counterId);
-            if (!counter) return;
-            const len = input.value.length;
-            counter.textContent = len + '/' + targetLen + ' digit';
+        if (counter) {
             if (isNis) {
-                // NIS valid: 3-10 digit
-                counter.style.color = (len >= 3 && len <= 10) ? '#10b981' : '#ef4444';
+                counter.textContent = len + '/10 digit';
+                counter.className = (len >= 3 && len <= 10) ? 'text-[10px] font-bold text-emerald-600' : 'text-[10px] font-bold text-rose-500';
             } else {
-                // NISN valid: tepat 10 digit
-                counter.style.color = (len === targetLen) ? '#10b981' : '#ef4444';
+                counter.textContent = len + '/' + targetLen + ' digit';
+                counter.className = (len === targetLen) ? 'text-[10px] font-bold text-emerald-600' : 'text-[10px] font-bold text-rose-500';
             }
         }
 
-        function renumberBulkRows() {
-            const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
-            rows.forEach((row, i) => {
-                const numCell = row.querySelector('.row-number');
-                if (numCell) {
-                    numCell.childNodes[0].textContent = (i + 1) + ' ';
+        if (msgEle) {
+            if (isNis) {
+                if (len === 0) {
+                    msgEle.textContent = 'Wajib diisi 3 hingga 10 digit angka.';
+                    msgEle.className = 'block text-[10px] font-medium text-rose-500 mt-1';
+                } else if (len < 3) {
+                    msgEle.textContent = 'Belum cukup, minimal 3 digit (kurang ' + (3 - len) + ' digit lagi).';
+                    msgEle.className = 'block text-[10px] font-medium text-rose-500 mt-1';
+                } else {
+                    msgEle.textContent = '✓ Format ' + len + ' digit angka sudah sesuai.';
+                    msgEle.className = 'block text-[10px] font-medium text-emerald-600 mt-1';
                 }
-            });
-            const totalSpan = document.getElementById('totalBulkRowsCount');
-            if (totalSpan) totalSpan.textContent = rows.length;
+            } else {
+                if (len === 0) {
+                    msgEle.textContent = 'Wajib diisi tepat ' + targetLen + ' digit angka.';
+                    msgEle.className = 'block text-[10px] font-medium text-rose-500 mt-1';
+                } else if (len < targetLen) {
+                    msgEle.textContent = 'Belum lengkap, baru ' + len + ' digit (kurang ' + (targetLen - len) + ' digit lagi).';
+                    msgEle.className = 'block text-[10px] font-medium text-rose-500 mt-1';
+                } else {
+                    msgEle.textContent = '✓ Format ' + targetLen + ' digit angka sudah sesuai.';
+                    msgEle.className = 'block text-[10px] font-medium text-emerald-600 mt-1';
+                }
+            }
+        }
+    }
+
+    /* =========================================================
+     * 4. BULK ENTRY (INPUT MASSAL) LOGIC
+     * ========================================================= */
+    let bulkRowIndex = 0;
+
+    function createBulkRowHTML(index, data = {}) {
+        const nisVal     = data.nis || '';
+        const nisnVal    = data.nisn || '';
+        const namaVal    = data.nama_siswa || '';
+        const jkVal      = data.jenis_kelamin || '';
+        const kotaVal    = data.kota_lahir || '';
+        const tglVal     = data.tanggal_lahir || '';
+        const alamatVal  = data.alamat_lengkap || '';
+        const idKelasVal = data.id_kelas || '';
+        const kelasName  = data.kelas_name || '';
+
+        let badgeKelas = '';
+        if (kelasName) {
+            badgeKelas = `<span class="block text-[9px] font-bold text-sky-700 bg-sky-100 px-1.5 py-0.5 rounded mt-1" title="Kelas dari file">${kelasName}</span>`;
         }
 
-        function addBulkRow(data = {}) {
-            const tbody = document.getElementById('bulkTableBody');
-            if (!tbody) return;
-            bulkRowIndex++;
-            const trHTML = createBulkRowHTML(bulkRowIndex, data);
-            tbody.insertAdjacentHTML('beforeend', trHTML);
+        return `
+            <tr id="bulkRow_${index}" class="bulk-siswa-row hover:bg-slate-50/60 transition-colors">
+                <td class="p-2 text-center font-bold text-slate-400 row-number">
+                    1
+                    ${badgeKelas}
+                    <input type="hidden" name="siswa[${index}][id_kelas]" class="bulk-id-kelas" value="${idKelasVal}">
+                </td>
+                <td class="p-2">
+                    <input type="text" name="siswa[${index}][nis]" value="${nisVal}"
+                        class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2.5 focus:ring-brand-500 bulk-nis" placeholder="3-10 Digit" maxlength="10" inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateBulkDigitCounter(this, 'counter_nis_${index}', 10, true);" required>
+                    <small id="counter_nis_${index}" class="block text-[10px] font-bold text-rose-500 mt-0.5">0/10 digit</small>
+                </td>
+                <td class="p-2">
+                    <input type="text" name="siswa[${index}][nisn]" value="${nisnVal}"
+                        class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2.5 focus:ring-brand-500 bulk-nisn" placeholder="10 Digit" maxlength="10" inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10); updateBulkDigitCounter(this, 'counter_nisn_${index}', 10);" required>
+                    <small id="counter_nisn_${index}" class="block text-[10px] font-bold text-rose-500 mt-0.5">0/10 digit</small>
+                </td>
+                <td class="p-2">
+                    <input type="text" name="siswa[${index}][nama_siswa]" value="${namaVal}"
+                        class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2.5 focus:ring-brand-500 bulk-nama" placeholder="Nama Lengkap Siswa" required>
+                </td>
+                <td class="p-2">
+                    <select name="siswa[${index}][jenis_kelamin]" class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2 focus:ring-brand-500 bulk-jk text-slate-700" required>
+                        <option value="">Pilih</option>
+                        <option value="L" ${jkVal === 'L' ? 'selected' : ''}>Laki-laki (L)</option>
+                        <option value="P" ${jkVal === 'P' ? 'selected' : ''}>Perempuan (P)</option>
+                    </select>
+                </td>
+                <td class="p-2">
+                    <input type="text" name="siswa[${index}][kota_lahir]" value="${kotaVal}"
+                        class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2.5 focus:ring-brand-500 bulk-kota" placeholder="Opsional">
+                </td>
+                <td class="p-2">
+                    <input type="date" name="siswa[${index}][tanggal_lahir]" value="${tglVal}"
+                        class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2 focus:ring-brand-500 bulk-tgl text-slate-700" required>
+                </td>
+                <td class="p-2">
+                    <input type="text" name="siswa[${index}][alamat_lengkap]" value="${alamatVal}"
+                        class="w-full text-xs rounded-lg border-slate-200 py-1.5 px-2.5 focus:ring-brand-500 bulk-alamat" placeholder="Opsional">
+                </td>
+                <td class="p-2 text-center">
+                    <div class="flex items-center justify-center gap-1">
+                        <button type="button" class="p-1 rounded text-amber-600 hover:bg-amber-50 cursor-pointer" onclick="resetSingleBulkRow(this)" title="Reset baris ini">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                        </button>
+                        <button type="button" class="p-1 rounded text-rose-600 hover:bg-rose-50 cursor-pointer" onclick="removeBulkRow(this)" title="Hapus baris">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }
 
-            const row = document.getElementById(`bulkRow_${bulkRowIndex}`);
-            if (row) {
-                const nisInp = row.querySelector('.bulk-nis');
-                const nisnInp = row.querySelector('.bulk-nisn');
-                if (nisInp) updateBulkDigitCounter(nisInp, `counter_nis_${bulkRowIndex}`, 10, true);
-                if (nisnInp) updateBulkDigitCounter(nisnInp, `counter_nisn_${bulkRowIndex}`, 10);
+    function updateBulkDigitCounter(input, counterId, targetLen, isNis = false) {
+        const counter = document.getElementById(counterId);
+        if (!counter) return;
+        const len = input.value.length;
+        counter.textContent = len + '/' + targetLen + ' digit';
+        if (isNis) {
+            counter.className = (len >= 3 && len <= 10) ? 'block text-[10px] font-bold text-emerald-600 mt-0.5' : 'block text-[10px] font-bold text-rose-500 mt-0.5';
+        } else {
+            counter.className = (len === targetLen) ? 'block text-[10px] font-bold text-emerald-600 mt-0.5' : 'block text-[10px] font-bold text-rose-500 mt-0.5';
+        }
+    }
+
+    function renumberBulkRows() {
+        const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
+        rows.forEach((row, i) => {
+            const numCell = row.querySelector('.row-number');
+            if (numCell) {
+                numCell.childNodes[0].textContent = (i + 1) + ' ';
             }
+        });
+        const totalSpan = document.getElementById('totalBulkRowsCount');
+        if (totalSpan) totalSpan.textContent = rows.length;
+    }
+
+    function addBulkRow(data = {}) {
+        const tbody = document.getElementById('bulkTableBody');
+        if (!tbody) return;
+        bulkRowIndex++;
+        const trHTML = createBulkRowHTML(bulkRowIndex, data);
+        tbody.insertAdjacentHTML('beforeend', trHTML);
+
+        const row = document.getElementById(`bulkRow_${bulkRowIndex}`);
+        if (row) {
+            const nisInp = row.querySelector('.bulk-nis');
+            const nisnInp = row.querySelector('.bulk-nisn');
+            if (nisInp) updateBulkDigitCounter(nisInp, `counter_nis_${bulkRowIndex}`, 10, true);
+            if (nisnInp) updateBulkDigitCounter(nisnInp, `counter_nisn_${bulkRowIndex}`, 10);
+        }
+        renumberBulkRows();
+    }
+
+    function addMultipleBulkRows(count = 5) {
+        for (let i = 0; i < count; i++) {
+            addBulkRow();
+        }
+    }
+
+    function removeBulkRow(btn) {
+        const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
+        if (rows.length <= 1) {
+            alert('Minimal harus menyisakan 1 baris data siswa.');
+            return;
+        }
+        const tr = btn.closest('tr');
+        if (tr) {
+            tr.remove();
             renumberBulkRows();
         }
+    }
 
-        function addMultipleBulkRows(count = 5) {
-            for (let i = 0; i < count; i++) {
-                addBulkRow();
-            }
+    function resetSingleBulkRow(btn) {
+        const tr = btn.closest('tr');
+        if (!tr) return;
+
+        const nisInp    = tr.querySelector('.bulk-nis');
+        const nisnInp   = tr.querySelector('.bulk-nisn');
+        const namaInp   = tr.querySelector('.bulk-nama');
+        const jkSel     = tr.querySelector('.bulk-jk');
+        const kotaInp   = tr.querySelector('.bulk-kota');
+        const tglInp    = tr.querySelector('.bulk-tgl');
+        const alamatInp = tr.querySelector('.bulk-alamat');
+
+        if (nisInp)    { nisInp.value = ''; updateBulkDigitCounter(nisInp, nisInp.nextElementSibling?.id, 10, true); }
+        if (nisnInp)   { nisnInp.value = ''; updateBulkDigitCounter(nisnInp, nisnInp.nextElementSibling?.id, 10); }
+        if (namaInp)   namaInp.value = '';
+        if (jkSel)     jkSel.value = '';
+        if (kotaInp)   kotaInp.value = '';
+        if (tglInp)    tglInp.value = '';
+        if (alamatInp) alamatInp.value = '';
+    }
+
+    function resetAllBulkFields() {
+        const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
+        if (rows.length === 0) {
+            alert('Belum ada baris tabel siswa yang dapat di-reset.');
+            return;
         }
 
-        function removeBulkRow(btn) {
-            const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
-            if (rows.length <= 1) {
-                alert('Minimal harus menyisakan 1 baris data siswa.');
-                return;
-            }
-            const tr = btn.closest('tr');
-            if (tr) {
-                tr.remove();
-                renumberBulkRows();
-            }
-        }
-
-        function resetSingleBulkRow(btn) {
-            const tr = btn.closest('tr');
-            if (!tr) return;
-
-            const nisInp    = tr.querySelector('.bulk-nis');
-            const nisnInp   = tr.querySelector('.bulk-nisn');
-            const namaInp   = tr.querySelector('.bulk-nama');
-            const jkSel     = tr.querySelector('.bulk-jk');
-            const kotaInp   = tr.querySelector('.bulk-kota');
-            const tglInp    = tr.querySelector('.bulk-tgl');
-            const alamatInp = tr.querySelector('.bulk-alamat');
-
-            if (nisInp)    { nisInp.value = ''; updateBulkDigitCounter(nisInp, nisInp.nextElementSibling?.id, 10); }
-            if (nisnInp)   { nisnInp.value = ''; updateBulkDigitCounter(nisnInp, nisnInp.nextElementSibling?.id, 10); }
-            if (namaInp)   namaInp.value = '';
-            if (jkSel)     jkSel.value = '';
-            if (kotaInp)   kotaInp.value = '';
-            if (tglInp)    tglInp.value = '';
-            if (alamatInp) alamatInp.value = '';
-        }
-
-        function resetAllBulkFields() {
-            const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
-            if (rows.length === 0) {
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Tabel Belum Berisi Data!',
-                        text: 'Belum ada baris tabel siswa yang dapat di-reset.',
-                        confirmButtonColor: '#059669'
-                    });
-                }
-                return;
-            }
-
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    title: 'Reset Pengisian Semua Baris Siswa?',
-                    text: 'Seluruh data pengisian (NIS, NISN, Nama, JK, Kota, Tgl Lahir, Alamat) pada semua baris tabel akan dikosongkan.',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#fbbf24',
-                    cancelButtonColor: '#64748b',
-                    confirmButtonText: 'Ya, Reset Semua Baris!',
-                    cancelButtonText: 'Batal'
-                }).then((res) => {
-                    if (res.isConfirmed) {
-                        doResetAllBulkRowFields();
-                    }
-                });
-            } else {
-                if (confirm('Apakah Anda yakin ingin mengosongkan pengisian seluruh baris data siswa?')) {
-                    doResetAllBulkRowFields();
-                }
-            }
-        }
-
-        function doResetAllBulkRowFields() {
-            const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
+        if (confirm('Apakah Anda yakin ingin mengosongkan pengisian seluruh baris data siswa?')) {
             rows.forEach(tr => {
                 const nisInp    = tr.querySelector('.bulk-nis');
                 const nisnInp   = tr.querySelector('.bulk-nisn');
@@ -1377,7 +1962,7 @@
                 const tglInp    = tr.querySelector('.bulk-tgl');
                 const alamatInp = tr.querySelector('.bulk-alamat');
 
-                if (nisInp)    { nisInp.value = ''; updateBulkDigitCounter(nisInp, nisInp.nextElementSibling?.id, 10); }
+                if (nisInp)    { nisInp.value = ''; updateBulkDigitCounter(nisInp, nisInp.nextElementSibling?.id, 10, true); }
                 if (nisnInp)   { nisnInp.value = ''; updateBulkDigitCounter(nisnInp, nisnInp.nextElementSibling?.id, 10); }
                 if (namaInp)   namaInp.value = '';
                 if (jkSel)     jkSel.value = '';
@@ -1386,744 +1971,244 @@
                 if (alamatInp) alamatInp.value = '';
             });
         }
+    }
 
-        function resetBulkRows() {
+    function clearBulkRows() {
+        if (confirm('Apakah Anda yakin ingin menghapus seluruh baris dalam tabel massal?')) {
             const tbody = document.getElementById('bulkTableBody');
             if (tbody) tbody.innerHTML = '';
             bulkRowIndex = 0;
-            addMultipleBulkRows(3);
+            addMultipleBulkRows(1);
+        }
+    }
+
+    /* =========================================================
+     * 5. BULK DELETE CHECKBOX STATE
+     * ========================================================= */
+    function updateBulkDeleteState() {
+        const checkboxes = document.querySelectorAll('.siswa-select-checkbox');
+        const checkedBoxes = document.querySelectorAll('.siswa-select-checkbox:checked');
+        const selectAll = document.getElementById('selectAllSiswa');
+        const btnBulkDelete = document.getElementById('btnBulkDelete');
+        const countSpan = document.getElementById('bulkDeleteCount');
+
+        const count = checkedBoxes.length;
+        if (countSpan) countSpan.textContent = count;
+
+        if (selectAll && checkboxes.length > 0) {
+            selectAll.checked = (checkboxes.length === count);
         }
 
-        function clearBulkRows() {
-            const tbody = document.getElementById('bulkTableBody');
-            if (tbody) tbody.innerHTML = '';
-            bulkRowIndex = 0;
-            updateBulkRowCount();
-        }
-
-        /* JavaScript Fitur Hapus Terpilih (Bulk Delete Checkbox) */
-        function updateBulkDeleteState() {
-            const checkboxes = document.querySelectorAll('.siswa-select-checkbox');
-            const checkedBoxes = document.querySelectorAll('.siswa-select-checkbox:checked');
-            const selectAll = document.getElementById('selectAllSiswa');
-            const btnBulkDelete = document.getElementById('btnBulkDelete');
-            const countSpan = document.getElementById('bulkDeleteCount');
-
-            const count = checkedBoxes.length;
-            if (countSpan) countSpan.textContent = count;
-
-            if (selectAll && checkboxes.length > 0) {
-                selectAll.checked = (checkboxes.length === count);
-            }
-
-            if (btnBulkDelete) {
-                if (count > 0) {
-                    btnBulkDelete.disabled = false;
-                    btnBulkDelete.style.opacity = '1';
-                    btnBulkDelete.style.cursor = 'pointer';
-                } else {
-                    btnBulkDelete.disabled = true;
-                    btnBulkDelete.style.opacity = '0.5';
-                    btnBulkDelete.style.cursor = 'not-allowed';
-                }
+        if (btnBulkDelete) {
+            if (count > 0) {
+                btnBulkDelete.disabled = false;
+                btnBulkDelete.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnBulkDelete.classList.add('cursor-pointer', 'shadow-sm');
+            } else {
+                btnBulkDelete.disabled = true;
+                btnBulkDelete.classList.add('opacity-50', 'cursor-not-allowed');
+                btnBulkDelete.classList.remove('cursor-pointer', 'shadow-sm');
             }
         }
+    }
 
-        function confirmBulkDelete() {
-            const checkedBoxes = document.querySelectorAll('.siswa-select-checkbox:checked');
-            const count = checkedBoxes.length;
+    function confirmBulkDelete() {
+        const checkedBoxes = document.querySelectorAll('.siswa-select-checkbox:checked');
+        const count = checkedBoxes.length;
 
-            if (count === 0) {
-                alert('Silakan pilih minimal 1 data siswa yang ingin dihapus dengan mencentang kotak centang (checkbox).');
+        if (count === 0) {
+            alert('Silakan pilih minimal 1 data siswa yang ingin dihapus dengan mencentang kotak centang (checkbox).');
+            return;
+        }
+
+        if (confirm(`Apakah Anda yakin ingin memindahkan ${count} data siswa terpilih ke tempat sampah?`)) {
+            document.getElementById('formBulkDelete').submit();
+        }
+    }
+
+    /* =========================================================
+     * 6. FILTER DROPDOWNS & AUTO SELECTION
+     * ========================================================= */
+    function filterKelasDropdown(tingkat) {
+        const selectKelas = document.getElementById('filter_id_kelas');
+        if (!selectKelas) return;
+
+        const options = selectKelas.querySelectorAll('option');
+        options.forEach(opt => {
+            if (!opt.value) {
+                opt.style.display = '';
                 return;
             }
-
-            if (confirm(`Apakah Anda yakin ingin memindahkan ${count} data siswa yang dipilih ke tempat sampah?`)) {
-                document.getElementById('formBulkDelete').submit();
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const selectAll = document.getElementById('selectAllSiswa');
-            if (selectAll) {
-                selectAll.addEventListener('change', function() {
-                    const checkboxes = document.querySelectorAll('.siswa-select-checkbox');
-                    checkboxes.forEach(cb => cb.checked = selectAll.checked);
-                    updateBulkDeleteState();
-                });
-            }
-
-            const nis  = document.getElementById('nis');
-            const nisn = document.getElementById('nisn');
-            if (nis)  updateDigitCounter(nis, 'nisCounter', 10, 'nisMsg');
-            if (nisn) updateDigitCounter(nisn, 'nisnCounter', 10, 'nisnMsg');
-
-            // Inisialisasi Baris Input Massal (Bulk)
-            const oldSiswaData = @json(old('siswa', []));
-            if (Array.isArray(oldSiswaData) && oldSiswaData.length > 0) {
-                oldSiswaData.forEach(item => addBulkRow(item));
+            const namaKelas = opt.getAttribute('data-nama') || opt.textContent || '';
+            if (!tingkat) {
+                opt.style.display = '';
+            } else if (namaKelas.startsWith(tingkat + ' ') || namaKelas.startsWith(tingkat + '-') || namaKelas.startsWith(tingkat)) {
+                opt.style.display = '';
             } else {
-                addMultipleBulkRows(3);
-            }
-
-            // Validasi Form 1 Siswa (Card 1)
-            const form = document.getElementById('formSiswaIndex');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    const errors = [];
-                    const nisVal   = document.getElementById('nis').value.trim();
-                    const nisnVal  = document.getElementById('nisn').value.trim();
-                    const namaVal  = document.getElementById('nama_siswa').value.trim();
-                    const jkVal    = document.getElementById('jenis_kelamin').value;
-                    const klsVal   = document.getElementById('id_kelas').value;
-                    const tglVal   = document.getElementById('tanggal_lahir').value;
-
-                    if (!nisVal) {
-                        errors.push('NIS wajib diisi 3 hingga 10 digit angka.');
-                    } else if (nisVal.length < 3 || nisVal.length > 10) {
-                        errors.push('NIS harus berisi 3 hingga 10 digit angka (saat ini baru ' + nisVal.length + ' digit).');
-                    }
-
-                    if (!nisnVal) {
-                        errors.push('NISN wajib diisi 10 digit angka.');
-                    } else if (nisnVal.length !== 10) {
-                        errors.push('NISN harus berisi tepat 10 digit angka (saat ini baru ' + nisnVal.length + ' digit).');
-                    }
-
-                    if (!namaVal) {
-                        errors.push('Nama Lengkap Siswa wajib diisi.');
-                    }
-
-                    if (!jkVal) {
-                        errors.push('Jenis Kelamin wajib dipilih (Laki-laki / Perempuan).');
-                    }
-
-                    if (!klsVal) {
-                        errors.push('Kelas bimbingan siswa wajib dipilih.');
-                    }
-
-                    if (!tglVal) {
-                        errors.push('Tanggal Lahir wajib diisi.');
-                    }
-
-                    // Kota Lahir dan Alamat Lengkap bersifat opsional, tidak divalidasi
-
-                    const banner = document.getElementById('formErrorReasonBanner');
-                    const list   = document.getElementById('formErrorReasonList');
-
-                    if (errors.length > 0) {
-                        e.preventDefault();
-                        list.innerHTML = '';
-                        errors.forEach(function(err) {
-                            const li = document.createElement('li');
-                            li.textContent = err;
-                            list.appendChild(li);
-                        });
-                        banner.style.display = 'flex';
-                        banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    } else {
-                        banner.style.display = 'none';
-                    }
-                });
-            }
-
-            // Validasi Form Massal / Bulk (Card 1.5)
-            const formBulk = document.getElementById('formSiswaBulk');
-            if (formBulk) {
-                formBulk.addEventListener('submit', function(e) {
-                    const errors = [];
-                    const klsVal = document.getElementById('bulk_id_kelas').value;
-
-                    const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
-                    if (rows.length === 0) {
-                        errors.push('Wajib mengisi minimal 1 baris data siswa baru.');
-                    }
-
-                    const nisSet = new Set();
-                    const nisnSet = new Set();
-
-                    rows.forEach((row, i) => {
-                        const rowNum = i + 1;
-                        const nisVal    = row.querySelector('.bulk-nis').value.trim();
-                        const nisnVal   = row.querySelector('.bulk-nisn').value.trim();
-                        const namaVal   = row.querySelector('.bulk-nama').value.trim();
-                        const jkVal     = row.querySelector('.bulk-jk').value;
-                        const rowKlsVal = row.querySelector('.bulk-id-kelas')?.value || klsVal;
-
-                        if (!rowKlsVal && !klsVal) {
-                            errors.push(`Baris ke-${rowNum}: Pilihan Kelas Target belum ditentukan.`);
-                        }
-
-                        if (!nisVal) {
-                            errors.push(`Baris ke-${rowNum}: NIS wajib diisi (3-10 digit angka).`);
-                        } else if (nisVal.length < 3 || nisVal.length > 10) {
-                            errors.push(`Baris ke-${rowNum}: NIS harus berisi 3 hingga 10 digit angka (saat ini ${nisVal.length} digit).`);
-                        } else {
-                            if (nisSet.has(nisVal)) {
-                                errors.push(`Baris ke-${rowNum}: NIS (${nisVal}) sudah digunakan di baris lain dalam form ini.`);
-                            }
-                            nisSet.add(nisVal);
-                        }
-
-                        if (!nisnVal) {
-                            errors.push(`Baris ke-${rowNum}: NISN wajib diisi (10 digit angka).`);
-                        } else if (nisnVal.length !== 10) {
-                            errors.push(`Baris ke-${rowNum}: NISN harus berisi tepat 10 digit angka (saat ini ${nisnVal.length} digit).`);
-                        } else {
-                            if (nisnSet.has(nisnVal)) {
-                                errors.push(`Baris ke-${rowNum}: NISN (${nisnVal}) sudah digunakan di baris lain dalam form ini.`);
-                            }
-                            nisnSet.add(nisnVal);
-                        }
-
-                        if (!namaVal) {
-                            errors.push(`Baris ke-${rowNum}: Nama Lengkap Siswa wajib diisi.`);
-                        }
-
-                        if (!jkVal) {
-                            errors.push(`Baris ke-${rowNum}: Jenis Kelamin wajib dipilih (Laki-laki / Perempuan).`);
-                        }
-
-                        // Kota Lahir dan Alamat Lengkap bersifat opsional, tidak divalidasi
-                    });
-
-                    const banner = document.getElementById('bulkErrorReasonBanner');
-                    const list   = document.getElementById('bulkErrorReasonList');
-
-                    if (errors.length > 0) {
-                        e.preventDefault();
-                        list.innerHTML = '';
-                        errors.forEach(function(err) {
-                            const li = document.createElement('li');
-                            li.textContent = err;
-                            list.appendChild(li);
-                        });
-                        banner.style.display = 'flex';
-                        banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    } else {
-                        banner.style.display = 'none';
-                    }
-                });
+                opt.style.display = 'none';
             }
         });
-    </script>
+    }
 
-    <!-- Library SheetJS untuk membaca file Excel (.xlsx, .xls, .csv) di Sisi Client -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    function updateSelectMutedState(select) {
+        if (!select) return;
+        if (select.value && select.value !== '' && select.value !== 'nama_asc') {
+            select.classList.add('has-value');
+        } else {
+            select.classList.remove('has-value');
+        }
+    }
 
-    <script>
-        function syncTargetKelasToBulk(val) {
-            const bulkSelect = document.getElementById('bulk_id_kelas');
-            if (bulkSelect && val) {
-                bulkSelect.value = val;
-            }
+    function syncTargetKelasToBulk(val) {
+        const bulkSelect = document.getElementById('bulk_id_kelas');
+        if (bulkSelect && val) {
+            bulkSelect.value = val;
+        }
+    }
+
+    /* =========================================================
+     * 7. FILE IMPORT & MULTI-FORMAT PARSER LOGIC
+     * ========================================================= */
+    function downloadTemplateExcelJS(e) {
+        if (e) e.preventDefault();
+        if (typeof XLSX !== 'undefined') {
+            const data = [
+                ['NO', 'NIS (10 DIGIT)', 'NISN (10 DIGIT)', 'NAMA LENGKAP SISWA', 'JENIS KELAMIN', 'KOTA LAHIR', 'TGL LAHIR', 'ALAMAT LENGKAP'],
+                [1, '2401000001', '0081234501', 'Ahmad Ridwan', 'L', 'Surabaya', '2008-05-15', 'Jl. Pemuda No. 12, Surabaya'],
+                [2, '2401000002', '0081234502', 'Siti Nurhaliza', 'P', 'Sidoarjo', '2008-08-20', 'Jl. Pahlawan No. 45, Sidoarjo'],
+                [3, '2401000003', '0081234503', 'Budi Santoso', 'L', 'Gresik', '2008-11-10', 'Jl. Veteran No. 78, Gresik']
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            ws['!cols'] = [
+                { wch: 6 }, { wch: 18 }, { wch: 18 }, { wch: 30 }, { wch: 15 }, { wch: 20 }, { wch: 18 }, { wch: 40 }
+            ];
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Template Siswa Baru");
+            XLSX.writeFile(wb, "Template_Tambah_Siswa_Baru.xlsx");
+        } else {
+            window.location.href = "{{ route('siswa.download-template') }}";
+        }
+    }
+
+    function resetSingleSiswaForm() {
+        const form = document.getElementById('formSiswaIndex');
+        if (form) form.reset();
+
+        const nisInp  = document.getElementById('nis');
+        const nisnInp = document.getElementById('nisn');
+        if (nisInp)  updateDigitCounter(nisInp, 'nisCounter', 10, 'nisMsg', true);
+        if (nisnInp) updateDigitCounter(nisnInp, 'nisnCounter', 10, 'nisnMsg');
+
+        const banner = document.getElementById('formErrorReasonBanner');
+        if (banner) banner.classList.add('hidden');
+    }
+
+    function clearExcelFileInput() {
+        const input = document.getElementById('excel_file_input');
+        if (input) input.value = '';
+
+        const excelTargetSelect = document.getElementById('excel_target_kelas');
+        if (excelTargetSelect) excelTargetSelect.value = '';
+
+        const excelModeSelect = document.getElementById('excel_import_mode');
+        if (excelModeSelect) excelModeSelect.value = 'replace';
+
+        const alertDiv = document.getElementById('excelProcessAlert');
+        if (alertDiv) alertDiv.classList.add('hidden');
+
+        const hint = document.getElementById('importFileTypeHint');
+        if (hint) hint.innerHTML = 'Format: <strong>.pdf, .docx, .doc, .xlsx, .xls, .csv</strong> (Maks: 10MB)';
+    }
+
+    function showExcelAlert(type, title, message, details = []) {
+        const alertDiv = document.getElementById('excelProcessAlert');
+        const alertIcon = document.getElementById('excelAlertIcon');
+        const alertTitle = document.getElementById('excelAlertTitle');
+        const alertMsg = document.getElementById('excelAlertMsg');
+        const alertDetails = document.getElementById('excelAlertDetails');
+
+        if (!alertDiv || !alertTitle || !alertMsg) return;
+
+        alertDiv.classList.remove('hidden', 'bg-teal-50', 'border-teal-200', 'text-teal-900', 'bg-amber-50', 'border-amber-200', 'text-amber-900', 'bg-rose-50', 'border-rose-200', 'text-rose-900');
+
+        if (type === 'success') {
+            alertDiv.classList.add('bg-teal-50', 'border-teal-200', 'text-teal-900');
+            alertIcon.textContent = 'check_circle';
+            alertIcon.className = 'material-symbols-outlined text-teal-600 text-xl shrink-0 mt-0.5';
+            alertTitle.className = 'font-bold text-sm text-teal-950';
+        } else if (type === 'warning') {
+            alertDiv.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-900');
+            alertIcon.textContent = 'warning';
+            alertIcon.className = 'material-symbols-outlined text-amber-600 text-xl shrink-0 mt-0.5';
+            alertTitle.className = 'font-bold text-sm text-amber-950';
+        } else {
+            alertDiv.classList.add('bg-rose-50', 'border-rose-200', 'text-rose-900');
+            alertIcon.textContent = 'error';
+            alertIcon.className = 'material-symbols-outlined text-rose-600 text-xl shrink-0 mt-0.5';
+            alertTitle.className = 'font-bold text-sm text-rose-950';
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const bulkSelect = document.getElementById('bulk_id_kelas');
-            if (bulkSelect) {
-                bulkSelect.addEventListener('change', function() {
-                    const excelTargetSelect = document.getElementById('excel_target_kelas');
-                    if (excelTargetSelect && this.value) {
-                        excelTargetSelect.value = this.value;
-                    }
-                });
-            }
-        });
-
-        function downloadTemplateExcelJS(e) {
-            if (e) e.preventDefault();
-            if (typeof XLSX !== 'undefined') {
-                const data = [
-                    ['NO', 'NIS (10 DIGIT)', 'NISN (10 DIGIT)', 'NAMA LENGKAP SISWA', 'JENIS KELAMIN', 'KOTA LAHIR', 'TGL LAHIR', 'ALAMAT LENGKAP'],
-                    [1, '2401000001', '0081234501', 'Ahmad Ridwan', 'L', 'Surabaya', '2008-05-15', 'Jl. Pemuda No. 12, Surabaya'],
-                    [2, '2401000002', '0081234502', 'Siti Nurhaliza', 'P', 'Sidoarjo', '2008-08-20', 'Jl. Pahlawan No. 45, Sidoarjo'],
-                    [3, '2401000003', '0081234503', 'Budi Santoso', 'L', 'Gresik', '2008-11-10', 'Jl. Veteran No. 78, Gresik']
-                ];
-                const ws = XLSX.utils.aoa_to_sheet(data);
-                ws['!cols'] = [
-                    { wch: 6 }, { wch: 18 }, { wch: 18 }, { wch: 30 }, { wch: 15 }, { wch: 20 }, { wch: 18 }, { wch: 40 }
-                ];
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, "Template Siswa Baru");
-                XLSX.writeFile(wb, "Template_Tambah_Siswa_Baru.xlsx");
-            } else {
-                window.location.href = "{{ route('siswa.download-template') }}";
-            }
-        }
-
-        function resetSingleSiswaForm() {
-            const form = document.getElementById('formSiswaIndex');
-            if (form) form.reset();
-
-            const nisInp  = document.getElementById('nis');
-            const nisnInp = document.getElementById('nisn');
-            if (nisInp)  updateDigitCounter(nisInp, 'nisCounter', 10, 'nisMsg');
-            if (nisnInp) updateDigitCounter(nisnInp, 'nisnCounter', 10, 'nisnMsg');
-
-            const banner = document.getElementById('formErrorReasonBanner');
-            if (banner) banner.style.display = 'none';
-        }
-
-        function clearExcelFileInput() {
-            const input = document.getElementById('excel_file_input');
-            if (input) input.value = '';
-
-            const excelTargetSelect = document.getElementById('excel_target_kelas');
-            if (excelTargetSelect) excelTargetSelect.value = '';
-
-            const excelModeSelect = document.getElementById('excel_import_mode');
-            if (excelModeSelect) excelModeSelect.value = 'replace';
-
-            const alertDiv = document.getElementById('excelProcessAlert');
-            if (alertDiv) alertDiv.style.display = 'none';
-        }
-
-        function showExcelAlert(type, title, message, details = []) {
-            const alertDiv = document.getElementById('excelProcessAlert');
-            const alertIcon = document.getElementById('excelAlertIcon');
-            const alertTitle = document.getElementById('excelAlertTitle');
-            const alertMsg = document.getElementById('excelAlertMsg');
-            const alertDetails = document.getElementById('excelAlertDetails');
-
-            if (!alertDiv || !alertTitle || !alertMsg) return;
-
-            if (type === 'success') {
-                alertDiv.className = 'alert-custom alert-success';
-                alertDiv.style.background = '#f0fdfa';
-                alertDiv.style.borderColor = '#99f6e4';
-                alertDiv.style.color = '#115e59';
-                alertIcon.className = 'fa-solid fa-circle-check';
-                alertIcon.style.color = '#0d9488';
-                alertTitle.style.color = '#0f766e';
-            } else if (type === 'warning') {
-                alertDiv.className = 'alert-custom alert-warning';
-                alertDiv.style.background = '#fffbeb';
-                alertDiv.style.borderColor = '#fde68a';
-                alertDiv.style.color = '#92400e';
-                alertIcon.className = 'fa-solid fa-triangle-exclamation';
-                alertIcon.style.color = '#f59e0b';
-                alertTitle.style.color = '#78350f';
-            } else {
-                alertDiv.className = 'alert-custom alert-error';
-                alertDiv.style.background = '#fef2f2';
-                alertDiv.style.borderColor = '#fca5a5';
-                alertDiv.style.color = '#991b1b';
-                alertIcon.className = 'fa-solid fa-circle-exclamation';
-                alertIcon.style.color = '#dc2626';
-                alertTitle.style.color = '#7f1d1d';
-            }
-
-            alertTitle.textContent = title;
-            alertMsg.innerHTML = message;
-
-            if (details && details.length > 0) {
-                alertDetails.innerHTML = '';
-                details.forEach(item => {
-                    const li = document.createElement('li');
-                    li.textContent = item;
-                    alertDetails.appendChild(li);
-                });
-                alertDetails.style.display = 'block';
-            } else {
-                alertDetails.style.display = 'none';
-            }
-
-            alertDiv.style.display = 'flex';
-        }
-
-        function parseExcelDate(raw) {
-            if (!raw) return '';
-
-            if (raw instanceof Date && !isNaN(raw)) {
-                const yyyy = raw.getFullYear();
-                const mm = String(raw.getMonth() + 1).padStart(2, '0');
-                const dd = String(raw.getDate()).padStart(2, '0');
-                return `${yyyy}-${mm}-${dd}`;
-            }
-
-            if (typeof raw === 'number' || (!isNaN(raw) && !String(raw).includes('-') && !String(raw).includes('/'))) {
-                const num = Number(raw);
-                if (num > 25000 && num < 60000) {
-                    const dateObj = new Date((num - (25567 + 2)) * 86400 * 1000);
-                    const yyyy = dateObj.getFullYear();
-                    const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-                    const dd = String(dateObj.getDate()).padStart(2, '0');
-                    return `${yyyy}-${mm}-${dd}`;
-                }
-            }
-
-            const str = String(raw).trim();
-            if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
-                return str;
-            }
-
-            const dmy = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
-            if (dmy) {
-                const dd = dmy[1].padStart(2, '0');
-                const mm = dmy[2].padStart(2, '0');
-                const yyyy = dmy[3];
-                return `${yyyy}-${mm}-${dd}`;
-            }
-
-            const ymd = str.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
-            if (ymd) {
-                const yyyy = ymd[1];
-                const mm = ymd[2].padStart(2, '0');
-                const dd = ymd[3].padStart(2, '0');
-                return `${yyyy}-${mm}-${dd}`;
-            }
-
-            return '';
-        }
-
-        function processExcelFile() {
-            const fileInput = document.getElementById('excel_file_input');
-            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-                showExcelAlert('warning', 'File Data Siswa Belum Dipilih!', 'Silakan pilih file Excel (.xlsx, .xls) atau CSV terlebih dahulu sebelum menekan tombol Proses.');
-                return;
-            }
-
-            const file = fileInput.files[0];
-            const fileName = file.name;
-
-            if (typeof XLSX === 'undefined') {
-                showExcelAlert('error', 'Library XLSX Belum Siap!', 'Sistem sedang memuat pustaka pembaca Excel. Silakan muat ulang halaman jika masalah berlanjut.');
-                return;
-            }
-
-            const availableClasses = @json($kelass);
-
-            function cleanStr(s) {
-                return String(s || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
-            }
-
-            function normalizeClassName(s) {
-                if (!s) return '';
-                let str = String(s).trim();
-                if (str.startsWith(':')) str = str.substring(1).trim();
-                return str;
-            }
-
-            function matchClassToDB(rawName) {
-                if (!rawName) return null;
-                const cleanInput = cleanStr(rawName);
-                if (!cleanInput) return null;
-
-                const normInput = cleanStr(rawName.replace(/\(.*?\)/g, ''));
-
-                let matched = availableClasses.find(k => {
-                    const kClean = cleanStr(k.nama_kelas);
-                    return kClean === cleanInput || kClean === normInput;
-                });
-
-                if (!matched) {
-                    matched = availableClasses.find(k => {
-                        const kClean = cleanStr(k.nama_kelas);
-                        return kClean.includes(normInput) || normInput.includes(kClean);
-                    });
-                }
-                return matched ? matched : null;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array', cellDates: true });
-
-                    if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
-                        showExcelAlert('error', 'File Excel Kosong!', 'File Excel yang Anda pilih tidak memiliki sheet.');
-                        return;
-                    }
-
-                    const parsedStudents = [];
-                    const detectedClassesSet = new Set();
-                    let totalSheetsRead = 0;
-
-                    workbook.SheetNames.forEach(sheetName => {
-                        const worksheet = workbook.Sheets[sheetName];
-                        if (!worksheet) return;
-
-                        const rawRowsF = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false, defval: '' });
-                        const rawRowsR = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: true, cellDates: true, defval: '' });
-
-                        if (!rawRowsF || rawRowsF.length === 0) return;
-                        totalSheetsRead++;
-
-                        let activeClass = null;
-                        let colIndices = { nis: -1, nisn: -1, nama_siswa: -1, jenis_kelamin: -1, kota_lahir: -1, tanggal_lahir: -1, alamat_lengkap: -1, kelas: -1 };
-
-                        for (let r = 0; r < rawRowsF.length; r++) {
-                            const rowF = rawRowsF[r];
-                            const rowR = rawRowsR[r];
-                            if (!rowF || !Array.isArray(rowF)) continue;
-
-                            const rowStr = rowF.join(' ');
-                            const rowClean = cleanStr(rowStr);
-
-                            // 1. Detect Class Header line (e.g. "Kelas : X TKI 1" or "KELAS : XI RPL 2")
-                            if (rowClean.includes('kelas')) {
-                                for (let c = 0; c < rowF.length; c++) {
-                                    const cellVal = String(rowF[c] || '').trim();
-                                    if (cleanStr(cellVal) === 'kelas' || cleanStr(cellVal) === 'kelas:') {
-                                        for (let offset = 1; offset <= 5; offset++) {
-                                            const targetVal = String(rowF[c + offset] || '').trim();
-                                            if (targetVal) {
-                                                const normName = normalizeClassName(targetVal);
-                                                const matchDB = matchClassToDB(normName);
-                                                if (matchDB) {
-                                                    activeClass = { id_kelas: matchDB.id_kelas, nama_kelas: matchDB.nama_kelas };
-                                                    detectedClassesSet.add(matchDB.nama_kelas);
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            // 2. Detect Table Sub-Header line (NO., NISN, NAMA, N I S S, L/P, etc.)
-                            let tempMap = { nis: -1, nisn: -1, nama_siswa: -1, jenis_kelamin: -1, kota_lahir: -1, tanggal_lahir: -1, alamat_lengkap: -1, kelas: -1 };
-                            let foundHeaderColCount = 0;
-
-                            rowF.forEach((cell, colIdx) => {
-                                const txt = cleanStr(cell);
-                                if (!txt) return;
-
-                                if (txt === 'nisn' || txt.includes('nisn') || txt.includes('nomorinduksiswanasional')) {
-                                    tempMap.nisn = colIdx;
-                                    foundHeaderColCount++;
-                                } else if (txt === 'nis' || txt === 'niss' || txt.includes('niss') || txt.includes('noinduk') || txt.includes('nomorinduk')) {
-                                    tempMap.nis = colIdx;
-                                    foundHeaderColCount++;
-                                } else if (txt.includes('nama') || txt.includes('siswa') || txt.includes('student')) {
-                                    tempMap.nama_siswa = colIdx;
-                                    foundHeaderColCount++;
-                                } else if (txt.includes('jeniskelamin') || txt.includes('jk') || txt === 'sex' || txt === 'gender' || txt.includes('kelamin') || txt === 'lp') {
-                                    tempMap.jenis_kelamin = colIdx;
-                                    foundHeaderColCount++;
-                                } else if (txt.includes('kotalahir') || txt.includes('tempatlahir') || txt.includes('pob')) {
-                                    tempMap.kota_lahir = colIdx;
-                                } else if (txt.includes('tanggallahir') || txt.includes('tgllahir') || txt.includes('dob')) {
-                                    tempMap.tanggal_lahir = colIdx;
-                                } else if (txt.includes('alamat') || txt.includes('address')) {
-                                    tempMap.alamat_lengkap = colIdx;
-                                } else if (txt === 'kelas' || txt === 'namakelas') {
-                                    tempMap.kelas = colIdx;
-                                }
-                            });
-
-                            if (foundHeaderColCount >= 2) {
-                                colIndices = tempMap;
-                                continue;
-                            }
-
-                            // 3. Process Student Rows
-                            if (rowClean.includes('catatan') || rowClean.includes('keterangan') || rowClean.includes('pertemuan') || rowClean.includes('pengajar') || rowClean.includes('matapelajaran') || rowClean.includes('materipokok') || rowClean.includes('kompetensidasar')) {
-                                continue;
-                            }
-
-                            let nisRaw    = colIndices.nis !== -1 ? (rowF[colIndices.nis] || rowR?.[colIndices.nis] || '') : '';
-                            let nisnRaw   = colIndices.nisn !== -1 ? (rowF[colIndices.nisn] || rowR?.[colIndices.nisn] || '') : '';
-                            let namaRaw   = colIndices.nama_siswa !== -1 ? String(rowF[colIndices.nama_siswa] || rowR?.[colIndices.nama_siswa] || '').trim() : '';
-                            let jkRaw     = colIndices.jenis_kelamin !== -1 ? String(rowF[colIndices.jenis_kelamin] || rowR?.[colIndices.jenis_kelamin] || '').trim() : '';
-                            let kotaRaw   = colIndices.kota_lahir !== -1 ? String(rowF[colIndices.kota_lahir] || rowR?.[colIndices.kota_lahir] || '').trim() : '';
-                            let tglRaw    = colIndices.tanggal_lahir !== -1 ? (rowR?.[colIndices.tanggal_lahir] || rowF[colIndices.tanggal_lahir] || '') : '';
-                            let alamatRaw = colIndices.alamat_lengkap !== -1 ? String(rowF[colIndices.alamat_lengkap] || rowR?.[colIndices.alamat_lengkap] || '').trim() : '';
-                            let kelasRaw  = colIndices.kelas !== -1 ? String(rowF[colIndices.kelas] || rowR?.[colIndices.kelas] || '').trim() : '';
-
-                            if (!namaRaw && rowF[2] && typeof rowF[2] === 'string' && !rowF[2].includes(':')) {
-                                namaRaw = String(rowF[2]).trim();
-                            }
-                            if (!nisnRaw && rowF[1]) {
-                                nisnRaw = String(rowF[1]).trim();
-                            }
-                            if (!jkRaw && rowF[8]) {
-                                jkRaw = String(rowF[8]).trim();
-                            }
-
-                            if (!namaRaw || namaRaw.length < 2 || namaRaw.startsWith('DAFTAR') || namaRaw.startsWith('TAHUN') || namaRaw.startsWith('Catatan') || namaRaw.startsWith('Laki') || namaRaw.startsWith('Perempuan')) {
-                                continue;
-                            }
-
-                            let nis  = String(nisRaw).replace(/[^0-9]/g, '');
-                            let nisn = String(nisnRaw).replace(/[^0-9]/g, '');
-
-                            if (nisn.length > 0 && nisn.length < 10) {
-                                nisn = nisn.padStart(10, '0');
-                            } else if (nisn.length > 10) {
-                                nisn = nisn.slice(0, 10);
-                            }
-
-                            if (nis.length > 10) {
-                                nis = nis.slice(0, 10);
-                            }
-
-                            if (!nis && nisn) {
-                                nis = nisn;
-                            } else if (!nisn && nis) {
-                                nisn = nis.padStart(10, '0');
-                            }
-
-                            if (!nis || nis.length < 5) continue;
-                            if (!nisn || nisn.length !== 10) continue;
-
-                            let jkClean = cleanStr(jkRaw);
-                            let jenis_kelamin = 'L';
-                            if (jkClean.startsWith('p') || jkClean.includes('perem') || jkClean.includes('wanita') || jkClean === 'female' || jkClean === 'f' || jkClean === '2') {
-                                jenis_kelamin = 'P';
-                            } else if (jkClean.startsWith('l') || jkClean.includes('laki') || jkClean.includes('pria') || jkClean === 'male' || jkClean === 'm' || jkClean === '1') {
-                                jenis_kelamin = 'L';
-                            }
-
-                            let rowClassInfo = activeClass;
-                            if (kelasRaw) {
-                                const rowClassMatch = matchClassToDB(kelasRaw);
-                                if (rowClassMatch) {
-                                    rowClassInfo = { id_kelas: rowClassMatch.id_kelas, nama_kelas: rowClassMatch.nama_kelas };
-                                    detectedClassesSet.add(rowClassMatch.nama_kelas);
-                                }
-                            }
-
-                            let tanggal_lahir = parseExcelDate(tglRaw) || '2008-01-01';
-                            let kota_lahir = kotaRaw || '-';
-                            let alamat_lengkap = alamatRaw || '-';
-
-                            parsedStudents.push({
-                                nis: nis,
-                                nisn: nisn,
-                                nama_siswa: namaRaw,
-                                jenis_kelamin: jenis_kelamin,
-                                kota_lahir: kota_lahir,
-                                tanggal_lahir: tanggal_lahir,
-                                alamat_lengkap: alamat_lengkap,
-                                id_kelas: rowClassInfo ? rowClassInfo.id_kelas : '',
-                                kelas_name: rowClassInfo ? rowClassInfo.nama_kelas : ''
-                            });
-                        }
-                    });
-
-                    if (parsedStudents.length === 0) {
-                        showExcelAlert('error', 'Tidak Ada Data Siswa Valid!', 'File yang Anda unggah tidak mengandung data siswa yang dapat dibaca. Pastikan file berisi kolom NISN, Nama Siswa, dan Jenis Kelamin.');
-                        return;
-                    }
-
-                    const mode = document.getElementById('excel_import_mode').value;
-                    const tbody = document.getElementById('bulkTableBody');
-
-                    let existingRows = tbody.querySelectorAll('.bulk-siswa-row');
-                    let isAllExistingEmpty = true;
-                    existingRows.forEach(tr => {
-                        const nisVal  = tr.querySelector('.bulk-nis')?.value.trim();
-                        const nisnVal = tr.querySelector('.bulk-nisn')?.value.trim();
-                        const namaVal = tr.querySelector('.bulk-nama')?.value.trim();
-                        if (nisVal || nisnVal || namaVal) {
-                            isAllExistingEmpty = false;
-                        }
-                    });
-
-                    if (mode === 'replace' || isAllExistingEmpty) {
-                        tbody.innerHTML = '';
-                        bulkRowIndex = 0;
-                    }
-
-                    parsedStudents.forEach(st => {
-                        addBulkRow(st);
-                    });
-
-                    const selectedTargetKelas = document.getElementById('excel_target_kelas').value;
-                    const detectedClassesArr = Array.from(detectedClassesSet);
-
-                    if (selectedTargetKelas) {
-                        const bulkKelasSelect = document.getElementById('bulk_id_kelas');
-                        if (bulkKelasSelect) bulkKelasSelect.value = selectedTargetKelas;
-                    } else if (detectedClassesArr.length === 1) {
-                        const matchedKls = availableClasses.find(k => k.nama_kelas === detectedClassesArr[0]);
-                        if (matchedKls) {
-                            const bulkKelasSelect = document.getElementById('bulk_id_kelas');
-                            if (bulkKelasSelect) bulkKelasSelect.value = matchedKls.id_kelas;
-                            const excelTargetSelect = document.getElementById('excel_target_kelas');
-                            if (excelTargetSelect) excelTargetSelect.value = matchedKls.id_kelas;
-                        }
-                    }
-
-                    let modeLabel = (mode === 'replace' || isAllExistingEmpty) 
-                        ? 'Menggantikan/Menimpa isi tabel' 
-                        : 'Menambahkan ke akhir baris tabel yang ada';
-
-                    let classesSummary = detectedClassesArr.length > 0
-                        ? `Terdeteksi <strong>${detectedClassesArr.length} kelas</strong> (${detectedClassesArr.slice(0, 5).join(', ')}${detectedClassesArr.length > 5 ? '...' : ''})`
-                        : 'Kelas disesuaikan secara otomatis';
-
-                    const msg = `Berhasil membaca <strong>${parsedStudents.length} data siswa</strong> dari ${totalSheetsRead} sheet dalam file (<em>${fileName}</em>) dan memasukkannya ke tabel pengisian massal.<br>`
-                              + `<small style="display:block; margin-top:5px; font-size:12.5px;">`
-                              + `<strong>Summary:</strong> ${classesSummary} | <strong>Mode:</strong> ${modeLabel}`
-                              + `</small>`;
-
-                    showExcelAlert('success', 'Proses File Data Siswa Berhasil!', msg);
-
-                    const formBulk = document.getElementById('formSiswaBulk');
-                    if (formBulk) {
-                        formBulk.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-
-                } catch(err) {
-                    console.error('Error processing Excel file:', err);
-                    showExcelAlert('error', 'Gagal Membaca File Excel / CSV!', 'Terjadi kesalahan saat membaca file: ' + err.message);
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function updateSelectMutedState(select) {
-            if (!select) return;
-            if (select.value && select.value !== '' && select.value !== 'nama_asc') {
-                select.classList.add('has-value');
-            } else {
-                select.classList.remove('has-value');
-            }
-        }
-
-        function filterKelasDropdown(tingkat) {
-            const selectKelas = document.getElementById('filter_id_kelas');
-            if (!selectKelas) return;
-
-            const options = selectKelas.querySelectorAll('option');
-            options.forEach(opt => {
-                if (!opt.value) {
-                    opt.style.display = '';
-                    return;
-                }
-                const namaKelas = opt.getAttribute('data-nama') || opt.textContent || '';
-                if (!tingkat) {
-                    opt.style.display = '';
-                } else if (namaKelas.startsWith(tingkat + ' ') || namaKelas.startsWith(tingkat + '-') || namaKelas.startsWith(tingkat)) {
-                    opt.style.display = '';
-                } else {
-                    opt.style.display = 'none';
-                }
+        alertTitle.textContent = title;
+        alertMsg.innerHTML = message;
+
+        if (details && details.length > 0) {
+            alertDetails.innerHTML = '';
+            details.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                alertDetails.appendChild(li);
             });
+            alertDetails.classList.remove('hidden');
+        } else {
+            alertDetails.classList.add('hidden');
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const tingkatVal = document.getElementById('filter_tingkat')?.value;
-            if (tingkatVal) {
-                filterKelasDropdown(tingkatVal);
+        alertDiv.classList.remove('hidden');
+    }
+
+    function parseExcelDate(raw) {
+        if (!raw) return '';
+
+        if (raw instanceof Date && !isNaN(raw)) {
+            const yyyy = raw.getFullYear();
+            const mm = String(raw.getMonth() + 1).padStart(2, '0');
+            const dd = String(raw.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        if (typeof raw === 'number' || (!isNaN(raw) && !String(raw).includes('-') && !String(raw).includes('/'))) {
+            const num = Number(raw);
+            if (num > 25000 && num < 60000) {
+                const dateObj = new Date((num - (25567 + 2)) * 86400 * 1000);
+                const yyyy = dateObj.getFullYear();
+                const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+                const dd = String(dateObj.getDate()).padStart(2, '0');
+                return `${yyyy}-${mm}-${dd}`;
             }
-            document.querySelectorAll('.filter-select').forEach(select => {
-                updateSelectMutedState(select);
-            });
-        });
-    </script>
+        }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+        const str = String(raw).trim();
+        if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+            return str;
+        }
 
-<script>
-    if (typeof pdfjsLib !== 'undefined') {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        const dmy = str.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+        if (dmy) {
+            const dd = dmy[1].padStart(2, '0');
+            const mm = dmy[2].padStart(2, '0');
+            const yyyy = dmy[3];
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        const ymd = str.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+        if (ymd) {
+            const yyyy = ymd[1];
+            const mm = ymd[2].padStart(2, '0');
+            const dd = ymd[3].padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        return '';
     }
 
     function onSiswaFileSelected(input) {
@@ -2134,27 +2219,27 @@
         const sizeKB = (file.size / 1024).toFixed(1);
         const sizeMB = (file.size / (1024*1024)).toFixed(2);
         let typeLabel = '';
-        let typeColor = '#64748b';
+        let typeClass = 'text-slate-600 font-bold';
 
         if (ext === 'pdf') {
-            typeLabel = '📄 PDF Document'; typeColor = '#dc2626';
+            typeLabel = '📄 PDF Document'; typeClass = 'text-rose-600 font-bold';
         } else if (ext === 'docx' || ext === 'doc') {
-            typeLabel = '📝 Microsoft Word'; typeColor = '#1e40af';
+            typeLabel = '📝 Microsoft Word'; typeClass = 'text-blue-600 font-bold';
         } else if (ext === 'xlsx' || ext === 'xls') {
-            typeLabel = '📊 Microsoft Excel'; typeColor = '#15803d';
+            typeLabel = '📊 Microsoft Excel'; typeClass = 'text-emerald-600 font-bold';
         } else if (ext === 'csv') {
-            typeLabel = '📋 CSV File'; typeColor = '#0369a1';
+            typeLabel = '📋 CSV File'; typeClass = 'text-sky-600 font-bold';
         }
 
         if (hint) {
-            hint.innerHTML = `<span style="color:${typeColor}; font-weight:700;">${typeLabel}</span> — Ukuran: <strong>${sizeMB < 1 ? sizeKB + ' KB' : sizeMB + ' MB'}</strong>`;
+            hint.innerHTML = `<span class="${typeClass}">${typeLabel}</span> — Ukuran: <strong>${sizeMB < 1 ? sizeKB + ' KB' : sizeMB + ' MB'}</strong>`;
         }
     }
 
     function processImportFile() {
         const input = document.getElementById('excel_file_input');
         if (!input || !input.files || input.files.length === 0) {
-            showExcelAlert('error', 'Pilih File Terlebih Dahulu!', 'Silakan klik "Choose File" dan pilih file data siswa (.pdf, .docx, .doc, .xlsx, .xls, .csv).');
+            showExcelAlert('error', 'Pilih File Terlebih Dahulu!', 'Silakan klik "Pilih File" dan pilih file data siswa (.pdf, .docx, .doc, .xlsx, .xls, .csv).');
             return;
         }
 
@@ -2164,7 +2249,7 @@
 
         const loadingDiv = document.getElementById('importFileLoading');
         const loadingMsg = document.getElementById('importFileLoadingMsg');
-        if (loadingDiv) loadingDiv.style.display = 'block';
+        if (loadingDiv) loadingDiv.classList.remove('hidden');
         if (loadingMsg) loadingMsg.textContent = `Sedang membaca file (${fileName})...`;
 
         if (ext === 'pdf') {
@@ -2174,9 +2259,13 @@
         } else if (ext === 'xlsx' || ext === 'xls' || ext === 'csv') {
             processExcelSiswaFile(file);
         } else {
-            if (loadingDiv) loadingDiv.style.display = 'none';
+            if (loadingDiv) loadingDiv.classList.add('hidden');
             showExcelAlert('error', 'Format File Tidak Didukung!', 'Gunakan file dengan format .pdf, .docx, .doc, .xlsx, .xls, atau .csv');
         }
+    }
+
+    function processExcelFile() {
+        processImportFile();
     }
 
     function processPdfSiswaFile(file) {
@@ -2185,7 +2274,7 @@
         reader.onload = function(e) {
             const typedarray = new Uint8Array(e.target.result);
             if (typeof pdfjsLib === 'undefined') {
-                if (loadingDiv) loadingDiv.style.display = 'none';
+                if (loadingDiv) loadingDiv.classList.add('hidden');
                 showExcelAlert('error', 'Pustaka PDF.js Belum Siap!', 'Sedang mengunduh pustaka pembaca PDF, silakan coba beberapa detik lagi.');
                 return;
             }
@@ -2199,10 +2288,10 @@
                     fullTextLines.push(...pageItems);
                 }
 
-                if (loadingDiv) loadingDiv.style.display = 'none';
+                if (loadingDiv) loadingDiv.classList.add('hidden');
                 parseTextLinesToSiswa(fullTextLines, file.name, '📄 PDF Document');
             }).catch(function(err) {
-                if (loadingDiv) loadingDiv.style.display = 'none';
+                if (loadingDiv) loadingDiv.classList.add('hidden');
                 showExcelAlert('error', 'Gagal Membaca File PDF!', 'File PDF tidak dapat dibaca: ' + err.message);
             });
         };
@@ -2216,17 +2305,17 @@
             const arrayBuffer = e.target.result;
             if (typeof mammoth !== 'undefined') {
                 mammoth.extractRawText({ arrayBuffer: arrayBuffer }).then(function(result) {
-                    if (loadingDiv) loadingDiv.style.display = 'none';
+                    if (loadingDiv) loadingDiv.classList.add('hidden');
                     const lines = result.value.split('\n');
                     parseTextLinesToSiswa(lines, file.name, '📝 Microsoft Word');
-                }).catch(function(err) {
-                    if (loadingDiv) loadingDiv.style.display = 'none';
+                }).catch(function() {
+                    if (loadingDiv) loadingDiv.classList.add('hidden');
                     const textDecoder = new TextDecoder('utf-8');
                     const text = textDecoder.decode(arrayBuffer);
                     parseTextLinesToSiswa(text.split('\n'), file.name, '📝 Microsoft Word');
                 });
             } else {
-                if (loadingDiv) loadingDiv.style.display = 'none';
+                if (loadingDiv) loadingDiv.classList.add('hidden');
                 const textDecoder = new TextDecoder('utf-8');
                 const text = textDecoder.decode(arrayBuffer);
                 parseTextLinesToSiswa(text.split('\n'), file.name, '📝 Microsoft Word');
@@ -2244,7 +2333,7 @@
                 const workbook = XLSX.read(data, { type: 'array', cellDates: true });
 
                 if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
-                    if (loadingDiv) loadingDiv.style.display = 'none';
+                    if (loadingDiv) loadingDiv.classList.add('hidden');
                     showExcelAlert('error', 'File Excel Kosong!', 'File Excel yang Anda pilih tidak memiliki sheet.');
                     return;
                 }
@@ -2252,6 +2341,38 @@
                 const parsedStudents = [];
                 const detectedClassesSet = new Set();
                 let totalSheetsRead = 0;
+
+                function cleanStr(s) {
+                    return String(s || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+                }
+
+                function normalizeClassName(s) {
+                    if (!s) return '';
+                    let str = String(s).trim();
+                    if (str.startsWith(':')) str = str.substring(1).trim();
+                    return str;
+                }
+
+                function matchClassToDB(rawName) {
+                    if (!rawName) return null;
+                    const cleanInput = cleanStr(rawName);
+                    if (!cleanInput) return null;
+
+                    const normInput = cleanStr(rawName.replace(/\(.*?\)/g, ''));
+
+                    let matched = availableClasses.find(k => {
+                        const kClean = cleanStr(k.nama_kelas);
+                        return kClean === cleanInput || kClean === normInput;
+                    });
+
+                    if (!matched) {
+                        matched = availableClasses.find(k => {
+                            const kClean = cleanStr(k.nama_kelas);
+                            return kClean.includes(normInput) || normInput.includes(kClean);
+                        });
+                    }
+                    return matched ? matched : null;
+                }
 
                 workbook.SheetNames.forEach(sheetName => {
                     const worksheet = workbook.Sheets[sheetName];
@@ -2272,16 +2393,18 @@
                         if (!rowF || !Array.isArray(rowF)) continue;
 
                         const rowStr = rowF.join(' ');
-                        const rowClean = String(rowStr).toLowerCase().trim();
+                        const rowClean = cleanStr(rowStr);
 
+                        // 1. Detect Class Header
                         if (rowClean.includes('kelas')) {
                             for (let c = 0; c < rowF.length; c++) {
                                 const cellVal = String(rowF[c] || '').trim();
-                                if (cellVal.toLowerCase().includes('kelas')) {
+                                if (cleanStr(cellVal) === 'kelas' || cleanStr(cellVal) === 'kelas:') {
                                     for (let offset = 1; offset <= 5; offset++) {
                                         const targetVal = String(rowF[c + offset] || '').trim();
                                         if (targetVal) {
-                                            const matchDB = availableClasses.find(k => k.nama_kelas.toLowerCase() === targetVal.toLowerCase() || targetVal.toLowerCase().includes(k.nama_kelas.toLowerCase()));
+                                            const normName = normalizeClassName(targetVal);
+                                            const matchDB = matchClassToDB(normName);
                                             if (matchDB) {
                                                 activeClass = { id_kelas: matchDB.id_kelas, nama_kelas: matchDB.nama_kelas };
                                                 detectedClassesSet.add(matchDB.nama_kelas);
@@ -2293,29 +2416,29 @@
                             }
                         }
 
-                        // Header Column Map
+                        // 2. Detect Table Sub-Header
                         let tempMap = { nis: -1, nisn: -1, nama_siswa: -1, jenis_kelamin: -1, kota_lahir: -1, tanggal_lahir: -1, alamat_lengkap: -1, kelas: -1 };
                         let foundHeaderColCount = 0;
 
                         rowF.forEach((cell, colIdx) => {
-                            const txt = String(cell || '').toLowerCase().trim();
+                            const txt = cleanStr(cell);
                             if (!txt) return;
 
-                            if (txt === 'nisn' || txt.includes('nisn')) {
+                            if (txt === 'nisn' || txt.includes('nisn') || txt.includes('nomorinduksiswanasional')) {
                                 tempMap.nisn = colIdx; foundHeaderColCount++;
-                            } else if (txt === 'nis' || txt === 'niss' || txt.includes('niss') || txt.includes('noinduk')) {
+                            } else if (txt === 'nis' || txt === 'niss' || txt.includes('niss') || txt.includes('noinduk') || txt.includes('nomorinduk')) {
                                 tempMap.nis = colIdx; foundHeaderColCount++;
-                            } else if (txt.includes('nama') || txt.includes('siswa')) {
+                            } else if (txt.includes('nama') || txt.includes('siswa') || txt.includes('student')) {
                                 tempMap.nama_siswa = colIdx; foundHeaderColCount++;
-                            } else if (txt.includes('jeniskelamin') || txt.includes('jk') || txt === 'l/p' || txt === 'lp') {
+                            } else if (txt.includes('jeniskelamin') || txt.includes('jk') || txt === 'sex' || txt === 'gender' || txt.includes('kelamin') || txt === 'lp' || txt === 'l/p') {
                                 tempMap.jenis_kelamin = colIdx; foundHeaderColCount++;
-                            } else if (txt.includes('kotalahir') || txt.includes('tempatlahir')) {
+                            } else if (txt.includes('kotalahir') || txt.includes('tempatlahir') || txt.includes('pob')) {
                                 tempMap.kota_lahir = colIdx;
-                            } else if (txt.includes('tanggallahir') || txt.includes('tgllahir')) {
+                            } else if (txt.includes('tanggallahir') || txt.includes('tgllahir') || txt.includes('dob')) {
                                 tempMap.tanggal_lahir = colIdx;
-                            } else if (txt.includes('alamat')) {
+                            } else if (txt.includes('alamat') || txt.includes('address')) {
                                 tempMap.alamat_lengkap = colIdx;
-                            } else if (txt === 'kelas') {
+                            } else if (txt === 'kelas' || txt === 'namakelas') {
                                 tempMap.kelas = colIdx;
                             }
                         });
@@ -2325,11 +2448,19 @@
                             continue;
                         }
 
-                        // Data Extract
-                        let nisnRaw = colIndices.nisn !== -1 ? (rowF[colIndices.nisn] || rowR?.[colIndices.nisn] || '') : '';
-                        let namaRaw = colIndices.nama_siswa !== -1 ? String(rowF[colIndices.nama_siswa] || rowR?.[colIndices.nama_siswa] || '').trim() : '';
-                        let jkRaw   = colIndices.jenis_kelamin !== -1 ? String(rowF[colIndices.jenis_kelamin] || rowR?.[colIndices.jenis_kelamin] || '').trim() : '';
-                        let nisRaw  = colIndices.nis !== -1 ? (rowF[colIndices.nis] || rowR?.[colIndices.nis] || '') : '';
+                        // 3. Skip meta/summary rows
+                        if (rowClean.includes('catatan') || rowClean.includes('keterangan') || rowClean.includes('pertemuan') || rowClean.includes('pengajar') || rowClean.includes('matapelajaran') || rowClean.includes('materipokok') || rowClean.includes('kompetensidasar')) {
+                            continue;
+                        }
+
+                        let nisRaw    = colIndices.nis !== -1 ? (rowF[colIndices.nis] || rowR?.[colIndices.nis] || '') : '';
+                        let nisnRaw   = colIndices.nisn !== -1 ? (rowF[colIndices.nisn] || rowR?.[colIndices.nisn] || '') : '';
+                        let namaRaw   = colIndices.nama_siswa !== -1 ? String(rowF[colIndices.nama_siswa] || rowR?.[colIndices.nama_siswa] || '').trim() : '';
+                        let jkRaw     = colIndices.jenis_kelamin !== -1 ? String(rowF[colIndices.jenis_kelamin] || rowR?.[colIndices.jenis_kelamin] || '').trim() : '';
+                        let kotaRaw   = colIndices.kota_lahir !== -1 ? String(rowF[colIndices.kota_lahir] || rowR?.[colIndices.kota_lahir] || '').trim() : '';
+                        let tglRaw    = colIndices.tanggal_lahir !== -1 ? (rowR?.[colIndices.tanggal_lahir] || rowF[colIndices.tanggal_lahir] || '') : '';
+                        let alamatRaw = colIndices.alamat_lengkap !== -1 ? String(rowF[colIndices.alamat_lengkap] || rowR?.[colIndices.alamat_lengkap] || '').trim() : '';
+                        let kelasRaw  = colIndices.kelas !== -1 ? String(rowF[colIndices.kelas] || rowR?.[colIndices.kelas] || '').trim() : '';
 
                         if (!namaRaw && rowF[2] && typeof rowF[2] === 'string' && !rowF[2].includes(':')) {
                             namaRaw = String(rowF[2]).trim();
@@ -2348,36 +2479,59 @@
                         let nis  = String(nisRaw).replace(/[^0-9]/g, '');
                         let nisn = String(nisnRaw).replace(/[^0-9]/g, '');
 
-                        if (nisn.length > 0 && nisn.length < 10) nisn = nisn.padStart(10, '0');
-                        else if (nisn.length > 10) nisn = nisn.slice(0, 10);
+                        if (nisn.length > 0 && nisn.length < 10) {
+                            nisn = nisn.padStart(10, '0');
+                        } else if (nisn.length > 10) {
+                            nisn = nisn.slice(0, 10);
+                        }
 
-                        if (nis.length > 10) nis = nis.slice(0, 10);
-                        if (!nis && nisn) nis = nisn;
-                        else if (!nisn && nis) nisn = nis.padStart(10, '0');
+                        if (nis.length > 10) {
+                            nis = nis.slice(0, 10);
+                        }
+
+                        if (!nis && nisn) {
+                            nis = nisn;
+                        } else if (!nisn && nis) {
+                            nisn = nis.padStart(10, '0');
+                        }
 
                         if (!nis || nis.length < 3) continue;
                         if (!nisn || nisn.length !== 10) continue;
 
+                        let jkClean = cleanStr(jkRaw);
                         let jenis_kelamin = 'L';
-                        if (jkRaw.toLowerCase().startsWith('p') || jkRaw.toLowerCase().includes('perem')) jenis_kelamin = 'P';
+                        if (jkClean.startsWith('p') || jkClean.includes('perem') || jkClean.includes('wanita') || jkClean === 'female' || jkClean === 'f' || jkClean === '2') {
+                            jenis_kelamin = 'P';
+                        }
 
                         let rowClassInfo = activeClass;
+                        if (kelasRaw) {
+                            const rowClassMatch = matchClassToDB(kelasRaw);
+                            if (rowClassMatch) {
+                                rowClassInfo = { id_kelas: rowClassMatch.id_kelas, nama_kelas: rowClassMatch.nama_kelas };
+                                detectedClassesSet.add(rowClassMatch.nama_kelas);
+                            }
+                        }
+
+                        let tanggal_lahir = parseExcelDate(tglRaw) || '2008-01-01';
+                        let kota_lahir = kotaRaw || '-';
+                        let alamat_lengkap = alamatRaw || '-';
 
                         parsedStudents.push({
                             nis: nis,
                             nisn: nisn,
                             nama_siswa: namaRaw,
                             jenis_kelamin: jenis_kelamin,
-                            kota_lahir: '-',
-                            tanggal_lahir: '2008-01-01',
-                            alamat_lengkap: '-',
+                            kota_lahir: kota_lahir,
+                            tanggal_lahir: tanggal_lahir,
+                            alamat_lengkap: alamat_lengkap,
                             id_kelas: rowClassInfo ? rowClassInfo.id_kelas : '',
                             kelas_name: rowClassInfo ? rowClassInfo.nama_kelas : ''
                         });
                     }
                 });
 
-                if (loadingDiv) loadingDiv.style.display = 'none';
+                if (loadingDiv) loadingDiv.classList.add('hidden');
 
                 if (parsedStudents.length === 0) {
                     showExcelAlert('error', 'Tidak Ada Data Siswa Valid!', 'File yang Anda unggah tidak mengandung data siswa yang dapat dibaca. Pastikan file berisi kolom NISN, Nama Siswa, dan Jenis Kelamin.');
@@ -2386,7 +2540,7 @@
 
                 populateParsedStudents(parsedStudents, file.name, '📊 Microsoft Excel / CSV', detectedClassesSet);
             } catch(err) {
-                if (loadingDiv) loadingDiv.style.display = 'none';
+                if (loadingDiv) loadingDiv.classList.add('hidden');
                 console.error('Error processing Excel file:', err);
                 showExcelAlert('error', 'Gagal Membaca File Excel!', 'Terjadi kesalahan saat membaca file: ' + err.message);
             }
@@ -2403,7 +2557,6 @@
             const line = String(lines[i] || '').trim();
             if (!line) continue;
 
-            // Class detection
             if (line.toLowerCase().includes('kelas')) {
                 const matchDB = availableClasses.find(k => line.toLowerCase().includes(k.nama_kelas.toLowerCase()));
                 if (matchDB) {
@@ -2412,7 +2565,6 @@
                 }
             }
 
-            // Extract 10-digit NISN
             const nisnMatch = line.match(/\b\d{10}\b/);
             if (nisnMatch) {
                 const nisn = nisnMatch[0];
@@ -2496,19 +2648,22 @@
             ? `Terdeteksi <strong>${detectedClassesArr.length} kelas</strong> (${detectedClassesArr.slice(0, 5).join(', ')}${detectedClassesArr.length > 5 ? '...' : ''})`
             : 'Kelas disesuaikan secara otomatis';
 
-        const msg = `Berhasil membaca <strong>${parsedStudents.length} data siswa</strong> dari file <strong>${fileTypeLabel}</strong> (<em>${fileName}</em>) dan memasukkannya ke tabel pengisian massal di bawah.<br>`
-                  + `<small style="display:block; margin-top:5px; font-size:12.5px;">`
+        const msg = `Berhasil membaca <strong>${parsedStudents.length} data siswa</strong> dari file <strong>${fileTypeLabel}</strong> (<em>${fileName}</em>) dan memasukkannya ke tabel pengisian massal.<br>`
+                  + `<span class="block mt-1.5 text-xs text-slate-500">`
                   + `<strong>Summary:</strong> ${classesSummary} | <strong>Mode:</strong> ${modeLabel}`
-                  + `</small>`;
+                  + `</span>`;
 
         showExcelAlert('success', `Proses File ${fileTypeLabel} Berhasil!`, msg);
 
+        // Switch to Bulk tab so user immediately sees imported rows
+        switchInputTab('massal');
         const formBulk = document.getElementById('formSiswaBulk');
         if (formBulk) {
             formBulk.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
+<<<<<<< HEAD
     /* Real-time Siswa Toggle Handler */
     let siswaToastTimeout = null;
 
@@ -2604,6 +2759,199 @@
             checkbox.disabled = false;
         }
     }
+=======
+    /* =========================================================
+     * 8. DOM INITIALIZATION & VALIDATIONS
+     * ========================================================= */
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select All Checkbox
+        const selectAll = document.getElementById('selectAllSiswa');
+        if (selectAll) {
+            selectAll.addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('.siswa-select-checkbox');
+                checkboxes.forEach(cb => cb.checked = selectAll.checked);
+                updateBulkDeleteState();
+            });
+        }
+
+        // Single Form Digit Counter Initial Call
+        const nis  = document.getElementById('nis');
+        const nisn = document.getElementById('nisn');
+        if (nis)  updateDigitCounter(nis, 'nisCounter', 10, 'nisMsg', true);
+        if (nisn) updateDigitCounter(nisn, 'nisnCounter', 10, 'nisnMsg');
+
+        // Filter Tingkat & Muted State
+        const tingkatVal = document.getElementById('filter_tingkat')?.value;
+        if (tingkatVal) {
+            filterKelasDropdown(tingkatVal);
+        }
+        document.querySelectorAll('.filter-select-custom').forEach(select => {
+            updateSelectMutedState(select);
+        });
+
+        // Initialize Bulk Rows from old input or default 3 rows
+        const oldSiswaData = @json(old('siswa', []));
+        if (Array.isArray(oldSiswaData) && oldSiswaData.length > 0) {
+            oldSiswaData.forEach(item => addBulkRow(item));
+            // Auto open massal tab if validation error occurred on bulk
+            switchInputTab('massal');
+        } else {
+            addMultipleBulkRows(3);
+        }
+
+        // Auto open massal tab if bulk error
+        @if($errors->has('siswa') || $errors->has('id_kelas'))
+            switchInputTab('massal');
+        @endif
+
+        // Sync Target Class
+        const bulkSelect = document.getElementById('bulk_id_kelas');
+        if (bulkSelect) {
+            bulkSelect.addEventListener('change', function() {
+                const excelTargetSelect = document.getElementById('excel_target_kelas');
+                if (excelTargetSelect && this.value) {
+                    excelTargetSelect.value = this.value;
+                }
+            });
+        }
+
+        // Client-side Validation: Single Student Form (Panel 1)
+        const form = document.getElementById('formSiswaIndex');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const errors = [];
+                const nisVal   = document.getElementById('nis').value.trim();
+                const nisnVal  = document.getElementById('nisn').value.trim();
+                const namaVal  = document.getElementById('nama_siswa').value.trim();
+                const jkVal    = document.getElementById('jenis_kelamin').value;
+                const klsVal   = document.getElementById('id_kelas').value;
+                const tglVal   = document.getElementById('tanggal_lahir').value;
+
+                if (!nisVal) {
+                    errors.push('NIS wajib diisi 3 hingga 10 digit angka.');
+                } else if (nisVal.length < 3 || nisVal.length > 10) {
+                    errors.push('NIS harus berisi 3 hingga 10 digit angka (saat ini baru ' + nisVal.length + ' digit).');
+                }
+
+                if (!nisnVal) {
+                    errors.push('NISN wajib diisi 10 digit angka.');
+                } else if (nisnVal.length !== 10) {
+                    errors.push('NISN harus berisi tepat 10 digit angka (saat ini baru ' + nisnVal.length + ' digit).');
+                }
+
+                if (!namaVal) {
+                    errors.push('Nama Lengkap Siswa wajib diisi.');
+                }
+
+                if (!jkVal) {
+                    errors.push('Jenis Kelamin wajib dipilih (Laki-laki / Perempuan).');
+                }
+
+                if (!klsVal) {
+                    errors.push('Kelas bimbingan siswa wajib dipilih.');
+                }
+
+                if (!tglVal) {
+                    errors.push('Tanggal Lahir wajib diisi.');
+                }
+
+                const banner = document.getElementById('formErrorReasonBanner');
+                const list   = document.getElementById('formErrorReasonList');
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    list.innerHTML = '';
+                    errors.forEach(function(err) {
+                        const li = document.createElement('li');
+                        li.textContent = err;
+                        list.appendChild(li);
+                    });
+                    banner.classList.remove('hidden');
+                    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    banner.classList.add('hidden');
+                }
+            });
+        }
+
+        // Client-side Validation: Bulk Students Form (Panel 3)
+        const formBulk = document.getElementById('formSiswaBulk');
+        if (formBulk) {
+            formBulk.addEventListener('submit', function(e) {
+                const errors = [];
+                const klsVal = document.getElementById('bulk_id_kelas').value;
+
+                const rows = document.querySelectorAll('#bulkTableBody .bulk-siswa-row');
+                if (rows.length === 0) {
+                    errors.push('Wajib mengisi minimal 1 baris data siswa baru.');
+                }
+
+                const nisSet = new Set();
+                const nisnSet = new Set();
+
+                rows.forEach((row, i) => {
+                    const rowNum = i + 1;
+                    const nisVal    = row.querySelector('.bulk-nis').value.trim();
+                    const nisnVal   = row.querySelector('.bulk-nisn').value.trim();
+                    const namaVal   = row.querySelector('.bulk-nama').value.trim();
+                    const jkVal     = row.querySelector('.bulk-jk').value;
+                    const rowKlsVal = row.querySelector('.bulk-id-kelas')?.value || klsVal;
+
+                    if (!rowKlsVal && !klsVal) {
+                        errors.push(`Baris ke-${rowNum}: Pilihan Kelas Target belum ditentukan.`);
+                    }
+
+                    if (!nisVal) {
+                        errors.push(`Baris ke-${rowNum}: NIS wajib diisi (3-10 digit angka).`);
+                    } else if (nisVal.length < 3 || nisVal.length > 10) {
+                        errors.push(`Baris ke-${rowNum}: NIS harus berisi 3 hingga 10 digit angka (saat ini ${nisVal.length} digit).`);
+                    } else {
+                        if (nisSet.has(nisVal)) {
+                            errors.push(`Baris ke-${rowNum}: NIS (${nisVal}) sudah digunakan di baris lain dalam form ini.`);
+                        }
+                        nisSet.add(nisVal);
+                    }
+
+                    if (!nisnVal) {
+                        errors.push(`Baris ke-${rowNum}: NISN wajib diisi (10 digit angka).`);
+                    } else if (nisnVal.length !== 10) {
+                        errors.push(`Baris ke-${rowNum}: NISN harus berisi tepat 10 digit angka (saat ini ${nisnVal.length} digit).`);
+                    } else {
+                        if (nisnSet.has(nisnVal)) {
+                            errors.push(`Baris ke-${rowNum}: NISN (${nisnVal}) sudah digunakan di baris lain dalam form ini.`);
+                        }
+                        nisnSet.add(nisnVal);
+                    }
+
+                    if (!namaVal) {
+                        errors.push(`Baris ke-${rowNum}: Nama Lengkap Siswa wajib diisi.`);
+                    }
+
+                    if (!jkVal) {
+                        errors.push(`Baris ke-${rowNum}: Jenis Kelamin wajib dipilih (Laki-laki / Perempuan).`);
+                    }
+                });
+
+                const banner = document.getElementById('bulkErrorReasonBanner');
+                const list   = document.getElementById('bulkErrorReasonList');
+
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    list.innerHTML = '';
+                    errors.forEach(function(err) {
+                        const li = document.createElement('li');
+                        li.textContent = err;
+                        list.appendChild(li);
+                    });
+                    banner.classList.remove('hidden');
+                    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    banner.classList.add('hidden');
+                }
+            });
+        }
+    });
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
 </script>
 
 <!-- Floating Real-time Toast Component -->

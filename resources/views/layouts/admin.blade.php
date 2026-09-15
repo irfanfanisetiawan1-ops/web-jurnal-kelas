@@ -6,88 +6,111 @@
     <title>@yield('title', 'Dashboard TU — EDU JOURNAL')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --sidebar-bg: #384972;
-            --sidebar-active: #4a5e8c;
-            --sidebar-text: #b6c5e3;
-            --sidebar-text-active: #ffffff;
-            --body-bg: #cbd3e0;
+            --sidebar-bg: #ffffff;
+            --sidebar-active: #eef2ff;
+            --sidebar-text: #475569;
+            --sidebar-text-active: #0f172a;
+            --body-bg: #f8fafc;
             --card-bg: #ffffff;
-            --text-dark: #1e293b;
+            --text-dark: #0f172a;
             --text-muted: #64748b;
-            --border-color: #cbd5e1;
-            --sidebar-width: 250px;
+            --border-color: #e2e8f0;
+            --sidebar-width: 224px;
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
             background-color: var(--body-bg);
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
+<<<<<<< HEAD
             width: 100%;
+=======
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
             overflow-x: hidden;
         }
 
-        /* Sidebar Navigation */
+        /* Sidebar Navigation: Full Height, Compact, Non-Scrollable */
         .sidebar {
-            width: var(--sidebar-width);
-            background: var(--sidebar-bg);
-            color: #ffffff;
+            width: 224px;
+            min-width: 224px;
+            max-width: 224px;
+            background: #ffffff;
+            border-right: 1px solid rgba(226, 232, 240, 0.85);
+            border-left: 1px solid rgba(226, 232, 240, 0.85);
+            border-top: none;
+            border-bottom: none;
+            box-shadow: 2px 0 12px -2px rgba(0, 0, 0, 0.04);
+            color: #1e293b;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             position: fixed;
-            top: 0; bottom: 0; left: 0;
+            top: 0;
+            left: 10px;
+            bottom: 0;
+            height: 100vh;
+            max-height: 100vh;
+            border-radius: 0;
+            overflow: hidden;
+            box-sizing: border-box;
             z-index: 100;
-            box-shadow: 2px 0 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-content {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-brand {
-            padding: 20px;
+            padding: 8px 10px 0 10px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            justify-content: center;
+            text-align: center;
+            flex-shrink: 0;
         }
 
         .sidebar-brand .logo-icon {
-            width: 92px; height: 92px;
+            width: 100%;
             background: transparent;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: visible;
             padding: 0;
             flex-shrink: 0;
         }
 
         .sidebar-brand .logo-icon img {
-            width: 100%;
-            height: 100%;
+            width: 58px;
+            max-width: 62px;
+            height: auto;
             object-fit: contain;
-            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
+            transition: transform 0.2s;
         }
 
-        .sidebar-brand .logo-text h2 {
-            font-size: 17px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.2;
-        }
-
-        .sidebar-brand .logo-text span {
-            font-size: 11px;
-            color: #a5b6dc;
-            font-weight: 600;
+        .sidebar-brand .logo-text {
+            display: none;
         }
 
         .sidebar-menu {
-            padding: 12px;
+            padding: 0 8px;
             flex: 1;
-            overflow-y: auto;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -95,50 +118,89 @@
 
         .menu-category {
             font-size: 10px;
-            font-weight: 800;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #93a5cc;
-            padding: 16px 12px 6px 12px;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            padding: 4px 6px 2px 6px;
+            flex-shrink: 0;
+        }
+
+        .menu-category:first-child {
+            padding-top: 2px;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            color: #c0cdf0;
+            gap: 8px;
+            height: 34px;
+            padding: 0 8px;
+            box-sizing: border-box;
+            color: #475569;
             text-decoration: none;
-            border-radius: 10px;
-            font-size: 13px;
+            border-radius: 7px;
+            font-size: 12px;
             font-weight: 600;
             transition: all 0.2s ease;
+            position: relative;
+            flex-shrink: 0;
         }
 
-        .nav-item i {
-            font-size: 16px;
-            width: 20px;
+        .nav-item i,
+        .nav-item .material-symbols-outlined,
+        .nav-item svg {
+            font-size: 15px;
+            width: 18px;
             text-align: center;
+            color: #94a3b8;
+            transition: color 0.2s ease;
+            flex-shrink: 0;
         }
 
         .nav-item:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
+            color: #2563eb;
+            background: #f8fafc;
+        }
+
+        .nav-item:hover i,
+        .nav-item:hover .material-symbols-outlined,
+        .nav-item:hover svg {
+            color: #2563eb;
         }
 
         .nav-item.active {
-            color: #ffffff;
-            background: var(--sidebar-active);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            color: #0f172a;
+            background: #eef2ff;
+            font-weight: 700;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 3.5px;
+            background-color: #2563eb;
+            border-top-right-radius: 9999px;
+            border-bottom-right-radius: 9999px;
+        }
+
+        .nav-item.active i,
+        .nav-item.active .material-symbols-outlined,
+        .nav-item.active svg {
+            color: #1e293b;
         }
 
         .nav-item .badge-count {
             margin-left: auto;
             background: #ef4444;
             color: white;
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 800;
-            padding: 2px 7px;
+            padding: 1px 6px;
             border-radius: 20px;
         }
 
@@ -158,7 +220,7 @@
         .sidebar-dropdown-toggle .toggle-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             flex: 1;
             text-decoration: none;
             color: inherit;
@@ -167,7 +229,7 @@
         .sidebar-dropdown-toggle .chevron-btn {
             background: transparent;
             border: none;
-            color: #93a5cc;
+            color: #94a3b8;
             font-size: 11px;
             cursor: pointer;
             padding: 4px 6px;
@@ -179,8 +241,8 @@
         }
 
         .sidebar-dropdown-toggle .chevron-btn:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.12);
+            color: #2563eb;
+            background: #f1f5f9;
         }
 
         .sidebar-dropdown.open .chevron-btn i {
@@ -194,176 +256,415 @@
             opacity: 0;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
             margin-top: 2px;
-            padding-left: 14px;
-            border-left: 2px solid rgba(255, 255, 255, 0.15);
-            margin-left: 22px;
+            padding-left: 8px;
+            border-left: 2px solid #e2e8f0;
+            margin-left: 15px;
         }
 
         .sidebar-dropdown.open .sidebar-submenu {
-            max-height: 200px;
+            max-height: 120px;
             opacity: 1;
         }
 
         .sidebar-submenu .submenu-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            color: #b6c5e3;
+            gap: 6px;
+            height: 28px;
+            padding: 0 8px;
+            box-sizing: border-box;
+            color: #64748b;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 12.5px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 600;
             transition: all 0.2s ease;
+            flex-shrink: 0;
         }
 
         .sidebar-submenu .submenu-item i {
-            font-size: 13px;
-            width: 16px;
+            font-size: 11px;
+            width: 14px;
             text-align: center;
         }
 
         .sidebar-submenu .submenu-item:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.1);
+            color: #2563eb;
+            background: #f8fafc;
         }
 
         .sidebar-submenu .submenu-item.active {
-            color: #ffffff;
-            background: #4a5e8c;
+            color: #2563eb;
+            background: #eef2ff;
             font-weight: 700;
         }
 
+        /* Sidebar Bottom Profile & Controls */
         .sidebar-footer {
-            padding: 14px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 10px;
+            border-top: 1px solid #f1f5f9;
+            background: #ffffff;
+            border-radius: 0;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 5px;
+            flex-shrink: 0;
+            margin-top: auto;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             text-decoration: none;
+            padding: 0;
         }
 
         .avatar {
-            width: 36px; height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: #9aa8c7;
+            background: #2563eb;
             color: #ffffff;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 800;
-            font-size: 15px;
+            font-size: 11px;
             flex-shrink: 0;
+            box-shadow: 0 1px 2px rgba(37, 99, 235, 0.15);
+        }
+
+        .user-info {
+            overflow: hidden;
+            min-width: 0;
         }
 
         .user-info .name {
-            font-size: 12.5px;
+            font-size: 11.5px;
             font-weight: 700;
-            color: #ffffff;
-            line-height: 1.2;
+            color: #0f172a;
+            line-height: 1.25;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 150px;
+            max-width: 140px;
         }
         .user-info .role {
-            font-size: 10.5px;
-            color: #a0b2db;
-            font-weight: 600;
+            font-size: 9px;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 1px;
         }
 
         .sidebar-footer-actions {
             display: flex;
             align-items: center;
             gap: 5px;
-            margin-top: 2px;
+            padding-top: 0;
         }
 
         .btn-footer-action {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 8px 10px;
-            border-radius: 9px;
-            font-size: 11.5px;
+            gap: 4px;
+            padding: 4px 6px;
+            height: 30px;
+            border-radius: 7px;
+            font-size: 11px;
             font-weight: 700;
             text-decoration: none;
             cursor: pointer;
             border: none;
-            background: rgba(255, 255, 255, 0.08);
-            color: #c0cdf0;
             transition: all 0.2s ease;
             font-family: inherit;
+            box-sizing: border-box;
         }
 
         .btn-footer-action.btn-icon-only {
-            width: 36px;
-            height: 36px;
+            width: 30px;
+            height: 30px;
             padding: 0;
-            flex: 0 0 36px;
-            font-size: 14px;
+            flex: 0 0 30px;
+            font-size: 11px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            color: #475569;
+            border-radius: 7px;
         }
 
-        .btn-footer-action i {
-            font-size: 13px;
-        }
-
-        .btn-footer-action:hover {
-            background: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
+        .btn-footer-action.btn-icon-only:hover {
+            background: #f8fafc;
+            color: #2563eb;
+            border-color: #cbd5e1;
         }
 
         .btn-footer-action.btn-logout {
-            color: #f87171;
-            background: rgba(239, 68, 68, 0.15);
+            color: #e11d48;
+            background: #fff1f2;
+            flex: 1;
         }
 
         .btn-footer-action.btn-logout:hover {
-            background: rgba(239, 68, 68, 0.3);
-            color: #ffffff;
+            background: #ffe4e6;
+            color: #be123c;
         }
 
         .btn-footer-action.active {
-            background: var(--sidebar-active);
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            background: #eef2ff;
+            color: #2563eb;
+            border-color: #c7d2fe;
         }
 
         /* Main Wrapper */
         .main-wrapper {
-            margin-left: var(--sidebar-width);
+            margin-left: 234px;
+            width: calc(100% - 234px);
+            max-width: calc(100% - 234px);
             flex: 1;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             min-width: 0;
+<<<<<<< HEAD
             width: calc(100% - var(--sidebar-width));
             max-width: calc(100vw - var(--sidebar-width));
             overflow-x: hidden;
+=======
+            padding: 0 10px 3.5rem 10px;
+            background-color: rgba(248, 250, 252, 0.6);
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
             box-sizing: border-box;
         }
 
-        /* Topbar Header */
-        .topbar {
-            height: 64px;
+        /* Topbar Header Container */
+        .topbar, .header {
+            width: 100%;
             background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+            padding: 8px 18px;
+            min-height: 52px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 28px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+            margin: 0 auto 20px auto;
             position: sticky;
             top: 0;
+<<<<<<< HEAD
             z-index: 90;
             border-bottom: 1px solid #e2e8f0;
             width: 100%;
             box-sizing: border-box;
+=======
+            z-index: 80;
+            backdrop-filter: blur(8px);
+            box-sizing: border-box;
+        }
+
+        .topbar-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .title-section,
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 0 1 auto;
+            min-width: 0;
+        }
+
+        .title-section h1,
+        .header-title h1,
+        .page-header-main-title {
+            font-size: 17px !important;
+            font-weight: 700 !important;
+            color: #0f2744 !important;
+            letter-spacing: -0.01em !important;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+        }
+
+        .title-section p,
+        .header-title p,
+        .page-header-sub-title {
+            font-size: 11px !important;
+            color: #64748b !important;
+            font-weight: 500 !important;
+            margin: 1px 0 0 0 !important;
+            line-height: 1.2 !important;
+        }
+
+        .title-section-content {
+            min-width: 0;
+            flex: 0 1 auto;
+        }
+
+        .header-controls {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            width: fit-content;
+        }
+
+        .header-control {
+            flex: 0 0 auto;
+            box-sizing: border-box;
+        }
+
+        .btn-mobile-sidebar-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-mobile-sidebar-toggle:hover {
+            background: #f1f5f9;
+            color: #2563eb;
+        }
+
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(2px);
+            z-index: 95;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* 3 Header Compact Containers - Final Clean Implementation */
+        .ta-selector.academic-year.header-control,
+        .academic-year,
+        .ta-selector {
+            width: 220px;
+            min-width: 220px;
+            max-width: 220px;
+            flex: 0 0 220px;
+            height: 36px;
+            padding: 0 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #334155;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            white-space: nowrap;
+            box-sizing: border-box;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .ta-selector.academic-year.header-control:hover,
+        .academic-year:hover,
+        .ta-selector:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .academic-year i.fa-graduation-cap,
+        .ta-selector i.fa-graduation-cap {
+            font-size: 13px;
+            color: #475569;
+            flex-shrink: 0;
+            margin-right: 5px;
+        }
+
+        .academic-year span,
+        .ta-selector span {
+            font-size: 11px;
+            font-weight: 700;
+            color: #334155;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .academic-year i.fa-chevron-down,
+        .ta-selector i.fa-chevron-down {
+            font-size: 9px;
+            color: #94a3b8;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .live-lesson-hour-card.kbm-status.header-control,
+        .kbm-status,
+        .live-lesson-hour-card {
+            width: 170px;
+            min-width: 170px;
+            max-width: 170px;
+            flex: 0 0 170px;
+            height: 36px;
+            padding: 0 8px;
+            box-sizing: border-box;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .live-clock-card.date-time.header-control,
+        .date-time,
+        .live-clock-card {
+            width: 220px;
+            min-width: 220px;
+            max-width: 220px;
+            flex: 0 0 220px;
+            height: 36px;
+            padding: 0 8px;
+            box-sizing: border-box;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .live-clock-wrapper {
+            display: contents !important;
+        }
+
+        /* Content Area */
+        .content-body {
+            padding: 0;
+            flex: 1;
+            width: 100%;
+            margin: 0 auto;
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
         }
 
         .search-box {
@@ -387,6 +688,7 @@
             color: #94a3b8;
         }
 
+<<<<<<< HEAD
         .ta-selector {
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
@@ -409,6 +711,8 @@
             box-sizing: border-box;
         }
 
+=======
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
         /* Global Page Header Container (Top-Left Title & Subtitle) */
         .page-header-container,
         .dashboard-page-header {
@@ -534,12 +838,72 @@
             background: #f8fafc !important;
         }
 
+<<<<<<< HEAD
         @media (max-width: 992px) {
             .sidebar { transform: translateX(-100%); }
             .main-wrapper { 
                 margin-left: 0;
                 width: 100%;
                 max-width: 100vw;
+=======
+        @media (max-width: 1024px) {
+            .sidebar {
+                left: 0;
+                transform: translateX(-100%);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-wrapper {
+                margin-left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 0;
+            }
+            .topbar {
+                top: 0;
+                margin-bottom: 16px;
+                padding: 8px 14px;
+                border-radius: 0 0 12px 12px;
+            }
+            .btn-mobile-sidebar-toggle {
+                display: inline-flex;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .topbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .header-controls {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 2px;
+                gap: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .ta-selector {
+                height: 40px;
+                padding: 0 12px;
+                font-size: 12.5px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                padding: 12px 14px;
+            }
+            .title-section {
+                width: 100%;
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
             }
         }
     </style>
@@ -547,18 +911,101 @@
 </head>
 <body>
 
+    <!-- Backdrop for Mobile Sidebar -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
-        <div class="sidebar-brand">
-            <div class="logo-icon">
-                <img src="{{ asset('images/logo_jurnal_side_bar.png') }}" alt="EDU JOURNAL Logo">
+        <div class="sidebar-content">
+            <!-- Brand Header -->
+            <div class="sidebar-brand">
+                <div class="logo-icon">
+                    <img src="{{ asset('images/logo_jurnal_side_bar.png') }}" alt="EDU JOURNAL Logo">
+                </div>
             </div>
-            <div class="logo-text">
-                <h2>EDU JOURNAL</h2>
-                <span>Portal Presensi Digital</span>
-            </div>
+
+            <!-- Menus -->
+            <nav class="sidebar-menu">
+                <div class="menu-category">UTAMA</div>
+                <a href="{{ route('admin.dashboard') }}" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="fa-solid fa-border-all"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="menu-category">MASTER DATA</div>
+                <a href="{{ route('admin.verifikasi-guru') }}" class="nav-item {{ (request()->routeIs('admin.verifikasi-guru') || request()->routeIs('admin.pengguna') || request()->routeIs('admin.users-trash')) ? 'active' : '' }}">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <span>Pengguna</span>
+                    @php
+                        $pendingCount = \App\Models\User::where('status_verifikasi', 'pending')->count();
+                    @endphp
+                    @if($pendingCount > 0)
+                        <span class="badge-count">{{ $pendingCount }}</span>
+                    @endif
+                </a>
+                <a href="{{ route('siswa.index') }}" class="nav-item {{ request()->routeIs('siswa.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Siswa</span>
+                </a>
+
+                {{-- Dropdown Menu Guru --}}
+                <div class="sidebar-dropdown {{ (request()->routeIs('guru.*') || request()->routeIs('admin.guru-piket') || request()->routeIs('admin.wali-kelas-list')) ? 'open' : '' }}" id="guruDropdown">
+                    <div class="nav-item sidebar-dropdown-toggle {{ (request()->routeIs('guru.index') && !request('role')) ? 'active' : '' }}">
+                        <a href="{{ route('guru.index') }}" class="toggle-left">
+                            <i class="fa-solid fa-user-tie"></i>
+                            <span>Guru</span>
+                        </a>
+                        <button type="button" class="chevron-btn" onclick="toggleGuruSubmenu(event)" title="Buka/Tutup Submenu Guru">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar-submenu" id="guruSubmenu">
+                        <a href="{{ route('admin.guru-piket') }}" class="submenu-item {{ request()->routeIs('admin.guru-piket') || (request()->routeIs('guru.index') && request('role') == 'piket') ? 'active' : '' }}">
+                            <i class="fa-solid fa-clipboard-user"></i>
+                            <span>Guru Piket</span>
+                        </a>
+                        <a href="{{ route('admin.wali-kelas-list') }}" class="submenu-item {{ request()->routeIs('admin.wali-kelas-list') || (request()->routeIs('guru.index') && request('role') == 'wali_kelas') ? 'active' : '' }}">
+                            <i class="fa-solid fa-id-card-clip"></i>
+                            <span>Wali Kelas</span>
+                        </a>
+                    </div>
+                </div>
+                <a href="{{ route('kelas.index') }}" class="nav-item {{ request()->routeIs('kelas.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-school"></i>
+                    <span>Kelas</span>
+                </a>
+                <a href="{{ route('mapel.index') }}" class="nav-item {{ request()->routeIs('mapel.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Mapel</span>
+                </a>
+                <a href="{{ route('jam-pelajaran.index') }}" class="nav-item {{ request()->routeIs('jam-pelajaran.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Master Jam Pelajaran</span>
+                </a>
+
+                <div class="menu-category">AKADEMIK</div>
+                <a href="{{ route('jadwal.index') }}" class="nav-item {{ request()->routeIs('jadwal.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Jadwal Pelajaran</span>
+                </a>
+                <a href="{{ route('admin.jurnal-mengajar') }}" class="nav-item {{ request()->routeIs('admin.jurnal-mengajar*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Jurnal Mengajar</span>
+                </a>
+                <a href="{{ route('admin.jurnal-piket') }}" class="nav-item {{ request()->routeIs('admin.jurnal-piket*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <span>Jurnal Piket</span>
+                </a>
+                @if(Auth::check() && !Auth::user()->isTu())
+                <a href="{{ route('admin.monitoring-kehadiran') }}" class="nav-item {{ request()->routeIs('admin.monitoring-kehadiran*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Monitoring Kehadiran</span>
+                </a>
+                @endif
+            </nav>
         </div>
 
+<<<<<<< HEAD
         <nav class="sidebar-menu">
             <div class="menu-category">UTAMA</div>
             <a href="{{ route('admin.dashboard') }}" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -642,18 +1089,21 @@
             @endif
         </nav>
 
+=======
+        <!-- Sidebar Footer -->
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
         <div class="sidebar-footer">
             <div class="user-profile">
                 <div class="avatar" style="overflow: hidden;">
                     @if(Auth::check() && Auth::user()->foto_url)
                         <img src="{{ Auth::user()->foto_url }}" alt="{{ Auth::user()->name }}" style="width: 100%; height: 100%; object-fit: cover;">
                     @else
-                        {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
+                        {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 2)) }}
                     @endif
                 </div>
                 <div class="user-info">
-                    <div class="name" title="{{ Auth::user()->name ?? 'Admin Tata Usaha' }}">{{ Auth::user()->name ?? 'Admin Tata Usaha' }}</div>
-                    <div class="role">ROLE: {{ strtoupper(Auth::user()->role_label ?? 'TU') }}</div>
+                    <div class="name" title="{{ Auth::user()->name ?? 'Administrator Utama (TU)' }}">{{ Auth::user()->name ?? 'Administrator Utama (TU)' }}</div>
+                    <div class="role">ROLE: {{ strtoupper(Auth::user()->role_label ?? 'ADMIN TU') }}</div>
                 </div>
             </div>
 
@@ -666,11 +1116,11 @@
                     </button>
                 </form>
 
-                <a href="{{ route('pengaturan.index') }}" class="btn-footer-action btn-icon-only {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}" title="Pengaturan">
+                <a href="{{ route('pengaturan.index') }}" class="btn-footer-action btn-icon-only {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}" title="Settings">
                     <i class="fa-solid fa-gear"></i>
                 </a>
 
-                <a href="{{ route('customer-service.index') }}" class="btn-footer-action btn-icon-only {{ request()->routeIs('customer-service.*') ? 'active' : '' }}" title="Customer Service & Bantuan">
+                <a href="{{ route('customer-service.index') }}" class="btn-footer-action btn-icon-only {{ request()->routeIs('customer-service.*') ? 'active' : '' }}" title="Support">
                     <i class="fa-solid fa-headset"></i>
                 </a>
             </div>
@@ -680,6 +1130,7 @@
     <!-- Main Content Area -->
     <div class="main-wrapper">
         <header class="topbar">
+<<<<<<< HEAD
             <div></div>
 
             <div style="display: flex; align-items: center; gap: 12px;">
@@ -687,22 +1138,40 @@
                     <i class="fa-solid fa-graduation-cap" style="color: #64748b;"></i>
                     <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2026/2027' }} - Semester {{ $activeTahunAjaran->semester ?? 'Ganjil' }}</span>
                     <i class="fa-solid fa-chevron-down" style="font-size:11px;"></i>
+=======
+            <div class="topbar-container">
+                <div class="title-section header-title">
+                    <button type="button" class="btn-mobile-sidebar-toggle" onclick="toggleSidebar()" aria-label="Buka Menu Navigasi" title="Menu Navigasi">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="title-section-content">
+                        @yield('topbar_left')
+                    </div>
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
                 </div>
 
-                @include('partials.live-clock')
+                <div class="header-controls">
+                    <div class="ta-selector academic-year header-control">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>T.A. 2025/2026 – Semester Genap</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    @include('partials.live-clock')
+                </div>
             </div>
         </header>
 
         <main class="content-body">
             @if(session('success'))
-                <div class="alert alert-success">
+                <div class="alert alert-success" style="margin-bottom: 20px;">
                     <i class="fa-solid fa-circle-check"></i>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="alert alert-error">
+                <div class="alert alert-error" style="margin-bottom: 20px;">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>{{ session('error') }}</span>
                 </div>
@@ -713,6 +1182,13 @@
     </div>
 
     <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (sidebar) sidebar.classList.toggle('open');
+            if (backdrop) backdrop.classList.toggle('active');
+        }
+
         function toggleGuruSubmenu(event) {
             if (event) {
                 event.preventDefault();

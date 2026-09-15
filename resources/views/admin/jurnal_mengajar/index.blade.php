@@ -3,987 +3,597 @@
 @section('title', 'Akademik - Jurnal Mengajar — EDU JOURNAL')
 
 @section('styles')
-<style>
-    .page-header-container {
+<!-- Tailwind CSS CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter & Plus Jakarta Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              900: '#1e293b',
+              navy: '#0f2744'
+            }
+          },
+          boxShadow: {
+            'card-subtle': '0 2px 10px 0 rgba(15, 23, 42, 0.04)',
+            '2xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+          }
+        }
+      }
+    }
+</script>
+
+<style data-purpose="custom-scrollbars">
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Modal Backdrop & Animation */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+    .modal-overlay.active {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-        gap: 16px;
     }
-
-    .page-header-title h1 {
-        font-size: 24px;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 4px;
+    .modal-box {
+        animation: modalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    .page-header-title p {
-        font-size: 13.5px;
-        color: #64748b;
-        font-weight: 500;
-    }
-
-    /* Top Action Bar (Without search input) */
-    .top-action-bar {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .btn-action-export {
-        background: #ffffff;
-        color: #1e293b;
-        border: 1px solid #cbd5e1;
-        padding: 10px 18px;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        transition: background-color 0.2s, border-color 0.2s;
-    }
-
-    .btn-action-export:hover {
-        background: #f8fafc;
-        border-color: #94a3b8;
-    }
-
-    .btn-action-add {
-        background: #1e293b;
-        color: #ffffff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        box-shadow: 0 2px 6px rgba(30, 41, 59, 0.25);
-        transition: background-color 0.2s, transform 0.1s;
-    }
-
-    .btn-action-add:hover {
-        background: #0f172a;
-        transform: translateY(-1px);
-    }
-
-    /* Red Card: Laporan Guru Alpa */
-    .card-alpa {
-        background: #fee2e2;
-        border-radius: 20px;
-        padding: 22px 24px;
-        margin-bottom: 24px;
-        border: 1px solid #fca5a5;
-        box-shadow: 0 2px 8px rgba(220, 38, 38, 0.05);
-    }
-
-    .card-alpa-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .card-alpa h2 {
-        font-size: 20px;
-        font-weight: 800;
-        color: #991b1b;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .table-alpa {
-        width: 100%;
-        border-collapse: collapse;
-        background: #ffffff;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    }
-
-    .table-alpa th {
-        font-size: 11px;
-        font-weight: 800;
-        text-transform: uppercase;
-        color: #475569;
-        padding: 12px 16px;
-        text-align: left;
-        background: #ffffff;
-        border-bottom: 1px solid #fee2e2;
-    }
-
-    .table-alpa td {
-        padding: 12px 16px;
-        font-size: 13px;
-        color: #1e293b;
-        border-bottom: 1px solid #fecaca;
-        vertical-align: middle;
-    }
-
-    /* Pagination for Laporan Guru Alpa */
-    .alpa-pagination-wrapper {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        margin-top: 14px;
-        padding-top: 12px;
-        border-top: 1px dashed #fca5a5;
-    }
-
-    .alpa-pagination-container {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 4px;
-        background: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-radius: 12px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    @keyframes modalFadeIn {
+        from { opacity: 0; transform: scale(0.96) translateY(6px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .alpa-page-btn {
-        min-width: 36px;
-        height: 36px;
-        padding: 0 10px;
-        border: none;
-        background: transparent;
-        color: #334155;
-        font-size: 13.5px;
-        font-weight: 700;
+        min-width: 28px;
+        height: 28px;
+        padding: 0 6px;
         border-radius: 8px;
-        cursor: pointer;
+        font-size: 11.5px;
+        font-weight: 700;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.2s ease;
-        font-family: inherit;
+        transition: all 0.15s ease;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        color: #475569;
+        cursor: pointer;
     }
-
     .alpa-page-btn:hover:not(:disabled) {
         background: #f1f5f9;
         color: #0f172a;
     }
-
     .alpa-page-btn.active {
-        background: #1e293b;
-        color: #ffffff !important;
-        box-shadow: 0 2px 5px rgba(30, 41, 59, 0.3);
-    }
-
-    .alpa-page-btn:disabled {
-        opacity: 0.35;
-        cursor: not-allowed;
-    }
-
-    .alpa-page-btn.alpa-nav-btn {
-        font-size: 12px;
-        color: #64748b;
-    }
-
-    .badge-alpa-red {
-        background: #fca5a5;
-        color: #991b1b;
-        font-weight: 800;
-        font-size: 11px;
-        padding: 6px 12px;
-        border-radius: 10px;
-        display: inline-block;
-    }
-
-    /* Dark Header Banner */
-    .header-banner-dark {
-        background: #1f293d;
-        color: #ffffff;
-        border-radius: 14px;
-        padding: 14px 20px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 20px;
-        font-weight: 700;
-        font-size: 15px;
-        box-shadow: 0 4px 12px rgba(31, 41, 61, 0.15);
-    }
-
-    .header-banner-dark i {
-        font-size: 18px;
-        color: #a5b6dc;
-    }
-
-    /* Filter Bar Component */
-    .filter-section-bar {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 16px;
-        padding: 14px 18px;
-        margin-bottom: 24px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    }
-
-    .filter-control-date {
-        padding: 9px 14px;
-        border: 1px solid #cbd5e1;
-        border-radius: 12px;
-        font-size: 13px;
-        font-weight: 600;
-        color: #1e293b;
-        background: #ffffff;
-        outline: none;
-    }
-
-    .filter-select {
-        padding: 9px 14px;
-        border: 1px solid #cbd5e1;
-        border-radius: 12px;
-        font-size: 13px;
-        font-weight: 600;
-        color: #1e293b;
-        background: #ffffff;
-        outline: none;
-        min-width: 140px;
-    }
-
-    .btn-filter-blue {
         background: #2563eb;
-        color: white;
-        padding: 9px 18px;
-        border-radius: 12px;
-        font-size: 13px;
-        font-weight: 700;
-        border: none;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .btn-filter-blue:hover {
-        background: #1d4ed8;
-    }
-
-    .btn-today-orange {
-        background: #fbbf24;
-        color: #78350f;
-        padding: 9px 16px;
-        border-radius: 12px;
-        font-size: 13px;
-        font-weight: 700;
-        border: none;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .btn-today-orange:hover {
-        background: #f59e0b;
-    }
-
-    .btn-filter-reset {
-        background: #fee2e2;
-        color: #991b1b;
-        border: 1px solid #fca5a5;
-        padding: 9px 16px;
-        border-radius: 12px;
-        font-size: 13px;
-        font-weight: 700;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .btn-filter-reset:hover {
-        background: #fecaca;
-    }
-
-    /* 4 Stat Summary Cards Grid */
-    .stat-cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 16px;
-        margin-bottom: 24px;
-    }
-
-    .stat-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 16px;
-        padding: 18px 20px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-    }
-
-    .stat-icon-wrapper {
-        width: 52px;
-        height: 52px;
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-    }
-
-    .stat-purple { background: #f3e8ff; color: #9333ea; }
-    .stat-green  { background: #dcfce7; color: #16a34a; }
-    .stat-orange { background: #fef3c7; color: #d97706; }
-    .stat-blue   { background: #dbeafe; color: #2563eb; }
-
-    .stat-content .stat-label {
-        font-size: 12px;
-        font-weight: 700;
-        color: #64748b;
-        margin-bottom: 2px;
-    }
-
-    .stat-content .stat-value {
-        font-size: 20px;
-        font-weight: 800;
-        color: #0f172a;
-    }
-
-    /* Table Component (Jurnal Tersimpan) */
-    .table-container-card {
-        background: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-radius: 20px;
-        padding: 24px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    }
-
-    .table-container-card h2 {
-        font-size: 22px;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 18px;
-    }
-
-    .table-saved {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .table-saved th {
-        font-size: 11px;
-        font-weight: 800;
-        text-transform: uppercase;
-        color: #64748b;
-        padding: 12px 14px;
-        text-align: left;
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
-    }
-
-    .table-saved td {
-        padding: 14px 14px;
-        font-size: 13px;
-        color: #1e293b;
-        border-bottom: 1px solid #f1f5f9;
-        vertical-align: middle;
-    }
-
-    .badge-hadir-green {
-        background: #bbf7d0;
-        color: #166534;
-        font-weight: 800;
-        font-size: 12px;
-        padding: 4px 14px;
-        border-radius: 12px;
-        display: inline-block;
-    }
-
-    .badge-absen-red {
-        background: #fee2e2;
-        color: #991b1b;
-        font-weight: 800;
-        font-size: 12px;
-        padding: 4px 14px;
-        border-radius: 12px;
-        display: inline-block;
-    }
-
-    /* Photo Thumbnail Component */
-    .photo-thumb-box {
-        width: 48px;
-        height: 36px;
-        background: #cbd5e1;
-        border-radius: 6px;
-        display: inline-block;
-        object-fit: cover;
-    }
-
-    /* Action Buttons & Dropdown */
-    .action-group {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        justify-content: center;
-    }
-
-    .btn-action-icon {
-        width: 34px;
-        height: 34px;
-        border-radius: 8px;
-        border: 1px solid #cbd5e1;
-        background: #ffffff;
-        color: #475569;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
-        cursor: pointer;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-
-    .btn-action-icon:hover {
-        background: #1e293b;
         color: #ffffff;
-        border-color: #1e293b;
+        border-color: #2563eb;
+        box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
     }
-
-    /* 3-Dots Dropdown Menu */
-    .action-dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .action-dropdown-menu {
-        position: absolute;
-        right: 0;
-        top: 110%;
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        min-width: 170px;
-        z-index: 100;
-        display: none;
-        overflow: hidden;
-        padding: 6px 0;
-    }
-
-    .action-dropdown-menu.show {
-        display: block;
-    }
-
-    .dropdown-menu-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 16px;
-        font-size: 13px;
-        font-weight: 600;
-        color: #334155;
-        text-decoration: none;
-        cursor: pointer;
-        transition: background 0.15s;
-        border: none;
-        background: transparent;
-        width: 100%;
-        text-align: left;
-    }
-
-    .dropdown-menu-item:hover {
-        background: #f1f5f9;
-        color: #0f172a;
-    }
-
-    .dropdown-menu-item.danger-item {
-        color: #dc2626;
-    }
-
-    .dropdown-menu-item.danger-item:hover {
-        background: #fee2e2;
-    }
-
-    /* Modal Styles */
-    .modal-overlay {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(4px);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 999;
-        padding: 20px;
-    }
-
-    .modal-overlay.active {
-        display: flex;
-    }
-
-    .modal-content-box {
-        background: #ffffff;
-        border-radius: 24px;
-        max-width: 650px;
-        width: 100%;
-        max-height: 90vh;
-        overflow-y: auto;
-        padding: 28px;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        position: relative;
-        animation: modalFadeIn 0.25s ease-out;
-    }
-
-    @keyframes modalFadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #e2e8f0;
-        padding-bottom: 14px;
-    }
-
-    .modal-header h3 {
-        font-size: 18px;
-        font-weight: 800;
-        color: #0f172a;
-    }
-
-    .btn-modal-close {
-        background: transparent;
-        border: none;
-        font-size: 18px;
-        color: #64748b;
-        cursor: pointer;
-    }
-
-    .modal-body-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-        margin-bottom: 20px;
-    }
-
-    .detail-item-box {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 12px 14px;
-    }
-
-    .detail-item-box span {
-        display: block;
-        font-size: 11px;
-        font-weight: 700;
-        color: #64748b;
-        text-transform: uppercase;
-        margin-bottom: 2px;
-    }
-
-    .detail-item-box strong {
-        font-size: 13.5px;
-        font-weight: 800;
-        color: #0f172a;
-    }
-
-    .pagination-bar {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    /* Fix Laravel Pagination Giant SVG Arrows */
-    .pagination-bar svg,
-    nav[role="navigation"] svg {
-        width: 14px !important;
-        height: 14px !important;
-        max-width: 14px !important;
-        max-height: 14px !important;
-        display: inline-block !important;
-        vertical-align: middle !important;
-    }
-
-    .pagination-bar nav,
-    nav[role="navigation"] {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-end !important;
-        gap: 4px !important;
-    }
-
-    .pagination-bar nav > div:first-child,
-    nav[role="navigation"] > div:first-child {
-        display: none !important;
-    }
-
-    .pagination-bar nav > div:last-child,
-    nav[role="navigation"] > div:last-child {
-        display: flex !important;
-        align-items: center !important;
-        gap: 4px !important;
-    }
-
-    .pagination-bar nav span,
-    .pagination-bar nav a,
-    nav[role="navigation"] span,
-    nav[role="navigation"] a {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        min-width: 32px !important;
-        height: 32px !important;
-        padding: 0 8px !important;
-        font-size: 12.5px !important;
-        font-weight: 700 !important;
-        color: #1e293b !important;
-        background: #ffffff !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
-        text-decoration: none !important;
-        transition: all 0.15s ease !important;
-    }
-
-    .pagination-bar nav a:hover,
-    nav[role="navigation"] a:hover {
-        background: #f1f5f9 !important;
-        border-color: #94a3b8 !important;
-        color: #0f172a !important;
-    }
-
-    .pagination-bar nav span[aria-current="page"],
-    nav[role="navigation"] span[aria-current="page"] {
-        background: #1f293d !important;
-        color: #ffffff !important;
-        border-color: #1f293d !important;
-    }
-
-    .pagination-bar nav span[aria-disabled="true"],
-    nav[role="navigation"] span[aria-disabled="true"] {
-        opacity: 0.4 !important;
-        cursor: not-allowed !important;
-        background: #f8fafc !important;
+    .alpa-page-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
     }
 </style>
 @endsection
 
+@section('topbar_left')
+<div class="flex items-center">
+    <h1 class="page-header-main-title text-base font-extrabold text-slate-900 tracking-tight leading-none m-0 p-0">
+        Akademik — Jurnal Mengajar
+    </h1>
+</div>
+@endsection
+
 @section('content')
 
-    <!-- Top Header Title & Actions (Top Search Bar Removed as requested) -->
-    <div class="page-header-container">
-        <div class="page-header-title">
-            <h1>Akademik - Jurnal Mengajar</h1>
-            <p>Catatan kegiatan mengajar guru setiap pertemuan</p>
-        </div>
+<div class="space-y-6">
 
-        <div class="top-action-bar">
-            <a href="{{ route('admin.jurnal-mengajar.export', request()->query()) }}" class="btn-action-export">
-                <i class="fa-solid fa-download"></i>
-                <span>Export</span>
-            </a>
-
-            <button type="button" class="btn-action-add" onclick="openCreateModal()">
-                <i class="fa-solid fa-plus"></i>
-                <span>Tambah jurnal</span>
+    <!-- Flash Notifications -->
+    @if(session('success'))
+        <div class="flex items-center justify-between gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-xs font-semibold shadow-2xs">
+            <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+                    </svg>
+                </span>
+                <span class="flex-1">{{ session('success') }}</span>
+            </div>
+            <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700 cursor-pointer p-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
             </button>
         </div>
-    </div>
+    @endif
 
-    <!-- Container 1: Laporan Guru Alpa -->
-    <div class="card-alpa">
-        <div class="card-alpa-header">
-            <h2>
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                Laporan Guru Alpa - {{ \Carbon\Carbon::parse($targetTanggal ?? now())->translatedFormat('d F Y') }}
-            </h2>
+    @if(session('error'))
+        <div class="flex items-center justify-between gap-3 p-4 bg-rose-50 border border-rose-200 rounded-2xl text-rose-800 text-xs font-semibold shadow-2xs">
+            <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-xl bg-rose-100 flex items-center justify-center shrink-0 text-rose-600">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                        <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"/>
+                    </svg>
+                </span>
+                <span class="flex-1">{{ session('error') }}</span>
+            </div>
+            <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700 cursor-pointer p-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+            </button>
+        </div>
+    @endif
 
-            <form action="{{ route('admin.jurnal-mengajar') }}" method="GET" style="display: flex; gap: 8px; align-items: center;">
-                <input type="date" name="tanggal" value="{{ $targetTanggal ?? \Carbon\Carbon::today()->toDateString() }}" class="filter-control-date" style="padding: 5px 10px; font-size: 12.5px;">
-                <button type="submit" class="btn-filter-blue" style="padding: 6px 14px; font-size: 12.5px;">Filter</button>
-                <a href="{{ route('admin.jurnal-mengajar') }}" class="btn-today-orange" style="padding: 6px 14px; font-size: 12.5px;">Hari Ini</a>
-            </form>
+    <!-- BEGIN: Card 1 - Laporan Guru Alpa (Collapsible) -->
+    <section class="bg-white border border-rose-200/80 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4" data-purpose="laporan-guru-alpa">
+        <!-- Section Header Summary Row -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-3 border-b border-slate-100">
+            <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                    <span class="material-symbols-outlined text-2xl">warning</span>
+                </div>
+                <div>
+                    <div class="flex items-center flex-wrap gap-2">
+                        <h3 class="text-base font-bold text-slate-900 tracking-tight">Laporan Guru Alpa</h3>
+                        <span class="text-xs font-bold text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">
+                            {{ \Carbon\Carbon::parse($targetTanggal ?? now())->translatedFormat('d F Y') }}
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">
+                        @if($guruAlpaList->count() > 0)
+                            <span class="font-bold text-rose-600">{{ $guruAlpaList->count() }} pendidik</span> belum mengisi jurnal mengajar pada jam KBM yang telah terjadwal.
+                        @else
+                            <span class="font-semibold text-emerald-600">Semua guru mengajar telah mengisi jurnal</span> pada tanggal ini.
+                        @endif
+                    </p>
+                </div>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="flex items-center flex-wrap gap-2 self-start md:self-auto">
+                <form action="{{ route('admin.jurnal-mengajar') }}" method="GET" class="flex items-center gap-2">
+                    <input type="date" name="tanggal" value="{{ $targetTanggal ?? \Carbon\Carbon::today()->toDateString() }}" class="text-xs font-medium text-slate-700 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-blue-500 focus:border-blue-500 shadow-2xs" title="Pilih Tanggal Laporan Alpa">
+                    <button type="submit" class="px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-2xs transition-all cursor-pointer">
+                        Filter
+                    </button>
+                    <a href="{{ route('admin.jurnal-mengajar') }}" class="px-3.5 py-2 text-xs font-bold text-amber-800 bg-amber-100 hover:bg-amber-200 border border-amber-200 rounded-xl shadow-2xs transition-all cursor-pointer no-underline">
+                        Hari Ini
+                    </a>
+                </form>
+            </div>
         </div>
 
-        <div style="overflow-x: auto;">
-            <table class="table-alpa" id="tableGuruAlpa">
-                <thead>
+        <!-- Table Content Wrapper (Always Visible) -->
+        <div id="alpaTableWrapper" class="space-y-4 pt-1">
+            <!-- Table Container -->
+            <div class="overflow-x-auto rounded-xl border border-slate-200/80 shadow-2xs">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-200 bg-slate-50/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                            <th class="px-4 py-3 w-20 text-center">JAM</th>
+                            <th class="px-4 py-3">GURU &amp; MATA PELAJARAN</th>
+                            <th class="px-4 py-3 w-36">KELAS</th>
+                            <th class="px-4 py-3 text-center w-64">STATUS KBM</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-700" id="tbodyGuruAlpa">
+                        @forelse($guruAlpaList as $alpa)
+                            <tr class="hover:bg-slate-50/60 transition-colors alpa-row">
+                                <td class="px-4 py-3 text-center font-bold text-slate-700 bg-slate-50/40">
+                                    {{ $alpa->jam_range ?? ($alpa->id_jam_mulai ? ($alpa->id_jam_mulai . ' - ' . $alpa->id_jam_selesai) : '-') }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="font-bold text-slate-900">{{ $alpa->guru->nama_guru ?? '-' }}</div>
+                                    <div class="text-[11px] text-slate-500">{{ $alpa->mapel->nama_mapel ?? '-' }}</div>
+                                </td>
+                                <td class="px-4 py-3 font-semibold text-slate-800">
+                                    {{ $alpa->kelas->nama_kelas ?? '-' }}
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <span class="inline-block px-3 py-1 text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 rounded-full tracking-wide whitespace-nowrap">
+                                        TIDAK MENGISI JURNAL (ALPA)
+                                    </span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center py-6 text-emerald-700 font-semibold bg-emerald-50/40">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <span class="material-symbols-outlined text-emerald-600 text-[20px]">check_circle</span>
+                                        <span>Semua guru mengajar telah mengisi jurnal pada tanggal ini!</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Alpa Table Pagination Footer -->
+            @if($guruAlpaList->count() > 0)
+                <div class="flex items-center justify-between flex-wrap gap-2 pt-1 text-xs text-slate-500" id="alpaPaginationWrapper">
+                    <div>
+                        Menampilkan <span class="font-semibold text-slate-800" id="alpaShowingCount">{{ min(5, $guruAlpaList->count()) }}</span> dari <span class="font-semibold text-slate-800">{{ $guruAlpaList->count() }}</span> guru yang belum mengisi jurnal
+                    </div>
+                    <div class="inline-flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-xl p-1 text-xs shadow-2xs">
+                        <button type="button" class="alpa-page-btn" id="alpaPrevBtn" title="Halaman Sebelumnya">&lt;</button>
+                        <div id="alpaPageNumbers" class="inline-flex items-center gap-1"></div>
+                        <button type="button" class="alpa-page-btn" id="alpaNextBtn" title="Halaman Selanjutnya">&gt;</button>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </section>
+    <!-- END: Card 1 - Laporan Guru Alpa -->
+
+    <!-- BEGIN: 4 Metric Cards (Clickable Filter) -->
+    @php
+        $currStatus = request('status');
+    @endphp
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" data-purpose="kbm-filter-and-metrics">
+        <!-- Card 1: Total Pertemuan -->
+        <a href="{{ route('admin.jurnal-mengajar', request()->except('status', 'page')) }}" 
+           class="bg-white border {{ empty($currStatus) ? 'border-indigo-400 ring-2 ring-indigo-500/20 bg-indigo-50/20' : 'border-slate-200/80 hover:border-indigo-300' }} rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all no-underline group cursor-pointer"
+           title="Klik untuk tampilkan semua pertemuan (Reset filter status)">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 group-hover:bg-indigo-100 flex items-center justify-center text-indigo-600 shrink-0 transition-colors">
+                <span class="material-symbols-outlined text-2xl">menu_book</span>
+            </div>
+            <div class="min-w-0">
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Pertemuan</div>
+                <div class="text-xl font-black text-slate-900 mt-0.5 leading-tight">
+                    {{ $totalPertemuan }} <span class="text-xs font-semibold text-slate-400 font-normal">Pertemuan</span>
+                </div>
+                @if(empty($currStatus))
+                    <div class="text-[10.5px] text-indigo-600 font-bold mt-0.5 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span> Filter Aktif (Semua)
+                    </div>
+                @endif
+            </div>
+        </a>
+
+        <!-- Card 2: Terlaksana -->
+        <a href="{{ route('admin.jurnal-mengajar', array_merge(request()->query(), ['status' => 'Terlaksana', 'page' => 1])) }}" 
+           class="bg-white border {{ $currStatus === 'Terlaksana' ? 'border-emerald-400 ring-2 ring-emerald-500/20 bg-emerald-50/20' : 'border-slate-200/80 hover:border-emerald-300' }} rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all no-underline group cursor-pointer"
+           title="Klik untuk filter hanya pertemuan Terlaksana (Hadir)">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 group-hover:bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0 transition-colors">
+                <span class="material-symbols-outlined text-2xl">check_circle</span>
+            </div>
+            <div class="min-w-0">
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Terlaksana</div>
+                <div class="text-xl font-black text-slate-900 mt-0.5 leading-tight">
+                    {{ $terlaksanaCount }} <span class="text-xs font-semibold text-slate-400 font-normal">Pertemuan</span>
+                </div>
+                @if($currStatus === 'Terlaksana')
+                    <div class="text-[10.5px] text-emerald-600 font-bold mt-0.5 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Filter Aktif (Hadir)
+                    </div>
+                @endif
+            </div>
+        </a>
+
+        <!-- Card 3: Belum Terlaksana -->
+        <a href="{{ route('admin.jurnal-mengajar', array_merge(request()->query(), ['status' => 'Belum Terlaksana', 'page' => 1])) }}" 
+           class="bg-white border {{ $currStatus === 'Belum Terlaksana' ? 'border-amber-400 ring-2 ring-amber-500/20 bg-amber-50/20' : 'border-slate-200/80 hover:border-amber-300' }} rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all no-underline group cursor-pointer"
+           title="Klik untuk filter pertemuan Belum Terlaksana (Izin/Sakit/Alpa)">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 group-hover:bg-amber-100 flex items-center justify-center text-amber-600 shrink-0 transition-colors">
+                <span class="material-symbols-outlined text-2xl">pending_actions</span>
+            </div>
+            <div class="min-w-0">
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Belum Terlaksana</div>
+                <div class="text-xl font-black text-slate-900 mt-0.5 leading-tight">
+                    {{ $belumTerlaksanaCount }} <span class="text-xs font-semibold text-slate-400 font-normal">Pertemuan</span>
+                </div>
+                @if($currStatus === 'Belum Terlaksana')
+                    <div class="text-[10.5px] text-amber-600 font-bold mt-0.5 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Filter Aktif (Izin/Sakit/Alpa)
+                    </div>
+                @endif
+            </div>
+        </a>
+
+        <!-- Card 4: Guru Aktif Mengajar (Statis Informatif) -->
+        <div class="bg-white border border-slate-200/80 rounded-2xl p-5 flex items-center gap-4 shadow-sm cursor-default" title="Jumlah guru unik yang aktif mengajar">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                <span class="material-symbols-outlined text-2xl">person</span>
+            </div>
+            <div class="min-w-0">
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Guru Aktif Mengajar</div>
+                <div class="text-xl font-black text-slate-900 mt-0.5 leading-tight">
+                    {{ $guruAktifCount }} <span class="text-xs font-semibold text-slate-400 font-normal">Guru</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: 4 Metric Cards -->
+
+    <!-- BEGIN: MainSavedJournalSection - Daftar Jurnal Tersimpan -->
+    <section class="bg-white border border-slate-200/80 rounded-2xl shadow-sm p-5 sm:p-6 space-y-5" data-purpose="jurnal-tersimpan-table-card">
+        <!-- Title, Counter & Action Buttons -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-3 border-b border-slate-100">
+            <div class="flex items-start gap-3.5">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                    <span class="material-symbols-outlined text-2xl">menu_book</span>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                        <span>Daftar Jurnal Tersimpan</span>
+                        <span class="text-xs font-extrabold text-blue-700 bg-blue-50 border border-blue-200/80 px-2.5 py-0.5 rounded-full">({{ $jurnals->total() }})</span>
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Verifikasi dan pantau riwayat materi serta kehadiran KBM guru per pertemuan.</p>
+                </div>
+            </div>
+
+            <!-- Header Action Buttons (Export Rekap uses consistent project palette, NOT green) -->
+            <div class="flex items-center flex-wrap gap-2.5">
+                <!-- 1. Export Rekap Button -->
+                <a href="{{ route('admin.jurnal-mengajar.export', request()->query()) }}" 
+                   class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200/90 rounded-xl shadow-2xs transition-all cursor-pointer no-underline hover:border-slate-300"
+                   title="Export Rekap Jurnal Mengajar ke Excel">
+                    <span class="material-symbols-outlined text-[17px] text-slate-500">file_download</span>
+                    <span>Export Rekap</span>
+                </a>
+
+                <!-- 2. Tambah Jurnal Button -->
+                <button type="button" onclick="openCreateModal()" 
+                        class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-2xs transition-all cursor-pointer">
+                    <span class="material-symbols-outlined text-[17px]">post_add</span>
+                    <span>Tambah Jurnal</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter & Search Toolbar (Search flex-1, dropdowns follow, Cari & Reset grouped right) -->
+        <form action="{{ route('admin.jurnal-mengajar') }}" method="GET" class="w-full flex flex-wrap items-center gap-2.5 pt-1">
+            <!-- Search Input: flex-1 min-w-[200px] -->
+            <div class="relative flex-1 min-w-[180px]">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                </span>
+                <input type="text" name="search" value="{{ $search ?? '' }}" 
+                       class="w-full text-xs rounded-xl border-slate-200 pl-9 pr-3 py-2 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50 text-slate-700 placeholder:text-slate-400" 
+                       placeholder="Cari Materi / Guru / Mapel...">
+            </div>
+
+            <!-- Date Selector -->
+            <input type="date" name="tanggal" value="{{ $tanggal ?? '' }}" 
+                   class="text-xs rounded-xl border-slate-200 py-2 px-2.5 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50" 
+                   title="Filter Tanggal Pertemuan">
+
+            <!-- Guru Select -->
+            <select name="id_guru" class="text-xs rounded-xl border-slate-200 py-2 px-2 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50 max-w-[145px]">
+                <option value="">Semua Guru</option>
+                @foreach($guruList as $g)
+                    <option value="{{ $g->id_guru }}" {{ ($idGuru == $g->id_guru) ? 'selected' : '' }}>
+                        {{ $g->nama_guru }}
+                    </option>
+                @endforeach
+            </select>
+
+            <!-- Kelas Select -->
+            <select name="id_kelas" class="text-xs rounded-xl border-slate-200 py-2 px-2 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50 max-w-[125px]">
+                <option value="">Semua Kelas</option>
+                @foreach($kelasList as $k)
+                    <option value="{{ $k->id_kelas }}" {{ ($idKelas == $k->id_kelas) ? 'selected' : '' }}>
+                        {{ $k->nama_kelas }}
+                    </option>
+                @endforeach
+            </select>
+
+            <!-- Mapel Select -->
+            <select name="id_mapel" class="text-xs rounded-xl border-slate-200 py-2 px-2 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50 max-w-[135px]">
+                <option value="">Semua Mapel</option>
+                @foreach($mapelList as $m)
+                    <option value="{{ $m->id_mapel }}" {{ ($idMapel == $m->id_mapel) ? 'selected' : '' }}>
+                        {{ $m->nama_mapel }}
+                    </option>
+                @endforeach
+            </select>
+
+            <!-- Status Select -->
+            <select name="status" class="text-xs rounded-xl border-slate-200 py-2 px-2 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50 max-w-[135px]">
+                <option value="">Semua Status</option>
+                <option value="Terlaksana" {{ ($status == 'Terlaksana') ? 'selected' : '' }}>Terlaksana (Hadir)</option>
+                <option value="Belum Terlaksana" {{ ($status == 'Belum Terlaksana') ? 'selected' : '' }}>Belum Terlaksana (Izin/Sakit/Alpa)</option>
+            </select>
+
+            <!-- Buttons Group: Cari and Reset kept together on the right -->
+            <div class="flex items-center gap-2 ml-auto shrink-0">
+                <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-2xs cursor-pointer">
+                    <span class="material-symbols-outlined text-[15px]">search</span>
+                    <span>Cari</span>
+                </button>
+
+                @if(!empty($search) || !empty($tanggal) || !empty($idGuru) || !empty($idKelas) || !empty($idMapel) || !empty($status))
+                    <a href="{{ route('admin.jurnal-mengajar') }}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 transition-all cursor-pointer no-underline" title="Reset semua filter">
+                        <span class="material-symbols-outlined text-[15px]">restart_alt</span>
+                        <span>Reset</span>
+                    </a>
+                @endif
+            </div>
+        </form>
+
+        <!-- Main DataTable Container (overflow-x-auto ensures nothing is cut off on <=1366px screens) -->
+        <div class="overflow-x-auto border border-slate-200/80 rounded-xl shadow-2xs">
+            <table class="w-full text-left border-collapse text-xs">
+                <thead class="bg-slate-50/90 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
                     <tr>
-                        <th style="width: 100px;">JAM</th>
-                        <th>GURU & MAPEL</th>
-                        <th>KELAS</th>
-                        <th>STATUS</th>
+                        <th class="py-3 px-2.5 whitespace-nowrap w-[90px]">TANGGAL</th>
+                        <th class="py-3 px-2.5 whitespace-nowrap min-w-[140px]">GURU &amp; MAPEL</th>
+                        <th class="py-3 px-2.5 whitespace-nowrap w-[75px]">KELAS</th>
+                        <th class="py-3 px-2.5 whitespace-nowrap w-[80px]">STATUS</th>
+                        <th class="py-3 px-2.5 whitespace-nowrap min-w-[180px] max-w-[260px]">MATERI / CATATAN PEMBELAJARAN</th>
+                        <th class="py-3 px-2.5 whitespace-nowrap w-[105px]">SISWA TIDAK HADIR</th>
+                        <th class="py-3 px-2.5 text-center whitespace-nowrap w-[185px]">AKSI</th>
                     </tr>
                 </thead>
-                <tbody id="tbodyGuruAlpa">
-                    @forelse($guruAlpaList as $alpa)
-                        <tr class="alpa-row">
-                            <td><strong>{{ $alpa->jam_range ?? '-' }}</strong></td>
-                            <td>
-                                <strong>{{ $alpa->guru->nama_guru ?? '-' }}</strong><br>
-                                <small style="color:#64748b;">{{ $alpa->mapel->nama_mapel ?? '-' }}</small>
-                            </td>
-                            <td><strong>{{ $alpa->kelas->nama_kelas ?? '-' }}</strong></td>
-                            <td><span class="badge-alpa-red">TIDAK MENGISI JURNAL (ALPA)</span></td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" style="text-align: center; color: #166534; font-weight: 700; padding: 16px;">
-                                <i class="fa-solid fa-circle-check" style="font-size: 18px; margin-right: 6px;"></i>
-                                Semua guru mengajar telah mengisi jurnal pada tanggal ini!
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        {{-- Pagination Bar untuk Laporan Guru Alpa --}}
-        <div class="alpa-pagination-wrapper" id="alpaPaginationWrapper">
-            <div class="alpa-pagination-container">
-                <button type="button" class="alpa-page-btn alpa-nav-btn" id="alpaPrevBtn" title="Halaman Sebelumnya">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <div id="alpaPageNumbers" style="display: inline-flex; gap: 4px;"></div>
-                <button type="button" class="alpa-page-btn alpa-nav-btn" id="alpaNextBtn" title="Halaman Selanjutnya">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Navy Banner -->
-    <div class="header-banner-dark">
-        <i class="fa-regular fa-calendar-days"></i>
-        <span>Daftar Jurnal Mengajar</span>
-    </div>
-
-    <!-- Filter Section Bar (With Search & Reset Button) -->
-    <form action="{{ route('admin.jurnal-mengajar') }}" method="GET" class="filter-section-bar">
-        <div style="position:relative; flex:1; min-width:180px;">
-            <input type="text" name="search" value="{{ $search ?? '' }}" class="filter-control-date" style="width:100%; padding-left:34px;" placeholder="Cari Materi / Catatan / Guru...">
-            <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94a3b8;"></i>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 6px;">
-            <i class="fa-regular fa-calendar" style="color: #64748b;"></i>
-            <input type="date" name="tanggal" value="{{ $tanggal ?? '' }}" class="filter-control-date" title="Filter Tanggal">
-        </div>
-
-        <select name="id_guru" class="filter-select">
-            <option value="">Semua Guru</option>
-            @foreach($guruList as $g)
-                <option value="{{ $g->id_guru }}" {{ ($idGuru == $g->id_guru) ? 'selected' : '' }}>
-                    {{ $g->nama_guru }}
-                </option>
-            @endforeach
-        </select>
-
-        <select name="id_kelas" class="filter-select">
-            <option value="">Semua Kelas</option>
-            @foreach($kelasList as $k)
-                <option value="{{ $k->id_kelas }}" {{ ($idKelas == $k->id_kelas) ? 'selected' : '' }}>
-                    {{ $k->nama_kelas }}
-                </option>
-            @endforeach
-        </select>
-
-        <select name="id_mapel" class="filter-select">
-            <option value="">Semua Mapel</option>
-            @foreach($mapelList as $m)
-                <option value="{{ $m->id_mapel }}" {{ ($idMapel == $m->id_mapel) ? 'selected' : '' }}>
-                    {{ $m->nama_mapel }}
-                </option>
-            @endforeach
-        </select>
-
-        <select name="status" class="filter-select">
-            <option value="">Semua Status</option>
-            <option value="Terlaksana" {{ ($status == 'Terlaksana') ? 'selected' : '' }}>Terlaksana (Hadir)</option>
-            <option value="Belum Terlaksana" {{ ($status == 'Belum Terlaksana') ? 'selected' : '' }}>Belum Terlaksana (Izin/Sakit/Alpa)</option>
-        </select>
-
-        <button type="submit" class="btn-filter-blue">
-            <i class="fa-solid fa-filter"></i>
-            <span>Filter</span>
-        </button>
-
-        @if(!empty($search) || !empty($tanggal) || !empty($idGuru) || !empty($idKelas) || !empty($idMapel) || !empty($status))
-            <a href="{{ route('admin.jurnal-mengajar') }}" class="btn-filter-reset" title="Reset semua filter">
-                <i class="fa-solid fa-rotate-left"></i>
-                <span>Reset</span>
-            </a>
-        @endif
-    </form>
-
-    <!-- 4 Summary Stat Cards Grid (Dynamic & Synchronized) -->
-    <div class="stat-cards-grid">
-        <div class="stat-card">
-            <div class="stat-icon-wrapper stat-purple">
-                <i class="fa-solid fa-calendar-check"></i>
-            </div>
-            <div class="stat-content">
-                <div class="stat-label">Total Pertemuan</div>
-                <div class="stat-value">{{ $totalPertemuan }} Pertemuan</div>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon-wrapper stat-green">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <div class="stat-content">
-                <div class="stat-label">Terlaksana</div>
-                <div class="stat-value">{{ $terlaksanaCount }} Pertemuan</div>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon-wrapper stat-orange">
-                <i class="fa-solid fa-clock-history"></i>
-            </div>
-            <div class="stat-content">
-                <div class="stat-label">Belum Terlaksana</div>
-                <div class="stat-value">{{ $belumTerlaksanaCount }} Pertemuan</div>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon-wrapper stat-blue">
-                <i class="fa-solid fa-user-tie"></i>
-            </div>
-            <div class="stat-content">
-                <div class="stat-label">Guru Aktif</div>
-                <div class="stat-value">{{ $guruAktifCount }} Guru</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Data Table Container: Jurnal Tersimpan (With Bukti Foto & Catatan & Siswa Tidak Hadir) -->
-    <div class="table-container-card">
-        <h2>Jurnal Tersimpan - {{ \Carbon\Carbon::parse($targetTanggal ?? now())->translatedFormat('d F Y') }}</h2>
-
-        <div style="overflow-x: auto;">
-            <table class="table-saved">
-                <thead>
-                    <tr>
-                        <th style="width: 100px;">TANGGAL</th>
-                        <th>GURU & MAPEL</th>
-                        <th style="width: 90px;">KELAS</th>
-                        <th style="width: 100px;">STATUS</th>
-                        <th style="width: 90px;">BUKTI FOTO</th>
-                        <th>MATERI/CATATAN</th>
-                        <th>SISWA TIDAK HADIR</th>
-                        <th style="width: 90px; text-align: center;">AKSI</th>
-                    </tr>
-                </thead>
-                <tbody>
+                <tbody class="divide-y divide-slate-100 text-slate-700">
                     @forelse($jurnals as $j)
                         @php
                             $isHadir = ($j->status_kehadiran_guru === 'Hadir');
+                            $guruName = $j->jadwal->guru->nama_guru ?? '-';
+                            $mapelName = $j->jadwal->mapel->nama_mapel ?? '-';
+                            $kelasName = $j->jadwal->kelas->nama_kelas ?? '-';
                         @endphp
-                        <tr>
-                            <td>
-                                <strong>{{ \Carbon\Carbon::parse($j->tanggal)->format('Y-m-d') }}</strong>
+                        <tr class="hover:bg-slate-50/60 transition-colors">
+                            <!-- 1. Tanggal -->
+                            <td class="py-3 px-2.5 font-semibold text-slate-800 whitespace-nowrap text-[11.5px]">
+                                {{ \Carbon\Carbon::parse($j->tanggal)->format('Y-m-d') }}
                             </td>
-                            <td>
-                                <strong>{{ $j->jadwal->guru->nama_guru ?? '-' }}</strong><br>
-                                <small style="color:#64748b;">{{ $j->jadwal->mapel->nama_mapel ?? '-' }}</small>
+
+                            <!-- 2. Guru & Mapel -->
+                            <td class="py-3 px-2.5">
+                                <div class="font-bold text-slate-900 leading-tight">{{ $guruName }}</div>
+                                <div class="text-[11px] text-slate-500">{{ $mapelName }}</div>
                             </td>
-                            <td>
-                                <strong>{{ $j->jadwal->kelas->nama_kelas ?? '-' }}</strong>
+
+                            <!-- 3. Kelas -->
+                            <td class="py-3 px-2.5 font-semibold text-slate-800 whitespace-nowrap">
+                                {{ $kelasName }}
                             </td>
-                            <td>
+
+                            <!-- 4. Status (Hadir text-only green, other statuses colored pill) -->
+                            <td class="py-3 px-2.5 whitespace-nowrap">
                                 @if($isHadir)
-                                    <span class="badge-hadir-green">Hadir</span>
+                                    <span class="text-emerald-600 font-bold whitespace-nowrap flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        <span>Hadir</span>
+                                    </span>
+                                @elseif($j->status_kehadiran_guru === 'Izin')
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                                        Izin
+                                    </span>
+                                @elseif($j->status_kehadiran_guru === 'Sakit')
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
+                                        Sakit
+                                    </span>
                                 @else
-                                    <span class="badge-absen-red">{{ $j->status_kehadiran_guru }}</span>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                                        {{ $j->status_kehadiran_guru }}
+                                    </span>
                                 @endif
                             </td>
+<<<<<<< HEAD
                             <td>
                                 @if($j->dokumentasi_url)
                                     <img src="{{ $j->dokumentasi_url }}" class="photo-thumb-box" alt="Bukti Foto">
                                 @else
                                     <div class="photo-thumb-box" title="Foto tidak diupload"></div>
                                 @endif
+=======
+
+                            <!-- 5. Materi & Catatan (Merged with Photo Preview Icon & 1-line truncation with native title tooltip) -->
+                            <td class="py-3 px-2.5">
+                                <div class="flex items-center gap-2">
+                                    @if($j->dokumentasi)
+                                        <button type="button" 
+                                                onclick="previewImage('{{ asset('storage/' . $j->dokumentasi) }}', 'Bukti Foto {{ addslashes($guruName) }} - {{ \Carbon\Carbon::parse($j->tanggal)->format('d/m/Y') }}')" 
+                                                class="w-7 h-7 rounded-lg bg-slate-100 border border-slate-200 hover:border-blue-400 shrink-0 flex items-center justify-center text-slate-400 hover:text-blue-600 transition overflow-hidden shadow-2xs cursor-pointer group" 
+                                                title="Klik untuk pratinjau bukti foto">
+                                            <img src="{{ asset('storage/' . $j->dokumentasi) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform" alt="Foto">
+                                        </button>
+                                    @endif
+                                    <div class="min-w-0 flex-1">
+                                        <div class="font-semibold text-slate-800 truncate max-w-[200px]" title="{{ $j->materi }}">
+                                            {{ $j->materi }}
+                                        </div>
+                                        @if($j->catatan)
+                                            <div class="text-[10.5px] text-slate-500 truncate max-w-[200px]" title="{{ $j->catatan }}">
+                                                {{ $j->catatan }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
                             </td>
-                            <td>
-                                <div>{{ Str::limit($j->materi, 45) }}</div>
-                                @if($j->catatan)
-                                    <small style="color:#64748b;">{{ Str::limit($j->catatan, 35) }}</small>
-                                @endif
-                            </td>
-                            <td>
+
+                            <!-- 6. Siswa Tidak Hadir -->
+                            <td class="py-3 px-2.5">
                                 @if($j->detailKetidakhadiran && $j->detailKetidakhadiran->count() > 0)
-                                    @foreach($j->detailKetidakhadiran as $d)
-                                        <span style="color:#dc2626; font-weight:700; display:block;">
-                                            {{ $d->siswa->nama_siswa ?? 'Siswa' }} - {{ strtolower($d->keterangan) }}
-                                        </span>
-                                    @endforeach
+                                    <div class="space-y-0.5 max-w-[120px]">
+                                        @foreach($j->detailKetidakhadiran as $d)
+                                            <span class="text-rose-600 font-bold block whitespace-nowrap text-[10.5px]">
+                                                {{ $d->siswa->nama_siswa ?? 'Siswa' }} ({{ strtolower($d->keterangan) }})
+                                            </span>
+                                        @endforeach
+                                    </div>
                                 @else
-                                    <span style="color:#166534; font-weight:700;">nihil</span>
+                                    <span class="text-emerald-600 font-semibold whitespace-nowrap">nihil</span>
                                 @endif
                             </td>
-                            <td>
-                                <div class="action-group">
-                                    <!-- Button 1: Eye Icon for Detail Modal -->
-                                    <button type="button" class="btn-action-icon" onclick="openDetailModal({{ $j->id_jurnal }})" title="Lihat Detail Jurnal">
-                                        <i class="fa-regular fa-eye"></i>
+
+                            <!-- 7. Aksi (Inline Visible Action Buttons: Lihat, Cetak, Hapus - No 3-Dots Dropdown!) -->
+                            <td class="py-3 px-2.5 text-center">
+                                <div class="flex items-center justify-center gap-1 whitespace-nowrap">
+                                    <!-- 1. LIHAT (Detail) -->
+                                    <button type="button" onclick="openDetailModal({{ $j->id_jurnal }})" 
+                                            class="inline-flex items-center gap-1 bg-cyan-50 hover:bg-cyan-100 text-cyan-800 border border-cyan-200/80 px-2 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer" 
+                                            title="Lihat Detail Jurnal">
+                                        <span class="material-symbols-outlined text-[13px] text-cyan-600">visibility</span>
+                                        <span>Lihat</span>
                                     </button>
 
-                                    <!-- Button 2: 3-Dots Dropdown Menu -->
-                                    <div class="action-dropdown">
-                                        <button type="button" class="btn-action-icon" onclick="toggleActionDropdown(event, {{ $j->id_jurnal }})" title="Menu Aksi">
-                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    <!-- 2. CETAK PDF -->
+                                    <a href="{{ route('admin.jurnal-mengajar.print-detail', $j->id_jurnal) }}" target="_blank" 
+                                       class="inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200/80 px-2 py-1 rounded-lg text-xs font-semibold transition-colors no-underline cursor-pointer" 
+                                       title="Cetak / Unduh PDF">
+                                        <span class="material-symbols-outlined text-[13px] text-emerald-600">print</span>
+                                        <span>Cetak</span>
+                                    </a>
+
+                                    <!-- 3. HAPUS -->
+                                    <form action="{{ route('admin.jurnal-mengajar.destroy', $j->id_jurnal) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jurnal ini?')" class="inline m-0">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200/80 px-2 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer" 
+                                                title="Hapus Jurnal">
+                                            <span class="material-symbols-outlined text-[13px] text-rose-600">delete</span>
+                                            <span>Hapus</span>
                                         </button>
-                                        <div class="action-dropdown-menu" id="dropdownMenu-{{ $j->id_jurnal }}">
-                                            <button type="button" class="dropdown-menu-item" onclick="openDetailModal({{ $j->id_jurnal }})">
-                                                <i class="fa-regular fa-eye" style="color: #2563eb;"></i>
-                                                <span>Lihat Detail</span>
-                                            </button>
-
-                                            <a href="{{ route('admin.jurnal-mengajar.print-detail', $j->id_jurnal) }}" target="_blank" class="dropdown-menu-item">
-                                                <i class="fa-solid fa-print" style="color: #059669;"></i>
-                                                <span>Cetak / Download PDF</span>
-                                            </a>
-
-                                            <form action="{{ route('admin.jurnal-mengajar.destroy', $j->id_jurnal) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jurnal ini?')" style="margin: 0;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="dropdown-menu-item danger-item">
-                                                    <i class="fa-regular fa-trash-can"></i>
-                                                    <span>Hapus Jurnal</span>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
-                                <i class="fa-regular fa-folder-open" style="font-size: 32px; margin-bottom: 10px; display: block; color: #94a3b8;"></i>
-                                Tidak ada data jurnal tersimpan yang ditemukan.
+                            <td colspan="7" class="text-center py-12 text-slate-400">
+                                <span class="material-symbols-outlined text-4xl text-slate-300 block mb-2">folder_open</span>
+                                <span class="font-medium text-xs">Tidak ada data jurnal tersimpan yang ditemukan.</span>
                             </td>
                         </tr>
                     @endforelse
@@ -991,131 +601,164 @@
             </table>
         </div>
 
-        <!-- Custom Pagination Bar -->
-        <div class="pagination-bar">
-            <div style="font-size: 13px; color: #64748b; font-weight: 600;">
-                Menampilkan {{ $jurnals->firstItem() ?? 0 }} - {{ $jurnals->lastItem() ?? 0 }} dari {{ $jurnals->total() }} data
+        <!-- DataTable Footer Pagination (Styling identical to Master Data Siswa / Kelas) -->
+        <div class="flex items-center justify-between flex-wrap gap-4 pt-2 text-xs text-slate-500">
+            <div>
+                Menampilkan <span class="font-semibold text-slate-800">{{ $jurnals->firstItem() ?? 0 }} - {{ $jurnals->lastItem() ?? 0 }}</span> dari <span class="font-semibold text-slate-800">{{ $jurnals->total() }}</span> data jurnal
             </div>
             <div>
-                {{ $jurnals->links() }}
+                {{ $jurnals->appends(request()->query())->links() }}
+            </div>
+        </div>
+    </section>
+    <!-- END: MainSavedJournalSection -->
+
+</div>
+
+<!-- Modal 1: Detail Jurnal Popup -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal-box bg-white border border-slate-200 rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-xl relative">
+        <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-xl">menu_book</span>
+                </div>
+                <h3 class="text-base font-bold text-slate-900">Detail Jurnal Mengajar</h3>
+            </div>
+            <button type="button" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition cursor-pointer" onclick="closeDetailModal()">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+        </div>
+
+        <div id="modalDetailContent">
+            <div class="text-center py-10 text-slate-500">
+                <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-blue-600"></i>
+                <p class="text-xs">Memuat detail jurnal...</p>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal 1: Detail Jurnal Popup -->
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-content-box">
-            <div class="modal-header">
-                <h3>Detail Jurnal Mengajar</h3>
-                <button type="button" class="btn-modal-close" onclick="closeDetailModal()">&times;</button>
+<!-- Modal 2: Tambah Jurnal Mengajar Baru -->
+<div class="modal-overlay" id="createModal">
+    <div class="modal-box bg-white border border-slate-200 rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-xl relative">
+        <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-xl">post_add</span>
+                </div>
+                <h3 class="text-base font-bold text-slate-900">Tambah Jurnal Mengajar Baru</h3>
+            </div>
+            <button type="button" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition cursor-pointer" onclick="closeCreateModal()">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+        </div>
+
+        <form action="{{ route('admin.jurnal-mengajar.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4 text-xs">
+            @csrf
+            <div>
+                <label class="block font-bold text-slate-700 mb-1">Pilih Jadwal Pelajaran *</label>
+                <select name="id_jadwal" class="w-full text-xs rounded-xl border-slate-200 py-2.5 px-3 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50" required>
+                    <option value="">-- Pilih Jadwal (Guru, Mapel, Kelas) --</option>
+                    @foreach($jadwalList as $jadwal)
+                        <option value="{{ $jadwal->id_jadwal }}">
+                            {{ $jadwal->hari }} | {{ $jadwal->kelas->nama_kelas ?? '-' }} - {{ $jadwal->mapel->nama_mapel ?? '-' }} ({{ $jadwal->guru->nama_guru ?? '-' }})
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
-            <div id="modalDetailContent">
-                <div style="text-align: center; padding: 30px; color: #64748b;">
-                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px;"></i>
-                    <p>Memuat detail jurnal...</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Tanggal Mengajar *</label>
+                    <input type="date" name="tanggal" value="{{ date('Y-m-d') }}" class="w-full text-xs rounded-xl border-slate-200 py-2.5 px-3 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50" required>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Status Kehadiran Guru *</label>
+                    <select name="status_kehadiran_guru" class="w-full text-xs rounded-xl border-slate-200 py-2.5 px-3 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50" required>
+                        <option value="Hadir" selected>Hadir (Terlaksana)</option>
+                        <option value="Izin">Izin</option>
+                        <option value="Sakit">Sakit</option>
+                        <option value="Tanpa Keterangan">Tanpa Keterangan (Alpa)</option>
+                    </select>
                 </div>
             </div>
+
+            <div>
+                <label class="block font-bold text-slate-700 mb-1">Materi Pembelajaran *</label>
+                <textarea name="materi" rows="3" class="w-full text-xs rounded-xl border-slate-200 py-2.5 px-3 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50 font-sans" placeholder="Tuliskan materi pembelajaran yang disampaikan..." required></textarea>
+            </div>
+
+            <div>
+                <label class="block font-bold text-slate-700 mb-1">Catatan Pembelajaran / Kejadian <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                <textarea name="catatan" rows="2" class="w-full text-xs rounded-xl border-slate-200 py-2.5 px-3 text-slate-700 focus:border-blue-500 focus:ring-blue-500 bg-slate-50/50 font-sans" placeholder="Tuliskan catatan kejadian kelas jika ada..."></textarea>
+            </div>
+
+            <div>
+                <label class="block font-bold text-slate-700 mb-1">Upload Foto Dokumentasi <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                <input type="file" name="dokumentasi" accept="image/*" class="w-full text-xs text-slate-600 rounded-xl border border-slate-200 py-2 px-3 bg-slate-50/50 file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+                <button type="button" class="px-4 py-2 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition cursor-pointer" onclick="closeCreateModal()">
+                    Batal
+                </button>
+                <button type="submit" class="px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-2xs transition cursor-pointer">
+                    Simpan Jurnal
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal 3: Foto Dokumentasi Lightbox Preview -->
+<div class="modal-overlay" id="imagePreviewModal" onclick="closeImagePreview()">
+    <div class="modal-box bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-4 shadow-2xl relative" onclick="event.stopPropagation()">
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+            <h4 class="text-xs font-bold text-slate-800" id="imagePreviewTitle">Bukti Foto Dokumentasi</h4>
+            <button type="button" class="w-7 h-7 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition cursor-pointer" onclick="closeImagePreview()">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+        <div class="rounded-xl overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center max-h-[70vh]">
+            <img id="previewModalImg" src="" alt="Pratinjau Foto" class="max-w-full max-h-[70vh] object-contain">
         </div>
     </div>
-
-    <!-- Modal 2: Tambah Jurnal Mengajar Baru -->
-    <div class="modal-overlay" id="createModal">
-        <div class="modal-content-box">
-            <div class="modal-header">
-                <h3>+ Tambah Jurnal Mengajar Baru</h3>
-                <button type="button" class="btn-modal-close" onclick="closeCreateModal()">&times;</button>
-            </div>
-
-            <form action="{{ route('admin.jurnal-mengajar.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
-                    <div>
-                        <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Pilih Jadwal Pelajaran *</label>
-                        <select name="id_jadwal" class="filter-select" style="width: 100%;" required>
-                            <option value="">-- Pilih Jadwal (Guru, Mapel, Kelas) --</option>
-                            @foreach($jadwalList as $jadwal)
-                                <option value="{{ $jadwal->id_jadwal }}">
-                                    {{ $jadwal->hari }} | {{ $jadwal->kelas->nama_kelas ?? '-' }} - {{ $jadwal->mapel->nama_mapel ?? '-' }} ({{ $jadwal->guru->nama_guru ?? '-' }})
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                        <div>
-                            <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Tanggal Mengajar *</label>
-                            <input type="date" name="tanggal" value="{{ date('Y-m-d') }}" class="filter-control-date" style="width: 100%;" required>
-                        </div>
-
-                        <div>
-                            <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Status Kehadiran Guru *</label>
-                            <select name="status_kehadiran_guru" class="filter-select" style="width: 100%;" required>
-                                <option value="Hadir" selected>Hadir (Terlaksana)</option>
-                                <option value="Izin">Izin</option>
-                                <option value="Sakit">Sakit</option>
-                                <option value="Tanpa Keterangan">Tanpa Keterangan (Alpa)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Materi Pembelajaran *</label>
-                        <textarea name="materi" rows="3" class="filter-control-date" style="width: 100%; font-family: inherit;" placeholder="Tuliskan materi pembelajaran yang disampaikan..." required></textarea>
-                    </div>
-
-                    <div>
-                        <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Catatan Pembelajaran / Kejadian (Opsional)</label>
-                        <textarea name="catatan" rows="2" class="filter-control-date" style="width: 100%; font-family: inherit;" placeholder="Tuliskan catatan kejadian kelas..."></textarea>
-                    </div>
-
-                    <div>
-                        <label style="display: block; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 4px;">Upload Foto Dokumentasi (Opsional)</label>
-                        <input type="file" name="dokumentasi" accept="image/*" class="filter-control-date" style="width: 100%;">
-                    </div>
-                </div>
-
-                <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
-                    <button type="button" class="btn-filter-blue" style="background:#64748b;" onclick="closeCreateModal()">Batal</button>
-                    <button type="submit" class="btn-action-add" style="border-radius: 12px;">Simpan Jurnal</button>
-                </div>
-            </form>
-        </div>
-    </div>
+</div>
 
 @endsection
 
 @section('scripts')
 <script>
-    function toggleActionDropdown(event, idJurnal) {
-        event.stopPropagation();
-        const allMenus = document.querySelectorAll('.action-dropdown-menu');
-        allMenus.forEach(m => {
-            if (m.id !== `dropdownMenu-${idJurnal}`) {
-                m.classList.remove('show');
-            }
-        });
+    // ── Image Preview Lightbox ────────────────────────────────────
+    function previewImage(url, title) {
+        const modal = document.getElementById('imagePreviewModal');
+        const img = document.getElementById('previewModalImg');
+        const titleEl = document.getElementById('imagePreviewTitle');
 
-        const targetMenu = document.getElementById(`dropdownMenu-${idJurnal}`);
-        if (targetMenu) {
-            targetMenu.classList.toggle('show');
+        if (modal && img) {
+            img.src = url;
+            if (titleEl && title) titleEl.textContent = title;
+            modal.classList.add('active');
         }
     }
 
-    document.addEventListener('click', function() {
-        const allMenus = document.querySelectorAll('.action-dropdown-menu');
-        allMenus.forEach(m => m.classList.remove('show'));
-    });
+    function closeImagePreview() {
+        const modal = document.getElementById('imagePreviewModal');
+        if (modal) modal.classList.remove('active');
+    }
 
+    // ── Detail Modal AJAX ─────────────────────────────────────────
     function openDetailModal(idJurnal) {
         const modal = document.getElementById('detailModal');
         const container = document.getElementById('modalDetailContent');
 
         modal.classList.add('active');
         container.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: #64748b;">
-                <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px;"></i>
-                <p>Memuat detail jurnal...</p>
+            <div class="text-center py-10 text-slate-500">
+                <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-blue-600"></i>
+                <p class="text-xs">Memuat detail jurnal...</p>
             </div>
         `;
 
@@ -1132,106 +775,123 @@
                 let absensiHtml = '';
                 if (d.absensi_siswa && d.absensi_siswa.length > 0) {
                     absensiHtml = d.absensi_siswa.map((s, idx) => `
-                        <tr>
-                            <td style="padding:8px 12px; border-bottom:1px solid #e2e8f0;">${idx + 1}</td>
-                            <td style="padding:8px 12px; border-bottom:1px solid #e2e8f0;"><strong>${s.nama_siswa}</strong></td>
-                            <td style="padding:8px 12px; border-bottom:1px solid #e2e8f0;">${s.nis}</td>
-                            <td style="padding:8px 12px; border-bottom:1px solid #e2e8f0; font-weight:700; color:#dc2626;">${s.keterangan}</td>
+                        <tr class="hover:bg-slate-50/60">
+                            <td class="px-3 py-2 border-b border-slate-100 text-center">${idx + 1}</td>
+                            <td class="px-3 py-2 border-b border-slate-100 font-bold text-slate-800">${s.nama_siswa}</td>
+                            <td class="px-3 py-2 border-b border-slate-100 text-slate-500">${s.nis}</td>
+                            <td class="px-3 py-2 border-b border-slate-100 font-bold text-rose-600">${s.keterangan}</td>
                         </tr>
                     `).join('');
                 } else {
-                    absensiHtml = `<tr><td colspan="4" style="text-align:center; color:#166534; font-weight:700; padding:12px;">Semua siswa hadir (Nihil)</td></tr>`;
+                    absensiHtml = `<tr><td colspan="4" class="text-center text-emerald-700 font-bold py-3 bg-emerald-50/40">Semua siswa hadir (Nihil)</td></tr>`;
                 }
 
                 let photoHtml = '';
                 if (d.dokumentasi_url) {
                     photoHtml = `
-                        <div style="margin-top:16px; text-align:center;">
-                            <span style="display:block; font-size:11px; font-weight:700; color:#64748b; margin-bottom:6px;">FOTO BUKTI DOKUMENTASI</span>
-                            <img src="${d.dokumentasi_url}" style="max-width:100%; max-height:240px; border-radius:12px; border:1px solid #cbd5e1; object-fit:cover;">
+                        <div class="mt-4 text-center">
+                            <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">FOTO BUKTI DOKUMENTASI</span>
+                            <img src="${d.dokumentasi_url}" class="max-w-full max-h-56 rounded-xl border border-slate-200 mx-auto object-cover shadow-2xs">
                         </div>
                     `;
                 }
 
                 container.innerHTML = `
-                    <div class="modal-body-grid">
-                        <div class="detail-item-box">
-                            <span>TANGGAL</span>
-                            <strong>${d.tanggal}</strong>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">TANGGAL</span>
+                            <strong class="text-xs text-slate-800">${d.tanggal}</strong>
                         </div>
-                        <div class="detail-item-box">
-                            <span>STATUS GURU</span>
-                            <strong style="color: ${d.status_kehadiran_guru === 'Hadir' ? '#166534' : '#dc2626'};">${d.status_kehadiran_guru}</strong>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">STATUS GURU</span>
+                            <strong class="text-xs ${d.status_kehadiran_guru === 'Hadir' ? 'text-emerald-700' : 'text-rose-700'}">${d.status_kehadiran_guru}</strong>
                         </div>
-                        <div class="detail-item-box">
-                            <span>GURU PENGAJAR</span>
-                            <strong>${d.guru}</strong>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">GURU PENGAJAR</span>
+                            <strong class="text-xs text-slate-800">${d.guru}</strong>
                         </div>
-                        <div class="detail-item-box">
-                            <span>MATA PELAJARAN</span>
-                            <strong>${d.mapel}</strong>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">MATA PELAJARAN</span>
+                            <strong class="text-xs text-slate-800">${d.mapel}</strong>
                         </div>
-                        <div class="detail-item-box">
-                            <span>KELAS & RUANGAN</span>
-                            <strong>${d.kelas} — Ruang ${d.ruangan}</strong>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">KELAS & RUANGAN</span>
+                            <strong class="text-xs text-slate-800">${d.kelas} — Ruang ${d.ruangan}</strong>
                         </div>
-                        <div class="detail-item-box">
-                            <span>JAM KE-</span>
-                            <strong>Jam Ke-${d.jam_ke}</strong>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">JAM KE-</span>
+                            <strong class="text-xs text-slate-800">Jam Ke-${d.jam_ke}</strong>
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 16px;">
-                        <span style="display:block; font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:4px;">MATERI PEMBELAJARAN</span>
-                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:12px; padding:12px; font-size:13px; line-height:1.5;">${d.materi}</div>
+                    <div class="mb-3">
+                        <span class="block text-[10.5px] font-bold text-slate-400 uppercase tracking-wider mb-1">MATERI PEMBELAJARAN</span>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 leading-relaxed">${d.materi}</div>
                     </div>
 
-                    <div style="margin-bottom: 16px;">
-                        <span style="display:block; font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:4px;">CATATAN PEMBELAJARAN</span>
-                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:12px; padding:12px; font-size:13px; color:#475569;">${d.catatan}</div>
+                    <div class="mb-3">
+                        <span class="block text-[10.5px] font-bold text-slate-400 uppercase tracking-wider mb-1">CATATAN PEMBELAJARAN</span>
+                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-600 leading-relaxed">${d.catatan || '<span class="text-slate-400 italic">Tidak ada catatan khusus.</span>'}</div>
                     </div>
 
-                    <div style="margin-bottom: 16px;">
-                        <span style="display:block; font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; margin-bottom:6px;">DAFTAR SISWA TIDAK HADIR</span>
-                        <table style="width:100%; border-collapse:collapse; background:#ffffff; border:1px solid #cbd5e1; border-radius:10px; overflow:hidden; font-size:12.5px;">
-                            <thead>
-                                <tr style="background:#f1f5f9; text-align:left; font-size:11px; color:#475569;">
-                                    <th style="padding:8px 12px;">NO</th>
-                                    <th style="padding:8px 12px;">NAMA SISWA</th>
-                                    <th style="padding:8px 12px;">NISN</th>
-                                    <th style="padding:8px 12px;">STATUS</th>
-                                </tr>
-                            </thead>
-                            <tbody>${absensiHtml}</tbody>
-                        </table>
+                    <div class="mb-3">
+                        <span class="block text-[10.5px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">DAFTAR SISWA TIDAK HADIR</span>
+                        <div class="border border-slate-200 rounded-xl overflow-hidden shadow-2xs">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-slate-100/80 text-[10.5px] font-bold text-slate-500 uppercase tracking-wider">
+                                        <th class="px-3 py-2 w-10 text-center">NO</th>
+                                        <th class="px-3 py-2">NAMA SISWA</th>
+                                        <th class="px-3 py-2 w-28">NISN</th>
+                                        <th class="px-3 py-2 w-28">STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${absensiHtml}</tbody>
+                            </table>
+                        </div>
                     </div>
 
                     ${photoHtml}
 
-                    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px; border-top:1px solid #e2e8f0; padding-top:14px;">
-                        <a href="{{ url('/admin/jurnal-mengajar-admin/print-detail') }}/${d.id_jurnal}" target="_blank" class="btn-action-add" style="border-radius:12px; text-decoration:none;">
-                            <i class="fa-solid fa-print"></i> Cetak PDF / Detail
+                    <div class="flex justify-end gap-2 pt-4 mt-4 border-t border-slate-100">
+                        <a href="{{ url('/admin/jurnal-mengajar-admin/print-detail') }}/${d.id_jurnal}" target="_blank" 
+                           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 transition shadow-2xs no-underline">
+                            <span class="material-symbols-outlined text-[16px]">print</span>
+                            <span>Cetak PDF / Detail</span>
                         </a>
                     </div>
                 `;
             }
         })
         .catch(err => {
-            container.innerHTML = `<p style="color:#dc2626; text-align:center;">Gagal memuat detail jurnal.</p>`;
+            container.innerHTML = `<p class="text-rose-600 text-center py-6 text-xs font-semibold">Gagal memuat detail jurnal. Silakan coba kembali.</p>`;
         });
     }
 
     function closeDetailModal() {
-        document.getElementById('detailModal').classList.remove('active');
+        const modal = document.getElementById('detailModal');
+        if (modal) modal.classList.remove('active');
     }
 
+    // ── Create Modal ──────────────────────────────────────────────
     function openCreateModal() {
-        document.getElementById('createModal').classList.add('active');
+        const modal = document.getElementById('createModal');
+        if (modal) modal.classList.add('active');
     }
 
     function closeCreateModal() {
-        document.getElementById('createModal').classList.remove('active');
+        const modal = document.getElementById('createModal');
+        if (modal) modal.classList.remove('active');
     }
+
+    // Close modal on Escape key press
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeDetailModal();
+            closeCreateModal();
+            closeImagePreview();
+        }
+    });
 
     // ── Pagination for Laporan Guru Alpa Table ─────────────────────
     document.addEventListener('DOMContentLoaded', function () {
@@ -1242,8 +902,9 @@
         const pageNumbersContainer = document.getElementById('alpaPageNumbers');
         const prevBtn = document.getElementById('alpaPrevBtn');
         const nextBtn = document.getElementById('alpaNextBtn');
+        const showingCountEl = document.getElementById('alpaShowingCount');
 
-        if (!paginationWrapper) return;
+        if (!paginationWrapper || totalRows === 0) return;
 
         if (totalRows <= rowsPerPage) {
             paginationWrapper.style.display = 'none';
@@ -1262,6 +923,10 @@
             rows.forEach((row, index) => {
                 row.style.display = (index >= start && index < end) ? '' : 'none';
             });
+
+            if (showingCountEl) {
+                showingCountEl.textContent = Math.min(end, totalRows) - start;
+            }
 
             renderPageNumbers();
             if (prevBtn) prevBtn.disabled = (currentPage === 1);

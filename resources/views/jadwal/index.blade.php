@@ -1,292 +1,142 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Jadwal Pelajaran — EDU JOURNAL')
+@section('title', 'Jadwal Pelajaran — EDU JOURNAL')
 
 @section('styles')
-<style>
-    .breadcrumb-text {
-        font-size: 14px;
-        color: #475569;
-        font-weight: 600;
-        margin-bottom: 20px;
+<!-- Tailwind CSS CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              900: '#1e3a8a',
+            }
+          },
+          boxShadow: {
+            'card-subtle': '0 2px 10px 0 rgba(15, 23, 42, 0.04)',
+            '2xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+          }
+        }
+      }
     }
-    .breadcrumb-text span {
-        color: #0f172a;
-        font-weight: 800;
+</script>
+
+<style data-purpose="custom-scrollbars">
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
 
-    .card {
-        background: #ffffff;
-        border-radius: 18px;
-        border: 1px solid #cbd5e1;
-        padding: 24px;
-        margin-bottom: 24px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    }
-
-    .card h2 {
-        font-size: 20px;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 16px;
-    }
-
-    .form-grid-3 {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 16px;
-    }
-
-    .form-group {
-        margin-bottom: 14px;
-    }
-
-    .form-group label {
-        display: block;
-        font-size: 13px;
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 6px;
-    }
-
-    .form-control {
-        width: 100%;
-        background: #f8fafc;
-        border: 1.5px solid #cbd5e1;
-        padding: 10px 14px;
-        border-radius: 10px;
-        font-size: 13.5px;
-        color: #1e293b;
-        outline: none;
-        transition: all 0.2s ease;
-    }
-
-    .form-control:focus {
-        background: #ffffff;
-        border-color: #3b5490;
-        box-shadow: 0 0 0 3px rgba(59, 84, 144, 0.15);
-    }
-
-    .form-control.input-error {
-        border-color: #ef4444 !important;
-        background-color: #fef2f2 !important;
-    }
-
-    .form-hint {
-        font-size: 11.5px;
-        color: #94a3b8;
-        font-style: italic;
-        font-weight: 500;
-        margin-top: 4px;
-        display: block;
-    }
-
-    .form-hint-box {
-        background: #f8fafc;
-        border: 1px dashed #cbd5e1;
-        border-radius: 12px;
-        padding: 12px 16px;
-        margin-bottom: 18px;
-        font-size: 12px;
-        color: #64748b;
-        line-height: 1.5;
-    }
-
-    .btn-submit {
-        background: #3b5490;
-        color: white;
-        padding: 10px 24px;
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 700;
-        border: none;
-        cursor: pointer;
-        margin-top: 10px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.2s;
-    }
-    .btn-submit:hover { background: #2e4375; }
-
-    .btn-reset-form {
-        background: #fbbf24;
-        color: #78350f;
-        padding: 10px 24px;
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 700;
-        border: none;
-        cursor: pointer;
-        margin-top: 10px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 2px 6px rgba(251, 191, 36, 0.2);
-        transition: all 0.2s ease;
-    }
-    .btn-reset-form:hover {
-        background: #f59e0b;
-        color: #78350f;
-    }
-
-    .alert-success {
-        background: #ecfdf5;
-        border: 1px solid #a7f3d0;
-        color: #065f46;
-        padding: 14px 20px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        font-size: 13.5px;
-        font-weight: 600;
-    }
-
-    .alert-danger {
-        background: #fef2f2;
-        border: 1px solid #fecaca;
-        color: #991b1b;
-        padding: 14px 20px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        font-size: 13.5px;
-        font-weight: 600;
-    }
-
-    /* Table & Action Buttons */
-    .table-custom {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 16px;
-    }
-
-    .table-custom th {
-        font-size: 11px;
-        font-weight: 800;
-        text-transform: uppercase;
-        color: #64748b;
-        padding: 12px 16px;
-        text-align: left;
-        background: #f1f5f9;
-        border-bottom: 1px solid #e2e8f0;
-    }
-
-    .table-custom td {
-        padding: 14px 16px;
-        font-size: 13px;
-        color: #1e293b;
-        border-bottom: 1px solid #f1f5f9;
-        vertical-align: middle;
-    }
-
-    .btn-aksi {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 7px 15px;
-        border-radius: 12px;
-        font-size: 13px;
-        font-weight: 700;
-        text-decoration: none;
-        border: 1px solid transparent;
-        cursor: pointer;
-        transition: all 0.15s ease;
-        line-height: 1.2;
-    }
-    .btn-lihat {
-        background: #e0f2fe;
-        color: #0369a1;
-        border-color: #bae6fd;
-    }
-    .btn-lihat:hover {
-        background: #0284c7;
-        color: #ffffff;
-        border-color: #0284c7;
-    }
-
-    .btn-edit-act {
-        background: #fef3c7;
-        color: #b45309;
-        border-color: #fde68a;
-    }
-    .btn-edit-act:hover {
-        background: #d97706;
-        color: #ffffff;
-        border-color: #d97706;
-    }
-
-    .btn-hapus-act {
-        background: #ffe4e6;
-        color: #be123c;
-        border-color: #fecdd3;
-    }
-    .btn-hapus-act:hover {
-        background: #e11d48;
-        color: #ffffff;
-        border-color: #e11d48;
-    }
-
-    .btn-trash {
-        background: #fef3c7;
-        color: #b45309;
-        border: 1px solid #fde68a;
-        padding: 9px 18px;
-        border-radius: 12px;
-        font-size: 13px;
-        font-weight: 700;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.2s ease;
-    }
-    .btn-trash:hover {
-        background: #fde68a;
-        color: #78350f;
-    }
-
-    .modal-overlay {
+    /* Modal Backdrop & Animation */
+    .modal-backdrop-custom {
         display: none;
         position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
+        inset: 0;
         background: rgba(15, 23, 42, 0.6);
         backdrop-filter: blur(4px);
         z-index: 9999;
         align-items: center;
         justify-content: center;
+        padding: 1rem;
     }
-    .modal-card {
+    .modal-backdrop-custom.show {
+        display: flex;
+    }
+    .modal-box-custom {
         background: #ffffff;
-        border-radius: 20px;
-        width: 90%;
-        max-width: 560px;
-        padding: 28px;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e2e8f0;
+        border-radius: 1.25rem;
+        max-width: 460px;
+        width: 100%;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+        0% { opacity: 0; transform: scale(0.95); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .custom-select {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.75rem center;
+      background-repeat: no-repeat;
+      background-size: 1.25em 1.25em;
+      padding-right: 2.5rem;
     }
 </style>
 @endsection
 
+@section('topbar_left')
+<div class="flex items-center">
+    <h1 class="page-header-main-title text-base font-extrabold text-slate-900 tracking-tight leading-none m-0 p-0">
+        Jadwal Pelajaran
+    </h1>
+</div>
+@endsection
+
 @section('content')
 
-    <!-- Header Top Bar -->
-    <div class="page-header-container">
-        <div class="page-title-group">
-            <h1>Jadwal Pelajaran</h1>
-            <p>Kelola penjadwalan mata pelajaran, ruang kelas, dan guru pengajar harian</p>
-        </div>
-    </div>
+<div class="space-y-6">
 
-    <div class="breadcrumb-text">
-        EDU JOURNAL > <span>Manajemen Jadwal Pelajaran</span>
-    </div>
-
+    <!-- Flash Notifications -->
     @if(session('success'))
-        <div class="alert-success">{{ session('success') }}</div>
+        <div class="flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-xs font-semibold shadow-2xs">
+            <span class="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"/>
+                </svg>
+            </span>
+            <div class="flex-1">{{ session('success') }}</div>
+        </div>
     @endif
 
-    @if($errors->any())
-        <div class="alert-danger">
-            <ul style="margin:0; padding-left:18px;">
+    @if(session('error'))
+        <div class="flex items-center gap-3 p-4 bg-rose-50 border border-rose-200 rounded-2xl text-rose-800 text-xs font-semibold shadow-2xs">
+            <span class="w-7 h-7 rounded-xl bg-rose-100 flex items-center justify-center shrink-0 text-rose-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                    <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"/>
+                </svg>
+            </span>
+            <div class="flex-1">{{ session('error') }}</div>
+        </div>
+    @endif
+
+    @if(isset($errors) && $errors->any())
+        <div class="p-4 bg-rose-50 border border-rose-200 rounded-2xl text-rose-800 text-xs font-semibold shadow-2xs space-y-1">
+            <div class="flex items-center gap-2 text-rose-900 font-bold mb-1">
+                <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                </svg>
+                <span>Terdapat Kesalahan Pengisian Formulir:</span>
+            </div>
+            <ul class="list-disc list-inside space-y-0.5 text-[11px] text-rose-700 pl-2">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -294,95 +144,152 @@
         </div>
     @endif
 
-    <!-- Card 1: Tambah Jadwal secara Manual -->
-    <div class="card">
-        <h2>Tambah Jadwal Pelajaran Secara Manual</h2>
+    <!-- Top Tab Navigation Card -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 p-1.5 flex items-center gap-1.5 shadow-2xs overflow-x-auto">
+        <!-- Tab 1: Tambah Jadwal Secara Manual -->
+        <button type="button" onclick="switchTab('manual')" id="btn-tab-manual" class="tab-button-nav flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all bg-blue-50 text-blue-600 border border-blue-200/80 shadow-2xs whitespace-nowrap cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+            <span>Tambah Jadwal Secara Manual</span>
+        </button>
+
+        <!-- Tab 2: Tambah Jadwal Baru via Import File -->
+        <button type="button" onclick="switchTab('import')" id="btn-tab-import" class="tab-button-nav flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all border border-transparent whitespace-nowrap cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+            <span>Tambah Jadwal Baru via Import File</span>
+        </button>
+
+        <!-- Tab 3: Tambah Cepat & Banyak (Per Kelas) -->
+        <button type="button" onclick="switchTab('batch')" id="btn-tab-batch" class="tab-button-nav flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all border border-transparent whitespace-nowrap cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M4 6h16M4 10h16M4 14h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+            <span>Tambah Cepat &amp; Banyak (Per Kelas)</span>
+        </button>
+    </div>
+
+    <!-- TAB 1 CONTENT: Form Manual Input -->
+    <div id="panel-tab-manual" class="tab-content-panel bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5 sm:p-6">
+        <div class="mb-5">
+            <h2 class="text-base font-bold text-slate-900">Tambah Jadwal Pelajaran Secara Manual</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Lengkapi formulir di bawah ini untuk menambahkan satu jadwal pengajaran spesifik.</p>
+        </div>
 
         <form action="{{ route('jadwal.store') }}" method="POST" id="formTambahJadwal">
             @csrf
-
-
-
-            <div class="form-grid-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                 <!-- Hari -->
-                <div class="form-group">
-                    <label for="hari">Hari <span style="color:#ef4444;">*</span></label>
-                    <select id="hari" name="hari" class="form-control @error('hari') input-error @enderror" onchange="updateJamOptionsByHari()">
-                        <option value="" disabled {{ old('hari') ? '' : 'selected' }} style="color:#94a3b8;">-- Pilih Hari --</option>
+                <div>
+                    <label for="hari" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Hari <span class="text-rose-500">*</span>
+                    </label>
+                    <select id="hari" name="hari" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all @error('hari') border-rose-400 @enderror" onchange="updateJamOptionsByHari()">
+                        <option value="" disabled {{ old('hari') ? '' : 'selected' }}>-- Pilih Hari --</option>
                         <option value="Senin" {{ old('hari') == 'Senin' ? 'selected' : '' }}>Senin</option>
                         <option value="Selasa" {{ old('hari') == 'Selasa' ? 'selected' : '' }}>Selasa</option>
                         <option value="Rabu" {{ old('hari') == 'Rabu' ? 'selected' : '' }}>Rabu</option>
                         <option value="Kamis" {{ old('hari') == 'Kamis' ? 'selected' : '' }}>Kamis</option>
                         <option value="Jumat" {{ old('hari') == 'Jumat' ? 'selected' : '' }}>Jumat</option>
                     </select>
-                    <span class="form-hint">Contoh saran: Senin / Jumat</span>
+                    <span class="text-[11px] text-slate-400 italic mt-1 block">Contoh saran: Senin / Jumat</span>
+                    @error('hari')
+                        <span class="text-[11px] text-rose-500 font-semibold block mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Kelas -->
-                <div class="form-group">
-                    <label for="id_kelas">Kelas <span style="color:#ef4444;">*</span></label>
-                    <select id="id_kelas" name="id_kelas" class="form-control @error('id_kelas') input-error @enderror">
-                        <option value="" disabled {{ old('id_kelas') ? '' : 'selected' }} style="color:#94a3b8;">-- Pilih Kelas --</option>
+                <div>
+                    <label for="id_kelas" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Kelas <span class="text-rose-500">*</span>
+                    </label>
+                    <select id="id_kelas" name="id_kelas" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all @error('id_kelas') border-rose-400 @enderror">
+                        <option value="" disabled {{ old('id_kelas') ? '' : 'selected' }}>-- Pilih Kelas --</option>
                         @foreach($kelases as $k)
                             <option value="{{ $k->id_kelas }}" {{ old('id_kelas') == $k->id_kelas ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
                         @endforeach
                     </select>
-                    <span class="form-hint">Contoh saran: X RPL 1 / XI TKJ 2</span>
+                    <span class="text-[11px] text-slate-400 italic mt-1 block">Contoh saran: X RPL 1 / XI TKJ 2</span>
+                    @error('id_kelas')
+                        <span class="text-[11px] text-rose-500 font-semibold block mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <!-- Guru Pengampu (NIP & Filtered Verified) -->
-                <div class="form-group">
-                    <label for="id_guru">Guru Pengampu <span style="color:#ef4444;">*</span></label>
-                    <select id="id_guru" name="id_guru" class="form-control @error('id_guru') input-error @enderror">
-                        <option value="" disabled {{ old('id_guru') ? '' : 'selected' }} style="color:#94a3b8;">-- Pilih Guru (Terverifikasi) --</option>
+                <!-- Guru Pengampu -->
+                <div>
+                    <label for="id_guru" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Guru Pengampu <span class="text-rose-500">*</span>
+                    </label>
+                    <select id="id_guru" name="id_guru" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all @error('id_guru') border-rose-400 @enderror">
+                        <option value="" disabled {{ old('id_guru') ? '' : 'selected' }}>-- Pilih Guru (Terverifikasi) --</option>
                         @foreach($gurus as $g)
                             <option value="{{ $g->id_guru }}" {{ old('id_guru') == $g->id_guru ? 'selected' : '' }}>
                                 {{ $g->nama_guru }} — NIP. {{ $g->nip ?? '-' }}
                             </option>
                         @endforeach
                     </select>
-                    <span class="form-hint">Contoh saran: Budi Santoso — NIP. 19820315...</span>
+                    <span class="text-[11px] text-slate-400 italic mt-1 block">Contoh saran: Budi Santoso — NIP. 19820315...</span>
+                    @error('id_guru')
+                        <span class="text-[11px] text-rose-500 font-semibold block mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Mata Pelajaran -->
-                <div class="form-group">
-                    <label for="id_mapel">Mata Pelajaran <span style="color:#ef4444;">*</span></label>
-                    <select id="id_mapel" name="id_mapel" class="form-control @error('id_mapel') input-error @enderror">
-                        <option value="" disabled {{ old('id_mapel') ? '' : 'selected' }} style="color:#94a3b8;">-- Pilih Mapel --</option>
+                <div>
+                    <label for="id_mapel" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Mata Pelajaran <span class="text-rose-500">*</span>
+                    </label>
+                    <select id="id_mapel" name="id_mapel" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all @error('id_mapel') border-rose-400 @enderror">
+                        <option value="" disabled {{ old('id_mapel') ? '' : 'selected' }}>-- Pilih Mapel --</option>
                         @foreach($mapels as $m)
                             <option value="{{ $m->id_mapel }}" {{ old('id_mapel') == $m->id_mapel ? 'selected' : '' }}>{{ $m->nama_mapel }}</option>
                         @endforeach
                     </select>
-                    <span class="form-hint">Contoh saran: Matematika / Pemrograman Web</span>
-                </div>
-
-                <!-- Ruangan -->
-                <div class="form-group">
-                    <label for="id_ruangan">Ruangan <span style="color:#ef4444;">*</span></label>
-                    <select id="id_ruangan" name="id_ruangan" class="form-control @error('id_ruangan') input-error @enderror" onchange="toggleCustomRuangan(this)">
-                        <option value="" disabled {{ old('id_ruangan') ? '' : 'selected' }} style="color:#94a3b8;">-- Pilih Ruangan --</option>
-                        @foreach($ruangans as $r)
-                            <option value="{{ $r->id_ruangan }}" {{ old('id_ruangan') == $r->id_ruangan ? 'selected' : '' }}>{{ $r->nama_ruangan }}</option>
-                        @endforeach
-                        <option value="custom" {{ (old('id_ruangan') == 'custom' || old('nama_ruangan_custom')) ? 'selected' : '' }} style="font-weight:700; color:#2563eb;">+ Ketik Ruangan Baru (Custom)...</option>
-                    </select>
-                    <span class="form-hint">Contoh saran: Lab. RPL 1 / Ruang Teori 04</span>
-                </div>
-
-                <div class="form-group" id="custom_ruangan_wrapper" style="display: {{ (old('id_ruangan') == 'custom' || old('nama_ruangan_custom')) ? 'block' : 'none' }};">
-                    <label for="nama_ruangan_custom" style="color:#2563eb;">Nama Ruangan Baru (Custom) <span style="color:#ef4444;">*</span></label>
-                    <input type="text" id="nama_ruangan_custom" name="nama_ruangan_custom" value="{{ old('nama_ruangan_custom') }}" class="form-control @error('nama_ruangan_custom') input-error @enderror" placeholder="Contoh: Ruang Teori 05 / Lab. AI">
-                    <small style="color:#64748b; font-size:12px; display:block; margin-top:4px;">Ruangan baru ini akan tersimpan permanen di database dan muncul di seluruh pilihan ruangan sistem.</small>
-                    @error('nama_ruangan_custom')
-                        <small style="color:#ef4444; font-weight:600;">{{ $message }}</small>
+                    <span class="text-[11px] text-slate-400 italic mt-1 block">Contoh saran: Matematika / Pemrograman Web</span>
+                    @error('id_mapel')
+                        <span class="text-[11px] text-rose-500 font-semibold block mt-1">{{ $message }}</span>
                     @enderror
                 </div>
 
+                <!-- Ruangan -->
+                <div>
+                    <label for="id_ruangan" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Ruangan <span class="text-rose-500">*</span>
+                    </label>
+                    <select id="id_ruangan" name="id_ruangan" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all @error('id_ruangan') border-rose-400 @enderror" onchange="toggleCustomRuangan(this)">
+                        <option value="" disabled {{ old('id_ruangan') ? '' : 'selected' }}>-- Pilih Ruangan --</option>
+                        @foreach($ruangans as $r)
+                            <option value="{{ $r->id_ruangan }}" {{ old('id_ruangan') == $r->id_ruangan ? 'selected' : '' }}>{{ $r->nama_ruangan }}</option>
+                        @endforeach
+                        <option value="custom" {{ (old('id_ruangan') == 'custom' || old('nama_ruangan_custom')) ? 'selected' : '' }} class="font-bold text-blue-600">+ Ketik Ruangan Baru (Custom)...</option>
+                    </select>
+                    <span class="text-[11px] text-slate-400 italic mt-1 block">Contoh saran: Lab. RPL 1 / Ruang Teori 04</span>
+                    @error('id_ruangan')
+                        <span class="text-[11px] text-rose-500 font-semibold block mt-1">{{ $message }}</span>
+                    @enderror
+
+                    <!-- Custom Ruangan Box -->
+                    <div id="custom_ruangan_wrapper" style="display: {{ (old('id_ruangan') == 'custom' || old('nama_ruangan_custom')) ? 'block' : 'none' }};" class="mt-2.5 p-3 bg-blue-50/50 border border-blue-200 rounded-xl">
+                        <label for="nama_ruangan_custom" class="block text-xs font-bold text-blue-700 mb-1">
+                            Nama Ruangan Baru (Custom) <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" id="nama_ruangan_custom" name="nama_ruangan_custom" value="{{ old('nama_ruangan_custom') }}" class="w-full text-xs bg-white border border-blue-300 rounded-lg px-3 py-2 text-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" placeholder="Contoh: Ruang Teori 05 / Lab. AI">
+                        <small class="text-[11px] text-slate-500 block mt-1">Ruangan baru ini akan tersimpan permanen di database.</small>
+                        @error('nama_ruangan_custom')
+                            <span class="text-[11px] text-rose-500 font-semibold block mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
                 <!-- Jam Mulai -->
-                <div class="form-group">
-                    <label for="id_jam_mulai">Jam Mulai (ke-) <span style="color:#ef4444;">*</span></label>
-                    <select id="id_jam_mulai" name="id_jam_mulai" class="form-control @error('id_jam_mulai') input-error @enderror">
-                        <option value="" disabled {{ old('id_jam_mulai') ? '' : 'selected' }} style="color:#94a3b8;">-- Pilih Jam Mulai --</option>
+                <div>
+                    <label for="id_jam_mulai" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Jam Mulai (ke-) <span class="text-rose-500">*</span>
+                    </label>
+                    <select id="id_jam_mulai" name="id_jam_mulai" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all @error('id_jam_mulai') border-rose-400 @enderror">
+                        <option value="" disabled {{ old('id_jam_mulai') ? '' : 'selected' }}>-- Pilih Jam Mulai --</option>
                         @foreach($jamPelajarans as $jp)
                             <option value="{{ $jp->id_jam }}" {{ old('id_jam_mulai') == $jp->id_jam ? 'selected' : '' }}
                                 data-senin-kamis="{{ $jp->jam_ke }} ({{ $jp->waktu_senin_kamis !== '-' ? $jp->waktu_senin_kamis . ' WIB' : 'Selesai 15:00' }})"
@@ -392,140 +299,204 @@
                             </option>
                         @endforeach
                     </select>
-                    <span class="form-hint">Contoh saran: Jam Ke-1 (07:00 WIB)</span>
+                    <span class="text-[11px] text-slate-400 italic mt-1 block">Contoh saran: Jam Ke-1 (07:00 WIB)</span>
+                    @error('id_jam_mulai')
+                        <span class="text-[11px] text-rose-500 font-semibold block mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Jam Selesai -->
+                <div>
+                    <label for="id_jam_selesai" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Jam Selesai (ke-) <span class="text-rose-500">*</span>
+                    </label>
+                    <select id="id_jam_selesai" name="id_jam_selesai" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-700 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all @error('id_jam_selesai') border-rose-400 @enderror">
+                        <option value="" disabled {{ old('id_jam_selesai') ? '' : 'selected' }}>-- Pilih Jam Selesai --</option>
+                        @foreach($jamPelajarans as $jp)
+                            <option value="{{ $jp->id_jam }}" {{ old('id_jam_selesai') == $jp->id_jam ? 'selected' : '' }}
+                                data-senin-kamis="{{ $jp->jam_ke }} ({{ $jp->waktu_senin_kamis !== '-' ? $jp->waktu_senin_kamis . ' WIB' : 'Selesai 15:00' }})"
+                                data-jumat="{{ $jp->jam_ke }} ({{ $jp->waktu_jumat !== '-' ? $jp->waktu_jumat . ' WIB' : 'Tidak Ada' }})"
+                                data-has-senin-kamis="{{ $jp->jam_mulai ? '1' : '0' }}">
+                                {{ $jp->jam_ke }} ({{ $jp->waktu_senin_kamis !== '-' ? $jp->waktu_senin_kamis . ' WIB' : 'Khusus Jumat' }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <span class="text-[11px] text-slate-400 italic mt-1 block">Contoh saran: Jam Ke-3 (09:00 WIB)</span>
+                    @error('id_jam_selesai')
+                        <span class="text-[11px] text-rose-500 font-semibold block mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
-            <div class="form-group" style="max-width: 32%;">
-                <label for="id_jam_selesai">Jam Selesai (ke-) <span style="color:#ef4444;">*</span></label>
-                <select id="id_jam_selesai" name="id_jam_selesai" class="form-control @error('id_jam_selesai') input-error @enderror">
-                    <option value="" disabled {{ old('id_jam_selesai') ? '' : 'selected' }} style="color:#94a3b8;">-- Pilih Jam Selesai --</option>
-                    @foreach($jamPelajarans as $jp)
-                        <option value="{{ $jp->id_jam }}" {{ old('id_jam_selesai') == $jp->id_jam ? 'selected' : '' }}
-                            data-senin-kamis="{{ $jp->jam_ke }} ({{ $jp->waktu_senin_kamis !== '-' ? $jp->waktu_senin_kamis . ' WIB' : 'Selesai 15:00' }})"
-                            data-jumat="{{ $jp->jam_ke }} ({{ $jp->waktu_jumat !== '-' ? $jp->waktu_jumat . ' WIB' : 'Tidak Ada' }})"
-                            data-has-senin-kamis="{{ $jp->jam_mulai ? '1' : '0' }}">
-                            {{ $jp->jam_ke }} ({{ $jp->waktu_senin_kamis !== '-' ? $jp->waktu_senin_kamis . ' WIB' : 'Khusus Jumat' }})
-                        </option>
-                    @endforeach
-                </select>
-                <span class="form-hint">Contoh saran: Jam Ke-3 (09:00 WIB)</span>
-            </div>
-
-            <div style="display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-top:16px;">
-                <button type="button" class="btn-reset-form" onclick="resetTambahJadwalForm()" title="Kosongkan Isian Form" style="margin:0;">
-                    <i class="fa-solid fa-rotate-left"></i> Reset Form
+            <!-- Action Buttons (Bottom Right) -->
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                <button type="button" onclick="resetTambahJadwalForm()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-xs transition inline-flex items-center gap-2 cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+                    <span>Reset Form</span>
                 </button>
-                <button type="submit" class="btn-submit" style="margin:0;">
-                    <i class="fa-solid fa-floppy-disk"></i> Simpan Jadwal
+                <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-xs transition inline-flex items-center gap-2 cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+                    <span>Simpan Jadwal</span>
                 </button>
             </div>
         </form>
     </div>
 
-    <!-- Card 1.25: Fitur Tambah Jadwal Pelajaran Baru via Import File (Multi-Format) -->
-    <div class="card" style="border-top: 4px solid #0d9488; background: #ffffff; box-shadow: 0 4px 20px rgba(13, 148, 136, 0.08); border-radius: 16px;">
-        <div style="padding-bottom: 14px; border-bottom: 1px solid #f1f5f9; margin-bottom: 18px;">
-            <h2 style="font-size: 19px; font-weight: 800; color: #0f172a; margin:0;">
-                Tambah Jadwal Pelajaran Baru via Import File
-            </h2>
+    <!-- TAB 2 CONTENT: Form Import File (Excel / CSV) -->
+    <div id="panel-tab-import" class="tab-content-panel hidden bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-5 sm:p-6 space-y-6">
+        <!-- Header Section with Emerald Accent & Template Action -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-slate-100">
+            <div class="flex items-start gap-3.5">
+                <div class="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-xs">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h2 class="text-base font-bold text-slate-900">Tambah Jadwal Pelajaran Baru via Import File (Excel)</h2>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 rounded-full border border-emerald-200">Microsoft Excel</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">Unggah file Microsoft Excel (.xlsx, .xls, atau .csv) berisi matriks jadwal pengajaran untuk impor otomatis.</p>
+                </div>
+            </div>
+            <a href="{{ route('jadwal.download-template') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all shrink-0 self-start md:self-auto cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                <span>Download Template Excel (.xlsx)</span>
+            </a>
         </div>
 
-
+        <!-- Instructions Alert Box in Emerald Theme -->
+        <div class="bg-emerald-50/80 border border-emerald-200 rounded-xl p-4 flex gap-3 text-xs text-emerald-900 leading-relaxed shadow-2xs">
+            <div class="p-1 bg-emerald-100/70 rounded-lg text-emerald-700 shrink-0 h-fit mt-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div class="space-y-1">
+                <h4 class="font-bold text-emerald-900">Petunjuk Penggunaan Fitur Import Excel Jadwal:</h4>
+                <p class="text-[11px] text-emerald-800/90 leading-normal">
+                    1. Unduh template resmi Excel dengan menekan tombol <strong>Download Template Excel (.xlsx)</strong> di pojok kanan atas.<br>
+                    2. Isi matriks pengajaran sesuai susunan kolom: <strong>Hari, Kelas, Guru Pengampu (NIP), Mata Pelajaran, Ruangan, Jam Mulai (Ke-), Jam Selesai (Ke-)</strong>.<br>
+                    3. Pilih file Excel yang telah terisi, tentukan <strong>Filter Kelas Target</strong> (opsional) atau biarkan sistem membaca otomatis seluruh rombel.<br>
+                    4. Tentukan <strong>Mode Masukkan Data</strong> (Ganti / Timpa atau Tambahkan), lalu klik <strong>Proses &amp; Baca File Excel</strong>.
+                </p>
+            </div>
+        </div>
 
         <!-- Feedback Alert Banner Pasca Proses File (JS Generated) -->
-        <div id="excelProcessAlert" class="alert-danger" style="display: none; margin-bottom: 20px; padding:14px 18px; border-radius:12px;">
-            <div style="display:flex; align-items:flex-start; gap:12px; width: 100%;">
-                <i id="excelAlertIcon" class="fa-solid fa-circle-check" style="font-size:22px; flex-shrink:0; margin-top:2px;"></i>
-                <div style="flex: 1;">
-                    <h4 id="excelAlertTitle" style="font-size:15px; font-weight:800; margin:0 0 4px 0;"></h4>
-                    <p id="excelAlertMsg" style="margin:0; font-size:13.5px; line-height:1.5;"></p>
-                    <ul id="excelAlertDetails" style="margin: 6px 0 0 18px; padding: 0; font-size: 12.5px; line-height: 1.5; display: none;"></ul>
+        <div id="excelProcessAlert" class="hidden mb-4 p-4 rounded-xl border text-xs bg-rose-50 border-rose-200 text-rose-800">
+            <div class="flex items-start gap-3">
+                <i id="excelAlertIcon" class="fa-solid fa-circle-check text-xl shrink-0 mt-0.5 text-emerald-600"></i>
+                <div class="flex-1">
+                    <h4 id="excelAlertTitle" class="font-bold text-sm"></h4>
+                    <p id="excelAlertMsg" class="mt-1 leading-relaxed text-xs"></p>
+                    <ul id="excelAlertDetails" class="mt-2 list-disc list-inside space-y-0.5 text-[11.5px] pl-2 hidden"></ul>
                 </div>
-                <button type="button" onclick="document.getElementById('excelProcessAlert').style.display='none'" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" onclick="document.getElementById('excelProcessAlert').classList.add('hidden')" class="cursor-pointer text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
             </div>
         </div>
 
         <!-- Loading Indicator -->
-        <div id="importFileLoading" style="display:none; text-align:center; padding:20px; background:#f0fdfa; border-radius:12px; border:1px solid #99f6e4; margin-bottom:16px;">
-            <i class="fa-solid fa-spinner fa-spin" style="font-size:28px; color:#0d9488;"></i>
-            <p id="importFileLoadingMsg" style="margin:10px 0 0; color:#0f766e; font-weight:700; font-size:14px;">Sedang membaca file...</p>
+        <div id="importFileLoading" class="hidden text-center p-6 bg-emerald-50 border border-emerald-200 rounded-xl mb-4">
+            <i class="fa-solid fa-spinner fa-spin text-2xl text-emerald-600"></i>
+            <p id="importFileLoadingMsg" class="mt-2 text-emerald-800 font-bold text-xs">Sedang membaca file...</p>
         </div>
 
-        <!-- Form Import Controls Container -->
-        <div class="form-grid-3" style="align-items: flex-end; background: #f8fafc; padding: 20px; border-radius: 14px; border: 1px dashed #cbd5e1;">
-            <!-- 1. Pilih File -->
-            <div class="form-group" style="margin-bottom: 0;">
-                <label for="excel_file_input" style="font-size: 13.5px; font-weight: 800; color: #0f172a;">
-                    Pilih File Jadwal <span style="color:#ef4444;">*</span>
+        <!-- Import Options Form Grid with Emerald Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- File Upload Input Card -->
+            <div class="bg-slate-50 border border-emerald-200/90 rounded-xl p-4 shadow-2xs hover:border-emerald-300 transition-colors">
+                <label class="block text-xs font-semibold text-slate-800 mb-2 flex items-center justify-between">
+                    <span>Pilih File Data Jadwal <span class="text-rose-500 font-bold">*</span></span>
+                    <span class="text-[10px] text-emerald-700 font-bold uppercase tracking-wider">Excel / CSV</span>
                 </label>
-                <input type="file" id="excel_file_input" accept=".xlsx,.xls,.csv,.pdf,.doc,.docx" class="form-control" style="padding: 9px; background: #ffffff; cursor: pointer; border-color: #94a3b8;" onchange="onFileSelected(this)">
-                <small id="importFileTypeHint" style="display:block; font-size:11.5px; color:#64748b; margin-top:4px;">
-                    Format: <strong>.pdf, .docx, .doc, .xlsx, .xls, .csv</strong> (Maks: 10MB)
-                </small>
+                <div class="flex items-center border border-slate-300 rounded-lg bg-white overflow-hidden p-1 shadow-xs focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500">
+                    <label for="excel_file_input" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded cursor-pointer transition shrink-0">
+                        Pilih File
+                        <input type="file" id="excel_file_input" accept=".xlsx,.xls,.csv,.pdf,.doc,.docx" class="hidden" onchange="onFileSelected(this)">
+                    </label>
+                    <span id="selectedFileNameDisplay" class="text-xs text-slate-400 ml-3 truncate flex-1">Tidak ada file yang dipilih</span>
+                </div>
+                <p id="importFileTypeHint" class="text-[10px] text-slate-400 mt-2">Format didukung: <span class="font-medium text-slate-600">.xlsx, .xls, .csv</span> (Ukuran maks: 10MB)</p>
             </div>
 
-            <!-- 2. Pilih Kelas Target (Opsional) -->
-            <div class="form-group" style="margin-bottom: 0;">
-                <label for="excel_target_kelas" style="font-size: 13.5px; font-weight: 800; color: #0f172a;">
-                    Filter Kelas Target (Opsional)
+            <!-- Target Class Filter -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-2xs">
+                <label for="excel_target_kelas" class="block text-xs font-semibold text-slate-800 mb-2 flex items-center justify-between">
+                    <span>Pilih Kelas Target (Opsional)</span>
+                    <span class="text-[10px] text-slate-400 font-normal">{{ count($kelases) }} Rombel</span>
                 </label>
-                <select id="excel_target_kelas" onchange="syncTargetKelasToBatch(this.value)" class="form-control" style="background: #ffffff; border-color: #0284c7; font-weight: 600; color: #0369a1;">
+                <select id="excel_target_kelas" onchange="syncTargetKelasToBatch(this.value)" class="custom-select w-full rounded-lg border-slate-300 py-2 px-3 text-xs bg-white text-slate-700 font-medium focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 shadow-2xs outline-none">
                     <option value="">-- Baca Semua Kelas dari File --</option>
                     @foreach($kelases as $k)
                         <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
                     @endforeach
                 </select>
-                <small style="display:block; font-size:11.5px; color:#64748b; margin-top:4px;">
-                    Jika dipilih, hanya data kelas tersebut yang dimasukkan.
-                </small>
+                <p class="text-[10px] text-slate-400 mt-2">Jika dipilih, sistem hanya mengimpor data jadwal untuk kelas tersebut.</p>
             </div>
 
-            <!-- 3. Mode Masukkan Data -->
-            <div class="form-group" style="margin-bottom: 0;">
-                <label for="excel_import_mode" style="font-size: 13.5px; font-weight: 800; color: #0f172a;">
+            <!-- Insertion Mode Selection -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-2xs">
+                <label for="excel_import_mode" class="block text-xs font-semibold text-slate-800 mb-2">
                     Mode Masukkan Data
                 </label>
-                <select id="excel_import_mode" class="form-control" style="background: #ffffff; border-color: #8b5cf6; font-weight: 600; color: #6d28d9;">
-                    <option value="replace">Ganti / Timpa Seluruh Baris Tabel</option>
+                <select id="excel_import_mode" class="custom-select w-full rounded-lg border-emerald-300 text-xs text-emerald-800 font-medium focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 py-2 px-3 bg-emerald-50/50 shadow-2xs outline-none">
+                    <option value="replace" selected>Ganti / Timpa Seluruh Baris Tabel</option>
                     <option value="append">Tambahkan ke Baris Tabel yang Ada</option>
                 </select>
-                <small style="display:block; font-size:11.5px; color:#64748b; margin-top:4px;">
-                    Pilih apakah data file menggantikan atau menambahkan baris.
-                </small>
+                <p class="text-[10px] text-slate-400 mt-2">Pilih apakah data file baru menggantikan atau menambah baris jadwal.</p>
             </div>
         </div>
 
-        <div style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap;">
-            <button type="button" onclick="clearExcelFileInput()" class="btn-reset-form" style="padding: 10px 20px; border-radius: 10px; background: #fbbf24; color: #78350f; border: 1px solid #fde68a; font-weight: 700; margin:0;">
-                <i class="fa-solid fa-rotate-left"></i> Reset File
-            </button>
-            <button type="button" id="btnProcessExcel" onclick="processImportFile()" class="btn-submit" style="background: #3b5490; padding: 11px 24px; border-radius: 10px; font-size: 13.5px; font-weight: 700; margin:0;">
-                <i class="fa-solid fa-file-import"></i> Proses &amp; Baca File
-            </button>
+        <!-- Action Footer in Emerald Theme -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100/80 border border-slate-200/90 rounded-lg text-xs text-slate-600 font-medium">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>Status Validasi: <strong id="importStatusText" class="text-slate-800 font-semibold">Siap membaca dokumen</strong></span>
+            </div>
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="clearExcelFileInput()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-all shadow-2xs cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span>Reset File Excel</span>
+                </button>
+                <button type="button" id="btnProcessExcel" onclick="processImportFile()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition-all cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                    </svg>
+                    <span>Proses &amp; Baca File Excel</span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Card Baru: Tambah Jadwal Pelajaran Secara Cepat dan Banyak (Per Kelas) -->
-    <div class="card" style="border: 2px solid #3b82f6; background: #ffffff;">
-        <div style="margin-bottom:16px;">
-            <h2 style="margin:0; color:#0f172a;">
-                Tambah Jadwal Pelajaran Secara Cepat dan Banyak (Per Kelas)
-            </h2>
+    <!-- TAB 3 CONTENT: Tambah Cepat & Banyak (Per Kelas) -->
+    <div id="panel-tab-batch" class="tab-content-panel hidden bg-white rounded-2xl border border-blue-300 shadow-2xs p-5 sm:p-6">
+        <div class="mb-5">
+            <h2 class="text-base font-bold text-slate-900">Tambah Jadwal Pelajaran Secara Cepat dan Banyak (Per Kelas)</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Pilih kelas target &amp; hari utama, buat template slot jadwal otomatis, lalu isi guru, mapel, dan ruangan sekaligus.</p>
         </div>
 
         <form action="{{ route('jadwal.store-batch') }}" method="POST" id="formBatchJadwal">
             @csrf
 
-
-
             <!-- Target Header Selection -->
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin-bottom:20px; background:#f8fafc; padding:18px; border-radius:14px; border:1px solid #e2e8f0;">
-                <div class="form-group" style="margin-bottom:0;">
-                    <label for="batch_id_kelas" style="color:#0f172a; font-weight:800; font-size:13.5px;">
-                        Pilih Kelas Target <span style="color:#ef4444;">*</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-slate-50/80 border border-slate-200 rounded-xl mb-4">
+                <div>
+                    <label for="batch_id_kelas" class="block text-xs font-bold text-slate-900 mb-1.5">
+                        Pilih Kelas Target <span class="text-rose-500">*</span>
                     </label>
-                    <select id="batch_id_kelas" name="id_kelas" class="form-control" style="background:#ffffff; border-color:#93c5fd; font-weight:700; color:#1e3a8a;">
+                    <select id="batch_id_kelas" name="id_kelas" class="w-full text-xs bg-white border border-blue-300 rounded-xl px-3.5 py-2.5 text-blue-900 font-bold focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
                         <option value="" disabled selected style="color:#94a3b8;">-- Pilih Kelas (misal: X RPL 1) --</option>
                         @foreach($kelases as $k)
                             <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
@@ -533,11 +504,11 @@
                     </select>
                 </div>
 
-                <div class="form-group" style="margin-bottom:0;">
-                    <label for="batch_hari_utama" style="color:#0f172a; font-weight:800; font-size:13.5px;">
-                        Pilih Hari Utama <span style="color:#ef4444;">*</span>
+                <div>
+                    <label for="batch_hari_utama" class="block text-xs font-bold text-slate-900 mb-1.5">
+                        Pilih Hari Utama <span class="text-rose-500">*</span>
                     </label>
-                    <select id="batch_hari_utama" class="form-control" style="background:#ffffff; border-color:#93c5fd; font-weight:700; color:#1e3a8a;" onchange="applyHariUtamaToAllRows()">
+                    <select id="batch_hari_utama" class="w-full text-xs bg-white border border-blue-300 rounded-xl px-3.5 py-2.5 text-blue-900 font-bold focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" onchange="applyHariUtamaToAllRows()">
                         <option value="Senin">Senin</option>
                         <option value="Selasa">Selasa</option>
                         <option value="Rabu">Rabu</option>
@@ -548,169 +519,241 @@
             </div>
 
             <!-- Quick Action Toolbar -->
-            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px;">
-                <button type="button" onclick="generateBatchSlots(10)" class="btn-submit" style="background:#64748b; margin:0; font-size:12.5px; padding:9px 16px;">
-                    <i class="fa-solid fa-clock"></i> Generasi Slot Jam Ke-1 s/d 10 (Senin-Kamis)
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+                <button type="button" onclick="generateBatchSlots(10)" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs shadow-2xs transition cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><polyline points="12 6 12 12 16 14" stroke-width="2"/></svg>
+                    <span>Generasi Slot Jam Ke-1 s/d 10 (Senin-Kamis)</span>
                 </button>
-                <button type="button" onclick="generateBatchSlots(13)" class="btn-submit" style="background:#64748b; margin:0; font-size:12.5px; padding:9px 16px;">
-                    <i class="fa-solid fa-clock"></i> Generasi Slot Jam Ke-1 s/d 13 (Jumat)
+                <button type="button" onclick="generateBatchSlots(13)" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs shadow-2xs transition cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><polyline points="12 6 12 12 16 14" stroke-width="2"/></svg>
+                    <span>Generasi Slot Jam Ke-1 s/d 13 (Jumat)</span>
                 </button>
-                <button type="button" onclick="addBatchRow()" class="btn-submit" style="background:#64748b; margin:0; font-size:12.5px; padding:9px 16px;">
-                    <i class="fa-solid fa-plus"></i> Tambah Baris Manual
+                <button type="button" onclick="addBatchRow()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-600 hover:bg-slate-700 text-white font-bold text-xs shadow-2xs transition cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke-width="2"/><line x1="5" y1="12" x2="19" y2="12" stroke-width="2"/></svg>
+                    <span>Tambah Baris Manual</span>
                 </button>
-                <button type="button" onclick="clearBatchRows()" class="btn-reset-form" style="margin:0; font-size:12.5px; padding:9px 16px;">
-                    <i class="fa-solid fa-trash-can"></i> Kosongkan Tabel
+                <button type="button" onclick="clearBatchRows()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-2xs transition cursor-pointer ml-auto">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                    <span>Kosongkan Tabel</span>
                 </button>
             </div>
 
             <!-- Table of Batch Schedule Rows -->
-            <div style="overflow-x: auto; border:1px solid #e2e8f0; border-radius:14px; margin-bottom:20px; background:#ffffff;">
-                <table class="table-custom" style="margin-top:0;">
-                    <thead>
-                        <tr style="background:#f1f5f9;">
-                            <th style="width: 45px; text-align:center;">NO</th>
-                            <th style="width: 110px;">HARI</th>
-                            <th style="width: 135px;">JAM MULAI (KE-)</th>
-                            <th style="width: 135px;">JAM SELESAI (KE-)</th>
-                            <th>GURU PENGAMPU <span style="color:#ef4444;">*</span></th>
-                            <th>MATA PELAJARAN <span style="color:#ef4444;">*</span></th>
-                            <th style="min-width:170px;">RUANGAN <span style="color:#ef4444;">*</span></th>
-                            <th style="width: 100px; text-align:center;">AKSI</th>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl mb-4">
+                <table class="w-full text-left text-xs min-w-[960px]">
+                    <thead class="bg-slate-100 text-slate-600 uppercase font-bold text-[10px] tracking-wider border-b border-slate-200">
+                        <tr>
+                            <th class="p-3 text-center w-12">NO</th>
+                            <th class="p-3 w-28">HARI</th>
+                            <th class="p-3 w-36">JAM MULAI (KE-)</th>
+                            <th class="p-3 w-36">JAM SELESAI (KE-)</th>
+                            <th class="p-3">GURU PENGAMPU <span class="text-rose-500">*</span></th>
+                            <th class="p-3">MATA PELAJARAN <span class="text-rose-500">*</span></th>
+                            <th class="p-3 min-w-[170px]">RUANGAN <span class="text-rose-500">*</span></th>
+                            <th class="p-3 text-center w-24">AKSI</th>
                         </tr>
                     </thead>
-                    <tbody id="batchTableBody">
+                    <tbody id="batchTableBody" class="divide-y divide-slate-100">
                         <!-- Dynamic Rows Injected via JavaScript -->
                     </tbody>
                 </table>
             </div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; background:#f8fafc; padding:16px; border-radius:14px; border:1px solid #e2e8f0;">
-                <div style="font-size:13px; color:#475569; font-weight:600;">
-                    Total Baris Siap Disimpan: <strong id="batchRowCount" style="color:#0f172a; font-size:15px;">0</strong> baris
+            <!-- Batch Summary & Footer Actions -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="text-xs text-slate-600 font-semibold">
+                    Total Baris Siap Disimpan: <strong id="batchRowCount" class="text-sm font-extrabold text-slate-900">0</strong> baris
                 </div>
-                <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                    <button type="button" onclick="resetBatchAll()" class="btn-reset-form" style="margin:0; padding:12px 22px; font-size:13.5px; border-radius:12px;" title="Reset Kelas, Hari, dan Seluruh Baris Tabel Batch">
-                        <i class="fa-solid fa-rotate-left"></i> Reset untuk Semua
+                <div class="flex items-center gap-3">
+                    <button type="button" onclick="resetBatchAll()" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-xs transition inline-flex items-center gap-2 cursor-pointer" title="Reset Guru, Mapel, dan Ruangan seluruh baris">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                        <span>Reset untuk Semua</span>
                     </button>
-                    <button type="submit" class="btn-submit" style="background:#3b5490; padding:11px 24px; font-size:13.5px; margin:0; border-radius:10px; font-weight:700;">
-                        <i class="fa-solid fa-floppy-disk"></i> Simpan Jadwal
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-xs transition inline-flex items-center gap-2 cursor-pointer">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                        <span>Simpan Jadwal</span>
                     </button>
                 </div>
             </div>
         </form>
     </div>
 
-    <!-- Card 2: Daftar Jadwal -->
-    <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
-            <h2 style="margin:0;">Daftar Jadwal Pelajaran ({{ $jadwals->total() }})</h2>
-            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                <!-- Tombol Hapus Pilihan Massal -->
-                <button type="button" id="btnDeleteSelected" class="btn-aksi btn-hapus-act" style="padding:9px 18px; font-size:13px; border-radius:12px; opacity:0.55; cursor:not-allowed;" disabled onclick="confirmBulkDelete()" title="Hapus Data Jadwal Pilihan (Soft Delete)">
-                    <i class="fa-solid fa-trash-can"></i> Hapus Selected (<span id="selectedDeleteCount">0</span>)
-                </button>
+    <!-- CARD 2: Daftar Jadwal Pelajaran -->
+    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-2xs p-5 sm:p-6" data-purpose="schedule-table-card">
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-100 mb-5">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h2 class="text-base font-bold text-slate-900">Daftar Jadwal Pelajaran</h2>
+                    <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">
+                        {{ $jadwals->total() }}
+                    </span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">Database jadwal operasional kelas semester berjalan</p>
+            </div>
 
-                <a href="{{ route('jadwal.trash') }}" class="btn-trash" title="Lihat Tempat Sampah Jadwal">
-                    <i class="fa-solid fa-trash-can"></i> Lihat Sampah Jadwal ({{ $trashedCount ?? 0 }})
+            <div class="flex items-center gap-2.5 self-start sm:self-auto">
+                <a href="{{ route('jadwal.trash') }}" class="inline-flex items-center gap-2 px-3.5 py-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200/80 rounded-xl text-xs font-bold transition shadow-2xs">
+                    <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+                    <span>Lihat Sampah Jadwal ({{ $trashedCount ?? 0 }})</span>
                 </a>
             </div>
         </div>
 
         <!-- Filter Form -->
-        <form method="GET" action="{{ route('jadwal.index') }}" style="display:grid; grid-template-columns: 1fr 1.5fr 2fr auto; gap:12px; margin-bottom:20px; background:#f8fafc; padding:16px; border-radius:14px; border:1px solid #e2e8f0; align-items:end;">
-            <div>
-                <label style="font-size:12px; font-weight:700; color:#475569; margin-bottom:4px; display:block;">Filter Hari</label>
-                <select name="hari" class="form-control" onchange="this.form.submit()">
+        <form method="GET" action="{{ route('jadwal.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl mb-4 items-end">
+            <!-- Filter Hari -->
+            <div class="lg:col-span-3">
+                <label class="block text-[11px] font-bold text-slate-600 mb-1">Filter Hari</label>
+                <select name="hari" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" onchange="this.form.submit()">
                     <option value="">-- Semua Hari --</option>
                     @foreach(['Senin','Selasa','Rabu','Kamis','Jumat'] as $h)
                         <option value="{{ $h }}" {{ request('hari') == $h ? 'selected' : '' }}>{{ $h }}</option>
                     @endforeach
                 </select>
             </div>
-            <div>
-                <label style="font-size:12px; font-weight:700; color:#475569; margin-bottom:4px; display:block;">Filter Kelas</label>
-                <select name="id_kelas" class="form-control" onchange="this.form.submit()">
-                    <option value="">-- Semua Kelas (48 Rombel) --</option>
+
+            <!-- Filter Kelas -->
+            <div class="lg:col-span-4">
+                <label class="block text-[11px] font-bold text-slate-600 mb-1">Filter Kelas</label>
+                <select name="id_kelas" class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none" onchange="this.form.submit()">
+                    <option value="">-- Semua Kelas ({{ $kelases->count() }} Rombel) --</option>
                     @foreach($kelases as $k)
                         <option value="{{ $k->id_kelas }}" {{ request('id_kelas') == $k->id_kelas ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
                     @endforeach
                 </select>
             </div>
-            <div>
-                <label style="font-size:12px; font-weight:700; color:#475569; margin-bottom:4px; display:block;">Cari Guru / Mapel / Ruangan</label>
-                <input type="text" name="search" class="form-control" placeholder="Ketik kata kunci pencarian..." value="{{ request('search') }}">
+
+            <!-- Cari Guru / Mapel / Ruangan -->
+            <div class="lg:col-span-3">
+                <label class="block text-[11px] font-bold text-slate-600 mb-1">Cari Guru / Mapel / Ruangan</label>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Ketik kata kunci pencarian..." class="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none placeholder:text-slate-400">
             </div>
-            <div style="display:flex; gap:8px;">
-                <button type="submit" class="btn-submit" style="margin:0; padding:10px 16px;">
-                    <i class="fa-solid fa-magnifying-glass"></i> Cari
+
+            <!-- Buttons: Cari & Reset -->
+            <div class="lg:col-span-2 flex items-center gap-2">
+                <button type="submit" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition shadow-xs cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+                    <span>Cari</span>
                 </button>
-                <a href="{{ route('jadwal.index') }}" class="btn-reset-form" style="margin:0; padding:10px 16px; border-radius:10px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;" title="Reset Filter Hari, Kelas, dan Kata Kunci Pencarian">
-                    <i class="fa-solid fa-rotate-left"></i> Reset Filter
+                <a href="{{ route('jadwal.index') }}" class="inline-flex items-center justify-center p-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition shadow-xs cursor-pointer" title="Reset Filter">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
                 </a>
             </div>
         </form>
 
-        <!-- Form Massal Hapus Selected -->
+        <!-- Contextual Selection & Bulk Action Toolbar (Active only when 1+ checkboxes are checked) -->
+        <div id="bulkActionsToolbar" class="hidden mb-4 p-2.5 px-4 bg-rose-50 border border-rose-200 rounded-xl items-center justify-between transition-all duration-200 shadow-2xs">
+            <div class="flex items-center gap-2 text-xs font-semibold text-rose-900">
+                <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-rose-200 text-rose-700">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+                    </svg>
+                </span>
+                <span>
+                    <strong id="bulkDeleteCount" class="font-extrabold text-rose-700">0</strong> data jadwal dipilih
+                </span>
+                <span class="text-rose-300 mx-1">|</span>
+                <button type="button" onclick="deselectAllJadwal()" class="text-[11px] text-rose-600 hover:text-rose-800 underline font-medium cursor-pointer transition">
+                    Batalkan pilihan
+                </button>
+            </div>
+
+            <button type="button" id="btnBulkDelete" onclick="confirmBulkDelete()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition shadow-xs cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span>Hapus Terpilih</span>
+            </button>
+        </div>
+
+        <!-- Data Table Container -->
         <form id="formBulkDelete" action="{{ route('jadwal.destroy-batch') }}" method="POST">
             @csrf
             @method('DELETE')
 
-            <div style="overflow-x: auto;">
-                <table class="table-custom">
-                    <thead>
+            <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                <table class="w-full text-left text-xs min-w-[900px]" id="jadwalMainTable">
+                    <thead class="bg-slate-50 text-slate-500 uppercase font-bold text-[10px] tracking-wider border-b border-slate-200">
                         <tr>
-                            <th style="width: 40px; text-align:center;">
-                                <input type="checkbox" id="selectAllJadwal" style="width:16px; height:16px; cursor:pointer;" onclick="toggleSelectAllJadwal(this)" title="Pilih Semua di Halaman Ini">
+                            <th class="p-3.5 text-center w-10">
+                                <input type="checkbox" id="selectAllJadwal" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer" onclick="toggleSelectAllJadwal(this)" title="Pilih Semua (Select All)">
                             </th>
-                            <th>HARI</th>
-                            <th>JAM PELAJARAN</th>
-                            <th>KELAS</th>
-                            <th>GURU (NIP)</th>
-                            <th>MAPEL</th>
-                            <th>RUANGAN</th>
-                            <th style="min-width: 210px;">AKSI</th>
+                            <th class="p-3.5 w-24">HARI</th>
+                            <th class="p-3.5 w-36">JAM PELAJARAN</th>
+                            <th class="p-3.5 w-28">KELAS</th>
+                            <th class="p-3.5">GURU (NIP)</th>
+                            <th class="p-3.5">MAPEL</th>
+                            <th class="p-3.5 w-28 text-center">RUANGAN</th>
+                            <th class="p-3.5 text-center w-52 min-w-[210px]">AKSI</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="divide-y divide-slate-100 text-slate-700">
                         @forelse($jadwals as $j)
-                            <tr>
-                                <td style="text-align:center;">
-                                    <input type="checkbox" name="ids[]" value="{{ $j->id_jadwal }}" class="jadwal-checkbox" style="width:16px; height:16px; cursor:pointer;" onchange="updateSelectedCount()">
+                            <tr class="hover:bg-slate-50/80 transition-colors">
+                                <td class="p-3.5 text-center">
+                                    <input type="checkbox" name="ids[]" value="{{ $j->id_jadwal }}" class="jadwal-checkbox rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer" onchange="updateSelectedCount()">
                                 </td>
-                                <td><strong>{{ $j->hari }}</strong></td>
-                                <td>
-                                    <strong>Jam ke-{{ $j->jam_range }}</strong><br>
-                                    <small style="color:#3b5490; font-weight:700;">{{ $j->waktu_range }}</small>
+                                <td class="p-3.5 font-bold text-slate-900">
+                                    {{ $j->hari }}
                                 </td>
-                                <td><strong>{{ $j->kelas->nama_kelas ?? '-' }}</strong></td>
-                                <td>
-                                    <strong>{{ $j->guru->nama_guru ?? '-' }}</strong><br>
-                                    <small style="color:#64748b;">NIP: {{ $j->guru->nip ?? '-' }}</small>
+                                <td class="p-3.5">
+                                    <div class="font-bold text-slate-900">Jam ke-{{ $j->jam_range }}</div>
+                                    <span class="text-blue-600 font-semibold text-[11px] block mt-0.5">{{ $j->waktu_range }}</span>
                                 </td>
-                                <td>{{ $j->mapel->nama_mapel ?? '-' }}</td>
-                                <td>{{ $j->ruangan->nama_ruangan ?? '-' }}</td>
-                                <td>
-                                    <div style="display:flex; gap:6px; flex-wrap:nowrap;">
+                                <td class="p-3.5 font-bold text-slate-900">
+                                    {{ $j->kelas->nama_kelas ?? '-' }}
+                                </td>
+                                <td class="p-3.5">
+                                    <div class="font-bold text-slate-900">{{ $j->guru->nama_guru ?? '-' }}</div>
+                                    <span class="text-slate-400 text-[11px] block mt-0.5">NIP: {{ $j->guru->nip ?? '-' }}</span>
+                                </td>
+                                <td class="p-3.5 font-medium text-slate-800">
+                                    {{ $j->mapel->nama_mapel ?? '-' }}
+                                </td>
+                                <td class="p-3.5 text-center">
+                                    <span class="px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-xs inline-block text-center min-w-[54px]">
+                                        {{ $j->ruangan->nama_ruangan ?? '-' }}
+                                    </span>
+                                </td>
+                                <td class="p-3.5 text-center whitespace-nowrap min-w-[210px]">
+                                    <div class="inline-flex items-center gap-1.5 justify-center">
                                         <!-- 1. LIHAT DETAIL -->
-                                        <a href="{{ route('jadwal.show', $j->id_jadwal) }}" class="btn-aksi btn-lihat" title="Lihat Detail Jadwal Pelajaran">
-                                            <i class="fa-solid fa-eye"></i> Lihat
+                                        <a href="{{ route('jadwal.show', $j->id_jadwal) }}" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200/80 text-xs font-bold transition shadow-2xs" title="Lihat Detail Jadwal">
+                                            <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                                <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                            </svg>
+                                            <span>Lihat</span>
                                         </a>
 
                                         <!-- 2. EDIT -->
-                                        <a href="{{ route('jadwal.edit', $j->id_jadwal) }}" class="btn-aksi btn-edit-act" title="Edit Jadwal">
-                                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                                        <a href="{{ route('jadwal.edit', $j->id_jadwal) }}" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200/80 text-xs font-bold transition shadow-2xs" title="Edit Jadwal">
+                                            <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                            </svg>
+                                            <span>Edit</span>
                                         </a>
 
                                         <!-- 3. HAPUS -->
-                                        <button type="button" class="btn-aksi btn-hapus-act" onclick="confirmDelete('delForm-{{ $j->id_jadwal }}')" title="Hapus Jadwal">
-                                            <i class="fa-solid fa-trash"></i> Hapus
+                                        <button type="button" onclick="confirmDelete('delForm-{{ $j->id_jadwal }}')" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200/80 text-xs font-bold transition shadow-2xs cursor-pointer" title="Hapus Jadwal">
+                                            <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                                            </svg>
+                                            <span>Hapus</span>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" style="text-align:center; padding:30px; color:#94a3b8;">
+                                <td colspan="8" class="p-8 text-center text-slate-400">
                                     Belum ada data Jadwal Pelajaran yang sesuai.
                                 </td>
                             </tr>
@@ -728,50 +771,104 @@
             </form>
         @endforeach
 
-        <div style="margin-top: 20px;">
-            {{ $jadwals->links() }}
-        </div>
-    </div>
-
-    <!-- Modal Detail Jadwal Quick View -->
-    <div id="modalDetailJadwal" class="modal-overlay">
-        <div class="modal-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:16px; border-bottom:1px solid #f1f5f9; margin-bottom:20px;">
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div style="width:42px; height:42px; border-radius:12px; background:linear-gradient(135deg, #2563eb, #3b82f6); color:#ffffff; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 4px 12px rgba(37,99,235,0.25);">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
-                    <div>
-                        <h3 style="margin:0; font-size:17px; font-weight:800; color:#0f172a;" id="modalTitle">Detail Jadwal Pelajaran</h3>
-                        <span style="font-size:12px; color:#64748b;" id="modalSubTitle">Informasi alokasi jadwal KBM</span>
-                    </div>
-                </div>
-                <button type="button" onclick="closeDetailModal()" style="background:none; border:none; font-size:22px; color:#64748b; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        <!-- Pagination -->
+        <div class="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-slate-500">
+            <div>
+                Showing <span class="font-bold text-slate-800">{{ $jadwals->firstItem() ?? 0 }}</span> to <span class="font-bold text-slate-800">{{ $jadwals->lastItem() ?? 0 }}</span> of <span class="font-bold text-slate-800">{{ $jadwals->total() }}</span> results
             </div>
-
-            <div id="modalBody" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-                <!-- Content Injected via JavaScript -->
-            </div>
-
-            <div style="margin-top:24px; padding-top:16px; border-top:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <div style="display:flex; gap:8px;">
-                    <a id="modalFullLink" href="#" class="btn-aksi btn-lihat" style="padding:9px 16px; font-size:12.5px; border-radius:10px;">
-                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i> Halaman Detail Penuh
-                    </a>
-                    <a id="modalEditLink" href="#" class="btn-aksi btn-edit-act" style="padding:9px 16px; font-size:12.5px; border-radius:10px;">
-                        <i class="fa-solid fa-pen-to-square"></i> Edit
-                    </a>
-                </div>
-                <button type="button" onclick="closeDetailModal()" style="background:#e2e8f0; color:#475569; padding:9px 18px; border-radius:10px; font-weight:700; border:none; cursor:pointer; font-size:13px;">Tutup</button>
+            <div>
+                {{ $jadwals->links() }}
             </div>
         </div>
     </div>
+
+</div>
+
+<!-- Modal Konfirmasi Hapus Tunggal -->
+<div id="modalConfirmSingleDelete" class="modal-backdrop-custom">
+    <div class="modal-box-custom p-6 text-center">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 text-xl">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 mb-1">Hapus Data Jadwal?</h3>
+        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+            Data jadwal pelajaran ini akan dipindahkan ke Tempat Sampah dan dapat dipulihkan kapan saja melalui menu Sampah.
+        </p>
+        <div class="flex items-center justify-center gap-3">
+            <button type="button" onclick="closeSingleDeleteModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition cursor-pointer">
+                Batal
+            </button>
+            <button type="button" id="btnConfirmSingleDeleteAction" class="px-5 py-2 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-xs transition cursor-pointer">
+                Ya, Hapus
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus Terpilih / Massal -->
+<div id="modalConfirmBulkDelete" class="modal-backdrop-custom">
+    <div class="modal-box-custom p-6 text-center">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 text-xl">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 mb-1">Hapus Jadwal Terpilih?</h3>
+        <p class="text-xs text-slate-500 mb-6 leading-relaxed">
+            Anda akan memindahkan <strong id="modalBulkCount" class="text-rose-600">0</strong> data jadwal terpilih ke Tempat Sampah. Anda yakin?
+        </p>
+        <div class="flex items-center justify-center gap-3">
+            <button type="button" onclick="closeBulkDeleteModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition cursor-pointer">
+                Batal
+            </button>
+            <button type="button" onclick="submitBulkDelete()" class="px-5 py-2 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-xs transition cursor-pointer">
+                Ya, Hapus Semua
+            </button>
+        </div>
+    </div>
+</div>
 
 @endsection
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Library SheetJS untuk membaca file Excel (.xlsx, .xls, .csv) di Sisi Client -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- Library PDF.js untuk membaca file PDF di Sisi Client -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- Library mammoth.js untuk membaca file Word (.docx) di Sisi Client -->
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+
 <script>
+    // Setup PDF.js worker
+    if (typeof pdfjsLib !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    /* =========================================================================
+       TAB SWITCHING LOGIC
+       ========================================================================= */
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content-panel').forEach(p => p.classList.add('hidden'));
+        document.querySelectorAll('.tab-button-nav').forEach(b => {
+            b.classList.remove('bg-blue-50', 'text-blue-600', 'border-blue-200/80', 'font-bold', 'shadow-2xs');
+            b.classList.add('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-50', 'font-semibold', 'border-transparent');
+        });
+
+        const activePanel = document.getElementById('panel-tab-' + tabId);
+        const activeBtn = document.getElementById('btn-tab-' + tabId);
+        if (activePanel) activePanel.classList.remove('hidden');
+        if (activeBtn) {
+            activeBtn.classList.add('bg-blue-50', 'text-blue-600', 'border-blue-200/80', 'font-bold', 'shadow-2xs');
+            activeBtn.classList.remove('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-50', 'border-transparent');
+        }
+    }
+
+    /* =========================================================================
+       UPDATE JAM OPTIONS BY HARI (SENIN-KAMIS vs JUMAT)
+       ========================================================================= */
     function updateJamOptionsByHari() {
         const hariElem = document.getElementById('hari');
         if (!hariElem) return;
@@ -807,159 +904,6 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        updateJamOptionsByHari();
-
-        const form = document.getElementById('formTambahJadwal');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                // Reset error state
-                const formControls = form.querySelectorAll('.form-control');
-                formControls.forEach(c => c.classList.remove('input-error'));
-
-                const hari         = document.getElementById('hari').value;
-                const idKelas      = document.getElementById('id_kelas').value;
-                const idGuru       = document.getElementById('id_guru').value;
-                const idMapel      = document.getElementById('id_mapel').value;
-                const idRuangan    = document.getElementById('id_ruangan').value;
-                const idJamMulai   = document.getElementById('id_jam_mulai').value;
-                const idJamSelesai = document.getElementById('id_jam_selesai').value;
-
-                let missing = [];
-                if (!hari) { missing.push('Hari'); document.getElementById('hari').classList.add('input-error'); }
-                if (!idKelas) { missing.push('Kelas'); document.getElementById('id_kelas').classList.add('input-error'); }
-                if (!idGuru) { missing.push('Guru Pengampu'); document.getElementById('id_guru').classList.add('input-error'); }
-                if (!idMapel) { missing.push('Mata Pelajaran'); document.getElementById('id_mapel').classList.add('input-error'); }
-                if (!idRuangan) { missing.push('Ruangan'); document.getElementById('id_ruangan').classList.add('input-error'); }
-                if (!idJamMulai) { missing.push('Jam Mulai'); document.getElementById('id_jam_mulai').classList.add('input-error'); }
-                if (!idJamSelesai) { missing.push('Jam Selesai'); document.getElementById('id_jam_selesai').classList.add('input-error'); }
-
-                if (missing.length > 0) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Formulir Belum Lengkap!',
-                        html: 'Silakan lengkapi data yang belum diisi berikut:<br><br><strong style="color:#dc2626;">' + missing.join(', ') + '</strong>',
-                        confirmButtonColor: '#3b5490'
-                    });
-                    return false;
-                }
-
-                if (parseInt(idJamSelesai) < parseInt(idJamMulai)) {
-                    document.getElementById('id_jam_selesai').classList.add('input-error');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Jam Pelajaran Tidak Sesuai!',
-                        text: 'Jam Selesai tidak boleh lebih kecil dari Jam Mulai.',
-                        confirmButtonColor: '#3b5490'
-                    });
-                    return false;
-                }
-
-                if (hari !== 'Jumat' && (parseInt(idJamMulai) > 10 || parseInt(idJamSelesai) > 10)) {
-                    document.getElementById('id_jam_selesai').classList.add('input-error');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Batas Jam Pelajaran Terlampaui!',
-                        text: 'Untuk hari ' + hari + ', jam pelajaran maksimal adalah Jam Ke-10 (07:00 - 15:00 WIB). Jam Ke-11 s/d 13 hanya berlaku pada hari Jumat.',
-                        confirmButtonColor: '#3b5490'
-                    });
-                    return false;
-                }
-
-                // If valid, ask confirmation
-                Swal.fire({
-                    title: 'Konfirmasi Simpan Jadwal',
-                    text: 'Apakah Anda yakin ingin menambahkan data jadwal pelajaran ini?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3b5490',
-                    cancelButtonColor: '#64748b',
-                    confirmButtonText: 'Ya, Simpan Jadwal!',
-                    cancelButtonText: 'Batal',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        }
-    });
-
-    function openDetailModal(data) {
-        document.getElementById('modalTitle').innerText = 'Detail Jadwal #' + data.id;
-        document.getElementById('modalSubTitle').innerText = data.hari + ' | ' + data.jam;
-
-        const dayColors = {
-            'Senin': { bg: '#eff6ff', text: '#1d4ed8', border: '#bfdbfe' },
-            'Selasa': { bg: '#fdf4ff', text: '#a21caf', border: '#f5d0fe' },
-            'Rabu': { bg: '#ecfdf5', text: '#047857', border: '#a7f3d0' },
-            'Kamis': { bg: '#fff7ed', text: '#c2410c', border: '#ffedd5' },
-            'Jumat': { bg: '#f0fdf4', text: '#15803d', border: '#bbf7d0' }
-        };
-        const dayStyle = dayColors[data.hari] || { bg: '#f1f5f9', text: '#334155', border: '#cbd5e1' };
-
-        const body = document.getElementById('modalBody');
-        body.innerHTML = `
-            <div style="background:${dayStyle.bg}; padding:14px; border-radius:12px; border:1px solid ${dayStyle.border}; grid-column:span 2;">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <small style="color:${dayStyle.text}; font-weight:800; text-transform:uppercase; font-size:11px; letter-spacing:0.05em;">HARI & JAM KBM</small>
-                        <div style="font-weight:800; font-size:16px; color:#0f172a; margin-top:2px;">${data.hari} — ${data.jam}</div>
-                    </div>
-                    <span style="background:${dayStyle.text}; color:#ffffff; font-weight:800; padding:4px 12px; border-radius:10px; font-size:12px;">${data.hari}</span>
-                </div>
-            </div>
-
-            <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;">
-                <small style="color:#64748b; font-weight:800; text-transform:uppercase; font-size:11px; letter-spacing:0.05em;"><i class="fa-solid fa-graduation-cap"></i> KELAS TARGET</small>
-                <div style="font-weight:800; font-size:15px; color:#0f172a; margin-top:4px;">${data.kelas}</div>
-                <div style="font-size:12px; color:#475569; margin-top:3px; font-weight:600;"><i class="fa-solid fa-user-tie"></i> Wali: ${data.wali_kelas}</div>
-                ${data.jurusan && data.jurusan !== '-' ? `<div style="font-size:11.5px; color:#64748b; margin-top:2px;">Jurusan: ${data.jurusan}</div>` : ''}
-            </div>
-
-            <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0;">
-                <small style="color:#64748b; font-weight:800; text-transform:uppercase; font-size:11px; letter-spacing:0.05em;"><i class="fa-solid fa-book-bookmark"></i> MATA PELAJARAN</small>
-                <div style="font-weight:800; font-size:15px; color:#0f172a; margin-top:4px;">${data.mapel}</div>
-                <div style="font-size:12px; color:#2563eb; font-weight:700; margin-top:3px; font-family:monospace;">Kode: ${data.kode_mapel}</div>
-            </div>
-
-            <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0; grid-column:span 2;">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                    <div>
-                        <small style="color:#64748b; font-weight:800; text-transform:uppercase; font-size:11px; letter-spacing:0.05em;"><i class="fa-solid fa-chalkboard-user"></i> GURU PENGAMPU</small>
-                        <div style="font-weight:800; font-size:15.5px; color:#0f172a; margin-top:4px;">${data.guru}</div>
-                        <div style="font-size:12.5px; color:#475569; font-weight:600; margin-top:3px;">
-                            <span style="margin-right:12px;"><i class="fa-solid fa-id-card"></i> NIP: ${data.nip}</span>
-                            ${data.no_hp && data.no_hp !== '-' ? `<span><i class="fa-solid fa-phone"></i> ${data.no_hp}</span>` : ''}
-                        </div>
-                    </div>
-                    ${data.id_guru ? `
-                        <a href="/guru/${data.id_guru}" target="_blank" style="background:#e0f2fe; color:#0369a1; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:5px;">
-                            Profil Guru <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </a>
-                    ` : ''}
-                </div>
-            </div>
-
-            <div style="background:#f8fafc; padding:14px; border-radius:12px; border:1px solid #e2e8f0; grid-column:span 2;">
-                <small style="color:#64748b; font-weight:800; text-transform:uppercase; font-size:11px; letter-spacing:0.05em;"><i class="fa-solid fa-door-open"></i> LOKASI RUANGAN</small>
-                <div style="font-weight:800; font-size:15px; color:#0f172a; margin-top:4px;">${data.ruangan}</div>
-                <div style="font-size:12px; color:#64748b; margin-top:2px;">Jenis Ruangan: ${data.jenis_ruangan}</div>
-            </div>
-        `;
-
-        document.getElementById('modalFullLink').setAttribute('href', data.url_show);
-        document.getElementById('modalEditLink').setAttribute('href', data.url_edit);
-        document.getElementById('modalDetailJadwal').style.display = 'flex';
-    }
-
-    function closeDetailModal() {
-        document.getElementById('modalDetailJadwal').style.display = 'none';
-    }
-
     function toggleCustomRuangan(selectEle) {
         const wrapper = document.getElementById('custom_ruangan_wrapper');
         const customInput = document.getElementById('nama_ruangan_custom');
@@ -980,37 +924,118 @@
             if (ruanganSelect) {
                 toggleCustomRuangan(ruanganSelect);
             }
-            if (typeof updateJamOptionsByHari === 'function') {
-                updateJamOptionsByHari();
+            updateJamOptionsByHari();
+        }
+    }
+
+    /* =========================================================================
+       MODAL CONFIRMATION HANDLERS (SINGLE & BULK DELETE)
+       ========================================================================= */
+    let activeSingleDeleteFormId = null;
+
+    function confirmDelete(formId) {
+        activeSingleDeleteFormId = formId;
+        const modal = document.getElementById('modalConfirmSingleDelete');
+        if (modal) {
+            modal.classList.add('show');
+            const confirmBtn = document.getElementById('btnConfirmSingleDeleteAction');
+            if (confirmBtn) {
+                confirmBtn.onclick = function() {
+                    if (activeSingleDeleteFormId) {
+                        document.getElementById(activeSingleDeleteFormId).submit();
+                    }
+                };
+            }
+        } else {
+            if (confirm('Data jadwal ini akan dipindahkan ke Tempat Sampah. Lanjutkan?')) {
+                document.getElementById(formId).submit();
             }
         }
     }
 
-    function confirmDelete(formId) {
-        Swal.fire({
-            title: 'Hapus Jadwal?',
-            text: 'Data jadwal pelajaran ini akan dipindahkan ke Tempat Sampah.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#64748b',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById(formId).submit();
+    function closeSingleDeleteModal() {
+        activeSingleDeleteFormId = null;
+        const modal = document.getElementById('modalConfirmSingleDelete');
+        if (modal) modal.classList.remove('show');
+    }
+
+    function confirmBulkDelete() {
+        const checked = document.querySelectorAll('.jadwal-checkbox:checked');
+        if (checked.length === 0) return;
+
+        const countSpan = document.getElementById('modalBulkCount');
+        if (countSpan) countSpan.textContent = checked.length;
+
+        const modal = document.getElementById('modalConfirmBulkDelete');
+        if (modal) {
+            modal.classList.add('show');
+        } else {
+            if (confirm(`Hapus ${checked.length} data jadwal terpilih ke Tempat Sampah?`)) {
+                submitBulkDelete();
             }
-        });
+        }
+    }
+
+    function closeBulkDeleteModal() {
+        const modal = document.getElementById('modalConfirmBulkDelete');
+        if (modal) modal.classList.remove('show');
+    }
+
+    function submitBulkDelete() {
+        const form = document.getElementById('formBulkDelete');
+        if (form) form.submit();
+    }
+
+    /* =========================================================================
+       CHECKBOXES & CONTEXTUAL TOOLBAR LOGIC
+       ========================================================================= */
+    function toggleSelectAllJadwal(master) {
+        const checkboxes = document.querySelectorAll('.jadwal-checkbox');
+        checkboxes.forEach(cb => cb.checked = master.checked);
+        updateSelectedCount();
+    }
+
+    function deselectAllJadwal() {
+        const master = document.getElementById('selectAllJadwal');
+        if (master) master.checked = false;
+        const checkboxes = document.querySelectorAll('.jadwal-checkbox');
+        checkboxes.forEach(cb => cb.checked = false);
+        updateSelectedCount();
+    }
+
+    function updateSelectedCount() {
+        const checkedBoxes = document.querySelectorAll('.jadwal-checkbox:checked');
+        const count = checkedBoxes.length;
+        const totalBoxes = document.querySelectorAll('.jadwal-checkbox');
+        const toolbar = document.getElementById('bulkActionsToolbar');
+        const countSpan = document.getElementById('bulkDeleteCount');
+        const master = document.getElementById('selectAllJadwal');
+
+        if (countSpan) countSpan.textContent = count;
+
+        if (toolbar) {
+            if (count > 0) {
+                toolbar.classList.remove('hidden');
+                toolbar.classList.add('flex');
+            } else {
+                toolbar.classList.add('hidden');
+                toolbar.classList.remove('flex');
+            }
+        }
+
+        if (master && totalBoxes.length > 0) {
+            master.checked = (count === totalBoxes.length);
+        }
     }
 
     /* =========================================================================
        SCRIPT FITUR: TAMBAH JADWAL PELAJARAN SECARA CEPAT DAN BANYAK (PER KELAS)
        ========================================================================= */
-    const batchGurus = @json($gurus);
-    const batchMapels = @json($mapels);
-    const batchRuangans = @json($ruangans);
-    const batchJamPelajarans = @json($jamPelajarans);
-    const batchKelases = @json($kelases);
+    const batchGurus = {!! json_encode($gurus) !!};
+    const batchMapels = {!! json_encode($mapels) !!};
+    const batchRuangans = {!! json_encode($ruangans) !!};
+    const batchJamPelajarans = {!! json_encode($jamPelajarans) !!};
+    const batchKelases = {!! json_encode($kelases) !!};
 
     let batchRowCounter = 0;
 
@@ -1020,8 +1045,8 @@
         if (tbody.children.length === 0) {
             tbody.innerHTML = `
                 <tr id="emptyBatchRow">
-                    <td colspan="8" style="text-align:center; padding:30px; color:#94a3b8; font-weight:600;">
-                        <i class="fa-solid fa-list-check" style="font-size:24px; margin-bottom:8px; display:block; color:#cbd5e1;"></i>
+                    <td colspan="8" class="text-center p-8 text-slate-400 font-medium">
+                        <svg class="w-8 h-8 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
                         Belum ada baris jadwal. Klik <strong>Generasi Slot Jam Ke-1 s/d 10 (atau 13)</strong> di atas atau <strong>+ Tambah Baris Manual</strong> untuk mulai mengisi.
                     </td>
                 </tr>
@@ -1088,53 +1113,53 @@
 
         let ruanganOptionsHtml = `<option value="" disabled ${!ruanganIdVal ? 'selected' : ''} style="color:#94a3b8;">-- Pilih Ruangan --</option>` +
             batchRuangans.map(r => `<option value="${r.id_ruangan}" ${r.id_ruangan == ruanganIdVal ? 'selected' : ''}>${r.nama_ruangan}</option>`).join('') +
-            `<option value="custom" ${ruanganIdVal === 'custom' ? 'selected' : ''} style="font-weight:700; color:#2563eb;">+ Custom...</option>`;
+            `<option value="custom" ${ruanganIdVal === 'custom' ? 'selected' : ''} class="font-bold text-blue-600">+ Custom...</option>`;
 
         const tr = document.createElement('tr');
-        tr.className = 'batch-data-row';
+        tr.className = 'batch-data-row hover:bg-slate-50 transition-colors';
         tr.id = `batchRow-${rowIndex}`;
         tr.innerHTML = `
-            <td style="text-align:center; font-weight:800; color:#64748b;" class="row-number">1</td>
-            <td>
-                <select name="items[${rowIndex}][hari]" class="form-control batch-field-hari" style="padding:6px 8px; font-size:12.5px;">
+            <td class="p-2.5 text-center font-bold text-slate-500 row-number">1</td>
+            <td class="p-2">
+                <select name="items[${rowIndex}][hari]" class="w-full text-xs rounded-lg border-slate-300 py-1.5 px-2 bg-white batch-field-hari focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                     ${hariOptionsHtml}
                 </select>
             </td>
-            <td>
-                <select name="items[${rowIndex}][id_jam_mulai]" class="form-control batch-field-jam-mulai" style="padding:6px 8px; font-size:12.5px;">
+            <td class="p-2">
+                <select name="items[${rowIndex}][id_jam_mulai]" class="w-full text-xs rounded-lg border-slate-300 py-1.5 px-2 bg-white batch-field-jam-mulai focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                     ${jamMulaiOptionsHtml}
                 </select>
             </td>
-            <td>
-                <select name="items[${rowIndex}][id_jam_selesai]" class="form-control batch-field-jam-selesai" style="padding:6px 8px; font-size:12.5px;">
+            <td class="p-2">
+                <select name="items[${rowIndex}][id_jam_selesai]" class="w-full text-xs rounded-lg border-slate-300 py-1.5 px-2 bg-white batch-field-jam-selesai focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                     ${jamSelesaiOptionsHtml}
                 </select>
             </td>
-            <td>
-                <select name="items[${rowIndex}][id_guru]" class="form-control batch-field-guru" style="padding:6px 8px; font-size:12.5px;">
+            <td class="p-2">
+                <select name="items[${rowIndex}][id_guru]" class="w-full text-xs rounded-lg border-slate-300 py-1.5 px-2 bg-white batch-field-guru focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                     ${guruOptionsHtml}
                 </select>
             </td>
-            <td>
-                <select name="items[${rowIndex}][id_mapel]" class="form-control batch-field-mapel" style="padding:6px 8px; font-size:12.5px;">
+            <td class="p-2">
+                <select name="items[${rowIndex}][id_mapel]" class="w-full text-xs rounded-lg border-slate-300 py-1.5 px-2 bg-white batch-field-mapel focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                     ${mapelOptionsHtml}
                 </select>
             </td>
-            <td>
-                <select name="items[${rowIndex}][id_ruangan]" class="form-control batch-field-ruangan" style="padding:6px 8px; font-size:12.5px;" onchange="toggleBatchCustomRuangan(this, ${rowIndex})">
+            <td class="p-2">
+                <select name="items[${rowIndex}][id_ruangan]" class="w-full text-xs rounded-lg border-slate-300 py-1.5 px-2 bg-white batch-field-ruangan focus:border-blue-500 focus:ring-1 focus:ring-blue-500" onchange="toggleBatchCustomRuangan(this, ${rowIndex})">
                     ${ruanganOptionsHtml}
                 </select>
-                <div id="batch_custom_ruangan_wrapper_${rowIndex}" style="display:${ruanganIdVal === 'custom' ? 'block' : 'none'}; margin-top:4px;">
-                    <input type="text" name="items[${rowIndex}][nama_ruangan_custom]" value="${customRuanganVal}" class="form-control batch-field-ruangan-custom" placeholder="Ketik nama ruangan baru..." style="padding:5px 8px; font-size:12px; border-color:#3b82f6;">
+                <div id="batch_custom_ruangan_wrapper_${rowIndex}" style="display:${ruanganIdVal === 'custom' ? 'block' : 'none'};" class="mt-1.5">
+                    <input type="text" name="items[${rowIndex}][nama_ruangan_custom]" value="${customRuanganVal}" class="w-full text-xs rounded-lg border-blue-300 py-1 px-2 bg-blue-50/50 batch-field-ruangan-custom placeholder:text-slate-400" placeholder="Ketik nama ruangan baru...">
                 </div>
             </td>
-            <td style="text-align:center;">
-                <div style="display:flex; gap:4px; justify-content:center; align-items:center;">
-                    <button type="button" class="btn-aksi btn-edit-act" style="padding:5px 8px; font-size:11.5px; border-radius:8px; margin:0;" onclick="resetBatchRow(this)" title="Reset isian baris ini">
-                        <i class="fa-solid fa-rotate-left"></i>
+            <td class="p-2 text-center">
+                <div class="inline-flex items-center gap-1">
+                    <button type="button" class="p-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 transition cursor-pointer" onclick="resetBatchRow(this)" title="Reset isian baris ini">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
                     </button>
-                    <button type="button" class="btn-aksi btn-hapus-act" style="padding:5px 8px; font-size:11.5px; border-radius:8px; margin:0;" onclick="removeBatchRow(this)" title="Hapus baris ini">
-                        <i class="fa-solid fa-xmark"></i>
+                    <button type="button" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition cursor-pointer" onclick="removeBatchRow(this)" title="Hapus baris ini">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
                     </button>
                 </div>
             </td>
@@ -1177,19 +1202,19 @@
                 icon: 'info',
                 title: 'Tabel Belum Berisi Data!',
                 text: 'Belum ada baris tabel pengisian data yang dapat di-reset.',
-                confirmButtonColor: '#3b5490'
+                confirmButtonColor: '#2563eb'
             });
             return;
         }
 
         Swal.fire({
-            title: 'Reset Pengisian Semua Baris Tabel?',
+            title: 'Reset Pengisian Semua Baris?',
             text: 'Seluruh data pengisian Guru, Mapel, dan Ruangan pada semua baris tabel akan dikosongkan.',
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#fbbf24',
+            confirmButtonColor: '#f59e0b',
             cancelButtonColor: '#64748b',
-            confirmButtonText: 'Ya, Reset Semua Baris!',
+            confirmButtonText: 'Ya, Reset Semua!',
             cancelButtonText: 'Batal'
         }).then((res) => {
             if (res.isConfirmed) {
@@ -1209,7 +1234,7 @@
 
                 Swal.fire({
                     icon: 'success',
-                    title: 'Seluruh Pengisian Berhasil Di-reset!',
+                    title: 'Berhasil Di-reset!',
                     text: 'Data pengisian pada seluruh baris tabel telah dikosongkan.',
                     timer: 1500,
                     showConfirmButton: false
@@ -1275,176 +1300,9 @@
         hariSelects.forEach(s => s.value = hariVal);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        renderEmptyBatchState();
-
-        const formBatch = document.getElementById('formBatchJadwal');
-        if (formBatch) {
-            formBatch.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const idKelas = document.getElementById('batch_id_kelas')?.value;
-                const rows = document.querySelectorAll('#batchTableBody tr.batch-data-row');
-
-                if (!idKelas) {
-                    document.getElementById('batch_id_kelas')?.classList.add('input-error');
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Kelas Target Belum Dipilih!',
-                        text: 'Silakan pilih Kelas Target terlebih dahulu sebelum menyimpan.',
-                        confirmButtonColor: '#3b5490'
-                    });
-                    return false;
-                }
-
-                if (rows.length === 0) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Tabel Masih Kosong!',
-                        text: 'Silakan klik "Generasi Slot Jam" atau "+ Tambah Baris Manual" untuk menambah data jadwal.',
-                        confirmButtonColor: '#3b5490'
-                    });
-                    return false;
-                }
-
-                let missingErrors = [];
-                let logicErrors = [];
-
-                rows.forEach((row, idx) => {
-                    const rowNum = idx + 1;
-                    const hari = row.querySelector('.batch-field-hari')?.value;
-                    const jamMulai = parseInt(row.querySelector('.batch-field-jam-mulai')?.value || '0');
-                    const jamSelesai = parseInt(row.querySelector('.batch-field-jam-selesai')?.value || '0');
-                    const guru = row.querySelector('.batch-field-guru')?.value;
-                    const mapel = row.querySelector('.batch-field-mapel')?.value;
-                    const ruangan = row.querySelector('.batch-field-ruangan')?.value;
-                    const customRuangan = row.querySelector('.batch-field-ruangan-custom')?.value.trim();
-
-                    if (!guru || !mapel || !ruangan) {
-                        missingErrors.push(`Baris ke-${rowNum}: Guru, Mapel, atau Ruangan belum dipilih.`);
-                    }
-
-                    if (ruangan === 'custom' && !customRuangan) {
-                        missingErrors.push(`Baris ke-${rowNum}: Nama Ruangan Custom wajib diisi.`);
-                    }
-
-                    if (jamSelesai < jamMulai) {
-                        logicErrors.push(`Baris ke-${rowNum}: Jam Selesai (Ke-${jamSelesai}) lebih kecil dari Jam Mulai (Ke-${jamMulai}).`);
-                    }
-
-                    if (['Senin', 'Selasa', 'Rabu', 'Kamis'].includes(hari) && (jamMulai > 10 || jamSelesai > 10)) {
-                        logicErrors.push(`Baris ke-${rowNum}: Jam ke-${jamSelesai} melebihi batas Jam Ke-10 untuk hari ${hari}.`);
-                    }
-                });
-
-                if (missingErrors.length > 0 || logicErrors.length > 0) {
-                    const allErrList = [...missingErrors, ...logicErrors];
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Terdapat Isian Belum Lengkap / Tidak Valid!',
-                        html: '<div style="text-align:left; max-height:200px; overflow-y:auto; font-size:12.5px; color:#dc2626;"><ul style="padding-left:18px; margin:0;">' + 
-                              allErrList.map(e => `<li>${e}</li>`).join('') + 
-                              '</ul></div>',
-                        confirmButtonColor: '#3b5490'
-                    });
-                    return false;
-                }
-
-                const selectKelas = document.getElementById('batch_id_kelas');
-                const namaKelasText = selectKelas?.options[selectKelas.selectedIndex]?.text || 'Kelas Target';
-
-                Swal.fire({
-                    title: 'Konfirmasi Simpan Massal',
-                    html: `Apakah Anda yakin ingin menyimpan <strong>${rows.length} data jadwal sekaligus</strong> untuk <strong>${namaKelasText}</strong>?`,
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#059669',
-                    cancelButtonColor: '#64748b',
-                    confirmButtonText: 'Ya, Simpan Semua!',
-                    cancelButtonText: 'Batal',
-                    reverseButtons: true
-                }).then((res) => {
-                    if (res.isConfirmed) {
-                        formBatch.submit();
-                    }
-                });
-            });
-        }
-    });
-
     /* =========================================================================
-       SCRIPT FITUR: HAPUS PILIHAN / BULK SOFT DELETE DAFTAR JADWAL
+       IMPORT MULTI-FORMAT (PDF, WORD, EXCEL, CSV)
        ========================================================================= */
-    function toggleSelectAllJadwal(master) {
-        const checkboxes = document.querySelectorAll('.jadwal-checkbox');
-        checkboxes.forEach(cb => cb.checked = master.checked);
-        updateSelectedCount();
-    }
-
-    function updateSelectedCount() {
-        const checkboxes = document.querySelectorAll('.jadwal-checkbox:checked');
-        const count = checkboxes.length;
-        const btn = document.getElementById('btnDeleteSelected');
-        const countSpan = document.getElementById('selectedDeleteCount');
-        const master = document.getElementById('selectAllJadwal');
-
-        if (countSpan) countSpan.textContent = count;
-
-        if (btn) {
-            if (count > 0) {
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                btn.style.cursor = 'pointer';
-                btn.style.boxShadow = '0 3px 8px rgba(225,29,72,0.25)';
-            } else {
-                btn.disabled = true;
-                btn.style.opacity = '0.55';
-                btn.style.cursor = 'not-allowed';
-                btn.style.boxShadow = 'none';
-            }
-        }
-
-        const totalCheckboxes = document.querySelectorAll('.jadwal-checkbox');
-        if (master && totalCheckboxes.length > 0) {
-            master.checked = (checkboxes.length === totalCheckboxes.length);
-        }
-    }
-
-    function confirmBulkDelete() {
-        const checked = document.querySelectorAll('.jadwal-checkbox:checked');
-        if (checked.length === 0) return;
-
-        Swal.fire({
-            title: `Hapus ${checked.length} Data Jadwal Pilihan?`,
-            text: `Seluruh data jadwal yang dicentang (${checked.length} data) akan dipindahkan ke Tempat Sampah (Soft Delete).`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc2626',
-            cancelButtonColor: '#64748b',
-            confirmButtonText: `Ya, Hapus ${checked.length} Data!`,
-            cancelButtonText: 'Batal',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('formBulkDelete').submit();
-            }
-        });
-    }
-</script>
-
-<!-- Library SheetJS untuk membaca file Excel (.xlsx, .xls, .csv) di Sisi Client -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<!-- Library PDF.js untuk membaca file PDF di Sisi Client -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<!-- Library mammoth.js untuk membaca file Word (.docx) di Sisi Client -->
-<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
-
-<script>
-    // Setup PDF.js worker
-    if (typeof pdfjsLib !== 'undefined') {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
-
     function syncTargetKelasToBatch(val) {
         const batchSelect = document.getElementById('batch_id_kelas');
         if (batchSelect && val) {
@@ -1452,26 +1310,25 @@
         }
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const batchSelect = document.getElementById('batch_id_kelas');
-        if (batchSelect) {
-            batchSelect.addEventListener('change', function() {
-                const excelTargetSelect = document.getElementById('excel_target_kelas');
-                if (excelTargetSelect && this.value) {
-                    excelTargetSelect.value = this.value;
-                }
-            });
-        }
-    });
-
-    // Tampilkan info tipe file yang dipilih
     function onFileSelected(input) {
         const hint = document.getElementById('importFileTypeHint');
-        if (!input || !input.files || input.files.length === 0) return;
+        const nameDisplay = document.getElementById('selectedFileNameDisplay');
+        const statusText = document.getElementById('importStatusText');
+
+        if (!input || !input.files || input.files.length === 0) {
+            if (nameDisplay) {
+                nameDisplay.textContent = 'Tidak ada file yang dipilih';
+                nameDisplay.className = 'text-xs text-slate-400 ml-3 truncate flex-1';
+            }
+            if (statusText) statusText.textContent = 'Siap membaca dokumen';
+            return;
+        }
+
         const file = input.files[0];
         const ext = file.name.split('.').pop().toLowerCase();
         const sizeKB = (file.size / 1024).toFixed(1);
         const sizeMB = (file.size / (1024*1024)).toFixed(2);
+        const sizeFormatted = sizeMB < 1 ? sizeKB + ' KB' : sizeMB + ' MB';
         let typeLabel = '';
         let typeColor = '#64748b';
 
@@ -1485,14 +1342,32 @@
             typeLabel = '📋 CSV File'; typeColor = '#0369a1';
         }
 
+        if (nameDisplay) {
+            nameDisplay.textContent = file.name;
+            nameDisplay.className = 'text-xs text-slate-800 font-semibold ml-3 truncate flex-1';
+        }
+
+        if (statusText) {
+            statusText.textContent = `File siap diproses (${file.name} — ${sizeFormatted})`;
+        }
+
         if (hint) {
-            hint.innerHTML = `<span style="color:${typeColor}; font-weight:700;">${typeLabel}</span> — Ukuran: <strong>${sizeMB < 1 ? sizeKB + ' KB' : sizeMB + ' MB'}</strong>`;
+            hint.innerHTML = `<span style="color:${typeColor}; font-weight:700;">${typeLabel}</span> — Ukuran: <strong>${sizeFormatted}</strong>`;
         }
     }
 
     function clearExcelFileInput() {
         const input = document.getElementById('excel_file_input');
         if (input) input.value = '';
+
+        const nameDisplay = document.getElementById('selectedFileNameDisplay');
+        if (nameDisplay) {
+            nameDisplay.textContent = 'Tidak ada file yang dipilih';
+            nameDisplay.className = 'text-xs text-slate-400 ml-3 truncate flex-1';
+        }
+
+        const statusText = document.getElementById('importStatusText');
+        if (statusText) statusText.textContent = 'Siap membaca dokumen';
 
         const excelTargetSelect = document.getElementById('excel_target_kelas');
         if (excelTargetSelect) excelTargetSelect.value = '';
@@ -1501,10 +1376,10 @@
         if (excelModeSelect) excelModeSelect.value = 'replace';
 
         const alertDiv = document.getElementById('excelProcessAlert');
-        if (alertDiv) alertDiv.style.display = 'none';
+        if (alertDiv) alertDiv.classList.add('hidden');
 
         const hint = document.getElementById('importFileTypeHint');
-        if (hint) hint.innerHTML = 'Format: <strong>.pdf, .docx, .doc, .xlsx, .xls, .csv</strong> (Maks: 10MB)';
+        if (hint) hint.innerHTML = 'Format didukung: <span class="font-medium text-slate-600">.xlsx, .xls, .csv</span> (Ukuran maks: 10MB)';
     }
 
     function showExcelAlert(type, title, message, details = []) {
@@ -1517,29 +1392,17 @@
         if (!alertDiv || !alertTitle || !alertMsg) return;
 
         if (type === 'success') {
-            alertDiv.className = 'alert-success';
-            alertDiv.style.background = '#f0fdfa';
-            alertDiv.style.borderColor = '#99f6e4';
-            alertDiv.style.color = '#115e59';
-            alertIcon.className = 'fa-solid fa-circle-check';
-            alertIcon.style.color = '#0d9488';
-            alertTitle.style.color = '#0f766e';
+            alertDiv.className = 'mb-4 p-4 rounded-xl border text-xs bg-emerald-50 border-emerald-200 text-emerald-800';
+            alertIcon.className = 'fa-solid fa-circle-check text-xl shrink-0 mt-0.5 text-emerald-600';
+            alertTitle.className = 'font-bold text-sm text-emerald-900';
         } else if (type === 'warning') {
-            alertDiv.className = 'alert-danger';
-            alertDiv.style.background = '#fffbeb';
-            alertDiv.style.borderColor = '#fde68a';
-            alertDiv.style.color = '#92400e';
-            alertIcon.className = 'fa-solid fa-triangle-exclamation';
-            alertIcon.style.color = '#f59e0b';
-            alertTitle.style.color = '#78350f';
+            alertDiv.className = 'mb-4 p-4 rounded-xl border text-xs bg-amber-50 border-amber-200 text-amber-800';
+            alertIcon.className = 'fa-solid fa-triangle-exclamation text-xl shrink-0 mt-0.5 text-amber-600';
+            alertTitle.className = 'font-bold text-sm text-amber-900';
         } else {
-            alertDiv.className = 'alert-danger';
-            alertDiv.style.background = '#fef2f2';
-            alertDiv.style.borderColor = '#fca5a5';
-            alertDiv.style.color = '#991b1b';
-            alertIcon.className = 'fa-solid fa-circle-exclamation';
-            alertIcon.style.color = '#dc2626';
-            alertTitle.style.color = '#7f1d1d';
+            alertDiv.className = 'mb-4 p-4 rounded-xl border text-xs bg-rose-50 border-rose-200 text-rose-800';
+            alertIcon.className = 'fa-solid fa-circle-exclamation text-xl shrink-0 mt-0.5 text-rose-600';
+            alertTitle.className = 'font-bold text-sm text-rose-900';
         }
 
         alertTitle.textContent = title;
@@ -1552,18 +1415,18 @@
                 li.textContent = item;
                 alertDetails.appendChild(li);
             });
-            alertDetails.style.display = 'block';
+            alertDetails.classList.remove('hidden');
         } else {
-            alertDetails.style.display = 'none';
+            alertDetails.classList.add('hidden');
         }
 
-        alertDiv.style.display = 'flex';
+        alertDiv.classList.remove('hidden');
     }
 
     function showImportLoading(msg) {
         const el = document.getElementById('importFileLoading');
         const msgEl = document.getElementById('importFileLoadingMsg');
-        if (el) el.style.display = 'block';
+        if (el) el.classList.remove('hidden');
         if (msgEl && msg) msgEl.textContent = msg;
         const btn = document.getElementById('btnProcessExcel');
         if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
@@ -1571,7 +1434,7 @@
 
     function hideImportLoading() {
         const el = document.getElementById('importFileLoading');
-        if (el) el.style.display = 'none';
+        if (el) el.classList.add('hidden');
         const btn = document.getElementById('btnProcessExcel');
         if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
     }
@@ -1580,9 +1443,6 @@
         return String(s || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
     }
 
-    // =========================================================================
-    // MAIN ENTRY POINT: Deteksi tipe file dan proses sesuai format
-    // =========================================================================
     function processImportFile() {
         const fileInput = document.getElementById('excel_file_input');
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
@@ -1596,7 +1456,7 @@
         const maxSize = 10 * 1024 * 1024; // 10MB
 
         if (file.size > maxSize) {
-            showExcelAlert('error', 'Ukuran File Terlalu Besar!', `Ukuran file (${(file.size / (1024*1024)).toFixed(2)} MB) melebihi batas maksimum 10MB. Silakan kompres atau pisahkan file terlebih dahulu.`);
+            showExcelAlert('error', 'Ukuran File Terlalu Besar!', `Ukuran file (${(file.size / (1024*1024)).toFixed(2)} MB) melebihi batas maksimum 10MB.`);
             return;
         }
 
@@ -1609,21 +1469,18 @@
         } else if (ext === 'xlsx' || ext === 'xls' || ext === 'csv') {
             processExcelCsvFile(file, fileName, ext);
         } else {
-            showExcelAlert('error', 'Format File Tidak Didukung!', `Format file <strong>.${ext}</strong> tidak didukung. Silakan gunakan file PDF (.pdf), Word (.docx/.doc), Excel (.xlsx/.xls), atau CSV (.csv).`);
+            showExcelAlert('error', 'Format File Tidak Didukung!', `Format file <strong>.${ext}</strong> tidak didukung. Silakan gunakan file PDF, Word, Excel, atau CSV.`);
         }
     }
 
-    // =========================================================================
-    // PROSES FILE PDF
-    // =========================================================================
     async function processPdfFile(file, fileName) {
         if (typeof pdfjsLib === 'undefined') {
-            showExcelAlert('error', 'Library PDF.js Belum Siap!', 'Sistem sedang memuat pustaka pembaca PDF. Silakan muat ulang halaman (F5) jika masalah berlanjut.');
+            showExcelAlert('error', 'Library PDF.js Belum Siap!', 'Sistem sedang memuat pustaka pembaca PDF. Silakan muat ulang halaman jika masalah berlanjut.');
             return;
         }
 
         showImportLoading('Sedang membaca file PDF, mohon tunggu...');
-        document.getElementById('excelProcessAlert').style.display = 'none';
+        document.getElementById('excelProcessAlert')?.classList.add('hidden');
 
         try {
             const arrayBuffer = await file.arrayBuffer();
@@ -1636,7 +1493,6 @@
                 const page = await pdf.getPage(pageNum);
                 const textContent = await page.getTextContent();
 
-                // Ambil teks dengan posisi untuk mendeteksi tabel
                 let pageItems = textContent.items.map(item => ({
                     text: item.str,
                     x: Math.round(item.transform[4]),
@@ -1645,10 +1501,8 @@
                     height: Math.round(item.height)
                 }));
 
-                // Urutkan berdasarkan posisi Y (baris) lalu X (kolom)
                 pageItems.sort((a, b) => b.y - a.y || a.x - b.x);
 
-                // Kelompokkan berdasarkan baris (toleransi 8px)
                 let rows = [];
                 let currentRow = [];
                 let lastY = null;
@@ -1665,7 +1519,6 @@
                 }
                 if (currentRow.length > 0) rows.push(currentRow);
 
-                // Gabungkan menjadi teks per baris
                 for (const row of rows) {
                     const lineText = row.map(i => i.text).join(' ').trim();
                     if (lineText) allText += lineText + '\n';
@@ -1680,32 +1533,28 @@
         } catch (err) {
             hideImportLoading();
             console.error('PDF Error:', err);
-            showExcelAlert('error', 'Gagal Membaca File PDF!', `Terjadi kesalahan saat membaca file PDF: <strong>${err.message}</strong>. Pastikan file PDF Anda bukan PDF scan (gambar) — sistem hanya bisa membaca PDF berbasis teks.`);
+            showExcelAlert('error', 'Gagal Membaca File PDF!', `Terjadi kesalahan saat membaca file PDF: <strong>${err.message}</strong>.`);
         }
     }
 
-    // =========================================================================
-    // PROSES FILE WORD (.docx)
-    // =========================================================================
     async function processDocxFile(file, fileName) {
         if (typeof mammoth === 'undefined') {
-            showExcelAlert('error', 'Library mammoth.js Belum Siap!', 'Sistem sedang memuat pustaka pembaca Word. Silakan muat ulang halaman (F5) jika masalah berlanjut.');
+            showExcelAlert('error', 'Library mammoth.js Belum Siap!', 'Sistem sedang memuat pustaka pembaca Word. Silakan muat ulang halaman jika masalah berlanjut.');
             return;
         }
 
         showImportLoading('Sedang membaca file Word (.docx), mohon tunggu...');
-        document.getElementById('excelProcessAlert').style.display = 'none';
+        document.getElementById('excelProcessAlert')?.classList.add('hidden');
 
         try {
             const arrayBuffer = await file.arrayBuffer();
-            // Ekstrak sebagai text plain (lebih mudah untuk parsing jadwal)
             const result = await mammoth.extractRawText({ arrayBuffer });
             const rawText = result.value || '';
 
             hideImportLoading();
 
             if (!rawText.trim()) {
-                showExcelAlert('error', 'Dokumen Word Kosong!', 'Dokumen Word yang dipilih tidak memiliki konten teks yang dapat dibaca. Pastikan file Word tidak terlindungi password.');
+                showExcelAlert('error', 'Dokumen Word Kosong!', 'Dokumen Word yang dipilih tidak memiliki konten teks yang dapat dibaca.');
                 return;
             }
 
@@ -1715,26 +1564,21 @@
         } catch (err) {
             hideImportLoading();
             console.error('Word Error:', err);
-            showExcelAlert('error', 'Gagal Membaca File Word!', `Terjadi kesalahan saat membaca file Word: <strong>${err.message}</strong>. Pastikan file menggunakan format .docx (Word 2007 ke atas) dan tidak terlindungi password.`);
+            showExcelAlert('error', 'Gagal Membaca File Word!', `Terjadi kesalahan: <strong>${err.message}</strong>.`);
         }
     }
 
-    // =========================================================================
-    // PROSES FILE WORD (.doc) — Legacy format, fallback ke raw text extract
-    // =========================================================================
     function processDocFile(file, fileName) {
         showImportLoading('Sedang membaca file Word (.doc), mohon tunggu...');
-        document.getElementById('excelProcessAlert').style.display = 'none';
+        document.getElementById('excelProcessAlert')?.classList.add('hidden');
 
         const reader = new FileReader();
         reader.onload = function(e) {
             try {
-                // Untuk .doc (format binary lama), coba ekstrak teks mentah
                 const arrayBuffer = e.target.result;
                 const uint8 = new Uint8Array(arrayBuffer);
                 let rawText = '';
 
-                // Ekstrak teks ASCII dari binary DOC
                 for (let i = 0; i < uint8.length; i++) {
                     const code = uint8[i];
                     if (code >= 32 && code <= 126) {
@@ -1744,7 +1588,6 @@
                     }
                 }
 
-                // Filter karakter yang bermanfaat
                 rawText = rawText.replace(/[^\x20-\x7E\n\r\u00C0-\u024F]/g, ' ')
                                  .replace(/ {3,}/g, ' ')
                                  .replace(/\n{3,}/g, '\n\n');
@@ -1753,8 +1596,7 @@
 
                 if (!rawText.trim() || rawText.trim().length < 50) {
                     showExcelAlert('warning', 'File .doc Mungkin Tidak Terbaca Optimal!',
-                        'Format .doc (Word 97-2003) memiliki keterbatasan dalam pembacaan teks. Untuk hasil terbaik, simpan ulang file sebagai <strong>.docx</strong> atau <strong>PDF</strong> lalu coba import kembali. ' +
-                        'Sistem akan mencoba membaca data yang ada...');
+                        'Format .doc (Word 97-2003) memiliki keterbatasan dalam pembacaan teks. Untuk hasil terbaik, simpan ulang file sebagai .docx atau PDF.');
                 }
 
                 const schedules = parseTextSchedule(rawText, fileName);
@@ -1763,16 +1605,12 @@
             } catch (err) {
                 hideImportLoading();
                 console.error('DOC Error:', err);
-                showExcelAlert('error', 'Gagal Membaca File .doc!',
-                    `Terjadi kesalahan saat membaca file .doc. <br>Rekomendasi: Simpan ulang file sebagai <strong>.docx</strong> (Word 2007 ke atas) atau <strong>PDF</strong> lalu coba lagi.`);
+                showExcelAlert('error', 'Gagal Membaca File .doc!', `Terjadi kesalahan saat membaca file .doc.`);
             }
         };
         reader.readAsArrayBuffer(file);
     }
 
-    // =========================================================================
-    // PROSES FILE EXCEL / CSV
-    // =========================================================================
     function processExcelCsvFile(file, fileName, ext) {
         if (typeof XLSX === 'undefined') {
             showExcelAlert('error', 'Library XLSX Belum Siap!', 'Sistem sedang memuat pustaka pembaca Excel. Silakan muat ulang halaman jika masalah berlanjut.');
@@ -1780,7 +1618,7 @@
         }
 
         showImportLoading(`Sedang membaca file ${ext.toUpperCase()}, mohon tunggu...`);
-        document.getElementById('excelProcessAlert').style.display = 'none';
+        document.getElementById('excelProcessAlert')?.classList.add('hidden');
 
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -1802,7 +1640,6 @@
                 let headerRowIndex = -1;
                 let colIndices = { hari: -1, jam_mulai: -1, jam_selesai: -1, guru: -1, mapel: -1, ruangan: -1, kelas: -1 };
 
-                // Inspect first 20 rows to find header
                 for (let i = 0; i < Math.min(rawRowsF.length, 20); i++) {
                     const row = rawRowsF[i];
                     if (!row || !Array.isArray(row)) continue;
@@ -1842,7 +1679,6 @@
                     }
                 }
 
-                // Fallback column indexing
                 if (headerRowIndex === -1) {
                     const sampleRow = rawRowsF[0] || [];
                     const firstCellClean = cleanStr(sampleRow[0]);
@@ -1884,8 +1720,7 @@
 
                 if (parsedSchedules.length === 0) {
                     showExcelAlert('error', 'Tidak Ada Data Jadwal Valid!',
-                        `File ${ext.toUpperCase()} yang Anda masukkan tidak mengandung data jadwal yang dapat dibaca. ` +
-                        `Pastikan file memiliki kolom: HARI, JAM MULAI, JAM SELESAI, GURU, MATA PELAJARAN, RUANGAN.`);
+                        `File ${ext.toUpperCase()} tidak mengandung data jadwal yang dapat dibaca. Pastikan kolom memiliki header: HARI, JAM MULAI, JAM SELESAI, GURU, MAPEL, RUANGAN.`);
                     return;
                 }
 
@@ -1900,79 +1735,15 @@
         reader.readAsArrayBuffer(file);
     }
 
-    // =========================================================================
-    // PARSE TEKS MENTAH (PDF / WORD) → Daftar Jadwal
-    // Parser cerdas untuk format jadwal sekolah seperti "JADWAL KELAS SEMESTER GANJIL"
-    // =========================================================================
     function parseTextSchedule(rawText, fileName) {
         const schedules = [];
-        const warnings = [];
         const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
-        const hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
         const hariPattern = /\b(senin|selasa|rabu|kamis|jumat|monday|tuesday|wednesday|thursday|friday)\b/i;
         const kelasPattern = /\b(x|xi|xii|10|11|12)\s*(tki|tkj|rpl|tkr|tsm|tav|tbsm|mm|ak|adm|dpib|bdp|otkp|aphp|agribisnis|kimia|teknik)\s*(\d+)\b/i;
         const jamPattern = /jam\s*(ke)?[-\s]?(\d+)\s*(s\/d|sd|[-–]|sampai|hingga)?\s*(\d+)?/i;
-        const jamNumPattern = /^(\d{1,2})$/;
 
-        // Coba deteksi format tabel dengan blok per kelas
-        // Format: KELAS X TKI 1 → baris-baris jadwal → ...
-        let currentKelas = '';
-        let currentHari = '';
-        let currentJamMulai = 0;
-        let currentJamSelesai = 0;
-        let lineIdx = 0;
-
-        // Strategi 1: Parsing baris per baris dengan konteks
-        while (lineIdx < lines.length) {
-            const line = lines[lineIdx];
-            const lineClean = cleanStr(line);
-
-            // Deteksi nama kelas
-            const kelasMatch = line.match(kelasPattern);
-            if (kelasMatch) {
-                currentKelas = kelasMatch[0].replace(/\s+/g, ' ').toUpperCase();
-                // Normalize: ubah angka jadi huruf romawi
-                currentKelas = currentKelas.replace(/^10\s/, 'X ').replace(/^11\s/, 'XI ').replace(/^12\s/, 'XII ');
-                lineIdx++;
-                continue;
-            }
-
-            // Deteksi hari
-            const hariMatch = line.match(hariPattern);
-            if (hariMatch && line.length < 20) {
-                const h = hariMatch[1].toLowerCase();
-                if (h.includes('senin') || h.includes('mon')) currentHari = 'Senin';
-                else if (h.includes('selasa') || h.includes('tue')) currentHari = 'Selasa';
-                else if (h.includes('rabu') || h.includes('wed')) currentHari = 'Rabu';
-                else if (h.includes('kamis') || h.includes('thu')) currentHari = 'Kamis';
-                else if (h.includes('jumat') || h.includes('fri')) currentHari = 'Jumat';
-                lineIdx++;
-                continue;
-            }
-
-            lineIdx++;
-        }
-
-        // Strategi 2: Parsing blok teks (lebih fleksibel untuk PDF jadwal sekolah)
-        // Cari blok yang mengandung minimal: nama guru + nama mapel + jam/hari
-        const fullText = rawText;
-
-        // Cari semua nama guru dari database
-        const guruNamesInText = [];
-        for (const g of batchGurus) {
-            const nameParts = g.nama_guru.split(/[\s,]+/).filter(p => p.length > 3);
-            for (const part of nameParts) {
-                if (fullText.toLowerCase().includes(part.toLowerCase())) {
-                    guruNamesInText.push(g);
-                    break;
-                }
-            }
-        }
-
-        // Strategi 3: Parsing paragraf/blok dengan pola jadwal
-        // Format umum jadwal sekolah: RUANGAN \n MATA_PELAJARAN \n NAMA_GURU
-        const blocks = fullText.split(/\n{2,}|---\s*HALAMAN/);
+        const blocks = rawText.split(/\n{2,}|---\s*HALAMAN/);
         let hariContext = '';
         let kelasContext = '';
 
@@ -1980,7 +1751,6 @@
             const blockLines = block.split('\n').map(l => l.trim()).filter(l => l.length > 1);
             if (blockLines.length === 0) continue;
 
-            // Deteksi konteks hari dalam blok ini
             for (const bl of blockLines) {
                 const hm = bl.match(hariPattern);
                 if (hm && bl.length < 25) {
@@ -1991,14 +1761,12 @@
                     else if (h.includes('kamis')) hariContext = 'Kamis';
                     else if (h.includes('jumat')) hariContext = 'Jumat';
                 }
-                // Deteksi konteks kelas dalam blok ini
                 const km = bl.match(kelasPattern);
                 if (km) {
                     kelasContext = km[0].replace(/\s+/g, ' ').toUpperCase();
                 }
             }
 
-            // Deteksi jam dari blok
             let jamMulaiCtx = 0, jamSelesaiCtx = 0;
             for (const bl of blockLines) {
                 const jm = bl.match(jamPattern);
@@ -2007,7 +1775,6 @@
                     jamSelesaiCtx = jm[4] ? parseInt(jm[4]) : jamMulaiCtx;
                     break;
                 }
-                // Pola: "1 - 3" atau "1 s/d 3" atau just "ke-1 ke-3"
                 const rangeMatch = bl.match(/(\d{1,2})\s*[-–s\/d]+\s*(\d{1,2})/);
                 if (rangeMatch && parseInt(rangeMatch[1]) >= 1 && parseInt(rangeMatch[1]) <= 13) {
                     jamMulaiCtx = parseInt(rangeMatch[1]);
@@ -2016,15 +1783,12 @@
                 }
             }
 
-            // Cari pasangan (guru + mapel) dalam blok
             let foundGuru = null, foundMapel = null, foundRuangan = null;
 
             for (const bl of blockLines) {
-                // Skip baris yang hanya berisi jam/hari/kelas
                 if (bl.match(/^(\d{1,2})\s*[-–]\s*(\d{1,2})$/) && bl.length < 10) continue;
                 if (bl.match(hariPattern) && bl.length < 20) continue;
 
-                // Cek apakah baris ini adalah nama guru
                 if (!foundGuru) {
                     const gMatch = batchGurus.find(g => {
                         const nameParts = g.nama_guru.split(/[\s,]+/).filter(p => p.length > 3);
@@ -2033,7 +1797,6 @@
                     if (gMatch) { foundGuru = gMatch; continue; }
                 }
 
-                // Cek apakah baris ini adalah nama mapel
                 if (!foundMapel) {
                     const mMatch = batchMapels.find(m => {
                         const nameClean = cleanStr(m.nama_mapel);
@@ -2047,7 +1810,6 @@
                     if (mMatch) { foundMapel = mMatch; continue; }
                 }
 
-                // Cek apakah baris ini adalah nama ruangan
                 if (!foundRuangan) {
                     const rMatch = batchRuangans.find(r => {
                         const nameClean = cleanStr(r.nama_ruangan);
@@ -2059,13 +1821,10 @@
                 }
             }
 
-            // Jika kita menemukan minimal guru dan mapel, buat jadwal
             if (foundGuru && foundMapel && hariContext && jamMulaiCtx > 0) {
-                // Filter berdasarkan kelas target jika dipilih
                 const selectedTargetKelasEl = document.getElementById('excel_target_kelas');
                 const selectedTargetKelasId = selectedTargetKelasEl ? selectedTargetKelasEl.value : '';
 
-                // Cari id_kelas berdasarkan kelasContext
                 let matchedKelasId = '';
                 if (kelasContext && batchKelases) {
                     const kMatch = batchKelases.find(k => {
@@ -2075,10 +1834,7 @@
                     if (kMatch) matchedKelasId = kMatch.id_kelas;
                 }
 
-                // Filter kelas jika ada filter
-                if (selectedTargetKelasId && matchedKelasId && String(selectedTargetKelasId) !== String(matchedKelasId)) {
-                    // Skip, bukan kelas yang dipilih
-                } else {
+                if (!selectedTargetKelasId || !matchedKelasId || String(selectedTargetKelasId) === String(matchedKelasId)) {
                     let ruanganId = foundRuangan ? foundRuangan.id_ruangan : 'custom';
                     let ruanganCustom = !foundRuangan ? (blockLines.find(bl =>
                         bl.length > 2 && !bl.match(hariPattern) && !bl.match(/^\d/) &&
@@ -2101,95 +1857,10 @@
             }
         }
 
-        // Jika tidak ada jadwal ditemukan, coba parsing lebih agresif
-        if (schedules.length === 0) {
-            // Parsing line-by-line dengan pattern matching sederhana
-            let currentHariCtx = 'Senin';
-            let currentKelasCtx = '';
-            let currentJam = 1;
-
-            for (let li = 0; li < lines.length; li++) {
-                const line = lines[li];
-
-                const hm = line.match(hariPattern);
-                if (hm && line.length < 25) {
-                    const h = hm[1].toLowerCase();
-                    if (h.includes('senin')) currentHariCtx = 'Senin';
-                    else if (h.includes('selasa')) currentHariCtx = 'Selasa';
-                    else if (h.includes('rabu')) currentHariCtx = 'Rabu';
-                    else if (h.includes('kamis')) currentHariCtx = 'Kamis';
-                    else if (h.includes('jumat')) currentHariCtx = 'Jumat';
-                    continue;
-                }
-
-                const km = line.match(kelasPattern);
-                if (km) {
-                    currentKelasCtx = km[0].replace(/\s+/g, ' ').toUpperCase();
-                    continue;
-                }
-
-                // Cek kombinasi 2-3 baris berikutnya untuk pola (ruangan, mapel, guru) atau (mapel, guru)
-                const nextLines = lines.slice(li, li + 4);
-                let foundG = null, foundM = null, foundR = null;
-                let jamM = currentJam, jamS = currentJam;
-
-                for (const nl of nextLines) {
-                    const jmr = nl.match(/(\d{1,2})\s*[-–s\/d]+\s*(\d{1,2})/);
-                    if (jmr && parseInt(jmr[1]) >= 1 && parseInt(jmr[1]) <= 13) {
-                        jamM = parseInt(jmr[1]);
-                        jamS = parseInt(jmr[2]);
-                    }
-
-                    if (!foundG) {
-                        const gM = batchGurus.find(g => {
-                            const parts = g.nama_guru.split(/[\s,]+/).filter(p => p.length > 3);
-                            return parts.some(p => nl.toLowerCase().includes(p.toLowerCase()));
-                        });
-                        if (gM) foundG = gM;
-                    }
-                    if (!foundM) {
-                        const mM = batchMapels.find(m => {
-                            const nameClean = m.nama_mapel.toLowerCase();
-                            const nlClean = nl.toLowerCase();
-                            return nlClean.includes(nameClean.slice(0, Math.min(8, nameClean.length))) ||
-                                   nameClean.includes(nlClean.slice(0, Math.min(8, nlClean.length)));
-                        });
-                        if (mM) foundM = mM;
-                    }
-                    if (!foundR) {
-                        const rM = batchRuangans.find(r => nl.toLowerCase().includes(r.nama_ruangan.toLowerCase().slice(0, 4)));
-                        if (rM) foundR = rM;
-                    }
-                }
-
-                if (foundG && foundM) {
-                    schedules.push({
-                        hari: currentHariCtx,
-                        id_jam_mulai: Math.max(1, Math.min(13, jamM)),
-                        id_jam_selesai: Math.max(1, Math.min(13, Math.max(jamM, jamS))),
-                        id_guru: foundG.id_guru,
-                        id_mapel: foundM.id_mapel,
-                        id_ruangan: foundR ? foundR.id_ruangan : 'custom',
-                        nama_ruangan_custom: foundR ? '' : (nextLines.find(nl =>
-                            nl.length > 2 && !batchGurus.find(g => nl.toLowerCase().includes(g.nama_guru.toLowerCase().slice(0,5))) &&
-                            !batchMapels.find(m => nl.toLowerCase().includes(m.nama_mapel.toLowerCase().slice(0,5)))
-                        ) || ''),
-                        kelas_name: currentKelasCtx,
-                        matched_kelas_id: ''
-                    });
-                    li += 2; // Skip beberapa baris yang sudah dipakai
-                }
-            }
-        }
-
         return schedules;
     }
 
-    // =========================================================================
-    // BUILD SCHEDULE ITEM — untuk Excel/CSV row
-    // =========================================================================
     function buildScheduleItem(hariRaw, jamMulaiRaw, jamSelesaiRaw, guruRaw, mapelRaw, ruanganRaw, kelasRaw, rowNum, warnings) {
-        // Parse Hari
         let hariClean = cleanStr(hariRaw);
         let hariVal = 'Senin';
         if (hariClean.includes('senin') || hariClean.includes('mon')) hariVal = 'Senin';
@@ -2198,7 +1869,6 @@
         else if (hariClean.includes('kamis') || hariClean.includes('thu')) hariVal = 'Kamis';
         else if (hariClean.includes('jumat') || hariClean.includes('fri')) hariVal = 'Jumat';
 
-        // Parse Jam Mulai & Jam Selesai
         let parseJamNum = (rawStr, defaultVal = 1) => {
             if (!rawStr) return defaultVal;
             let numMatch = String(rawStr).match(/\d+/);
@@ -2219,7 +1889,6 @@
         jamMulaiVal = Math.max(1, Math.min(13, jamMulaiVal));
         jamSelesaiVal = Math.max(jamMulaiVal, Math.min(13, jamSelesaiVal));
 
-        // Match Guru
         let matchedGuruId = '';
         if (guruRaw) {
             let guruRawClean = cleanStr(guruRaw);
@@ -2229,14 +1898,10 @@
                 let gNameClean = cleanStr(g.nama_guru);
                 return gNameClean.includes(guruRawClean) || guruRawClean.includes(gNameClean);
             });
-            if (gMatch) {
-                matchedGuruId = gMatch.id_guru;
-            } else {
-                warnings.push(`Baris ke-${rowNum}: Guru "${guruRaw}" tidak ditemukan di database Master Guru.`);
-            }
+            if (gMatch) matchedGuruId = gMatch.id_guru;
+            else warnings.push(`Baris ke-${rowNum}: Guru "${guruRaw}" tidak ditemukan di database.`);
         }
 
-        // Match Mapel
         let matchedMapelId = '';
         if (mapelRaw) {
             let mapelRawClean = cleanStr(mapelRaw);
@@ -2244,14 +1909,10 @@
                 let mNameClean = cleanStr(m.nama_mapel);
                 return mNameClean.includes(mapelRawClean) || mapelRawClean.includes(mNameClean);
             });
-            if (mMatch) {
-                matchedMapelId = mMatch.id_mapel;
-            } else {
-                warnings.push(`Baris ke-${rowNum}: Mata Pelajaran "${mapelRaw}" tidak ditemukan di database Master Mapel.`);
-            }
+            if (mMatch) matchedMapelId = mMatch.id_mapel;
+            else warnings.push(`Baris ke-${rowNum}: Mata Pelajaran "${mapelRaw}" tidak ditemukan di database.`);
         }
 
-        // Match Ruangan
         let matchedRuanganId = '';
         let customRuanganName = '';
         if (ruanganRaw) {
@@ -2280,59 +1941,40 @@
         };
     }
 
-    // =========================================================================
-    // APPLY PARSED SCHEDULES — Masukkan data ke form batch
-    // =========================================================================
     function applyParsedSchedules(parsedSchedules, fileName, fileTypeLabel) {
         const warnings = [];
 
         if (!parsedSchedules || parsedSchedules.length === 0) {
             showExcelAlert('error', 'Tidak Ada Data Jadwal Ditemukan!',
-                `Sistem tidak dapat menemukan data jadwal dari file <strong>${fileTypeLabel}</strong> yang Anda unggah. ` +
-                `<br><br>Kemungkinan penyebab:` +
-                `<ul style="margin:6px 0 0 18px; font-size:12.5px;">` +
-                `<li>File PDF adalah hasil scan (gambar) bukan PDF berbasis teks</li>` +
-                `<li>Format jadwal dalam file tidak standar atau sangat berbeda dari format yang dikenali sistem</li>` +
-                `<li>Nama guru, mata pelajaran, atau ruangan di file belum terdaftar di database sistem</li>` +
-                `<li>Untuk Excel/CSV: kolom tidak memiliki header yang dikenali (HARI, GURU, MAPEL, dll.)</li>` +
-                `</ul>` +
-                `<br><strong>Saran:</strong> Masukkan jadwal secara manual menggunakan form "Tambah Jadwal Pelajaran Secara Cepat dan Banyak" di bawah.`
-            );
+                `Sistem tidak dapat menemukan data jadwal dari file <strong>${fileTypeLabel}</strong>. ` +
+                `Pastikan file memiliki kolom: HARI, JAM MULAI, JAM SELESAI, GURU, MAPEL, RUANGAN.`);
             return;
         }
 
         const mode = document.getElementById('excel_import_mode').value;
         const tbody = document.getElementById('batchTableBody');
 
-        // Check if existing rows in batch table are empty
         let existingRows = tbody.querySelectorAll('tr.batch-data-row');
         let isAllExistingEmpty = true;
         existingRows.forEach(tr => {
             const guruVal = tr.querySelector('.batch-field-guru')?.value;
             const mapelVal = tr.querySelector('.batch-field-mapel')?.value;
             const ruanganVal = tr.querySelector('.batch-field-ruangan')?.value;
-            if (guruVal || mapelVal || ruanganVal) {
-                isAllExistingEmpty = false;
-            }
+            if (guruVal || mapelVal || ruanganVal) isAllExistingEmpty = false;
         });
 
-        if (mode === 'replace' || isAllExistingEmpty) {
+        if (mode === 'replace' || mode === 'overwrite' || isAllExistingEmpty) {
             tbody.innerHTML = '';
             batchRowCounter = 0;
         }
 
-        // Filter by selected class if applicable
         const selectedTargetKelasEl = document.getElementById('excel_target_kelas');
         const selectedTargetKelasId = selectedTargetKelasEl ? selectedTargetKelasEl.value : '';
 
         let filteredSchedules = parsedSchedules;
         if (selectedTargetKelasId) {
-            // Filter hanya kelas yang dipilih
             filteredSchedules = parsedSchedules.filter(item => {
-                if (item.matched_kelas_id) {
-                    return String(item.matched_kelas_id) === String(selectedTargetKelasId);
-                }
-                // Jika tidak ada matched_kelas_id, coba cocokkan via nama kelas
+                if (item.matched_kelas_id) return String(item.matched_kelas_id) === String(selectedTargetKelasId);
                 if (item.kelas_name && batchKelases) {
                     const selectedKelas = batchKelases.find(k => String(k.id_kelas) === String(selectedTargetKelasId));
                     if (selectedKelas) {
@@ -2340,11 +1982,11 @@
                                cleanStr(selectedKelas.nama_kelas).includes(cleanStr(item.kelas_name));
                     }
                 }
-                return true; // Jika tidak ada info kelas, sertakan semua
+                return true;
             });
 
             if (filteredSchedules.length === 0) {
-                warnings.push(`Tidak ada data jadwal untuk kelas yang dipilih ditemukan dari file. Semua ${parsedSchedules.length} baris dari file dimasukkan.`);
+                warnings.push(`Tidak ada data jadwal untuk kelas yang dipilih. Seluruh ${parsedSchedules.length} baris dimasukkan.`);
                 filteredSchedules = parsedSchedules;
             }
         }
@@ -2353,7 +1995,6 @@
             addBatchRow(item.hari, item.id_jam_mulai, item.id_jam_selesai, item);
         });
 
-        // Target Class Auto-Matching
         let targetKelasInfo = '';
         if (selectedTargetKelasId) {
             const batchKelasSelect = document.getElementById('batch_id_kelas');
@@ -2361,78 +2002,169 @@
                 batchKelasSelect.value = selectedTargetKelasId;
                 targetKelasInfo = batchKelasSelect.options[batchKelasSelect.selectedIndex]?.text || '';
             }
-        } else {
-            // Auto-detect kelas dari data
-            let excelKelasVal = '';
-            let excelKelasId = '';
-            for (let item of filteredSchedules) {
-                if (item.matched_kelas_id) {
-                    excelKelasId = item.matched_kelas_id;
-                    break;
-                }
-                if (item.kelas_name) {
-                    excelKelasVal = item.kelas_name;
-                    break;
-                }
-            }
-
-            const batchKelasSelect = document.getElementById('batch_id_kelas');
-            if (excelKelasId && batchKelasSelect) {
-                batchKelasSelect.value = excelKelasId;
-                targetKelasInfo = batchKelasSelect.options[batchKelasSelect.selectedIndex]?.text || '';
-                if (selectedTargetKelasEl) selectedTargetKelasEl.value = excelKelasId;
-            } else if (excelKelasVal && batchKelases && batchKelasSelect) {
-                const options = Array.from(batchKelasSelect.options);
-                const matchedOpt = options.find(opt => {
-                    const optClean = cleanStr(opt.text);
-                    const targetClean = cleanStr(excelKelasVal);
-                    return optClean.includes(targetClean) || targetClean.includes(optClean);
-                });
-                if (matchedOpt) {
-                    batchKelasSelect.value = matchedOpt.value;
-                    targetKelasInfo = matchedOpt.text;
-                    if (selectedTargetKelasEl) selectedTargetKelasEl.value = matchedOpt.value;
-                }
-            }
         }
 
-        // Hitung statistik
         let guruMatched = filteredSchedules.filter(s => s.id_guru).length;
         let mapelMatched = filteredSchedules.filter(s => s.id_mapel).length;
-        let ruanganCustom = filteredSchedules.filter(s => s.id_ruangan === 'custom').length;
 
-        let modeLabel = (mode === 'replace' || isAllExistingEmpty)
-            ? 'Menggantikan/Menimpa isi tabel'
-            : 'Menambahkan ke akhir baris tabel yang ada';
-
-        // Build warning dari data yang tidak cocok
-        if (guruMatched < filteredSchedules.length) {
-            warnings.push(`${filteredSchedules.length - guruMatched} baris tidak dapat mencocokkan nama guru di database — perlu dipilih manual.`);
-        }
-        if (mapelMatched < filteredSchedules.length) {
-            warnings.push(`${filteredSchedules.length - mapelMatched} baris tidak dapat mencocokkan mata pelajaran di database — perlu dipilih manual.`);
-        }
-        if (ruanganCustom > 0) {
-            warnings.push(`${ruanganCustom} ruangan tidak ditemukan di database — akan dibuat sebagai ruangan baru (custom) saat disimpan.`);
-        }
-
-        const msg = `Berhasil membaca <strong>${filteredSchedules.length} data jadwal pelajaran</strong> dari file <strong>${fileTypeLabel}</strong> (<em>${fileName}</em>) dan memasukkannya otomatis ke tabel di bawah.<br>`
-                  + `<small style="display:block; margin-top:5px; font-size:12px;">`
-                  + `<strong>Mode:</strong> ${modeLabel}`
-                  + (targetKelasInfo ? ` | <strong>Kelas Terdeteksi:</strong> ${targetKelasInfo}` : '')
-                  + ` | <strong>Guru cocok:</strong> ${guruMatched}/${filteredSchedules.length}`
-                  + ` | <strong>Mapel cocok:</strong> ${mapelMatched}/${filteredSchedules.length}`
+        const msg = `Berhasil membaca <strong>${filteredSchedules.length} data jadwal pelajaran</strong> dari file <strong>${fileTypeLabel}</strong> (<em>${fileName}</em>) dan memasukkannya ke tabel batch di bawah.<br>`
+                  + `<small class="block mt-1 text-[11px] text-slate-500">`
+                  + `Guru cocok: ${guruMatched}/${filteredSchedules.length} | Mapel cocok: ${mapelMatched}/${filteredSchedules.length}`
                   + `</small>`;
 
         showExcelAlert('success', `Proses File ${fileTypeLabel} Berhasil!`, msg, warnings);
 
+        // Auto-switch to batch tab so user can review & save
+        switchTab('batch');
         const formBatch = document.getElementById('formBatchJadwal');
-        if (formBatch) {
-            formBatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        if (formBatch) formBatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // Alias untuk backward compatibility
-    function processExcelFile() { processImportFile(); }
+    /* =========================================================================
+       DOM INITIALIZATION
+       ========================================================================= */
+    document.addEventListener('DOMContentLoaded', function() {
+        updateJamOptionsByHari();
+        renderEmptyBatchState();
+        updateSelectedCount();
+
+        @if(isset($errors) && ($errors->has('items') || $errors->has('items.*')))
+            switchTab('batch');
+        @endif
+
+        if (window.location.hash === '#tab-import') switchTab('import');
+        else if (window.location.hash === '#tab-batch') switchTab('batch');
+
+        // Form manual validation
+        const formManual = document.getElementById('formTambahJadwal');
+        if (formManual) {
+            formManual.addEventListener('submit', function(e) {
+                const hari         = document.getElementById('hari')?.value;
+                const idKelas      = document.getElementById('id_kelas')?.value;
+                const idGuru       = document.getElementById('id_guru')?.value;
+                const idMapel      = document.getElementById('id_mapel')?.value;
+                const idRuangan    = document.getElementById('id_ruangan')?.value;
+                const idJamMulai   = document.getElementById('id_jam_mulai')?.value;
+                const idJamSelesai = document.getElementById('id_jam_selesai')?.value;
+
+                let missing = [];
+                if (!hari) missing.push('Hari');
+                if (!idKelas) missing.push('Kelas');
+                if (!idGuru) missing.push('Guru Pengampu');
+                if (!idMapel) missing.push('Mata Pelajaran');
+                if (!idRuangan) missing.push('Ruangan');
+                if (!idJamMulai) missing.push('Jam Mulai');
+                if (!idJamSelesai) missing.push('Jam Selesai');
+
+                if (missing.length > 0) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Formulir Belum Lengkap!',
+                        html: 'Silakan lengkapi data yang belum diisi berikut:<br><br><strong class="text-rose-600">' + missing.join(', ') + '</strong>',
+                        confirmButtonColor: '#2563eb'
+                    });
+                    return false;
+                }
+
+                if (parseInt(idJamSelesai) < parseInt(idJamMulai)) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Jam Pelajaran Tidak Sesuai!',
+                        text: 'Jam Selesai tidak boleh lebih kecil dari Jam Mulai.',
+                        confirmButtonColor: '#2563eb'
+                    });
+                    return false;
+                }
+
+                if (hari !== 'Jumat' && (parseInt(idJamMulai) > 10 || parseInt(idJamSelesai) > 10)) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Batas Jam Pelajaran Terlampaui!',
+                        text: 'Untuk hari ' + hari + ', jam pelajaran maksimal adalah Jam Ke-10. Jam Ke-11 s/d 13 hanya berlaku pada hari Jumat.',
+                        confirmButtonColor: '#2563eb'
+                    });
+                    return false;
+                }
+            });
+        }
+
+        // Form batch validation
+        const formBatch = document.getElementById('formBatchJadwal');
+        if (formBatch) {
+            formBatch.addEventListener('submit', function(e) {
+                const idKelas = document.getElementById('batch_id_kelas')?.value;
+                const rows = document.querySelectorAll('#batchTableBody tr.batch-data-row');
+
+                if (!idKelas) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Kelas Target Belum Dipilih!',
+                        text: 'Silakan pilih Kelas Target terlebih dahulu sebelum menyimpan.',
+                        confirmButtonColor: '#2563eb'
+                    });
+                    return false;
+                }
+
+                if (rows.length === 0) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Tabel Masih Kosong!',
+                        text: 'Silakan klik "Generasi Slot Jam" atau "+ Tambah Baris Manual" untuk menambah data jadwal.',
+                        confirmButtonColor: '#2563eb'
+                    });
+                    return false;
+                }
+
+                let missingErrors = [];
+                let logicErrors = [];
+
+                rows.forEach((row, idx) => {
+                    const rowNum = idx + 1;
+                    const hari = row.querySelector('.batch-field-hari')?.value;
+                    const jamMulai = parseInt(row.querySelector('.batch-field-jam-mulai')?.value || '0');
+                    const jamSelesai = parseInt(row.querySelector('.batch-field-jam-selesai')?.value || '0');
+                    const guru = row.querySelector('.batch-field-guru')?.value;
+                    const mapel = row.querySelector('.batch-field-mapel')?.value;
+                    const ruangan = row.querySelector('.batch-field-ruangan')?.value;
+                    const customRuangan = row.querySelector('.batch-field-ruangan-custom')?.value.trim();
+
+                    if (!guru || !mapel || !ruangan) {
+                        missingErrors.push(`Baris ke-${rowNum}: Guru, Mapel, atau Ruangan belum dipilih.`);
+                    }
+
+                    if (ruangan === 'custom' && !customRuangan) {
+                        missingErrors.push(`Baris ke-${rowNum}: Nama Ruangan Custom wajib diisi.`);
+                    }
+
+                    if (jamSelesai < jamMulai) {
+                        logicErrors.push(`Baris ke-${rowNum}: Jam Selesai (Ke-${jamSelesai}) lebih kecil dari Jam Mulai (Ke-${jamMulai}).`);
+                    }
+
+                    if (['Senin', 'Selasa', 'Rabu', 'Kamis'].includes(hari) && (jamMulai > 10 || jamSelesai > 10)) {
+                        logicErrors.push(`Baris ke-${rowNum}: Jam ke-${jamSelesai} melebihi batas Jam Ke-10 untuk hari ${hari}.`);
+                    }
+                });
+
+                if (missingErrors.length > 0 || logicErrors.length > 0) {
+                    e.preventDefault();
+                    const allErrList = [...missingErrors, ...logicErrors];
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Terdapat Isian Belum Lengkap!',
+                        html: '<div class="text-left max-h-48 overflow-y-auto text-xs text-rose-600"><ul class="list-disc list-inside space-y-0.5">' + 
+                              allErrList.map(err => `<li>${err}</li>`).join('') + 
+                              '</ul></div>',
+                        confirmButtonColor: '#2563eb'
+                    });
+                    return false;
+                }
+            });
+        }
+    });
 </script>
 @endsection

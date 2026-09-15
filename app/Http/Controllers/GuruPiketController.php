@@ -45,6 +45,33 @@ class GuruPiketController extends Controller
     }
 
     /**
+     * Halaman Menu Guru Piket (Mobile & Desktop)
+     */
+    public function menu()
+    {
+        $countPendingIzinPiket = 0;
+        if (\Illuminate\Support\Facades\Schema::hasColumn('guru_izin', 'is_pengajuan_guru') && \Illuminate\Support\Facades\Schema::hasColumn('guru_izin', 'status_piket')) {
+            try {
+                $countPendingIzinPiket = \App\Models\GuruIzin::where('is_pengajuan_guru', 1)->where('status_piket', 'pending')->count();
+            } catch (\Throwable $e) {
+                $countPendingIzinPiket = 0;
+            }
+        }
+
+        $trashedDispenCount = 0;
+        try {
+            $trashedDispenCount = \App\Models\SiswaDispen::onlyTrashed()->count();
+        } catch (\Throwable $e) {}
+
+        $trashedTelatCount = 0;
+        try {
+            $trashedTelatCount = \App\Models\SiswaTelat::onlyTrashed()->count();
+        } catch (\Throwable $e) {}
+
+        return view('guru_piket.menu', compact('countPendingIzinPiket', 'trashedDispenCount', 'trashedTelatCount'));
+    }
+
+    /**
      * Dashboard Guru Piket
      */
     public function dashboard()

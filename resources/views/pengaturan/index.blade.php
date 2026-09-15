@@ -307,6 +307,19 @@
 
 @section('content')
 
+<<<<<<< HEAD
+=======
+@if(isset($user) && method_exists($user, 'isGuruPiket') && $user->isGuruPiket())
+    @include('guru_piket.pengaturan')
+@else
+<!-- Header Top Bar -->
+<div class="page-header-container">
+    <div class="page-title-group">
+        <h1>Pengaturan Akun & Sistem</h1>
+        <p>Kelola profil pribadi, keamanan password, serta preferensi aplikasi EDU JOURNAL</p>
+    </div>
+</div>
+>>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
 @php
     $errorsBag = $errors ?? session('errors') ?? new \Illuminate\Support\ViewErrorBag;
     $hasSecErr = $errorsBag->has('current_password') || $errorsBag->has('password') || $errorsBag->has('password_confirmation');
@@ -1921,6 +1934,7 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 @section('scripts')
