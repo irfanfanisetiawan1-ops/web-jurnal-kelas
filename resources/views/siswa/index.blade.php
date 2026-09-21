@@ -7,6 +7,99 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- Tailwind Custom Configuration -->
 <script>
+    /* --- Realtime Active Toggle Logic for Siswa --- */
+    let siswaToastTimeout = null;
+
+    function showSiswaRealtimeToast(message, isSuccess = true) {
+        const toast = document.getElementById('siswaRealtimeToast');
+        const icon  = document.getElementById('siswaRealtimeToastIcon');
+        const msg   = document.getElementById('siswaRealtimeToastMsg');
+
+        if (!toast || !msg) return;
+
+        msg.innerHTML = message;
+        toast.classList.add('show');
+
+        if (isSuccess) {
+            toast.className = 'realtime-toast show toast-success';
+            if (icon) {
+                icon.className = 'fa-solid fa-circle-check';
+                icon.style.color = '#22c55e';
+            }
+        } else {
+            toast.className = 'realtime-toast show toast-error';
+            if (icon) {
+                icon.className = 'fa-solid fa-circle-exclamation';
+                icon.style.color = '#ef4444';
+            }
+        }
+
+        if (siswaToastTimeout) clearTimeout(siswaToastTimeout);
+        siswaToastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    async function handleSiswaToggle(checkbox, siswaId, siswaName) {
+        const isChecked = checkbox.checked;
+        const label = document.getElementById('status-label-siswa-' + siswaId);
+        const originalChecked = !isChecked;
+
+        if (label) {
+            label.innerText = isChecked ? 'Aktif' : 'Nonaktif';
+            label.className = 'siswa-status-label ' + (isChecked ? 'status-on' : 'status-off');
+        }
+
+        checkbox.disabled = true;
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]') 
+                ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                : '{{ csrf_token() }}';
+
+            const response = await fetch(`/siswa/${siswaId}/toggle-active`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    is_active: isChecked ? 1 : 0
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                checkbox.checked = data.is_active;
+                if (label) {
+                    label.innerText = data.is_active ? 'Aktif' : 'Nonaktif';
+                    label.className = 'siswa-status-label ' + (data.is_active ? 'status-on' : 'status-off');
+                }
+                showSiswaRealtimeToast(data.message || `Data Siswa '${siswaName}' berhasil diubah menjadi ${data.is_active ? 'Aktif (ON)' : 'Nonaktif (OFF)'}.`, true);
+            } else {
+                checkbox.checked = originalChecked;
+                if (label) {
+                    label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                    label.className = 'siswa-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+                }
+                showSiswaRealtimeToast(data.message || 'Gagal mengubah status Data Siswa.', false);
+            }
+        } catch (error) {
+            console.error('Error toggling siswa status:', error);
+            checkbox.checked = originalChecked;
+            if (label) {
+                label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                label.className = 'siswa-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+            }
+            showSiswaRealtimeToast('Terjadi kesalahan koneksi saat mengubah status.', false);
+        } finally {
+            checkbox.disabled = false;
+        }
+    }
+
     tailwind.config = {
       theme: {
         extend: {
@@ -111,7 +204,106 @@
             white-space: normal !important;
         }
     }
+
+    /* --- Status Active Toggle Switch & Toast --- */
+    .siswa-toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 38px;
+        height: 20px;
+        flex-shrink: 0;
+        margin: 0;
+        cursor: pointer;
+    }
+    .siswa-toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+    .siswa-toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cbd5e1;
+        transition: all 0.25s ease;
+        border-radius: 20px;
+    }
+    .siswa-toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #ffffff;
+        transition: all 0.25s ease;
+        border-radius: 50%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+    .siswa-toggle-switch input:checked + .siswa-toggle-slider {
+        background-color: #16a34a;
+    }
+    .siswa-toggle-switch input:checked + .siswa-toggle-slider:before {
+        transform: translateX(18px);
+    }
+    .siswa-toggle-switch input:disabled + .siswa-toggle-slider {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    .siswa-status-label {
+        font-size: 11px;
+        font-weight: 700;
+        min-width: 44px;
+        text-align: left;
+    }
+    .siswa-status-label.status-on {
+        color: #16a34a;
+    }
+    .siswa-status-label.status-off {
+        color: #94a3b8;
+    }
+    .realtime-toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 18px;
+        border-radius: 12px;
+        background: #0f172a;
+        color: #ffffff;
+        font-size: 12.5px;
+        font-weight: 600;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+    .realtime-toast.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+    .realtime-toast.toast-success {
+        border-left: 4px solid #22c55e;
+    }
+    .realtime-toast.toast-error {
+        border-left: 4px solid #ef4444;
+    }
 </style>
+<!-- Toast Realtime Notification -->
+<div id="siswaRealtimeToast" class="realtime-toast">
+    <i id="siswaRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
+    <span id="siswaRealtimeToastMsg">Status data siswa berhasil diperbarui.</span>
+</div>
+
 @endsection
 
 @section('topbar_left')
@@ -123,6 +315,12 @@
         Data Induk Siswa &bull; Validasi NISN &bull; Distribusi Kelas &amp; Riwayat Pendaftaran
     </p>
 </div>
+<!-- Toast Realtime Notification -->
+<div id="siswaRealtimeToast" class="realtime-toast">
+    <i id="siswaRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
+    <span id="siswaRealtimeToastMsg">Status data siswa berhasil diperbarui.</span>
+</div>
+
 @endsection
 
 @section('content')
@@ -754,6 +952,7 @@
                         <th class="py-2.5 px-3">KELAS</th>
                         <th class="py-2.5 px-3">TEMPAT &amp; TGL LAHIR</th>
                         <th class="py-2.5 px-3">ALAMAT</th>
+                        <th class="py-2.5 px-3 text-center">STATUS</th>
                         <th class="py-2.5 px-3 text-center">AKSI</th>
                     </tr>
                 </thead>
@@ -827,7 +1026,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center py-10 text-slate-400">
+                            <td colspan="10" class="text-center py-10 text-slate-400">
                                 <span class="material-symbols-outlined text-3xl mb-1.5 text-slate-300 block">folder_open</span>
                                 <p class="text-xs font-semibold">Belum ada data Siswa yang terdaftar dalam sistem.</p>
                             </td>
@@ -856,6 +1055,12 @@
     @method('DELETE')
 </form>
 
+<!-- Toast Realtime Notification -->
+<div id="siswaRealtimeToast" class="realtime-toast">
+    <i id="siswaRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
+    <span id="siswaRealtimeToastMsg">Status data siswa berhasil diperbarui.</span>
+</div>
+
 @endsection
 
 @section('scripts')
@@ -865,6 +1070,99 @@
 <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
 
 <script>
+    /* --- Realtime Active Toggle Logic for Siswa --- */
+    let siswaToastTimeout = null;
+
+    function showSiswaRealtimeToast(message, isSuccess = true) {
+        const toast = document.getElementById('siswaRealtimeToast');
+        const icon  = document.getElementById('siswaRealtimeToastIcon');
+        const msg   = document.getElementById('siswaRealtimeToastMsg');
+
+        if (!toast || !msg) return;
+
+        msg.innerHTML = message;
+        toast.classList.add('show');
+
+        if (isSuccess) {
+            toast.className = 'realtime-toast show toast-success';
+            if (icon) {
+                icon.className = 'fa-solid fa-circle-check';
+                icon.style.color = '#22c55e';
+            }
+        } else {
+            toast.className = 'realtime-toast show toast-error';
+            if (icon) {
+                icon.className = 'fa-solid fa-circle-exclamation';
+                icon.style.color = '#ef4444';
+            }
+        }
+
+        if (siswaToastTimeout) clearTimeout(siswaToastTimeout);
+        siswaToastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    async function handleSiswaToggle(checkbox, siswaId, siswaName) {
+        const isChecked = checkbox.checked;
+        const label = document.getElementById('status-label-siswa-' + siswaId);
+        const originalChecked = !isChecked;
+
+        if (label) {
+            label.innerText = isChecked ? 'Aktif' : 'Nonaktif';
+            label.className = 'siswa-status-label ' + (isChecked ? 'status-on' : 'status-off');
+        }
+
+        checkbox.disabled = true;
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]') 
+                ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                : '{{ csrf_token() }}';
+
+            const response = await fetch(`/siswa/${siswaId}/toggle-active`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    is_active: isChecked ? 1 : 0
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                checkbox.checked = data.is_active;
+                if (label) {
+                    label.innerText = data.is_active ? 'Aktif' : 'Nonaktif';
+                    label.className = 'siswa-status-label ' + (data.is_active ? 'status-on' : 'status-off');
+                }
+                showSiswaRealtimeToast(data.message || `Data Siswa '${siswaName}' berhasil diubah menjadi ${data.is_active ? 'Aktif (ON)' : 'Nonaktif (OFF)'}.`, true);
+            } else {
+                checkbox.checked = originalChecked;
+                if (label) {
+                    label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                    label.className = 'siswa-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+                }
+                showSiswaRealtimeToast(data.message || 'Gagal mengubah status Data Siswa.', false);
+            }
+        } catch (error) {
+            console.error('Error toggling siswa status:', error);
+            checkbox.checked = originalChecked;
+            if (label) {
+                label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
+                label.className = 'siswa-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+            }
+            showSiswaRealtimeToast('Terjadi kesalahan koneksi saat mengubah status.', false);
+        } finally {
+            checkbox.disabled = false;
+        }
+    }
+
     if (typeof pdfjsLib !== 'undefined') {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     }
@@ -2027,4 +2325,10 @@
         }
     });
 </script>
+<!-- Toast Realtime Notification -->
+<div id="siswaRealtimeToast" class="realtime-toast">
+    <i id="siswaRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
+    <span id="siswaRealtimeToastMsg">Status data siswa berhasil diperbarui.</span>
+</div>
+
 @endsection

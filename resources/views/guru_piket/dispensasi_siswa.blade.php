@@ -1814,8 +1814,16 @@
         </div>
 
         <div class="dispen-card-body">
-            <form action="{{ route('piket.dispensasi-siswa.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return validateTimeInput(this);">
+            <form id="formDispensasiSiswa" action="{{ route('piket.dispensasi-siswa.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <!-- Hidden inputs for digital signatures, live photo, and guru piket -->
+                <input type="hidden" name="id_guru_piket_select" id="hiddenIdGuruPiket">
+                <input type="hidden" name="nama_guru_piket" id="hiddenNamaGuruPiket">
+                <input type="hidden" name="nip_guru_piket" id="hiddenNipGuruPiket">
+                <input type="hidden" name="ttd_guru_piket_data" id="hiddenTtdGuruPiketData">
+                <input type="hidden" name="ttd_siswa_data" id="hiddenTtdSiswaData">
+                <input type="hidden" name="foto_siswa_live" id="inputFotoSiswaLive">
+                <input type="hidden" name="kode_dispen" id="hiddenKodeDispen">
                 
                 <!-- Baris 1: Siswa & Waka -->
                 <div class="dispen-form-grid">
@@ -1856,7 +1864,7 @@
                         <label class="dispen-label">Tanggal Dispensasi <span class="req">*</span></label>
                         <div class="dispen-input-wrapper">
                             <i class="fa-regular fa-calendar-days dispen-input-icon"></i>
-                            <input type="date" name="tanggal" value="{{ old('tanggal', date('Y-m-d')) }}" class="dispen-input" required>
+                            <input type="date" name="tanggal" id="inputTanggal" value="{{ old('tanggal', date('Y-m-d')) }}" class="dispen-input" required>
                         </div>
                     </div>
 
@@ -1882,7 +1890,7 @@
                     <label class="dispen-label">Alasan / Keperluan Dispensasi <span class="req">*</span></label>
                     <div class="dispen-input-wrapper">
                         <i class="fa-regular fa-comment-dots dispen-input-icon" style="top: 14px;"></i>
-                        <textarea name="alasan" rows="3" class="dispen-textarea" placeholder="Tuliskan alasan lengkap siswa izin keluar sekolah (misal: Lomba OSN, Berobat, Urusan Keluarga)..." required>{{ old('alasan') }}</textarea>
+                        <textarea name="alasan" id="inputAlasan" rows="3" class="dispen-textarea" placeholder="Tuliskan alasan lengkap siswa izin keluar sekolah (misal: Lomba OSN, Berobat, Urusan Keluarga)..." required>{{ old('alasan') }}</textarea>
                     </div>
                 </div>
 
@@ -1932,10 +1940,10 @@
                         <span class="dispen-btn-text-full">Reset Form</span>
                         <span class="dispen-btn-text-short">Reset</span>
                     </button>
-                    <button type="submit" class="dispen-btn-submit">
-                        <i class="fa-solid fa-link"></i>
-                        <span class="dispen-btn-text-full">Simpan Data & Buat Link Persetujuan Waka</span>
-                        <span class="dispen-btn-text-short">Simpan & Link</span>
+                    <button type="button" onclick="openModalSuratDispenInput()" class="dispen-btn-submit">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <span class="dispen-btn-text-full">Lanjutkan Tanda Tangan &amp; Buat Link</span>
+                        <span class="dispen-btn-text-short">Tanda Tangan</span>
                     </button>
                 </div>
             </form>
@@ -2510,6 +2518,303 @@
     </div>
 </div>
 
+
+<div id="liveCameraModal" class="modal-backdrop-custom" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); z-index: 100000; align-items: center; justify-content: center; padding: 16px;">
+    <div class="modal-card" style="max-width: 580px; width: 100%; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); border: 1px solid #334155;">
+        <!-- Header -->
+        <div class="modal-header" style="background: linear-gradient(135deg, #0f172a, #1e293b); color: #ffffff; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #334155;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 38px; height: 38px; border-radius: 10px; background: #2563eb; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(37,99,235,0.4);">
+                    <i class="fa-solid fa-camera fa-lg" style="color: #ffffff;"></i>
+                </div>
+                <div>
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.01em;">Ambil Foto Siswa Secara Live</h3>
+                    <span style="font-size: 11.5px; color: #94a3b8; font-weight: 600;">Wajib live menggunakan kamera aktif (webcam/kamera HP)</span>
+                </div>
+            </div>
+            <button type="button" onclick="closeLiveCameraModal()" style="background: rgba(255,255,255,0.1); border: none; color: #ffffff; font-size: 20px; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'" title="Tutup Kamera">&times;</button>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body" style="padding: 24px; text-align: center; background: #0b1120;">
+            <!-- Alert / Error Camera -->
+            <div id="cameraErrorAlert" style="display: none; background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 14px; border-radius: 12px; font-size: 12.5px; font-weight: 700; margin-bottom: 16px; text-align: left;">
+                <i class="fa-solid fa-triangle-exclamation"></i> <span id="cameraErrorMessage">Akses kamera gagal dibuka. Pastikan izin kamera telah diberikan di browser Anda.</span>
+            </div>
+
+            <!-- Viewport Container Kamera -->
+            <div style="position: relative; width: 100%; aspect-ratio: 4/3; max-height: 380px; background: #000000; border-radius: 14px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: inset 0 0 25px rgba(0,0,0,0.8); border: 2px solid #1e293b;">
+                <!-- Live Video Feed -->
+                <video id="liveCameraVideo" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover;"></video>
+                
+                <!-- Captured Snapshot Canvas (Hidden) -->
+                <canvas id="liveCameraCanvas" style="display: none;"></canvas>
+
+                <!-- Captured Image Preview (Shown after snap) -->
+                <img id="liveCameraSnapshotPreview" src="" alt="Hasil Jepretan Siswa" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+
+                <!-- Framing Guide saat video aktif -->
+                <div id="cameraFaceGuide" style="position: absolute; width: 180px; height: 230px; border: 2.5px dashed rgba(255,255,255,0.85); border-radius: 50%; pointer-events: none; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);">
+                    <div style="position: absolute; bottom: -28px; width: 100%; text-align: center; color: #ffffff; font-size: 11px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.9); letter-spacing: 0.3px;">
+                        POSISI WAJAH SISWA
+                    </div>
+                </div>
+
+                <!-- Status Badge Live -->
+                <div id="cameraLiveBadge" style="position: absolute; top: 12px; left: 12px; background: rgba(220, 38, 38, 0.9); color: #ffffff; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.4);">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff; display: inline-block; animation: pulseRed 1s infinite alternate;"></span> LIVE KAMERA
+                </div>
+            </div>
+
+            <!-- Controls Area -->
+            <div style="margin-top: 20px;">
+                <!-- State 1: Streaming (Sebelum Jepret) -->
+                <div id="cameraStreamControls" style="display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    <button type="button" onclick="switchCameraFacing()" id="btnSwitchCam" class="action-btn" style="background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer;" title="Putar Kamera Depan / Belakang">
+                        <i class="fa-solid fa-camera-rotate"></i> Putar Kamera
+                    </button>
+                    <button type="button" onclick="takeSnapshotLive()" class="btn-submit-navy" style="padding: 13px 32px; font-size: 14.5px; background: #2563eb; border-radius: 12px; font-weight: 800; box-shadow: 0 4px 16px rgba(37,99,235,0.4);">
+                        <i class="fa-solid fa-camera"></i> Jepret Foto Siswa
+                    </button>
+                </div>
+
+                <!-- State 2: Post-Snap (Setelah Jepret) -->
+                <div id="cameraPreviewControls" style="display: none; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    <button type="button" onclick="retakeLiveSnapshot()" class="action-btn" style="background: #1e293b; color: #f1f5f9; border: 1px solid #475569; padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer;">
+                        <i class="fa-solid fa-rotate-left"></i> Foto Ulang (Retake)
+                    </button>
+                    <button type="button" onclick="confirmLiveSnapshot()" class="btn-submit-navy" style="background: #16a34a; padding: 13px 28px; border-radius: 12px; font-size: 14px; font-weight: 800; box-shadow: 0 4px 16px rgba(22,163,74,0.4);">
+                        <i class="fa-solid fa-check"></i> Gunakan Foto Ini &amp; Lanjutkan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Detail Dispensasi -->
+<div id="detailModal" class="modal-backdrop-custom">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 800;"><i class="fa-solid fa-id-card"></i> Detail Dispensasi Siswa</h3>
+            <i class="fa-solid fa-xmark" onclick="closeDetailModal()" style="cursor: pointer; font-size: 18px;"></i>
+
+    </div>
+</div>
+
+<div id="modalSuratDispenInput" class="modal-backdrop-custom" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(5px); z-index: 99999; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;">
+    <div class="modal-card" style="background: #ffffff; border-radius: 16px; width: 100%; max-width: 740px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); position: relative; padding: 36px 42px; font-family: 'Times New Roman', Times, serif; color: #000000; box-sizing: border-box; max-height: 90vh; overflow-y: auto;">
+        
+        <button type="button" onclick="closeModalSuratDispenInput()" style="position: absolute; top: 16px; right: 18px; background: #f1f5f9; border: none; font-size: 20px; color: #475569; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Tutup">&times;</button>
+
+        <!-- Kop Surat Resmi SMKN 1 Boyolangu -->
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px;">
+            <img src="{{ asset('images/logo_sekolah.jpeg') }}" style="width: 80px; height: auto; object-fit: contain;" onerror="this.src='{{ asset('logo_sekolah.jpeg') }}'">
+            <div style="flex: 1; text-align: center; line-height: 1.25;">
+                <div style="font-size: 13.5px; font-weight: 700; letter-spacing: 0.5px;">PEMERINTAH PROVINSI JAWA TIMUR</div>
+                <div style="font-size: 18px; font-weight: 900; letter-spacing: 1px; margin-top: 2px;">SMK NEGERI 1 BOYOLANGU</div>
+                <div style="font-size: 12px; font-weight: 800; letter-spacing: 0.5px;">SEKOLAH KEJURUAN NEGERI UNGGULAN</div>
+                <div style="font-size: 10.5px; margin-top: 3px; color: #1e293b;">Jl. Ki Mangunsarkoro VI/3, Beji, Kecamatan Boyolangu<br>Kabupaten Tulungagung, Jawa Timur 66233</div>
+                <div style="font-size: 10px; color: #334155; margin-top: 2px;">Telp. (0355) 323021 / 323024 | Website: https://smkn1boyolangu.sch.id/</div>
+                <div style="font-size: 10.5px; font-weight: 700;">NPSN: 20537286</div>
+            </div>
+            <div style="width: 80px;"></div>
+        </div>
+
+        <!-- Double Divider Line -->
+        <div style="border-top: 3px solid #000000; border-bottom: 1px solid #000000; height: 3px; margin: 10px 0 18px 0;"></div>
+
+        <!-- Judul Surat -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 14pt; font-weight: 900; text-decoration: underline; letter-spacing: 0.5px;">SURAT DISPENSASI SISWA</div>
+            <div style="font-size: 11pt; margin-top: 4px;">Nomor: 421.3/<span id="suratKodeDispenSpan">DSP-...</span>/SMKN1.BYL/{{ date('Y') }}</div>
+        </div>
+
+        <!-- Tujuan / Kepada Yth -->
+        <div style="font-size: 11.5pt; line-height: 1.5; margin-bottom: 12px;">
+            Kepada Yth.<br>
+            Bapak/Ibu Guru Piket<br>
+            SMK Negeri 1 Boyolangu<br>
+            di tempat
+        </div>
+
+        <div style="font-size: 11.5pt; line-height: 1.55; text-align: justify; margin-bottom: 10px;">
+            Dengan hormat,<br>
+            Berdasarkan permohonan izin dari orang tua/wali siswa dan sehubungan dengan keperluan kegiatan yang tidak dapat ditinggalkan, maka dengan ini kami mohon agar siswa berikut diberikan dispensasi (izin tidak mengikuti kegiatan pembelajaran) pada waktu yang telah ditentukan.
+        </div>
+
+        <div style="font-size: 11.5pt; line-height: 1.55; margin-bottom: 4px;">
+            Adapun data siswa yang mengajukan dispensasi adalah sebagai berikut:
+        </div>
+
+        <!-- Tabel Data Siswa & Pasfoto Siswa Live -->
+        <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 12px;">
+            <table style="flex: 1; border-collapse: collapse; font-size: 11.5pt; padding-left: 10px;">
+                <tr>
+                    <td style="width: 170px; padding: 2.5px 0;">Nama</td>
+                    <td style="width: 15px; text-align: center;">:</td>
+                    <td style="font-weight: 700; text-transform: uppercase;" id="suratNamaSiswaSpan">-</td>
+                </tr>
+                <tr>
+                    <td style="padding: 2.5px 0;">NISN</td>
+                    <td style="text-align: center;">:</td>
+                    <td id="suratNisnSiswaSpan">-</td>
+                </tr>
+                <tr>
+                    <td style="padding: 2.5px 0;">Kelas</td>
+                    <td style="text-align: center;">:</td>
+                    <td id="suratKelasSiswaSpan">-</td>
+                </tr>
+                <tr>
+                    <td style="padding: 2.5px 0;">Program Keahlian</td>
+                    <td style="text-align: center;">:</td>
+                    <td id="suratJurusanSiswaSpan">-</td>
+                </tr>
+            </table>
+
+            <div id="suratFotoLiveContainer" style="text-align: center; border: 1.5px solid #334155; padding: 4px; border-radius: 6px; background: #f8fafc; width: 85px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                <img id="suratFotoLiveImg" src="" alt="Foto Siswa Live" style="width: 77px; height: 98px; object-fit: cover; border-radius: 4px; display: block;">
+                <span style="font-size: 7.5pt; font-family: sans-serif; font-weight: 800; color: #1e3a8a; margin-top: 3px; display: block; letter-spacing: 0.5px;">LIVE FOTO</span>
+            </div>
+        </div>
+
+        <div style="font-size: 11.5pt; line-height: 1.55; margin-bottom: 4px;">
+            Untuk diberikan dispensasi agar tidak mengikuti proses kegiatan belajar mengajar di sekolah selama kegiatan berlangsung, dengan keterangan sebagai berikut:
+        </div>
+
+        <!-- Tabel Keterangan -->
+        <table style="width: 100%; border-collapse: collapse; font-size: 11.5pt; margin-bottom: 14px; padding-left: 10px;">
+            <tr>
+                <td style="width: 170px; padding: 2.5px 0;">Hari / Tanggal</td>
+                <td style="width: 15px; text-align: center;">:</td>
+                <td id="suratHariTanggalSpan">-</td>
+            </tr>
+            <tr>
+                <td style="padding: 2.5px 0;">Pukul</td>
+                <td style="text-align: center;">:</td>
+                <td id="suratPukulSpan">-</td>
+            </tr>
+            <tr>
+                <td style="padding: 2.5px 0;">Keperluan</td>
+                <td style="text-align: center;">:</td>
+                <td id="suratKeperluanSpan" style="font-weight: 700;">-</td>
+            </tr>
+            <tr>
+                <td style="padding: 2.5px 0;">Tempat</td>
+                <td style="text-align: center;">:</td>
+                <td id="suratTempatSpan">-</td>
+            </tr>
+        </table>
+
+        <div style="font-size: 11.5pt; line-height: 1.55; text-align: justify; margin-bottom: 16px;">
+            Demikian surat dispensasi ini kami sampaikan. Atas perhatian dan kerjasamanya, kami ucapkan terima kasih.
+        </div>
+
+        <!-- Tanggal Surat -->
+        <div style="text-align: right; font-size: 11.5pt; margin-bottom: 8px;">
+            Boyolangu, <span id="suratTanggalCetakSpan">{{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('d F Y') }}</span>
+        </div>
+
+        <!-- 2 Kolom Tanda Tangan: Guru Piket (Kiri) & Siswa (Kanan) - WAJIB DIISI -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; text-align: center; margin-top: 10px;">
+            <!-- Left: Guru Piket -->
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="font-size: 11.5pt;">Hormat kami,</div>
+                <div style="font-size: 11.5pt; font-weight: 700; margin-bottom: 4px;">Guru Piket</div>
+                
+                <!-- Dropdown Guru Piket dari TU Master Data dengan Fitur Cari & Reset Cari -->
+                <div style="font-family: 'Plus Jakarta Sans', sans-serif; text-align: left; width: 100%; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <label style="font-size: 11px; font-weight: 700; color: #334155;">
+                            Pilih Guru Piket Bertugas: <span style="color: #dc2626;">*</span>
+                        </label>
+                        <span id="guruPiketSearchCount" style="font-size: 10.5px; color: #64748b; font-weight: 600;">(149 Guru)</span>
+                    </div>
+
+                    <!-- Input Fitur Cari Data Guru & Tombol Reset Cari -->
+                    <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+                        <div style="position: relative; flex: 1;">
+                            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 11px; color: #94a3b8;"></i>
+                            <input type="text" id="modalSearchGuruPiketInput" placeholder="Ketik cari nama guru / NIP..." 
+                                oninput="filterGuruPiketOptions(this.value)" 
+                                style="width: 100%; padding: 6px 10px 6px 28px; font-size: 11.5px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; outline: none; box-sizing: border-box; transition: all 0.2s ease;">
+                        </div>
+                        <button type="button" onclick="resetSearchGuruPiket()" title="Reset Pencarian Guru" 
+                            style="background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 12px; font-size: 11px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; transition: all 0.15s ease;">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Cari
+                        </button>
+                    </div>
+
+                    <!-- Dropdown Select Guru Piket -->
+                    <select id="modalSelectGuruPiket" class="form-control-custom" style="font-size: 12px; padding: 7px 10px; background: #f8fafc; width: 100%;" onchange="updateGuruPiketDisplay()">
+                        <option value="">-- Pilih Guru Piket (Nama & NIP) --</option>
+                        @foreach($guruList as $g)
+                            <option value="{{ $g->id_guru }}" data-nama="{{ $g->nama_guru }}" data-nip="{{ $g->nip ?: '-' }}" {{ (Auth::check() && Auth::user()->nip == $g->nip) ? 'selected' : '' }}>
+                                {{ $g->nama_guru }} (NIP: {{ $g->nip ?: '-' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Canvas TTD Guru Piket -->
+                <div id="wrapperCanvasPiket" style="border: 2px dashed #94a3b8; border-radius: 8px; background: #ffffff; height: 110px; position: relative; cursor: crosshair; touch-action: none; width: 100%; box-sizing: border-box; transition: all 0.2s ease;">
+                    <canvas id="modalCanvasPiket" style="width: 100%; height: 100%; display: block; border-radius: 6px;"></canvas>
+                    <div id="modalHintPiket" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 11px; font-weight: 600; pointer-events: none; font-family: 'Plus Jakarta Sans', sans-serif;">
+                        <i class="fa-solid fa-pen-nib" style="margin-right: 5px; color: #2563eb;"></i> Guru Piket tanda tangan di sini (sentuh / mouse)
+                    </div>
+                </div>
+
+                <div style="margin-top: 6px;">
+                    <div style="font-weight: 800; text-decoration: underline; font-size: 11.5pt;" id="suratNamaGuruPiketDisplay">Pilih Guru Piket</div>
+                    <div style="font-size: 11pt; color: #1e293b;" id="suratNipGuruPiketDisplay">NIP. -</div>
+                </div>
+            </div>
+
+            <!-- Right: Siswa -->
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="font-size: 11.5pt;">Yang mengajukan izin,</div>
+                <div style="font-size: 11.5pt; font-weight: 700; margin-bottom: 4px;">Siswa</div>
+                
+                <!-- Spacer to balance dropdown & search box on left -->
+                <div style="height: 74px;"></div>
+
+                <!-- Canvas TTD Siswa -->
+                <div id="wrapperCanvasSiswa" style="border: 2px dashed #94a3b8; border-radius: 8px; background: #ffffff; height: 110px; position: relative; cursor: crosshair; touch-action: none; width: 100%; box-sizing: border-box; transition: all 0.2s ease;">
+                    <canvas id="modalCanvasSiswa" style="width: 100%; height: 100%; display: block; border-radius: 6px;"></canvas>
+                    <div id="modalHintSiswa" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 11px; font-weight: 600; pointer-events: none; font-family: 'Plus Jakarta Sans', sans-serif;">
+                        <i class="fa-solid fa-pen-nib" style="margin-right: 5px; color: #2563eb;"></i> Siswa tanda tangan di sini (sentuh / mouse)
+                    </div>
+                </div>
+
+                <div style="margin-top: 6px;">
+                    <div style="font-weight: 800; text-decoration: underline; font-size: 11.5pt;" id="suratNamaSiswaDisplay">-</div>
+                    <div style="font-size: 11pt; color: #1e293b;" id="suratNisnSiswaDisplay">NISN. -</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tombol Aksi Bawah Modal -->
+        <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; font-family: 'Plus Jakarta Sans', sans-serif;">
+            <button type="button" onclick="closeModalSuratDispenInput()" class="action-btn" style="background: #e2e8f0; color: #334155; padding: 10px 18px; font-size: 13px; font-weight: 700; border-radius: 10px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-arrow-left"></i> Kembali / Batal
+            </button>
+
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button type="button" onclick="resetInputSignatures()" class="action-btn" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecdd3; padding: 10px 18px; font-size: 13px; font-weight: 700; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Tanda Tangan
+                </button>
+
+                <button type="button" onclick="submitFinalDispensasiForm()" class="btn-submit-navy" style="padding: 11px 24px; font-size: 13.5px; border-radius: 12px;">
+                    <i class="fa-solid fa-link"></i> Simpan Data &amp; Buat Link Persetujuan Waka Kesiswaan
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
 <!-- ─── MODAL KONFIRMASI HAPUS MASSAL ─── -->
 <div id="bulkDeleteModal" class="dispen-modal-backdrop">
     <div class="dispen-modal-card" style="max-width: 440px;">
@@ -2549,6 +2854,518 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+/* ========================================================================= */
+/* DIGITAL SIGNATURE & LIVE CAMERA LOGIC                                     */
+/* ========================================================================= */
+
+// 1. Signature Pad State & Handlers
+const padState = {};
+
+function initSignaturePad(canvasId, hintId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width || 320;
+    canvas.height = 110;
+
+    const ctx = canvas.getContext('2d');
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#0f172a';
+
+    let isDrawing = false;
+    padState[canvasId] = { hasDrawn: false };
+
+    function getPos(e) {
+        const r = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+            x: (clientX - r.left) * (canvas.width / r.width),
+            y: (clientY - r.top) * (canvas.height / r.height)
+        };
+    }
+
+    function start(e) {
+        isDrawing = true;
+        padState[canvasId].hasDrawn = true;
+        const hint = document.getElementById(hintId);
+        if (hint) hint.style.display = 'none';
+
+        if (canvas.parentElement) {
+            canvas.parentElement.style.borderColor = '#16a34a';
+            canvas.parentElement.style.backgroundColor = '#f0fdf4';
+        }
+
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        if (e.cancelable && e.type.startsWith('touch')) e.preventDefault();
+    }
+
+    function move(e) {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        if (e.cancelable && e.type.startsWith('touch')) e.preventDefault();
+    }
+
+    function stop() {
+        if (isDrawing) isDrawing = false;
+    }
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', stop);
+
+    canvas.addEventListener('touchstart', start, { passive: false });
+    canvas.addEventListener('touchmove', move, { passive: false });
+    window.addEventListener('touchend', stop);
+}
+
+function clearSignaturePad(canvasId, hintId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (padState[canvasId]) padState[canvasId].hasDrawn = false;
+    const hint = document.getElementById(hintId);
+    if (hint) hint.style.display = 'flex';
+    if (canvas.parentElement) {
+        canvas.parentElement.style.borderColor = '#94a3b8';
+        canvas.parentElement.style.backgroundColor = '#ffffff';
+    }
+}
+
+function resetInputSignatures() {
+    clearSignaturePad('modalCanvasPiket', 'modalHintPiket');
+    clearSignaturePad('modalCanvasSiswa', 'modalHintSiswa');
+}
+
+// 2. Date and Code Formatters
+function formatTanggalIndo(dateStr) {
+    if (!dateStr) return '-';
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    const year = parts[0];
+    const month = parseInt(parts[1], 10);
+    const day = parseInt(parts[2], 10);
+    
+    const d = new Date(year, month - 1, day);
+    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    
+    const hariNama = days[d.getDay()];
+    const blnNama = months[month - 1];
+    
+    return `${hariNama}, ${day < 10 ? '0' + day : day} ${blnNama} ${year}`;
+}
+
+function formatHariIniIndo() {
+    const d = new Date();
+    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    const day = d.getDate();
+    return `${day < 10 ? '0' + day : day} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function generateRandomCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let res = '';
+    for (let i = 0; i < 4; i++) {
+        res += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    const today = new Date();
+    const y = today.getFullYear();
+    const m = String(today.getMonth() + 1).padStart(2, '0');
+    const d = String(today.getDate()).padStart(2, '0');
+    return `DSP-${y}${m}${d}-${res}`;
+}
+
+// 3. Guru Piket Search & Dropdown Cache
+let allGuruPiketData = [];
+
+function initGuruPiketOptionsCache() {
+    const select = document.getElementById('modalSelectGuruPiket');
+    if (!select || allGuruPiketData.length > 0) return;
+
+    allGuruPiketData = [];
+    for (let i = 1; i < select.options.length; i++) {
+        const opt = select.options[i];
+        allGuruPiketData.push({
+            value: opt.value,
+            text: opt.textContent.trim(),
+            nama: opt.getAttribute('data-nama') || '',
+            nip: opt.getAttribute('data-nip') || '-',
+            selected: opt.selected
+        });
+    }
+}
+
+function filterGuruPiketOptions(query) {
+    initGuruPiketOptionsCache();
+    const select = document.getElementById('modalSelectGuruPiket');
+    const countEl = document.getElementById('guruPiketSearchCount');
+    if (!select) return;
+
+    const term = (query || '').toLowerCase().trim();
+    const currentVal = select.value;
+
+    while (select.options.length > 1) {
+        select.remove(1);
+    }
+
+    let matchCount = 0;
+    allGuruPiketData.forEach(item => {
+        const match = !term ||
+            item.text.toLowerCase().includes(term) ||
+            item.nama.toLowerCase().includes(term) ||
+            item.nip.toLowerCase().includes(term);
+
+        if (match) {
+            matchCount++;
+            const opt = document.createElement('option');
+            opt.value = item.value;
+            opt.textContent = item.text;
+            opt.setAttribute('data-nama', item.nama);
+            opt.setAttribute('data-nip', item.nip);
+            if (item.value === currentVal) {
+                opt.selected = true;
+            }
+            select.appendChild(opt);
+        }
+    });
+
+    if (countEl) {
+        if (!term) {
+            countEl.textContent = `(${allGuruPiketData.length} Guru)`;
+            countEl.style.color = '#64748b';
+        } else {
+            countEl.textContent = `(${matchCount} ditemukan)`;
+            countEl.style.color = matchCount > 0 ? '#166534' : '#dc2626';
+        }
+    }
+
+    if (term && matchCount === 1) {
+        select.selectedIndex = 1;
+        updateGuruPiketDisplay();
+    } else {
+        updateGuruPiketDisplay();
+    }
+}
+
+function resetSearchGuruPiket() {
+    const searchInput = document.getElementById('modalSearchGuruPiketInput');
+    if (searchInput) searchInput.value = '';
+    filterGuruPiketOptions('');
+}
+
+function updateGuruPiketDisplay() {
+    const sel = document.getElementById('modalSelectGuruPiket');
+    if (sel && sel.selectedIndex > 0) {
+        const opt = sel.options[sel.selectedIndex];
+        document.getElementById('suratNamaGuruPiketDisplay').innerText = opt.getAttribute('data-nama') || '-';
+        document.getElementById('suratNipGuruPiketDisplay').innerText = 'NIP. ' + (opt.getAttribute('data-nip') || '-');
+    } else {
+        document.getElementById('suratNamaGuruPiketDisplay').innerText = 'Pilih Guru Piket';
+        document.getElementById('suratNipGuruPiketDisplay').innerText = 'NIP. -';
+    }
+}
+
+// 4. Open and Close Modal Lembar Surat Dispen
+function openModalSuratDispenInput() {
+    const selectSiswa = document.getElementById('selectSiswa');
+    if (!selectSiswa.value) {
+        alert('Silakan pilih Siswa yang mengajukan permohonan dispensasi terlebih dahulu!');
+        if (window.jQuery && $.fn.select2) $(selectSiswa).select2('open');
+        return;
+    }
+
+    const selectWaka = document.getElementById('selectWaka');
+    if (!selectWaka.value) {
+        alert('Silakan pilih Waka Kesiswaan tujuan untuk persetujuan permohonan dispensasi!');
+        if (window.jQuery && $.fn.select2) $(selectWaka).select2('open');
+        return;
+    }
+
+    const tgl = document.getElementById('inputTanggal').value;
+    if (!tgl) {
+        alert('Silakan tentukan Tanggal Dispensasi!');
+        document.getElementById('inputTanggal').focus();
+        return;
+    }
+
+    const jamKeluar = document.getElementById('jamKeluarInput').value;
+    const jamKembali = document.getElementById('jamKembaliInput').value;
+    if (!jamKeluar || !jamKembali) {
+        alert('Silakan isi Rencana Jam Keluar dan Jam Kembali!');
+        return;
+    }
+
+    if (jamKembali <= jamKeluar) {
+        alert('Validasi Gagal!\n\nRencana Jam Kembali (' + jamKembali + ') harus lebih akhir daripada Rencana Jam Keluar (' + jamKeluar + ').');
+        return;
+    }
+
+    const alasan = document.getElementById('inputAlasan').value.trim();
+    if (!alasan) {
+        alert('Silakan tuliskan Alasan / Keperluan dispensasi siswa!');
+        document.getElementById('inputAlasan').focus();
+        return;
+    }
+
+    // Set Data onto Pop-up Lembar Surat
+    const selectedSiswaOpt = selectSiswa.options[selectSiswa.selectedIndex];
+    const fullTextSiswa = selectedSiswaOpt.text;
+    
+    // Parse name, NISN, class from text
+    let namaSiswa = fullTextSiswa;
+    let nisnSiswa = '-';
+    let kelasSiswa = '-';
+
+    const matchNisn = fullTextSiswa.match(/NISN:\s*([0-9\-]+)/i);
+    if (matchNisn) nisnSiswa = matchNisn[1];
+
+    const matchKelas = fullTextSiswa.match(/\(([^)]+)\)$/);
+    if (matchKelas) kelasSiswa = matchKelas[1];
+
+    const matchNama = fullTextSiswa.split('- NISN')[0];
+    if (matchNama) namaSiswa = matchNama.trim();
+
+    document.getElementById('suratNamaSiswaSpan').innerText = namaSiswa;
+    document.getElementById('suratNamaSiswaDisplay').innerText = namaSiswa;
+    document.getElementById('suratNisnSiswaSpan').innerText = nisnSiswa;
+    document.getElementById('suratNisnSiswaDisplay').innerText = 'NISN. ' + nisnSiswa;
+    document.getElementById('suratKelasSiswaSpan').innerText = kelasSiswa;
+    document.getElementById('suratJurusanSiswaSpan').innerText = kelasSiswa;
+
+    document.getElementById('suratHariTanggalSpan').innerText = formatTanggalIndo(tgl);
+    document.getElementById('suratPukulSpan').innerText = `${jamKeluar} s/d ${jamKembali} WIB`;
+    document.getElementById('suratKeperluanSpan').innerText = alasan;
+    
+    const tempat = document.getElementById('inputTempat').value.trim() || 'Luar Lingkungan Sekolah SMKN 1 Boyolangu';
+    document.getElementById('suratTempatSpan').innerText = tempat;
+
+    // Generate random code for preview
+    const kodeDispen = generateRandomCode();
+    document.getElementById('suratKodeDispenSpan').innerText = kodeDispen;
+    document.getElementById('hiddenKodeDispen').value = kodeDispen;
+
+    // Live Photo Preview
+    const fotoLiveVal = document.getElementById('inputFotoSiswaLive').value;
+    const fotoContainer = document.getElementById('suratFotoLiveContainer');
+    const fotoImg = document.getElementById('suratFotoLiveImg');
+    if (fotoLiveVal) {
+        fotoImg.src = fotoLiveVal;
+        fotoContainer.style.display = 'block';
+    } else {
+        fotoContainer.style.display = 'none';
+    }
+
+    // Tanggal Cetak Hari Ini
+    const tglCetakEl = document.getElementById('suratTanggalCetakSpan');
+    if (tglCetakEl) tglCetakEl.innerText = formatHariIniIndo();
+
+    // Show Modal
+    const modal = document.getElementById('modalSuratDispenInput');
+    modal.style.display = 'flex';
+
+    // Initialize Canvas Pads after DOM is rendered
+    setTimeout(() => {
+        initSignaturePad('modalCanvasPiket', 'modalHintPiket');
+        initSignaturePad('modalCanvasSiswa', 'modalHintSiswa');
+        initGuruPiketOptionsCache();
+        updateGuruPiketDisplay();
+    }, 150);
+}
+
+function closeModalSuratDispenInput() {
+    const modal = document.getElementById('modalSuratDispenInput');
+    if (modal) modal.style.display = 'none';
+}
+
+function submitFinalDispensasiForm() {
+    const sel = document.getElementById('modalSelectGuruPiket');
+    if (!sel || !sel.value) {
+        alert('Validasi Gagal!\n\nSilakan pilih Guru Piket yang bertugas pada surat dispensasi ini!');
+        if (sel) sel.focus();
+        return;
+    }
+
+    // 1. Validasi Tanda Tangan Guru Piket
+    const cPiket = document.getElementById('modalCanvasPiket');
+    const piketHasDrawn = (cPiket && padState['modalCanvasPiket'] && padState['modalCanvasPiket'].hasDrawn);
+    if (!piketHasDrawn) {
+        const wrapPiket = document.getElementById('wrapperCanvasPiket');
+        if (wrapPiket) {
+            wrapPiket.style.borderColor = '#dc2626';
+            wrapPiket.style.backgroundColor = '#fef2f2';
+        }
+        alert('Validasi Gagal!\n\nTanda tangan Guru Piket WAJIB diisi.\nSilakan Guru Piket melakukan tanda tangan pada kolom yang disediakan terlebih dahulu.');
+        return;
+    }
+
+    // 2. Validasi Tanda Tangan Siswa
+    const cSiswa = document.getElementById('modalCanvasSiswa');
+    const siswaHasDrawn = (cSiswa && padState['modalCanvasSiswa'] && padState['modalCanvasSiswa'].hasDrawn);
+    if (!siswaHasDrawn) {
+        const wrapSiswa = document.getElementById('wrapperCanvasSiswa');
+        if (wrapSiswa) {
+            wrapSiswa.style.borderColor = '#dc2626';
+            wrapSiswa.style.backgroundColor = '#fef2f2';
+        }
+        alert('Validasi Gagal!\n\nTanda tangan Siswa WAJIB diisi.\nSilakan Siswa yang mengajukan dispensasi melakukan tanda tangan pada kolom yang disediakan terlebih dahulu.');
+        return;
+    }
+
+    const opt = sel.options[sel.selectedIndex];
+    document.getElementById('hiddenIdGuruPiket').value = sel.value;
+    document.getElementById('hiddenNamaGuruPiket').value = opt.getAttribute('data-nama') || '';
+    document.getElementById('hiddenNipGuruPiket').value = opt.getAttribute('data-nip') || '-';
+
+    // Simpan tanda tangan base64
+    document.getElementById('hiddenTtdSiswaData').value = cSiswa.toDataURL('image/png');
+    document.getElementById('hiddenTtdGuruPiketData').value = cPiket.toDataURL('image/png');
+
+    // Submit form permohonan
+    document.getElementById('formDispensasiSiswa').submit();
+}
+
+// 5. Camera WebRTC Stream Functions
+let currentCameraStream = null;
+let currentFacingMode = 'user'; // 'user' or 'environment'
+
+async function openLiveCameraModal() {
+    const modal = document.getElementById('liveCameraModal');
+    modal.style.display = 'flex';
+    document.getElementById('cameraErrorAlert').style.display = 'none';
+    document.getElementById('liveCameraVideo').style.display = 'block';
+    document.getElementById('liveCameraSnapshotPreview').style.display = 'none';
+    document.getElementById('cameraFaceGuide').style.display = 'block';
+    document.getElementById('cameraLiveBadge').style.display = 'flex';
+    document.getElementById('cameraStreamControls').style.display = 'flex';
+    document.getElementById('cameraPreviewControls').style.display = 'none';
+
+    await startCameraStream(currentFacingMode);
+}
+
+async function startCameraStream(facingMode) {
+    stopCurrentCameraStream();
+    try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error('Browser atau perangkat tidak mendukung akses kamera (getUserMedia tidak tersedia atau bukan HTTPS/Localhost).');
+        }
+        const constraints = {
+            video: {
+                facingMode: facingMode,
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            },
+            audio: false
+        };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        currentCameraStream = stream;
+        const video = document.getElementById('liveCameraVideo');
+        video.srcObject = stream;
+        await video.play();
+    } catch (err) {
+        console.error('Kamera Error:', err);
+        const errAlert = document.getElementById('cameraErrorAlert');
+        const errMsg = document.getElementById('cameraErrorMessage');
+        let text = 'Gagal mengakses kamera perangkat: ' + (err.message || err.name);
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+            text = 'Akses izin kamera ditolak oleh browser. Silakan izinkan akses kamera di setelan browser lalu coba lagi.';
+        }
+        errMsg.textContent = text;
+        errAlert.style.display = 'block';
+    }
+}
+
+function stopCurrentCameraStream() {
+    if (currentCameraStream) {
+        currentCameraStream.getTracks().forEach(track => track.stop());
+        currentCameraStream = null;
+    }
+}
+
+function closeLiveCameraModal() {
+    stopCurrentCameraStream();
+    const modal = document.getElementById('liveCameraModal');
+    if (modal) modal.style.display = 'none';
+}
+
+async function switchCameraFacing() {
+    currentFacingMode = (currentFacingMode === 'user') ? 'environment' : 'user';
+    await startCameraStream(currentFacingMode);
+}
+
+function takeSnapshotLive() {
+    const video = document.getElementById('liveCameraVideo');
+    const canvas = document.getElementById('liveCameraCanvas');
+    const preview = document.getElementById('liveCameraSnapshotPreview');
+
+    if (!video || !canvas) return;
+
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+
+    const ctx = canvas.getContext('2d');
+    if (currentFacingMode === 'user') {
+        // Mirror horizontally for front camera
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+    }
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+    preview.src = dataUrl;
+
+    video.style.display = 'none';
+    preview.style.display = 'block';
+    document.getElementById('cameraFaceGuide').style.display = 'none';
+    document.getElementById('cameraLiveBadge').style.display = 'none';
+    document.getElementById('cameraStreamControls').style.display = 'none';
+    document.getElementById('cameraPreviewControls').style.display = 'flex';
+}
+
+function retakeLiveSnapshot() {
+    const video = document.getElementById('liveCameraVideo');
+    const preview = document.getElementById('liveCameraSnapshotPreview');
+
+    preview.style.display = 'none';
+    video.style.display = 'block';
+    document.getElementById('cameraFaceGuide').style.display = 'block';
+    document.getElementById('cameraLiveBadge').style.display = 'flex';
+    document.getElementById('cameraStreamControls').style.display = 'flex';
+    document.getElementById('cameraPreviewControls').style.display = 'none';
+}
+
+function confirmLiveSnapshot() {
+    const preview = document.getElementById('liveCameraSnapshotPreview');
+    const dataUrl = preview.src;
+
+    if (!dataUrl) return;
+
+    document.getElementById('inputFotoSiswaLive').value = dataUrl;
+    document.getElementById('cameraPreviewThumbnail').src = dataUrl;
+
+    document.getElementById('cameraEmptyState').style.display = 'none';
+    document.getElementById('cameraFilledState').style.display = 'flex';
+    document.getElementById('badgeFotoLiveTerpasang').style.display = 'inline-block';
+
+    closeLiveCameraModal();
+}
+
+function hapusFotoSiswaLive() {
+    document.getElementById('inputFotoSiswaLive').value = '';
+    document.getElementById('cameraPreviewThumbnail').src = '';
+    document.getElementById('cameraEmptyState').style.display = 'block';
+    document.getElementById('cameraFilledState').style.display = 'none';
+    document.getElementById('badgeFotoLiveTerpasang').style.display = 'none';
+}
+
 let currentDispenStatSlide = 0;
 const totalDispenStatSlides = 4;
 

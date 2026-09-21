@@ -933,6 +933,10 @@
                 </a>
 
                 <div class="menu-category">AKADEMIK</div>
+                <a href="{{ route('admin.tahun-ajaran.index') }}" class="nav-item {{ request()->routeIs('admin.tahun-ajaran*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Tahun Ajaran</span>
+                </a>
                 <a href="{{ route('jadwal.index') }}" class="nav-item {{ request()->routeIs('jadwal.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-calendar-days"></i>
                     <span>Jadwal Pelajaran</span>

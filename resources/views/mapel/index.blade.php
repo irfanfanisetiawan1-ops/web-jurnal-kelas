@@ -11,6 +11,127 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script>
+    /* --- Auto-Generate Kode Mapel Logic --- */
+    const existingMapels = [
+        @foreach($mapels as $m)
+            { nama: "{{ addslashes($m->nama_mapel) }}", kode: "{{ addslashes($m->kode_mapel) }}" },
+        @endforeach
+    ];
+
+    let isUserEditingKode = false;
+
+    const knownMapelPrefixes = {
+        'BAHASA INDONESIA': 'BIN',
+        'BAHASA INGGRIS': 'BIG',
+        'BAHASA JAWA': 'BJAW',
+        'BAHASA JEPANG': 'BJEP',
+        'BAHASA JERMAN': 'BJER',
+        'BAHASA ARAB': 'BARB',
+        'BAHASA MANDARIN': 'BMND',
+        'MATEMATIKA': 'MAT',
+        'PENDIDIKAN AGAMA ISLAM': 'PAI',
+        'PENDIDIKAN AGAMA KRISTEN': 'PAK',
+        'PENDIDIKAN AGAMA KATOLIK': 'PKAT',
+        'PENDIDIKAN AGAMA HINDU': 'PAH',
+        'PENDIDIKAN AGAMA BUDDHA': 'PAB',
+        'PENDIDIKAN AGAMA KHONGHUCU': 'PAKH',
+        'PENDIDIKAN PANCASILA': 'PPKN',
+        'PENDIDIKAN KEWARGANEGARAAN': 'PKN',
+        'PENDIDIKAN JASMANI': 'PJOK',
+        'PENJASKES': 'PJOK',
+        'SENI BUDAYA': 'SEN',
+        'SENI RUPA': 'SRUP',
+        'SENI MUSIK': 'SMUS',
+        'SENI TARI': 'STAR',
+        'SENI TEATER': 'STEA',
+        'SEJARAH': 'SEJ',
+        'INFORMATIKA': 'INF',
+        'BIMBINGAN KONSELING': 'BK',
+        'PROJEK ILMU PENGETAHUAN ALAM DAN SOSIAL': 'IPAS',
+        'ILMU PENGETAHUAN ALAM': 'IPA',
+        'ILMU PENGETAHUAN SOSIAL': 'IPS',
+        'KODING DAN KECERDASAN ARTIFISIAL': 'KDK',
+        'KREATIVITAS, INOVASI, DAN KEWIRAUSAHAAN': 'PKK',
+        'KONSENTRASI KEAHLIAN': 'KKA'
+    };
+
+    function calculateAutoKode(nama) {
+        if (!nama || !nama.trim()) return '';
+        const cleanName = nama.trim().toUpperCase();
+
+        let prefix = null;
+        for (const [key, code] of Object.entries(knownMapelPrefixes)) {
+            if (cleanName.includes(key)) {
+                prefix = code;
+                break;
+            }
+        }
+
+        if (!prefix) {
+            const words = cleanName.split(/[\s,\-_]+/);
+            if (words.length >= 2) {
+                let acronym = '';
+                const stopWords = ['DAN', 'YANG', 'UNTUK', 'DI', 'KE', 'DARI', 'BUDI', 'PEKERTI', 'KELAS', 'TINGKAT'];
+                for (const w of words) {
+                    if (!stopWords.includes(w) && w.length > 0) {
+                        acronym += w.charAt(0);
+                    }
+                }
+                if (acronym.length >= 2 && acronym.length <= 6) {
+                    prefix = acronym;
+                } else {
+                    prefix = words[0].substring(0, 3);
+                }
+            } else {
+                const alphanumeric = cleanName.replace(/[^A-Z0-9]/g, '');
+                prefix = alphanumeric.substring(0, Math.min(4, alphanumeric.length));
+            }
+        }
+
+        prefix = (prefix || 'MPL').replace(/[^A-Z0-9]/g, '');
+        if (!prefix) prefix = 'MPL';
+
+        const usedCodes = existingMapels.map(m => (m.kode || '').toUpperCase());
+
+        let index = 1;
+        let candidate = '';
+        do {
+            candidate = prefix + '-' + String(index).padStart(2, '0');
+            index++;
+        } while (usedCodes.includes(candidate) && index < 1000);
+
+        return candidate;
+    }
+
+    function handleNamaMapelInput(val) {
+        const kodeInput = document.getElementById('kode_mapel');
+        if (!kodeInput) return;
+        if (!isUserEditingKode || !kodeInput.value.trim()) {
+            const autoCode = calculateAutoKode(val);
+            if (autoCode) {
+                kodeInput.value = autoCode;
+            }
+        }
+    }
+
+    function handleKodeMapelInput(val) {
+        isUserEditingKode = (val.trim().length > 0);
+    }
+
+    function triggerManualGenerateKode() {
+        const namaInput = document.getElementById('nama_mapel');
+        const kodeInput = document.getElementById('kode_mapel');
+        if (!namaInput || !kodeInput) return;
+        const autoCode = calculateAutoKode(namaInput.value);
+        if (autoCode) {
+            kodeInput.value = autoCode;
+            isUserEditingKode = false;
+        } else {
+            alert('Silakan ketikkan Nama Mata Pelajaran terlebih dahulu.');
+            namaInput.focus();
+        }
+    }
+
     tailwind.config = {
       theme: {
         extend: {
@@ -187,11 +308,13 @@
                     <label class="text-xs font-semibold text-slate-700" for="kode_mapel">
                         Kode Mapel <span class="text-rose-500">*</span>
                     </label>
-                    <span class="text-[10px] text-slate-400 font-medium">Maks. 15</span>
+                    <button type="button" onclick="triggerManualGenerateKode()" class="text-[10.5px] text-blue-600 hover:text-blue-700 font-bold cursor-pointer inline-flex items-center gap-1" title="Generate otomatis kode mapel">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Auto Kode
+                    </button>
                 </div>
                 <input type="text" id="kode_mapel" name="kode_mapel" value="{{ old('kode_mapel') }}" maxlength="15"
                     class="w-full text-xs rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2.5 text-slate-800 placeholder-slate-400 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-mono uppercase transition-all @error('kode_mapel') border-rose-400 bg-rose-50/50 @enderror"
-                    placeholder="e.g. BAH-02" required>
+                    placeholder="e.g. BAH-02" oninput="handleKodeMapelInput(this.value)" required>
                 @error('kode_mapel')
                     <p class="text-[10px] text-rose-500 font-semibold mt-1">{{ $message }}</p>
                 @enderror
@@ -204,7 +327,7 @@
                 </label>
                 <input type="text" id="nama_mapel" name="nama_mapel" value="{{ old('nama_mapel') }}" maxlength="100"
                     class="w-full text-xs rounded-xl border border-slate-200 bg-slate-50/60 px-3.5 py-2.5 text-slate-800 placeholder-slate-400 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all @error('nama_mapel') border-rose-400 bg-rose-50/50 @enderror"
-                    placeholder="Masukkan nama lengkap mata pelajaran..." required>
+                    placeholder="Masukkan nama lengkap mata pelajaran..." oninput="handleNamaMapelInput(this.value)" required>
                 @error('nama_mapel')
                     <p class="text-[10px] text-rose-500 font-semibold mt-1">{{ $message }}</p>
                 @enderror
@@ -645,6 +768,127 @@
 <!-- 6. JAVASCRIPT: Interactivity, Validation, Contextual Toolbar & Pagination -->
 <!-- ========================================================================= -->
 <script>
+    /* --- Auto-Generate Kode Mapel Logic --- */
+    const existingMapels = [
+        @foreach($mapels as $m)
+            { nama: "{{ addslashes($m->nama_mapel) }}", kode: "{{ addslashes($m->kode_mapel) }}" },
+        @endforeach
+    ];
+
+    let isUserEditingKode = false;
+
+    const knownMapelPrefixes = {
+        'BAHASA INDONESIA': 'BIN',
+        'BAHASA INGGRIS': 'BIG',
+        'BAHASA JAWA': 'BJAW',
+        'BAHASA JEPANG': 'BJEP',
+        'BAHASA JERMAN': 'BJER',
+        'BAHASA ARAB': 'BARB',
+        'BAHASA MANDARIN': 'BMND',
+        'MATEMATIKA': 'MAT',
+        'PENDIDIKAN AGAMA ISLAM': 'PAI',
+        'PENDIDIKAN AGAMA KRISTEN': 'PAK',
+        'PENDIDIKAN AGAMA KATOLIK': 'PKAT',
+        'PENDIDIKAN AGAMA HINDU': 'PAH',
+        'PENDIDIKAN AGAMA BUDDHA': 'PAB',
+        'PENDIDIKAN AGAMA KHONGHUCU': 'PAKH',
+        'PENDIDIKAN PANCASILA': 'PPKN',
+        'PENDIDIKAN KEWARGANEGARAAN': 'PKN',
+        'PENDIDIKAN JASMANI': 'PJOK',
+        'PENJASKES': 'PJOK',
+        'SENI BUDAYA': 'SEN',
+        'SENI RUPA': 'SRUP',
+        'SENI MUSIK': 'SMUS',
+        'SENI TARI': 'STAR',
+        'SENI TEATER': 'STEA',
+        'SEJARAH': 'SEJ',
+        'INFORMATIKA': 'INF',
+        'BIMBINGAN KONSELING': 'BK',
+        'PROJEK ILMU PENGETAHUAN ALAM DAN SOSIAL': 'IPAS',
+        'ILMU PENGETAHUAN ALAM': 'IPA',
+        'ILMU PENGETAHUAN SOSIAL': 'IPS',
+        'KODING DAN KECERDASAN ARTIFISIAL': 'KDK',
+        'KREATIVITAS, INOVASI, DAN KEWIRAUSAHAAN': 'PKK',
+        'KONSENTRASI KEAHLIAN': 'KKA'
+    };
+
+    function calculateAutoKode(nama) {
+        if (!nama || !nama.trim()) return '';
+        const cleanName = nama.trim().toUpperCase();
+
+        let prefix = null;
+        for (const [key, code] of Object.entries(knownMapelPrefixes)) {
+            if (cleanName.includes(key)) {
+                prefix = code;
+                break;
+            }
+        }
+
+        if (!prefix) {
+            const words = cleanName.split(/[\s,\-_]+/);
+            if (words.length >= 2) {
+                let acronym = '';
+                const stopWords = ['DAN', 'YANG', 'UNTUK', 'DI', 'KE', 'DARI', 'BUDI', 'PEKERTI', 'KELAS', 'TINGKAT'];
+                for (const w of words) {
+                    if (!stopWords.includes(w) && w.length > 0) {
+                        acronym += w.charAt(0);
+                    }
+                }
+                if (acronym.length >= 2 && acronym.length <= 6) {
+                    prefix = acronym;
+                } else {
+                    prefix = words[0].substring(0, 3);
+                }
+            } else {
+                const alphanumeric = cleanName.replace(/[^A-Z0-9]/g, '');
+                prefix = alphanumeric.substring(0, Math.min(4, alphanumeric.length));
+            }
+        }
+
+        prefix = (prefix || 'MPL').replace(/[^A-Z0-9]/g, '');
+        if (!prefix) prefix = 'MPL';
+
+        const usedCodes = existingMapels.map(m => (m.kode || '').toUpperCase());
+
+        let index = 1;
+        let candidate = '';
+        do {
+            candidate = prefix + '-' + String(index).padStart(2, '0');
+            index++;
+        } while (usedCodes.includes(candidate) && index < 1000);
+
+        return candidate;
+    }
+
+    function handleNamaMapelInput(val) {
+        const kodeInput = document.getElementById('kode_mapel');
+        if (!kodeInput) return;
+        if (!isUserEditingKode || !kodeInput.value.trim()) {
+            const autoCode = calculateAutoKode(val);
+            if (autoCode) {
+                kodeInput.value = autoCode;
+            }
+        }
+    }
+
+    function handleKodeMapelInput(val) {
+        isUserEditingKode = (val.trim().length > 0);
+    }
+
+    function triggerManualGenerateKode() {
+        const namaInput = document.getElementById('nama_mapel');
+        const kodeInput = document.getElementById('kode_mapel');
+        if (!namaInput || !kodeInput) return;
+        const autoCode = calculateAutoKode(namaInput.value);
+        if (autoCode) {
+            kodeInput.value = autoCode;
+            isUserEditingKode = false;
+        } else {
+            alert('Silakan ketikkan Nama Mata Pelajaran terlebih dahulu.');
+            namaInput.focus();
+        }
+    }
+
     // Form Validation for Tambah Mapel
     function validateMapelForm(e) {
         const kode = document.getElementById('kode_mapel').value.trim();

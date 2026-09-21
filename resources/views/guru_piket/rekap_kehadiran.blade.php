@@ -1117,6 +1117,88 @@
             to { transform: translateY(0); }
         }
     }
+
+    /* ─── Modal Detail Sesi KBM (origin/main) ─── */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .modal-card {
+        background: #ffffff;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 580px;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header-styled {
+        padding: 18px 24px;
+        background: #2b3957;
+        color: #ffffff;
+        border-radius: 20px 20px 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .modal-body-styled {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .detail-row-item {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 13.5px;
+    }
+
+    .detail-row-label {
+        font-weight: 700;
+        color: #64748b;
+        width: 38%;
+    }
+
+    .detail-row-val {
+        font-weight: 700;
+        color: #0f172a;
+        width: 62%;
+        text-align: right;
+    }
+
+    .btn-action-detail {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        color: #64748b;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-action-detail:hover {
+        background: #2b3957;
+        color: #ffffff;
+        border-color: #2b3957;
+        transform: translateY(-1px);
+    }
 </style>
 @endsection
 
@@ -1463,10 +1545,10 @@
                                 </td>
                                 <td style="color: #64748b;">{{ $keterangan }}</td>
                                 <td style="text-align: center;">
-                                    <button type="button" class="btn-action-dots"
-                                            onclick="openRekapDetailModal('{{ addslashes($teacherName) }}', '{{ addslashes($mapelName) }}', '{{ addslashes($kelasName) }}', '{{ addslashes($jamFormat) }}', '{{ addslashes($stTeks) }}', '{{ addslashes($keterangan) }}', '{{ $badgeClass }}', '{{ $badgeIcon }}')"
-                                            title="Detail Presensi Guru">
-                                        <i class="fa-solid fa-ellipsis"></i>
+                                    <button type="button" class="btn-action-detail"
+                                            onclick="openDetailModal({{ json_encode($row) }})"
+                                            title="Lihat Detail Sesi">
+                                        <i class="fa-solid fa-eye"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -1635,7 +1717,7 @@
                     <div class="m-rekap-action-row">
                         <span style="font-size: 11px; color: #94a3b8; font-weight: 600;">No. #{{ $rowNum }}</span>
                         <button type="button" class="m-btn-detail-link"
-                                onclick="openRekapDetailModal('{{ addslashes($teacherName) }}', '{{ addslashes($mapelName) }}', '{{ addslashes($kelasName) }}', '{{ addslashes($jamFormat) }}', '{{ addslashes($stTeks) }}', '{{ addslashes($keterangan) }}', '{{ $badgeClass }}', '{{ $badgeIcon }}')">
+                                onclick="openDetailModal({{ json_encode($row) }})">
                             <span>Lihat Detail</span>
                             <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
                         </button>
@@ -1784,10 +1866,109 @@
         </div>
     </div>
 </div>
+
+<!-- ─── 5. MODAL DETAIL SESI KBM & KEHADIRAN (origin/main) ─── -->
+<div id="modalDetailSesi" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header-styled">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-circle-info" style="font-size: 18px;"></i>
+                <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #ffffff;">Detail Presensi &amp; Sesi KBM</h3>
+            </div>
+            <button type="button" onclick="closeDetailModal()" style="background: transparent; border: none; color: #ffffff; font-size: 18px; cursor: pointer;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="modal-body-styled">
+            <div class="detail-row-item">
+                <span class="detail-row-label">Nama Guru Utama:</span>
+                <span class="detail-row-val" id="modalGuruNama">-</span>
+            </div>
+            <div class="detail-row-item">
+                <span class="detail-row-label">NIP Guru:</span>
+                <span class="detail-row-val" id="modalGuruNip">-</span>
+            </div>
+            <div class="detail-row-item">
+                <span class="detail-row-label">Mata Pelajaran:</span>
+                <span class="detail-row-val" id="modalMapelNama" style="color: #2563eb;">-</span>
+            </div>
+            <div class="detail-row-item">
+                <span class="detail-row-label">Kelas &amp; Ruangan:</span>
+                <span class="detail-row-val" id="modalKelasRuang">-</span>
+            </div>
+            <div class="detail-row-item">
+                <span class="detail-row-label">Waktu Pelajaran:</span>
+                <span class="detail-row-val" id="modalWaktu">-</span>
+            </div>
+            <div class="detail-row-item">
+                <span class="detail-row-label">Status Kehadiran:</span>
+                <span class="detail-row-val" id="modalStatus">-</span>
+            </div>
+            <div class="detail-row-item" id="modalRowPengganti" style="display: none;">
+                <span class="detail-row-label">Guru Pengganti:</span>
+                <span class="detail-row-val" id="modalPengganti" style="color: #2563eb; font-weight: 800;">-</span>
+            </div>
+            <div class="detail-row-item">
+                <span class="detail-row-label">Materi / Titipan:</span>
+                <span class="detail-row-val" id="modalMateri" style="text-align: right;">-</span>
+            </div>
+            <div class="detail-row-item">
+                <span class="detail-row-label">Keterangan / Alasan:</span>
+                <span class="detail-row-val" id="modalKeterangan" style="text-align: right;">-</span>
+            </div>
+        </div>
+        <div class="modal-footer-styled" style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; text-align: right;">
+            <button type="button" class="btn-secondary" onclick="closeDetailModal()" style="padding: 6px 16px; font-size: 13px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 600; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
 <script>
+    function openDetailModal(data) {
+        if (!data) return;
+        document.getElementById('modalGuruNama').textContent = data.guru_nama || '-';
+        document.getElementById('modalGuruNip').textContent = data.guru_nip || '-';
+        document.getElementById('modalMapelNama').textContent = data.mapel_nama || '-';
+        document.getElementById('modalKelasRuang').textContent = (data.kelas_nama || '-') + (data.ruangan_nama ? ' (' + data.ruangan_nama + ')' : '');
+        document.getElementById('modalWaktu').textContent = (data.jam_ke || '') + (data.jam ? ' • ' + data.jam : '');
+        document.getElementById('modalStatus').textContent = data.status_teks || data.status_kehadiran_guru || 'Hadir';
+        document.getElementById('modalKeterangan').textContent = data.keterangan || '-';
+        document.getElementById('modalMateri').textContent = data.materi || '-';
+
+        var rowPengganti = document.getElementById('modalRowPengganti');
+        if (rowPengganti) {
+            if (data.guru_pengganti_nama) {
+                rowPengganti.style.display = 'flex';
+                document.getElementById('modalPengganti').textContent = data.guru_pengganti_nama;
+            } else {
+                rowPengganti.style.display = 'none';
+            }
+        }
+
+        var modal = document.getElementById('modalDetailSesi');
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeDetailModal() {
+        var modal = document.getElementById('modalDetailSesi');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    window.addEventListener('click', function(e) {
+        var modal = document.getElementById('modalDetailSesi');
+        if (e.target === modal) {
+            closeDetailModal();
+        }
+    });
+
     function openRekapDetailModal(nama, mapel, kelas, jam, statusTeks, keterangan, badgeClass, badgeIcon) {
         document.getElementById('modalTeacherName').textContent = nama;
         document.getElementById('modalMapelName').textContent = mapel;
@@ -1816,6 +1997,7 @@
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
+            closeDetailModal();
             closeRekapDetailModal();
             closeMobileRekapFilterModal();
         }

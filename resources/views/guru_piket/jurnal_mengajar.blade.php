@@ -1527,10 +1527,221 @@
             box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
         }
     }
+
+    /* --- Verification & Signature Styling --- */
+    .verification-banner-box {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+        border: 1px solid #e2e8f0;
+        transition: all 0.25s ease;
+        margin-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+        .verification-banner-box {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+        }
+        .verif-actions {
+            width: 100%;
+            justify-content: flex-start;
+        }
+    }
+    .verification-verified {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-left: 5px solid #16a34a;
+    }
+    .verification-ready {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-left: 5px solid #2563eb;
+    }
+    .verification-locked {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-left: 5px solid #94a3b8;
+    }
+    .verification-future {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-left: 5px solid #cbd5e1;
+    }
+    .verif-left-content {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex: 1;
+    }
+    .verif-icon-circle {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+    .verif-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+    }
+    .btn-signature-action {
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        padding: 9px 18px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+        transition: all 0.2s ease;
+    }
+    .btn-signature-action:hover {
+        background: #1d4ed8;
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    }
+    .btn-signature-locked {
+        background: #f1f5f9;
+        color: #94a3b8;
+        border: 1px solid #cbd5e1;
+        padding: 9px 16px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: not-allowed;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .btn-header-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        border: none;
+    }
+    .btn-header-navy {
+        background: #1e293b;
+        color: #ffffff;
+    }
+    .btn-header-navy:hover {
+        background: #0f172a;
+        color: #ffffff;
+    }
+    .btn-header-primary {
+        background: #2563eb;
+        color: #ffffff;
+    }
+    .btn-header-primary:hover {
+        background: #1d4ed8;
+        color: #ffffff;
+    }
+    .custom-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: 16px;
+    }
+    .custom-modal-box {
+        background: #ffffff;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border: 1px solid #e2e8f0;
+        animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-header-styled {
+        padding: 18px 24px;
+        border-bottom: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .modal-body-styled {
+        padding: 20px 24px;
+    }
+    .modal-footer-styled {
+        padding: 16px 24px;
+        border-top: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+    .signature-pad-wrapper {
+        border: 2px dashed #cbd5e1;
+        border-radius: 12px;
+        background: #f8fafc;
+        position: relative;
+        touch-action: none;
+        overflow: hidden;
+    }
+    .signature-canvas {
+        width: 100%;
+        height: 180px;
+        display: block;
+        cursor: crosshair;
+    }
+    .signature-placeholder-text {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 600;
+        pointer-events: none;
+        user-select: none;
+    }
 </style>
 @endsection
 
 @section('content')
+@php
+    $daysMapIndo = [
+        'Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'
+    ];
+    $monthsMapIndo = [
+        1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni',
+        7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+    ];
+    $cSig = \Carbon\Carbon::parse($dateForSignature);
+    $sigDayIndo = $daysMapIndo[$cSig->format('l')] ?? 'Senin';
+    $sigDateFormatted = $sigDayIndo . ', ' . $cSig->day . ' ' . $monthsMapIndo[$cSig->month] . ' ' . $cSig->year;
+@endphp
 <div class="jurnal-page-wrapper">
 
     <!-- ==================== DESKTOP VIEW ==================== -->
@@ -1660,6 +1871,139 @@
             </svg>
         </div>
     </div>
+
+    
+    <!-- CARD STATUS TANDA TANGAN & VERIFIKASI GURU PIKET HARIAN -->
+    @if($verifikasiHariIni)
+        <!-- Kondisi 1: Jurnal Sudah Ditandatangani & Diverifikasi Resmi -->
+        <div class="verification-banner-box verification-verified">
+            <div class="verif-left-content">
+                <div class="verif-icon-circle" style="background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce7;">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 14.5px; font-weight: 800; color: #0f172a;">
+                            Jurnal Mengajar Tanggal {{ $sigDateFormatted }}
+                        </span>
+                        <span style="background: #f0fdf4; color: #15803d; border: 1px solid #86efac; font-size: 11px; font-weight: 800; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-circle-check"></i> Terverifikasi
+                        </span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #475569; margin-top: 3px; font-weight: 500;">
+                        Divalidasi oleh <strong>{{ $verifikasiHariIni->nama_guru_piket }}</strong> pada {{ \Carbon\Carbon::parse($verifikasiHariIni->waktu_verifikasi)->format('d/m/Y H:i') }} WIB ({{ $verifikasiHariIni->total_jurnal_diverifikasi ?? $stats['totalPertemuan'] }} jurnal sah).
+                        @if($verifikasiHariIni->catatan)
+                            <span style="color: #64748b; font-style: italic;">• Catatan: "{{ $verifikasiHariIni->catatan }}"</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="verif-actions">
+                <button type="button" onclick="showSignaturePreviewModal()" class="btn-header-action btn-header-navy" style="padding: 8px 14px; font-size: 12.5px;">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>Lihat TTD</span>
+                </button>
+                <a href="{{ route('piket.jurnal-mengajar.cetak-harian', ['tanggal' => $dateForSignature]) }}" target="_blank" class="btn-header-action btn-header-primary" style="padding: 8px 14px; font-size: 12.5px;">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Cetak Ber-TTD</span>
+                </a>
+                <form action="{{ route('piket.jurnal-mengajar.batal-tanda-tangan') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan tanda tangan verifikasi untuk tanggal ini? Anda dapat menandatangani ulang kembali setelahnya.')" style="margin: 0;">
+                    @csrf
+                    <input type="hidden" name="tanggal" value="{{ $dateForSignature }}">
+                    <button type="submit" style="background: #ffffff; color: #dc2626; border: 1px solid #fecaca; padding: 8px 13px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
+                        <i class="fa-solid fa-rotate-left"></i> Batal TTD
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    @elseif($isJamSekolahSelesai)
+        <!-- Kondisi 2: Jam KBM Selesai & Siap Ditandatangani Guru Piket -->
+        <div class="verification-banner-box verification-ready">
+            <div class="verif-left-content">
+                <div class="verif-icon-circle" style="background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe;">
+                    <i class="fa-solid fa-signature"></i>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 14.5px; font-weight: 800; color: #0f172a;">
+                            Jurnal Mengajar Tanggal {{ $sigDateFormatted }}
+                        </span>
+                        <span style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 11px; font-weight: 800; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-pen-fancy"></i> Siap Ditandatangani
+                        </span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #475569; margin-top: 3px; font-weight: 500;">
+                        KBM telah selesai (Pukul {{ $jamSelesaiSekolah }} WIB). Silakan periksa data KBM lalu bubuhkan tanda tangan verifikasi harian.
+                    </div>
+                </div>
+            </div>
+
+            <div class="verif-actions">
+                <button type="button" onclick="openSignatureModal()" class="btn-signature-action">
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <span>Tanda Tangani Jurnal Harian</span>
+                </button>
+                <a href="{{ route('piket.jurnal-mengajar.cetak-harian', ['tanggal' => $dateForSignature]) }}" target="_blank" class="btn-header-action btn-header-navy" style="padding: 9px 16px; font-size: 13px;">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Cetak Rekap</span>
+                </a>
+            </div>
+        </div>
+
+    @elseif($isTodayDate)
+        <!-- Kondisi 3: KBM Masih Berlangsung Hari Ini -->
+        <div class="verification-banner-box verification-locked">
+            <div class="verif-left-content">
+                <div class="verif-icon-circle" style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 14.5px; font-weight: 800; color: #0f172a;">
+                            Jam Pembelajaran KBM Masih Berlangsung
+                        </span>
+                        <span style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; font-size: 11px; font-weight: 800; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-lock"></i> Belum Dibuka
+                        </span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #64748b; margin-top: 3px; font-weight: 500;">
+                        Tanda tangan verifikasi dibuka setelah jam pembelajaran berakhir (Pukul <strong>{{ $jamSelesaiSekolah }} WIB</strong>).
+                    </div>
+                </div>
+            </div>
+
+            <div class="verif-actions">
+                <button type="button" class="btn-signature-locked" disabled title="Tanda tangan baru aktif setelah jam KBM sekolah berakhir pukul {{ $jamSelesaiSekolah }} WIB">
+                    <i class="fa-solid fa-lock"></i> Dibuka Pukul {{ $jamSelesaiSekolah }} WIB
+                </button>
+            </div>
+        </div>
+
+    @else
+        <!-- Kondisi 4: Tanggal Depan -->
+        <div class="verification-banner-box verification-future">
+            <div class="verif-left-content">
+                <div class="verif-icon-circle" style="background: #f1f5f9; color: #94a3b8; border: 1px solid #e2e8f0;">
+                    <i class="fa-regular fa-calendar-xmark"></i>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 14.5px; font-weight: 800; color: #475569;">
+                            Tanggal Pembelajaran Mendatang
+                        </span>
+                        <span style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-size: 11px; font-weight: 800; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-regular fa-calendar"></i> Belum Berlangsung
+                        </span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #64748b; margin-top: 3px; font-weight: 500;">
+                        Verifikasi tanda tangan jurnal hanya dapat dilakukan setelah KBM pada tanggal terkait selesai.
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <!-- 3. Main Data Panel (Daftar Jurnal Mengajar) -->
     <div class="main-data-card">
@@ -2084,6 +2428,139 @@
             <span class="m-dot" onclick="jumpToSlide(4)"></span>
         </div>
 
+        
+    <!-- CARD STATUS TANDA TANGAN & VERIFIKASI GURU PIKET HARIAN -->
+    @if($verifikasiHariIni)
+        <!-- Kondisi 1: Jurnal Sudah Ditandatangani & Diverifikasi Resmi -->
+        <div class="verification-banner-box verification-verified">
+            <div class="verif-left-content">
+                <div class="verif-icon-circle" style="background: #f0fdf4; color: #16a34a; border: 1px solid #dcfce7;">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 14.5px; font-weight: 800; color: #0f172a;">
+                            Jurnal Mengajar Tanggal {{ $sigDateFormatted }}
+                        </span>
+                        <span style="background: #f0fdf4; color: #15803d; border: 1px solid #86efac; font-size: 11px; font-weight: 800; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-circle-check"></i> Terverifikasi
+                        </span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #475569; margin-top: 3px; font-weight: 500;">
+                        Divalidasi oleh <strong>{{ $verifikasiHariIni->nama_guru_piket }}</strong> pada {{ \Carbon\Carbon::parse($verifikasiHariIni->waktu_verifikasi)->format('d/m/Y H:i') }} WIB ({{ $verifikasiHariIni->total_jurnal_diverifikasi ?? $stats['totalPertemuan'] }} jurnal sah).
+                        @if($verifikasiHariIni->catatan)
+                            <span style="color: #64748b; font-style: italic;">• Catatan: "{{ $verifikasiHariIni->catatan }}"</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <div class="verif-actions">
+                <button type="button" onclick="showSignaturePreviewModal()" class="btn-header-action btn-header-navy" style="padding: 8px 14px; font-size: 12.5px;">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>Lihat TTD</span>
+                </button>
+                <a href="{{ route('piket.jurnal-mengajar.cetak-harian', ['tanggal' => $dateForSignature]) }}" target="_blank" class="btn-header-action btn-header-primary" style="padding: 8px 14px; font-size: 12.5px;">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Cetak Ber-TTD</span>
+                </a>
+                <form action="{{ route('piket.jurnal-mengajar.batal-tanda-tangan') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan tanda tangan verifikasi untuk tanggal ini? Anda dapat menandatangani ulang kembali setelahnya.')" style="margin: 0;">
+                    @csrf
+                    <input type="hidden" name="tanggal" value="{{ $dateForSignature }}">
+                    <button type="submit" style="background: #ffffff; color: #dc2626; border: 1px solid #fecaca; padding: 8px 13px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
+                        <i class="fa-solid fa-rotate-left"></i> Batal TTD
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    @elseif($isJamSekolahSelesai)
+        <!-- Kondisi 2: Jam KBM Selesai & Siap Ditandatangani Guru Piket -->
+        <div class="verification-banner-box verification-ready">
+            <div class="verif-left-content">
+                <div class="verif-icon-circle" style="background: #eff6ff; color: #2563eb; border: 1px solid #dbeafe;">
+                    <i class="fa-solid fa-signature"></i>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 14.5px; font-weight: 800; color: #0f172a;">
+                            Jurnal Mengajar Tanggal {{ $sigDateFormatted }}
+                        </span>
+                        <span style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 11px; font-weight: 800; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-pen-fancy"></i> Siap Ditandatangani
+                        </span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #475569; margin-top: 3px; font-weight: 500;">
+                        KBM telah selesai (Pukul {{ $jamSelesaiSekolah }} WIB). Silakan periksa data KBM lalu bubuhkan tanda tangan verifikasi harian.
+                    </div>
+                </div>
+            </div>
+
+            <div class="verif-actions">
+                <button type="button" onclick="openSignatureModal()" class="btn-signature-action">
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <span>Tanda Tangani Jurnal Harian</span>
+                </button>
+                <a href="{{ route('piket.jurnal-mengajar.cetak-harian', ['tanggal' => $dateForSignature]) }}" target="_blank" class="btn-header-action btn-header-navy" style="padding: 9px 16px; font-size: 13px;">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Cetak Rekap</span>
+                </a>
+            </div>
+        </div>
+
+    @elseif($isTodayDate)
+        <!-- Kondisi 3: KBM Masih Berlangsung Hari Ini -->
+        <div class="verification-banner-box verification-locked">
+            <div class="verif-left-content">
+                <div class="verif-icon-circle" style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 14.5px; font-weight: 800; color: #0f172a;">
+                            Jam Pembelajaran KBM Masih Berlangsung
+                        </span>
+                        <span style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; font-size: 11px; font-weight: 800; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-lock"></i> Belum Dibuka
+                        </span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #64748b; margin-top: 3px; font-weight: 500;">
+                        Tanda tangan verifikasi dibuka setelah jam pembelajaran berakhir (Pukul <strong>{{ $jamSelesaiSekolah }} WIB</strong>).
+                    </div>
+                </div>
+            </div>
+
+            <div class="verif-actions">
+                <button type="button" class="btn-signature-locked" disabled title="Tanda tangan baru aktif setelah jam KBM sekolah berakhir pukul {{ $jamSelesaiSekolah }} WIB">
+                    <i class="fa-solid fa-lock"></i> Dibuka Pukul {{ $jamSelesaiSekolah }} WIB
+                </button>
+            </div>
+        </div>
+
+    @else
+        <!-- Kondisi 4: Tanggal Depan -->
+        <div class="verification-banner-box verification-future">
+            <div class="verif-left-content">
+                <div class="verif-icon-circle" style="background: #f1f5f9; color: #94a3b8; border: 1px solid #e2e8f0;">
+                    <i class="fa-regular fa-calendar-xmark"></i>
+                </div>
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 14.5px; font-weight: 800; color: #475569;">
+                            Tanggal Pembelajaran Mendatang
+                        </span>
+                        <span style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; font-size: 11px; font-weight: 800; padding: 2.5px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-regular fa-calendar"></i> Belum Berlangsung
+                        </span>
+                    </div>
+                    <div style="font-size: 12.5px; color: #64748b; margin-top: 3px; font-weight: 500;">
+                        Verifikasi tanda tangan jurnal hanya dapat dilakukan setelah KBM pada tanggal terkait selesai.
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
         <!-- 2. Card "Daftar Jurnal Mengajar" -->
         <div class="mobile-search-filter-card">
             <!-- Row 1: Title + Export -->
@@ -2372,6 +2849,132 @@
     </div>
 </div>
 
+<!-- ========================================================================= -->
+<!-- MODAL: TANDA TANGAN PENGESAHAN GURU PIKET (CANVAS INTERAKTIF)             -->
+<!-- ========================================================================= -->
+<div id="signatureModal" class="custom-modal-backdrop">
+    <div class="custom-modal-box">
+        <div class="modal-header-styled">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 38px; height: 38px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 17px;">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </div>
+                <div>
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #0f172a;">Tanda Tangan Pengesahan Guru Piket</h3>
+                    <p style="margin: 0; font-size: 12px; color: #64748b;">Pengesahan resmi seluruh jurnal mengajar pada tanggal terpilih</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeSignatureModal()" style="background: none; border: none; font-size: 22px; color: #64748b; cursor: pointer;">&times;</button>
+        </div>
+
+        <form action="{{ route('piket.jurnal-mengajar.tanda-tangan') }}" method="POST" id="formSignaturePiket" onsubmit="return validateSignatureSubmit()">
+            @csrf
+            <input type="hidden" name="tanggal" value="{{ $dateForSignature }}">
+            <input type="hidden" name="tanda_tangan" id="inputTandaTanganBase64">
+
+            <div class="modal-body-styled">
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; font-size: 12.5px; color: #1e40af; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-circle-info" style="font-size: 18px; flex-shrink: 0;"></i>
+                    <span>Tanda tangan ini berlaku untuk <strong>seluruh {{ $stats['totalPertemuan'] }} Jurnal Mengajar</strong> yang terkirim pada hari <strong>{{ $sigDateFormatted }}</strong>.</span>
+                </div>
+
+                <!-- 1. Pilihan Guru Piket yang Menandatangani -->
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">
+                        Pilih Guru Piket yang Menandatangani <span style="color: #dc2626;">*</span>
+                    </label>
+                    <select name="id_guru" id="selectGuruPiketTtd" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 13px; font-weight: 600; color: #0f172a; outline: none; background: #fff;">
+                        <option value="">-- Pilih Guru Piket --</option>
+                        @foreach($guruList as $g)
+                            <option value="{{ $g->id_guru }}" {{ ($defaultGuruPiket && $defaultGuruPiket->id_guru == $g->id_guru) ? 'selected' : '' }}>
+                                {{ $g->nama_guru }} {{ $g->nip ? '(NIP: ' . $g->nip . ')' : '' }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- 2. Interactive Signature Pad Canvas -->
+                <div style="margin-bottom: 16px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                        <label style="font-size: 13px; font-weight: 700; color: #1e293b;">
+                            Bubuhkan Tanda Tangan Digital <span style="color: #dc2626;">*</span>
+                        </label>
+                        <button type="button" onclick="clearSignatureCanvas()" style="background: none; border: none; font-size: 12px; color: #dc2626; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-rotate-left"></i> Bersihkan
+                        </button>
+                    </div>
+
+                    <div class="signature-pad-wrapper" id="sigPadWrapper">
+                        <canvas id="sigCanvas" class="signature-canvas"></canvas>
+                        <div class="signature-placeholder-text" id="sigPlaceholder">
+                            <i class="fa-solid fa-signature"></i> Gambar tanda tangan Anda di sini menggunakan mouse / sentuhan jari
+                        </div>
+                    </div>
+                    <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+                        Goreskan pena tanda tangan secara langsung di dalam kotak di atas.
+                    </div>
+                </div>
+
+                <!-- 3. Catatan Evaluasi Pembelajaran Hari Ini -->
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 6px;">
+                        Catatan Evaluasi KBM Guru Piket (Opsional)
+                    </label>
+                    <textarea name="catatan" rows="3" placeholder="Contoh: KBM terlaksana tertib, seluruh kelas kondusif..." style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 13px; outline: none; box-sizing: border-box; resize: vertical; font-family: inherit; color: #1e293b;"></textarea>
+                </div>
+
+                <!-- 4. Checkbox Pernyataan Keabsahan Dokumen -->
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
+                    <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 12.5px; color: #334155; line-height: 1.4;">
+                        <input type="checkbox" id="checkPernyataanSah" required style="margin-top: 2px; cursor: pointer;">
+                        <span>Dengan ini saya menyatakan sebagai <strong>Guru Piket</strong> telah memeriksa, memvalidasi, dan memastikan kebenaran seluruh laporan Jurnal Mengajar pada tanggal ini sebagai dokumen administrasi sekolah resmi.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer-styled">
+                <button type="button" onclick="closeSignatureModal()" style="background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 9px 18px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer;">Batal</button>
+                <button type="submit" class="btn-signature-action">
+                    <i class="fa-solid fa-check"></i> Simpan &amp; Sahkan Tanda Tangan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- MODAL: PREVIEW TANDA TANGAN RESMI GURU PIKET                              -->
+<!-- ========================================================================= -->
+@if($verifikasiHariIni)
+<div id="previewSigModal" class="custom-modal-backdrop">
+    <div class="custom-modal-box" style="max-width: 480px;">
+        <div class="modal-header-styled">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #0f172a;">Tanda Tangan Guru Piket Resmi</h3>
+            <button type="button" onclick="closeSignaturePreviewModal()" style="background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer;">&times;</button>
+        </div>
+        <div class="modal-body-styled" style="text-align: center;">
+            <div style="border: 2px dashed #bbf7d0; background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+                <img src="{{ $verifikasiHariIni->tanda_tangan }}" alt="Tanda Tangan Guru Piket" style="max-height: 120px; max-width: 100%;">
+            </div>
+            <div style="font-size: 16px; font-weight: 800; color: #0f172a;">{{ $verifikasiHariIni->nama_guru_piket }}</div>
+            <div style="font-size: 12.5px; color: #64748b; margin-top: 2px;">NIP: {{ $verifikasiHariIni->nip_guru_piket ?? '-' }}</div>
+            <div style="font-size: 11.5px; color: #166534; background: #dcfce7; display: inline-block; padding: 3px 10px; border-radius: 20px; font-weight: 700; margin-top: 8px;">
+                Diverifikasi pada: {{ \Carbon\Carbon::parse($verifikasiHariIni->waktu_verifikasi)->translatedFormat('l, d F Y H:i') }} WIB
+            </div>
+            @if($verifikasiHariIni->catatan)
+                <div style="margin-top: 14px; font-size: 12.5px; color: #334155; background: #f1f5f9; padding: 10px; border-radius: 8px; text-align: left;">
+                    <strong>Catatan Evaluasi:</strong><br>
+                    {{ $verifikasiHariIni->catatan }}
+                </div>
+            @endif
+        </div>
+        <div class="modal-footer-styled">
+            <button type="button" onclick="closeSignaturePreviewModal()" style="background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 12.5px; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
+</div>
+@endif
+
 <style>
     @keyframes modalPop {
         0% { transform: scale(0.95); opacity: 0; }
@@ -2380,6 +2983,158 @@
 </style>
 
 <script>
+        /* --- Interactive Digital Signature Pad Logic --- */
+    let canvas = null;
+    let ctx = null;
+    let isDrawing = false;
+    let hasDrawn = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    function initSignaturePad() {
+        canvas = document.getElementById('sigCanvas');
+        if (!canvas) return;
+        ctx = canvas.getContext('2d');
+
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * 2;
+        canvas.height = rect.height * 2;
+        ctx.scale(2, 2);
+
+        ctx.strokeStyle = '#1e3a8a';
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        // Mouse Events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseleave', stopDrawing);
+
+        // Touch Events
+        canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+        canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+        canvas.addEventListener('touchend', stopDrawing);
+    }
+
+    function getMousePos(e) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        };
+    }
+
+    function startDrawing(e) {
+        isDrawing = true;
+        const pos = getMousePos(e);
+        lastX = pos.x;
+        lastY = pos.y;
+        document.getElementById('sigPlaceholder').style.display = 'none';
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        const pos = getMousePos(e);
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+
+        lastX = pos.x;
+        lastY = pos.y;
+        hasDrawn = true;
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+    }
+
+    function handleTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        lastX = touch.clientX - rect.left;
+        lastY = touch.clientY - rect.top;
+        isDrawing = true;
+        document.getElementById('sigPlaceholder').style.display = 'none';
+    }
+
+    function handleTouchMove(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        lastX = x;
+        lastY = y;
+        hasDrawn = true;
+    }
+
+    function clearSignatureCanvas() {
+        if (!canvas || !ctx) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hasDrawn = false;
+        document.getElementById('sigPlaceholder').style.display = 'flex';
+        document.getElementById('inputTandaTanganBase64').value = '';
+    }
+
+    function openSignatureModal() {
+        const modal = document.getElementById('signatureModal');
+        if (modal) modal.style.display = 'flex';
+        setTimeout(() => {
+            initSignaturePad();
+        }, 150);
+    }
+
+    function closeSignatureModal() {
+        const modal = document.getElementById('signatureModal');
+        if (modal) modal.style.display = 'none';
+        clearSignatureCanvas();
+    }
+
+    function validateSignatureSubmit() {
+        if (!hasDrawn) {
+            alert('Silakan bubuhkan goresan tanda tangan digital Anda di dalam kotak canvas.');
+            return false;
+        }
+
+        const selGuru = document.getElementById('selectGuruPiketTtd').value;
+        if (!selGuru) {
+            alert('Silakan pilih nama Guru Piket yang bertugas menandatangani.');
+            return false;
+        }
+
+        const chkSah = document.getElementById('checkPernyataanSah').checked;
+        if (!chkSah) {
+            alert('Silakan centang persetujuan pernyataan keabsahan dokumen jurnal.');
+            return false;
+        }
+
+        const dataUrl = canvas.toDataURL('image/png');
+        document.getElementById('inputTandaTanganBase64').value = dataUrl;
+        return true;
+    }
+
+    function showSignaturePreviewModal() {
+        const modal = document.getElementById('previewSigModal');
+        if (modal) modal.style.display = 'flex';
+    }
+
+    function closeSignaturePreviewModal() {
+        const modal = document.getElementById('previewSigModal');
+        if (modal) modal.style.display = 'none';
+    }
+
     function openDetailModal(id, guru, mapel, kelas, tanggal, materi, status) {
         document.getElementById('modalGuru').textContent = guru || '-';
         document.getElementById('modalMapel').textContent = mapel || '-';
@@ -2500,6 +3255,14 @@
         const filterModal = document.getElementById('mobileFilterModal');
         if (e.target === filterModal) {
             closeMobileFilterModal();
+        }
+        const sigModal = document.getElementById('signatureModal');
+        if (e.target === sigModal) {
+            closeSignatureModal();
+        }
+        const prevModal = document.getElementById('previewSigModal');
+        if (e.target === prevModal) {
+            closeSignaturePreviewModal();
         }
     });
 </script>

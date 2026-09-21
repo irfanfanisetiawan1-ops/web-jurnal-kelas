@@ -3050,11 +3050,159 @@
     }
 
     // Handler Utama Perubahan Tanggal Penugasan
+        // Update Jam Pelajaran Options With Teacher Schedules (Prevent Collision & Auto Sync)
+    function updateJamOptionsWithTeacherSchedules(jadwals) {
+        const jamSelect = document.getElementById('select_jam_pelajaran');
+        if (!jamSelect || !jadwals || jadwals.length === 0) return;
+
+        const oldOptGroup = document.getElementById('optgroup_jadwal_guru_tidak_hadir');
+        if (oldOptGroup) oldOptGroup.remove();
+
+        const grpTeacher = document.createElement('optgroup');
+        grpTeacher.id = 'optgroup_jadwal_guru_tidak_hadir';
+        grpTeacher.label = '📌 Sesi Mengajar Guru Tidak Hadir pada Tanggal Ini (Otomatis Sync Kelas)';
+
+        jadwals.forEach(j => {
+            const opt = document.createElement('option');
+            opt.value = j.jam_pelajaran;
+            opt.textContent = `[Jadwal Mengajar] ${j.nama_kelas} (${j.nama_mapel}) — ${j.jam_pelajaran}`;
+            opt.setAttribute('data-id-jadwal', j.id_jadwal);
+            opt.setAttribute('data-id-kelas', j.id_kelas);
+            grpTeacher.appendChild(opt);
+        });
+
+        jamSelect.insertBefore(grpTeacher, jamSelect.children[1] || null);
+    }
+
+    // Dynamic Fetch Opsi Guru Piket Berdasarkan Tanggal Penugasan
+    function fetchPiketGuruByDate() {
+        const inputTanggal = document.getElementById('input_tanggal_penugasan');
+        const selectPengganti = document.getElementById('select_guru_pengganti');
+        if (!inputTanggal || !selectPengganti) return;
+
+        const tanggal = inputTanggal.value;
+        if (!tanggal) return;
+
+        fetch(`{{ route('piket.guru-pengganti.piket-date') }}?tanggal=${tanggal}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const currentSelectedVal = selectPengganti.value || selectPengganti.getAttribute('data-old-val');
+
+                    selectPengganti.innerHTML = '<option value="">-- Pilih Guru Pengganti --</option>';
+
+                    const optgrpPiket = document.createElement('optgroup');
+                    optgrpPiket.id = 'optgroup_guru_piket_main';
+                    optgrpPiket.label = `📌 Guru Piket pada Tanggal Tersebut (Hari ${data.formatted_date || ''})`;
+
+                    if (data.piket_gurus && data.piket_gurus.length > 0) {
+                        data.piket_gurus.forEach(g => {
+                            const opt = document.createElement('option');
+                            opt.value = g.id_guru;
+                            opt.textContent = `[Guru Piket S${g.slot_ke || 1}] ${g.nama_guru} (NIP: ${g.nip || '-'}) (${g.mapel_nama || '-'})`;
+                            if (currentSelectedVal && currentSelectedVal == g.id_guru) {
+                                opt.selected = true;
+                            }
+                            optgrpPiket.appendChild(opt);
+                        });
+                    } else {
+                        const opt = document.createElement('option');
+                        opt.disabled = true;
+                        opt.textContent = '(Tidak ada jadwal guru piket terdaftar pada tanggal ini)';
+                        optgrpPiket.appendChild(opt);
+                    }
+                    selectPengganti.appendChild(optgrpPiket);
+
+                    if (data.other_gurus && data.other_gurus.length > 0) {
+                        const optgrpLain = document.createElement('optgroup');
+                        optgrpLain.label = '👨‍🏫 Guru Pengampu Lainnya';
+                        data.other_gurus.forEach(g => {
+                            const opt = document.createElement('option');
+                            opt.value = g.id_guru;
+                            opt.textContent = `${g.nama_guru} (${g.mapel_nama || '-'})`;
+                            if (currentSelectedVal && currentSelectedVal == g.id_guru) {
+                                opt.selected = true;
+                            }
+                            optgrpLain.appendChild(opt);
+                        });
+                        selectPengganti.appendChild(optgrpLain);
+                    }
+
+                    if (currentSelectedVal) {
+                        selectPengganti.value = currentSelectedVal;
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Gagal memuat daftar guru piket per tanggal:", err);
+            });
+    }
+
+    // Dynamic Fetch Opsi Guru Piket untuk Modal Edit Berdasarkan Tanggal Penugasan
+    function fetchEditPiketGuruByDate() {
+        const inputTanggal = document.getElementById('edit_input_tanggal');
+        const selectPengganti = document.getElementById('edit_select_guru_pengganti');
+        if (!inputTanggal || !selectPengganti) return;
+
+        const tanggal = inputTanggal.value;
+        if (!tanggal) return;
+
+        fetch(`{{ route('piket.guru-pengganti.piket-date') }}?tanggal=${tanggal}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const currentSelectedVal = selectPengganti.value;
+
+                    selectPengganti.innerHTML = '<option value="">-- Pilih Guru Pengganti --</option>';
+
+                    const optgrpPiket = document.createElement('optgroup');
+                    optgrpPiket.id = 'edit_optgroup_guru_piket_main';
+                    optgrpPiket.label = `📌 Guru Piket pada Tanggal Tersebut (Hari ${data.formatted_date || ''})`;
+
+                    if (data.piket_gurus && data.piket_gurus.length > 0) {
+                        data.piket_gurus.forEach(g => {
+                            const opt = document.createElement('option');
+                            opt.value = g.id_guru;
+                            opt.textContent = `[Guru Piket S${g.slot_ke || 1}] ${g.nama_guru} (NIP: ${g.nip || '-'}) (${g.mapel_nama || '-'})`;
+                            if (currentSelectedVal && currentSelectedVal == g.id_guru) {
+                                opt.selected = true;
+                            }
+                            optgrpPiket.appendChild(opt);
+                        });
+                    }
+                    selectPengganti.appendChild(optgrpPiket);
+
+                    if (data.other_gurus && data.other_gurus.length > 0) {
+                        const optgrpLain = document.createElement('optgroup');
+                        optgrpLain.label = '👨‍🏫 Guru Pengampu Lainnya';
+                        data.other_gurus.forEach(g => {
+                            const opt = document.createElement('option');
+                            opt.value = g.id_guru;
+                            opt.textContent = `${g.nama_guru} (${g.mapel_nama || '-'})`;
+                            if (currentSelectedVal && currentSelectedVal == g.id_guru) {
+                                opt.selected = true;
+                            }
+                            optgrpLain.appendChild(opt);
+                        });
+                        selectPengganti.appendChild(optgrpLain);
+                    }
+
+                    if (currentSelectedVal) {
+                        selectPengganti.value = currentSelectedVal;
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Gagal memuat daftar guru piket edit:", err);
+            });
+    }
+
     function onTanggalPenugasanChanged() {
         updateNamaHariLabel();
         updateJamOptionsByDate();
         validateTanggalPenugasan();
         fetchJadwalGuruTidakHadirList();
+        fetchPiketGuruByDate();
 
         const chkSehariPenuh = document.getElementById('check_sehari_penuh');
         if (chkSehariPenuh && chkSehariPenuh.checked) {
@@ -3338,6 +3486,7 @@
     function onGuruTidakHadirChanged(selectElem) {
         autoFillMateriFromIzin(selectElem);
         fetchJadwalGuruTidakHadirList();
+        fetchPiketGuruByDate();
 
         const chkSehariPenuh = document.getElementById('check_sehari_penuh');
         if (chkSehariPenuh && chkSehariPenuh.checked) {
@@ -3367,6 +3516,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success && data.jadwals && data.jadwals.length > 0) {
+                    updateJamOptionsWithTeacherSchedules(data.jadwals);
                     let html = '';
                     data.jadwals.forEach(j => {
                         html += `<button type="button" class="btn-schedule-chip" onclick='applyScheduleChoice(${j.id_jadwal}, ${j.id_kelas}, "${j.jam_pelajaran}")' style="background: #ffffff; border: 1px solid #93c5fd; color: #1e40af; padding: 5px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 11.5px; transition: all 0.2s ease;">
@@ -3439,6 +3589,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success && data.jadwals && data.jadwals.length > 0) {
+                    updateJamOptionsWithTeacherSchedules(data.jadwals);
                     let html = `<strong><i class="fa-solid fa-check-circle" style="color: #16a34a;"></i> Ditemukan ${data.total_sesi} Sesi Mengajar pada Hari ${data.hari}:</strong><ul style="margin: 6px 0 0 20px; padding: 0;">`;
                     data.jadwals.forEach(j => {
                         html += `<li><strong>${j.nama_kelas}</strong> | ${j.nama_mapel} — <span style="color: #2563eb; font-weight:700;">${j.jam_pelajaran}</span></li>`;
@@ -3983,6 +4134,7 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success && data.jadwals && data.jadwals.length > 0) {
+                    updateJamOptionsWithTeacherSchedules(data.jadwals);
                     let html = '';
                     data.jadwals.forEach(j => {
                         html += `<button type="button" class="btn-edit-schedule-chip" onclick='applyEditScheduleChoice(${j.id_jadwal}, ${j.id_kelas}, "${j.jam_pelajaran}")' style="background: #ffffff; border: 1px solid #86efac; color: #14532d; padding: 5px 10px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 11.5px; transition: all 0.2s ease;">

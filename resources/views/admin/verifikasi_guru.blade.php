@@ -557,6 +557,12 @@
                     <span>Tambah Pengguna</span>
                 </button>
 
+                <!-- Generate Akun Orang Tua Button -->
+                <button type="button" id="btnBatchOrtu" onclick="confirmGenerateAllOrangTua()" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-sm transition-colors cursor-pointer" title="Buat akun Orang Tua otomatis untuk semua siswa">
+                    <i class="fa-solid fa-user-group text-xs"></i>
+                    <span>Generate Akun Orang Tua</span>
+                </button>
+
                 <!-- Trash Bin Button -->
                 <a href="{{ route('admin.users-trash') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-800 font-semibold rounded-xl text-xs shadow-2xs transition-colors no-underline">
                     <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -567,6 +573,11 @@
                 </a>
             </div>
         </div>
+
+        {{-- Form Submit Hidden untuk Pembuatan Massal Akun Orang Tua --}}
+        <form id="formGenerateAllOrangTua" action="{{ route('admin.users.generate-all-orang-tua') }}" method="POST" style="display:none;">
+            @csrf
+        </form>
 
         <!-- Bottom Row: Filter Bar (Search + Dropdown Role + Dropdown Status + Cari & Reset) -->
         <form action="{{ route('admin.verifikasi-guru') }}" method="GET" class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
@@ -1504,24 +1515,32 @@
         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}';
 
         try {
-            const promises = Array.from(checkedBoxes).map(cb => {
-                return fetch(`/admin/users/${cb.value}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'X-HTTP-Method-Override': 'DELETE',
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ _method: 'DELETE' })
-                });
+            const ids = Array.from(checkedBoxes).map(cb => parseInt(cb.value)).filter(v => !isNaN(v));
+            const response = await fetch("{{ route('admin.users.destroy-batch') }}", {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ids: ids })
             });
 
-            await Promise.all(promises);
             window.location.reload();
         } catch (err) {
             alert('Terjadi kendala saat memproses penghapusan massal. Halaman akan dimuat ulang.');
             window.location.reload();
+        }
+    }
+
+    function confirmGenerateAllOrangTua() {
+        if (confirm("Apakah Anda yakin ingin membuat akun Orang Tua otomatis untuk semua data siswa yang belum memiliki akun?")) {
+            const btn = document.getElementById('btnBatchOrtu');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+            }
+            document.getElementById('formGenerateAllOrangTua').submit();
         }
     }
 

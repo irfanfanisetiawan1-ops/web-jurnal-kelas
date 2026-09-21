@@ -1239,6 +1239,48 @@
         }
     }
 </style>
+<!-- Modal Dialog: Seluruh Ringkasan per Kelas -->
+<div id="modalClassSummary" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: #ffffff; border-radius: 18px; width: 100%; max-width: 620px; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid #e2e8f0;">
+        <div style="background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #ffffff; padding: 16px 20px; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-users-viewfinder" style="font-size: 18px;"></i>
+                <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #ffffff;">Ringkasan Jadwal Seluruh Kelas ({{ $hariFilter ?? 'Hari Ini' }})</h3>
+            </div>
+            <button type="button" onclick="closeClassSummaryModal()" style="background: rgba(255,255,255,0.15); border: none; color: #ffffff; font-size: 16px; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div style="padding: 20px;">
+            <table class="class-summary-table" style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+                <thead>
+                    <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 8px 12px; text-align: left; font-weight: 700; color: #475569;">Kelas</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #475569;">Total</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #2563eb;">Sedang</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #16a34a;">Selesai</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #dc2626;">Belum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($ringkasanPerKelas as $rk)
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 9px 12px; font-weight: 700; color: #0f172a;">{{ $rk->nama_kelas }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 600;">{{ $rk->total }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #2563eb;">{{ $rk->sedang }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #16a34a;">{{ $rk->selesai }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #dc2626;">{{ $rk->belum }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; text-align: right; border-radius: 0 0 18px 18px;">
+            <button type="button" onclick="closeClassSummaryModal()" style="background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 7px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('content')
@@ -1934,9 +1976,55 @@
         </form>
     </div>
 </div>
+<!-- Modal Dialog: Seluruh Ringkasan per Kelas -->
+<div id="modalClassSummary" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: #ffffff; border-radius: 18px; width: 100%; max-width: 620px; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid #e2e8f0;">
+        <div style="background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #ffffff; padding: 16px 20px; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-users-viewfinder" style="font-size: 18px;"></i>
+                <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #ffffff;">Ringkasan Jadwal Seluruh Kelas ({{ $hariFilter ?? 'Hari Ini' }})</h3>
+            </div>
+            <button type="button" onclick="closeClassSummaryModal()" style="background: rgba(255,255,255,0.15); border: none; color: #ffffff; font-size: 16px; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div style="padding: 20px;">
+            <table class="class-summary-table" style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+                <thead>
+                    <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 8px 12px; text-align: left; font-weight: 700; color: #475569;">Kelas</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #475569;">Total</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #2563eb;">Sedang</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #16a34a;">Selesai</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #dc2626;">Belum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($ringkasanPerKelas as $rk)
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 9px 12px; font-weight: 700; color: #0f172a;">{{ $rk->nama_kelas }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 600;">{{ $rk->total }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #2563eb;">{{ $rk->sedang }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #16a34a;">{{ $rk->selesai }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #dc2626;">{{ $rk->belum }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; text-align: right; border-radius: 0 0 18px 18px;">
+            <button type="button" onclick="closeClassSummaryModal()" style="background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 7px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('scripts')
+<script>
+    function openClassSummaryModal() { const m = document.getElementById('modalClassSummary'); if (m) m.style.display = 'flex'; }
+    function closeClassSummaryModal() { const m = document.getElementById('modalClassSummary'); if (m) m.style.display = 'none'; }
+</script>
 <script>
     function openJadwalDetailModal(mapel, kelas, ruang, guru, waktu, statusTeks, badgeClass) {
         document.getElementById('modalMapel').textContent = mapel;
@@ -2040,4 +2128,46 @@
         initJadwalStatCarousel();
     });
 </script>
+<!-- Modal Dialog: Seluruh Ringkasan per Kelas -->
+<div id="modalClassSummary" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: #ffffff; border-radius: 18px; width: 100%; max-width: 620px; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid #e2e8f0;">
+        <div style="background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #ffffff; padding: 16px 20px; border-radius: 18px 18px 0 0; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-users-viewfinder" style="font-size: 18px;"></i>
+                <h3 style="margin: 0; font-size: 15px; font-weight: 800; color: #ffffff;">Ringkasan Jadwal Seluruh Kelas ({{ $hariFilter ?? 'Hari Ini' }})</h3>
+            </div>
+            <button type="button" onclick="closeClassSummaryModal()" style="background: rgba(255,255,255,0.15); border: none; color: #ffffff; font-size: 16px; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div style="padding: 20px;">
+            <table class="class-summary-table" style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+                <thead>
+                    <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                        <th style="padding: 8px 12px; text-align: left; font-weight: 700; color: #475569;">Kelas</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #475569;">Total</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #2563eb;">Sedang</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #16a34a;">Selesai</th>
+                        <th style="padding: 8px 12px; text-align: center; font-weight: 700; color: #dc2626;">Belum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($ringkasanPerKelas as $rk)
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 9px 12px; font-weight: 700; color: #0f172a;">{{ $rk->nama_kelas }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 600;">{{ $rk->total }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #2563eb;">{{ $rk->sedang }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #16a34a;">{{ $rk->selesai }}</td>
+                            <td style="padding: 9px 12px; text-align: center; font-weight: 700; color: #dc2626;">{{ $rk->belum }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div style="padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; text-align: right; border-radius: 0 0 18px 18px;">
+            <button type="button" onclick="closeClassSummaryModal()" style="background: #ffffff; border: 1px solid #cbd5e1; color: #334155; padding: 7px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
+</div>
+
 @endsection

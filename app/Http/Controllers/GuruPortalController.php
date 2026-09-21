@@ -5438,6 +5438,14 @@ class GuruPortalController extends Controller
     }
 
     /**
+     * [TRASH] Halaman / Tab Sampah Surat Izin Siswa (Wali Kelas)
+     */
+    public function trashSuratIzinWali()
+    {
+        return redirect()->route('guru.kehadiran-kelas', ['tab' => 'surat_izin']);
+    }
+
+    /**
      * [EMPTY TRASH] Kosongkan Seluruh Sampah Surat Izin Siswa (Wali Kelas)
      */
     public function emptyTrashSuratIzinWali(Request $request)

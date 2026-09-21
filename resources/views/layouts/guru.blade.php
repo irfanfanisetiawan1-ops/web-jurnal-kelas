@@ -1781,6 +1781,15 @@
                         <span>Rekap Kehadiran</span>
                     </a>
 
+                    <form action="{{ route('auth.switch-mode') }}" method="POST" style="margin: 0;">
+                        @csrf
+                        <input type="hidden" name="mode" value="guru">
+                        <button type="submit" class="nav-item" style="width: 100%; border: none; background: transparent; cursor: pointer; text-align: left;" title="Beralih kembali ke ruang kerja Guru Mengajar">
+                            <i class="fa-solid fa-repeat" style="color: #10b981;"></i>
+                            <span>Beralih ke Guru Mengajar</span>
+                        </button>
+                    </form>
+
                     <a href="{{ route('pengaturan.index') }}" class="nav-item {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-gear"></i>
                         <span>Pengaturan</span>
@@ -1859,6 +1868,20 @@
                         <a href="{{ route('guru.kehadiran-kelas') }}" class="nav-item {{ request()->routeIs('guru.kehadiran-kelas') ? 'active' : '' }}">
                             <i class="fa-solid fa-id-card-clip"></i>
                             <span>Presensi & Perkembangan Kelas</span>
+                        </a>
+
+                        <a href="{{ route('guru.surat-dispen') }}" class="nav-item {{ request()->routeIs('guru.surat-dispen*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-file-signature"></i>
+                            <span>Surat Dispen Siswa</span>
+                            @php
+                                $unreadSuratDispenCount = \App\Models\SiswaDispen::where('id_kelas', Auth::user()->id_kelas_wali ?? (Auth::user()->guru->kelasWali->id_kelas ?? null))
+                                    ->where(function($q) {
+                                        $q->whereNull('status_wali_kelas')->orWhere('status_wali_kelas', 'pending');
+                                    })->count();
+                            @endphp
+                            @if($unreadSuratDispenCount > 0)
+                                <span class="badge-count">{{ $unreadSuratDispenCount }}</span>
+                            @endif
                         </a>
                     @endif
                 @endif
