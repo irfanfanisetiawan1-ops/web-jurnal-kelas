@@ -381,12 +381,11 @@ class ChatBotKnowledgeService
                 'keywords' => ['beralih piket', 'pindah piket', 'mode piket', 'masuk piket', 'jadi piket', 'guru piket hari ini'],
                 'reply' => "<strong>Cara Beralih ke Role Guru Piket:</strong><br>
                     <ol style='margin-left: 18px; margin-top: 6px;'>
-                        <li>Buka menu sidebar sebelah kiri atau klik menu profil di pojok kanan atas.</li>
-                        <li>Pilih menu <strong>Beralih ke Guru Piket</strong>.</li>
-                        <li>Jika NIP/Akun Anda ditugaskan sebagai Guru Piket hari ini, sistem akan otomatis beralih ke Dashboard Guru Piket.</li>
+                        <li>Jika Anda terdaftar dalam <strong>Jadwal Guru Piket</strong> hari ini, tombol peralihan peran <em>'Beralih ke Guru Piket'</em> akan otomatis muncul di bagian atas (topbar).</li>
+                        <li>Klik tombol <strong>Beralih ke Guru Piket</strong> di topbar untuk langsung masuk ke ruang kerja Guru Piket tanpa perlu logout.</li>
                         <li>Dari sana, Anda dapat mengelola jurnal piket, dispensasi siswa, dan penugasan guru pengganti.</li>
                     </ol>",
-                'action_button' => ['label' => 'Beralih ke Guru Piket', 'url' => self::getRouteUrl('guru.beralih-ke-guru-piket', '/guru-beralih-ke-guru-piket')],
+                'action_button' => ['label' => 'Buka Beranda Guru', 'url' => self::getRouteUrl('guru.dashboard', '/guru-dashboard')],
                 'suggestions' => ['Isi Jurnal Piket Harian', 'Buat Dispensasi Siswa Keluar'],
             ],
 
@@ -563,6 +562,34 @@ class ChatBotKnowledgeService
 
             // ── WAKA & KEPALA SEKOLAH ──
             [
+                'title' => 'Panduan Monitoring Jurnal Mengajar (Waka Kurikulum)',
+                'roles' => ['waka', 'kepala_sekolah', 'admin'],
+                'keywords' => ['monitoring jurnal', 'monitoring jurnal mengajar', 'rekap jurnal mengajar', 'pantau jurnal', 'jurnal mengajar'],
+                'reply' => "<strong>Panduan Monitoring Jurnal Mengajar Guru (Waka Kurikulum):</strong><br>
+                    <ol style='margin-left: 18px; margin-top: 6px;'>
+                        <li>Buka menu <strong>Rekap Jurnal Mengajar</strong> di sidebar Waka Kurikulum.</li>
+                        <li>Gunakan filter <strong>Tanggal</strong>, <strong>Kelas</strong>, atau <strong>Guru Pengajar</strong> untuk memantau KBM.</li>
+                        <li>Klik <strong>Detail Jurnal</strong> untuk melihat rincian aktivitas pembelajaran, guru pengganti, dan ketidakhadiran siswa.</li>
+                        <li>Gunakan tombol <strong>Cetak Rekap Resmi</strong> atau <strong>Ekspor CSV</strong> untuk mengunduh laporan fisik/file.</li>
+                    </ol>",
+                'action_button' => ['label' => 'Buka Rekap Jurnal Mengajar', 'url' => self::getRouteUrl('waka-kurikulum.rekap-jurnal', '/waka-kurikulum/rekap-jurnal')],
+                'suggestions' => ['Approval Level Waka', 'Rekap Presensi Hari Ini'],
+            ],
+            [
+                'title' => 'Panduan Approval & Persetujuan Izin Guru Level Waka',
+                'roles' => ['waka', 'kepala_sekolah', 'admin'],
+                'keywords' => ['approval level waka', 'approval waka', 'setujui izin waka', 'verifikasi izin guru', 'izin guru level waka', 'persetujuan izin'],
+                'reply' => "<strong>Panduan Verifikasi & Approval Permintaan Izin Guru:</strong><br>
+                    <ol style='margin-left: 18px; margin-top: 6px;'>
+                        <li>Buka menu <strong>Dashboard Waka Kurikulum</strong>.</li>
+                        <li>Tinjau widget <strong>Permintaan Izin Guru Menunggu Verifikasi Waka</strong>.</li>
+                        <li>Periksa alasan, titipan materi pelajaran, dan jadwal KBM terdampak.</li>
+                        <li>Klik <strong>Setujui / ACC</strong> atau <strong>Tolak</strong>. Pengajuan yang disetujui akan diteruskan ke Kepala Sekolah / tercatat sah.</li>
+                    </ol>",
+                'action_button' => ['label' => 'Dashboard Waka Kurikulum', 'url' => self::getRouteUrl('waka-kurikulum.dashboard', '/waka-kurikulum/dashboard')],
+                'suggestions' => ['Monitoring Jurnal Mengajar', 'Rekap Presensi Hari Ini'],
+            ],
+            [
                 'title' => 'Panduan Executive Dashboard & Rekap Laporan Sekolah',
                 'roles' => ['waka', 'kepala_sekolah', 'admin'],
                 'keywords' => ['executive dashboard', 'kepala sekolah', 'waka kurikulum', 'waka sdm', 'rekap bulanan', 'laporan presensi', 'pantau guru'],
@@ -573,7 +600,7 @@ class ChatBotKnowledgeService
                         <li><strong>Approval Berjenjang:</strong> Menyetujui pengajuan izin/cuti guru atau dispensasi khusus siswa.</li>
                         <li><strong>Cetak & Eksport Laporan:</strong> Mengunduh rekapitulasi kehadiran bulanan atau semesteran untuk evaluasi manajerial.</li>
                     </ul>",
-                'action_button' => ['label' => 'Dashboard Kepala Sekolah', 'url' => self::getRouteUrl('kepala-sekolah.dashboard', '/kepala-sekolah/dashboard')],
+                'action_button' => ['label' => 'Dashboard Waka Kurikulum', 'url' => self::getRouteUrl('waka-kurikulum.dashboard', '/waka-kurikulum/dashboard')],
                 'suggestions' => ['Approval Level Waka', 'Monitoring Jurnal Mengajar'],
             ],
 

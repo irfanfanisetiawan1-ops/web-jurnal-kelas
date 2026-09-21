@@ -29,6 +29,9 @@
         padding: 24px;
         margin-bottom: 24px;
         box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .card-top-header {
@@ -160,9 +163,13 @@
     }
 
     .table-responsive {
+        width: 100%;
+        max-width: 100%;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         border-radius: 14px;
         border: 1px solid #e2e8f0;
+        box-sizing: border-box;
     }
 
     .table-custom {

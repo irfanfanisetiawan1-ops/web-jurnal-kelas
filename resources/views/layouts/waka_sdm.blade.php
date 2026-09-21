@@ -118,12 +118,39 @@
             font-size: 13.5px;
             font-weight: 700;
             transition: all 0.2s ease;
+            position: relative;
         }
 
         .nav-item i {
             font-size: 16px;
             width: 20px;
             text-align: center;
+            flex-shrink: 0;
+        }
+
+        .nav-item span:not(.sidebar-badge-notify) {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-badge-notify {
+            background-color: #ef4444;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.45);
+            flex-shrink: 0;
+            margin-left: auto;
         }
 
         .nav-item:hover {
@@ -520,6 +547,14 @@
             <a href="{{ route('waka-sdm.persetujuan-izin') }}" class="nav-item {{ request()->routeIs('waka-sdm.persetujuan-izin*') ? 'active' : '' }}">
                 <i class="fa-solid fa-clipboard-check"></i>
                 <span>Persetujuan Izin Guru</span>
+                @php
+                    $pendingGuruIzinNotifyCount = $wakaSdmPendingIzinCount ?? \App\Models\GuruIzin::where(function($q) {
+                        $q->where('status_waka_sdm', 'pending')->orWhereNull('status_waka_sdm');
+                    })->count();
+                @endphp
+                @if($pendingGuruIzinNotifyCount > 0)
+                    <span class="sidebar-badge-notify" title="{{ $pendingGuruIzinNotifyCount }} permohonan izin guru menunggu persetujuan Waka SDM">{{ $pendingGuruIzinNotifyCount }}</span>
+                @endif
             </a>
             <a href="{{ route('waka-sdm.kehadiran-guru') }}" class="nav-item {{ request()->routeIs('waka-sdm.kehadiran-guru*') ? 'active' : '' }}">
                 <i class="fa-solid fa-calendar-check"></i>
@@ -581,7 +616,7 @@
             <div class="topbar-right">
                 <div class="semester-pill">
                     <i class="fa-solid fa-graduation-cap" style="color: #64748b; font-size: 14px;"></i>
-                    <span>T.A. 2025/2026 - Semester Genap</span>
+                    <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2026/2027' }} - Semester {{ $activeTahunAjaran->semester ?? 'Ganjil' }}</span>
                     <i class="fa-solid fa-chevron-down" style="font-size:11px; color: #94a3b8;"></i>
                 </div>
 

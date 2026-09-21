@@ -26,6 +26,27 @@ class SiswaSuratIzin extends Model
         'status',
     ];
 
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            if (empty($model->id_kelas) && !empty($model->id_siswa)) {
+                $siswa = Siswa::find($model->id_siswa);
+                if ($siswa && !empty($siswa->id_kelas)) {
+                    $model->id_kelas = $siswa->id_kelas;
+                }
+            }
+            if (empty($model->durasi_hari)) {
+                if (!empty($model->tanggal) && !empty($model->tanggal_selesai)) {
+                    $start = \Carbon\Carbon::parse($model->tanggal);
+                    $end = \Carbon\Carbon::parse($model->tanggal_selesai);
+                    $model->durasi_hari = max(1, $start->diffInDays($end) + 1);
+                } else {
+                    $model->durasi_hari = 1;
+                }
+            }
+        });
+    }
+
     public function siswa()
     {
         return $this->belongsTo(Siswa::class, 'id_siswa', 'id_siswa');
@@ -64,6 +85,14 @@ class SiswaSuratIzin extends Model
             'Ditolak'       => 'danger',
             default         => 'pink-badge',
         };
+    }
+
+    /**
+     * Alias accessor untuk kompatibilitas — dipakai di controller kehadiranKelas
+     */
+    public function getStatusBadgeClassAttribute(): string
+    {
+        return $this->status_class;
     }
 
     public function getDurasiTextAttribute(): string

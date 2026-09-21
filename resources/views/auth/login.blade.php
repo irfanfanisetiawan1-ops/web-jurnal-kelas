@@ -467,30 +467,83 @@
             transform: none;
         }
 
-        .btn-parent-login {
-            margin-top: 12px;
+        /* Subtle Divider Between Primary and Role Portals */
+        .role-portal-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 18px 0 12px;
+        }
+
+        .role-portal-divider::before,
+        .role-portal-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .role-portal-divider span {
+            padding: 0 12px;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        /* Secondary Role Login Buttons - Aesthetic, Indah & Modern */
+        .btn-secondary-role {
             text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 9px;
             width: 100%;
             height: 46px;
-            background: #f8fafc;
-            border: 1.5px solid #cbd5e1;
             border-radius: 12px;
-            color: #334155;
-            font-size: 14px;
-            font-weight: 700;
-            transition: all 0.2s ease;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            cursor: pointer;
         }
 
-        .btn-parent-login:hover {
-            background: #eff6ff;
-            border-color: #93c5fd;
+        .btn-secondary-role:active {
+            transform: scale(0.985);
+        }
+
+        /* Tombol 1: Masuk sebagai Orang Tua (Kombinasi Putih, Abu-Abu Muda Cerah & Grey Elegan) */
+        .btn-role-ortu {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 60%, #f1f5f9 100%);
+            border: 1.5px solid #cbd5e1;
+            color: #334155;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-role-ortu:hover {
+            background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+            border-color: #3b82f6;
             color: #1d4ed8;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+            transform: translateY(-1.5px);
+            box-shadow: 0 6px 16px -2px rgba(37, 99, 235, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
+        }
+
+        /* Tombol 2: Masuk sebagai Guru Piket / Satpam (Kombinasi Putih, Biru Muda Cerah Segar & Royal Blue) */
+        .btn-role-petugas {
+            margin-top: 10px;
+            background: linear-gradient(180deg, #ffffff 0%, #eff6ff 60%, #e0edff 100%);
+            border: 1.5px solid #bfdbfe;
+            color: #1d4ed8;
+            box-shadow: 0 1px 3px rgba(37, 99, 235, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        }
+
+        .btn-role-petugas:hover {
+            background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: #2563eb;
+            color: #1e40af;
+            transform: translateY(-1.5px);
+            box-shadow: 0 6px 18px -2px rgba(37, 99, 235, 0.18), inset 0 1px 0 rgba(255, 255, 255, 1);
         }
 
         /* Notice / Announcement Callout Box */
@@ -753,10 +806,19 @@
                     MASUK
                 </button>
 
+                {{-- Divider Portal Lain --}}
+                <div class="role-portal-divider">
+                    <span>atau akses portal lain</span>
+                </div>
+
                 {{-- Tombol Pindah ke Login Orang Tua --}}
-                <a href="{{ route('login.orang-tua') }}" class="btn-parent-login">
-                    <i class="fa-solid fa-user-group" style="color:#2563eb;"></i>
+                <a href="{{ route('login.orang-tua') }}" class="btn-secondary-role btn-role-ortu">
                     Masuk sebagai Orang Tua
+                </a>
+
+                {{-- Tombol Pindah ke Login Guru Piket / Satpam --}}
+                <a href="{{ route('login.petugas') }}" class="btn-secondary-role btn-role-petugas">
+                    Masuk sebagai Guru Piket / Satpam
                 </a>
             </form>
 

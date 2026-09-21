@@ -11,10 +11,19 @@ class Guru extends Model
 
     protected $table      = 'guru';
     protected $primaryKey = 'id_guru';
-    protected $fillable   = ['nip', 'nama_guru', 'jenis_kelamin', 'id_mapel', 'no_hp'];
+    protected $fillable   = ['nip', 'nama_guru', 'jenis_kelamin', 'id_mapel', 'no_hp', 'is_active'];
     public    $timestamps = false;
 
     protected $dates = ['deleted_at'];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function isActive(): bool
+    {
+        return (bool) ($this->is_active ?? true);
+    }
 
     public function getJenisKelaminTeksAttribute()
     {
@@ -63,5 +72,18 @@ class Guru extends Model
     public function penugasanAsPengganti()
     {
         return $this->hasMany(PenugasanGuruPengganti::class, 'id_guru_pengganti', 'id_guru');
+    }
+
+    /**
+     * Relasi ke Jadwal Mengajar Guru
+     */
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class, 'id_guru', 'id_guru');
+    }
+
+    public function jadwals()
+    {
+        return $this->hasMany(Jadwal::class, 'id_guru', 'id_guru');
     }
 }

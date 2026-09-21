@@ -123,7 +123,7 @@
                                                 <i class="fa-solid fa-door-open"></i> Izinkan Keluar
                                             </button>
                                         @elseif($d->status_satpam === 'dizinkan_keluar')
-                                            <button type="submit" name="status_satpam" value="sudah_kembali" class="btn-action-sm btn-action-purple">
+                                            <button type="submit" name="status_satpam" value="sudah_kembali" class="btn-action-sm btn-action-navy">
                                                 <i class="fa-solid fa-door-closed"></i> Konfirmasi Kembali
                                             </button>
                                         @endif
@@ -351,45 +351,60 @@
     }
 
     .activity-icon-wrapper {
-        width: 46px;
-        height: 46px;
+        width: 44px;
+        height: 44px;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
+        font-size: 17px;
         flex-shrink: 0;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+        transition: all 0.15s ease;
     }
 
     .icon-done {
-        background: #a7f3d0;
-        color: #047857;
+        background: #f0fdf4;
+        color: #059669;
+        border: 1px solid #bbf7d0;
     }
 
     .icon-rejected {
-        background: #fecaca;
-        color: #b91c1c;
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fca5a5;
     }
 
     .icon-pending {
-        background: #fef08a;
-        color: #a16207;
+        background: #fefce8;
+        color: #d97706;
+        border: 1px solid #fef08a;
     }
 
     .icon-warning {
-        background: #ffedd5;
-        color: #c2410c;
+        background: #fff7ed;
+        color: #ea580c;
+        border: 1px solid #fed7aa;
     }
 
     .activity-content-box {
         flex: 1;
-        background: #f8fafc;
+        background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 14px 18px;
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 6px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+        transition: all 0.15s ease;
+    }
+
+    .activity-content-box:hover {
+        border-color: #cbd5e1;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.05);
     }
 
     .activity-header-line {
@@ -401,20 +416,35 @@
     .student-name {
         font-size: 14.5px;
         font-weight: 800;
-        color: #111827;
+        color: #0f172a;
         margin: 0;
     }
 
     .activity-time {
         font-size: 12px;
         font-weight: 700;
-        color: #6b7280;
+        color: #64748b;
+        background: #f1f5f9;
+        padding: 2px 8px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
     }
 
     .activity-detail-line {
         font-size: 12.5px;
         color: #4b5563;
         font-weight: 600;
+    }
+
+    .detail-reason {
+        display: inline-block;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 4px 10px;
+        border-radius: 8px;
+        color: #334155;
+        font-weight: 600;
+        font-size: 12px;
     }
 
     .activity-footer-line {
@@ -520,8 +550,8 @@
         color: #ffffff;
     }
 
-    .btn-action-purple {
-        background: #7c3aed;
+    .btn-action-navy {
+        background: #0284c7;
         color: #ffffff;
     }
 
@@ -723,6 +753,7 @@
             satpamBadgeText = '<span class="status-badge badge-yellow"><i class="fa-solid fa-clock"></i> Belum Keluar (Menunggu Validasi Gate)</span>';
         }
 
+        let fotoSiswaLiveSrc = item.foto_siswa_live ? formatImageUrl(item.foto_siswa_live) : null;
         let fotoKartuSrc = item.foto_kartu_identitas ? formatImageUrl(item.foto_kartu_identitas) : null;
         let fotoSuratSrc = item.foto_surat_dispen ? formatImageUrl(item.foto_surat_dispen) : null;
         let fotoSiswaSrc = (item.siswa && item.siswa.foto) ? formatImageUrl('uploads/profile_photos/' + item.siswa.foto) : null;
@@ -781,12 +812,13 @@
                     <span class="val">${item.catatan_satpam}</span>
                 </div>` : ''}
 
-                ${(fotoKartuSrc || fotoSuratSrc || fotoSiswaSrc) ? `
+                ${(fotoSiswaLiveSrc || fotoKartuSrc || fotoSuratSrc || fotoSiswaSrc) ? `
                 <div class="detail-section-title"><i class="fa-solid fa-image"></i> Lampiran & Bukti Foto Pengajuan</div>
                 <div class="detail-image-box">
+                    ${fotoSiswaLiveSrc ? `<div><div style="font-size:11px; color:#1d4ed8; margin-bottom:4px; font-weight:800;"><i class="fa-solid fa-camera"></i> Foto Siswa (Live Kamera):</div><a href="${fotoSiswaLiveSrc}" target="_blank" title="Klik untuk perbesar Foto Live Siswa"><img src="${fotoSiswaLiveSrc}" alt="Foto Siswa Live" style="border: 2px solid #3b82f6; border-radius: 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Live';"></a></div>` : ''}
                     ${fotoKartuSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Kartu Identitas Siswa:</div><a href="${fotoKartuSrc}" target="_blank"><img src="${fotoKartuSrc}" alt="Foto Identitas" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Gambar+Identitas';"></a></div>` : ''}
                     ${fotoSuratSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Surat Dispen:</div><a href="${fotoSuratSrc}" target="_blank"><img src="${fotoSuratSrc}" alt="Surat Dispen" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Surat+Dispen';"></a></div>` : ''}
-                    ${fotoSiswaSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Foto Siswa:</div><a href="${fotoSiswaSrc}" target="_blank"><img src="${fotoSiswaSrc}" alt="Foto Profil Siswa" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Siswa';"></a></div>` : ''}
+                    ${fotoSiswaSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Foto Profil Siswa:</div><a href="${fotoSiswaSrc}" target="_blank"><img src="${fotoSiswaSrc}" alt="Foto Profil Siswa" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Siswa';"></a></div>` : ''}
                 </div>` : ''}
             </div>
         `;
@@ -810,7 +842,7 @@
                     <form action="${updateUrl}" method="POST" style="margin-top: 20px;">
                         <input type="hidden" name="_token" value="${csrfToken}">
                         <input type="hidden" name="status_satpam" value="sudah_kembali">
-                        <button type="submit" class="btn-action-sm btn-action-purple" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px; font-weight: 800; border-radius: 10px;">
+                        <button type="submit" class="btn-action-sm btn-action-navy" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px; font-weight: 800; border-radius: 10px;">
                             <i class="fa-solid fa-door-closed"></i> Konfirmasi Sudah Kembali
                         </button>
                     </form>

@@ -252,10 +252,10 @@
         </tbody>
     </table>
 
-    @if($jurnal->dokumentasi)
+    @if($jurnal->dokumentasi_url)
         <div class="section-title">Foto Bukti Dokumentasi</div>
         <div class="foto-container">
-            <img src="{{ asset('storage/' . $jurnal->dokumentasi) }}" alt="Foto Dokumentasi">
+            <img src="{{ $jurnal->dokumentasi_url }}" alt="Foto Dokumentasi">
         </div>
     @endif
 

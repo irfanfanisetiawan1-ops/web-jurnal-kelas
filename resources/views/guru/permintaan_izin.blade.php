@@ -6,6 +6,11 @@
 <style>
     .page-title-box {
         margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
     }
 
     .page-title-box h1 {
@@ -39,6 +44,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
     }
 
     .card-custom-header h2 {
@@ -46,6 +53,7 @@
         font-weight: 800;
         color: #1e293b;
         margin: 0;
+        letter-spacing: -0.01em;
     }
 
     .card-custom-body {
@@ -75,32 +83,56 @@
 
     .form-control-custom:focus {
         background: #ffffff;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        border-color: #384972;
+        box-shadow: 0 0 0 3px rgba(56, 73, 114, 0.12);
     }
 
-    .btn-create-link {
-        background: #2563eb;
+    /* Tombol Kirim Permintaan Izin */
+    .btn-kirim-izin {
+        background: #384972;
         color: #ffffff;
         border: none;
-        padding: 12px 26px;
+        padding: 11px 24px;
         border-radius: 10px;
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: 700;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
         gap: 8px;
         transition: all 0.2s ease;
-        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        box-shadow: 0 4px 14px rgba(56, 73, 114, 0.25);
     }
 
-    .btn-create-link:hover {
-        background: #1d4ed8;
+    .btn-kirim-izin:hover {
+        background: #2b3957;
+        color: #ffffff;
         transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(56, 73, 114, 0.35);
     }
 
-    /* Filter Bar Container Layout (Matching Piket Layout) */
+    /* Tombol Reset Form */
+    .btn-reset-form {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+        padding: 11px 20px;
+        border-radius: 10px;
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-reset-form:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+    }
+
+    /* Filter Bar Container Layout */
     .filter-bar-container {
         display: flex;
         align-items: center;
@@ -131,7 +163,7 @@
     }
 
     .filter-input:focus {
-        border-color: #2563eb;
+        border-color: #384972;
     }
 
     .btn-filter-dark {
@@ -147,6 +179,7 @@
         align-items: center;
         gap: 6px;
         text-decoration: none;
+        transition: all 0.2s ease;
     }
 
     .btn-filter-dark:hover { background: #2b3957; color: #ffffff; }
@@ -164,6 +197,7 @@
         align-items: center;
         gap: 6px;
         text-decoration: none;
+        transition: all 0.2s ease;
     }
     .btn-reset-light:hover { background: #cbd5e1; color: #1e293b; }
 
@@ -181,8 +215,30 @@
         gap: 6px;
         text-decoration: none;
         margin-left: auto;
+        transition: all 0.2s ease;
     }
     .btn-trash-pink:hover { background: #fbcfe8; color: #be185d; }
+
+    /* Floating Pop-up Batch Toolbar */
+    .floating-batch-bar {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(120px);
+        background: #0f172a;
+        color: #ffffff;
+        padding: 12px 24px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        z-index: 999;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .floating-batch-bar.show {
+        transform: translateX(-50%) translateY(0);
+    }
 
     .table-responsive {
         overflow-x: auto;
@@ -213,6 +269,18 @@
         vertical-align: middle;
     }
 
+    .table-custom tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .custom-checkbox {
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        cursor: pointer;
+        accent-color: #2563eb;
+    }
+
     .status-badge {
         display: inline-flex;
         align-items: center;
@@ -232,23 +300,25 @@
         background: #f0fdf4;
         border: 1px solid #bbf7d0;
         border-radius: 12px;
-        padding: 12px 16px;
+        padding: 10px 14px;
         margin-top: 8px;
-        font-size: 12.5px;
+        font-size: 12px;
         color: #166534;
+        line-height: 1.4;
     }
 
     .piket-pending-box {
         background: #fffbe6;
         border: 1px solid #ffe58f;
         border-radius: 12px;
-        padding: 12px 16px;
+        padding: 10px 14px;
         margin-top: 8px;
-        font-size: 12.5px;
+        font-size: 12px;
         color: #873800;
+        line-height: 1.4;
     }
 
-    /* Action Buttons (Matching Piket Role) */
+    /* Action Buttons */
     .btn-action-btn {
         display: inline-flex;
         align-items: center;
@@ -286,7 +356,7 @@
         top: 0; left: 0; right: 0; bottom: 0;
         background: rgba(15, 23, 42, 0.6);
         backdrop-filter: blur(4px);
-        z-index: 999;
+        z-index: 9999;
         justify-content: center;
         align-items: center;
         padding: 20px;
@@ -316,7 +386,7 @@
         justify-content: space-between;
     }
 
-    .modal-header h3 { margin: 0; font-size: 17px; font-weight: 800; }
+    .modal-header h3 { margin: 0; font-size: 16.5px; font-weight: 800; letter-spacing: -0.01em; }
 
     .modal-body {
         padding: 24px;
@@ -338,8 +408,10 @@
 
 @section('content')
 <div class="page-title-box">
-    <h1>Permintaan Izin Saya</h1>
-    <p>Pengisian data izin tidak hadir mengajar untuk diverifikasi, diisikan, dan dikirimkan oleh Guru Piket ke Waka & Kepala Sekolah</p>
+    <div>
+        <h1>Permintaan Izin Saya</h1>
+        <p>Pengisian data izin tidak hadir mengajar untuk diverifikasi, diisikan, dan dikirimkan oleh Guru Piket ke Waka & Kepala Sekolah</p>
+    </div>
 </div>
 
 @if(session('success'))
@@ -386,6 +458,12 @@
     </div>
 @endif
 
+@if(session('error'))
+    <div style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-weight: 700;">
+        <i class="fa-solid fa-triangle-exclamation"></i> {{ session('error') }}
+    </div>
+@endif
+
 @if($errors->any())
     <div style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-weight: 700;">
         <i class="fa-solid fa-triangle-exclamation"></i> {{ $errors->first() }}
@@ -404,15 +482,12 @@
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 18px;">
                 <div>
                     <label class="form-label-custom">Guru yang meminta izin</label>
-                    <small style="color: #2563eb; font-weight: 700; display: block; margin-bottom: 6px;">
-                        <i class="fa-solid fa-circle-info"></i> Fitur Cari: Ketik Nama atau NIP Guru pada kotak pilihan di bawah ini untuk mencari data guru mengajar.
-                    </small>
 
                     @if($guru)
-                        <input type="hidden" name="id_guru" value="{{ $guru->id_guru }}">
+                        <input type="hidden" name="id_guru" id="inputIdGuru" value="{{ $guru->id_guru }}">
                         <input type="text" class="form-control-custom" value="[NIP. {{ $guru->nip ?? '-' }}] {{ $guru->nama_guru }}" readonly style="background: #f1f5f9; font-weight: 700; color: #1e293b;">
                     @else
-                        <select name="id_guru" class="form-control-custom" required style="width: 100%;">
+                        <select name="id_guru" id="selectIdGuru" class="form-control-custom" required style="width: 100%;">
                             <option value="">Pilih NIP atau Nama Guru...</option>
                             @foreach($guruList as $g)
                                 <option value="{{ $g->id_guru }}">
@@ -456,7 +531,7 @@
             <!-- Container Keterangan Khusus Cuti (Wajib jika > 3 Hari / Kategori Cuti) -->
             <div id="keteranganKhususContainer" style="display: none; margin-bottom: 18px; background: #fff7ed; padding: 16px; border-radius: 12px; border: 1px solid #fed7aa;">
                 <label class="form-label-custom" style="color: #c2410c; font-size: 13px;">
-                    <i class="fa-solid fa-note-sticky"></i> Keterangan Khusus Cuti / Izin Khusus (> 3 Hari) <span style="color: #dc2626;">*Wajib Diisi</span>
+                    Keterangan Khusus Cuti / Izin Khusus (> 3 Hari) <span style="color: #dc2626;">*Wajib Diisi</span>
                 </label>
                 <small style="color: #ea580c; display: block; margin-bottom: 8px;">
                     Tuliskan rincian penjelasan mengapa permohonan izin dilakukan lebih dari 3 hari (Cuti) agar Waka & Kepsek mengetahui dengan tepat alasannya.
@@ -464,7 +539,7 @@
                 <textarea name="keterangan_khusus" id="inputKeteranganKhusus" class="form-control-custom" rows="3" placeholder="Tuliskan penjelasan khusus permohonan Cuti / Izin Khusus..."></textarea>
             </div>
 
-            <!-- Opsi Titipan & Lampiran Surat (Sama Seperti Form Piket) -->
+            <!-- Opsi Titipan & Lampiran Surat -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                 <div>
                     <label class="form-label-custom">Titipan Materi / Tugas (Opsional)</label>
@@ -480,7 +555,7 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
                 <div>
                     <label class="form-label-custom">Upload File Tugas (Opsional)</label>
-                    <input type="file" name="file_tugas" class="form-control-custom">
+                    <input type="file" name="file_tugas" id="inputFileTugas" class="form-control-custom">
                 </div>
                 <div>
                     <label class="form-label-custom">Tujuan Guru Piket Penerima WhatsApp (Opsional)</label>
@@ -493,8 +568,12 @@
                 </div>
             </div>
 
-            <div>
-                <button type="submit" class="btn-create-link">
+            <!-- Action Buttons: Rata Kanan -->
+            <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
+                <button type="button" class="btn-reset-form" onclick="resetFormIzin()">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Form
+                </button>
+                <button type="submit" class="btn-kirim-izin">
                     <i class="fa-solid fa-paper-plane"></i> Kirim Permintaan Izin ke Guru Piket
                 </button>
             </div>
@@ -505,11 +584,11 @@
 <!-- Riwayat & Status Permintaan Izin Saya -->
 <div class="card-custom">
     <div class="card-custom-header" style="border-bottom: none;">
-        <h2><i class="fa-solid fa-list-check" style="color: #2563eb; margin-right: 8px;"></i> Status Permintaan Izin Saya</h2>
+        <h2>Status Permintaan Izin Saya</h2>
         <span style="font-size: 12.5px; font-weight: 600; color: #64748b;">Total {{ $myIzinList->count() }} Pengajuan</span>
     </div>
 
-    <!-- Filter & Search Bar + Reset + Sampah (Sejajar di Atas Tabel, Matching Piket Role) -->
+    <!-- Filter & Search Bar + Reset + Sampah -->
     <div class="filter-bar-container">
         <form action="{{ route('guru.permintaan-izin') }}" method="GET">
             <div style="flex: 2; min-width: 220px;">
@@ -538,7 +617,7 @@
             </a>
 
             <a href="{{ route('guru.permintaan-izin.trash') }}" class="btn-trash-pink">
-                <i class="fa-solid fa-trash-can"></i> Sampah ({{ $trashedCount }})
+                <i class="fa-solid fa-trash-can"></i> Tempat Sampah ({{ $trashedCount }})
             </a>
         </form>
     </div>
@@ -548,6 +627,9 @@
             <table class="table-custom">
                 <thead>
                     <tr>
+                        <th style="width: 40px; text-align: center;">
+                            <input type="checkbox" id="selectAll" class="custom-checkbox" onchange="toggleSelectAll(this)" title="Pilih Semua (Select All)">
+                        </th>
                         <th>TANGGAL & KATEGORI</th>
                         <th>ALASAN & MATERI</th>
                         <th>STATUS PROSES PIKET</th>
@@ -555,7 +637,7 @@
                         <th>STATUS WAKA SDM</th>
                         <th>STATUS KEPSEK</th>
                         <th>STATUS FINAL</th>
-                        <th>AKSI</th>
+                        <th style="text-align: center;">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -609,7 +691,10 @@
                             'piket_url' => $piketAccessUrl,
                         ];
                     @endphp
-                    <tr>
+                    <tr id="row_izin_{{ $iz->id_guru_izin }}">
+                        <td style="text-align: center;">
+                            <input type="checkbox" class="izin-checkbox custom-checkbox" value="{{ $iz->id_guru_izin }}" onchange="handleItemCheckboxChange()">
+                        </td>
                         <td style="white-space: nowrap;">
                             <div style="font-weight: 700; color: #1e293b;">
                                 {{ $tglFormat }}
@@ -617,7 +702,7 @@
                             <div style="margin-top: 4px;">
                                 @if($iz->kategori_izin === 'cuti')
                                     <span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">
-                                        <i class="fa-solid fa-user-clock"></i> Cuti (>3 Hari)
+                                        Cuti (>3 Hari)
                                     </span>
                                 @else
                                     <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">
@@ -698,7 +783,7 @@
                             @endif
                         </td>
                         <td>
-                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;">
                                 <a href="{{ $waSendUrl }}" target="_blank" class="btn-action-btn btn-action-wa" title="Kirim Link ke WA Guru Piket">
                                     <i class="fa-brands fa-whatsapp"></i> Kirim WA
                                 </a>
@@ -715,19 +800,15 @@
                                     <i class="fa-solid fa-pen-to-square"></i> Edit
                                 </button>
 
-                                <form action="{{ route('guru.permintaan-izin.destroy', $iz->id_guru_izin) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data permohonan izin ini? Data yang dihapus akan dipindahkan ke Sampah dan notifikasi di Guru Piket akan otomatis terhapus/hilang.');" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-action-btn btn-action-delete" title="Hapus ke Sampah">
-                                        <i class="fa-solid fa-trash-can"></i> Hapus
-                                    </button>
-                                </form>
+                                <button type="button" onclick="confirmSingleDelete({{ $iz->id_guru_izin }})" class="btn-action-btn btn-action-delete" title="Hapus ke Sampah">
+                                    <i class="fa-solid fa-trash-can"></i> Hapus
+                                </button>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 36px; color: #94a3b8; font-weight: 600;">
+                        <td colspan="9" style="text-align: center; padding: 36px; color: #94a3b8; font-weight: 600;">
                             <i class="fa-solid fa-inbox" style="font-size: 28px; margin-bottom: 8px; display: block;"></i>
                             Belum ada data permintaan izin tidak hadir.
                         </td>
@@ -739,11 +820,27 @@
     </div>
 </div>
 
+<!-- Floating Pop-up Batch Toolbar -->
+<div id="floatingBatchBar" class="floating-batch-bar">
+    <div style="font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+        <span id="selectedCountBadge" style="background: #2563eb; color: #fff; padding: 2px 9px; border-radius: 20px; font-size: 12px; font-weight: 800;">0</span>
+        <span>Permintaan Izin Terpilih</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <button type="button" onclick="openBatchDeleteModal()" style="background: #ef4444; color: #fff; border: none; padding: 7px 16px; border-radius: 30px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+            <i class="fa-solid fa-trash-can"></i> Hapus Terpilih
+        </button>
+        <button type="button" onclick="uncheckAll()" style="background: rgba(255,255,255,0.2); color: #fff; border: none; padding: 7px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;">
+            Batal
+        </button>
+    </div>
+</div>
+
 <!-- Modal Detail Permintaan Izin -->
 <div id="detailModal" class="modal-backdrop">
     <div class="modal-card">
         <div class="modal-header">
-            <h3><i class="fa-solid fa-file-invoice" style="margin-right: 8px;"></i> Detail Permintaan Izin Saya</h3>
+            <h3>Detail Permintaan Izin Saya</h3>
             <button type="button" onclick="closeDetailModal()" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;">&times;</button>
         </div>
         <div class="modal-body">
@@ -754,7 +851,7 @@
 
             <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #334155;">
                 <tr>
-                    <td style="padding: 8px 0; font-weight: 700; width: 140px; color: #64748b;">Tanggal Izin:</td>
+                    <td style="padding: 8px 0; font-weight: 700; width: 150px; color: #64748b;">Tanggal Izin:</td>
                     <td style="padding: 8px 0; font-weight: 700; color: #0f172a;" id="dt_tanggal_durasi">-</td>
                 </tr>
                 <tr>
@@ -774,19 +871,30 @@
                     <td style="padding: 8px 0; font-weight: 700;" id="dt_status_piket">-</td>
                 </tr>
                 <tr>
-                    <td style="padding: 8px 0; font-weight: 700; color: #64748b;">Status Kepsek:</td>
-                    <td style="padding: 8px 0;" id="dt_status_kepsek">-</td>
+                    <td style="padding: 8px 0; font-weight: 700; color: #64748b;">Status Waka Kurikulum:</td>
+                    <td style="padding: 8px 0;" id="dt_status_waka">-</td>
                 </tr>
                 <tr>
-                    <td style="padding: 8px 0; font-weight: 700; color: #64748b;">Status Waka:</td>
-                    <td style="padding: 8px 0;" id="dt_status_waka">-</td>
+                    <td style="padding: 8px 0; font-weight: 700; color: #64748b;">Status Waka SDM:</td>
+                    <td style="padding: 8px 0;" id="dt_status_waka_sdm">-</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0; font-weight: 700; color: #64748b;">Status Kepala Sekolah:</td>
+                    <td style="padding: 8px 0;" id="dt_status_kepsek">-</td>
                 </tr>
             </table>
 
             <div id="dt_foto_container" style="display: none; margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
                 <label style="font-weight: 700; font-size: 12.5px; color: #475569; display: block; margin-bottom: 8px;">Dokumen / Foto Surat Bukti:</label>
-                <a id="dt_foto_link" href="#" target="_blank">
+                <a id="dt_foto_link" href="#" target="_blank" style="display: inline-block;">
                     <img id="dt_foto_img" src="" alt="Foto Surat Bukti" style="max-width: 100%; max-height: 200px; border-radius: 10px; border: 1px solid #cbd5e1; object-fit: contain;">
+                </a>
+            </div>
+
+            <div id="dt_file_container" style="display: none; margin-top: 12px;">
+                <label style="font-weight: 700; font-size: 12.5px; color: #475569; display: block; margin-bottom: 4px;">File Tugas Pengganti Terlampir:</label>
+                <a id="dt_file_link" href="#" target="_blank" style="color: #2563eb; font-weight: 700; text-decoration: underline; font-size: 13px;">
+                    <i class="fa-solid fa-file-arrow-down"></i> Unduh File Tugas Terlampir
                 </a>
             </div>
         </div>
@@ -796,11 +904,11 @@
     </div>
 </div>
 
-<!-- Modal Edit Permintaan Izin (Struktur Identik Presisi dengan Form Utama) -->
+<!-- Modal Edit Permintaan Izin -->
 <div id="editModal" class="modal-backdrop">
     <div class="modal-card" style="max-width: 680px;">
         <div class="modal-header">
-            <h3><i class="fa-solid fa-pen-to-square" style="margin-right: 8px;"></i> Edit Permintaan Izin Saya</h3>
+            <h3>Edit Permintaan Izin Saya</h3>
             <button type="button" onclick="closeEditModal()" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;">&times;</button>
         </div>
         <form id="editForm" action="" method="POST" enctype="multipart/form-data">
@@ -822,7 +930,7 @@
                     </select>
                 </div>
 
-                <!-- Tanggal Mulai & Selesai (Berdampingan Presisi) -->
+                <!-- Tanggal Mulai & Selesai -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                     <div>
                         <label class="form-label-custom">Tanggal Mulai Izin</label>
@@ -848,7 +956,7 @@
                 <!-- Container Keterangan Khusus Cuti -->
                 <div id="edit_keteranganKhususContainer" style="display: none; margin-bottom: 16px; background: #fff7ed; padding: 16px; border-radius: 12px; border: 1px solid #fed7aa;">
                     <label class="form-label-custom" style="color: #c2410c; font-size: 13px;">
-                        <i class="fa-solid fa-note-sticky"></i> Keterangan Khusus Cuti / Izin Khusus (> 3 Hari) <span style="color: #dc2626;">*Wajib Diisi</span>
+                        Keterangan Khusus Cuti / Izin Khusus (> 3 Hari) <span style="color: #dc2626;">*Wajib Diisi</span>
                     </label>
                     <small style="color: #ea580c; display: block; margin-bottom: 8px;">
                         Tuliskan rincian penjelasan mengapa permohonan izin dilakukan lebih dari 3 hari (Cuti) agar Waka & Kepsek mengetahui dengan tepat alasannya.
@@ -856,7 +964,7 @@
                     <textarea name="keterangan_khusus" id="edit_keterangan_khusus" class="form-control-custom" rows="2" placeholder="Tuliskan penjelasan khusus permohonan Cuti / Izin Khusus..."></textarea>
                 </div>
 
-                <!-- Opsi Titipan & Upload Foto Surat (Berdampingan Presisi) -->
+                <!-- Opsi Titipan & Upload Foto Surat -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                     <div>
                         <label class="form-label-custom">Titipan Materi / Tugas (Opsional)</label>
@@ -869,7 +977,7 @@
                         <!-- Pratinjau Foto Bukti Terlampir -->
                         <div id="edit_foto_preview_container" style="display: none; margin-top: 10px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 10px 14px;">
                             <small style="font-size: 11.5px; font-weight: 800; color: #1e40af; text-transform: uppercase; display: block; margin-bottom: 6px;">
-                                <i class="fa-solid fa-image"></i> Foto Surat / Bukti Terlampir Saat Ini:
+                                Foto Surat / Bukti Terlampir Saat Ini:
                             </small>
                             <a id="edit_foto_link" href="#" target="_blank">
                                 <img id="edit_foto_img" src="" alt="Pratinjau Foto" style="max-height: 130px; border-radius: 8px; border: 1px solid #93c5fd; object-fit: contain; display: block;">
@@ -892,8 +1000,67 @@
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="closeEditModal()" class="btn-reset-light">Batal</button>
-                <button type="submit" class="btn-create-link">
+                <button type="submit" class="btn-kirim-izin">
                     <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus Satuan -->
+<div id="singleDeleteModal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 460px;">
+        <div class="modal-header" style="background: #ef4444;">
+            <h3>Konfirmasi Hapus Data</h3>
+            <button type="button" onclick="closeSingleDeleteModal()" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;">&times;</button>
+        </div>
+        <form id="singleDeleteForm" action="" method="POST">
+            @csrf
+            @method('DELETE')
+            <div class="modal-body" style="text-align: center; padding: 28px 24px;">
+                <div style="width: 56px; height: 56px; background: #fee2e2; color: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 16px auto;">
+                    <i class="fa-solid fa-trash-can"></i>
+                </div>
+                <h4 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 800; color: #1e293b;">Pindahkan Data ke Sampah?</h4>
+                <p style="margin: 0; font-size: 13px; color: #64748b; line-height: 1.5;">
+                    Data permohonan izin ini akan dipindahkan ke Sampah. Notifikasi di akun Guru Piket akan otomatis dibersihkan. Anda dapat memulihkannya kembali sewaktu-waktu dari menu Sampah.
+                </p>
+            </div>
+            <div class="modal-footer" style="justify-content: center; gap: 12px;">
+                <button type="button" onclick="closeSingleDeleteModal()" class="btn-reset-light" style="padding: 10px 20px;">Batal</button>
+                <button type="submit" class="btn-action-btn" style="background: #dc2626; color: #fff; border-radius: 10px; padding: 10px 20px; font-size: 13px;">
+                    <i class="fa-solid fa-trash-can"></i> Ya, Pindahkan ke Sampah
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus Terpilih (Batch) -->
+<div id="batchDeleteModal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 480px;">
+        <div class="modal-header" style="background: #ef4444;">
+            <h3>Hapus Banyak Data Izin</h3>
+            <button type="button" onclick="closeBatchDeleteModal()" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;">&times;</button>
+        </div>
+        <form id="batchDeleteForm" action="{{ route('guru.permintaan-izin.destroy-batch') }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" name="ids" id="batchDeleteIds">
+            <div class="modal-body" style="text-align: center; padding: 28px 24px;">
+                <div style="width: 56px; height: 56px; background: #fee2e2; color: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 16px auto;">
+                    <i class="fa-solid fa-trash-can"></i>
+                </div>
+                <h4 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 800; color: #1e293b;">Hapus <span id="batchModalCount">0</span> Data Terpilih?</h4>
+                <p style="margin: 0; font-size: 13px; color: #64748b; line-height: 1.5;">
+                    Semua data izin yang Anda centang akan dipindahkan ke Tempat Sampah secara bersamaan. Anda tetap bisa memulihkan data tersebut dari menu Tempat Sampah.
+                </p>
+            </div>
+            <div class="modal-footer" style="justify-content: center; gap: 12px;">
+                <button type="button" onclick="closeBatchDeleteModal()" class="btn-reset-light" style="padding: 10px 20px;">Batal</button>
+                <button type="submit" class="btn-action-btn" style="background: #dc2626; color: #fff; border-radius: 10px; padding: 10px 20px; font-size: 13px;">
+                    <i class="fa-solid fa-trash-can"></i> Ya, Pindahkan Semua ke Sampah
                 </button>
             </div>
         </form>
@@ -903,6 +1070,19 @@
 
 @section('scripts')
 <script>
+    // Reset Form Izin function
+    function resetFormIzin() {
+        const form = document.getElementById('formIzinGuru');
+        if (form) {
+            form.reset();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('inputTglMulai').value = today;
+            document.getElementById('inputTglSelesai').value = today;
+            document.getElementById('selectKategoriIzin').value = 'biasa';
+            checkDurationCategory();
+        }
+    }
+
     function checkDurationCategory() {
         const tMulai = document.getElementById('inputTglMulai').value;
         let tSelesai = document.getElementById('inputTglSelesai').value;
@@ -953,7 +1133,6 @@
         const containerKhusus = document.getElementById('edit_keteranganKhususContainer');
         const inputKhusus = document.getElementById('edit_keterangan_khusus');
         const labelFoto = document.getElementById('edit_labelFotoSurat');
-        const inputFoto = document.getElementById('edit_inputFotoSurat');
 
         if (tMulai && tSelesai && tSelesai < tMulai) {
             alert('Peringatan: Tanggal Selesai Izin (' + tSelesai + ') tidak boleh lebih awal dari Tanggal Mulai Izin (' + tMulai + ')!');
@@ -993,6 +1172,76 @@
         }
     }
 
+    // Checkbox and Floating Pop-up Batch Selection Logic
+    function toggleSelectAll(masterCheckbox) {
+        const checkboxes = document.querySelectorAll('.izin-checkbox');
+        checkboxes.forEach(cb => {
+            cb.checked = masterCheckbox.checked;
+        });
+        updateFloatingBatchBar();
+    }
+
+    function handleItemCheckboxChange() {
+        const checkboxes = document.querySelectorAll('.izin-checkbox');
+        const checkedCount = document.querySelectorAll('.izin-checkbox:checked').length;
+        const selectAll = document.getElementById('selectAll');
+        
+        if (selectAll) {
+            selectAll.checked = (checkboxes.length > 0 && checkedCount === checkboxes.length);
+        }
+        updateFloatingBatchBar();
+    }
+
+    function uncheckAll() {
+        const checkboxes = document.querySelectorAll('.izin-checkbox');
+        checkboxes.forEach(cb => {
+            cb.checked = false;
+        });
+        const selectAll = document.getElementById('selectAll');
+        if (selectAll) selectAll.checked = false;
+        updateFloatingBatchBar();
+    }
+
+    function updateFloatingBatchBar() {
+        const checked = document.querySelectorAll('.izin-checkbox:checked');
+        const count = checked.length;
+        const bar = document.getElementById('floatingBatchBar');
+        const badge = document.getElementById('selectedCountBadge');
+
+        if (count > 0) {
+            bar.classList.add('show');
+            badge.innerText = count;
+        } else {
+            bar.classList.remove('show');
+        }
+    }
+
+    function openBatchDeleteModal() {
+        const checked = document.querySelectorAll('.izin-checkbox:checked');
+        const count = checked.length;
+        if (count === 0) {
+            alert('Silakan pilih minimal 1 data izin yang ingin dihapus.');
+            return;
+        }
+        const ids = Array.from(checked).map(cb => cb.value);
+        document.getElementById('batchDeleteIds').value = ids.join(',');
+        document.getElementById('batchModalCount').innerText = count;
+        document.getElementById('batchDeleteModal').style.display = 'flex';
+    }
+
+    function closeBatchDeleteModal() {
+        document.getElementById('batchDeleteModal').style.display = 'none';
+    }
+
+    function confirmSingleDelete(id) {
+        document.getElementById('singleDeleteForm').action = "{{ url('/guru-permintaan-izin') }}/" + id;
+        document.getElementById('singleDeleteModal').style.display = 'flex';
+    }
+
+    function closeSingleDeleteModal() {
+        document.getElementById('singleDeleteModal').style.display = 'none';
+    }
+
     function copyPiketLinkDirect(text) {
         let tempTextArea = document.createElement("textarea");
         tempTextArea.value = text;
@@ -1026,13 +1275,14 @@
         document.getElementById('dt_materi').innerText = data.materi || '-';
         
         if (data.status_piket === 'pending') {
-            document.getElementById('dt_status_piket').innerHTML = '<span style="color: #b45309;">⌛ Menunggu Diproses Guru Piket</span>';
+            document.getElementById('dt_status_piket').innerHTML = '<span style="color: #b45309; font-weight: 700;">Menunggu Diproses Guru Piket</span>';
         } else {
-            document.getElementById('dt_status_piket').innerHTML = '<span style="color: #15803d;">✅ Sudah Diisikan oleh ' + (data.nama_guru_piket || 'Guru Piket') + ' (NIP. ' + (data.nip_guru_piket || '-') + ')</span>';
+            document.getElementById('dt_status_piket').innerHTML = '<span style="color: #15803d; font-weight: 700;">Sudah Diisikan oleh ' + (data.nama_guru_piket || 'Guru Piket') + ' (NIP. ' + (data.nip_guru_piket || '-') + ')</span>';
         }
 
-        document.getElementById('dt_status_kepsek').innerText = (data.status_kepsek || 'Pending') + (data.catatan_kepsek ? ' (Ket: ' + data.catatan_kepsek + ')' : '');
         document.getElementById('dt_status_waka').innerText = (data.status_waka || 'Pending') + (data.catatan_waka ? ' (Ket: ' + data.catatan_waka + ')' : '');
+        document.getElementById('dt_status_waka_sdm').innerText = (data.status_waka_sdm || 'Pending');
+        document.getElementById('dt_status_kepsek').innerText = (data.status_kepsek || 'Pending') + (data.catatan_kepsek ? ' (Ket: ' + data.catatan_kepsek + ')' : '');
 
         const ketKhususContainer = document.getElementById('dt_keterangan_khusus_container');
         if (data.kategori_izin === 'cuti' && data.keterangan_khusus) {
@@ -1049,6 +1299,14 @@
             fotoContainer.style.display = 'block';
         } else {
             fotoContainer.style.display = 'none';
+        }
+
+        const fileContainer = document.getElementById('dt_file_container');
+        if (data.file_tugas_url) {
+            document.getElementById('dt_file_link').href = data.file_tugas_url;
+            fileContainer.style.display = 'block';
+        } else {
+            fileContainer.style.display = 'none';
         }
 
         document.getElementById('detailModal').style.display = 'flex';

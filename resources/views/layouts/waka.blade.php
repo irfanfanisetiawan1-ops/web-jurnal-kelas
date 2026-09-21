@@ -34,6 +34,8 @@
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         /* Sidebar Navigation */
@@ -118,12 +120,39 @@
             font-size: 13.5px;
             font-weight: 700;
             transition: all 0.2s ease;
+            position: relative;
         }
 
         .nav-item i {
             font-size: 16px;
             width: 20px;
             text-align: center;
+            flex-shrink: 0;
+        }
+
+        .nav-item span:not(.sidebar-badge-notify) {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-badge-notify {
+            background-color: #ef4444;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.45);
+            flex-shrink: 0;
+            margin-left: auto;
         }
 
         .nav-item:hover {
@@ -253,6 +282,10 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            min-width: 0;
+            width: calc(100% - var(--sidebar-width));
+            max-width: calc(100vw - var(--sidebar-width));
+            overflow-x: hidden;
         }
 
         /* Top Bar Header */
@@ -270,6 +303,8 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.02);
             flex-wrap: wrap;
             gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .search-box {
@@ -322,8 +357,97 @@
 
         /* Content Body */
         .content-body {
-            padding: 28px;
+            padding: 24px 28px;
             flex: 1;
+            min-width: 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Universal Modern Pagination Styles */
+        .pagination-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .pagination-container nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pagination-container nav > div:first-child:not(:only-child) {
+            display: none !important;
+        }
+
+        .pagination-container nav svg {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .pagination-container nav a,
+        .pagination-container nav span[aria-current="page"] > span,
+        .pagination-container nav span[aria-disabled="true"] > span,
+        .pagination-container nav > div:last-child span,
+        .pagination-container nav > div:last-child a,
+        .pagination-list .page-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #334155;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            line-height: 1;
+        }
+
+        .pagination-container nav a:hover,
+        .pagination-list .page-item:not(.active):not(.disabled) .page-link:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+
+        .pagination-container nav span[aria-current="page"] > span,
+        .pagination-container nav .active > span,
+        .pagination-list .page-item.active .page-link {
+            background: #2563eb !important;
+            border-color: #2563eb !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        .pagination-container nav span[aria-disabled="true"] > span,
+        .pagination-list .page-item.disabled .page-link {
+            color: #94a3b8 !important;
+            background: #f8fafc !important;
+            border-color: #f1f5f9 !important;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .pagination-list {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
         @media (max-width: 992px) {
@@ -353,17 +477,29 @@
             <div class="menu-category">Utama</div>
             <a href="{{ route('waka.dashboard') }}" class="nav-item {{ request()->routeIs('waka.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-table-cells-large"></i>
-                <span>Dashboard WAKA</span>
+                <span>Dashboard</span>
             </a>
 
             <div class="menu-category">Data Master</div>
-            <a href="{{ route('waka.jadwal') }}" class="nav-item {{ request()->routeIs('waka.jadwal') ? 'active' : '' }}">
+            <a href="{{ route('waka.siswa') }}" class="nav-item {{ request()->routeIs('waka.siswa*') ? 'active' : '' }}">
+                <i class="fa-solid fa-users"></i>
+                <span>Data Siswa</span>
+            </a>
+            <a href="{{ route('waka.jadwal') }}" class="nav-item {{ request()->routeIs('waka.jadwal*') ? 'active' : '' }}">
                 <i class="fa-solid fa-calendar-days"></i>
                 <span>Jadwal</span>
             </a>
-            <a href="{{ route('waka.persetujuan-izin') }}" class="nav-item {{ request()->routeIs('waka.persetujuan-izin') ? 'active' : '' }}">
+            <a href="{{ route('waka.persetujuan-izin') }}" class="nav-item {{ request()->routeIs('waka.persetujuan-izin*') || request()->routeIs('waka.siswa-dispen*') ? 'active' : '' }}">
                 <i class="fa-solid fa-clipboard-check"></i>
                 <span>Persetujuan Izin</span>
+                @php
+                    $pendingDispenNotifyCount = $wakaPendingDispenCount ?? \App\Models\SiswaDispen::where(function($q) {
+                        $q->where('status_waka', 'pending')->orWhereNull('status_waka');
+                    })->count();
+                @endphp
+                @if($pendingDispenNotifyCount > 0)
+                    <span class="sidebar-badge-notify" title="{{ $pendingDispenNotifyCount }} permohonan dispen siswa menunggu persetujuan">{{ $pendingDispenNotifyCount }}</span>
+                @endif
             </a>
 
             <div class="menu-category">Akademik</div>
@@ -371,13 +507,17 @@
                 <i class="fa-solid fa-bullhorn"></i>
                 <span>Pengumuman</span>
             </a>
-            <a href="{{ route('waka.jadwal-mengajar') }}" class="nav-item {{ request()->routeIs('waka.jadwal-mengajar') ? 'active' : '' }}">
-                <i class="fa-solid fa-chalkboard-user"></i>
-                <span>Jadwal Mengajar</span>
-            </a>
-            <a href="{{ route('waka.rekap-jurnal') }}" class="nav-item {{ request()->routeIs('waka.rekap-jurnal') ? 'active' : '' }}">
+            <a href="{{ route('waka.rekap-jurnal') }}" class="nav-item {{ request()->routeIs('waka.rekap-jurnal*') ? 'active' : '' }}">
                 <i class="fa-solid fa-file-invoice"></i>
-                <span>Rekap Jurnal & Kehadiran</span>
+                <span>Rekap Jurnal Mengajar</span>
+            </a>
+            <a href="{{ route('waka.rekap-kehadiran') }}" class="nav-item {{ request()->routeIs('waka.rekap-kehadiran*') ? 'active' : '' }}">
+                <i class="fa-solid fa-user-check"></i>
+                <span>Rekap Kehadiran Siswa</span>
+            </a>
+            <a href="{{ route('waka.pelanggaran-siswa') }}" class="nav-item {{ request()->routeIs('waka.pelanggaran-siswa*') ? 'active' : '' }}">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Pelanggaran Siswa</span>
             </a>
         </nav>
 
@@ -405,7 +545,7 @@
                     </button>
                 </form>
 
-                <a href="{{ route('pengaturan.index') }}" class="btn-footer-action btn-icon-only" title="Pengaturan Profil">
+                <a href="{{ route('pengaturan.index') }}" class="btn-footer-action btn-icon-only {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}" title="Pengaturan Profil">
                     <i class="fa-solid fa-gear"></i>
                 </a>
 
@@ -425,7 +565,7 @@
             <div class="topbar-right">
                 <div class="semester-pill">
                     <i class="fa-solid fa-graduation-cap" style="color: #64748b; font-size: 14px;"></i>
-                    <span>T.A. 2025/2026 - Semester Genap</span>
+                    <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2026/2027' }} - Semester {{ $activeTahunAjaran->semester ?? 'Ganjil' }}</span>
                     <i class="fa-solid fa-chevron-down" style="font-size:11px; color: #94a3b8;"></i>
                 </div>
 

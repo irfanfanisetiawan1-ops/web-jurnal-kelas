@@ -216,7 +216,7 @@
                         </div>
                         <div style="position: relative;">
                             <i class="fa-regular fa-user" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px;"></i>
-                            <input type="text" name="nip_username" id="nipUsernameInput" class="form-control" placeholder="Masukkan 18 digit NIP Anda" value="{{ old('nip_username') }}" maxlength="18" inputmode="numeric" pattern="[0-9]*" oninput="updateNipCounter(this)" autocomplete="off" style="padding-left: 42px; height: 46px;" required>
+                            <input type="text" name="nip_username" id="nipUsernameInput" class="form-control" placeholder="Masukkan 18 digit NIP Anda" value="{{ old('nip_username') }}" maxlength="30" inputmode="numeric" pattern="[0-9]*" oninput="updateNipCounter(this)" autocomplete="off" style="padding-left: 42px; height: 46px;" required>
                         </div>
                     </div>
 
