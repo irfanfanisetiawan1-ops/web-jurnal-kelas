@@ -68,6 +68,12 @@ class AuthController extends Controller
             return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
 
+        // Akun Orang Tua dilarang login lewat portal Staf / Guru
+        if ($user->isOrangTua()) {
+            return back()->withInput($request->only('nip'))
+                ->with('error', 'CAUTION: Identitas ini terdaftar sebagai akun Orang Tua. Silakan masuk melalui form Login Orang Tua.');
+        }
+
         if (!Hash::check($password, $user->password)) {
             return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
         }
