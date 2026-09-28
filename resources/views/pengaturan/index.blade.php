@@ -294,12 +294,398 @@
         transform: translateX(22px);
     }
 
+    .manajerial-status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .manajerial-status-label {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #1e293b;
+        width: 180px;
+        flex-shrink: 0;
+    }
+
+    .waka-mini-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 6px;
+    }
+
+    .piket-mini-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 6px;
+    }
+
+    .hotline-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
     @media (max-width: 768px) {
+        .settings-container {
+            padding: 0;
+            gap: 16px;
+        }
+
+        .settings-card {
+            border-radius: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .settings-header {
+            padding: 18px 20px;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .settings-header-icon {
+            width: 46px;
+            height: 46px;
+            font-size: 22px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .settings-header h2 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+            letter-spacing: -0.5px !important;
+            margin-bottom: 3px;
+        }
+
+        .settings-header p {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #cbd5e1;
+        }
+
+        .settings-nav {
+            padding: 0 8px;
+            gap: 4px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            flex-wrap: nowrap;
+        }
+
+        .settings-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            padding: 11px 13px;
+            font-size: 12.5px;
+            gap: 6px;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .settings-body {
+            padding: 16px 14px;
+        }
+
+        .alert-banner-box {
+            padding: 12px 14px;
+            font-size: 12px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+
         .form-grid {
             grid-template-columns: 1fr;
+            gap: 14px;
         }
+
         .form-group.full-width {
             grid-column: span 1;
+        }
+
+        .form-group label {
+            font-size: 12.5px;
+        }
+
+        .form-control {
+            padding: 10px 14px;
+            font-size: 13px;
+            border-radius: 9px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .readonly-field-tan {
+            padding: 10px 14px;
+            font-size: 13px;
+            border-radius: 9px;
+            width: 100%;
+            box-sizing: border-box;
+            word-break: break-word;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-input-wrapper input {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding-right: 42px !important;
+        }
+
+        .badge-role {
+            font-size: 11.5px;
+            padding: 5px 12px;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .settings-action-row {
+            text-align: stretch !important;
+            margin-top: 18px !important;
+            width: 100%;
+        }
+
+        .settings-action-row .btn-submit,
+        .btn-submit {
+            width: 100%;
+            justify-content: center;
+            padding: 12px 18px;
+            font-size: 13.5px;
+            border-radius: 10px;
+        }
+
+        /* Profile photo card on mobile */
+        .profile-photo-card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .profile-photo-wrapper {
+            gap: 14px !important;
+        }
+
+        .profile-photo-hint {
+            font-size: 11.5px !important;
+            line-height: 1.4 !important;
+        }
+
+        /* Tab 3 Preferensi */
+        .pref-card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .pref-card h3 {
+            font-size: 15.5px !important;
+            line-height: 1.35;
+        }
+
+        .pref-card p {
+            font-size: 11.5px !important;
+            line-height: 1.4;
+            margin-bottom: 14px !important;
+        }
+
+        .pref-item {
+            gap: 12px !important;
+        }
+
+        .pref-item-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .pref-item-text > div:first-child {
+            font-size: 13px !important;
+            font-weight: 800 !important;
+            line-height: 1.35;
+            color: #0f172a;
+        }
+
+        .pref-item-text > div:last-child {
+            font-size: 11.5px !important;
+            line-height: 1.4;
+            color: #64748b;
+            margin-top: 3px;
+        }
+
+        .pref-item-toggle {
+            flex-shrink: 0;
+        }
+
+        .pref-item-dropdown {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 8px !important;
+        }
+
+        .pref-item-dropdown .pref-item-control,
+        .pref-item-control {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .pref-item-dropdown .pref-item-control select,
+        .pref-item-control select {
+            width: 100% !important;
+        }
+
+        /* Tab 4 Pengaturan Sistem */
+        .system-admin-alert {
+            padding: 12px 14px !important;
+            font-size: 12px !important;
+            line-height: 1.45 !important;
+            border-radius: 10px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .manajerial-status-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 6px !important;
+        }
+
+        .manajerial-status-label {
+            width: 100% !important;
+            font-size: 12px !important;
+            color: #475569;
+        }
+
+        .waka-mini-stat-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+
+        .waka-mini-stat-grid > div {
+            padding: 10px 8px !important;
+            border-radius: 10px !important;
+        }
+
+        .waka-mini-stat-grid > div > div:first-child {
+            font-size: 18px !important;
+        }
+
+        .waka-mini-stat-grid > div > div:last-child {
+            font-size: 10.5px !important;
+        }
+
+        .piket-mini-stat-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 8px !important;
+        }
+
+        .piket-mini-stat-grid > div {
+            padding: 10px 6px !important;
+            border-radius: 10px !important;
+        }
+
+        .piket-mini-stat-grid > div > div:first-child {
+            font-size: 18px !important;
+            font-weight: 800 !important;
+        }
+
+        .piket-mini-stat-grid > div > div:last-child {
+            font-size: 10.5px !important;
+            font-weight: 700 !important;
+            line-height: 1.25 !important;
+        }
+
+        .hotline-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .profile-photo-wrapper {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center;
+        }
+
+        .profile-photo-content {
+            align-items: center !important;
+            width: 100%;
+        }
+
+        .profile-photo-actions {
+            justify-content: center !important;
+            width: 100%;
+        }
+
+        .profile-photo-hint {
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .settings-header {
+            padding: 16px 14px;
+            gap: 12px;
+        }
+
+        .settings-header-icon {
+            width: 42px;
+            height: 42px;
+            font-size: 20px;
+        }
+
+        .settings-header h2 {
+            font-size: 25px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        .settings-header p {
+            font-size: 12.5px !important;
+        }
+
+        .piket-mini-stat-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 6px !important;
+        }
+
+        .piket-mini-stat-grid > div {
+            padding: 10px 4px !important;
+        }
+
+        .piket-mini-stat-grid > div > div:first-child {
+            font-size: 17px !important;
+            font-weight: 800 !important;
+        }
+
+        .piket-mini-stat-grid > div > div:last-child {
+            font-size: 10px !important;
+            line-height: 1.25 !important;
+            word-break: break-word;
+        }
+
+        .waka-mini-stat-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 6px !important;
+        }
+
+        .waka-mini-stat-grid > div {
+            padding: 8px 6px !important;
+        }
+
+        .waka-mini-stat-grid > div > div:first-child {
+            font-size: 17px !important;
+        }
+
+        .waka-mini-stat-grid > div > div:last-child {
+            font-size: 10px !important;
         }
     }
 </style>
@@ -307,18 +693,9 @@
 
 @section('content')
 
-@if(isset($user) && method_exists($user, 'isGuruPiket') && $user->isGuruPiket())
-    @include('guru_piket.pengaturan')
-@else
-<!-- Header Top Bar -->
-<div class="page-header-container">
-    <div class="page-title-group">
-        <h1>Pengaturan Akun & Sistem</h1>
-        <p>Kelola profil pribadi, keamanan password, serta preferensi aplikasi EDU JOURNAL</p>
-    </div>
-</div>
 @php
-    $hasSecErr = isset($errors) && ($errors->has('current_password') || $errors->has('password') || $errors->has('password_confirmation'));
+    $errorsBag = $errors ?? session('errors') ?? new \Illuminate\Support\ViewErrorBag;
+    $hasSecErr = $errorsBag->has('current_password') || $errorsBag->has('password') || $errorsBag->has('password_confirmation');
     $activeTabReq = request('tab');
     $isSecurityActive = session('active_tab') === 'security' || $activeTabReq === 'security' || $hasSecErr;
     $isPrefActive = session('active_tab') === 'preferences' || $activeTabReq === 'preferences';
@@ -354,7 +731,8 @@
                 @if($user->isAdmin() || $user->isTu()) Preferensi &amp; Notifikasi TU
                 @elseif($user->isKepalaSekolah()) Preferensi &amp; Manajerial Kepsek
                 @elseif($user->isWakaSdm()) Preferensi &amp; Manajerial Waka SDM
-                @elseif($user->isWaka()) Preferensi &amp; Manajerial Waka
+                @elseif($user->isWakaKesiswaan()) Preferensi &amp; Manajerial Waka Kesiswaan
+                @elseif($user->isWaka()) Preferensi &amp; Manajerial Waka Kurikulum
                 @elseif($user->isSatpam()) Preferensi &amp; Notifikasi Satpam
                 @elseif($user->isGuruPiket()) Preferensi &amp; Tugas Piket
                 @elseif($user->isWaliKelas() || $kelasWali) Preferensi &amp; Wali Kelas
@@ -370,14 +748,6 @@
         </div>
 
         <div class="settings-body">
-
-            @if(session('success'))
-                <div class="alert-banner-box" style="background: #ecfdf5; border-color: #6ee7b7; color: #065f46;">
-                    <div style="font-weight: 700; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> {{ session('success') }}
-                    </div>
-                </div>
-            @endif
 
             @if(isset($errors) && $errors->any())
                 <div class="alert-banner-box">
@@ -402,11 +772,11 @@
                     @csrf
 
                     <!-- Section Upload Foto Profil (Image 8 Match) -->
-                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 24px;">
+                    <div class="profile-photo-card" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 24px;">
                         <label style="display: block; font-size: 14px; font-weight: 800; color: #1e293b; margin-bottom: 12px;">
                             <i class="fa-regular fa-image" style="color: #4f46e5; margin-right: 6px;"></i> Foto Profil Akun
                         </label>
-                        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                        <div class="profile-photo-wrapper" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
                             <div id="profilePhotoPreview" style="width: 84px; height: 84px; border-radius: 50%; background: #cbd5e1; border: 3px solid #6366f1; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; color: #ffffff; flex-shrink: 0; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);">
                                 @if($user->foto_url)
                                     <img id="previewImg" src="{{ $user->foto_url }}" alt="{{ $user->name }}" style="width: 100%; height: 100%; object-fit: cover;">
@@ -417,21 +787,21 @@
                                 @endif
                             </div>
 
-                            <div style="display: flex; flex-direction: column; gap: 8px;">
-                                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                                    <label for="fotoInput" style="margin: 0; padding: 9px 18px; font-size: 13px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; background: #3b82f6; color: #ffffff; transition: background 0.2s ease;">
+                            <div class="profile-photo-content" style="display: flex; flex-direction: column; gap: 8px;">
+                                <div class="profile-photo-actions" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                    <label for="fotoInput" class="btn-choose-photo" style="margin: 0; padding: 9px 18px; font-size: 13px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; background: #3b82f6; color: #ffffff; transition: background 0.2s ease;">
                                         <i class="fa-solid fa-camera"></i> Pilih Foto Profil Baru
                                     </label>
                                     <input type="file" id="fotoInput" name="foto" accept="image/*" style="display: none;" onchange="previewSelectedPhoto(this)">
 
                                     @if($user->foto)
-                                        <label style="margin: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: #ef4444; cursor: pointer; font-weight: 700; background: #fee2e2; padding: 8px 14px; border-radius: 10px; border: 1px solid #fca5a5;">
+                                        <label class="btn-delete-photo" style="margin: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: #ef4444; cursor: pointer; font-weight: 700; background: #fee2e2; padding: 8px 14px; border-radius: 10px; border: 1px solid #fca5a5;">
                                             <input type="checkbox" name="remove_photo" value="1" id="removePhotoCheck" onchange="toggleRemovePhoto(this)">
                                             <i class="fa-solid fa-trash-can"></i> Hapus Foto
                                         </label>
                                     @endif
                                 </div>
-                                <span style="font-size: 12px; color: #64748b; font-weight: 600;">Ukuran file maksimal <strong>2 MB</strong>. Format gambar yang diperbolehkan: <strong>JPG, JPEG, PNG, WEBP, GIF</strong>.</span>
+                                <span class="profile-photo-hint" style="font-size: 12px; color: #64748b; font-weight: 600;">Ukuran file maksimal <strong>2 MB</strong>. Format gambar yang diperbolehkan: <strong>JPG, JPEG, PNG, WEBP, GIF</strong>.</span>
                             </div>
                         </div>
                         @error('foto')
@@ -448,8 +818,9 @@
                                     <i class="fa-solid fa-user-check"></i>
                                     @if($user->isAdmin() || $user->isTu()) {{ $user->role_label }}
                                     @elseif($user->isKepalaSekolah()) Kepala Sekolah / Pimpinan Lembaga
-                                    @elseif($user->isWakaSdm()) WAKA (SDM)
-                                    @elseif($user->isWaka()) WAKA (Kurikulum &amp; SDM)
+                                    @elseif($user->isWakaSdm()) Waka SDM (Kepegawaian)
+                                    @elseif($user->isWakaKesiswaan()) Waka Kesiswaan
+                                    @elseif($user->isWaka()) Waka Kurikulum
                                     @elseif($user->isSatpam()) Satpam Gerbang / Petugas Keamanan
                                     @elseif($user->isGuruPiket()) Petugas Piket Harian
                                     @elseif($user->isWaliKelas() || $kelasWali) Wali Kelas ({{ $kelasWali->nama_kelas ?? 'Perwalian' }})
@@ -534,22 +905,37 @@
 
                             <div class="form-group full-width">
                                 <label>Wewenang &amp; Cakupan Operasional Waka SDM</label>
-                                <input type="text" class="form-control" value="Persetujuan Izin Guru/Pendidik, Kehadiran &amp; KBM Guru, Direktori SDM, dan Pengumuman SDM" readonly title="Wewenang Akses Waka SDM">
+                                <input type="text" class="form-control" value="Persetujuan Izin Guru/Pendidik (Tahap 1), Kehadiran &amp; KBM Guru, Direktori SDM, dan Pengumuman SDM" readonly title="Wewenang Akses Waka SDM">
                             </div>
-                        @elseif($user->isWaka())
+                        @elseif($user->isWakaKesiswaan())
                             <div class="form-group">
                                 <label>Jabatan Kedinasan</label>
-                                <input type="text" class="form-control" value="Wakil Kepala Sekolah (Waka Kurikulum & SDM)" readonly title="Jabatan Kedinasan Waka">
+                                <input type="text" class="form-control" value="Wakil Kepala Sekolah (Waka Kesiswaan)" readonly title="Jabatan Kedinasan Waka Kesiswaan">
                             </div>
 
                             <div class="form-group">
                                 <label>Mata Pelajaran Diampu</label>
-                                <input type="text" class="form-control" value="{{ $guru && $guru->mapel ? $guru->mapel->nama_mapel : 'Non-Spesifik / Waka Kurikulum & SDM' }}" readonly title="Mapel diampu sesuai data master sekolah">
+                                <input type="text" class="form-control" value="{{ $guru && $guru->mapel ? $guru->mapel->nama_mapel : 'Non-Spesifik / Waka Kesiswaan' }}" readonly title="Mapel diampu sesuai data master sekolah">
                             </div>
 
                             <div class="form-group full-width">
-                                <label>Wewenang &amp; Cakupan Operasional Waka</label>
-                                <input type="text" class="form-control" value="Persetujuan Izin Guru/Siswa, Pengaturan Master Jadwal, Monitoring Rekap Jurnal & Broadcast Pengumuman" readonly title="Wewenang Akses Waka">
+                                <label>Wewenang &amp; Cakupan Operasional Waka Kesiswaan</label>
+                                <input type="text" class="form-control" value="Persetujuan Dispensasi &amp; Izin Siswa, Presensi Siswa, Pelanggaran Siswa, dan Pengumuman Kesiswaan" readonly title="Wewenang Akses Waka Kesiswaan">
+                            </div>
+                        @elseif($user->isWaka())
+                            <div class="form-group">
+                                <label>Jabatan Kedinasan</label>
+                                <input type="text" class="form-control" value="Wakil Kepala Sekolah (Waka Kurikulum)" readonly title="Jabatan Kedinasan Waka Kurikulum">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mata Pelajaran Diampu</label>
+                                <input type="text" class="form-control" value="{{ $guru && $guru->mapel ? $guru->mapel->nama_mapel : 'Konsentrasi BD' }}" readonly title="Mapel diampu sesuai data master sekolah">
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Wewenang &amp; Cakupan Operasional Waka Kurikulum</label>
+                                <input type="text" class="form-control" value="Persetujuan Izin Guru (Tahap 1), Monitoring Rekap Jurnal Kelas, Master Jadwal, dan Broadcast Pengumuman" readonly title="Wewenang Akses Waka Kurikulum">
                             </div>
                         @elseif($user->isSatpam())
                             <div class="form-group">
@@ -591,9 +977,14 @@
                             </div>
 
                             @if($siswaConnected && $siswaConnected->kelas)
-                            <div class="form-group full-width">
+                            <div class="form-group">
                                 <label>Kelas &amp; Jurusan Anak</label>
                                 <input type="text" class="form-control" value="Kelas {{ $siswaConnected->kelas->nama_kelas }} — {{ $siswaConnected->kelas->jurusan ? $siswaConnected->kelas->jurusan->nama_jurusan : '-' }}" readonly title="Kelas Siswa">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Wali Kelas Anak</label>
+                                <input type="text" class="form-control" value="{{ $siswaConnected->kelas->waliKelas ? $siswaConnected->kelas->waliKelas->nama_guru . ' (NIP: ' . ($siswaConnected->kelas->waliKelas->nip ?? '-') . ')' : 'Belum Ditentukan' }}" readonly title="Wali Kelas Siswa">
                             </div>
                             @endif
                         @else
@@ -609,7 +1000,7 @@
                         @endif
                     </div>
 
-                    <div style="margin-top: 24px; text-align: right;">
+                    <div class="settings-action-row" style="margin-top: 24px; text-align: right;">
                         <button type="submit" class="btn-submit" style="background: #3b82f6;">
                             <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan Profil
                         </button>
@@ -667,7 +1058,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-top: 24px; text-align: right;">
+                    <div class="settings-action-row" style="margin-top: 24px; text-align: right;">
                         <button type="submit" class="btn-submit" style="background: #10b981;">
                             <i class="fa-solid fa-key"></i> Perbarui Password
                         </button>
@@ -685,17 +1076,17 @@
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
                             <!-- Card 1: Notifikasi Administrasi & Operasional TU -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi Administrasi &amp; Operasional TU</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Pengaturan notifikasi otomatis untuk mendukung tugas tata usaha sekolah</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemberitahuan Verifikasi Izin Guru &amp; Siswa</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Terima notifikasi saat ada pengajuan izin/sakit/dispensasi baru yang membutuhkan verifikasi TU</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="tu_notif_izin" value="1" {{ ($systemSettings['notif_izin'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -703,12 +1094,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Alert Monitoring Jurnal Belum Didaftarkan</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Peringatan otomatis jika ada kelas yang belum diisi jurnal mengajar harian oleh guru</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="tu_notif_jurnal_kosong" value="1" {{ ($systemSettings['notif_jurnal_kosong'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -716,12 +1107,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Sistem &amp; Layanan Bantuan CS</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Notifikasi pemberitahuan jika terdapat tiket bantuan / laporan kendala teknis dari pengguna</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="tu_notif_sistem" value="1" {{ ($systemSettings['notif_sistem'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -732,17 +1123,17 @@
                             </div>
 
                             <!-- Card 2: Preferensi Kerja & Tampilan Admin TU -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Kerja &amp; Tampilan Data</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Sesuaikan konfigurasi tampilan dan perilaku default sistem untuk Admin TU</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Jumlah Data Default Per Halaman</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Jumlah baris data master yang ditampilkan pada tabel (Siswa, Guru, Jurnal)</div>
                                         </div>
-                                        <div style="width: 180px;">
+                                        <div class="pref-item-control" style="width: 180px;">
                                             <select name="tu_data_per_page" class="form-control">
                                                 <option value="10" {{ ($systemSettings['data_per_page'] ?? '25') == '10' ? 'selected' : '' }}>10 Data / Hal</option>
                                                 <option value="25" {{ ($systemSettings['data_per_page'] ?? '25') == '25' ? 'selected' : '' }}>25 Data / Hal</option>
@@ -752,12 +1143,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Konfirmasi Dialog Sebelum Menghapus Data</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Tampilkan pop-up peringatan konfirmasi sebelum menghapus data master sekolah</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="tu_confirm_delete" value="1" {{ ($systemSettings['confirm_delete'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -765,12 +1156,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Format Default Ekspor Laporan</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Format file default saat mencetak / mengekspor laporan rekap kehadiran &amp; jurnal</div>
                                         </div>
-                                        <div style="width: 180px;">
+                                        <div class="pref-item-control" style="width: 180px;">
                                             <select name="tu_export_format" class="form-control">
                                                 <option value="pdf" {{ ($systemSettings['export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF</option>
                                                 <option value="excel" {{ ($systemSettings['export_format'] ?? 'pdf') == 'excel' ? 'selected' : '' }}>Excel Spreadsheet (.xlsx)</option>
@@ -780,7 +1171,7 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: right;">
+                            <div class="settings-action-row" style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #2563eb;">
                                     <i class="fa-solid fa-sliders"></i> Simpan Preferensi Admin TU
                                 </button>
@@ -794,28 +1185,28 @@
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
                             <!-- Card 1: Status & Ringkasan Manajerial Sekolah -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Status &amp; Ringkasan Manajerial Sekolah</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Ringkasan indikator utama pengawasan dan kinerja operasional sekolah</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Kedudukan Pimpinan</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Kedudukan Pimpinan</label>
                                         <div class="readonly-field-tan" style="color: #4f46e5; font-weight: 800;"><i class="fa-solid fa-user-tie"></i> Kepala Sekolah / Penanggung Jawab Utama</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Tanggal Monitoring</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Tanggal Monitoring</label>
                                         <div class="readonly-field-tan">{{ \Carbon\Carbon::now('Asia/Jakarta')->locale('id')->translatedFormat('l, d F Y') }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Integrasi Laporan</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Integrasi Laporan</label>
                                         <div class="readonly-field-tan" style="color: #2563eb; font-weight: 800;"><i class="fa-solid fa-chart-line"></i> Dashboard Eksekutif Tersinkronisasi Realtime</div>
                                     </div>
 
                                     @if($kepsekData)
-                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 6px;">
+                                    <div class="waka-mini-stat-grid">
                                         <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; text-align: center;">
                                             <div style="font-size: 22px; font-weight: 800; color: #1d4ed8;">{{ $kepsekData['total_guru'] ?? 0 }}</div>
                                             <div style="font-size: 11.5px; font-weight: 700; color: #1e40af; margin-top: 2px;">Total Guru &amp; SDM</div>
@@ -838,17 +1229,17 @@
                             </div>
 
                             <!-- Card 2: Notifikasi & Alerts Manajerial Kepsek -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi &amp; Peringatan Eksekutif</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola notifikasi instan untuk mendukung keputusan pimpinan sekolah</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemberitahuan Persetujuan Final Izin Guru</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Notifikasi instan saat terdapat pengajuan izin/sakit guru yang telah disetujui Waka dan membutuhkan persetujuan akhir Kepsek</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="kepsek_notif_izin" value="1" {{ ($systemSettings['kepsek_notif_izin'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -856,12 +1247,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Laporan Eksekutif Ringkasan Harian Sekolah</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Kirimkan ringkasan harian keterlaksanaan KBM, kehadiran guru, dan ketidakhadiran siswa setiap sore</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="kepsek_notif_laporan_harian" value="1" {{ ($systemSettings['kepsek_notif_laporan_harian'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -869,12 +1260,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Alert Evaluasi Keterlaksanaan Pembelajaran</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Peringatan jika prosentase keterisian jurnal harian sekolah berada di bawah target yang ditentukan</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="kepsek_notif_evaluasi_pembelajaran" value="1" {{ ($systemSettings['kepsek_notif_evaluasi_pembelajaran'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -885,17 +1276,17 @@
                             </div>
 
                             <!-- Card 3: Preferensi Operasional & Tampilan Data Eksekutif -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Operasional &amp; Tampilan Data</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Pengaturan mode alur persetujuan dan format ekspor laporan manajerial</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Mode Persetujuan Izin Guru</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Metode persetujuan akhir pengajuan izin/sakit guru sekolah</div>
                                         </div>
-                                        <div style="width: 240px;">
+                                        <div class="pref-item-control" style="width: 240px;">
                                             <select name="kepsek_mode_approval" class="form-control">
                                                 <option value="manual" {{ ($systemSettings['kepsek_mode_approval'] ?? 'manual') == 'manual' ? 'selected' : '' }}>Verifikasi Manual Kepala Sekolah</option>
                                                 <option value="auto_waka_recom" {{ ($systemSettings['kepsek_mode_approval'] ?? 'manual') == 'auto_waka_recom' ? 'selected' : '' }}>Setujui Otomatis jika Disetujui Waka</option>
@@ -903,12 +1294,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Format Default Ekspor Laporan Manajerial</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Format dokumen saat mencetak laporan eksekutif dan rekapitulasi sekolah</div>
                                         </div>
-                                        <div style="width: 240px;">
+                                        <div class="pref-item-control" style="width: 240px;">
                                             <select name="kepsek_export_format" class="form-control">
                                                 <option value="pdf" {{ ($systemSettings['kepsek_export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF</option>
                                                 <option value="excel" {{ ($systemSettings['kepsek_export_format'] ?? 'pdf') == 'excel' ? 'selected' : '' }}>Excel Spreadsheet (.xlsx)</option>
@@ -916,12 +1307,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Jumlah Data Default Per Halaman</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Jumlah baris data yang ditampilkan pada tabel monitoring eksekutif</div>
                                         </div>
-                                        <div style="width: 240px;">
+                                        <div class="pref-item-control" style="width: 240px;">
                                             <select name="kepsek_data_per_page" class="form-control">
                                                 <option value="10" {{ ($systemSettings['kepsek_data_per_page'] ?? '25') == '10' ? 'selected' : '' }}>10 Data / Hal</option>
                                                 <option value="25" {{ ($systemSettings['kepsek_data_per_page'] ?? '25') == '25' ? 'selected' : '' }}>25 Data / Hal</option>
@@ -933,7 +1324,7 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: right;">
+                            <div class="settings-action-row" style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #4f46e5;">
                                     <i class="fa-solid fa-sliders"></i> Simpan Preferensi Kepala Sekolah
                                 </button>
@@ -941,34 +1332,34 @@
 
                         </div>
                     </form>
-                @elseif($user->isWaka() || $user->isWakaSdm())
+                @elseif($user->isWaka() || $user->isWakaSdm() || $user->isWakaKesiswaan())
                     <form action="{{ route('pengaturan.update-preferences') }}" method="POST">
                         @csrf
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
                             <!-- Card 1: Status & Ringkasan Manajerial Waka -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
-                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Status &amp; Ringkasan Manajerial {{ $user->isWakaSdm() ? 'Waka SDM' : 'Waka' }}</h3>
-                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Ringkasan indikator utama pengawasan {{ $user->isWakaSdm() ? 'SDM & Kepegawaian Pendidik' : 'Kurikulum, SDM, dan jadwal pembelajaran' }}</p>
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Status &amp; Ringkasan Manajerial @if($user->isWakaSdm()) Waka SDM @elseif($user->isWakaKesiswaan()) Waka Kesiswaan @else Waka Kurikulum @endif</h3>
+                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Ringkasan indikator utama pengawasan @if($user->isWakaSdm()) SDM &amp; Kepegawaian Pendidik @elseif($user->isWakaKesiswaan()) Kedisiplinan &amp; Perizinan Siswa @else Kurikulum, Jadwal, &amp; KBM Pembelajaran @endif</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Kedudukan / Jabatan</label>
-                                        <div class="readonly-field-tan" style="color: #4f46e5; font-weight: 800;"><i class="fa-solid fa-user-gear"></i> {{ $user->isWakaSdm() ? 'Wakil Kepala Sekolah (Waka SDM & Kepegawaian)' : 'Wakil Kepala Sekolah (Waka Kurikulum & SDM)' }}</div>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Kedudukan / Jabatan</label>
+                                        <div class="readonly-field-tan" style="color: #4f46e5; font-weight: 800;"><i class="fa-solid fa-user-gear"></i> @if($user->isWakaSdm()) Wakil Kepala Sekolah (Waka SDM &amp; Kepegawaian) @elseif($user->isWakaKesiswaan()) Wakil Kepala Sekolah (Waka Kesiswaan) @else Wakil Kepala Sekolah (Waka Kurikulum) @endif</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Tanggal Monitoring</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Tanggal Monitoring</label>
                                         <div class="readonly-field-tan">{{ \Carbon\Carbon::now('Asia/Jakarta')->locale('id')->translatedFormat('l, d F Y') }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Integrasi Sistem</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Integrasi Sistem</label>
                                         <div class="readonly-field-tan" style="color: #2563eb; font-weight: 800;"><i class="fa-solid fa-link"></i> Terhubung ke Kepala Sekolah, Guru Piket &amp; Admin TU</div>
                                     </div>
 
                                     @if($wakaData)
-                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 6px;">
+                                    <div class="waka-mini-stat-grid">
                                         <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; text-align: center;">
                                             <div style="font-size: 22px; font-weight: 800; color: #1d4ed8;">{{ $wakaData['total_guru'] ?? 0 }}</div>
                                             <div style="font-size: 11.5px; font-weight: 700; color: #1e40af; margin-top: 2px;">Total Guru &amp; SDM</div>
@@ -991,17 +1382,17 @@
                             </div>
 
                             <!-- Card 2: Notifikasi & Alerts Manajerial Waka -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
-                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi &amp; Peringatan Manajerial Waka</h3>
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi &amp; Peringatan Manajerial @if($user->isWakaSdm()) Waka SDM @elseif($user->isWakaKesiswaan()) Waka Kesiswaan @else Waka Kurikulum @endif</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola pemberitahuan instan untuk memantau aktivitas KBM dan perizinan sekolah</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemberitahuan Pengajuan Izin Guru &amp; Dispensasi Siswa</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Notifikasi realtime saat terdapat pengajuan izin/sakit guru atau dispensasi siswa yang membutuhkan verifikasi Waka</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="waka_notif_izin" value="1" {{ ($systemSettings['waka_notif_izin'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1009,12 +1400,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Alert Monitoring Jurnal Harian Belum Didaftarkan</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Peringatan otomatis jika ada jam mengajar kelas yang belum diisi jurnalnya oleh guru bersangkutan</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="waka_notif_jurnal_kosong" value="1" {{ ($systemSettings['waka_notif_jurnal_kosong'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1022,12 +1413,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Broadcast Pengumuman Sekolah</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Notifikasi konfirmasi saat pengumuman baru berhasil dipublikasikan ke guru &amp; siswa</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="waka_notif_pengumuman" value="1" {{ ($systemSettings['waka_notif_pengumuman'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1038,17 +1429,17 @@
                             </div>
 
                             <!-- Card 3: Preferensi Operasional & Tampilan Data Waka -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Operasional &amp; Tampilan Data</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Pengaturan mode alur verifikasi izin dan format ekspor laporan rekapitulasi</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Mode Persetujuan Izin Waka</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Metode peninjauan permohonan izin/sakit guru &amp; dispensasi siswa</div>
                                         </div>
-                                        <div style="width: 240px;">
+                                        <div class="pref-item-control" style="width: 240px;">
                                             <select name="waka_mode_approval" class="form-control">
                                                 <option value="manual" {{ ($systemSettings['waka_mode_approval'] ?? 'manual') == 'manual' ? 'selected' : '' }}>Verifikasi Manual Waka</option>
                                                 <option value="auto_valid" {{ ($systemSettings['waka_mode_approval'] ?? 'manual') == 'auto_valid' ? 'selected' : '' }}>Verifikasi Otomatis dengan Lampiran Valid</option>
@@ -1056,12 +1447,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Format Default Ekspor Rekapitulasi Waka</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Format berkas saat mencetak / mengekspor rekapitulasi jurnal mengajar &amp; kehadiran</div>
                                         </div>
-                                        <div style="width: 240px;">
+                                        <div class="pref-item-control" style="width: 240px;">
                                             <select name="waka_export_format" class="form-control">
                                                 <option value="pdf" {{ ($systemSettings['waka_export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF</option>
                                                 <option value="excel" {{ ($systemSettings['waka_export_format'] ?? 'pdf') == 'excel' ? 'selected' : '' }}>Excel Spreadsheet (.xlsx)</option>
@@ -1070,12 +1461,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Jumlah Data Default Per Halaman</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Jumlah baris data yang ditampilkan pada tabel monitoring Waka</div>
                                         </div>
-                                        <div style="width: 240px;">
+                                        <div class="pref-item-control" style="width: 240px;">
                                             <select name="waka_data_per_page" class="form-control">
                                                 <option value="10" {{ ($systemSettings['waka_data_per_page'] ?? '25') == '10' ? 'selected' : '' }}>10 Data / Hal</option>
                                                 <option value="25" {{ ($systemSettings['waka_data_per_page'] ?? '25') == '25' ? 'selected' : '' }}>25 Data / Hal</option>
@@ -1087,9 +1478,9 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: right;">
+                            <div class="settings-action-row" style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #4f46e5;">
-                                    <i class="fa-solid fa-sliders"></i> Simpan Preferensi Waka
+                                    <i class="fa-solid fa-sliders"></i> Simpan Preferensi @if($user->isWakaSdm()) Waka SDM @elseif($user->isWakaKesiswaan()) Waka Kesiswaan @else Waka Kurikulum @endif
                                 </button>
                             </div>
 
@@ -1101,23 +1492,23 @@
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
                             <!-- Card 1: Informasi Satpam -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Status &amp; Informasi Satpam Gerbang</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Detail penugasan operasional keamanan dan validasi gerbang sekolah</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Pos Penugasan</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Pos Penugasan</label>
                                         <div class="readonly-field-tan" style="color: #2563eb; font-weight: 800;"><i class="fa-solid fa-shield-halved"></i> Pos Satpam Gerbang Utama Sekolah</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Integrasi Sistem</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Integrasi Sistem</label>
                                         <div class="readonly-field-tan" style="color: #059669; font-weight: 800;"><i class="fa-solid fa-qrcode"></i> QR Scanner real-time terhubung ke Waka &amp; Guru Piket</div>
                                     </div>
 
                                     @if($satpamData)
-                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 6px;">
+                                    <div class="waka-mini-stat-grid">
                                         <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; text-align: center;">
                                             <div style="font-size: 22px; font-weight: 800; color: #1d4ed8;">{{ $satpamData['dispen_today'] ?? 0 }}</div>
                                             <div style="font-size: 11.5px; font-weight: 700; color: #1e40af; margin-top: 2px;">Dispen Disetujui Hari Ini</div>
@@ -1140,17 +1531,17 @@
                             </div>
 
                             <!-- Card 2: Pengaturan Notifikasi & Scanner -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Notifikasi &amp; Scanner Barcode</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Pengaturan notifikasi dan perilaku pemindaian barcode dispen di gerbang</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Dispensasi Siswa Baru</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Terima notifikasi saat ada siswa dispen yang baru disetujui Waka</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="satpam_notif_dispensasi" value="1" {{ ($systemSettings['satpam_notif_dispensasi'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1158,12 +1549,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Suara Beep Penanda Scan Berhasil</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Bunyikan suara beeping saat barcode siswa berhasil dipindai</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="satpam_beep_scan" value="1" {{ ($systemSettings['satpam_beep_scan'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1171,12 +1562,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Auto-Refresh Live Data Antrean Scanner</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pembaruan otomatis data siswa dispen yang disetujui secara real-time tanpa muat ulang halaman</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="satpam_auto_refresh" value="1" {{ ($systemSettings['satpam_auto_refresh'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1184,12 +1575,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Jumlah Baris Data Per Halaman</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Jumlah data log aktivitas yang ditampilkan per halaman</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="satpam_data_per_page" class="form-control">
                                                 <option value="10" {{ ($systemSettings['satpam_data_per_page'] ?? '25') == '10' ? 'selected' : '' }}>10 Data / Hal</option>
                                                 <option value="25" {{ ($systemSettings['satpam_data_per_page'] ?? '25') == '25' ? 'selected' : '' }}>25 Data / Hal</option>
@@ -1201,7 +1592,7 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: right;">
+                            <div class="settings-action-row" style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #2563eb;">
                                     <i class="fa-solid fa-sliders"></i> Simpan Preferensi Satpam
                                 </button>
@@ -1215,33 +1606,33 @@
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
                             <!-- Card 1: Informasi & Status Guru Piket -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Status &amp; Informasi Petugas Piket</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Detail penugasan dan ringkasan operasional piket harian</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Status Petugas</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Status Petugas</label>
                                         <div class="readonly-field-tan" style="color: #059669; font-weight: 800;"><i class="fa-solid fa-circle-check"></i> Aktif - Petugas Piket Harian Sekolah</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Tanggal Piket Harian</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Tanggal Piket Harian</label>
                                         <div class="readonly-field-tan">{{ \Carbon\Carbon::now('Asia/Jakarta')->locale('id')->translatedFormat('l, d F Y') }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Cakupan Tugas</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Cakupan Tugas</label>
                                         <div class="readonly-field-tan">Monitoring Jurnal, Penugasan Guru Pengganti, Rekap Kehadiran, Verifikasi Izin</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Integrasi Sistem</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Integrasi Sistem</label>
                                         <div class="readonly-field-tan" style="color: #2563eb; font-weight: 800;"><i class="fa-solid fa-link"></i> Terhubung &amp; Tersinkronisasi Realtime</div>
                                     </div>
 
                                     @if($piketData)
-                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px;">
+                                    <div class="piket-mini-stat-grid">
                                         <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; text-align: center;">
                                             <div style="font-size: 22px; font-weight: 800; color: #1d4ed8;">{{ $piketData['total_jurnal_piket'] ?? 0 }}</div>
                                             <div style="font-size: 11.5px; font-weight: 700; color: #1e40af; margin-top: 2px;">Jurnal Harian Masuk</div>
@@ -1260,17 +1651,17 @@
                             </div>
 
                             <!-- Card 2: Notifikasi & Alerts Guru Piket -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi &amp; Peringatan Instan Piket</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola pemberitahuan instan untuk mendukung tugas harian piket</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Guru Tidak Hadir Realtime</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Terima notifikasi otomatis saat ada guru mengajukan izin/sakit hari ini</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="piket_notif_guru_izin" value="1" {{ ($systemSettings['piket_notif_guru_izin'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1278,12 +1669,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Alert Monitoring Jurnal Belum Didaftarkan</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Ingatkan kelas yang belum terisi jurnal mengajar setelah jam pelajaran selesai</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="piket_notif_jurnal_kosong" value="1" {{ ($systemSettings['piket_notif_jurnal_kosong'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1291,12 +1682,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemberitahuan Dispensasi &amp; Surat Izin Siswa</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Notifikasi instan saat terdapat siswa mengajukan surat izin / dispensasi meninggalkan kelas</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="piket_notif_dispensasi" value="1" {{ ($systemSettings['piket_notif_dispensasi'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1304,12 +1695,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Laporan Ringkasan Harian Piket</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Kirimkan ringkasan harian kehadiran &amp; penugasan guru pengganti setiap sore</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="piket_notif_ringkasan" value="1" {{ ($systemSettings['piket_notif_ringkasan'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1320,17 +1711,17 @@
                             </div>
 
                             <!-- Card 3: Preferensi Kerja Operasional Piket -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Operasional Penugasan Piket</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Pengaturan mode alur penugasan dan cetak dokumen untuk Guru Piket</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Mode Penugasan Guru Pengganti</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Metode penentuan guru pengganti saat ada guru berhalangan hadir</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="piket_mode_guru_pengganti" class="form-control">
                                                 <option value="manual" {{ ($systemSettings['piket_mode_guru_pengganti'] ?? 'manual') == 'manual' ? 'selected' : '' }}>Pilih Manual oleh Piket</option>
                                                 <option value="rekomendasi" {{ ($systemSettings['piket_mode_guru_pengganti'] ?? 'manual') == 'rekomendasi' ? 'selected' : '' }}>Saran Otomatis (Rumpun Mapel)</option>
@@ -1338,12 +1729,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Format Default Cetak Rekap Piket</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Format dokumen saat mencetak laporan rekap kehadiran &amp; jurnal piket</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="piket_export_format" class="form-control">
                                                 <option value="pdf" {{ ($systemSettings['piket_export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF</option>
                                                 <option value="excel" {{ ($systemSettings['piket_export_format'] ?? 'pdf') == 'excel' ? 'selected' : '' }}>Excel Spreadsheet (.xlsx)</option>
@@ -1351,12 +1742,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Jumlah Data Default Per Halaman</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Jumlah baris data yang ditampilkan pada tabel rekap dan jurnal piket</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="piket_data_per_page" class="form-control">
                                                 <option value="10" {{ ($systemSettings['piket_data_per_page'] ?? '25') == '10' ? 'selected' : '' }}>10 Data / Hal</option>
                                                 <option value="25" {{ ($systemSettings['piket_data_per_page'] ?? '25') == '25' ? 'selected' : '' }}>25 Data / Hal</option>
@@ -1368,7 +1759,7 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: right;">
+                            <div class="settings-action-row" style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #10b981;">
                                     <i class="fa-solid fa-sliders"></i> Simpan Preferensi Guru Piket
                                 </button>
@@ -1382,28 +1773,28 @@
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
                             <!-- Card 1: Informasi & Ringkasan Perwalian -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Status &amp; Informasi Wali Kelas</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Detail perwalian dan ringkasan operasional siswa kelas Anda</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Kelas Perwalian</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Kelas Perwalian</label>
                                         <div class="readonly-field-tan" style="color: #2563eb; font-weight: 800;"><i class="fa-solid fa-user-shield"></i> {{ $waliData['nama_kelas'] ?? ($kelasWali ? $kelasWali->nama_kelas : 'Belum Ditugaskan') }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Jurusan &amp; Ruangan</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Jurusan &amp; Ruangan</label>
                                         <div class="readonly-field-tan">{{ $waliData['jurusan'] ?? '-' }} — Ruangan {{ $waliData['ruangan'] ?? '-' }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Tahun Ajaran / Semester</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Tahun Ajaran / Semester</label>
                                         <div class="readonly-field-tan">{{ $systemSettings['tahun_ajaran_aktif'] ?? '2026/2027' }} — Semester {{ $systemSettings['semester_aktif'] ?? 'Ganjil' }}</div>
                                     </div>
 
                                     @if($waliData)
-                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px;">
+                                    <div class="piket-mini-stat-grid">
                                         <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; text-align: center;">
                                             <div style="font-size: 22px; font-weight: 800; color: #1d4ed8;">{{ $waliData['total_siswa'] ?? 0 }}</div>
                                             <div style="font-size: 11.5px; font-weight: 700; color: #1e40af; margin-top: 2px;">Total Siswa Perwalian</div>
@@ -1422,17 +1813,17 @@
                             </div>
 
                             <!-- Card 2: Notifikasi Presensi & Approval Wali Kelas -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi Presensi &amp; Verification Wali Kelas</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Pengaturan notifikasi pemberitahuan presensi dan surat izin siswa kelas Anda</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Surat Izin/Sakit Siswa Baru</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Terima pemberitahuan instan saat ada pengajuan surat izin/sakit siswa di kelas perwalian</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="wali_notif_izin" value="1" {{ ($systemSettings['wali_notif_izin'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1440,12 +1831,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Alert Pengajuan Dispensasi Siswa</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Notifikasi saat ada siswa perwalian mengajukan surat dispensasi meninggalkan kelas</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="wali_notif_dispensasi" value="1" {{ ($systemSettings['wali_notif_dispensasi'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1453,12 +1844,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Alert Rekap Harian Kehadiran Kelas</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Peringatan otomatis jika ada siswa perwalian tidak hadir/tanpa keterangan pada hari ini</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="wali_notif_rekap_harian" value="1" {{ ($systemSettings['wali_notif_rekap_harian'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1469,17 +1860,17 @@
                             </div>
 
                             <!-- Card 3: Preferensi Operasional & Tampilan Data Wali Kelas -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Operasional &amp; Tampilan Data</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Pengaturan mode alur kerja dan cetak berkas presensi perwalian</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Mode Persetujuan Dispensasi</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Metode konfirmasi perizinan dispensasi siswa kelas perwalian</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="wali_mode_dispen" class="form-control">
                                                 <option value="manual" {{ ($systemSettings['wali_mode_dispen'] ?? 'manual') == 'manual' ? 'selected' : '' }}>Konfirmasi Manual Wali Kelas</option>
                                                 <option value="auto_bukti" {{ ($systemSettings['wali_mode_dispen'] ?? 'manual') == 'auto_bukti' ? 'selected' : '' }}>Setujui Otomatis (Jika Ada Surat)</option>
@@ -1487,12 +1878,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Format Default Ekspor Rekap Kelas</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Format berkas default saat mengunduh laporan rekapitulasi kehadiran perwalian</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="wali_export_format" class="form-control">
                                                 <option value="pdf" {{ ($systemSettings['wali_export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF</option>
                                                 <option value="excel" {{ ($systemSettings['wali_export_format'] ?? 'pdf') == 'excel' ? 'selected' : '' }}>Excel Spreadsheet (.xlsx)</option>
@@ -1500,12 +1891,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Jumlah Data Default Per Halaman</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Jumlah baris siswa yang ditampilkan pada tabel kelas perwalian</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="wali_data_per_page" class="form-control">
                                                 <option value="10" {{ ($systemSettings['wali_data_per_page'] ?? '25') == '10' ? 'selected' : '' }}>10 Data / Hal</option>
                                                 <option value="25" {{ ($systemSettings['wali_data_per_page'] ?? '25') == '25' ? 'selected' : '' }}>25 Data / Hal</option>
@@ -1517,57 +1908,85 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: right;">
+                            <div class="settings-action-row" style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #4f46e5;">
                                     <i class="fa-solid fa-sliders"></i> Simpan Preferensi Wali Kelas
                                 </button>
                             </div>
 
                         </div>
+                    </form>
                 @elseif($user->isOrangTua())
                     <form action="{{ route('pengaturan.update-preferences') }}" method="POST">
                         @csrf
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
-                            <!-- Card 1: Informasi Siswa Terhubung -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
-                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Data Putra / Putri Terhubung</h3>
-                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Detail data siswa yang dipantau dari akun Orang Tua Anda</p>
+                            <!-- Card 1: Data Putra / Putri & Ringkasan Presensi -->
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Data Putra / Putri &amp; Status Akademik</h3>
+                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Detail data siswa yang dipantau dari akun Orang Tua Anda serta ringkasan presensi bulan berjalan</p>
 
                                 @php
                                     $siswaOrtu = $siswaOrangTua ?? ($user->siswa ?? \App\Models\Siswa::withoutGlobalScopes()->where('id_siswa', $user->id_siswa)->orWhere('nisn', $user->nip)->first());
+                                    $waliGuru = $siswaOrtu && $siswaOrtu->kelas && $siswaOrtu->kelas->waliKelas ? $siswaOrtu->kelas->waliKelas : null;
                                 @endphp
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Nama Siswa</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Nama Siswa</label>
                                         <div class="readonly-field-tan" style="color: #2563eb; font-weight: 800;"><i class="fa-solid fa-graduation-cap"></i> {{ $siswaOrtu ? $siswaOrtu->nama_siswa : 'Belum Terhubung' }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">NISN Siswa</label>
-                                        <div class="readonly-field-tan">{{ $siswaOrtu ? $siswaOrtu->nisn : ($user->nip ?? '-') }}</div>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">NISN &amp; NIS</label>
+                                        <div class="readonly-field-tan">{{ $siswaOrtu ? 'NISN: ' . $siswaOrtu->nisn . ($siswaOrtu->nis ? ' | NIS: ' . $siswaOrtu->nis : '') : ($user->nip ?? '-') }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Kelas &amp; Jurusan</label>
-                                        <div class="readonly-field-tan">{{ $siswaOrtu && $siswaOrtu->kelas ? 'Kelas ' . $siswaOrtu->kelas->nama_kelas : 'Belum Ditentukan' }}</div>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Kelas &amp; Jurusan</label>
+                                        <div class="readonly-field-tan">{{ $siswaOrtu && $siswaOrtu->kelas ? 'Kelas ' . $siswaOrtu->kelas->nama_kelas . ($siswaOrtu->kelas->jurusan ? ' — ' . $siswaOrtu->kelas->jurusan->nama_jurusan : '') : 'Belum Ditentukan' }}</div>
                                     </div>
+
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Wali Kelas</label>
+                                        <div class="readonly-field-tan">{{ $waliGuru ? $waliGuru->nama_guru . ' (NIP: ' . ($waliGuru->nip ?? '-') . ')' : 'Belum Ditentukan' }}</div>
+                                    </div>
+
+                                    @if(isset($ortuMetrics))
+                                    <div class="waka-mini-stat-grid" style="margin-top: 8px;">
+                                        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; text-align: center;">
+                                            <div style="font-size: 22px; font-weight: 800; color: #1d4ed8;">{{ $ortuMetrics['persen_hadir'] ?? 100 }}%</div>
+                                            <div style="font-size: 11.5px; font-weight: 700; color: #1e40af; margin-top: 2px;">Tingkat Kehadiran</div>
+                                        </div>
+                                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px; text-align: center;">
+                                            <div style="font-size: 22px; font-weight: 800; color: #15803d;">{{ $ortuMetrics['hadir'] ?? 0 }}</div>
+                                            <div style="font-size: 11.5px; font-weight: 700; color: #166534; margin-top: 2px;">Hadir Bulan Ini</div>
+                                        </div>
+                                        <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 12px; padding: 14px; text-align: center;">
+                                            <div style="font-size: 22px; font-weight: 800; color: #a16207;">{{ ($ortuMetrics['sakit'] ?? 0) + ($ortuMetrics['izin'] ?? 0) }}</div>
+                                            <div style="font-size: 11.5px; font-weight: 700; color: #854d0e; margin-top: 2px;">Sakit &amp; Izin</div>
+                                        </div>
+                                        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 14px; text-align: center;">
+                                            <div style="font-size: 22px; font-weight: 800; color: #b91c1c;">{{ $ortuMetrics['alfa'] ?? 0 }}</div>
+                                            <div style="font-size: 11.5px; font-weight: 700; color: #991b1b; margin-top: 2px;">Tanpa Keterangan</div>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
 
                             <!-- Card 2: Notifikasi & Peringatan Orang Tua -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi &amp; Peringatan Orang Tua</h3>
-                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola pemberitahuan aktivitas presensi dan jurnal anak Anda</p>
+                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola pemberitahuan aktivitas presensi dan perkembangan sekolah putra/putri Anda</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Kehadiran &amp; Absensi Harian</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Terima notifikasi pemberitahuan saat status presensi harian putra/putri Anda dicatat oleh sekolah</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="ortu_notif_kehadiran" value="1" {{ ($systemSettings['ortu_notif_kehadiran'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1575,12 +1994,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
-                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemberitahuan Status Izin / Dispensasi</div>
-                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pemberitahuan saat pengajuan izin atau dispensasi putra/putri Anda diproses oleh sekolah</div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
+                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pemberitahuan Status Izin &amp; Dispensasi</div>
+                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pemberitahuan langsung saat pengajuan surat izin atau dispensasi putra/putri Anda diproses oleh sekolah</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="ortu_notif_izin" value="1" {{ ($systemSettings['ortu_notif_izin'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1588,14 +2007,27 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
-                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Laporan Rekap Bulanan Presensi Anak</div>
-                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Kirimkan rangkuman rekapitulasi presensi bulanan putra/putri Anda</div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
+                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Laporan Rekapitulasi Presensi Bulanan</div>
+                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Terima rangkuman rekapitulasi kehadiran dan keterlambatan putra/putri Anda di akhir bulan</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="ortu_notif_laporan" value="1" {{ ($systemSettings['ortu_notif_laporan'] ?? '1') == '1' ? 'checked' : '' }}>
+                                                <span class="slider-round"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
+                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Broadcast Pengumuman Sekolah</div>
+                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pemberitahuan informasi penting, jadwal libur, dan edaran resmi dari pihak sekolah</div>
+                                        </div>
+                                        <div class="pref-item-toggle">
+                                            <label class="toggle-switch">
+                                                <input type="checkbox" name="ortu_notif_pengumuman" value="1" {{ ($systemSettings['ortu_notif_pengumuman'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
                                             </label>
                                         </div>
@@ -1603,7 +2035,66 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: right;">
+                            <!-- Card 3: Preferensi Tampilan & Ekspor Laporan -->
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                                <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Unduhan Laporan</h3>
+                                <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Format berkas default saat mengunduh rekap presensi dan surat permohonan izin</p>
+
+                                <div style="display: flex; flex-direction: column; gap: 16px;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text" style="flex: 1;">
+                                            <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Format Default Ekspor Rekap Presensi</div>
+                                            <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pilih format berkas default saat mencetak laporan kehadiran putra/putri Anda</div>
+                                        </div>
+                                        <div class="pref-item-control" style="width: 220px;">
+                                            <select name="ortu_export_format" class="form-control">
+                                                <option value="pdf" {{ ($systemSettings['ortu_export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF (.pdf)</option>
+                                                <option value="excel" {{ ($systemSettings['ortu_export_format'] ?? 'pdf') == 'excel' ? 'selected' : '' }}>Excel Spreadsheet (.xlsx)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Hotline Bantuan & Kontak Cepat Sekolah -->
+                            <div class="pref-card" style="background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border-radius: 16px; border: 1px solid #bfdbfe; padding: 24px;">
+                                <h3 style="font-size: 17px; font-weight: 800; color: #1e3a8a; margin-bottom: 2px;">
+                                    <i class="fa-solid fa-headset" style="margin-right: 6px; color: #2563eb;"></i> Layanan Bantuan &amp; Hotline Sekolah
+                                </h3>
+                                <p style="font-size: 12.5px; color: #475569; font-weight: 600; margin-bottom: 16px;">Hubungi Wali Kelas atau Customer Service sekolah jika ada kendala terkait presensi dan pembelajaran anak</p>
+
+                                <div class="hotline-grid">
+                                    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+                                        <div style="width: 40px; height: 40px; border-radius: 10px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">
+                                            <i class="fa-solid fa-user-tie"></i>
+                                        </div>
+                                        <div style="flex: 1; overflow: hidden;">
+                                            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Wali Kelas</div>
+                                            <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $waliGuru ? $waliGuru->nama_guru : 'Belum Ditugaskan' }}</div>
+                                            @if($waliGuru && !empty($waliGuru->no_hp))
+                                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $waliGuru->no_hp) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #059669; font-weight: 700; text-decoration: none; margin-top: 2px;">
+                                                    <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px;">
+                                        <div style="width: 40px; height: 40px; border-radius: 10px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </div>
+                                        <div style="flex: 1; overflow: hidden;">
+                                            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Hotline CS Sekolah</div>
+                                            <div style="font-size: 13.5px; font-weight: 800; color: #0f172a;">{{ $systemSettings['cs_whatsapp'] ?? '081234567890' }}</div>
+                                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $systemSettings['cs_whatsapp'] ?? '6281234567890') }}" target="_blank" style="display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; color: #2563eb; font-weight: 700; text-decoration: none; margin-top: 2px;">
+                                                <i class="fa-brands fa-whatsapp"></i> Hubungi CS
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-action-row" style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #2563eb;">
                                     <i class="fa-solid fa-sliders"></i> Simpan Preferensi Orang Tua
                                 </button>
@@ -1617,28 +2108,28 @@
                         <div style="display: flex; flex-direction: column; gap: 20px;">
 
                             <!-- Card 1: Informasi Mengajar & Perwalian -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Informasi Mengajar &amp; Perwalian</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Detail bidang studi pengajaran dan perwalian kelas Anda</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 14px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Mata Pelajaran</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Mata Pelajaran</label>
                                         <div class="readonly-field-tan">{{ $guru && $guru->mapel ? $guru->mapel->nama_mapel : 'Belum Diatur' }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Kelas Perwalian</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Kelas Perwalian</label>
                                         <div class="readonly-field-tan">{{ $kelasWali ? 'Wali Kelas ' . $kelasWali->nama_kelas : 'Bukan Wali Kelas (Guru Mapel)' }}</div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <label style="font-size: 13.5px; font-weight: 700; color: #1e293b; width: 180px; flex-shrink: 0;">Tahun Ajaran / Semester</label>
+                                    <div class="manajerial-status-row">
+                                        <label class="manajerial-status-label">Tahun Ajaran / Semester</label>
                                         <div class="readonly-field-tan">{{ $systemSettings['tahun_ajaran_aktif'] ?? '2026/2027' }} — Semester {{ $systemSettings['semester_aktif'] ?? 'Ganjil' }}</div>
                                     </div>
 
                                     @if($guruDataMetrics)
-                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px;">
+                                    <div class="piket-mini-stat-grid">
                                         <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 14px; text-align: center;">
                                             <div style="font-size: 22px; font-weight: 800; color: #1d4ed8;">{{ $guruDataMetrics['jurnal_today'] ?? 0 }}</div>
                                             <div style="font-size: 11.5px; font-weight: 700; color: #1e40af; margin-top: 2px;">Jurnal Diisi Hari Ini</div>
@@ -1657,17 +2148,17 @@
                             </div>
 
                             <!-- Card 2: Notifikasi Presensi & Pengajuan Guru -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Notifikasi Presensi &amp; Pengajuan</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Kelola peringatan dan pemberitahuan aktivitas presensi kelas Anda</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Surat Izin/Sakit Siswa Baru</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Notifikasi saat ada pengajuan izin siswa di kelas Anda yang membutuhkan perhatian</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="guru_notif_izin" value="1" {{ ($systemSettings['guru_notif_izin'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1675,12 +2166,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Pengingat Pengisian Jurnal Mengajar</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pengingat otomatis untuk melengkapi jurnal mengajar harian sebelum jam mengajar berakhir</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="guru_notif_jurnal" value="1" {{ ($systemSettings['guru_notif_jurnal'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1688,12 +2179,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div>
+                                    <div class="pref-item" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Notifikasi Dispensasi Siswa</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Pemberitahuan instan saat ada siswa di kelas Anda yang sedang dalam tugas dispensasi sekolah</div>
                                         </div>
-                                        <div>
+                                        <div class="pref-item-toggle">
                                             <label class="toggle-switch">
                                                 <input type="checkbox" name="guru_notif_dispensasi" value="1" {{ ($systemSettings['guru_notif_dispensasi'] ?? '1') == '1' ? 'checked' : '' }}>
                                                 <span class="slider-round"></span>
@@ -1704,17 +2195,17 @@
                             </div>
 
                             <!-- Card 3: Preferensi Kerja & Tampilan Data Guru -->
-                            <div style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
+                            <div class="pref-card" style="background: #ffffff; border-radius: 16px; border: 1px solid #cbd5e1; padding: 24px;">
                                 <h3 style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 2px;">Preferensi Tampilan &amp; Ekspor</h3>
                                 <p style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-bottom: 16px;">Sesuaikan konfigurasi tampilan data dan cetak laporan presensi</p>
 
                                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Jumlah Baris Data Per Halaman</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Jumlah data siswa dan jurnal yang ditampilkan pada tabel kelas</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="guru_data_per_page" class="form-control">
                                                 <option value="10" {{ ($systemSettings['guru_data_per_page'] ?? '25') == '10' ? 'selected' : '' }}>10 Data / Hal</option>
                                                 <option value="25" {{ ($systemSettings['guru_data_per_page'] ?? '25') == '25' ? 'selected' : '' }}>25 Data / Hal</option>
@@ -1724,12 +2215,12 @@
                                         </div>
                                     </div>
 
-                                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
-                                        <div style="flex: 1;">
+                                    <div class="pref-item pref-item-dropdown" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                        <div class="pref-item-text" style="flex: 1;">
                                             <div style="font-size: 14px; font-weight: 800; color: #0f172a;">Format Default Ekspor Jurnal &amp; Rekap</div>
                                             <div style="font-size: 12px; color: #64748b; font-weight: 600;">Format berkas default saat mengunduh / mencetak rekapitulasi jurnal mengajar</div>
                                         </div>
-                                        <div style="width: 220px;">
+                                        <div class="pref-item-control" style="width: 220px;">
                                             <select name="guru_export_format" class="form-control">
                                                 <option value="pdf" {{ ($systemSettings['guru_export_format'] ?? 'pdf') == 'pdf' ? 'selected' : '' }}>Dokumen PDF</option>
                                                 <option value="excel" {{ ($systemSettings['guru_export_format'] ?? 'pdf') == 'excel' ? 'selected' : '' }}>Excel Spreadsheet (.xlsx)</option>
@@ -1739,7 +2230,7 @@
                                 </div>
                             </div>
 
-                            <div style="text-align: right;">
+                            <div class="settings-action-row" style="text-align: right;">
                                 <button type="submit" class="btn-submit" style="background: #2563eb;">
                                     <i class="fa-solid fa-sliders"></i> Simpan Preferensi Guru
                                 </button>
@@ -1757,7 +2248,7 @@
             <div id="systemTab" class="tab-content {{ $isSystemActive ? 'active' : '' }}">
                 <form action="{{ route('pengaturan.update-system') }}" method="POST">
                     @csrf
-                    <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:14px 18px; margin-bottom:20px; color:#1e40af; font-size:13px;">
+                    <div class="system-admin-alert" style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:14px 18px; margin-bottom:20px; color:#1e40af; font-size:13px;">
                         <i class="fa-solid fa-circle-info"></i> <strong>Modul Administrator:</strong> Pengaturan di bawah ini mempengaruhi informasi kontak Hotline CS dan parameter akademik di seluruh portal aplikasi.
                     </div>
 
@@ -1796,7 +2287,7 @@
                         </div>
                     </div>
 
-                    <div style="margin-top: 24px; text-align: right;">
+                    <div class="settings-action-row" style="margin-top: 24px; text-align: right;">
                         <button type="submit" class="btn-submit" style="background:#4f46e5;">
                             <i class="fa-solid fa-sliders"></i> Simpan Pengaturan Sistem
                         </button>
@@ -1808,7 +2299,6 @@
         </div>
     </div>
 </div>
-@endif
 @endsection
 
 @section('scripts')

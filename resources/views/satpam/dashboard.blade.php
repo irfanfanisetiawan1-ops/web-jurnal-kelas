@@ -888,6 +888,317 @@
     @media (max-width: 992px) {
         .satpam-grid-layout {
             grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .stats-column {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-page-header {
+            margin-bottom: 16px;
+            gap: 8px;
+        }
+
+        .header-left h1 {
+            font-size: 20px;
+        }
+
+        .header-left p {
+            font-size: 11.5px;
+            line-height: 1.4;
+        }
+
+        .dashboard-card {
+            padding: 16px 14px;
+            border-radius: 14px;
+        }
+
+        /* Scanner Card Mobile */
+        .scanner-card {
+            padding: 18px 14px;
+        }
+
+        .barcode-illustration svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .scanner-card-title {
+            font-size: 17px;
+        }
+
+        .scanner-card-desc {
+            font-size: 11.5px;
+            margin-bottom: 14px;
+        }
+
+        .btn-buka-kamera {
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
+            padding: 10px 18px;
+            font-size: 12.5px;
+            margin-bottom: 14px;
+        }
+
+        #reader {
+            padding: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        #reader video,
+        #reader canvas {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 8px !important;
+        }
+
+        #reader img {
+            max-width: 100% !important;
+        }
+
+        .search-input-wrapper {
+            gap: 6px;
+        }
+
+        .form-control-satpam {
+            font-size: 12px;
+            padding: 9px 12px;
+            min-width: 0;
+        }
+
+        .btn-search-satpam {
+            padding: 0 14px;
+            font-size: 13px;
+        }
+
+        .search-result-box {
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+
+        /* Stat Cards Mobile */
+        .stats-column {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stat-card {
+            padding: 14px;
+            min-height: unset;
+            border-radius: 14px;
+        }
+
+        .stat-title {
+            font-size: 9.5px;
+            letter-spacing: 0.3px;
+        }
+
+        .stat-icon-badge {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            margin-top: 8px;
+        }
+
+        /* Activity Log Card Mobile */
+        .activity-log-card {
+            padding: 16px 14px;
+            border-radius: 14px;
+        }
+
+        .activity-log-header {
+            margin-bottom: 14px;
+        }
+
+        .activity-log-title {
+            font-size: 16px;
+        }
+
+        .activity-log-subtitle {
+            font-size: 11px;
+        }
+
+        .link-lihat-semua {
+            font-size: 12px;
+        }
+
+        .activity-list {
+            gap: 10px;
+        }
+
+        .activity-item {
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .activity-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            font-size: 14px;
+            border-radius: 10px;
+            margin-top: 2px;
+        }
+
+        .activity-content-box {
+            padding: 10px 12px;
+            border-radius: 10px;
+            min-width: 0;
+        }
+
+        .activity-header-line {
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .student-name {
+            font-size: 13px;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .activity-time {
+            font-size: 11px;
+        }
+
+        .activity-detail-line {
+            font-size: 11.5px;
+            word-break: break-word;
+        }
+
+        .activity-footer-line {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .status-badge {
+            align-self: flex-start;
+            font-size: 9.5px;
+            padding: 3px 8px;
+        }
+
+        .action-btn-group {
+            display: flex;
+            width: 100%;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn-detail-sm {
+            flex: 1;
+            min-height: 32px;
+            justify-content: center;
+            font-size: 11px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+
+        .inline-action-form {
+            flex: 1;
+            width: 100%;
+        }
+
+        .inline-action-form .btn-action-sm {
+            width: 100%;
+            min-height: 32px;
+            justify-content: center;
+            font-size: 11px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+
+        .text-warning-hold {
+            font-size: 11px;
+            width: 100%;
+        }
+
+        .empty-log-state {
+            padding: 24px 12px;
+            font-size: 12px;
+        }
+
+        .empty-log-state i {
+            font-size: 26px;
+        }
+
+        /* Modal Detail Mobile */
+        .modal-backdrop-custom {
+            padding: 12px !important;
+        }
+
+        .modal-card-detail {
+            max-height: 92vh;
+            border-radius: 16px;
+        }
+
+        .modal-detail-header {
+            padding: 14px 16px;
+        }
+
+        .modal-detail-header h3 {
+            font-size: 14px;
+        }
+
+        .modal-detail-body {
+            padding: 16px 14px;
+        }
+
+        .detail-section-title {
+            font-size: 11px;
+            margin: 12px 0 8px 0;
+        }
+
+        .detail-item-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            padding: 6px 0;
+            font-size: 12px;
+        }
+
+        .detail-item-row .lbl {
+            min-width: unset;
+            font-size: 11px;
+        }
+
+        .detail-item-row .val {
+            text-align: left;
+            font-size: 12px;
+            width: 100%;
+            word-break: break-word;
+        }
+
+        .detail-image-box {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .detail-image-box img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .stats-column {
+            grid-template-columns: 1fr;
         }
     }
 </style>
@@ -1168,6 +1479,20 @@
                 `;
             }
 
+            let fotoSiswaLiveHtml = '';
+            let fotoSiswaLiveSrc = d.foto_siswa_live ? formatImageUrl(d.foto_siswa_live) : null;
+            if (fotoSiswaLiveSrc) {
+                fotoSiswaLiveHtml = `
+                    <div style="margin-top: 10px; padding: 10px; background: #eff6ff; border-radius: 10px; border: 1.5px solid #93c5fd; text-align: center;">
+                        <div style="font-size: 11px; font-weight: 800; color: #1e40af; text-transform: uppercase; margin-bottom: 4px;"><i class="fa-solid fa-camera" style="color: #2563eb;"></i> Foto Siswa (Live Kamera Pos Guru Piket):</div>
+                        <a href="${fotoSiswaLiveSrc}" target="_blank" title="Klik untuk perbesar Foto Live Siswa">
+                            <img src="${fotoSiswaLiveSrc}" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 8px; border: 1px solid #bfdbfe;" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x180?text=Foto+Siswa';">
+                        </a>
+                        <div style="font-size: 10.5px; color: #1d4ed8; margin-top: 4px; font-weight: 700;"><i class="fa-solid fa-shield-check"></i> Cocokkan fisik &amp; wajah siswa di gerbang dengan foto kamera live ini.</div>
+                    </div>
+                `;
+            }
+
             let fotoKartuHtml = '';
             let fotoKartuSrc = d.foto_kartu_identitas ? formatImageUrl(d.foto_kartu_identitas) : null;
             if (fotoKartuSrc) {
@@ -1209,6 +1534,7 @@
                 <p style="margin: 4px 0; font-size: 12.5px; color: #64748b;">Jam Keluar: <strong>${d.jam_keluar}</strong> s/d <strong>${d.jam_kembali}</strong></p>
                 <p style="margin: 4px 0; font-size: 12.5px; color: #64748b;">Disetujui Waka: <strong>${d.nama_waka}</strong> (${d.waktu_approval_waka})</p>
                 <p style="margin: 4px 0; font-size: 12.5px; color: #64748b;">Alasan Dispen: "${d.alasan}"</p>
+                ${fotoSiswaLiveHtml}
                 ${fotoKartuHtml}
                 ${actionForm}
             `;
@@ -1238,6 +1564,7 @@
             satpamBadgeText = '<span class="status-badge badge-yellow"><i class="fa-solid fa-clock"></i> Belum Keluar (Menunggu Validasi Gate)</span>';
         }
 
+        let fotoSiswaLiveSrc = item.foto_siswa_live ? formatImageUrl(item.foto_siswa_live) : null;
         let fotoKartuSrc = item.foto_kartu_identitas ? formatImageUrl(item.foto_kartu_identitas) : null;
         let fotoSuratSrc = item.foto_surat_dispen ? formatImageUrl(item.foto_surat_dispen) : null;
         let fotoSiswaSrc = (item.siswa && item.siswa.foto) ? formatImageUrl('uploads/profile_photos/' + item.siswa.foto) : null;
@@ -1296,12 +1623,13 @@
                     <span class="val">${item.catatan_satpam}</span>
                 </div>` : ''}
 
-                ${(fotoKartuSrc || fotoSuratSrc || fotoSiswaSrc) ? `
+                ${(fotoSiswaLiveSrc || fotoKartuSrc || fotoSuratSrc || fotoSiswaSrc) ? `
                 <div class="detail-section-title"><i class="fa-solid fa-image"></i> Lampiran & Bukti Foto Pengajuan</div>
                 <div class="detail-image-box">
+                    ${fotoSiswaLiveSrc ? `<div><div style="font-size:11px; color:#1d4ed8; margin-bottom:4px; font-weight:800;"><i class="fa-solid fa-camera"></i> Foto Siswa (Live Kamera):</div><a href="${fotoSiswaLiveSrc}" target="_blank" title="Klik untuk perbesar Foto Live Siswa"><img src="${fotoSiswaLiveSrc}" alt="Foto Siswa Live" style="border: 2px solid #3b82f6; border-radius: 8px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Live';"></a></div>` : ''}
                     ${fotoKartuSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Kartu Identitas Siswa:</div><a href="${fotoKartuSrc}" target="_blank"><img src="${fotoKartuSrc}" alt="Foto Identitas" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Gambar+Identitas';"></a></div>` : ''}
                     ${fotoSuratSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Surat Dispen:</div><a href="${fotoSuratSrc}" target="_blank"><img src="${fotoSuratSrc}" alt="Surat Dispen" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Surat+Dispen';"></a></div>` : ''}
-                    ${fotoSiswaSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Foto Siswa:</div><a href="${fotoSiswaSrc}" target="_blank"><img src="${fotoSiswaSrc}" alt="Foto Profil Siswa" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Siswa';"></a></div>` : ''}
+                    ${fotoSiswaSrc ? `<div><div style="font-size:11px; color:#64748b; margin-bottom:4px; font-weight:700;">Foto Profil Siswa:</div><a href="${fotoSiswaSrc}" target="_blank"><img src="${fotoSiswaSrc}" alt="Foto Profil Siswa" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x120?text=Foto+Siswa';"></a></div>` : ''}
                 </div>` : ''}
             </div>
         `;

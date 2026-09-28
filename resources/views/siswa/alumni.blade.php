@@ -29,6 +29,9 @@
         padding: 24px;
         margin-bottom: 24px;
         box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .card-top-header {
@@ -179,9 +182,13 @@
     .btn-reset-filter:hover { background: #cbd5e1; color: #1e293b; }
 
     .table-responsive {
+        width: 100%;
+        max-width: 100%;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         border-radius: 14px;
         border: 1px solid #e2e8f0;
+        box-sizing: border-box;
     }
 
     .table-custom {
@@ -290,16 +297,6 @@
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
         <span>Data Siswa Alumni</span>
     </div>
-
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
 
     <div class="card">
         <div class="card-top-header">

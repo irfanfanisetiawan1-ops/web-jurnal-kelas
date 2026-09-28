@@ -146,6 +146,122 @@
         color: #065f46;
         border: 1px solid #a7f3d0;
     }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 25px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+        }
+
+        .breadcrumb-text {
+            font-size: 12.5px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .card-top-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+        }
+
+        .card-top-header h2 {
+            font-size: 16px !important;
+        }
+
+        .btn-back-main {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            padding: 10px 14px !important;
+        }
+
+        .table-responsive {
+            border: none !important;
+            overflow-x: visible !important;
+        }
+
+        .table-custom {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .table-custom thead {
+            display: none !important;
+        }
+
+        .table-custom tbody {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr {
+            display: flex !important;
+            flex-direction: column !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            padding: 14px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04) !important;
+            gap: 8px !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr td {
+            padding: 0 !important;
+            border: none !important;
+            font-size: 13px !important;
+            display: block !important;
+        }
+
+        .table-custom tbody tr td:first-child {
+            display: none !important;
+        }
+
+        .table-custom tbody tr td:last-child {
+            border-top: 1px dashed #e2e8f0 !important;
+            padding-top: 10px !important;
+            margin-top: 4px !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr td:last-child div {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr td:last-child form {
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr td:last-child .btn-act {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 8px !important;
+            font-size: 12.5px !important;
+            box-sizing: border-box !important;
+        }
+    }
 </style>
 @endsection
 
@@ -164,16 +280,6 @@
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
         <span>Tempat Sampah Wali Kelas</span>
     </div>
-
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
 
     <div class="card">
         <div class="card-top-header">

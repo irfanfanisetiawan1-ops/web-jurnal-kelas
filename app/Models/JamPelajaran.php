@@ -17,9 +17,20 @@ class JamPelajaran extends Model
         'jam_ke',
         'jam_mulai',
         'jam_selesai',
+        'jam_mulai_default',
+        'jam_selesai_default',
+        'is_active_senin_kamis',
         'jam_mulai_jumat',
         'jam_selesai_jumat',
+        'jam_mulai_jumat_default',
+        'jam_selesai_jumat_default',
+        'is_active_jumat',
         'keterangan',
+    ];
+
+    protected $casts = [
+        'is_active_senin_kamis' => 'boolean',
+        'is_active_jumat'       => 'boolean',
     ];
 
     public function jadwal()
@@ -69,6 +80,150 @@ class JamPelajaran extends Model
     }
 
     /**
+     * Waktu Default Senin - Kamis
+     */
+    public function getWaktuSeninKamisDefaultAttribute()
+    {
+        if ($this->jam_mulai_default && $this->jam_selesai_default) {
+            return substr($this->jam_mulai_default, 0, 5) . ' - ' . substr($this->jam_selesai_default, 0, 5);
+        }
+        return '-';
+    }
+
+    /**
+     * Waktu Default Hari Jumat
+     */
+    public function getWaktuJumatDefaultAttribute()
+    {
+        if ($this->jam_mulai_jumat_default && $this->jam_selesai_jumat_default) {
+            return substr($this->jam_mulai_jumat_default, 0, 5) . ' - ' . substr($this->jam_selesai_jumat_default, 0, 5);
+        }
+        return '-';
+    }
+
+    /**
+     * Cek apakah jam pelajaran Senin-Kamis sedang maju dari jadwal defaultnya
+     */
+    public function getIsShiftedSeninKamisAttribute(): bool
+    {
+        if (!$this->is_active_senin_kamis || empty($this->jam_mulai) || empty($this->jam_mulai_default)) {
+            return false;
+        }
+        return substr($this->jam_mulai, 0, 5) !== substr($this->jam_mulai_default, 0, 5);
+    }
+
+    /**
+     * Cek apakah jam pelajaran Jumat sedang maju dari jadwal defaultnya
+     */
+    public function getIsShiftedJumatAttribute(): bool
+    {
+        if (!$this->is_active_jumat || empty($this->jam_mulai_jumat) || empty($this->jam_mulai_jumat_default)) {
+            return false;
+        }
+        return substr($this->jam_mulai_jumat, 0, 5) !== substr($this->jam_mulai_jumat_default, 0, 5);
+    }
+
+    /**
+     * Hitung Ulang dan Geser (Maju) Jam Pelajaran Berdasarkan Sesi Aktif
+     *
+     * @param string|null $dayType 'senin_kamis', 'jumat', atau null untuk keduanya
+     */
+    public static function recalculateSchedules(?string $dayType = null): void
+    {
+        // 1. Hitung ulang Senin - Kamis
+        if ($dayType === null || $dayType === 'senin_kamis') {
+            $allSK = self::whereNotNull('jam_mulai_default')->orderBy('id_jam', 'asc')->get();
+
+            // Kumpulkan slot waktu default berurutan
+            $availableSlotsSK = [];
+            foreach ($allSK as $item) {
+                if ($item->jam_mulai_default && $item->jam_selesai_default) {
+                    $availableSlotsSK[] = [
+                        'mulai'   => $item->jam_mulai_default,
+                        'selesai' => $item->jam_selesai_default,
+                    ];
+                }
+            }
+
+            // Tetapkan slot secara berurutan ke setiap sesi yang aktif
+            $slotIdx = 0;
+            foreach ($allSK as $item) {
+                if ($item->is_active_senin_kamis) {
+                    if (isset($availableSlotsSK[$slotIdx])) {
+                        $item->jam_mulai   = $availableSlotsSK[$slotIdx]['mulai'];
+                        $item->jam_selesai = $availableSlotsSK[$slotIdx]['selesai'];
+                        $slotIdx++;
+                    } else {
+                        $item->jam_mulai   = null;
+                        $item->jam_selesai = null;
+                    }
+                } else {
+                    // Nonaktif: waktu dikosongkan (dilewati sehingga sesi berikutnya maju)
+                    $item->jam_mulai   = null;
+                    $item->jam_selesai = null;
+                }
+                $item->save();
+            }
+        }
+
+        // 2. Hitung ulang Hari Jumat
+        if ($dayType === null || $dayType === 'jumat') {
+            $allFri = self::whereNotNull('jam_mulai_jumat_default')->orderBy('id_jam', 'asc')->get();
+
+            // Kumpulkan slot waktu default Jumat berurutan
+            $availableSlotsFri = [];
+            foreach ($allFri as $item) {
+                if ($item->jam_mulai_jumat_default && $item->jam_selesai_jumat_default) {
+                    $availableSlotsFri[] = [
+                        'mulai'   => $item->jam_mulai_jumat_default,
+                        'selesai' => $item->jam_selesai_jumat_default,
+                    ];
+                }
+            }
+
+            // Tetapkan slot secara berurutan ke setiap sesi Jumat yang aktif
+            $slotIdx = 0;
+            foreach ($allFri as $item) {
+                if ($item->is_active_jumat) {
+                    if (isset($availableSlotsFri[$slotIdx])) {
+                        $item->jam_mulai_jumat   = $availableSlotsFri[$slotIdx]['mulai'];
+                        $item->jam_selesai_jumat = $availableSlotsFri[$slotIdx]['selesai'];
+                        $slotIdx++;
+                    } else {
+                        $item->jam_mulai_jumat   = null;
+                        $item->jam_selesai_jumat = null;
+                    }
+                } else {
+                    // Nonaktif: waktu dikosongkan (dilewati sehingga sesi berikutnya maju)
+                    $item->jam_mulai_jumat   = null;
+                    $item->jam_selesai_jumat = null;
+                }
+                $item->save();
+            }
+        }
+    }
+
+    /**
+     * Kembalikan Semua Sesi ke Jadwal Normal / Standar
+     */
+    public static function resetToDefault(?string $dayType = null): void
+    {
+        if ($dayType === null || $dayType === 'senin_kamis') {
+            self::whereNotNull('jam_mulai_default')->update([
+                'is_active_senin_kamis' => 1,
+            ]);
+        }
+
+        if ($dayType === null || $dayType === 'jumat') {
+            self::whereNotNull('jam_mulai_jumat_default')->update([
+                'is_active_jumat' => 1,
+            ]);
+        }
+
+        self::recalculateSchedules($dayType);
+    }
+
+    /**
      * Hitung & Dapatkan Status Jam Pelajaran Saat Ini berbasis Waktu Aktif
      */
     public static function getCurrentLessonStatus($carbonTime = null): array
@@ -86,6 +241,20 @@ class JamPelajaran extends Model
                 'color'  => '#64748b',
                 'bg'     => '#f1f5f9',
                 'border' => '#cbd5e1',
+            ];
+        }
+
+        // Cek Hari Libur Sekolah / Nasional yang sedang aktif
+        $activeHoliday = \App\Models\HariLibur::getActiveHolidayForDate($now);
+        if ($activeHoliday) {
+            return [
+                'status' => 'off',
+                'label'  => 'Luar Jam KBM',
+                'detail' => 'Libur: ' . $activeHoliday->keterangan,
+                'icon'   => 'fa-calendar-xmark',
+                'color'  => '#e11d48',
+                'bg'     => '#ffe4e6',
+                'border' => '#fecdd3',
             ];
         }
 

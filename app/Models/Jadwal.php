@@ -52,6 +52,30 @@ class Jadwal extends Model
     }
 
     /**
+     * Accessor: Nomor jam ke- mulai (integer)
+     */
+    public function getJamMulaiKeAttribute()
+    {
+        if ($this->jamMulai) {
+            $num = (int) preg_replace('/\D/', '', $this->jamMulai->jam_ke);
+            return $num ?: (int) $this->id_jam_mulai;
+        }
+        return (int) ($this->id_jam_mulai ?? 1);
+    }
+
+    /**
+     * Accessor: Nomor jam ke- selesai (integer)
+     */
+    public function getJamSelesaiKeAttribute()
+    {
+        if ($this->jamSelesai) {
+            $num = (int) preg_replace('/\D/', '', $this->jamSelesai->jam_ke);
+            return $num ?: (int) $this->id_jam_selesai;
+        }
+        return (int) ($this->id_jam_selesai ?? $this->id_jam_mulai ?? 1);
+    }
+
+    /**
      * Accessor: Format jam mulai (nomor jam ke-) untuk ditampilkan
      */
     public function getJamMulaiFormattedAttribute()
@@ -140,13 +164,34 @@ class Jadwal extends Model
     }
 
     /**
+     * Dapatkan jumlah JP (Jam Pelajaran) yang dialokasikan pada jadwal ini
+     */
+    public function getJumlahJpAttribute()
+    {
+        $mulai = (int) ($this->id_jam_mulai ?? 1);
+        $selesai = (int) ($this->id_jam_selesai ?? $mulai);
+        return max(1, ($selesai - $mulai + 1));
+    }
+
+    /**
      * Dapatkan waktu mulai efektif (HH:MM)
      */
     public function getWaktuMulaiEffectiveAttribute()
     {
         $time = $this->jam_mulai_time;
         if ($time) return $time;
+
+        $isJumat = strtolower(trim($this->hari ?? '')) === 'jumat';
         
+        if ($isJumat) {
+            $jamTimesJumat = [
+                1 => '07:00', 2 => '07:30', 3 => '08:00', 4 => '08:30', 5 => '09:00',
+                6 => '09:50', 7 => '10:20', 8 => '10:50', 9 => '13:00', 10 => '13:30',
+                11 => '14:00', 12 => '14:30', 13 => '15:00',
+            ];
+            return $jamTimesJumat[$this->id_jam_mulai] ?? '07:00';
+        }
+
         $jamTimes = [
             1 => '07:00', 2 => '07:40', 3 => '08:20',
             4 => '09:00', 5 => '10:00', 6 => '10:35',
@@ -163,12 +208,24 @@ class Jadwal extends Model
         $time = $this->jam_selesai_time;
         if ($time) return $time;
 
+        $isJumat = strtolower(trim($this->hari ?? '')) === 'jumat';
+        $idx = $this->id_jam_selesai ?? $this->id_jam_mulai;
+
+        if ($isJumat) {
+            $jamTimesJumat = [
+                1 => '07:30', 2 => '08:00', 3 => '08:30', 4 => '09:00', 5 => '09:30',
+                6 => '10:20', 7 => '10:50', 8 => '11:20', 9 => '13:30', 10 => '14:00',
+                11 => '14:30', 12 => '15:00', 13 => '15:35',
+            ];
+            return $jamTimesJumat[$idx] ?? '15:35';
+        }
+
         $jamTimes = [
             1 => '07:40', 2 => '08:20', 3 => '09:00',
             4 => '09:40', 5 => '10:35', 6 => '11:10',
             7 => '11:45', 8 => '13:50', 9 => '14:25', 10 => '15:00',
         ];
-        return $jamTimes[$this->id_jam_selesai ?? $this->id_jam_mulai] ?? '15:00';
+        return $jamTimes[$idx] ?? '15:00';
     }
 
     /**
@@ -199,9 +256,28 @@ class Jadwal extends Model
     public function isDiisiHariIni()
     {
         $today = \Carbon\Carbon::today('Asia/Jakarta')->toDateString();
+        return $this->isDiisiPadaTanggal($today);
+    }
+
+    /**
+     * Cek apakah jurnal untuk jadwal ini sudah diisi pada tanggal tertentu
+     */
+    public function isDiisiPadaTanggal($tanggal)
+    {
         return \App\Models\JurnalMengajar::where('id_jadwal', $this->id_jadwal)
-            ->where('tanggal', $today)
+            ->whereDate('tanggal', $tanggal)
             ->exists();
+    }
+
+    /**
+     * Dapatkan catatan jurnal pada tanggal tertentu (jika ada)
+     */
+    public function getJurnalPadaTanggal($tanggal)
+    {
+        return \App\Models\JurnalMengajar::with('detailKetidakhadiran.siswa')
+            ->where('id_jadwal', $this->id_jadwal)
+            ->whereDate('tanggal', $tanggal)
+            ->first();
     }
 
     /**
@@ -210,6 +286,17 @@ class Jadwal extends Model
     public function getSisaMenitSelesaiAttribute()
     {
         $now = \Carbon\Carbon::now('Asia/Jakarta');
+        $daysInIndo = [
+            'Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'
+        ];
+        $todayIndo = $daysInIndo[$now->format('l')] ?? '';
+        
+        // Jika jadwal bukan untuk hari ini, sisa menit = 0
+        if (strtolower(trim($this->hari ?? '')) !== strtolower(trim($todayIndo))) {
+            return 0;
+        }
+
         $selesaiStr = $this->waktu_selesai_effective;
 
         try {
@@ -218,7 +305,7 @@ class Jadwal extends Model
             if ($diffSeconds <= 0) return 0;
             return (int) ceil($diffSeconds / 60);
         } catch (\Exception $e) {
-            return 60;
+            return 0;
         }
     }
 
@@ -227,14 +314,18 @@ class Jadwal extends Model
      */
     public function getHampirHabisAttribute()
     {
-        if (!$this->sudah_masuk_jam) {
+        // Peringatan 5 menit hanya aktif jika:
+        // 1. Hari ini dan jam pelajaran SEDANG BERLANGSUNG
+        // 2. Jurnal belum diisi hari ini
+        // 3. Sisa waktu antara 1 s/d 5 menit
+        if (!$this->is_sedang_berlangsung) {
             return false;
         }
         if ($this->isDiisiHariIni()) {
             return false;
         }
         $sisa = $this->sisa_menit_selesai;
-        return ($sisa >= 0 && $sisa <= 5);
+        return ($sisa > 0 && $sisa <= 5);
     }
 
     /**
@@ -255,7 +346,7 @@ class Jadwal extends Model
             return false;
         }
 
-        return ($currentTimeStr >= $this->waktu_mulai_effective && $currentTimeStr <= $this->waktu_selesai_effective);
+        return ($currentTimeStr >= $this->waktu_mulai_effective && $currentTimeStr < $this->waktu_selesai_effective);
     }
 
     /**
@@ -272,11 +363,49 @@ class Jadwal extends Model
         ];
         $todayIndo = $daysInIndo[$now->format('l')] ?? '';
         
+        // Hanya berlaku untuk jadwal yang jatuh pada hari ini
         if (strtolower(trim($this->hari ?? '')) !== strtolower(trim($todayIndo))) {
             return false;
         }
 
-        return ($currentTimeStr > $this->waktu_selesai_effective);
+        return ($currentTimeStr >= $this->waktu_selesai_effective);
+    }
+
+    /**
+     * Helper cek status jam pelajaran untuk tanggal tertentu
+     */
+    public function isJamSudahSelesaiPadaTanggal($tanggal = null)
+    {
+        $today = \Carbon\Carbon::today('Asia/Jakarta')->toDateString();
+        $target = $tanggal ?? $today;
+        
+        if ($target < $today) {
+            return true; // Hari kemarin sudah pasti berakhir
+        }
+        if ($target > $today) {
+            return false; // Hari esok belum dimulai
+        }
+        return $this->is_jam_sudah_selesai;
+    }
+
+    /**
+     * Relasi ke Jurnal Mengajar
+     */
+    public function jurnalMengajars()
+    {
+        return $this->hasMany(JurnalMengajar::class, 'id_jadwal', 'id_jadwal');
+    }
+
+    /**
+     * Dapatkan catatan jurnal hari ini (jika ada)
+     */
+    public function getJurnalHariIniAttribute()
+    {
+        $today = \Carbon\Carbon::today('Asia/Jakarta')->toDateString();
+        return \App\Models\JurnalMengajar::with('detailKetidakhadiran.siswa')
+            ->where('id_jadwal', $this->id_jadwal)
+            ->where('tanggal', $today)
+            ->first();
     }
 }
 

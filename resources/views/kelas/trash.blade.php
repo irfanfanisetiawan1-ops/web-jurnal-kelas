@@ -147,6 +147,143 @@
         color: #065f46;
         border: 1px solid #a7f3d0;
     }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+        .page-title-group p { font-size: 13px !important; }
+
+        .card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .card-top-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+        }
+
+        .btn-back-main {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            padding: 11px 16px !important;
+        }
+
+        .table-responsive {
+            border: none !important;
+        }
+
+        .table-custom {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .table-custom thead {
+            display: none !important;
+        }
+
+        .table-custom tbody {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr.trash-row-card {
+            display: grid !important;
+            grid-template-columns: 1fr auto !important;
+            gap: 8px 10px !important;
+            padding: 14px 16px !important;
+            margin-bottom: 12px !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr.trash-row-card td {
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        .table-custom tbody tr.trash-row-card .col-kelas {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+            text-align: left !important;
+        }
+
+        .table-custom tbody tr.trash-row-card .col-waktu {
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+            text-align: right !important;
+            font-size: 11.5px !important;
+            color: #64748b !important;
+            align-self: center !important;
+        }
+
+        .table-custom tbody tr.trash-row-card .col-wali {
+            grid-column: 1 / -1 !important;
+            grid-row: 2 !important;
+            background: #f8fafc !important;
+            padding: 8px 12px !important;
+            border-radius: 10px !important;
+            border: 1px solid #f1f5f9 !important;
+            font-size: 12.5px !important;
+            color: #334155 !important;
+        }
+
+        .table-custom tbody tr.trash-row-card .col-aksi {
+            grid-column: 1 / -1 !important;
+            grid-row: 3 !important;
+            border-top: 1px dashed #e2e8f0 !important;
+            padding-top: 10px !important;
+            margin-top: 4px !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr.trash-row-card .col-aksi .trash-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr.trash-row-card .col-aksi .trash-actions form {
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .table-custom tbody tr.trash-row-card .col-aksi .trash-actions .btn-act {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            padding: 9px 8px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+        }
+
+        .table-custom tbody tr.trash-row-card .col-aksi .trash-actions {
+            grid-template-columns: 1fr !important;
+        }
+    }
 </style>
 @endsection
 
@@ -165,16 +302,6 @@
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
         <span>Tempat Sampah Kelas</span>
     </div>
-
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
 
     <div class="card">
         <div class="card-top-header">
@@ -199,12 +326,20 @@
                 </thead>
                 <tbody>
                     @forelse($kelases as $k)
-                        <tr>
-                            <td><strong style="color:#0f172a;">{{ $k->nama_kelas }}</strong></td>
-                            <td>{{ $k->waliKelas->nama_guru ?? '-' }}</td>
-                            <td>{{ $k->deleted_at ? \Carbon\Carbon::parse($k->deleted_at)->format('d/m/Y H:i') : '-' }}</td>
-                            <td style="text-align:center;">
-                                <div style="display:inline-flex; gap:6px;">
+                        <tr class="trash-row-card">
+                            <td class="col-kelas"><strong style="color:#0f172a; font-size:14px;">{{ $k->nama_kelas }}</strong></td>
+                            <td class="col-waktu">
+                                <i class="fa-regular fa-clock" style="font-size:10px;"></i>
+                                {{ $k->deleted_at ? \Carbon\Carbon::parse($k->deleted_at)->format('d/m/Y H:i') : '-' }}
+                            </td>
+                            <td class="col-wali">
+                                <div style="display:flex; align-items:center; gap:6px;">
+                                    <i class="fa-solid fa-user-shield" style="color:#0284c7;"></i>
+                                    <span>Wali: <strong>{{ $k->waliKelas->nama_guru ?? '-' }}</strong></span>
+                                </div>
+                            </td>
+                            <td class="col-aksi" style="text-align:center;">
+                                <div class="trash-actions" style="display:inline-flex; gap:6px;">
                                     <form action="{{ route('kelas.restore', $k->id_kelas) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         <button type="submit" class="btn-act btn-restore" title="Pulihkan Kelas">

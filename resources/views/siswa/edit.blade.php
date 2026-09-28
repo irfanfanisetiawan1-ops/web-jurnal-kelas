@@ -29,6 +29,9 @@
         padding: 28px;
         margin-bottom: 24px;
         box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .edit-header-row {
@@ -59,10 +62,13 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .form-group {
         margin-bottom: 18px;
+        min-width: 0;
     }
 
     .form-group label {

@@ -179,6 +179,286 @@
         border-bottom: 1px solid #f1f5f9;
         vertical-align: middle;
     }
+
+    .mobile-no-badge,
+    .mobile-label-text {
+        display: none;
+    }
+
+    .badge-gender {
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 11.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .badge-gender-l {
+        background: #e0f2fe;
+        color: #0369a1;
+        border: 1px solid #bae6fd;
+    }
+    .badge-gender-p {
+        background: #fce7f3;
+        color: #be185d;
+        border: 1px solid #fbcfe8;
+    }
+
+    /* ========================================================
+       MOBILE RESPONSIVE STYLES (KHUSUS MOBILE HP <= 768px & <= 480px)
+       Tampilan Desktop/Laptop Tetap 100% Sesuai & Tidak Terganggu
+       ======================================================== */
+    @media (max-width: 768px) {
+        .page-header-container {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+        }
+
+        .breadcrumb-text {
+            font-size: 12.5px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .detail-card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .profile-header {
+            gap: 14px !important;
+            padding-bottom: 16px !important;
+            margin-bottom: 16px !important;
+            align-items: flex-start !important;
+        }
+
+        .avatar-large {
+            width: 56px !important;
+            height: 56px !important;
+            font-size: 22px !important;
+            border-radius: 14px !important;
+        }
+
+        .profile-info h1 {
+            font-size: 20px !important;
+            margin-bottom: 4px !important;
+        }
+
+        .kelas-pill {
+            font-size: 12px !important;
+            padding: 3px 10px !important;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        .info-item {
+            padding: 12px 14px !important;
+            border-radius: 12px !important;
+        }
+
+        .info-item .label {
+            font-size: 10.5px !important;
+            margin-bottom: 4px !important;
+        }
+
+        .info-item .value {
+            font-size: 14px !important;
+        }
+
+        .action-row {
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 10px !important;
+            padding-top: 16px !important;
+            margin-top: 16px !important;
+        }
+
+        .action-row a.btn-act,
+        .action-row form,
+        .action-row form button.btn-act {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+            margin: 0 !important;
+        }
+
+        /* Transform Tabel Siswa Terdaftar ke Mobile Card */
+        .table-responsive {
+            border: none !important;
+        }
+
+        .table-custom {
+            display: block !important;
+            width: 100% !important;
+            border: none !important;
+        }
+
+        .table-custom thead {
+            display: none !important;
+        }
+
+        .table-custom tbody {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card {
+            display: grid !important;
+            grid-template-columns: 1fr auto !important;
+            gap: 8px 10px !important;
+            padding: 14px 16px !important;
+            margin-bottom: 12px !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card td {
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-no {
+            display: none !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-nama {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+            text-align: left !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-wrap: wrap !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-nama strong {
+            font-size: 14.5px !important;
+            color: #0f172a !important;
+            font-weight: 800 !important;
+            word-break: normal !important;
+            overflow-wrap: normal !important;
+            white-space: normal !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-gender {
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+            justify-self: end !important;
+            align-self: center !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-nis {
+            grid-column: 1 !important;
+            grid-row: 2 !important;
+            background: #f8fafc !important;
+            padding: 7px 12px !important;
+            border-radius: 10px !important;
+            border: 1px solid #f1f5f9 !important;
+            font-size: 12.5px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-nisn {
+            grid-column: 2 !important;
+            grid-row: 2 !important;
+            background: #f8fafc !important;
+            padding: 7px 12px !important;
+            border-radius: 10px !important;
+            border: 1px solid #f1f5f9 !important;
+            font-size: 12.5px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 6px !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-aksi {
+            grid-column: 1 / -1 !important;
+            grid-row: 3 !important;
+            border-top: 1px dashed #e2e8f0 !important;
+            padding-top: 10px !important;
+            margin-top: 4px !important;
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-aksi .btn-act {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 16px !important;
+            font-size: 13px !important;
+            border-radius: 10px !important;
+            box-sizing: border-box !important;
+        }
+
+        .mobile-no-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #f1f5f9 !important;
+            color: #475569 !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            padding: 2px 7px !important;
+            border-radius: 6px !important;
+            border: 1px solid #e2e8f0 !important;
+            flex-shrink: 0 !important;
+        }
+
+        .mobile-label-text {
+            display: inline !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+            font-size: 11px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card {
+            padding: 12px !important;
+        }
+
+        .table-custom tbody tr.siswa-row-card .col-nis,
+        .table-custom tbody tr.siswa-row-card .col-nisn {
+            font-size: 12px !important;
+            padding: 6px 10px !important;
+        }
+    }
 </style>
 @endsection
 
@@ -275,33 +555,42 @@
             <table class="table-custom">
                 <thead>
                     <tr>
-                        <th>NO</th>
+                        <th style="width: 50px; text-align: center;">NO</th>
                         <th>NIS</th>
                         <th>NISN</th>
                         <th>NAMA SISWA</th>
                         <th>JENIS KELAMIN</th>
-                        <th style="text-align:center;">AKSI</th>
+                        <th style="text-align:center; width: 140px;">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if(isset($kelas->siswas) && count($kelas->siswas) > 0)
                         @foreach($kelas->siswas as $idx => $s)
-                            <tr>
-                                <td>{{ $idx + 1 }}</td>
-                                <td><strong>{{ $s->nis ?? '-' }}</strong></td>
-                                <td><span style="font-family:monospace; color:#3b5490; font-weight:700;">{{ $s->nisn }}</span></td>
-                                <td><strong>{{ $s->nama_siswa }}</strong></td>
-                                <td>
+                            <tr class="siswa-row-card">
+                                <td class="col-no" style="text-align: center;">{{ $idx + 1 }}</td>
+                                <td class="col-nis">
+                                    <span class="mobile-label-text">NIS:</span>
+                                    <strong style="color:#0f172a;">{{ $s->nis ?? '-' }}</strong>
+                                </td>
+                                <td class="col-nisn">
+                                    <span class="mobile-label-text">NISN:</span>
+                                    <span style="font-family:monospace; color:#3b5490; font-weight:700;">{{ $s->nisn }}</span>
+                                </td>
+                                <td class="col-nama">
+                                    <span class="mobile-no-badge">#{{ $idx + 1 }}</span>
+                                    <strong>{{ $s->nama_siswa }}</strong>
+                                </td>
+                                <td class="col-gender">
                                     @if($s->jenis_kelamin == 'L')
-                                        Laki-laki
+                                        <span class="badge-gender badge-gender-l"><i class="fa-solid fa-mars"></i> Laki-laki</span>
                                     @elseif($s->jenis_kelamin == 'P')
-                                        Perempuan
+                                        <span class="badge-gender badge-gender-p"><i class="fa-solid fa-venus"></i> Perempuan</span>
                                     @else
-                                        -
+                                        <span style="color:#94a3b8;">-</span>
                                     @endif
                                 </td>
-                                <td style="text-align:center;">
-                                    <a href="{{ route('siswa.show', $s->id_siswa) }}" class="btn-act btn-act-back" style="padding:5px 12px; font-size:12px;">
+                                <td class="col-aksi" style="text-align:center;">
+                                    <a href="{{ route('siswa.show', $s->id_siswa) }}" class="btn-act btn-act-back" style="padding:6px 14px; font-size:12.5px;">
                                         <i class="fa-solid fa-eye"></i> Detail Siswa
                                     </a>
                                 </td>

@@ -2,14 +2,111 @@
 
 @section('title', 'Kehadiran & KBM Guru — Waka SDM')
 @section('page-header', 'Kehadiran Pendidik & Monitoring KBM')
-@section('page-subheader', 'Pantau keaktifan mengajar harian, guru izin, dan penugasan guru pengganti')
+@section('page-subheader', 'Pantau keaktifan mengajar harian, guru izin, penugasan guru pengganti, dan rekapitulasi kehadiran SDM')
 
 @section('styles')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
+    :root {
+        --color-navy: #2b3957;
+        --color-navy-dark: #1e293b;
+        --color-blue: #2563eb;
+        --color-blue-light: #eff6ff;
+        --color-bg-light: #f8fafc;
+        --color-border: #e2e8f0;
+        --color-text-main: #0f172a;
+        --color-text-muted: #64748b;
+    }
+
     .kehadiran-container {
         display: flex;
         flex-direction: column;
         gap: 20px;
+        padding-bottom: 30px;
+    }
+
+    /* Page Header Action Bar */
+    .page-header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        background: #ffffff;
+        padding: 20px 24px;
+        border-radius: 18px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    }
+
+    .page-title-group h1 {
+        font-size: 20px;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0 0 4px 0;
+        letter-spacing: -0.02em;
+    }
+
+    .page-title-group p {
+        font-size: 13px;
+        color: #64748b;
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .header-actions-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-action-outline {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        color: #334155;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.15s ease;
+    }
+
+    .btn-action-outline:hover {
+        background: #f8fafc;
+        border-color: #94a3b8;
+        color: #0f172a;
+        transform: translateY(-1px);
+    }
+
+    .btn-action-solid {
+        background: #2b3957;
+        border: 1px solid #2b3957;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.15s ease;
+        box-shadow: 0 4px 10px rgba(43, 57, 87, 0.15);
+    }
+
+    .btn-action-solid:hover {
+        background: #1e293b;
+        border-color: #1e293b;
+        color: #ffffff;
+        transform: translateY(-1px);
     }
 
     /* 4 Stat Cards Grid */
@@ -22,12 +119,18 @@
     .stat-card {
         background: #ffffff;
         border-radius: 16px;
-        padding: 20px;
+        padding: 18px 20px;
         display: flex;
         align-items: center;
         gap: 16px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         border: 1px solid #e2e8f0;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
     }
 
     .stat-icon-wrapper {
@@ -41,10 +144,11 @@
         flex-shrink: 0;
     }
 
-    .stat-icon-green  { background: #d1fae5; color: #059669; }
+    .stat-icon-green  { background: #dcfce7; color: #16a34a; }
     .stat-icon-orange { background: #ffedd5; color: #ea580c; }
     .stat-icon-indigo { background: #e0e7ff; color: #4338ca; }
     .stat-icon-purple { background: #f3e8ff; color: #7e22ce; }
+    .stat-icon-blue   { background: #dbeafe; color: #2563eb; }
 
     .stat-details {
         display: flex;
@@ -52,9 +156,9 @@
     }
 
     .stat-label {
-        font-size: 12.5px;
+        font-size: 12px;
         font-weight: 700;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .stat-val {
@@ -62,19 +166,55 @@
         font-weight: 800;
         color: #0f172a;
         line-height: 1.2;
+        margin: 2px 0;
+    }
+
+    .stat-subtext {
+        font-size: 11px;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+
+    /* Tab Switcher */
+    .tab-nav-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: #e2e8f0;
+        padding: 5px;
+        border-radius: 14px;
+        width: fit-content;
+    }
+
+    .tab-btn {
+        background: transparent;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 800;
+        color: #475569;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+    .tab-btn.active {
+        background: #ffffff;
+        color: #2b3957;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
     /* Filter Bar Container & Inputs */
     .filter-bar-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
+        background: #ffffff;
+        border-radius: 16px;
         padding: 16px 20px;
-        background: #f8fafc;
-        border-radius: 14px;
-        border: 1px solid #cbd5e1;
-        margin-bottom: 18px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     }
 
     .filter-bar-container form {
@@ -105,7 +245,7 @@
     .btn-filter-dark {
         background: #2b3957;
         color: #ffffff;
-        padding: 9px 16px;
+        padding: 9px 18px;
         border-radius: 10px;
         font-size: 13px;
         font-weight: 700;
@@ -121,7 +261,7 @@
     .btn-filter-dark:hover { background: #1e293b; color: #ffffff; }
 
     .btn-reset-light {
-        background: #e2e8f0;
+        background: #f1f5f9;
         color: #475569;
         padding: 9px 16px;
         border-radius: 10px;
@@ -136,13 +276,13 @@
         transition: all 0.15s ease;
         white-space: nowrap;
     }
-    .btn-reset-light:hover { background: #cbd5e1; color: #0f172a; }
+    .btn-reset-light:hover { background: #e2e8f0; color: #0f172a; }
 
     /* Card Panel Base */
     .card-panel {
         background: #ffffff;
         border-radius: 18px;
-        padding: 24px;
+        padding: 22px;
         border: 1px solid #e2e8f0;
         box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     }
@@ -160,7 +300,7 @@
 
     .table-custom th {
         background: #f8fafc;
-        padding: 14px 16px;
+        padding: 13px 15px;
         font-size: 12px;
         font-weight: 800;
         color: #475569;
@@ -170,11 +310,15 @@
     }
 
     .table-custom td {
-        padding: 16px;
+        padding: 14px 15px;
         font-size: 13.5px;
         color: #1e293b;
         border-bottom: 1px solid #f1f5f9;
         vertical-align: middle;
+    }
+
+    .table-custom tr:hover td {
+        background: #f8fafc;
     }
 
     .badge-status {
@@ -182,40 +326,48 @@
         border-radius: 20px;
         font-size: 11px;
         font-weight: 800;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
     }
-    .badge-status-disetujui { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
-    .badge-status-pending   { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-    .badge-status-hadir     { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+    .badge-status-hadir      { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .badge-status-izin       { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .badge-status-tidak-hadir{ background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+    .badge-status-digantikan { background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .badge-status-pending    { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .badge-status-disetujui  { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
 
     .btn-wa {
         background: #25d366;
         color: #ffffff;
-        padding: 4px 8px;
+        padding: 4px 9px;
         border-radius: 6px;
         font-size: 11.5px;
         font-weight: 700;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
-        gap: 4px;
+        gap: 5px;
+        transition: background 0.15s ease;
     }
+    .btn-wa:hover { background: #1eb857; color: #ffffff; }
 
     .btn-act {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: none;
+        border: 1px solid #cbd5e1;
+        background: #ffffff;
         cursor: pointer;
         font-size: 13px;
+        color: #475569;
         transition: all 0.15s ease;
         text-decoration: none;
     }
-    .btn-act-view { background: #f1f5f9; color: #475569; }
-    .btn-act-view:hover { background: #e2e8f0; color: #0f172a; }
+    .btn-act:hover { background: #2b3957; color: #ffffff; border-color: #2b3957; }
 
     /* Modals Backdrop & Card */
     .modal-backdrop-custom {
@@ -242,16 +394,18 @@
 
     .modal-header-custom {
         padding: 18px 24px;
-        border-bottom: 1px solid #e2e8f0;
+        background: #2b3957;
+        color: #ffffff;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        border-radius: 18px 18px 0 0;
     }
 
     .modal-header-custom h3 {
         font-size: 16px;
         font-weight: 800;
-        color: #0f172a;
+        color: #ffffff;
         margin: 0;
         display: flex;
         align-items: center;
@@ -270,23 +424,423 @@
         align-items: center;
         justify-content: flex-end;
         gap: 10px;
+        border-radius: 0 0 18px 18px;
     }
 
     .form-grid-2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    /* Charts Grid */
+    .charts-grid-2 {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
         gap: 16px;
     }
 
-    @media (max-width: 768px) {
+    /* Responsive Table vs Card System */
+    .kbm-desktop-table, .izin-desktop-table, .inval-desktop-table, .rekap-desktop-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .kbm-mobile-cards, .izin-mobile-cards, .inval-mobile-cards, .rekap-mobile-cards {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .m-card-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: border-color 0.2s ease;
+    }
+
+    .m-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .m-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12.5px;
+        color: #334155;
+    }
+
+    .m-info-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .m-info-row i {
+        color: #94a3b8;
+        font-size: 13px;
+        width: 16px;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .m-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        margin-top: 2px;
+    }
+
+    @media (max-width: 1024px) {
         .stat-grid-4 { grid-template-columns: repeat(2, 1fr); }
-        .form-grid-2 { grid-template-columns: 1fr; }
+        .charts-grid-2 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+        .kehadiran-container {
+            gap: 14px;
+            padding-bottom: 20px;
+        }
+
+        .page-header-container {
+            padding: 14px 16px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            border-radius: 14px;
+        }
+
+        .page-title-group h1 {
+            font-size: 17px;
+            line-height: 1.3;
+        }
+
+        .page-title-group p {
+            font-size: 11.5px;
+            flex-wrap: wrap;
+            line-height: 1.4;
+        }
+
+        .header-actions-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-actions-group a {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 9px 14px;
+            font-size: 12px;
+        }
+
+        .stat-grid-4 {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            padding: 12px 14px;
+            border-radius: 14px;
+            gap: 12px;
+        }
+
+        .stat-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            font-size: 19px;
+            border-radius: 12px;
+        }
+
+        .stat-label {
+            font-size: 11.5px;
+        }
+
+        .stat-val {
+            font-size: 19px;
+        }
+
+        .stat-subtext {
+            font-size: 10.5px;
+        }
+
+        .tab-nav-container {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 4px;
+            box-sizing: border-box;
+            display: flex;
+            gap: 4px;
+            border-radius: 12px;
+        }
+
+        .tab-nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            padding: 7px 12px;
+            font-size: 11.5px;
+            flex-shrink: 0;
+            border-radius: 8px;
+        }
+
+        .filter-bar-container {
+            padding: 12px 14px;
+            border-radius: 14px;
+        }
+
+        .filter-bar-container form {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .filter-bar-container form > div {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            flex: 1 1 100% !important;
+        }
+
+        .filter-input {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 8px 12px;
+            font-size: 12.5px;
+        }
+
+        .btn-filter-dark, .btn-reset-light {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 8px 14px;
+            font-size: 12.5px;
+        }
+
+        .card-panel {
+            padding: 14px 12px;
+            border-radius: 14px;
+        }
+
+        /* Hide tables on mobile, show responsive cards */
+        .kbm-desktop-table, .izin-desktop-table, .inval-desktop-table, .rekap-desktop-table {
+            display: none !important;
+        }
+
+        .kbm-mobile-cards, .izin-mobile-cards, .inval-mobile-cards, .rekap-mobile-cards {
+            display: flex !important;
+            gap: 10px;
+        }
+
+        .m-card-item {
+            padding: 12px 14px;
+            border-radius: 12px;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .m-card-header {
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            padding-bottom: 8px;
+            align-items: flex-start;
+        }
+
+        .m-card-body {
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .m-info-row {
+            gap: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .m-info-row i {
+            font-size: 12px;
+            width: 14px;
+            margin-top: 2px;
+        }
+
+        .m-card-footer {
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 8px;
+            align-items: center;
+        }
+
+        .m-card-footer .btn-wa {
+            padding: 5px 10px;
+            font-size: 11.5px;
+            border-radius: 6px;
+        }
+
+        .m-card-footer .btn-action-outline {
+            padding: 5px 10px;
+            font-size: 11.5px;
+            border-radius: 6px;
+        }
+
+        /* Custom Pagination Bar Mobile Styles */
+        .custom-pagination-bar {
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            gap: 10px !important;
+            margin-top: 16px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .pagination-info {
+            font-size: 11.5px !important;
+            text-align: center !important;
+            width: 100% !important;
+        }
+
+        .pagination-list {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            justify-content: flex-start !important;
+            padding: 4px 2px 8px 2px !important;
+            gap: 4px !important;
+            box-sizing: border-box !important;
+            scrollbar-width: thin !important;
+        }
+
+        .pagination-list::-webkit-scrollbar {
+            height: 4px !important;
+        }
+
+        .pagination-list::-webkit-scrollbar-thumb {
+            background: #cbd5e1 !important;
+            border-radius: 4px !important;
+        }
+
+        .pagination-list .page-item {
+            flex-shrink: 0 !important;
+        }
+
+        .pagination-list .page-link {
+            min-width: 32px !important;
+            height: 32px !important;
+            padding: 0 8px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Modals on Mobile */
+        .modal-backdrop-custom {
+            padding: 10px;
+        }
+
+        .modal-card-custom {
+            margin: 0;
+            width: 100%;
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 14px;
+        }
+
+        .modal-header-custom {
+            padding: 12px 16px;
+            border-radius: 14px 14px 0 0;
+        }
+
+        .modal-header-custom h3 {
+            font-size: 14.5px;
+        }
+
+        .modal-body-custom {
+            padding: 14px 16px;
+            font-size: 12.5px;
+        }
+
+        .modal-footer-custom {
+            padding: 10px 16px;
+            border-radius: 0 0 14px 14px;
+        }
+
+        .form-grid-2 {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .form-grid-2 > div[style*="grid-column: span 2"] {
+            grid-column: span 1 !important;
+        }
     }
 </style>
 @endsection
 
 @section('content')
+
+@php
+    $cDate = \Carbon\Carbon::parse($tanggal);
+    $monthsMapIndo = [
+        1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+        5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+        9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+    ];
+    $dateTitleFormatted = $hariTeks . ', ' . $cDate->day . ' ' . $monthsMapIndo[$cDate->month] . ' ' . $cDate->year;
+@endphp
+
 <div class="kehadiran-container">
+
+    <!-- Top Action Header -->
+    <div class="page-header-container">
+        <div class="page-title-group">
+            <h1>Monitoring Kehadiran &amp; KBM Guru</h1>
+            <p><i class="fa-regular fa-calendar" style="color: #2563eb;"></i> {{ $dateTitleFormatted }} &nbsp;•&nbsp; Pantau pelaksanaan jadwal mengajar, guru izin, dan pengganti (inval)</p>
+        </div>
+
+        <div class="header-actions-group">
+            <a href="{{ route('waka-sdm.kehadiran-guru.export', request()->query()) }}" class="btn-action-outline">
+                <i class="fa-solid fa-file-csv" style="color: #16a34a;"></i>
+                <span>Export CSV</span>
+            </a>
+            <a href="{{ route('waka-sdm.kehadiran-guru.print', request()->query()) }}" target="_blank" class="btn-action-solid">
+                <i class="fa-solid fa-print"></i>
+                <span>Cetak Rekapitulasi</span>
+            </a>
+        </div>
+    </div>
+
     <!-- 4 Stat Cards Grid -->
     <div class="stat-grid-4">
         <div class="stat-card">
@@ -295,17 +849,19 @@
             </div>
             <div class="stat-details">
                 <span class="stat-label">Guru Hadir Mengajar</span>
-                <span class="stat-val">{{ $stats['guruHadirCount'] ?? 0 }} Guru</span>
+                <span class="stat-val">{{ $dailyStats['guruHadirCount'] ?? 0 }} Guru</span>
+                <span class="stat-subtext">{{ $dailyStats['sesiHadir'] ?? 0 }} sesi KBM aktif</span>
             </div>
         </div>
 
         <div class="stat-card">
             <div class="stat-icon-wrapper stat-icon-orange">
-                <i class="fa-solid fa-user-large-slash"></i>
+                <i class="fa-solid fa-user-clock"></i>
             </div>
             <div class="stat-details">
-                <span class="stat-label">Guru Izin / Cuti</span>
-                <span class="stat-val">{{ $stats['guruIzinCount'] ?? 0 }} Guru</span>
+                <span class="stat-label">Guru Izin / Dinas</span>
+                <span class="stat-val">{{ $dailyStats['guruIzinCount'] ?? 0 }} Guru</span>
+                <span class="stat-subtext">{{ $dailyStats['sesiIzin'] ?? 0 }} sesi izin</span>
             </div>
         </div>
 
@@ -314,8 +870,9 @@
                 <i class="fa-solid fa-people-arrows"></i>
             </div>
             <div class="stat-details">
-                <span class="stat-label">Guru Pengganti</span>
-                <span class="stat-val">{{ $stats['guruPenggantiCount'] ?? 0 }} Inval</span>
+                <span class="stat-label">Guru Pengganti (Inval)</span>
+                <span class="stat-val">{{ $dailyStats['guruPenggantiCount'] ?? 0 }} Penugasan</span>
+                <span class="stat-subtext">Diisi guru piket/inval</span>
             </div>
         </div>
 
@@ -325,259 +882,838 @@
             </div>
             <div class="stat-details">
                 <span class="stat-label">Jurnal KBM Terisi</span>
-                <span class="stat-val">{{ $stats['jurnalTerisiCount'] ?? 0 }} Entri</span>
+                <span class="stat-val">{{ $dailyStats['jurnalTerisiCount'] ?? 0 }} / {{ $dailyStats['totalSesi'] ?? 0 }} Sesi</span>
+                <span class="stat-subtext">Keterisian: {{ $dailyStats['persenKBM'] ?? 0 }}%</span>
             </div>
         </div>
     </div>
 
-    <!-- Filter Bar Form -->
-    <div class="filter-bar-container" style="margin-bottom: 0;">
-        <form action="{{ route('waka-sdm.kehadiran-guru') }}" method="GET">
-            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13.5px; color: #1e293b; margin-right: 8px;">
-                <i class="fa-solid fa-calendar-day" style="color: #2563eb;"></i> Tanggal Pemantauan KBM:
-            </div>
-            <input type="date" name="tanggal" value="{{ $tanggal }}" class="filter-input" style="min-width: 160px;">
-
-            <select name="id_kelas" class="filter-input">
-                <option value="">Kelas: Semua Kelas</option>
-                @foreach($kelasList as $k)
-                    <option value="{{ $k->id_kelas }}" {{ $idKelasFilter == $k->id_kelas ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
-                @endforeach
-            </select>
-
-            <button type="submit" class="btn-filter-dark">
-                <i class="fa-solid fa-magnifying-glass"></i> Pemantauan
-            </button>
-            <a href="{{ route('waka-sdm.kehadiran-guru') }}" class="btn-reset-light">
-                <i class="fa-solid fa-rotate-left"></i> Reset
-            </a>
-        </form>
+    <!-- Tab Switcher Navigation -->
+    <div class="tab-nav-container">
+        <a href="{{ route('waka-sdm.kehadiran-guru', array_merge(request()->query(), ['tab' => 'harian'])) }}" class="tab-btn {{ $tab === 'harian' ? 'active' : '' }}">
+            <i class="fa-solid fa-calendar-day"></i>
+            <span>Monitoring Presensi Harian ({{ $sesiList->total() }} Sesi)</span>
+        </a>
+        <a href="{{ route('waka-sdm.kehadiran-guru', array_merge(request()->query(), ['tab' => 'bulanan'])) }}" class="tab-btn {{ $tab === 'bulanan' ? 'active' : '' }}">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Rekapitulasi &amp; Tren Bulanan SDM</span>
+        </a>
     </div>
 
-    <!-- Card 1: Daftar Guru Izin / Tidak Hadir -->
-    <div class="card-panel">
-        <h2 style="font-size: 17px; font-weight: 800; color: #0f172a; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-user-xmark" style="color: #ea580c;"></i>
-            Daftar Guru Izin / Tidak Hadir ({{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }})
-        </h2>
+    @if($tab === 'harian')
+        <!-- TAB 1: MONITORING HARIAN -->
+        
+        <!-- Filter Bar Form -->
+        <div class="filter-bar-container">
+            <form action="{{ route('waka-sdm.kehadiran-guru') }}" method="GET">
+                <input type="hidden" name="tab" value="harian">
 
-        <div class="table-responsive">
-            <table class="table-custom">
-                <thead>
-                    <tr>
-                        <th style="width: 50px;">No</th>
-                        <th>Nama Pendidik</th>
-                        <th>NIP</th>
-                        <th>Periode Izin</th>
-                        <th>Kategori / Alasan</th>
-                        <th>Status Approval</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($guruIzin as $idx => $iz)
+                <div style="flex: 1.5; min-width: 200px;">
+                    <input type="text" name="q" value="{{ $search }}" class="filter-input" placeholder="Cari nama guru, mapel, materi, kelas..." style="width: 100%;">
+                </div>
+
+                <div>
+                    <input type="date" name="tanggal" value="{{ $tanggal }}" class="filter-input" title="Pilih Tanggal Pemantauan">
+                </div>
+
+                <div>
+                    <select name="status" class="filter-input">
+                        <option value="">🔘 Semua Status Kehadiran</option>
+                        <option value="hadir" {{ $statusFilter == 'hadir' ? 'selected' : '' }}>🟢 Hadir</option>
+                        <option value="izin" {{ $statusFilter == 'izin' ? 'selected' : '' }}>🟡 Izin</option>
+                        <option value="tidak_hadir" {{ $statusFilter == 'tidak_hadir' ? 'selected' : '' }}>🔴 Tidak Hadir</option>
+                        <option value="digantikan" {{ $statusFilter == 'digantikan' ? 'selected' : '' }}>🔵 Digantikan</option>
+                    </select>
+                </div>
+
+                <div>
+                    <select name="id_guru" class="filter-input" style="max-width: 180px;">
+                        <option value="">👥 Semua Guru</option>
+                        @foreach($guruList as $g)
+                            <option value="{{ $g->id_guru }}" {{ $idGuruFilter == $g->id_guru ? 'selected' : '' }}>{{ $g->nama_guru }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <select name="id_mapel" class="filter-input" style="max-width: 170px;">
+                        <option value="">📖 Semua Mapel</option>
+                        @foreach($mapelList as $m)
+                            <option value="{{ $m->id_mapel }}" {{ $idMapelFilter == $m->id_mapel ? 'selected' : '' }}>{{ $m->nama_mapel }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <select name="id_kelas" class="filter-input" style="max-width: 150px;">
+                        <option value="">🏫 Semua Kelas</option>
+                        @foreach($kelasList as $k)
+                            <option value="{{ $k->id_kelas }}" {{ $idKelasFilter == $k->id_kelas ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-filter-dark">
+                    <i class="fa-solid fa-magnifying-glass"></i> Filter
+                </button>
+                <a href="{{ route('waka-sdm.kehadiran-guru', ['tab' => 'harian']) }}" class="btn-reset-light">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </a>
+            </form>
+        </div>
+
+        <!-- Card 1: Monitoring Sesi KBM & Presensi Guru Terjadwal -->
+        <div class="card-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-chalkboard-user" style="color: #2563eb;"></i>
+                    Sesi Jadwal KBM &amp; Presensi Pendidik ({{ $hariTeks }}, {{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }})
+                </h2>
+                <div style="font-size: 12.5px; font-weight: 700; color: #64748b;">
+                    Total: {{ $sesiList->total() }} Sesi Terjadwal
+                </div>
+            </div>
+
+            <!-- Desktop Table View -->
+            <div class="kbm-desktop-table table-responsive">
+                <table class="table-custom">
+                    <thead>
                         <tr>
-                            <td>{{ $idx + 1 }}</td>
-                            <td>
-                                <strong style="font-size: 14px; color: #0f172a;">{{ $iz->guru->nama_guru ?? '-' }}</strong>
+                            <th style="width: 45px; text-align: center;">No</th>
+                            <th>Nama Guru Pengampu</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Kelas &amp; Ruang</th>
+                            <th>Jam Mengajar</th>
+                            <th>Status Kehadiran</th>
+                            <th>Guru Pengganti (Inval)</th>
+                            <th>Materi / Catatan KBM</th>
+                            <th style="text-align: center; width: 60px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($sesiList as $idx => $r)
+                            <tr>
+                                <td style="text-align: center; font-weight: 700; color: #64748b;">{{ $sesiList->firstItem() + $idx }}</td>
+                                <td>
+                                    <strong style="font-size: 13.5px; color: #0f172a; display: block;">{{ $r->guru_nama }}</strong>
+                                    <span style="font-size: 11.5px; color: #64748b;">NIP: {{ $r->guru_nip }}</span>
+                                    @if($r->guru_hp)
+                                        @php
+                                            $cleanHp = preg_replace('/[^0-9]/', '', $r->guru_hp);
+                                            if(str_starts_with($cleanHp, '0')) $cleanHp = '62' . substr($cleanHp, 1);
+                                        @endphp
+                                        <div style="margin-top: 3px;">
+                                            <a href="https://wa.me/{{ $cleanHp }}?text=Halo%20{{ urlencode($r->guru_nama) }}" target="_blank" class="btn-wa">
+                                                <i class="fa-brands fa-whatsapp"></i> WA
+                                            </a>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td>
+                                    <strong style="color: #1e293b;">{{ $r->mapel_nama }}</strong>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 700; color: #0f172a;">{{ $r->kelas_nama }}</div>
+                                    <div style="font-size: 12px; color: #64748b;">{{ $r->ruangan_nama }}</div>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 800; color: #2563eb;">{{ $r->jam_ke }}</div>
+                                    <div style="font-size: 11.5px; color: #64748b;">{{ $r->jam }}</div>
+                                </td>
+                                <td>
+                                    @if($r->status_key === 'hadir')
+                                        <span class="badge-status badge-status-hadir"><i class="fa-solid fa-circle-check"></i> {{ $r->status_teks }}</span>
+                                    @elseif($r->status_key === 'izin')
+                                        <span class="badge-status badge-status-izin"><i class="fa-solid fa-clock"></i> {{ $r->status_teks }}</span>
+                                    @elseif($r->status_key === 'tidak_hadir')
+                                        <span class="badge-status badge-status-tidak-hadir"><i class="fa-solid fa-circle-xmark"></i> {{ $r->status_teks }}</span>
+                                    @elseif($r->status_key === 'digantikan')
+                                        <span class="badge-status badge-status-digantikan"><i class="fa-solid fa-arrows-rotate"></i> {{ $r->status_teks }}</span>
+                                    @else
+                                        <span class="badge-status badge-status-hadir">{{ $r->status_teks }}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($r->guru_pengganti_nama)
+                                        <strong style="color: #1d4ed8; font-size: 13px;">{{ $r->guru_pengganti_nama }}</strong>
+                                        <div style="font-size: 11px; color: #64748b;">Guru Inval Piket</div>
+                                    @else
+                                        <span style="color: #94a3b8;">-</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div style="font-weight: 600; color: #334155;">{{ Str::limit($r->materi ?? '-', 45) }}</div>
+                                    @if($r->keterangan !== '-')
+                                        <div style="font-size: 11.5px; color: #64748b;">{{ Str::limit($r->keterangan, 35) }}</div>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div style="display: flex; justify-content: center;">
+                                        <button type="button" class="btn-act" onclick='openModalDetailSesi(@json($r))' title="Lihat Detail Sesi">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="9" style="text-align: center; color: #94a3b8; padding: 35px;">
+                                    <i class="fa-solid fa-calendar-xmark" style="font-size: 36px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                                    Tidak ada jadwal KBM yang sesuai dengan kriteria filter pada tanggal ini.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Cards View -->
+            <div class="kbm-mobile-cards">
+                @forelse($sesiList as $idx => $r)
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div>
+                                <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">
+                                    No. {{ $sesiList->firstItem() + $idx }} • <span style="color: #2563eb;">{{ $r->jam_ke }}</span>
+                                </div>
+                                <strong style="font-size: 14px; color: #0f172a; display: block; margin-top: 2px;">{{ $r->guru_nama }}</strong>
+                                <span style="font-size: 11px; color: #64748b;">NIP: {{ $r->guru_nip ?? '-' }}</span>
+                            </div>
+                            <div>
+                                @if($r->status_key === 'hadir')
+                                    <span class="badge-status badge-status-hadir"><i class="fa-solid fa-circle-check"></i> {{ $r->status_teks }}</span>
+                                @elseif($r->status_key === 'izin')
+                                    <span class="badge-status badge-status-izin"><i class="fa-solid fa-clock"></i> {{ $r->status_teks }}</span>
+                                @elseif($r->status_key === 'tidak_hadir')
+                                    <span class="badge-status badge-status-tidak-hadir"><i class="fa-solid fa-circle-xmark"></i> {{ $r->status_teks }}</span>
+                                @elseif($r->status_key === 'digantikan')
+                                    <span class="badge-status badge-status-digantikan"><i class="fa-solid fa-arrows-rotate"></i> {{ $r->status_teks }}</span>
+                                @else
+                                    <span class="badge-status badge-status-hadir">{{ $r->status_teks }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="m-card-body">
+                            <div class="m-info-row">
+                                <i class="fa-solid fa-book-open" style="color: #2563eb;"></i>
+                                <div><strong>Mapel:</strong> {{ $r->mapel_nama }}</div>
+                            </div>
+                            <div class="m-info-row">
+                                <i class="fa-solid fa-chalkboard-user" style="color: #475569;"></i>
+                                <div><strong>Kelas &amp; Ruang:</strong> {{ $r->kelas_nama }} ({{ $r->ruangan_nama }})</div>
+                            </div>
+                            <div class="m-info-row">
+                                <i class="fa-regular fa-clock" style="color: #64748b;"></i>
+                                <div><strong>Waktu:</strong> {{ $r->jam }}</div>
+                            </div>
+
+                            @if($r->guru_pengganti_nama)
+                                <div class="m-info-row" style="background: #eff6ff; padding: 6px 10px; border-radius: 8px; border: 1px solid #bfdbfe;">
+                                    <i class="fa-solid fa-people-arrows" style="color: #1d4ed8;"></i>
+                                    <div><strong style="color: #1d4ed8;">Guru Inval / Pengganti:</strong> {{ $r->guru_pengganti_nama }}</div>
+                                </div>
+                            @endif
+
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; margin-top: 2px;">
+                                <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 2px;">Materi / Catatan KBM:</div>
+                                <div style="font-size: 12px; font-weight: 600; color: #1e293b;">{{ $r->materi ?? '-' }}</div>
+                                @if($r->keterangan !== '-')
+                                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;">Ket: {{ $r->keterangan }}</div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="m-card-footer">
+                            <div>
+                                @if($r->guru_hp)
+                                    @php
+                                        $cleanHp = preg_replace('/[^0-9]/', '', $r->guru_hp);
+                                        if(str_starts_with($cleanHp, '0')) $cleanHp = '62' . substr($cleanHp, 1);
+                                    @endphp
+                                    <a href="https://wa.me/{{ $cleanHp }}?text=Halo%20{{ urlencode($r->guru_nama) }}" target="_blank" class="btn-wa">
+                                        <i class="fa-brands fa-whatsapp"></i> WA Guru
+                                    </a>
+                                @endif
+                            </div>
+                            <button type="button" class="btn-action-outline" onclick='openModalDetailSesi(@json($r))' style="padding: 5px 12px; font-size: 11.5px;">
+                                <i class="fa-solid fa-eye"></i> Detail Sesi
+                            </button>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 30px;">
+                        <i class="fa-solid fa-calendar-xmark" style="font-size: 36px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                        Tidak ada jadwal KBM yang sesuai dengan kriteria filter pada tanggal ini.
+                    </div>
+                @endforelse
+            </div>
+
+            @if($sesiList->hasPages())
+                {{ $sesiList->links('partials.custom-pagination') }}
+            @endif
+        </div>
+
+        <!-- Card 2: Guru Izin / Tidak Hadir Terdata -->
+        <div class="card-panel">
+            <h2 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-user-large-slash" style="color: #ea580c;"></i>
+                Daftar Pendidik Izin / Tidak Hadir ({{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }})
+            </h2>
+
+            <!-- Desktop Table View -->
+            <div class="izin-desktop-table table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th style="width: 45px; text-align: center;">No</th>
+                            <th>Nama Pendidik</th>
+                            <th>NIP</th>
+                            <th>Periode Izin</th>
+                            <th>Kategori &amp; Alasan</th>
+                            <th>Status Approval</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($guruIzin as $idx => $iz)
+                            <tr>
+                                <td style="text-align: center; font-weight: 700; color: #64748b;">{{ $idx + 1 }}</td>
+                                <td>
+                                    <strong style="font-size: 13.5px; color: #0f172a;">{{ $iz->guru->nama_guru ?? '-' }}</strong>
+                                    @if($iz->guru && !empty($iz->guru->no_hp))
+                                        @php
+                                            $cleanHp = preg_replace('/[^0-9]/', '', $iz->guru->no_hp);
+                                            if(str_starts_with($cleanHp, '0')) $cleanHp = '62' . substr($cleanHp, 1);
+                                        @endphp
+                                        <div style="margin-top: 3px;">
+                                            <a href="https://wa.me/{{ $cleanHp }}?text=Halo%20{{ urlencode($iz->guru->nama_guru) }}" target="_blank" class="btn-wa">
+                                                <i class="fa-brands fa-whatsapp"></i> Chat WA
+                                            </a>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td style="font-weight: 600; color: #475569;">{{ $iz->guru->nip ?? '-' }}</td>
+                                <td style="font-weight: 600; color: #334155;">
+                                    {{ \Carbon\Carbon::parse($iz->tanggal_mulai)->format('d M Y') }}
+                                    @if($iz->tanggal_mulai !== $iz->tanggal_selesai)
+                                        s/d {{ \Carbon\Carbon::parse($iz->tanggal_selesai)->format('d M Y') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @php
+                                        $alasanClean = trim(preg_replace('/^biasa:\s*/i', '', $iz->alasan ?? ''));
+                                        $isSakit = str_contains(strtolower($iz->kategori_izin . ' ' . $alasanClean), 'sakit');
+                                        $isCuti  = str_contains(strtolower($iz->kategori_izin . ' ' . $alasanClean), 'cuti');
+                                        $isDinas = str_contains(strtolower($alasanClean), 'dinas') || str_contains(strtolower($alasanClean), 'workshop') || str_contains(strtolower($alasanClean), 'tugas');
+                                        
+                                        $katLabel = 'Izin';
+                                        $badgeBg = '#fef3c7'; $badgeColor = '#b45309';
+                                        if ($isCuti) {
+                                            $katLabel = 'Cuti';
+                                            $badgeBg = '#f3e8ff'; $badgeColor = '#7e22ce';
+                                        } elseif ($isDinas) {
+                                            $katLabel = 'Tugas Dinas';
+                                            $badgeBg = '#e0e7ff'; $badgeColor = '#4338ca';
+                                        } elseif ($isSakit) {
+                                            $katLabel = 'Sakit';
+                                            $badgeBg = '#fee2e2'; $badgeColor = '#dc2626';
+                                        }
+                                    @endphp
+                                    <span style="font-weight: 800; font-size: 11.5px; padding: 2px 8px; border-radius: 6px; background: {{ $badgeBg }}; color: {{ $badgeColor }}; display: inline-block; margin-bottom: 2px;">
+                                        {{ $katLabel }}
+                                    </span>
+                                    <div style="font-size: 12px; color: #475569; font-weight: 600;">{{ Str::limit($alasanClean ?: '-', 50) }}</div>
+                                </td>
+                                <td>
+                                    @if($iz->status_waka_sdm === 'approved' || $iz->status === 'disetujui' || $iz->status_final === 'approved')
+                                        <span class="badge-status badge-status-disetujui"><i class="fa-solid fa-check-double"></i> Resmi Disetujui</span>
+                                    @else
+                                        <span class="badge-status badge-status-pending"><i class="fa-solid fa-hourglass-half"></i> Menunggu Approval</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #94a3b8; padding: 25px;">
+                                    Tidak ada data guru izin / tidak hadir pada tanggal ini.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Cards View -->
+            <div class="izin-mobile-cards">
+                @forelse($guruIzin as $idx => $iz)
+                    @php
+                        $alasanClean = trim(preg_replace('/^biasa:\s*/i', '', $iz->alasan ?? ''));
+                        $isSakit = str_contains(strtolower($iz->kategori_izin . ' ' . $alasanClean), 'sakit');
+                        $isCuti  = str_contains(strtolower($iz->kategori_izin . ' ' . $alasanClean), 'cuti');
+                        $isDinas = str_contains(strtolower($alasanClean), 'dinas') || str_contains(strtolower($alasanClean), 'workshop') || str_contains(strtolower($alasanClean), 'tugas');
+                        
+                        $katLabel = 'Izin';
+                        $badgeBg = '#fef3c7'; $badgeColor = '#b45309';
+                        if ($isCuti) {
+                            $katLabel = 'Cuti';
+                            $badgeBg = '#f3e8ff'; $badgeColor = '#7e22ce';
+                        } elseif ($isDinas) {
+                            $katLabel = 'Tugas Dinas';
+                            $badgeBg = '#e0e7ff'; $badgeColor = '#4338ca';
+                        } elseif ($isSakit) {
+                            $katLabel = 'Sakit';
+                            $badgeBg = '#fee2e2'; $badgeColor = '#dc2626';
+                        }
+                    @endphp
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div>
+                                <strong style="font-size: 13.5px; color: #0f172a; display: block;">{{ $iz->guru->nama_guru ?? '-' }}</strong>
+                                <span style="font-size: 11px; color: #64748b;">NIP: {{ $iz->guru->nip ?? '-' }}</span>
+                            </div>
+                            <span style="font-weight: 800; font-size: 11px; padding: 3px 9px; border-radius: 6px; background: {{ $badgeBg }}; color: {{ $badgeColor }};">
+                                {{ $katLabel }}
+                            </span>
+                        </div>
+
+                        <div class="m-card-body">
+                            <div class="m-info-row">
+                                <i class="fa-regular fa-calendar-days" style="color: #2563eb;"></i>
+                                <div>
+                                    <strong>Periode:</strong> {{ \Carbon\Carbon::parse($iz->tanggal_mulai)->format('d M Y') }}
+                                    @if($iz->tanggal_mulai !== $iz->tanggal_selesai)
+                                        s/d {{ \Carbon\Carbon::parse($iz->tanggal_selesai)->format('d M Y') }}
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="m-info-row">
+                                <i class="fa-solid fa-comment-dots" style="color: #64748b;"></i>
+                                <div><strong>Alasan:</strong> {{ $alasanClean ?: '-' }}</div>
+                            </div>
+                        </div>
+
+                        <div class="m-card-footer">
+                            <div>
                                 @if($iz->guru && !empty($iz->guru->no_hp))
                                     @php
                                         $cleanHp = preg_replace('/[^0-9]/', '', $iz->guru->no_hp);
                                         if(str_starts_with($cleanHp, '0')) $cleanHp = '62' . substr($cleanHp, 1);
                                     @endphp
-                                    <div style="margin-top: 4px;">
-                                        <a href="https://wa.me/{{ $cleanHp }}?text=Halo%20{{ urlencode($iz->guru->nama_guru) }}" target="_blank" class="btn-wa">
-                                            <i class="fa-brands fa-whatsapp"></i> Chat WA
-                                        </a>
-                                    </div>
+                                    <a href="https://wa.me/{{ $cleanHp }}?text=Halo%20{{ urlencode($iz->guru->nama_guru) }}" target="_blank" class="btn-wa">
+                                        <i class="fa-brands fa-whatsapp"></i> Chat WA
+                                    </a>
                                 @endif
-                            </td>
-                            <td style="font-weight: 700; color: #475569;">{{ $iz->guru->nip ?? '-' }}</td>
-                            <td style="font-weight: 600; color: #334155;">
-                                {{ \Carbon\Carbon::parse($iz->tanggal_mulai)->format('d M Y') }}
-                                @if($iz->tanggal_mulai !== $iz->tanggal_selesai)
-                                    s/d {{ \Carbon\Carbon::parse($iz->tanggal_selesai)->format('d M Y') }}
-                                @endif
-                            </td>
-                            <td>
-                                <span style="font-weight: 700; color: #1e293b;">{{ ucfirst($iz->jenis_izin ?? 'Izin') }}</span>
-                                <div style="font-size: 12px; color: #64748b;">{{ Str::limit($iz->alasan ?? '-', 45) }}</div>
-                            </td>
-                            <td>
-                                @if($iz->status_waka_sdm === 'approved' || $iz->status === 'disetujui')
-                                    <span class="badge-status badge-status-disetujui">Resmi Disetujui</span>
+                            </div>
+                            <div>
+                                @if($iz->status_waka_sdm === 'approved' || $iz->status === 'disetujui' || $iz->status_final === 'approved')
+                                    <span class="badge-status badge-status-disetujui"><i class="fa-solid fa-check-double"></i> Resmi Disetujui</span>
                                 @else
-                                    <span class="badge-status badge-status-pending">Menunggu Approval</span>
+                                    <span class="badge-status badge-status-pending"><i class="fa-solid fa-hourglass-half"></i> Menunggu Approval</span>
                                 @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" style="text-align: center; color: #94a3b8; padding: 30px;">
-                                Tidak ada data guru izin / tidak hadir pada tanggal ini.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 25px;">
+                        Tidak ada data guru izin / tidak hadir pada tanggal ini.
+                    </div>
+                @endforelse
+            </div>
         </div>
-    </div>
 
-    <!-- Card 2: Penugasan Guru Pengganti (Inval) -->
-    @if(count($guruPengganti ?? []) > 0)
+        <!-- Card 3: Penugasan Guru Pengganti (Inval) -->
+        @if(count($guruPengganti ?? []) > 0)
+            <div class="card-panel">
+                <h2 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-people-arrows" style="color: #4338ca;"></i>
+                    Penugasan Guru Pengganti / Inval ({{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }})
+                </h2>
+
+                <!-- Desktop Table View -->
+                <div class="inval-desktop-table table-responsive">
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th style="width: 45px; text-align: center;">No</th>
+                                <th>Guru Tidak Hadir</th>
+                                <th>Guru Pengganti</th>
+                                <th>Kelas &amp; Mapel</th>
+                                <th>Jam Ke</th>
+                                <th>Status Tugas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($guruPengganti as $idx => $gp)
+                                <tr>
+                                    <td style="text-align: center; font-weight: 700; color: #64748b;">{{ $idx + 1 }}</td>
+                                    <td><strong style="color: #dc2626;">{{ $gp->guruUtama->nama_guru ?? '-' }}</strong></td>
+                                    <td><strong style="color: #16a34a;">{{ $gp->guruPengganti->nama_guru ?? '-' }}</strong></td>
+                                    <td>
+                                        <div><strong>{{ $gp->jadwal->kelas->nama_kelas ?? '-' }}</strong></div>
+                                        <div style="font-size: 12px; color: #64748b;">{{ $gp->jadwal->mapel->nama_mapel ?? '-' }}</div>
+                                    </td>
+                                    <td style="font-weight: 700; color: #334155;">Jam Ke-{{ $gp->jadwal->jam_ke ?? ($gp->jadwal->id_jam_mulai ?? '-') }}</td>
+                                    <td><span class="badge-status badge-status-hadir"><i class="fa-solid fa-briefcase"></i> Bertugas</span></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Cards View -->
+                <div class="inval-mobile-cards">
+                    @foreach($guruPengganti as $idx => $gp)
+                        <div class="m-card-item">
+                            <div class="m-card-header">
+                                <div>
+                                    <span style="font-size: 11px; font-weight: 700; color: #64748b;">No. {{ $idx + 1 }}</span>
+                                    <div style="font-weight: 800; color: #2563eb; font-size: 13px;">Jam Ke-{{ $gp->jadwal->jam_ke ?? ($gp->jadwal->id_jam_mulai ?? '-') }}</div>
+                                </div>
+                                <span class="badge-status badge-status-hadir"><i class="fa-solid fa-briefcase"></i> Bertugas</span>
+                            </div>
+
+                            <div class="m-card-body">
+                                <div class="m-info-row">
+                                    <i class="fa-solid fa-user-xmark" style="color: #dc2626;"></i>
+                                    <div><strong>Guru Tidak Hadir:</strong> <span style="color: #dc2626; font-weight: 700;">{{ $gp->guruUtama->nama_guru ?? '-' }}</span></div>
+                                </div>
+                                <div class="m-info-row">
+                                    <i class="fa-solid fa-user-shield" style="color: #16a34a;"></i>
+                                    <div><strong>Guru Pengganti (Inval):</strong> <span style="color: #16a34a; font-weight: 700;">{{ $gp->guruPengganti->nama_guru ?? '-' }}</span></div>
+                                </div>
+                                <div class="m-info-row">
+                                    <i class="fa-solid fa-chalkboard" style="color: #475569;"></i>
+                                    <div><strong>Kelas &amp; Mapel:</strong> {{ $gp->jadwal->kelas->nama_kelas ?? '-' }} • {{ $gp->jadwal->mapel->nama_mapel ?? '-' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+    @else
+        <!-- TAB 2: REKAPITULASI & TREN BULANAN SDM -->
+
+        <!-- Filter Bar Form Bulanan -->
+        <div class="filter-bar-container">
+            <form action="{{ route('waka-sdm.kehadiran-guru') }}" method="GET">
+                <input type="hidden" name="tab" value="bulanan">
+
+                <div style="flex: 1.5; min-width: 200px;">
+                    <input type="text" name="q" value="{{ $search }}" class="filter-input" placeholder="Cari nama guru..." style="width: 100%;">
+                </div>
+
+                <div>
+                    <select name="bulan" class="filter-input">
+                        @for($m = 1; $m <= 12; $m++)
+                            <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>{{ $monthsMapIndo[$m] }}</option>
+                        @endfor
+                    </select>
+                </div>
+
+                <div>
+                    <select name="tahun" class="filter-input">
+                        @for($y = Carbon\Carbon::now()->year - 1; $y <= Carbon\Carbon::now()->year + 1; $y++)
+                            <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
+                        @endfor
+                    </select>
+                </div>
+
+                <div>
+                    <select name="id_mapel" class="filter-input" style="max-width: 180px;">
+                        <option value="">📖 Semua Mapel</option>
+                        @foreach($mapelList as $m)
+                            <option value="{{ $m->id_mapel }}" {{ $idMapelFilter == $m->id_mapel ? 'selected' : '' }}>{{ $m->nama_mapel }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-filter-dark">
+                    <i class="fa-solid fa-magnifying-glass"></i> Filter
+                </button>
+                <a href="{{ route('waka-sdm.kehadiran-guru', ['tab' => 'bulanan']) }}" class="btn-reset-light">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </a>
+            </form>
+        </div>
+
+        <!-- Monthly Charts Grid -->
+        <div class="charts-grid-2">
+            <!-- Chart 1: Tren 6 Bulan -->
+            <div class="card-panel">
+                <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-chart-line" style="color: #2563eb;"></i>
+                    Tren Keterisian Jurnal Mengajar &amp; Izin (6 Bulan Terakhir)
+                </h3>
+                <div style="height: 250px;">
+                    <canvas id="chartTrendBulanan"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Komposisi Status -->
+            <div class="card-panel">
+                <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-chart-pie" style="color: #ea580c;"></i>
+                    Rasio Kehadiran ({{ $namaBulan }})
+                </h3>
+                <div style="height: 250px; display: flex; align-items: center; justify-content: center;">
+                    <canvas id="chartRasioStatus"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabel Matrix Rekapitulasi per Guru -->
         <div class="card-panel">
-            <h2 style="font-size: 17px; font-weight: 800; color: #0f172a; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-people-arrows" style="color: #4338ca;"></i>
-                Penugasan Guru Pengganti / Inval ({{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }})
-            </h2>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-address-book" style="color: #2563eb;"></i>
+                    Rekapitulasi Kehadiran &amp; Kinerja Pendidik (Periode: {{ $namaBulan }})
+                </h2>
+                <div style="font-size: 12.5px; font-weight: 700; color: #64748b;">
+                    Total: {{ count($guruMatrix) }} Pendidik
+                </div>
+            </div>
 
-            <div class="table-responsive">
+            <!-- Desktop Table View -->
+            <div class="rekap-desktop-table table-responsive">
                 <table class="table-custom">
                     <thead>
                         <tr>
-                            <th style="width: 50px;">No</th>
-                            <th>Guru Tidak Hadir</th>
-                            <th>Guru Pengganti</th>
-                            <th>Kelas &amp; Mapel</th>
-                            <th>Jam Ke</th>
-                            <th>Status Penugasan</th>
+                            <th style="width: 45px; text-align: center;">No</th>
+                            <th>Nama Pendidik</th>
+                            <th>NIP</th>
+                            <th>Mata Pelajaran</th>
+                            <th style="text-align: center;">Jurnal Terisi (Hadir)</th>
+                            <th style="text-align: center;">Izin / Cuti</th>
+                            <th style="text-align: center;">Sakit / Tidak Hadir</th>
+                            <th style="text-align: center;">Persentase (%)</th>
+                            <th style="text-align: center;">Predikat Kinerja</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($guruPengganti as $idx => $gp)
+                        @forelse($guruMatrix as $idx => $gm)
                             <tr>
-                                <td>{{ $idx + 1 }}</td>
-                                <td><strong style="color: #dc2626;">{{ $gp->guruUtama->nama_guru ?? '-' }}</strong></td>
-                                <td><strong style="color: #16a34a;">{{ $gp->guruPengganti->nama_guru ?? '-' }}</strong></td>
+                                <td style="text-align: center; font-weight: 700; color: #64748b;">{{ $idx + 1 }}</td>
                                 <td>
-                                    <div><strong>{{ $gp->jadwal->kelas->nama_kelas ?? '-' }}</strong></div>
-                                    <div style="font-size: 12px; color: #64748b;">{{ $gp->jadwal->mapel->nama_mapel ?? '-' }}</div>
+                                    <strong style="font-size: 13.5px; color: #0f172a;">{{ $gm->guru->nama_guru }}</strong>
                                 </td>
-                                <td style="font-weight: 700; color: #334155;">Jam Ke-{{ $gp->jadwal->jam_ke ?? '-' }}</td>
-                                <td><span class="badge-status badge-status-hadir">Bertugas</span></td>
+                                <td style="font-size: 12px; color: #64748b;">{{ $gm->guru->nip ?? '-' }}</td>
+                                <td>{{ $gm->guru->mapel->nama_mapel ?? '-' }}</td>
+                                <td style="text-align: center; font-weight: 800; color: #16a34a;">{{ $gm->total_jurnal }} Sesi</td>
+                                <td style="text-align: center; font-weight: 700; color: #d97706;">{{ $gm->total_izin }} Kali</td>
+                                <td style="text-align: center; font-weight: 700; color: #dc2626;">{{ $gm->total_sakit }} Kali</td>
+                                <td style="text-align: center;">
+                                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                        <div style="flex: 1; max-width: 60px; height: 6px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                                            <div style="height: 100%; width: {{ $gm->persen_hadir }}%; background: {{ $gm->badge_color }};"></div>
+                                        </div>
+                                        <span style="font-weight: 800; font-size: 12.5px; color: #0f172a;">{{ $gm->persen_hadir }}%</span>
+                                    </div>
+                                </td>
+                                <td style="text-align: center;">
+                                    <span style="padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; background: {{ $gm->badge_color }}15; color: {{ $gm->badge_color }}; border: 1px solid {{ $gm->badge_color }}40;">
+                                        {{ $gm->predikat }}
+                                    </span>
+                                </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="9" style="text-align: center; color: #94a3b8; padding: 30px;">
+                                    Tidak ada data rekapitulasi pendidik yang sesuai dengan filter.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Cards View -->
+            <div class="rekap-mobile-cards">
+                @forelse($guruMatrix as $idx => $gm)
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">No. {{ $idx + 1 }}</span>
+                                <strong style="font-size: 13.5px; color: #0f172a; display: block; margin-top: 1px;">{{ $gm->guru->nama_guru }}</strong>
+                                <span style="font-size: 11px; color: #64748b;">NIP: {{ $gm->guru->nip ?? '-' }}</span>
+                            </div>
+                            <span style="padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; background: {{ $gm->badge_color }}15; color: {{ $gm->badge_color }}; border: 1px solid {{ $gm->badge_color }}40; white-space: nowrap;">
+                                {{ $gm->predikat }}
+                            </span>
+                        </div>
+
+                        <div class="m-card-body">
+                            <div class="m-info-row">
+                                <i class="fa-solid fa-book" style="color: #2563eb;"></i>
+                                <div><strong>Mata Pelajaran:</strong> {{ $gm->guru->mapel->nama_mapel ?? '-' }}</div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: #f8fafc; padding: 10px; border-radius: 10px; border: 1px solid #e2e8f0; text-align: center; margin-top: 4px;">
+                                <div>
+                                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Hadir</div>
+                                    <div style="font-size: 13px; font-weight: 800; color: #16a34a; margin-top: 2px;">{{ $gm->total_jurnal }} Sesi</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Izin/Cuti</div>
+                                    <div style="font-size: 13px; font-weight: 800; color: #d97706; margin-top: 2px;">{{ $gm->total_izin }} Kali</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Sakit</div>
+                                    <div style="font-size: 13px; font-weight: 800; color: #dc2626; margin-top: 2px;">{{ $gm->total_sakit }} Kali</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-card-footer">
+                            <span style="font-size: 11.5px; font-weight: 700; color: #475569;">Tingkat Kehadiran:</span>
+                            <div style="display: flex; align-items: center; gap: 8px; flex: 1; max-width: 140px; justify-content: flex-end;">
+                                <div style="flex: 1; height: 6px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                                    <div style="height: 100%; width: {{ $gm->persen_hadir }}%; background: {{ $gm->badge_color }};"></div>
+                                </div>
+                                <strong style="font-size: 12.5px; color: #0f172a;">{{ $gm->persen_hadir }}%</strong>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 30px;">
+                        Tidak ada data rekapitulasi pendidik yang sesuai dengan filter.
+                    </div>
+                @endforelse
             </div>
         </div>
     @endif
 
-    <!-- Card 3: Monitoring Pengisian Jurnal KBM -->
-    <div class="card-panel">
-        <h2 style="font-size: 17px; font-weight: 800; color: #0f172a; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-book-open-reader" style="color: #2563eb;"></i>
-            Monitoring Pengisian Jurnal KBM ({{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }})
-        </h2>
-
-        <div class="table-responsive">
-            <table class="table-custom">
-                <thead>
-                    <tr>
-                        <th style="width: 50px;">No</th>
-                        <th>Jam Ke</th>
-                        <th>Kelas &amp; Mapel</th>
-                        <th>Guru Pengajar</th>
-                        <th>Materi Pembelajaran</th>
-                        <th>Status Kehadiran</th>
-                        <th style="text-align: center; width: 70px;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($jurnalTerisi as $index => $j)
-                        <tr>
-                            <td>{{ $jurnalTerisi->firstItem() + $index }}</td>
-                            <td style="font-weight: 800; color: #2563eb;">
-                                Jam Ke-{{ $j->jam_ke ?? ($j->jadwal->jam_ke ?? '-') }}
-                            </td>
-                            <td>
-                                <strong style="color: #0f172a;">{{ $j->kelas->nama_kelas ?? ($j->jadwal->kelas->nama_kelas ?? '-') }}</strong>
-                                <div style="font-size: 12px; color: #64748b;">{{ $j->mapel->nama_mapel ?? ($j->jadwal->mapel->nama_mapel ?? '-') }}</div>
-                            </td>
-                            <td>
-                                <strong style="color: #1e293b;">{{ $j->guru->nama_guru ?? ($j->jadwal->guru->nama_guru ?? '-') }}</strong>
-                            </td>
-                            <td>
-                                <div style="font-weight: 700; color: #334155;">{{ Str::limit($j->materi ?? '-', 50) }}</div>
-                                @if(!empty($j->kondisi_kelas))
-                                    <div style="font-size: 11.5px; color: #64748b;">Catatan: {{ Str::limit($j->kondisi_kelas, 40) }}</div>
-                                @endif
-                            </td>
-                            <td>
-                                <span class="badge-status badge-status-hadir"><i class="fa-solid fa-circle-check"></i> Terisi (Hadir)</span>
-                            </td>
-                            <td>
-                                <div style="display: flex; justify-content: center;">
-                                    <button type="button" class="btn-act btn-act-view" onclick='openModalDetailJurnal(@json($j))' title="Detail Jurnal">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" style="text-align: center; color: #94a3b8; padding: 40px;">
-                                <i class="fa-solid fa-folder-open" style="font-size: 36px; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
-                                Belum ada entri jurnal KBM terisi untuk tanggal ini.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if($jurnalTerisi->hasPages())
-            {{ $jurnalTerisi->links('partials.custom-pagination') }}
-        @endif
-    </div>
 </div>
 
-<!-- MODAL DETAIL JURNAL KBM -->
-<div id="modalDetailJurnal" class="modal-backdrop-custom">
+<!-- MODAL DETAIL SESI KBM -->
+<div id="modalDetailSesi" class="modal-backdrop-custom">
     <div class="modal-card-custom">
         <div class="modal-header-custom">
-            <h3><i class="fa-solid fa-book-bookmark" style="color: #2563eb;"></i> Detail Jurnal KBM Harian</h3>
-            <button type="button" onclick="closeModalDetailJurnal()" style="background:none; border:none; color:#64748b; font-size:18px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+            <h3><i class="fa-solid fa-book-bookmark"></i> Detail Sesi Pembelajaran &amp; KBM</h3>
+            <button type="button" onclick="closeModalDetailSesi()" style="background:none; border:none; color:#ffffff; font-size:18px; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="modal-body-custom">
             <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
-                <div style="font-size: 12px; color: #64748b; font-weight: 700; text-transform: uppercase;">Materi Pembelajaran</div>
-                <div id="j_materi" style="font-size: 15px; font-weight: 800; color: #0f172a; margin-top: 4px;"></div>
+                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Materi / Pembahasan</div>
+                <div id="m_materi" style="font-size: 14.5px; font-weight: 800; color: #0f172a; margin-top: 4px;"></div>
             </div>
 
             <div class="form-grid-2" style="font-size: 13px; line-height: 1.8;">
-                <div><strong>Tanggal:</strong> <span id="j_tanggal"></span></div>
-                <div><strong>Jam Ke:</strong> <span id="j_jam"></span></div>
-                <div><strong>Kelas:</strong> <span id="j_kelas"></span></div>
-                <div><strong>Mata Pelajaran:</strong> <span id="j_mapel"></span></div>
-                <div><strong>Guru Pengajar:</strong> <span id="j_guru"></span></div>
-                <div><strong>Pertemuan Ke:</strong> <span id="j_pertemuan"></span></div>
-                <div style="grid-column: span 2;"><strong>Kondisi Kelas &amp; Catatan:</strong> <span id="j_kondisi"></span></div>
+                <div><strong style="color: #64748b;">Guru Pengampu:</strong> <br><span id="m_guru" style="font-weight: 700; color: #0f172a;"></span></div>
+                <div><strong style="color: #64748b;">Mata Pelajaran:</strong> <br><span id="m_mapel" style="font-weight: 700; color: #0f172a;"></span></div>
+                <div><strong style="color: #64748b;">Kelas &amp; Ruangan:</strong> <br><span id="m_kelas" style="font-weight: 700; color: #0f172a;"></span> (<span id="m_ruangan"></span>)</div>
+                <div><strong style="color: #64748b;">Sesi &amp; Waktu:</strong> <br><span id="m_jam" style="font-weight: 700; color: #0f172a;"></span></div>
+                <div><strong style="color: #64748b;">Status Kehadiran:</strong> <br><span id="m_status" style="font-weight: 700;"></span></div>
+                <div><strong style="color: #64748b;">Guru Pengganti:</strong> <br><span id="m_inval" style="font-weight: 700; color: #1d4ed8;"></span></div>
+                <div style="grid-column: span 2;"><strong style="color: #64748b;">Keterangan / Catatan:</strong> <br><span id="m_keterangan" style="color: #334155;"></span></div>
             </div>
         </div>
         <div class="modal-footer-custom">
-            <button type="button" onclick="closeModalDetailJurnal()" class="btn-reset-light">Tutup</button>
+            <button type="button" onclick="closeModalDetailSesi()" class="btn-reset-light">Tutup</button>
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('scripts')
 <script>
-    function openModalDetailJurnal(data) {
-        document.getElementById('j_materi').innerText = data.materi || '-';
-        document.getElementById('j_tanggal').innerText = data.tanggal || '-';
-        document.getElementById('j_jam').innerText = 'Jam Ke-' + (data.jam_ke || (data.jadwal ? data.jadwal.jam_ke : '-'));
-        document.getElementById('j_kelas').innerText = data.kelas ? data.kelas.nama_kelas : (data.jadwal && data.jadwal.kelas ? data.jadwal.kelas.nama_kelas : '-');
-        document.getElementById('j_mapel').innerText = data.mapel ? data.mapel.nama_mapel : (data.jadwal && data.jadwal.mapel ? data.jadwal.mapel.nama_mapel : '-');
-        document.getElementById('j_guru').innerText = data.guru ? data.guru.nama_guru : (data.jadwal && data.jadwal.guru ? data.jadwal.guru.nama_guru : '-');
-        document.getElementById('j_pertemuan').innerText = data.pertemuan_ke ? 'Pertemuan Ke-' + data.pertemuan_ke : '-';
-        document.getElementById('j_kondisi').innerText = data.kondisi_kelas || '-';
+    function openModalDetailSesi(data) {
+        document.getElementById('m_materi').innerText = data.materi || '-';
+        document.getElementById('m_guru').innerText = data.guru_nama || '-';
+        document.getElementById('m_mapel').innerText = data.mapel_nama || '-';
+        document.getElementById('m_kelas').innerText = data.kelas_nama || '-';
+        document.getElementById('m_ruangan').innerText = data.ruangan_nama || '-';
+        document.getElementById('m_jam').innerText = data.jam_ke + ' (' + data.jam + ')';
+        document.getElementById('m_status').innerText = data.status_teks || '-';
+        document.getElementById('m_inval').innerText = data.guru_pengganti_nama || 'Tidak Ada (Pengampu Utama)';
+        document.getElementById('m_keterangan').innerText = data.keterangan || '-';
 
-        document.getElementById('modalDetailJurnal').style.display = 'flex';
+        document.getElementById('modalDetailSesi').style.display = 'flex';
     }
 
-    function closeModalDetailJurnal() {
-        document.getElementById('modalDetailJurnal').style.display = 'none';
+    function closeModalDetailSesi() {
+        document.getElementById('modalDetailSesi').style.display = 'none';
     }
+
+    @if($tab === 'bulanan')
+    document.addEventListener('DOMContentLoaded', function() {
+        // Chart 1: Trend 6 Bulan
+        const ctxTrend = document.getElementById('chartTrendBulanan');
+        if (ctxTrend) {
+            new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: @json($trendLabels),
+                    datasets: [
+                        {
+                            label: 'Jurnal Hadir',
+                            data: @json($trendHadir),
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 2.5,
+                            fill: true,
+                            tension: 0.35,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#2563eb',
+                        },
+                        {
+                            label: 'Guru Izin/Cuti',
+                            data: @json($trendIzin),
+                            borderColor: '#ea580c',
+                            backgroundColor: 'rgba(234, 88, 12, 0.05)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.35,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#ea580c',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { family: 'Plus Jakarta Sans', size: 11, weight: '700' } } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f1f5f9' }, ticks: { font: { family: 'Plus Jakarta Sans', size: 11 } } },
+                        x: { grid: { display: false }, ticks: { font: { family: 'Plus Jakarta Sans', size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        // Chart 2: Donut Rasio Kehadiran
+        const ctxRasio = document.getElementById('chartRasioStatus');
+        if (ctxRasio) {
+            const had = {{ $monthlyStats['totalHadir'] ?? 0 }};
+            const izn = {{ $monthlyStats['totalIzin'] ?? 0 }};
+            const skt = {{ $monthlyStats['totalSakit'] ?? 0 }};
+
+            new Chart(ctxRasio, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Hadir Mengajar', 'Izin / Dinas', 'Sakit / Tidak Hadir'],
+                    datasets: [{
+                        data: [had > 0 || izn > 0 || skt > 0 ? had : 1, izn, skt],
+                        backgroundColor: ['#16a34a', '#d97706', '#dc2626'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', size: 11, weight: '700' }, boxWidth: 12 } }
+                    }
+                }
+            });
+        }
+    });
+    @endif
 </script>
 @endsection

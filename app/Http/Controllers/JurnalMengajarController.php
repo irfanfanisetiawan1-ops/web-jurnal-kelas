@@ -60,6 +60,28 @@ class JurnalMengajarController extends Controller
                     ->where('status', 'aktif')
                     ->first();
 
+                // Cek apakah guru utama yang sedang login sedang izin tidak hadir resmi pada hari ini
+                if ($user && $user->id_guru && $selectedJadwal->id_guru == $user->id_guru) {
+                    $isGuruIzin = \App\Models\GuruIzin::where('id_guru', $user->id_guru)
+                        ->whereDate('tanggal_mulai', '<=', $todayDate)
+                        ->whereDate('tanggal_selesai', '>=', $todayDate)
+                        ->where(function($q) {
+                            $q->where(function($sub) {
+                                $sub->whereIn('status_waka', ['approved', 'Disetujui'])
+                                    ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                            })->orWhereIn('status_final', ['approved', 'Disetujui'])
+                              ->orWhere(function($sub2) {
+                                  $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                                       ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                              });
+                        })
+                        ->exists();
+
+                    if ($isGuruIzin) {
+                        return redirect()->route('guru.dashboard')->with('error', 'Akses Ditolak: Anda tercatat sedang izin tidak hadir resmi hari ini. Pengisian jurnal mengajar kelas ini dialihkan kepada Guru Pengganti.');
+                    }
+                }
+
                 // Pengecekan gating jam pelajaran jika pengguna adalah Guru biasa yang bukan guru pengganti/piket
                 $isSubstitute = $penugasanPengganti && ($user->id_guru == $penugasanPengganti->id_guru_pengganti);
                 if ($user && !$user->isAdmin() && !$user->isGuruPiket() && !$isSubstitute && !$selectedJadwal->sudah_masuk_jam) {
@@ -79,22 +101,73 @@ class JurnalMengajarController extends Controller
     }
 
     /**
-     * API Response untuk mengambil daftar siswa berdasarkan ID Jadwal (Kelas)
+     * API Response untuk mengambil daftar siswa berdasarkan ID Jadwal (Kelas) beserta status izin auto-sync
      */
-    public function getSiswaByJadwal($id_jadwal)
+    public function getSiswaByJadwal(Request $request, $id_jadwal)
     {
         $jadwal = Jadwal::find($id_jadwal);
         if (!$jadwal) {
             return response()->json([], 404);
         }
 
+        $tanggalTarget = $request->input('tanggal') ?? \Carbon\Carbon::now('Asia/Jakarta')->toDateString();
+
         $siswas = Siswa::where('id_kelas', $jadwal->id_kelas)
             ->orderBy('nama_siswa', 'asc')
             ->get();
 
+        // Cek SiswaSuratIzin aktif pada tanggalTarget
+        $suratIzinAktif = \App\Models\SiswaSuratIzin::where('id_kelas', $jadwal->id_kelas)
+            ->activeOnDate($tanggalTarget)
+            ->whereIn('status', ['Terverifikasi', 'disetujui'])
+            ->get()
+            ->keyBy('id_siswa');
+
+        // Cek SiswaDispen aktif pada tanggalTarget
+        $dispenAktif = \App\Models\SiswaDispen::where('id_kelas', $jadwal->id_kelas)
+            ->whereDate('tanggal', $tanggalTarget)
+            ->where('status_waka', 'approved')
+            ->get()
+            ->keyBy('id_siswa');
+
+        $resultSiswas = $siswas->map(function($s) use ($suratIzinAktif, $dispenAktif) {
+            $defaultStatus = 'Hadir';
+            $keteranganIzin = null;
+            $isAutoIzin = false;
+
+            if (isset($suratIzinAktif[$s->id_siswa])) {
+                $surat = $suratIzinAktif[$s->id_siswa];
+                $kat = strtolower(trim($surat->kategori ?? 'izin'));
+                if (str_contains($kat, 'sakit')) {
+                    $defaultStatus = 'Sakit';
+                } elseif (str_contains($kat, 'dispen')) {
+                    $defaultStatus = 'Izin';
+                } else {
+                    $defaultStatus = 'Izin';
+                }
+                $keteranganIzin = "Surat {$surat->kategori}: " . ($surat->keterangan ?? 'Izin Terverifikasi');
+                $isAutoIzin = true;
+            } elseif (isset($dispenAktif[$s->id_siswa])) {
+                $dispen = $dispenAktif[$s->id_siswa];
+                $defaultStatus = 'Izin';
+                $keteranganIzin = "Dispensasi: " . ($dispen->alasan ?? 'Dispensasi Disetujui');
+                $isAutoIzin = true;
+            }
+
+            return [
+                'id_siswa'        => $s->id_siswa,
+                'nama_siswa'      => $s->nama_siswa,
+                'nis'             => $s->nis ?? '-',
+                'nisn'            => $s->nisn ?? '-',
+                'default_status'  => $defaultStatus,
+                'keterangan_izin' => $keteranganIzin,
+                'is_auto_izin'    => $isAutoIzin,
+            ];
+        });
+
         return response()->json([
             'kelas' => $jadwal->kelas->nama_kelas ?? '-',
-            'siswas' => $siswas
+            'siswas' => $resultSiswas
         ]);
     }
 
@@ -103,6 +176,18 @@ class JurnalMengajarController extends Controller
      */
     public function store(Request $request)
     {
+        $activeTa = \App\Models\TahunAjaran::getActive();
+        if ($activeTa && !$activeTa->buka_jurnal) {
+            return back()->withInput()->with('error', "Pengisian Jurnal Mengajar untuk Tahun Ajaran '{$activeTa->nama_lengkap}' saat ini sedang dikunci (Arsip) oleh Tata Usaha.");
+        }
+
+        // Validasi Hari Libur Sekolah / Akhir Pekan
+        if (\App\Models\HariLibur::isSchoolHoliday($request->tanggal)) {
+            $hInfo = \App\Models\HariLibur::getHolidayInfoForDate($request->tanggal);
+            $tglIndo = \Carbon\Carbon::parse($request->tanggal)->translatedFormat('d F Y');
+            return back()->withInput()->with('error', "Pengisian Jurnal Mengajar tidak dapat dilakukan: Tanggal {$tglIndo} merupakan {$hInfo['title']} ({$hInfo['keterangan']}). Sistem Jurnal Mengajar diliburkan.");
+        }
+
         $request->validate([
             'id_jadwal'             => 'required|exists:jadwal,id_jadwal',
             'tanggal'               => 'required|date',
@@ -125,6 +210,28 @@ class JurnalMengajarController extends Controller
         $user = Auth::user();
         $jadwal = Jadwal::find($request->id_jadwal);
         $idGuruPengganti = null;
+
+        // Cek apakah guru utama yang sedang login sedang izin tidak hadir resmi pada tanggal tersebut
+        if ($user && $user->id_guru && $jadwal && $user->id_guru == $jadwal->id_guru) {
+            $isGuruIzin = \App\Models\GuruIzin::where('id_guru', $user->id_guru)
+                ->whereDate('tanggal_mulai', '<=', $request->tanggal)
+                ->whereDate('tanggal_selesai', '>=', $request->tanggal)
+                ->where(function($q) {
+                    $q->where(function($sub) {
+                        $sub->whereIn('status_waka', ['approved', 'Disetujui'])
+                            ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                    })->orWhereIn('status_final', ['approved', 'Disetujui'])
+                      ->orWhere(function($sub2) {
+                          $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                               ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                      });
+                })
+                ->exists();
+
+            if ($isGuruIzin) {
+                return back()->withInput()->with('error', 'Akses Ditolak: Anda tercatat sedang izin tidak hadir resmi pada tanggal ' . \Carbon\Carbon::parse($request->tanggal)->translatedFormat('d F Y') . '. Pengisian jurnal mengajar kelas ini dialihkan kepada Guru Pengganti yang ditugaskan.');
+            }
+        }
 
         // Cek penugasan guru pengganti aktif untuk jadwal dan tanggal ini
         $penugasan = \App\Models\PenugasanGuruPengganti::where(function($q) use ($request, $jadwal) {
@@ -159,6 +266,7 @@ class JurnalMengajarController extends Controller
         ]);
 
         // Simpan detail ketidakhadiran siswa jika ada
+        $recordedSiswaIds = [];
         if ($request->has('ketidakhadiran') && is_array($request->ketidakhadiran)) {
             foreach ($request->ketidakhadiran as $item) {
                 if (!empty($item['id_siswa']) && !empty($item['keterangan'])) {
@@ -167,6 +275,31 @@ class JurnalMengajarController extends Controller
                         'id_siswa'   => $item['id_siswa'],
                         'keterangan' => $item['keterangan'],
                     ]);
+                    $recordedSiswaIds[] = $item['id_siswa'];
+                }
+            }
+        }
+
+        // Pastikan siswa dengan surat izin/dispen aktif pada tanggal jurnal otomatis tercatat di JurnalDetailKetidakhadiran
+        if ($jadwal) {
+            $suratIzinAktif = \App\Models\SiswaSuratIzin::where('id_kelas', $jadwal->id_kelas)
+                ->activeOnDate($request->tanggal)
+                ->whereIn('status', ['Terverifikasi', 'disetujui'])
+                ->get();
+
+            foreach ($suratIzinAktif as $surat) {
+                if (!in_array($surat->id_siswa, $recordedSiswaIds)) {
+                    $kat = str_contains(strtolower($surat->kategori), 'sakit') ? 'Sakit' : 'Izin';
+                    JurnalDetailKetidakhadiran::firstOrCreate(
+                        [
+                            'id_jurnal' => $jurnal->id_jurnal,
+                            'id_siswa'  => $surat->id_siswa,
+                        ],
+                        [
+                            'keterangan' => $kat,
+                        ]
+                    );
+                    $recordedSiswaIds[] = $surat->id_siswa;
                 }
             }
         }
@@ -257,6 +390,31 @@ class JurnalMengajarController extends Controller
             'status_kehadiran_guru.in'       => 'Status kehadiran guru tidak valid.',
             'materi.required'                => 'Materi pembelajaran wajib diisi.',
         ]);
+
+        $user = Auth::user();
+        $jadwal = Jadwal::find($request->id_jadwal);
+
+        // Cek apakah guru utama yang sedang login sedang izin tidak hadir resmi pada tanggal tersebut
+        if ($user && $user->id_guru && $jadwal && $user->id_guru == $jadwal->id_guru) {
+            $isGuruIzin = \App\Models\GuruIzin::where('id_guru', $user->id_guru)
+                ->whereDate('tanggal_mulai', '<=', $request->tanggal)
+                ->whereDate('tanggal_selesai', '>=', $request->tanggal)
+                ->where(function($q) {
+                    $q->where(function($sub) {
+                        $sub->whereIn('status_waka', ['approved', 'Disetujui'])
+                            ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                    })->orWhereIn('status_final', ['approved', 'Disetujui'])
+                      ->orWhere(function($sub2) {
+                          $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                               ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                      });
+                })
+                ->exists();
+
+            if ($isGuruIzin) {
+                return back()->withInput()->with('error', 'Akses Ditolak: Anda tercatat sedang izin tidak hadir resmi pada tanggal ' . \Carbon\Carbon::parse($request->tanggal)->translatedFormat('d F Y') . '. Pengisian/perubahan jurnal mengajar kelas ini dialihkan kepada Guru Pengganti.');
+            }
+        }
 
         $jurnal->update([
             'id_jadwal'             => $request->id_jadwal,

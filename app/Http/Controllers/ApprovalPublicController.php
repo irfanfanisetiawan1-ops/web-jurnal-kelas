@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\GuruIzin;
 use App\Models\SiswaDispen;
+use App\Models\SiswaSuratIzin;
+use App\Models\SiswaTelat;
 use App\Models\User;
+use App\Models\JadwalPiketWaka;
+use App\Services\WhatsAppNotificationService;
 
 class ApprovalPublicController extends Controller
 {
@@ -51,24 +55,30 @@ class ApprovalPublicController extends Controller
             return redirect()->back()->withErrors(['auth' => 'Kepala Sekolah sudah pernah memberikan respon persetujuan untuk pengajuan izin ini.'])->withInput();
         }
 
-        $loginInput = trim($request->nip_username);
+        $rawInput = trim($request->nip_username);
+        $cleanedDigits = preg_replace('/[^0-9]/', '', $rawInput);
+        $loginInput = (strlen($cleanedDigits) === 18) ? $cleanedDigits : $rawInput;
 
         // 1. Verifikasi Format NIP jika seluruhnya angka (NIP PNS/ASN = 18 digit)
-        if (ctype_digit($loginInput) && strlen($loginInput) !== 18) {
+        if (ctype_digit($cleanedDigits) && strlen($cleanedDigits) !== 18 && strlen($rawInput) !== 18) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Format NIP '{$loginInput}' tidak valid! (NIP PNS/ASN harus terdiri dari tepat 18 digit angka, saat ini: " . strlen($loginInput) . " digit)."
+                'auth' => "Verifikasi Gagal: Format NIP '{$rawInput}' tidak valid! (NIP PNS/ASN harus terdiri dari tepat 18 digit angka, saat ini: " . strlen($cleanedDigits) . " digit)."
             ])->withInput();
         }
 
         // 2. Verifikasi Ketersediaan User di tabel users (Data Pengguna Role TU)
-        $user = User::where('nip', $loginInput)
-            ->orWhere('username', $loginInput)
-            ->orWhere('email', $loginInput)
-            ->first();
+        $user = User::where(function($q) use ($loginInput, $cleanedDigits) {
+            $q->where('nip', $loginInput)
+              ->orWhere('username', $loginInput)
+              ->orWhere('email', $loginInput);
+            if (!empty($cleanedDigits)) {
+                $q->orWhere('nip', $cleanedDigits);
+            }
+        })->first();
 
         if (!$user) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: NIP / Username '{$loginInput}' tidak terdaftar pada data Pengguna sistem (Role TU)!"
+                'auth' => "Verifikasi Gagal: NIP / Username '{$rawInput}' tidak terdaftar pada data Pengguna sistem (Role TU)!"
             ])->withInput();
         }
 
@@ -82,13 +92,13 @@ class ApprovalPublicController extends Controller
         // 4. Verifikasi Password Akun
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Password akun yang Anda masukkan untuk NIP/Username '{$loginInput}' tidak sesuai dengan data Pengguna di database!"
+                'auth' => "Verifikasi Gagal: Password akun yang Anda masukkan untuk NIP/Username '{$rawInput}' tidak sesuai dengan data Pengguna di database!"
             ])->withInput();
         }
 
         // 5. Verifikasi Otorisasi Peran / Jabatan
         if ($request->role_approver === 'waka') {
-            $isValidWaka = ($user->role === 'waka') || (method_exists($user, 'isWakaKurikulum') && $user->isWakaKurikulum()) || ($user->role === 'waka') || in_array($user->role, ['admin', 'tu']);
+            $isValidWaka = ($user->role === 'waka') || (method_exists($user, 'isWakaKurikulum') && $user->isWakaKurikulum()) || in_array($user->role, ['admin', 'tu']);
             if (!$isValidWaka) {
                 return redirect()->back()->withErrors([
                     'auth' => "Verifikasi Gagal: Akun '{$user->name}' (NIP: {$user->nip}) ber-role '{$user->role_label}', tidak memiliki kewenangan sebagai Waka Kurikulum. Silakan gunakan NIP & Password akun Waka Kurikulum yang sah."
@@ -204,24 +214,30 @@ class ApprovalPublicController extends Controller
             ])->withInput();
         }
 
-        $loginInput = trim($request->nip_username);
+        $rawInput = trim($request->nip_username);
+        $cleanedDigits = preg_replace('/[^0-9]/', '', $rawInput);
+        $loginInput = (strlen($cleanedDigits) === 18) ? $cleanedDigits : $rawInput;
 
         // 1. Verifikasi Format NIP jika digit angka 18
-        if (ctype_digit($loginInput) && strlen($loginInput) !== 18) {
+        if (ctype_digit($cleanedDigits) && strlen($cleanedDigits) !== 18 && strlen($rawInput) !== 18) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Format NIP '{$loginInput}' tidak valid! (NIP PNS/ASN harus terdiri dari tepat 18 digit angka, saat ini: " . strlen($loginInput) . " digit)."
+                'auth' => "Verifikasi Gagal: Format NIP '{$rawInput}' tidak valid! (NIP PNS/ASN harus terdiri dari tepat 18 digit angka, saat ini: " . strlen($cleanedDigits) . " digit)."
             ])->withInput();
         }
 
         // 2. Verifikasi Ketersediaan User di tabel users (Data Pengguna Role TU)
-        $user = User::where('nip', $loginInput)
-            ->orWhere('username', $loginInput)
-            ->orWhere('email', $loginInput)
-            ->first();
+        $user = User::where(function($q) use ($loginInput, $cleanedDigits) {
+            $q->where('nip', $loginInput)
+              ->orWhere('username', $loginInput)
+              ->orWhere('email', $loginInput);
+            if (!empty($cleanedDigits)) {
+                $q->orWhere('nip', $cleanedDigits);
+            }
+        })->first();
 
         if (!$user) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: NIP / Username '{$loginInput}' tidak terdaftar pada data Pengguna sistem (Role TU)!"
+                'auth' => "Verifikasi Gagal: NIP / Username '{$rawInput}' tidak terdaftar pada data Pengguna sistem (Role TU)!"
             ])->withInput();
         }
 
@@ -235,15 +251,22 @@ class ApprovalPublicController extends Controller
         // 4. Verifikasi Password Akun
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Password akun yang Anda masukkan untuk NIP/Username '{$loginInput}' tidak sesuai dengan data Pengguna di database!"
+                'auth' => "Verifikasi Gagal: Password akun yang Anda masukkan untuk NIP/Username '{$rawInput}' tidak sesuai dengan data Pengguna di database!"
             ])->withInput();
         }
 
-        // 5. Verifikasi Otorisasi Waka
-        $isValidWaka = ($user->role === 'waka') || (method_exists($user, 'isWaka') && $user->isWaka()) || in_array($user->role, ['admin', 'tu']);
+        // 5. Verifikasi Otorisasi Waka Kesiswaan / Piket Waka Terjadwal
+        $isAssignedWaka = ($dispen->id_user_waka && $user->id == $dispen->id_user_waka) ||
+                          JadwalPiketWaka::isUserPiketWaka($user, $dispen->tanggal);
+
+        $isValidWaka = ($user->role === 'waka_kesiswaan') || 
+                       in_array($user->role, ['admin', 'tu', 'waka']) || 
+                       $isAssignedWaka;
+
         if (!$isValidWaka) {
+            $formattedTgl = \Carbon\Carbon::parse($dispen->tanggal)->translatedFormat('d F Y');
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Akun '{$user->name}' (NIP: {$user->nip}) ber-role '{$user->role_label}', tidak memiliki kewenangan sebagai Waka. Silakan gunakan NIP & Password akun Waka yang sah."
+                'auth' => "Verifikasi Gagal: Akun '{$user->name}' (NIP: {$user->nip}) ber-role '{$user->role_label}', tidak memiliki kewenangan sebagai Waka Kesiswaan atau Piket Waka yang ditugaskan pada tanggal {$formattedTgl}. Silakan gunakan NIP & Password akun Waka Kesiswaan atau Guru Piket Waka yang sah."
             ])->withInput();
         }
 
@@ -255,55 +278,104 @@ class ApprovalPublicController extends Controller
         }
 
         // Update Data Dispensasi Siswa
+        $approverRoleName = $isAssignedWaka ? "Piket Waka ({$user->name})" : 'Waka Kesiswaan';
         $dispen->status_waka = $request->action;
         $dispen->status_wali_kelas = $request->action;
-        $dispen->catatan_waka = $request->catatan ?? ($request->action === 'approved' ? 'Disetujui oleh Waka' : 'Ditolak oleh Waka');
+        $dispen->catatan_waka = $request->catatan ?? ($request->action === 'approved' ? "Disetujui oleh {$approverRoleName}" : "Ditolak oleh {$approverRoleName}");
         $dispen->waktu_approval_waka = now();
 
         if ($request->action === 'approved') {
             $dispen->status_satpam = 'belum_keluar';
             $dispen->save();
-            $namaSiswa = $dispen->siswa->nama_siswa ?? 'Siswa';
-            $namaKelas = $dispen->kelas->nama_kelas ?? '-';
-            $jamRange  = ($dispen->jam_keluar ?? '00:00') . ' s/d ' . ($dispen->jam_kembali ?? '00:00');
-            $tglIndo   = \Carbon\Carbon::parse($dispen->tanggal)->format('d-m-Y');
 
-            $linkKartu = $dispen->foto_kartu_identitas ? asset($dispen->foto_kartu_identitas) : null;
-            $linkSurat = $dispen->foto_surat_dispen ? asset($dispen->foto_surat_dispen) : null;
-            $linkDispenPage = url("/approval/dispen/{$token}");
+            // Generate clean approval URL
+            $linkDispenPage = WhatsAppNotificationService::makeApprovalDispenUrl($token);
 
-            $pesanWaSatpam = "OFFICIAL NOTIFIKASI DISPENSASI SISWA (EDU JOURNAL)\n"
-                . "===============================================\n\n"
-                . "Memberitahukan bahwa permohonan dispensasi siswa berikut telah DISETUJUI oleh Waka ({$user->name}):\n\n"
-                . "* Kode Dispen: {$dispen->kode_dispen}\n"
-                . "* Nama Siswa: {$namaSiswa}\n"
-                . "* Kelas: {$namaKelas}\n"
-                . "* Tanggal & Jam: {$tglIndo} ({$jamRange})\n"
-                . "* Alasan Dispen: {$dispen->alasan}\n";
+            // Kirim notifikasi resmi secara otomatis ke Petugas Satpam via ChatBot WhatsApp
+            $waService = app(WhatsAppNotificationService::class);
+            $satpamResult = $waService->sendNotifikasiDispensasiKeSatpam($dispen, $user->name, $linkDispenPage);
 
-            if ($linkKartu) {
-                $pesanWaSatpam .= "* Lihat Foto Kartu Pelajar: {$linkKartu}\n";
+            $pesanWaSatpam = $satpamResult['pesan'] ?? $waService->buildPesanDispensasiKeSatpam($dispen, $user->name, $linkDispenPage);
+
+            $primarySatpam = $satpamResult['primary'] ?? null;
+            $hpSatpam = $primarySatpam['no_hp'] ?? null;
+            $hpSatpamFormatted = WhatsAppNotificationService::formatPhoneNumber($hpSatpam);
+
+            $waSatpamUrl = !empty($hpSatpamFormatted)
+                ? "https://api.whatsapp.com/send?phone={$hpSatpamFormatted}&text=" . urlencode($pesanWaSatpam)
+                : "https://api.whatsapp.com/send?text=" . urlencode($pesanWaSatpam);
+
+            $chatbotSuccess = $satpamResult['success'] ?? false;
+            $namaSatpam = $primarySatpam['nama'] ?? 'Petugas Satpam';
+
+            $suksesMsg = "Otentikasi Berhasil! Status persetujuan dispensasi siswa oleh Waka Kesiswaan ({$user->name}) telah DISETUJUI.";
+            if ($chatbotSuccess) {
+                $suksesMsg .= " Notifikasi resmi telah berhasil dikirimkan secara otomatis oleh ChatBot WhatsApp ke Petugas Satpam ({$namaSatpam} - {$hpSatpam}).";
+            } else {
+                $suksesMsg .= " Data dispensasi siswa telah diverifikasi dan diteruskan ke Portal Satpam.";
             }
-            if ($linkSurat) {
-                $pesanWaSatpam .= "* Lihat Surat Dispen Resmi: {$linkSurat}\n";
-            }
-
-            $pesanWaSatpam .= "\n* Link Verifikasi Detail: {$linkDispenPage}\n\n"
-                . "STATUS: TERVERIFIKASI & DISETUJUI WAKA.\n"
-                . "Petugas Satpam dapat mencocokkan fisik Kartu Identitas Siswa/Kartu Pelajar dengan foto terlampir, lalu membiarkan siswa keluar sekolah";
-
-            $waSatpamUrl = "https://api.whatsapp.com/send?text=" . urlencode($pesanWaSatpam);
 
             return redirect()->back()->with([
-                'success'         => "Otentikasi Berhasil! Status persetujuan dispensasi siswa oleh Waka ({$user->name}) telah DISETUJUI. Data siswa otomatis dikirim ke Portal Satpam.",
-                'wa_satpam_url'   => $waSatpamUrl,
-                'pesan_wa_satpam' => $pesanWaSatpam,
+                'success'           => $suksesMsg,
+                'wa_satpam_url'     => $waSatpamUrl,
+                'pesan_wa_satpam'   => $pesanWaSatpam,
+                'satpam_wa_result'  => $satpamResult,
+                'chatbot_sent'      => $chatbotSuccess,
             ]);
         } else {
             $dispen->status_satpam = 'ditolak';
             $dispen->save();
 
-            return redirect()->back()->with('success', "Otentikasi Berhasil! Permohonan dispensasi siswa telah DITOLAK oleh Waka ({$user->name}) dengan alasan: \"{$request->catatan}\". Catatan penolakan akan tampil pada Halaman Guru Piket.");
+            return redirect()->back()->with('success', "Otentikasi Berhasil! Permohonan dispensasi siswa telah DITOLAK oleh Waka Kesiswaan ({$user->name}) dengan alasan: \"{$request->catatan}\". Catatan penolakan akan tampil pada Halaman Guru Piket.");
         }
+    }
+
+    /**
+     * Kirim ulang notifikasi dispensasi ke Satpam via ChatBot WhatsApp
+     */
+    public function resendNotifSatpam(Request $request, string $token)
+    {
+        $dispen = SiswaDispen::with(['siswa', 'kelas'])->where('token_wali_kelas', $token)->firstOrFail();
+
+        if ($dispen->status_waka !== 'approved') {
+            return redirect()->back()->withErrors([
+                'auth' => 'Dispensasi siswa belum disetujui oleh Waka Kesiswaan, notifikasi ke Satpam belum dapat dikirim.'
+            ]);
+        }
+
+        $linkDispenPage = WhatsAppNotificationService::makeApprovalDispenUrl($token);
+        $waService = app(WhatsAppNotificationService::class);
+        $satpamResult = $waService->sendNotifikasiDispensasiKeSatpam($dispen, $dispen->nama_waka, $linkDispenPage);
+
+        $primarySatpam = $satpamResult['primary'] ?? null;
+        $hpSatpam = $primarySatpam['no_hp'] ?? null;
+        $namaSatpam = $primarySatpam['nama'] ?? 'Petugas Satpam';
+
+        if ($satpamResult['success'] ?? false) {
+            return redirect()->back()->with('success', "Notifikasi dispensasi berhasil dikirim ulang secara otomatis melalui ChatBot WhatsApp ke Petugas Satpam ({$namaSatpam} - {$hpSatpam}).");
+        } else {
+            $reason = $primarySatpam['detail']['message'] ?? 'Gagal memproses pesan ke WhatsApp Gateway';
+            return redirect()->back()->withErrors([
+                'auth' => "Gagal mengirim notifikasi ChatBot WhatsApp ke Satpam: {$reason}. Anda dapat menggunakan tombol Kirim Manual via WhatsApp di bawah."
+            ]);
+        }
+    }
+
+    /**
+     * Tampilkan Halaman Publik Pemberitahuan Surat Izin Siswa (untuk Wali Kelas / Publik)
+     */
+    public function showSuratIzin($id)
+    {
+        $surat = SiswaSuratIzin::with(['siswa.kelas.waliKelas', 'kelas.waliKelas', 'petugasPiket'])->findOrFail($id);
+        return view('approval.surat_izin_pemberitahuan', compact('surat'));
+    }
+
+    /**
+     * Tampilkan Halaman Publik Pemberitahuan Siswa Terlambat (untuk Guru Mengajar / Publik)
+     */
+    public function showSiswaTelat($id)
+    {
+        $telat = SiswaTelat::with(['siswa.kelas', 'kelas', 'guruMengajar.mapel', 'guruPiket'])->findOrFail($id);
+        return view('approval.siswa_telat_pemberitahuan', compact('telat'));
     }
 }

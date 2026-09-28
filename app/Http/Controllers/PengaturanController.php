@@ -96,13 +96,22 @@ class PengaturanController extends Controller
 
         // Data Khusus Waka (Wakil Kepala Sekolah)
         $wakaData = null;
-        if ($user->isWaka()) {
+        if ($user->isWaka() || $user->isWakaSdm() || $user->isWakaKesiswaan()) {
             $todayDate = \Carbon\Carbon::now('Asia/Jakarta')->toDateString();
+            $izinPendingCount = 0;
+            if ($user->isWakaSdm()) {
+                $izinPendingCount = \App\Models\GuruIzin::where(function($q) {
+                    $q->where('status_waka_sdm', 'pending')->orWhereNull('status_waka_sdm');
+                })->count();
+            } else {
+                $izinPendingCount = \App\Models\GuruIzin::where('status_waka', 'pending')->count();
+            }
+
             $wakaData = [
                 'total_guru'       => \App\Models\Guru::count(),
                 'total_siswa'      => \App\Models\Siswa::count(),
-                'izin_pending'     => \App\Models\GuruIzin::where('status_waka', 'pending')->count(),
-                'dispen_pending'   => \App\Models\SiswaDispen::where('status_wali_kelas', 'approved')->where('status_satpam', 'pending')->count(),
+                'izin_pending'     => $izinPendingCount,
+                'dispen_pending'   => \App\Models\SiswaDispen::where('status_waka', 'pending')->count(),
                 'total_jadwal'     => \App\Models\Jadwal::count(),
                 'jurnal_today'     => \App\Models\JurnalMengajar::whereDate('tanggal', $todayDate)->count(),
                 'total_pengumuman' => \App\Models\Pengumuman::where('kategori', '!=', 'Siswa Telat')->count(),
@@ -187,15 +196,63 @@ class PengaturanController extends Controller
             'ortu_notif_kehadiran'      => Setting::getByKey('ortu_notif_kehadiran', '1'),
             'ortu_notif_izin'           => Setting::getByKey('ortu_notif_izin', '1'),
             'ortu_notif_laporan'        => Setting::getByKey('ortu_notif_laporan', '1'),
+            'ortu_notif_pengumuman'     => Setting::getByKey('ortu_notif_pengumuman', '1'),
+            'ortu_export_format'        => Setting::getByKey('ortu_export_format', 'pdf'),
         ];
 
         // Data Khusus Orang Tua
         $siswaOrangTua = null;
+        $ortuMetrics = null;
         if ($user->isOrangTua()) {
             $siswaOrangTua = $user->siswa ?? \App\Models\Siswa::withoutGlobalScopes()
                 ->where('id_siswa', $user->id_siswa)
                 ->orWhere('nisn', $user->nip)
+                ->orWhere('nis', $user->nip)
                 ->first();
+
+            if ($siswaOrangTua && !$user->id_siswa) {
+                $user->update(['id_siswa' => $siswaOrangTua->id_siswa]);
+            }
+
+            if ($siswaOrangTua) {
+                $siswaOrangTua->loadMissing(['kelas.jurusan', 'kelas.waliKelas', 'kelas.ruangan']);
+
+                $currentMonth = \Carbon\Carbon::now('Asia/Jakarta')->month;
+                $currentYear = \Carbon\Carbon::now('Asia/Jakarta')->year;
+
+                $totalJurnalKelas = \App\Models\JurnalMengajar::whereHas('jadwal', function ($q) use ($siswaOrangTua) {
+                    $q->where('id_kelas', $siswaOrangTua->id_kelas);
+                })->whereMonth('tanggal', $currentMonth)
+                  ->whereYear('tanggal', $currentYear)
+                  ->count();
+
+                $ketidakhadiran = \App\Models\JurnalDetailKetidakhadiran::where('id_siswa', $siswaOrangTua->id_siswa)
+                    ->whereHas('jurnalMengajar', function ($q) use ($currentMonth, $currentYear) {
+                        $q->whereMonth('tanggal', $currentMonth)
+                          ->whereYear('tanggal', $currentYear);
+                    })->get();
+
+                $sakitCount = $ketidakhadiran->where('keterangan', 'Sakit')->count();
+                $izinCount  = $ketidakhadiran->where('keterangan', 'Izin')->count();
+                $alfaCount  = $ketidakhadiran->where('keterangan', 'Alpa')->count();
+                $hadirCount = $totalJurnalKelas > 0 ? max(0, $totalJurnalKelas - ($sakitCount + $izinCount + $alfaCount)) : 0;
+                $persenHadir = $totalJurnalKelas > 0 ? round(($hadirCount / $totalJurnalKelas) * 100) : 100;
+
+                $totalSuratIzin = \App\Models\SiswaSuratIzin::where('id_siswa', $siswaOrangTua->id_siswa)->count();
+                $totalDispen = \App\Models\SiswaDispen::where('id_siswa', $siswaOrangTua->id_siswa)->count();
+
+                $ortuMetrics = [
+                    'total_jurnal' => $totalJurnalKelas,
+                    'hadir'        => $hadirCount,
+                    'sakit'        => $sakitCount,
+                    'izin'         => $izinCount,
+                    'alfa'         => $alfaCount,
+                    'persen_hadir' => $persenHadir,
+                    'total_izin'   => $totalSuratIzin,
+                    'total_dispen' => $totalDispen,
+                    'wali_kelas'   => $siswaOrangTua->kelas && $siswaOrangTua->kelas->waliKelas ? $siswaOrangTua->kelas->waliKelas : null,
+                ];
+            }
         }
 
         // Tata letak layout adaptif sesuai role
@@ -205,7 +262,9 @@ class PengaturanController extends Controller
             $layout = 'layouts.kepala_sekolah';
         } elseif ($user->isWakaSdm()) {
             $layout = 'layouts.waka_sdm';
-        } elseif ($user->isWaka()) {
+        } elseif ($user->isWakaKurikulum()) {
+            $layout = 'layouts.waka_kurikulum';
+        } elseif ($user->isWaka() || $user->isWakaKesiswaan()) {
             $layout = 'layouts.waka';
         } elseif ($user->isOrangTua()) {
             $layout = 'layouts.orang_tua';
@@ -213,7 +272,7 @@ class PengaturanController extends Controller
             $layout = 'layouts.guru';
         }
 
-        return view('pengaturan.index', compact('user', 'guru', 'kelasWali', 'piketData', 'waliData', 'guruDataMetrics', 'kepsekData', 'wakaData', 'satpamData', 'siswaOrangTua', 'systemSettings', 'layout'));
+        return view('pengaturan.index', compact('user', 'guru', 'kelasWali', 'piketData', 'waliData', 'guruDataMetrics', 'kepsekData', 'wakaData', 'satpamData', 'siswaOrangTua', 'ortuMetrics', 'systemSettings', 'layout'));
     }
 
     /**
@@ -290,7 +349,13 @@ class PengaturanController extends Controller
             }
         }
 
-        return redirect()->route('pengaturan.index')
+        if ($request->headers->get('referer') && str_contains($request->headers->get('referer'), 'guru-kehadiran-kelas')) {
+            return redirect()->route('guru.kehadiran-kelas', ['tab' => 'pengaturan'])
+                ->with('success', 'Profil Wali Kelas berhasil diperbarui!')
+                ->with('active_tab', 'profile');
+        }
+
+        return redirect()->back()
             ->with('success', 'Profil Anda berhasil diperbarui!')
             ->with('active_tab', 'profile');
     }
@@ -314,17 +379,27 @@ class PengaturanController extends Controller
         ]);
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->route('pengaturan.index')
+            return redirect()->back()
                 ->withErrors(['current_password' => 'Password saat ini salah. Silakan masukkan password akun Anda yang benar!'])
                 ->withInput()
                 ->with('active_tab', 'security');
         }
 
-        $user->update([
+        $updatePassData = [
             'password' => Hash::make($request->password),
-        ]);
+        ];
+        if (\Illuminate\Support\Facades\Schema::hasColumn('users', 'password_plain')) {
+            $updatePassData['password_plain'] = $request->password;
+        }
+        $user->update($updatePassData);
 
-        return redirect()->route('pengaturan.index')
+        if ($request->headers->get('referer') && str_contains($request->headers->get('referer'), 'guru-kehadiran-kelas')) {
+            return redirect()->route('guru.kehadiran-kelas', ['tab' => 'pengaturan'])
+                ->with('success', 'Password akun Wali Kelas berhasil diperbarui!')
+                ->with('active_tab', 'security');
+        }
+
+        return redirect()->back()
             ->with('success', 'Password Anda berhasil diperbarui!')
             ->with('active_tab', 'security');
     }
@@ -367,8 +442,7 @@ class PengaturanController extends Controller
             Setting::setByKey('kepsek_mode_approval', $request->input('kepsek_mode_approval', 'manual'), 'kepsek_pref', 'Mode Persetujuan Izin Guru');
             Setting::setByKey('kepsek_export_format', $request->input('kepsek_export_format', 'pdf'), 'kepsek_pref', 'Format Default Ekspor Laporan Kepsek');
             Setting::setByKey('kepsek_data_per_page', $request->input('kepsek_data_per_page', '25'), 'kepsek_pref', 'Batas Data per Halaman Kepsek');
-            Setting::setByKey('wali_data_per_page', $request->input('wali_data_per_page', '25'), 'wali_pref', 'Jumlah Data per Halaman Wali Kelas');
-        } elseif ($user->isWaka() || $user->isWakaSdm()) {
+        } elseif ($user->isWaka() || $user->isWakaSdm() || $user->isWakaKesiswaan()) {
             Setting::setByKey('waka_notif_izin', $request->has('waka_notif_izin') ? '1' : '0', 'waka_pref', 'Notifikasi Pengajuan Izin Guru & Dispen Siswa');
             Setting::setByKey('waka_notif_jurnal_kosong', $request->has('waka_notif_jurnal_kosong') ? '1' : '0', 'waka_pref', 'Alert Monitoring Jurnal Belum Didaftarkan');
             Setting::setByKey('waka_notif_pengumuman', $request->has('waka_notif_pengumuman') ? '1' : '0', 'waka_pref', 'Notifikasi Broadcast Pengumuman Sekolah');
@@ -379,12 +453,49 @@ class PengaturanController extends Controller
             Setting::setByKey('ortu_notif_kehadiran', $request->has('ortu_notif_kehadiran') ? '1' : '0', 'ortu_pref', 'Notifikasi Kehadiran & Absensi Harian');
             Setting::setByKey('ortu_notif_izin', $request->has('ortu_notif_izin') ? '1' : '0', 'ortu_pref', 'Pemberitahuan Status Izin / Dispensasi');
             Setting::setByKey('ortu_notif_laporan', $request->has('ortu_notif_laporan') ? '1' : '0', 'ortu_pref', 'Laporan Rekap Bulanan Presensi Anak');
+            Setting::setByKey('ortu_notif_pengumuman', $request->has('ortu_notif_pengumuman') ? '1' : '0', 'ortu_pref', 'Notifikasi Broadcast Informasi Sekolah');
+            Setting::setByKey('ortu_export_format', $request->input('ortu_export_format', 'pdf'), 'ortu_pref', 'Format Default Ekspor Laporan Presensi Anak');
+        } elseif ($user->isWaliKelas() || $request->has('wali_pref') || $request->has('wali_notif_izin') || $request->has('wali_batas_alpa')) {
+            if ($request->has('wali_notif_izin')) {
+                Setting::setByKey('wali_notif_izin', $request->input('wali_notif_izin', '1'), 'wali_pref', 'Notifikasi Surat Izin/Sakit Masuk');
+            }
+            if ($request->has('wali_notif_dispensasi')) {
+                Setting::setByKey('wali_notif_dispensasi', $request->input('wali_notif_dispensasi', '1'), 'wali_pref', 'Notifikasi Dispensasi Siswa Disetujui');
+            }
+            if ($request->has('wali_notif_rekap_harian')) {
+                Setting::setByKey('wali_notif_rekap_harian', $request->input('wali_notif_rekap_harian', '1'), 'wali_pref', 'Notifikasi Rekapitulasi Presensi Harian');
+            }
+            if ($request->has('wali_batas_alpa')) {
+                Setting::setByKey('wali_batas_alpa', $request->input('wali_batas_alpa', '3'), 'wali_pref', 'Batas Maksimal Alpa Bulanan');
+            }
+            if ($request->has('wali_batas_persen')) {
+                Setting::setByKey('wali_batas_persen', $request->input('wali_batas_persen', '75'), 'wali_pref', 'Batas Persentase Kehadiran Minimum');
+            }
+            if ($request->has('wali_data_per_page')) {
+                Setting::setByKey('wali_data_per_page', $request->input('wali_data_per_page', '25'), 'wali_pref', 'Jumlah Data per Halaman Wali Kelas');
+            }
+            if ($request->has('wali_export_format')) {
+                Setting::setByKey('wali_export_format', $request->input('wali_export_format', 'pdf'), 'wali_pref', 'Format Default Ekspor Laporan');
+            }
         } else {
             Setting::setByKey('guru_notif_izin', $request->has('guru_notif_izin') ? '1' : '0', 'guru_pref', 'Notifikasi Surat Izin/Sakit');
             Setting::setByKey('guru_notif_jurnal', $request->has('guru_notif_jurnal') ? '1' : '0', 'guru_pref', 'Notifikasi Pengingat Jurnal');
             Setting::setByKey('guru_notif_dispensasi', $request->has('guru_notif_dispensasi') ? '1' : '0', 'guru_pref', 'Notifikasi Dispensasi Siswa');
             Setting::setByKey('guru_export_format', $request->input('guru_export_format', 'pdf'), 'guru_pref', 'Format Default Ekspor Jurnal');
             Setting::setByKey('guru_data_per_page', $request->input('guru_data_per_page', '25'), 'guru_pref', 'Jumlah Data per Halaman');
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Preferensi & pengaturan berhasil disimpan ke database!'
+            ]);
+        }
+
+        if ($request->headers->get('referer') && str_contains($request->headers->get('referer'), 'guru-kehadiran-kelas')) {
+            return redirect()->route('guru.kehadiran-kelas', ['tab' => 'pengaturan'])
+                ->with('success', 'Preferensi & pengaturan notifikasi Anda berhasil disimpan!')
+                ->with('active_tab', 'preferences');
         }
 
         return redirect()->route('pengaturan.index')
@@ -419,6 +530,25 @@ class PengaturanController extends Controller
         Setting::setByKey('app_name', $request->app_name, 'general', 'Nama Aplikasi');
         Setting::setByKey('tahun_ajaran_aktif', $request->tahun_ajaran_aktif, 'academic', 'Tahun Ajaran Aktif');
         Setting::setByKey('semester_aktif', $request->semester_aktif, 'academic', 'Semester Aktif');
+
+        try {
+            $matchTa = \App\Models\TahunAjaran::where('tahun_ajaran', $request->tahun_ajaran_aktif)
+                ->where('semester', $request->semester_aktif)
+                ->first();
+            if ($matchTa) {
+                $matchTa->activate();
+            } else {
+                $newTa = \App\Models\TahunAjaran::create([
+                    'tahun_ajaran' => $request->tahun_ajaran_aktif,
+                    'semester'     => $request->semester_aktif,
+                    'is_aktif'     => true,
+                    'buka_jurnal'  => true,
+                ]);
+                $newTa->activate();
+            }
+        } catch (\Throwable $e) {
+            // Ignore if table not ready
+        }
 
         return redirect()->route('pengaturan.index')->with('success', 'Pengaturan sistem & hotline CS berhasil disimpan!');
     }

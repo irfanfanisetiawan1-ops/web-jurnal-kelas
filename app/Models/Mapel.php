@@ -25,4 +25,12 @@ class Mapel extends Model
                     ->distinct()
                     ->whereNull('jadwal.deleted_at');
     }
+
+    /**
+     * Relasi ke Jadwal
+     */
+    public function jadwals()
+    {
+        return $this->hasMany(Jadwal::class, 'id_mapel', 'id_mapel');
+    }
 }

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password_plain',
         'role',
         'status_verifikasi',
+        'is_active',
         'id_guru',
         'id_siswa',
         'id_kelas',
@@ -38,6 +39,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
+            'is_active'         => 'boolean',
         ];
     }
 
@@ -45,6 +47,21 @@ class User extends Authenticatable
     {
         if (!empty($this->password_plain)) {
             return $this->password_plain;
+        }
+        if ($this->role === 'orang_tua') {
+            if ($this->siswa && !empty($this->siswa->tanggal_lahir) && $this->siswa->tanggal_lahir !== '0000-00-00') {
+                return \Carbon\Carbon::parse($this->siswa->tanggal_lahir)->format('Y-m-d');
+            }
+            return 'ortu123';
+        }
+        if ($this->role === 'waka_kesiswaan') {
+            return 'kesiswaan123';
+        }
+        if ($this->role === 'waka') {
+            return 'kurikulum123';
+        }
+        if ($this->role === 'waka_sdm') {
+            return 'sdm123';
         }
         if (in_array($this->role, ['piket', 'guru_piket'])) {
             return 'piket123';
@@ -58,6 +75,17 @@ class User extends Authenticatable
         if ($jk === 'L') return 'Laki-laki';
         if ($jk === 'P') return 'Perempuan';
         return '-';
+    }
+
+    public function getNipAttribute($value): ?string
+    {
+        if ($this->role === 'piket' && session()->has('original_guru_user_id')) {
+            $origUser = self::find(session('original_guru_user_id'));
+            if ($origUser && !empty($origUser->attributes['nip'])) {
+                return $origUser->attributes['nip'];
+            }
+        }
+        return $value;
     }
 
     public function getFotoUrlAttribute(): ?string
@@ -109,7 +137,7 @@ class User extends Authenticatable
 
     public function isWaliKelas(): bool
     {
-        if (in_array($this->role, ['tu', 'admin', 'piket', 'guru_piket', 'waka', 'satpam', 'kepala_sekolah', 'orang_tua'])) {
+        if (in_array($this->role, ['tu', 'admin', 'piket', 'guru_piket', 'waka', 'waka_kurikulum', 'waka_kesiswaan', 'waka_sdm', 'satpam', 'kepala_sekolah', 'orang_tua'])) {
             return false;
         }
 
@@ -128,7 +156,7 @@ class User extends Authenticatable
      */
     public static function syncWaliKelasRoles(): void
     {
-        $specialRoles = ['tu', 'admin', 'piket', 'guru_piket', 'waka', 'waka_sdm', 'kepala_sekolah', 'satpam', 'orang_tua'];
+        $specialRoles = ['tu', 'admin', 'piket', 'guru_piket', 'waka', 'waka_kurikulum', 'waka_kesiswaan', 'waka_sdm', 'kepala_sekolah', 'satpam', 'orang_tua'];
 
         $activeKelas = \App\Models\Kelas::whereNotNull('wali_kelas')
             ->where('wali_kelas', '!=', '')
@@ -186,12 +214,17 @@ class User extends Authenticatable
 
     public function isWaka(): bool
     {
-        return in_array($this->role, ['waka', 'waka_sdm']);
+        return in_array($this->role, ['waka', 'waka_kurikulum', 'waka_kesiswaan', 'waka_sdm']);
     }
 
     public function isWakaKurikulum(): bool
     {
-        return $this->role === 'waka';
+        return in_array($this->role, ['waka', 'waka_kurikulum']);
+    }
+
+    public function isWakaKesiswaan(): bool
+    {
+        return $this->role === 'waka_kesiswaan';
     }
 
     public function isWakaSdm(): bool
@@ -219,6 +252,11 @@ class User extends Authenticatable
         return $this->status_verifikasi === 'verified';
     }
 
+    public function isActive(): bool
+    {
+        return (bool) ($this->is_active ?? true);
+    }
+
     public function getRoleLabelAttribute(): string
     {
         return match ($this->role) {
@@ -227,7 +265,8 @@ class User extends Authenticatable
             'guru'           => 'Guru Mengajar',
             'wali_kelas'     => 'Wali Kelas',
             'piket'          => 'Guru Piket',
-            'waka'           => 'Waka (Kurikulum)',
+            'waka', 'waka_kurikulum' => 'Waka Kurikulum',
+            'waka_kesiswaan' => 'Waka Kesiswaan',
             'waka_sdm'       => 'Waka SDM',
             'satpam'         => 'Satpam Gerbang',
             'kepala_sekolah' => 'Kepala Sekolah',

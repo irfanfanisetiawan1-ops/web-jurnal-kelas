@@ -10,15 +10,17 @@ use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\Mapel;
 use App\Models\Siswa;
+use App\Models\GuruIzin;
+use App\Models\PenugasanGuruPengganti;
 use Carbon\Carbon;
 
 class AdminMonitoringController extends Controller
 {
-    // Fitur 11: Jurnal Mengajar (View + Filter + Reset + Detail + Download/Print + Export + Store + Update + Destroy + Laporan Guru Alpa)
+    // Fitur 11: Jurnal Mengajar (View + Filter + Reset + Detail + Download/Print + Export + Destroy + Batch Delete + Trash + Laporan Guru Alpa)
     public function jurnalMengajar(Request $request)
     {
+        $todayDate       = Carbon::today()->toDateString();
         $search          = $request->query('search');
-        $tanggal         = $request->query('tanggal');
         $tanggal_mulai   = $request->query('tanggal_mulai');
         $tanggal_selesai = $request->query('tanggal_selesai');
         $idGuru          = $request->query('id_guru');
@@ -26,11 +28,20 @@ class AdminMonitoringController extends Controller
         $idMapel         = $request->query('id_mapel');
         $status          = $request->query('status');
 
+        // Jika user secara eksplisit mengisi parameter tanggal (bisa kosong untuk semua tanggal)
+        // Jika first load (parameter tanggal tidak ada di query), default ke hari ini ($todayDate)
+        if ($request->has('tanggal')) {
+            $tanggal = $request->query('tanggal');
+        } else {
+            $tanggal = $todayDate;
+        }
+
         $query = JurnalMengajar::with([
             'jadwal.kelas',
             'jadwal.guru',
             'jadwal.mapel',
             'jadwal.ruangan',
+            'guruPengganti',
             'detailKetidakhadiran.siswa'
         ]);
 
@@ -46,21 +57,36 @@ class AdminMonitoringController extends Controller
                   })
                   ->orWhereHas('jadwal.kelas', function($k) use ($search) {
                       $k->where('nama_kelas', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('guruPengganti', function($gp) use ($search) {
+                      $gp->where('nama_guru', 'like', "%{$search}%");
                   });
             });
         }
 
         if ($tanggal_mulai && $tanggal_selesai) {
             $query->whereBetween('tanggal', [$tanggal_mulai, $tanggal_selesai]);
-        } elseif ($tanggal) {
+        } elseif (!empty($tanggal)) {
             $query->whereDate('tanggal', $tanggal);
         }
 
-        if ($idGuru || $idKelas || $idMapel) {
-            $query->whereHas('jadwal', function($q) use ($idGuru, $idKelas, $idMapel) {
-                if ($idGuru)  $q->where('id_guru', $idGuru);
-                if ($idKelas) $q->where('id_kelas', $idKelas);
-                if ($idMapel) $q->where('id_mapel', $idMapel);
+        if ($idGuru) {
+            $query->where(function($q) use ($idGuru) {
+                $q->whereHas('jadwal', function($qJ) use ($idGuru) {
+                    $qJ->where('id_guru', $idGuru);
+                })->orWhere('id_guru_pengganti', $idGuru);
+            });
+        }
+
+        if ($idKelas) {
+            $query->whereHas('jadwal', function($q) use ($idKelas) {
+                $q->where('id_kelas', $idKelas);
+            });
+        }
+
+        if ($idMapel) {
+            $query->whereHas('jadwal', function($q) use ($idMapel) {
+                $q->where('id_mapel', $idMapel);
             });
         }
 
@@ -75,10 +101,12 @@ class AdminMonitoringController extends Controller
         }
 
         // ─────────────────────────────────────────────────────────────
-        // Laporan Guru Alpa (Real-Time Berdasarkan Tanggal Referensi)
+        // Laporan Guru Tidak Mengisi Jurnal (Real-Time Berdasarkan Tanggal Referensi)
         // ─────────────────────────────────────────────────────────────
-        $targetTanggal = $tanggal ?? ($tanggal_selesai ?? Carbon::today()->toDateString());
-        $carbonDate = Carbon::parse($targetTanggal);
+        $targetTanggal = $request->query('tanggal_alpa', (!empty($tanggal) ? $tanggal : $todayDate));
+        $searchAlpa    = $request->query('search_alpa');
+        $idKelasAlpa   = $request->query('id_kelas_alpa');
+        $carbonDate    = Carbon::parse($targetTanggal);
 
         $mapHari = [
             'Monday'    => 'Senin',
@@ -86,37 +114,129 @@ class AdminMonitoringController extends Controller
             'Wednesday' => 'Rabu',
             'Thursday'  => 'Kamis',
             'Friday'    => 'Jumat',
-            'Saturday'  => 'Senin',
-            'Sunday'    => 'Senin',
+            'Saturday'  => 'Sabtu',
+            'Sunday'    => 'Minggu',
         ];
         $namaHari = $mapHari[$carbonDate->format('l')] ?? 'Senin';
 
+        // Ambil jadwal yang aktif pada hari tersebut
         $jadwalHariIni = \App\Models\Jadwal::with(['guru', 'mapel', 'kelas', 'ruangan'])
             ->where('hari', $namaHari)
             ->get();
 
+        // Cari jadwal yang sudah mengisi jurnal pada tanggal target
         $filledJadwalIds = JurnalMengajar::whereDate('tanggal', $targetTanggal)
             ->pluck('id_jadwal')
             ->toArray();
 
+        // Cari data izin guru yang resmi disetujui pada tanggal target
+        $approvedGuruIzin = GuruIzin::where(function($q) use ($targetTanggal) {
+                $q->whereDate('tanggal_mulai', '<=', $targetTanggal)
+                  ->whereDate('tanggal_selesai', '>=', $targetTanggal);
+            })
+            ->where(function($q) {
+                $q->where('status_final', 'disetujui')
+                  ->orWhere('status_waka', 'disetujui')
+                  ->orWhere('status_kepsek', 'disetujui');
+            })
+            ->get()
+            ->keyBy('id_guru');
+
+        // Cari penugasan guru pengganti pada tanggal target
+        $penugasanPengganti = PenugasanGuruPengganti::with('guruPengganti')
+            ->whereDate('tanggal', $targetTanggal)
+            ->get()
+            ->keyBy('id_jadwal');
+
         $guruAlpaList = $jadwalHariIni->filter(function($j) use ($filledJadwalIds) {
             return !in_array($j->id_jadwal, $filledJadwalIds);
+        })->map(function($j) use ($approvedGuruIzin, $penugasanPengganti) {
+            $izin = $approvedGuruIzin->get($j->id_guru);
+            $pengganti = $penugasanPengganti->get($j->id_jadwal);
+
+            if ($izin) {
+                $kategori = strtoupper($izin->kategori_izin ?? 'IZIN');
+                $j->status_alpa_label = "IZIN RESMI ({$kategori})";
+                $j->status_badge_class = 'badge-alpa-amber';
+                $j->keterangan_alpa = $izin->alasan ?? 'Izin resmi telah disetujui';
+            } elseif ($pengganti && $pengganti->guruPengganti) {
+                $j->status_alpa_label = 'DITUGASKAN PENGGANTI (' . strtoupper($pengganti->guruPengganti->nama_guru) . ')';
+                $j->status_badge_class = 'badge-alpa-blue';
+                $j->keterangan_alpa = 'Belum mengisi jurnal pengganti';
+            } else {
+                $j->status_alpa_label = 'TIDAK MENGISI JURNAL (ALPA)';
+                $j->status_badge_class = 'badge-alpa-red';
+                $j->keterangan_alpa = 'Belum mengisi jurnal mengajar';
+            }
+
+            return $j;
         });
 
-        // Kalkulasi Statistik
-        $totalPertemuan      = (clone $query)->count();
-        $terlaksanaCount     = (clone $query)->where('status_kehadiran_guru', 'Hadir')->count();
-        $belumTerlaksanaCount= (clone $query)->whereIn('status_kehadiran_guru', ['Izin', 'Sakit', 'Tanpa Keterangan'])->count();
-        $guruAktifCount      = (clone $query)->join('jadwal', 'jurnal_mengajar.id_jadwal', '=', 'jadwal.id_jadwal')
-                                             ->distinct('jadwal.id_guru')
-                                             ->count('jadwal.id_guru');
+        // Filter pencarian data guru tidak mengisi jurnal
+        if ($searchAlpa) {
+            $searchAlpaLower = strtolower($searchAlpa);
+            $guruAlpaList = $guruAlpaList->filter(function($j) use ($searchAlpaLower) {
+                $namaGuru    = strtolower($j->guru->nama_guru ?? '');
+                $nip         = strtolower($j->guru->nip ?? '');
+                $namaMapel   = strtolower($j->mapel->nama_mapel ?? '');
+                $namaKelas   = strtolower($j->kelas->nama_kelas ?? '');
+                $ruangan     = strtolower($j->ruangan->nama_ruangan ?? '');
+                $statusLabel = strtolower($j->status_alpa_label ?? '');
+                $keterangan  = strtolower($j->keterangan_alpa ?? '');
+
+                return str_contains($namaGuru, $searchAlpaLower)
+                    || str_contains($nip, $searchAlpaLower)
+                    || str_contains($namaMapel, $searchAlpaLower)
+                    || str_contains($namaKelas, $searchAlpaLower)
+                    || str_contains($ruangan, $searchAlpaLower)
+                    || str_contains($statusLabel, $searchAlpaLower)
+                    || str_contains($keterangan, $searchAlpaLower);
+            });
+        }
+
+        if ($idKelasAlpa) {
+            $guruAlpaList = $guruAlpaList->filter(function($j) use ($idKelasAlpa) {
+                return (string)$j->id_kelas === (string)$idKelasAlpa;
+            });
+        }
+
+        // Kalkulasi Statistik Sesuai Filter & Tanggal
+        if (!empty($tanggal)) {
+            $targetCarbon = Carbon::parse($tanggal);
+            $namaHariTanggal = $mapHari[$targetCarbon->format('l')] ?? 'Senin';
+            $jadwalTargetQuery = \App\Models\Jadwal::where('hari', $namaHariTanggal);
+            if ($idKelas) $jadwalTargetQuery->where('id_kelas', $idKelas);
+            if ($idGuru) $jadwalTargetQuery->where('id_guru', $idGuru);
+            if ($idMapel) $jadwalTargetQuery->where('id_mapel', $idMapel);
+            $totalJadwalTarget = $jadwalTargetQuery->count();
+
+            $totalPertemuan      = max($totalJadwalTarget, (clone $query)->count());
+            $terlaksanaCount     = (clone $query)->where('status_kehadiran_guru', 'Hadir')->count();
+            $belumTerlaksanaCount= max(0, $totalPertemuan - $terlaksanaCount);
+            $guruAktifCount      = (clone $query)->where('status_kehadiran_guru', 'Hadir')
+                                                 ->join('jadwal', 'jurnal_mengajar.id_jadwal', '=', 'jadwal.id_jadwal')
+                                                 ->distinct('jadwal.id_guru')
+                                                 ->count('jadwal.id_guru');
+            if ($guruAktifCount == 0 && $terlaksanaCount > 0) {
+                $guruAktifCount = (clone $query)->where('status_kehadiran_guru', 'Hadir')->distinct('id_jadwal')->count();
+            }
+        } else {
+            $totalPertemuan      = (clone $query)->count();
+            $terlaksanaCount     = (clone $query)->where('status_kehadiran_guru', 'Hadir')->count();
+            $belumTerlaksanaCount= (clone $query)->whereIn('status_kehadiran_guru', ['Izin', 'Sakit', 'Tanpa Keterangan'])->count();
+            $guruAktifCount      = (clone $query)->join('jadwal', 'jurnal_mengajar.id_jadwal', '=', 'jadwal.id_jadwal')
+                                                 ->distinct('jadwal.id_guru')
+                                                 ->count('jadwal.id_guru');
+        }
+
+        $trashedCount        = JurnalMengajar::onlyTrashed()->count();
 
         $jurnals   = $query->orderBy('tanggal', 'desc')->orderBy('id_jurnal', 'desc')->paginate(10)->withQueryString();
         $guruList  = Guru::orderBy('nama_guru')->get();
         $kelasList = Kelas::orderBy('nama_kelas')->get();
         $mapelList = Mapel::orderBy('nama_mapel')->get();
 
-        // Data Jadwal untuk Modal Tambah Jurnal
+        // Data Jadwal untuk Modal / Referensi
         $jadwalList = \App\Models\Jadwal::with(['kelas', 'guru', 'mapel', 'ruangan'])
             ->orderBy('hari')
             ->orderBy('id_jam_mulai')
@@ -130,6 +250,9 @@ class AdminMonitoringController extends Controller
             'jadwalList',
             'guruAlpaList',
             'targetTanggal',
+            'todayDate',
+            'searchAlpa',
+            'idKelasAlpa',
             'search',
             'tanggal',
             'tanggal_mulai',
@@ -141,7 +264,8 @@ class AdminMonitoringController extends Controller
             'totalPertemuan',
             'terlaksanaCount',
             'belumTerlaksanaCount',
-            'guruAktifCount'
+            'guruAktifCount',
+            'trashedCount'
         ));
     }
 
@@ -152,38 +276,40 @@ class AdminMonitoringController extends Controller
             'jadwal.guru',
             'jadwal.mapel',
             'jadwal.ruangan',
+            'guruPengganti',
             'detailKetidakhadiran.siswa'
         ])->findOrFail($id);
 
-        if (request()->wantsJson() || request()->ajax()) {
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'id_jurnal'             => $jurnal->id_jurnal,
-                    'tanggal'               => \Carbon\Carbon::parse($jurnal->tanggal)->translatedFormat('l, d F Y'),
-                    'tanggal_raw'           => $jurnal->tanggal,
-                    'guru'                  => $jurnal->jadwal->guru->nama_guru ?? '-',
-                    'nip'                   => $jurnal->jadwal->guru->nip ?? '-',
-                    'mapel'                 => $jurnal->jadwal->mapel->nama_mapel ?? '-',
-                    'kelas'                 => $jurnal->jadwal->kelas->nama_kelas ?? '-',
-                    'ruangan'               => $jurnal->jadwal->ruangan->nama_ruangan ?? '-',
-                    'jam_ke'                => $jurnal->jadwal->jam_range ?? '-',
-                    'materi'                => $jurnal->materi ?? '-',
-                    'catatan'               => $jurnal->catatan ?? '-',
-                    'status_kehadiran_guru' => $jurnal->status_kehadiran_guru,
-                    'dokumentasi_url'       => $jurnal->dokumentasi ? asset('storage/' . $jurnal->dokumentasi) : null,
-                    'absensi_siswa'         => $jurnal->detailKetidakhadiran->map(function($d) {
-                        return [
-                            'nama_siswa' => $d->siswa->nama_siswa ?? 'Siswa',
-                            'nis'        => $d->siswa->nisn ?? $d->siswa->nis ?? '-',
-                            'keterangan' => $d->keterangan
-                        ];
-                    })
-                ]
-            ]);
+        $guruDisplay = $jurnal->jadwal->guru->nama_guru ?? '-';
+        if ($jurnal->guruPengganti) {
+            $guruDisplay .= ' (Pengganti: ' . $jurnal->guruPengganti->nama_guru . ')';
         }
 
-        return view('admin.jurnal_mengajar.detail_modal', compact('jurnal'));
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id_jurnal'             => $jurnal->id_jurnal,
+                'tanggal'               => \Carbon\Carbon::parse($jurnal->tanggal)->translatedFormat('l, d F Y'),
+                'tanggal_raw'           => $jurnal->tanggal,
+                'guru'                  => $guruDisplay,
+                'nip'                   => $jurnal->jadwal->guru->nip ?? ($jurnal->guruPengganti->nip ?? '-'),
+                'mapel'                 => $jurnal->jadwal->mapel->nama_mapel ?? '-',
+                'kelas'                 => $jurnal->jadwal->kelas->nama_kelas ?? '-',
+                'ruangan'               => $jurnal->jadwal->ruangan->nama_ruangan ?? '-',
+                'jam_ke'                => $jurnal->jadwal->jam_range ?? ($jurnal->jam_ke ?? '-'),
+                'materi'                => $jurnal->materi ?? '-',
+                'catatan'               => $jurnal->catatan ?? '-',
+                'status_kehadiran_guru' => $jurnal->status_kehadiran_guru,
+                'dokumentasi_url'       => $jurnal->dokumentasi_url,
+                'absensi_siswa'         => $jurnal->detailKetidakhadiran->map(function($d) {
+                    return [
+                        'nama_siswa' => $d->siswa->nama_siswa ?? 'Siswa',
+                        'nis'        => $d->siswa->nisn ?? $d->siswa->nis ?? '-',
+                        'keterangan' => $d->keterangan
+                    ];
+                })
+            ]
+        ]);
     }
 
     public function jurnalMengajarCetakDetail($id)
@@ -193,6 +319,7 @@ class AdminMonitoringController extends Controller
             'jadwal.guru',
             'jadwal.mapel',
             'jadwal.ruangan',
+            'guruPengganti',
             'detailKetidakhadiran.siswa'
         ])->findOrFail($id);
 
@@ -215,6 +342,7 @@ class AdminMonitoringController extends Controller
             'jadwal.guru',
             'jadwal.mapel',
             'jadwal.ruangan',
+            'guruPengganti',
             'detailKetidakhadiran.siswa'
         ]);
 
@@ -230,6 +358,9 @@ class AdminMonitoringController extends Controller
                   })
                   ->orWhereHas('jadwal.kelas', function($k) use ($search) {
                       $k->where('nama_kelas', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('guruPengganti', function($gp) use ($search) {
+                      $gp->where('nama_guru', 'like', "%{$search}%");
                   });
             });
         }
@@ -240,11 +371,23 @@ class AdminMonitoringController extends Controller
             $query->whereDate('tanggal', $tanggal);
         }
 
-        if ($idGuru || $idKelas || $idMapel) {
-            $query->whereHas('jadwal', function($q) use ($idGuru, $idKelas, $idMapel) {
-                if ($idGuru)  $q->where('id_guru', $idGuru);
-                if ($idKelas) $q->where('id_kelas', $idKelas);
-                if ($idMapel) $q->where('id_mapel', $idMapel);
+        if ($idGuru) {
+            $query->where(function($q) use ($idGuru) {
+                $q->whereHas('jadwal', function($qJ) use ($idGuru) {
+                    $qJ->where('id_guru', $idGuru);
+                })->orWhere('id_guru_pengganti', $idGuru);
+            });
+        }
+
+        if ($idKelas) {
+            $query->whereHas('jadwal', function($q) use ($idKelas) {
+                $q->where('id_kelas', $idKelas);
+            });
+        }
+
+        if ($idMapel) {
+            $query->whereHas('jadwal', function($q) use ($idMapel) {
+                $q->where('id_mapel', $idMapel);
             });
         }
 
@@ -291,14 +434,19 @@ class AdminMonitoringController extends Controller
                     })->implode(', ');
                 }
 
+                $guruName = $j->jadwal->guru->nama_guru ?? '-';
+                if ($j->guruPengganti) {
+                    $guruName .= ' (Pengganti: ' . $j->guruPengganti->nama_guru . ')';
+                }
+
                 fputcsv($file, [
                     $index + 1,
                     $j->tanggal,
-                    $j->jadwal->guru->nama_guru ?? '-',
+                    $guruName,
                     $j->jadwal->mapel->nama_mapel ?? '-',
                     $j->jadwal->kelas->nama_kelas ?? '-',
                     $j->jadwal->ruangan->nama_ruangan ?? '-',
-                    $j->jadwal->jam_range ?? '-',
+                    $j->jadwal->jam_range ?? ($j->jam_ke ?? '-'),
                     $j->materi ?? '-',
                     $j->status_kehadiran_guru ?? 'Hadir',
                     $j->catatan ?? '-',
@@ -327,6 +475,7 @@ class AdminMonitoringController extends Controller
             'jadwal.guru',
             'jadwal.mapel',
             'jadwal.ruangan',
+            'guruPengganti',
             'detailKetidakhadiran.siswa'
         ]);
 
@@ -342,6 +491,9 @@ class AdminMonitoringController extends Controller
                   })
                   ->orWhereHas('jadwal.kelas', function($k) use ($search) {
                       $k->where('nama_kelas', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('guruPengganti', function($gp) use ($search) {
+                      $gp->where('nama_guru', 'like', "%{$search}%");
                   });
             });
         }
@@ -352,11 +504,23 @@ class AdminMonitoringController extends Controller
             $query->whereDate('tanggal', $tanggal);
         }
 
-        if ($idGuru || $idKelas || $idMapel) {
-            $query->whereHas('jadwal', function($q) use ($idGuru, $idKelas, $idMapel) {
-                if ($idGuru)  $q->where('id_guru', $idGuru);
-                if ($idKelas) $q->where('id_kelas', $idKelas);
-                if ($idMapel) $q->where('id_mapel', $idMapel);
+        if ($idGuru) {
+            $query->where(function($q) use ($idGuru) {
+                $q->whereHas('jadwal', function($qJ) use ($idGuru) {
+                    $qJ->where('id_guru', $idGuru);
+                })->orWhere('id_guru_pengganti', $idGuru);
+            });
+        }
+
+        if ($idKelas) {
+            $query->whereHas('jadwal', function($q) use ($idKelas) {
+                $q->where('id_kelas', $idKelas);
+            });
+        }
+
+        if ($idMapel) {
+            $query->whereHas('jadwal', function($q) use ($idMapel) {
+                $q->where('id_mapel', $idMapel);
             });
         }
 
@@ -434,64 +598,156 @@ class AdminMonitoringController extends Controller
         $jurnal->delete();
 
         return redirect()->route('admin.jurnal-mengajar')
-                         ->with('success', 'Data jurnal mengajar berhasil dihapus.');
+                         ->with('success', 'Data jurnal mengajar berhasil dipindahkan ke Kotak Sampah.');
     }
 
-    // Fitur 12: Jurnal Guru Piket (Full CRUD + Stats + Filter + Detail + Trash + Cetak + Export CSV)
-    public function jurnalPiket(Request $request)
+    public function jurnalMengajarBatchDestroy(Request $request)
     {
-        $tanggal         = $request->query('tanggal');
-        $tanggal_mulai   = $request->query('tanggal_mulai');
-        $tanggal_selesai = $request->query('tanggal_selesai');
-        $search          = $request->query('search');
-        $status_suasana  = $request->query('status_suasana');
-
-        $query = JurnalPiket::with('guru');
-
-        if ($tanggal_mulai && $tanggal_selesai) {
-            $query->whereBetween('tanggal', [$tanggal_mulai, $tanggal_selesai]);
-        } elseif ($tanggal) {
-            $query->whereDate('tanggal', $tanggal);
+        $ids = $request->input('ids', []);
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.jurnal-mengajar')
+                             ->with('error', 'Pilih minimal satu data jurnal mengajar untuk dihapus.');
         }
+
+        $count = JurnalMengajar::whereIn('id_jurnal', $ids)->count();
+        JurnalMengajar::whereIn('id_jurnal', $ids)->delete();
+
+        return redirect()->route('admin.jurnal-mengajar')
+                         ->with('success', "Sebanyak {$count} data jurnal mengajar berhasil dipindahkan ke Kotak Sampah.");
+    }
+
+    public function jurnalMengajarTrash(Request $request)
+    {
+        $search   = $request->query('search');
+        $tanggal  = $request->query('tanggal');
+        $idGuru   = $request->query('id_guru');
+        $idKelas  = $request->query('id_kelas');
+
+        $query = JurnalMengajar::onlyTrashed()->with([
+            'jadwal.kelas',
+            'jadwal.guru',
+            'jadwal.mapel',
+            'jadwal.ruangan',
+            'detailKetidakhadiran.siswa'
+        ]);
 
         if ($search) {
             $query->where(function($q) use ($search) {
-                $q->where('catatan_kejadian', 'like', "%{$search}%")
-                  ->orWhere('nama_petugas_piket', 'like', "%{$search}%")
-                  ->orWhereHas('guru', function($g) use ($search) {
+                $q->where('materi', 'like', "%{$search}%")
+                  ->orWhere('catatan', 'like', "%{$search}%")
+                  ->orWhereHas('jadwal.guru', function($g) use ($search) {
                       $g->where('nama_guru', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('jadwal.mapel', function($m) use ($search) {
+                      $m->where('nama_mapel', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('jadwal.kelas', function($k) use ($search) {
+                      $k->where('nama_kelas', 'like', "%{$search}%");
                   });
             });
         }
 
-        if ($status_suasana) {
-            $query->where('status_suasana', $status_suasana);
+        if ($tanggal) {
+            $query->whereDate('tanggal', $tanggal);
         }
 
-        // Kalkulasi Statistik KPI
-        $totalPiket       = (clone $query)->count();
-        $kondusifCount    = (clone $query)->where('status_suasana', 'Kondusif')->count();
-        $kejadianCount    = (clone $query)->whereIn('status_suasana', ['Ada Kejadian', 'Lainnya'])->count();
-        $petugasHariIni   = JurnalPiket::whereDate('tanggal', Carbon::today()->toDateString())->count();
+        if ($idGuru) {
+            $query->whereHas('jadwal', function($q) use ($idGuru) {
+                $q->where('id_guru', $idGuru);
+            });
+        }
 
-        $jurnalsPiket = $query->orderBy('tanggal', 'desc')->orderBy('id_jurnal_piket', 'desc')->paginate(10)->withQueryString();
-        $guruList     = Guru::orderBy('nama_guru')->get();
-        $trashedCount = JurnalPiket::onlyTrashed()->count();
+        if ($idKelas) {
+            $query->whereHas('jadwal', function($q) use ($idKelas) {
+                $q->where('id_kelas', $idKelas);
+            });
+        }
 
-        return view('admin.jurnal_piket.index', compact(
-            'jurnalsPiket',
-            'guruList',
+        $trashedJurnals = $query->orderBy('deleted_at', 'desc')->paginate(10)->withQueryString();
+        $trashedCount   = JurnalMengajar::onlyTrashed()->count();
+        $guruList       = Guru::orderBy('nama_guru')->get();
+        $kelasList      = Kelas::orderBy('nama_kelas')->get();
+
+        return view('admin.jurnal_mengajar.trash', compact(
+            'trashedJurnals',
             'trashedCount',
-            'tanggal',
-            'tanggal_mulai',
-            'tanggal_selesai',
+            'guruList',
+            'kelasList',
             'search',
-            'status_suasana',
-            'totalPiket',
-            'kondusifCount',
-            'kejadianCount',
-            'petugasHariIni'
+            'tanggal',
+            'idGuru',
+            'idKelas'
         ));
+    }
+
+    public function jurnalMengajarRestore($id)
+    {
+        $jurnal = JurnalMengajar::onlyTrashed()->findOrFail($id);
+        $jurnal->restore();
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', 'Data jurnal mengajar berhasil dipulihkan dari Kotak Sampah.');
+    }
+
+    public function jurnalMengajarRestoreBatch(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.jurnal-mengajar.trash')
+                             ->with('error', 'Pilih minimal satu data jurnal untuk dipulihkan.');
+        }
+
+        $count = JurnalMengajar::onlyTrashed()->whereIn('id_jurnal', $ids)->count();
+        JurnalMengajar::onlyTrashed()->whereIn('id_jurnal', $ids)->restore();
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', "Sebanyak {$count} data jurnal mengajar berhasil dipulihkan.");
+    }
+
+    public function jurnalMengajarForceDelete($id)
+    {
+        $jurnal = JurnalMengajar::onlyTrashed()->findOrFail($id);
+        JurnalDetailKetidakhadiran::where('id_jurnal', $jurnal->id_jurnal)->delete();
+        $jurnal->forceDelete();
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', 'Data jurnal mengajar telah dihapus secara permanen dari sistem.');
+    }
+
+    public function jurnalMengajarForceDeleteBatch(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.jurnal-mengajar.trash')
+                             ->with('error', 'Pilih minimal satu data jurnal untuk dihapus permanen.');
+        }
+
+        $count = JurnalMengajar::onlyTrashed()->whereIn('id_jurnal', $ids)->count();
+        JurnalDetailKetidakhadiran::whereIn('id_jurnal', $ids)->delete();
+        JurnalMengajar::onlyTrashed()->whereIn('id_jurnal', $ids)->forceDelete();
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', "Sebanyak {$count} data jurnal mengajar berhasil dihapus secara permanen.");
+    }
+
+    public function jurnalMengajarEmptyTrash()
+    {
+        $trashedIds = JurnalMengajar::onlyTrashed()->pluck('id_jurnal')->toArray();
+        $count = count($trashedIds);
+
+        if ($count > 0) {
+            JurnalDetailKetidakhadiran::whereIn('id_jurnal', $trashedIds)->delete();
+            JurnalMengajar::onlyTrashed()->forceDelete();
+        }
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', "Kotak sampah berhasil dikosongkan ({$count} data dihapus permanen).");
+    }
+
+    // Fitur 12: Jurnal Guru Piket (Dinonaktifkan untuk role Admin TU)
+    public function jurnalPiket(Request $request)
+    {
+        return redirect()->route('admin.dashboard')->with('info', 'Halaman Jurnal Piket tidak diperlukan dan telah dinonaktifkan untuk role Tata Usaha (TU).');
     }
 
     public function jurnalPiketStore(Request $request)

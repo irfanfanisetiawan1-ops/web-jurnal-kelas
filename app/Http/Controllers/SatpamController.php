@@ -128,9 +128,10 @@ class SatpamController extends Controller
         $now = Carbon::now('Asia/Jakarta');
         $formattedDate = $hariIndo[$now->dayOfWeek] . ', ' . $now->day . ' ' . $bulanIndo[$now->month] . ' ' . $now->year;
 
-        $totalSesiHariIni = SiswaDispen::withTrashed()->whereDate('tanggal', $today)->count();
+        $totalSesiHariIni = SiswaDispen::whereDate('tanggal', $today)->count();
+        $trashedCount     = SiswaDispen::onlyTrashed()->count();
 
-        $query = SiswaDispen::withTrashed()->with(['siswa', 'kelas', 'wakaUser', 'guruPiketUser']);
+        $query = SiswaDispen::with(['siswa', 'kelas', 'wakaUser', 'guruPiketUser']);
 
         if ($request->filled('q')) {
             $q = trim($request->q);
@@ -169,7 +170,137 @@ class SatpamController extends Controller
 
         $logs = $query->orderBy('created_at', 'desc')->paginate(15);
 
-        return view('satpam.log_aktivitas', compact('logs', 'totalSesiHariIni', 'formattedDate', 'today'));
+        return view('satpam.log_aktivitas', compact('logs', 'totalSesiHariIni', 'trashedCount', 'formattedDate', 'today'));
+    }
+
+    public function destroyDispen($id)
+    {
+        $dispen = SiswaDispen::findOrFail($id);
+        $kode = $dispen->kode_dispen ?? 'Dispen #' . $id;
+        $dispen->delete();
+
+        return redirect()->route('satpam.log-aktivitas')
+            ->with('success', "Data log dispensasi siswa ($kode) berhasil dipindahkan ke Sampah.");
+    }
+
+    public function bulkDestroyDispen(Request $request)
+    {
+        $ids = $request->input('ids');
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+        $ids = array_filter(array_map('trim', (array) $ids));
+
+        if (empty($ids)) {
+            return redirect()->back()->with('error', 'Tidak ada data log dispensasi yang dipilih untuk dihapus.');
+        }
+
+        $count = SiswaDispen::whereIn('id_siswa_dispen', $ids)->delete();
+
+        return redirect()->route('satpam.log-aktivitas')
+            ->with('success', $count . ' data log dispensasi siswa berhasil dipindahkan ke Sampah.');
+    }
+
+    public function trashLogAktivitas(Request $request)
+    {
+        $today = Carbon::today()->toDateString();
+        $hariIndo = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        $bulanIndo = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $now = Carbon::now('Asia/Jakarta');
+        $formattedDate = $hariIndo[$now->dayOfWeek] . ', ' . $now->day . ' ' . $bulanIndo[$now->month] . ' ' . $now->year;
+
+        $query = SiswaDispen::onlyTrashed()->with(['siswa', 'kelas', 'wakaUser', 'guruPiketUser']);
+
+        if ($request->filled('q')) {
+            $q = trim($request->q);
+            $query->where(function($sub) use ($q) {
+                $sub->where('kode_dispen', 'LIKE', "%{$q}%")
+                    ->orWhereHas('siswa', function($s) use ($q) {
+                        $s->where('nama_siswa', 'LIKE', "%{$q}%")
+                          ->orWhere('nisn', 'LIKE', "%{$q}%");
+                    });
+            });
+        }
+
+        $logs = $query->orderBy('deleted_at', 'desc')->paginate(15);
+        $trashedCount = SiswaDispen::onlyTrashed()->count();
+        $activeCount = SiswaDispen::count();
+
+        return view('satpam.trash_log_aktivitas', compact('logs', 'trashedCount', 'activeCount', 'formattedDate', 'today'));
+    }
+
+    public function restoreDispen($id)
+    {
+        $dispen = SiswaDispen::onlyTrashed()->findOrFail($id);
+        $kode = $dispen->kode_dispen ?? 'Dispen #' . $id;
+        $dispen->restore();
+
+        return redirect()->route('satpam.log-aktivitas.trash')
+            ->with('success', "Data log dispensasi siswa ($kode) berhasil dipulihkan ke Log Aktif.");
+    }
+
+    public function bulkRestoreDispen(Request $request)
+    {
+        $ids = $request->input('ids');
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+        $ids = array_filter(array_map('trim', (array) $ids));
+
+        if (empty($ids)) {
+            return redirect()->back()->with('error', 'Tidak ada data log dispensasi yang dipilih untuk dipulihkan.');
+        }
+
+        $count = SiswaDispen::onlyTrashed()->whereIn('id_siswa_dispen', $ids)->restore();
+
+        return redirect()->route('satpam.log-aktivitas.trash')
+            ->with('success', $count . ' data log dispensasi siswa berhasil dipulihkan ke Log Aktif.');
+    }
+
+    public function forceDeleteDispen($id)
+    {
+        $dispen = SiswaDispen::onlyTrashed()->findOrFail($id);
+        $kode = $dispen->kode_dispen ?? 'Dispen #' . $id;
+        $dispen->forceDelete();
+
+        return redirect()->route('satpam.log-aktivitas.trash')
+            ->with('success', "Data log dispensasi siswa ($kode) berhasil dihapus secara permanen.");
+    }
+
+    public function bulkForceDeleteDispen(Request $request)
+    {
+        $ids = $request->input('ids');
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+        $ids = array_filter(array_map('trim', (array) $ids));
+
+        if (empty($ids)) {
+            return redirect()->back()->with('error', 'Tidak ada data log dispensasi yang dipilih untuk dihapus permanen.');
+        }
+
+        $trashed = SiswaDispen::onlyTrashed()->whereIn('id_siswa_dispen', $ids)->get();
+        $count = 0;
+        foreach ($trashed as $item) {
+            $item->forceDelete();
+            $count++;
+        }
+
+        return redirect()->route('satpam.log-aktivitas.trash')
+            ->with('success', $count . ' data log dispensasi siswa berhasil dihapus secara permanen.');
+    }
+
+    public function emptyTrashDispen()
+    {
+        $trashed = SiswaDispen::onlyTrashed()->get();
+        $count = 0;
+        foreach ($trashed as $item) {
+            $item->forceDelete();
+            $count++;
+        }
+
+        return redirect()->route('satpam.log-aktivitas.trash')
+            ->with('success', 'Seluruh data sampah log dispensasi (' . $count . ' data) berhasil dikosongkan secara permanen.');
     }
 
     public function search(Request $request)
@@ -218,8 +349,10 @@ class SatpamController extends Controller
                 'status_wali_kelas'    => $dispen->status_waka ?? $dispen->status_wali_kelas,
                 'status_satpam'        => $dispen->status_satpam,
                 'waktu_scan_satpam'    => $dispen->waktu_scan_satpam ? Carbon::parse($dispen->waktu_scan_satpam)->format('d-m-Y H:i:s') : null,
-                'foto_kartu_identitas' => $dispen->foto_kartu_identitas ? asset($dispen->foto_kartu_identitas) : null,
-                'foto_surat_dispen'    => $dispen->foto_surat_dispen ? asset($dispen->foto_surat_dispen) : null,
+                'foto_kartu_identitas' => $dispen->foto_kartu_url ?? ($dispen->foto_kartu_identitas ? asset($dispen->foto_kartu_identitas) : null),
+                'foto_siswa_live'      => $dispen->foto_siswa_live_url ?? ($dispen->foto_siswa_live ? asset($dispen->foto_siswa_live) : null),
+                'foto_surat_dispen'    => $dispen->foto_surat_url ?? ($dispen->foto_surat_dispen ? asset($dispen->foto_surat_dispen) : null),
+                'foto_siswa_profil'    => ($dispen->siswa && $dispen->siswa->foto) ? asset('uploads/profile_photos/' . $dispen->siswa->foto) : null,
                 'boleh_keluar'         => ($dispen->status_waka === 'approved' || $dispen->status_wali_kelas === 'approved'),
                 'barcode_status'       => $dispen->status_satpam === 'belum_keluar' ? 'aktif' : 'terpakai',
                 'barcode_label'        => $dispen->status_satpam === 'belum_keluar' ? 'AKTIF (BELUM DIGUNAKAN)' : 'SUDAH TERPAKAI / KADALUARSA',

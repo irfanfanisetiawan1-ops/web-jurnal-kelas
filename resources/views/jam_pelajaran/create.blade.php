@@ -143,6 +143,67 @@
         transition: background 0.15s;
     }
     .btn-cancel:hover { background: #e2e8f0; }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+        .page-title-group p { font-size: 13px !important; }
+
+        .create-card {
+            padding: 18px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .create-header-row {
+            padding-bottom: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .create-header-row h2 { font-size: 16px !important; }
+
+        .form-grid-3 {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse !important;
+            width: 100% !important;
+            gap: 10px !important;
+            margin-top: 20px !important;
+            padding-top: 16px !important;
+        }
+
+        .form-actions .btn-save,
+        .form-actions .btn-cancel {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+        }
+
+        .create-card {
+            padding: 14px 12px !important;
+        }
+    }
 </style>
 @endsection
 

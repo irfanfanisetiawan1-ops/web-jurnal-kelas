@@ -29,6 +29,9 @@
         padding: 28px;
         margin-bottom: 24px;
         box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .profile-header {
@@ -79,6 +82,8 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .info-item {
@@ -187,9 +192,20 @@
             <div class="avatar-large">{{ $initials }}</div>
             <div class="profile-info">
                 <h1>{{ $siswa->nama_siswa }}</h1>
-                <span class="nisn-pill">
-                    <i class="fa-solid fa-id-card"></i> NISN: {{ $siswa->nisn }}
-                </span>
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                    <span class="nisn-pill">
+                        <i class="fa-solid fa-id-card"></i> NISN: {{ $siswa->nisn }}
+                    </span>
+                    @if($siswa->isActive())
+                        <span style="display:inline-flex; align-items:center; gap:6px; background:#ecfdf5; color:#166534; padding:4px 12px; border-radius:20px; font-size:13px; font-weight:700; border:1px solid #a7f3d0;">
+                            <i class="fa-solid fa-circle-check"></i> Status: Aktif (ON)
+                        </span>
+                    @else
+                        <span style="display:inline-flex; align-items:center; gap:6px; background:#f1f5f9; color:#475569; padding:4px 12px; border-radius:20px; font-size:13px; font-weight:700; border:1px solid #cbd5e1;">
+                            <i class="fa-solid fa-circle-xmark"></i> Status: Nonaktif (OFF)
+                        </span>
+                    @endif
+                </div>
             </div>
         </div>
 

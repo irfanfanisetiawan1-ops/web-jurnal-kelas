@@ -13,7 +13,8 @@ class JurnalDetailKetidakhadiran extends Model
     protected $fillable = [
         'id_jurnal',
         'id_siswa',
-        'keterangan'
+        'keterangan',
+        'catatan'
     ];
 
     /**

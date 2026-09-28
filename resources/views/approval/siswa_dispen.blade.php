@@ -84,6 +84,18 @@
                 </div>
             </div>
 
+            @if($dispen->foto_siswa_live)
+            <div class="info-group">
+                <div class="info-label"><i class="fa-solid fa-camera" style="color: #2563eb;"></i> Foto Siswa (Live Kamera Saat Pengajuan Dispen)</div>
+                <div style="margin-top: 8px; text-align: center; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1;">
+                    <a href="{{ asset($dispen->foto_siswa_live) }}" target="_blank" title="Klik untuk perbesar foto siswa">
+                        <img src="{{ asset($dispen->foto_siswa_live) }}" style="max-width: 100%; max-height: 240px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" alt="Foto Siswa Live">
+                    </a>
+                    <div style="font-size: 11.5px; color: #166534; margin-top: 6px; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Foto siswa diambil langsung secara live oleh Guru Piket untuk dicocokkan Satpam di pos gerbang.</div>
+                </div>
+            </div>
+            @endif
+
             @if($dispen->foto_kartu_identitas)
             <div class="info-group">
                 <div class="info-label"><i class="fa-solid fa-address-card" style="color: #10b981;"></i> Foto Kartu Identitas Siswa / Kartu Pelajar</div>
@@ -107,9 +119,35 @@
             </div>
             @endif
 
+            @if($dispen->ttd_siswa || $dispen->ttd_guru_piket)
+            <div class="info-group">
+                <div class="info-label"><i class="fa-solid fa-signature" style="color: #2563eb;"></i> Tanda Tangan Digital Pengajuan</div>
+                <div style="margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: center;">
+                    <div style="background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1;">
+                        <div style="font-size: 11.5px; font-weight: 700; color: #64748b; margin-bottom: 6px;">Tanda Tangan Siswa</div>
+                        @if($dispen->ttd_siswa)
+                            <img src="{{ asset($dispen->ttd_siswa) }}" style="max-height: 70px; max-width: 100%; object-fit: contain;">
+                        @else
+                            <span style="font-size: 11px; color: #94a3b8; font-style: italic;">Tidak ada TTD</span>
+                        @endif
+                        <div style="font-size: 12px; font-weight: 800; color: #0f172a; margin-top: 6px;">{{ $dispen->siswa->nama_siswa ?? '-' }}</div>
+                    </div>
+                    <div style="background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1;">
+                        <div style="font-size: 11.5px; font-weight: 700; color: #64748b; margin-bottom: 6px;">Tanda Tangan Guru Piket</div>
+                        @if($dispen->ttd_guru_piket)
+                            <img src="{{ asset($dispen->ttd_guru_piket) }}" style="max-height: 70px; max-width: 100%; object-fit: contain;">
+                        @else
+                            <span style="font-size: 11px; color: #94a3b8; font-style: italic;">Tidak ada TTD</span>
+                        @endif
+                        <div style="font-size: 12px; font-weight: 800; color: #0f172a; margin-top: 6px;">{{ $dispen->nama_guru_piket ?? 'Guru Piket' }}</div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             @if($dispen->nama_waka)
             <div class="info-group">
-                <div class="info-label">Waka Tujuan Pengajuan</div>
+                <div class="info-label">Waka Kesiswaan Tujuan Pengajuan</div>
                 <div class="info-value">{{ $dispen->nama_waka }} @if($dispen->nip_waka) <span style="font-size: 12px; color: #64748b;">(NIP: {{ $dispen->nip_waka }})</span> @endif</div>
             </div>
             @endif
@@ -122,25 +160,25 @@
             @endif
 
             <div class="info-group">
-                <div class="info-label">Status Persetujuan Waka</div>
+                <div class="info-label">Status Persetujuan Waka Kesiswaan</div>
                 <div class="info-value">
                     @if($dispen->status_waka === 'approved')
                         <div style="background: #dcfce7; border: 1px solid #86efac; color: #14532d; padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 13.5px;">
-                            <i class="fa-solid fa-circle-check" style="color: #16a34a;"></i> Waka telah <u>MENYETUJUI</u> permohonan dispensasi siswa ini.
+                            <i class="fa-solid fa-circle-check" style="color: #16a34a;"></i> Waka Kesiswaan telah <u>MENYETUJUI</u> permohonan dispensasi siswa ini.
                             @if($dispen->catatan_waka)
-                                <div style="font-size: 12.5px; font-weight: 500; margin-top: 4px; color: #166534;"><i class="fa-solid fa-comment-dots"></i> Catatan Waka: "{{ $dispen->catatan_waka }}"</div>
+                                <div style="font-size: 12.5px; font-weight: 500; margin-top: 4px; color: #166534;"><i class="fa-solid fa-comment-dots"></i> Catatan Waka Kesiswaan: "{{ $dispen->catatan_waka }}"</div>
                             @endif
                         </div>
                     @elseif($dispen->status_waka === 'rejected')
                         <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #7f1d1d; padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 13.5px;">
-                            <i class="fa-solid fa-circle-xmark" style="color: #dc2626;"></i> Waka telah <u>MENOLAK</u> permohonan dispensasi siswa ini.
+                            <i class="fa-solid fa-circle-xmark" style="color: #dc2626;"></i> Waka Kesiswaan telah <u>MENOLAK</u> permohonan dispensasi siswa ini.
                             @if($dispen->catatan_waka)
-                                <div style="font-size: 12.5px; font-weight: 500; margin-top: 4px; color: #991b1b;"><i class="fa-solid fa-comment-dots"></i> Alasan Penolakan Waka: "{{ $dispen->catatan_waka }}"</div>
+                                <div style="font-size: 12.5px; font-weight: 500; margin-top: 4px; color: #991b1b;"><i class="fa-solid fa-comment-dots"></i> Alasan Penolakan Waka Kesiswaan: "{{ $dispen->catatan_waka }}"</div>
                             @endif
                         </div>
                     @else
                         <div style="background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 10px 14px; border-radius: 10px; font-weight: 700; font-size: 13px;">
-                            <i class="fa-solid fa-clock"></i> Status: Menunggu Persetujuan Waka
+                            <i class="fa-solid fa-clock"></i> Status: Menunggu Persetujuan Waka Kesiswaan
                         </div>
                     @endif
                 </div>
@@ -150,53 +188,55 @@
                 <!-- Tombol Otomatis WhatsApp jika disetujui -->
                 @if($dispen->status_waka === 'approved')
                     @php
-                        $namaSiswa = $dispen->siswa->nama_siswa ?? 'Siswa';
-                        $namaKelas = $dispen->kelas->nama_kelas ?? '-';
-                        $jamRange  = ($dispen->jam_keluar ?? '00:00') . ' s/d ' . ($dispen->jam_kembali ?? '00:00');
-                        $tglIndo   = \Carbon\Carbon::parse($dispen->tanggal)->format('d-m-Y');
-                        $namaWaka  = $dispen->nama_waka ?: (isset($dispen->waka_user) ? $dispen->waka_user->name : 'Waka');
+                        $namaWaka  = $dispen->nama_waka ?: (isset($dispen->waka_user) ? $dispen->waka_user->name : 'Waka Kesiswaan');
+                        $linkDispenPage = \App\Services\WhatsAppNotificationService::makeApprovalDispenUrl($dispen->token_wali_kelas);
+                        $waService = app(\App\Services\WhatsAppNotificationService::class);
+                        $defaultPesan = $waService->buildPesanDispensasiKeSatpam($dispen, $namaWaka, $linkDispenPage);
 
-                        $linkKartu = $dispen->foto_kartu_identitas ? asset($dispen->foto_kartu_identitas) : null;
-                        $linkSurat = $dispen->foto_surat_dispen ? asset($dispen->foto_surat_dispen) : null;
-                        $linkDispenPage = url('/approval/dispen/' . $dispen->token_wali_kelas);
+                        $satpamUser = \App\Models\User::where('role', 'satpam')
+                            ->where(function ($q) {
+                                $q->whereNull('status_verifikasi')->orWhere('status_verifikasi', 'verified');
+                            })->first() ?? \App\Models\User::where('role', 'satpam')->first();
 
-                        $defaultPesan = "OFFICIAL NOTIFIKASI DISPENSASI SISWA (EDU JOURNAL)\n"
-                            . "===============================================\n\n"
-                            . "Memberitahukan bahwa permohonan dispensasi siswa berikut telah DISETUJUI oleh Waka ({$namaWaka}):\n\n"
-                            . "* Kode Dispen: {$dispen->kode_dispen}\n"
-                            . "* Nama Siswa: {$namaSiswa}\n"
-                            . "* Kelas: {$namaKelas}\n"
-                            . "* Tanggal & Jam: {$tglIndo} ({$jamRange})\n"
-                            . "* Alasan Dispen: {$dispen->alasan}\n";
-
-                        if ($linkKartu) {
-                            $defaultPesan .= "* Lihat Foto Kartu Pelajar: {$linkKartu}\n";
-                        }
-                        if ($linkSurat) {
-                            $defaultPesan .= "* Lihat Surat Dispen Resmi: {$linkSurat}\n";
-                        }
-
-                        $defaultPesan .= "\n* Link Verifikasi Detail: {$linkDispenPage}\n\n"
-                            . "STATUS: TERVERIFIKASI & DISETUJUI WAKA.\n"
-                            . "Petugas Satpam dapat mencocokkan fisik Kartu Identitas Siswa/Kartu Pelajar dengan foto terlampir, lalu membiarkan siswa keluar sekolah";
+                        $hpSatpam = $satpamUser ? $waService->resolvePhoneNumber($satpamUser) : null;
+                        $hpSatpamClean = \App\Services\WhatsAppNotificationService::formatPhoneNumber($hpSatpam);
 
                         $pesanWa = session('pesan_wa_satpam') ?? $defaultPesan;
-                        $waUrl = session('wa_satpam_url') ?? ("https://api.whatsapp.com/send?text=" . urlencode($pesanWa));
+                        $defaultWaUrl = !empty($hpSatpamClean) 
+                            ? "https://api.whatsapp.com/send?phone={$hpSatpamClean}&text=" . urlencode($pesanWa)
+                            : "https://api.whatsapp.com/send?text=" . urlencode($pesanWa);
+                        $waUrl = session('wa_satpam_url') ?? $defaultWaUrl;
+                        $isChatbotSent = session('chatbot_sent', true);
                     @endphp
 
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 18px; margin-top: 16px;">
-                        <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 800; color: #166534; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-brands fa-whatsapp" style="font-size: 18px; color: #25d366;"></i> Link Otomatis Notifikasi WhatsApp Satpam
-                        </h4>
-                        <p style="font-size: 12.5px; color: #15803d; margin: 0 0 14px 0; font-weight: 600;">
-                            Waka dapat mengeklik tombol di bawah untuk langsung terhubung ke WhatsApp dan mengirimkan verifikasi dispensasi siswa ke Petugas Satpam.
-                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+                            <div>
+                                <h4 style="margin: 0 0 4px 0; font-size: 14px; font-weight: 800; color: #166534; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-brands fa-whatsapp" style="font-size: 20px; color: #25d366;"></i> Notifikasi ChatBot WhatsApp Satpam Gerbang
+                                </h4>
+                                <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #15803d; background: #dcfce7; border: 1px solid #86efac; border-radius: 20px; padding: 3px 10px;">
+                                    <i class="fa-solid fa-robot"></i> ChatBot WhatsApp Otomatis
+                                </span>
+                            </div>
+                            @if($satpamUser)
+                                <div style="font-size: 12px; color: #166534; background: #ffffff; border: 1px solid #bbf7d0; border-radius: 8px; padding: 6px 12px;">
+                                    <i class="fa-solid fa-shield-halved"></i> Petugas Satpam: <strong>{{ $satpamUser->name }}</strong> ({{ $satpamUser->no_hp ?? '-' }})
+                                </div>
+                            @endif
+                        </div>
                         
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <form action="{{ route('approval.siswa-dispen.resend-satpam', $dispen->token_wali_kelas) }}" method="POST" style="margin: 0;">
+                                @csrf
+                                <button type="submit" class="btn" style="background: #16a34a; color: #ffffff; font-weight: 700;">
+                                    <i class="fa-solid fa-paper-plane"></i> Kirim Ulang via ChatBot WA
+                                </button>
+                            </form>
                             <a href="{{ $waUrl }}" target="_blank" class="btn btn-wa" style="flex: 1; min-width: 200px;">
-                                <i class="fa-brands fa-whatsapp fa-lg"></i> Kirim Notifikasi ke Satpam via WhatsApp
+                                <i class="fa-brands fa-whatsapp fa-lg"></i> Cadangan Kirim Manual via WhatsApp
                             </a>
-                            <button type="button" onclick="copyDispenLink(`{{ url('/approval/dispen/' . $dispen->token_wali_kelas) }}`)" class="btn btn-copy">
+                            <button type="button" onclick="copyDispenLink(`{{ $linkDispenPage }}`)" class="btn btn-copy">
                                 <i class="fa-solid fa-copy"></i> Salin Link Verifikasi
                             </button>
                             <button type="button" onclick="window.print()" class="btn" style="background: #475569; color: #ffffff;">
@@ -212,11 +252,11 @@
                     <i class="fa-solid fa-lock fa-2x" style="color: #64748b; margin-bottom: 8px;"></i><br>
                     PERSETUJUAN SELESAI PROSES<br>
                     <span style="font-size: 12.5px; font-weight: 600; color: #64748b;">
-                        Permohonan dispensasi siswa ini telah selesai diproses oleh Waka.
+                        Permohonan dispensasi siswa ini telah selesai diproses oleh Waka Kesiswaan.
                     </span>
                 </div>
             @else
-                <!-- Form Otentikasi NIP & Password Waka -->
+                <!-- Form Otentikasi NIP & Password Waka Kesiswaan -->
                 <hr style="margin: 20px 0; border: none; border-top: 1px solid #e2e8f0;">
 
                 <form action="{{ route('approval.siswa-dispen.process', $dispen->token_wali_kelas) }}" method="POST" id="approvalDispenForm">
@@ -224,27 +264,27 @@
 
                     <div style="margin-bottom: 16px;">
                         <label class="info-label" style="display: block; margin-bottom: 6px;">Jabatan / Akses Otentikasi</label>
-                        <input type="text" class="form-control" value="Wakil Kepala Sekolah (Waka)" readonly style="background: #e2e8f0; font-weight: 700; color: #334155;">
+                        <input type="text" class="form-control" value="Wakil Kepala Sekolah Bidang Kesiswaan (Waka Kesiswaan)" readonly style="background: #e2e8f0; font-weight: 700; color: #334155;">
                     </div>
 
                     <!-- Input NIP dengan Counter 0/18 digit -->
                     <div style="margin-bottom: 16px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                            <label class="info-label" style="margin-bottom: 0;">NIP Waka <span style="color:#dc2626;">*</span></label>
+                            <label class="info-label" style="margin-bottom: 0;">NIP Waka Kesiswaan <span style="color:#dc2626;">*</span></label>
                             <span id="nipDigitCounter" style="color: #2563eb; font-weight: 700; font-size: 12.5px; font-family: monospace;">0/18 digit</span>
                         </div>
                         <div style="position: relative;">
                             <i class="fa-regular fa-user" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px;"></i>
-                            <input type="text" name="nip_username" id="nipUsernameInput" class="form-control" placeholder="Masukkan 18 digit NIP Waka Anda" value="{{ old('nip_username') }}" maxlength="18" inputmode="numeric" pattern="[0-9]*" oninput="updateNipCounter(this)" autocomplete="off" style="padding-left: 42px; height: 46px;" required>
+                            <input type="text" name="nip_username" id="nipUsernameInput" class="form-control" placeholder="Masukkan 18 digit NIP Waka Kesiswaan Anda" value="{{ old('nip_username') }}" maxlength="30" inputmode="numeric" oninput="updateNipCounter(this)" autocomplete="off" style="padding-left: 42px; height: 46px;" required>
                         </div>
                     </div>
 
-                    <!-- Input Password Waka dengan Toggle Show/Hide -->
+                    <!-- Input Password Waka Kesiswaan dengan Toggle Show/Hide -->
                     <div style="margin-bottom: 20px;">
-                        <label class="info-label" style="display: block; margin-bottom: 6px;">Password Waka <span style="color:#dc2626;">*</span></label>
+                        <label class="info-label" style="display: block; margin-bottom: 6px;">Password Waka Kesiswaan <span style="color:#dc2626;">*</span></label>
                         <div style="position: relative;">
                             <i class="fa-solid fa-lock" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px;"></i>
-                            <input type="password" name="password" id="passwordInput" class="form-control" placeholder="Masukkan password akun Waka Anda" maxlength="100" style="padding-left: 42px; padding-right: 42px; height: 46px;" required>
+                            <input type="password" name="password" id="passwordInput" class="form-control" placeholder="Masukkan password akun Waka Kesiswaan Anda" maxlength="100" style="padding-left: 42px; padding-right: 42px; height: 46px;" required>
                             <i id="togglePasswordIcon" class="fa-regular fa-eye" onclick="togglePasswordVisibility()" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 15px; cursor: pointer;" title="Tampilkan / Sembunyikan Password"></i>
                         </div>
                     </div>
@@ -307,19 +347,19 @@
         const catatanVal = document.getElementById('catatanInput').value.trim();
 
         if (!nipVal) {
-            alert('Mohon masukkan NIP Waka Anda untuk otentikasi.');
+            alert('Mohon masukkan NIP Waka Kesiswaan Anda untuk otentikasi.');
             document.getElementById('nipUsernameInput').focus();
             return false;
         }
 
         if (nipVal.length !== 18) {
-            alert('NIP PNS/ASN Waka harus terdiri dari tepat 18 digit angka! Saat ini: ' + nipVal.length + ' digit.');
+            alert('NIP PNS/ASN Waka Kesiswaan harus terdiri dari tepat 18 digit angka! Saat ini: ' + nipVal.length + ' digit.');
             document.getElementById('nipUsernameInput').focus();
             return false;
         }
 
         if (!passVal) {
-            alert('Mohon masukkan Password akun Waka Anda.');
+            alert('Mohon masukkan Password akun Waka Kesiswaan Anda.');
             document.getElementById('passwordInput').focus();
             return false;
         }

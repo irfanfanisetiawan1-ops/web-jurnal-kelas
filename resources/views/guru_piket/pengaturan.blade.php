@@ -705,12 +705,9 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 12px 16px;
-            margin-bottom: 2px;
-            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e2e8f0;
             width: 100%;
             max-width: 100%;
             min-width: 0;
@@ -745,25 +742,20 @@
         }
 
         .mobile-topbar-title {
-            font-size: 15.5px;
-            font-weight: 800;
+            font-size: 28px !important;
+            font-weight: 800 !important;
             color: #1e3a8a;
             margin: 0;
-            line-height: 1.25;
-            letter-spacing: -0.01em;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            line-height: 1.25 !important;
+            letter-spacing: -0.5px !important;
         }
 
         .mobile-topbar-sub {
-            font-size: 11px;
+            font-size: 11.5px;
+            font-weight: 600;
             color: #64748b;
             margin-top: 2px;
             display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         /* Profile Summary Card */
@@ -1083,6 +1075,13 @@
             transform: scale(0.98);
         }
     }
+
+    @media (max-width: 480px) {
+        .mobile-topbar-title {
+            font-size: 26px !important;
+            letter-spacing: -0.5px !important;
+        }
+    }
 </style>
 
 @php
@@ -1100,9 +1099,9 @@
     <div class="piket-mobile-wrap">
         <!-- 1. Mobile Top Bar -->
         <div class="mobile-page-topbar">
-            <div class="mobile-topbar-text-group">
-                <h1 class="mobile-topbar-title">Pengaturan Piket</h1>
-                <p class="mobile-topbar-subtitle">Profil, Keamanan &amp; Preferensi Petugas</p>
+            <div class="mobile-topbar-title-wrap">
+                <h1 class="mobile-topbar-title">Pengaturan</h1>
+                <span class="mobile-topbar-sub">Profil, Keamanan &amp; Preferensi Petugas</span>
             </div>
         </div>
 
@@ -1490,9 +1489,9 @@
         </a>
 
         <!-- 6. Tombol Keluar / Logout -->
-        <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
+        <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
             @csrf
-            <button type="submit" class="m-btn-logout-mobile" onclick="return confirm('Apakah Anda yakin ingin keluar dari aplikasi?')">
+            <button type="button" class="m-btn-logout-mobile" onclick="confirmLogout(event)">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 <span>Keluar dari Akun Piket</span>
             </button>
@@ -1562,13 +1561,6 @@
         </button>
     </div>
 
-    <!-- Session Feedback Alerts -->
-    @if(session('success'))
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 10px; color: #065f46; font-size: 13.5px; font-weight: 750;">
-            <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 18px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
 
     @if(isset($errors) && $errors->any())
         <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; padding: 14px 18px; color: #991b1b; font-size: 13px;">
