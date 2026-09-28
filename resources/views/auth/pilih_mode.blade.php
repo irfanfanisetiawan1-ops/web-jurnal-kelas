@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
@@ -203,6 +204,43 @@
             background: #fee2e2;
             border-color: #fca5a5;
             transform: scale(1.03);
+        }
+
+        /* SweetAlert2 Logout Modal Styling */
+        .swal2-logout-popup {
+            border-radius: 16px !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            padding: 24px 20px !important;
+        }
+        .swal2-logout-popup .swal2-title {
+            font-size: 1.25rem !important;
+            font-weight: 700 !important;
+            color: #1e293b !important;
+            margin-bottom: 6px !important;
+        }
+        .swal2-logout-popup .swal2-html-container {
+            font-size: 0.95rem !important;
+            color: #64748b !important;
+            line-height: 1.5 !important;
+            margin: 6px 0 0 0 !important;
+        }
+        .swal2-logout-popup .swal2-actions {
+            margin-top: 20px !important;
+            gap: 10px !important;
+        }
+        .swal2-logout-confirm {
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            padding: 10px 20px !important;
+            background-color: #ef4444 !important;
+        }
+        .swal2-logout-cancel {
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            padding: 10px 20px !important;
+            background-color: #64748b !important;
         }
 
         /* ─── Page Container ─── */
@@ -721,9 +759,9 @@
                 </div>
             </div>
 
-            <form action="{{ route('logout') }}" method="POST" style="margin:0;">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="margin:0;">
                 @csrf
-                <button type="submit" class="btn-logout-icon" title="Keluar dari Akun (Logout)">
+                <button type="button" class="btn-logout-icon" title="Keluar dari Akun (Logout)" onclick="confirmLogout(event)">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </button>
             </form>
@@ -929,6 +967,57 @@
             document.querySelectorAll('.inputRememberMirror').forEach(inp => {
                 inp.value = val;
             });
+        }
+
+        // Global Confirmation Modal for Logout
+        function confirmLogout(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            const form = (event && event.currentTarget) ? event.currentTarget.closest('form') : (document.getElementById('logout-form') || document.querySelector('form[action*="logout"]'));
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Konfirmasi Keluar',
+                    text: 'Apakah Anda yakin ingin keluar dari akun Anda?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: '<i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 6px;"></i> Ya, Keluar',
+                    cancelButtonText: '<i class="fa-solid fa-xmark" style="margin-right: 6px;"></i> Batal',
+                    reverseButtons: true,
+                    focusCancel: true,
+                    customClass: {
+                        popup: 'swal2-logout-popup',
+                        confirmButton: 'swal2-logout-confirm',
+                        cancelButton: 'swal2-logout-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (form) {
+                            form.submit();
+                        } else {
+                            const fallbackForm = document.createElement('form');
+                            fallbackForm.method = 'POST';
+                            fallbackForm.action = '{{ route("logout") }}';
+                            const csrfInput = document.createElement('input');
+                            csrfInput.type = 'hidden';
+                            csrfInput.name = '_token';
+                            csrfInput.value = '{{ csrf_token() }}';
+                            fallbackForm.appendChild(csrfInput);
+                            document.body.appendChild(fallbackForm);
+                            fallbackForm.submit();
+                        }
+                    }
+                });
+            } else {
+                if (confirm('Apakah Anda yakin ingin keluar dari akun Anda?')) {
+                    if (form) form.submit();
+                }
+            }
+            return false;
         }
     </script>
 </body>

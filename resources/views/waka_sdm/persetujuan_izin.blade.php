@@ -447,11 +447,264 @@
         color: #0f172a;
     }
 
+    /* Desktop vs Mobile Toggle */
+    .waka-desktop-table {
+        display: block;
+    }
+    .waka-mobile-cards {
+        display: none;
+    }
+
+    /* Mobile Card Component Styles */
+    .m-card-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 15px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .m-card-item:last-child {
+        margin-bottom: 0;
+    }
+    .m-card-item:hover {
+        border-color: #cbd5e1;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+    }
+    .m-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .m-card-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1.3;
+    }
+    .m-card-subtitle {
+        font-size: 11px;
+        color: #64748b;
+        font-weight: 600;
+        margin-top: 2px;
+    }
+    .m-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12.5px;
+    }
+    .m-card-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .m-card-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #64748b;
+    }
+    .m-card-val {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #1e293b;
+        text-align: right;
+    }
+    .m-card-box {
+        background: #f8fafc;
+        border: 1px solid #f1f5f9;
+        border-radius: 10px;
+        padding: 9px 12px;
+        font-size: 12px;
+        color: #334155;
+        line-height: 1.4;
+    }
+    .m-card-approval-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-top: 4px;
+    }
+    .m-modal-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .m-approval-stage-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 6px 4px;
+        text-align: center;
+    }
+    .m-approval-stage-title {
+        font-size: 9.5px;
+        font-weight: 800;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+    }
+    .m-card-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        flex-wrap: wrap;
+    }
+    .m-card-actions .btn-action {
+        flex: 1 1 auto;
+        padding: 8px 10px;
+        font-size: 12px;
+        justify-content: center;
+    }
+
     @media (max-width: 1000px) {
         .sdm-metric-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 600px) {
-        .sdm-metric-grid { grid-template-columns: 1fr; }
+
+    @media (max-width: 768px) {
+        .sdm-metric-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .sdm-metric-card {
+            padding: 14px 16px;
+            border-radius: 14px;
+            gap: 12px;
+        }
+        .sdm-metric-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            border-radius: 10px;
+        }
+        .sdm-metric-info h4 {
+            font-size: 18px;
+        }
+        .sdm-metric-info p {
+            font-size: 11px;
+        }
+        .filter-card {
+            padding: 14px 14px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+        }
+        .filter-form {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+        .filter-group {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+            width: 100%;
+        }
+        .filter-group input,
+        .filter-group select,
+        .filter-group .btn-action,
+        .filter-group .form-input-sm {
+            width: 100% !important;
+            box-sizing: border-box;
+            justify-content: center;
+        }
+        .filter-tabs {
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        .tab-item {
+            padding: 8px 12px;
+            font-size: 12px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            white-space: nowrap;
+            gap: 6px;
+        }
+        .tab-item .badge-count {
+            padding: 2px 6px;
+            font-size: 10px;
+        }
+        .main-table-card {
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            border-radius: 0;
+        }
+        .modal-card {
+            width: 95% !important;
+            max-height: 90vh !important;
+            border-radius: 16px !important;
+            margin: 10px !important;
+        }
+        .modal-header {
+            padding: 14px 18px !important;
+        }
+        .modal-header h3 {
+            font-size: 14.5px !important;
+        }
+        .modal-body {
+            padding: 16px 18px !important;
+        }
+        .modal-footer {
+            padding: 12px 18px !important;
+            border-radius: 0 0 16px 16px !important;
+            flex-wrap: wrap !important;
+        }
+        .modal-footer button {
+            flex: 1 1 auto !important;
+        }
+        .m-modal-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        /* Toggle Desktop and Mobile Card */
+        .waka-desktop-table {
+            display: none !important;
+        }
+        .waka-mobile-cards {
+            display: flex !important;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .sdm-metric-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px;
+        }
+        .m-card-approval-grid {
+            grid-template-columns: 1fr;
+            gap: 4px;
+        }
+        .m-approval-stage-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 10px;
+        }
+        .m-approval-stage-title {
+            margin-bottom: 0;
+        }
     }
 </style>
 @endsection
@@ -570,65 +823,233 @@
     <form id="formBatchDelete" action="{{ route('waka-sdm.izin.batch-delete') }}" method="POST">
         @csrf
         <div style="width: 100%;">
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th style="width: 36px; text-align: center;">
-                            <input type="checkbox" id="selectAllCheckboxes" onclick="toggleSelectAll(this)" style="cursor: pointer; width: 15px; height: 15px;" title="Pilih Semua">
-                        </th>
-                        <th style="width: 40px; text-align: center;">No</th>
-                        <th style="width: 25%;">Nama Pendidik & Mapel / NIP</th>
-                        <th style="width: 20%;">Tanggal & Kategori</th>
-                        <th style="width: 20%;">Alasan & Titipan</th>
-                        <th style="width: 19%;">Persetujuan & Final</th>
-                        <th style="width: 16%; text-align: center;">Aksi Waka SDM</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($daftarIzin as $index => $izin)
+            <!-- Desktop Table View -->
+            <div class="table-responsive waka-desktop-table">
+                <table class="custom-table">
+                    <thead>
                         <tr>
-                            <td style="text-align: center;">
-                                <input type="checkbox" name="ids[]" value="{{ $izin->id_guru_izin }}" class="cb-izin-item" onchange="updateBatchDeleteButton()" style="cursor: pointer; width: 15px; height: 15px;">
-                            </td>
-                            <td style="text-align: center; color: #64748b; font-weight: 700;">
-                                {{ $daftarIzin->firstItem() + $index }}
-                            </td>
-                            <td>
-                                <div style="font-weight: 800; color: #0f172a;">{{ $izin->guru->nama_guru ?? 'Guru' }}</div>
-                                <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
-                                    <span>NIP: {{ $izin->guru->nip ?? '-' }}</span>
-                                    @if(optional($izin->guru)->mapel)
-                                        <span> • {{ $izin->guru->mapel->nama_mapel }}</span>
+                            <th style="width: 36px; text-align: center;">
+                                <input type="checkbox" id="selectAllCheckboxes" onclick="toggleSelectAll(this)" style="cursor: pointer; width: 15px; height: 15px;" title="Pilih Semua">
+                            </th>
+                            <th style="width: 40px; text-align: center;">No</th>
+                            <th style="width: 25%;">Nama Pendidik & Mapel / NIP</th>
+                            <th style="width: 20%;">Tanggal & Kategori</th>
+                            <th style="width: 20%;">Alasan & Titipan</th>
+                            <th style="width: 19%;">Persetujuan & Final</th>
+                            <th style="width: 16%; text-align: center;">Aksi Waka SDM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($daftarIzin as $index => $izin)
+                            <tr>
+                                <td style="text-align: center;">
+                                    <input type="checkbox" name="ids[]" value="{{ $izin->id_guru_izin }}" class="cb-izin-item" onchange="updateBatchDeleteButton()" style="cursor: pointer; width: 15px; height: 15px;">
+                                </td>
+                                <td style="text-align: center; color: #64748b; font-weight: 700;">
+                                    {{ $daftarIzin->firstItem() + $index }}
+                                </td>
+                                <td>
+                                    <div style="font-weight: 800; color: #0f172a;">{{ $izin->guru->nama_guru ?? 'Guru' }}</div>
+                                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
+                                        <span>NIP: {{ $izin->guru->nip ?? '-' }}</span>
+                                        @if(optional($izin->guru)->mapel)
+                                            <span> • {{ $izin->guru->mapel->nama_mapel }}</span>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 700; color: #1e293b;">
+                                        <i class="fa-solid fa-calendar-day" style="color: #94a3b8; font-size: 11px; margin-right: 3px;"></i>
+                                        {{ $izin->tanggal_formatted }}
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 5px; margin-top: 4px;">
+                                        <span class="badge badge-slate" style="text-transform: uppercase; font-size: 10px;">{{ $izin->kategori_izin ?? 'biasa' }}</span>
+                                        <span style="font-size: 11px; color: #64748b;">{{ $izin->durasi_formatted }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 600; color: #1e293b; font-size: 12.5px;">{{ Str::limit($izin->alasan, 45) }}</div>
+                                    @if($izin->materi_dititipkan)
+                                        <div style="font-size: 11px; color: #2563eb; margin-top: 3px; font-weight: 600;">
+                                            <i class="fa-solid fa-book-bookmark"></i> Ada Titipan Materi
+                                        </div>
                                     @endif
+                                    @if($izin->foto_surat)
+                                        <div style="font-size: 10.5px; color: #059669; margin-top: 2px;">
+                                            <i class="fa-solid fa-file-image"></i> Ada Lampiran Surat
+                                        </div>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="approval-matrix">
+                                        <div class="matrix-row">
+                                            <span class="matrix-label">Kur:</span>
+                                            @if($izin->status_waka === 'approved')
+                                                <span class="badge badge-approved" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-check"></i> Approved</span>
+                                            @elseif($izin->status_waka === 'rejected')
+                                                <span class="badge badge-rejected" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-xmark"></i> Rejected</span>
+                                            @else
+                                                <span class="badge badge-pending" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </div>
+                                        <div class="matrix-row">
+                                            <span class="matrix-label">SDM:</span>
+                                            @if($izin->status_waka_sdm === 'approved')
+                                                <span class="badge badge-approved" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-check"></i> Approved</span>
+                                            @elseif($izin->status_waka_sdm === 'rejected')
+                                                <span class="badge badge-rejected" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-xmark"></i> Rejected</span>
+                                            @else
+                                                <span class="badge badge-pending" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </div>
+                                        <div class="matrix-row">
+                                            <span class="matrix-label">Kepsek:</span>
+                                            @if($izin->status_kepsek === 'approved')
+                                                <span class="badge badge-approved" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-check"></i> Approved</span>
+                                            @elseif($izin->status_kepsek === 'rejected')
+                                                <span class="badge badge-rejected" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-xmark"></i> Rejected</span>
+                                            @else
+                                                <span class="badge badge-pending" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </div>
+                                        <div style="margin-top: 4px;">
+                                            @php
+                                                $isAllApproved = ($izin->status_waka === 'approved' && $izin->status_waka_sdm === 'approved' && $izin->status_kepsek === 'approved');
+                                                $isAnyRejected = ($izin->status_waka === 'rejected' || $izin->status_waka_sdm === 'rejected' || $izin->status_kepsek === 'rejected' || $izin->status_final === 'rejected');
+                                            @endphp
+                                            @if($isAllApproved || $izin->status_final === 'approved')
+                                                <span class="badge badge-final-approved"><i class="fa-solid fa-circle-check"></i> Disetujui Resmi</span>
+                                            @elseif($isAnyRejected)
+                                                <span class="badge badge-rejected"><i class="fa-solid fa-circle-xmark"></i> Ditolak</span>
+                                            @else
+                                                <span class="badge badge-process"><i class="fa-solid fa-hourglass-half"></i> Dalam Proses</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align: center;">
+                                    @php
+                                        $sdmGiDetailData = [
+                                            'nama_guru' => $izin->guru->nama_guru ?? 'Guru',
+                                            'nip' => $izin->guru->nip ?? '-',
+                                            'mapel' => optional($izin->guru)->mapel->nama_mapel ?? '-',
+                                            'tanggal' => ($izin->tanggal_mulai === $izin->tanggal_selesai || !$izin->tanggal_selesai) ? \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d-m-Y') : \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d-m-Y') . ' s/d ' . \Carbon\Carbon::parse($izin->tanggal_selesai)->format('d-m-Y'),
+                                            'durasi' => $izin->durasi_formatted ?? '1 Hari',
+                                            'kategori_izin' => $izin->kategori_izin ?? 'biasa',
+                                            'alasan' => $izin->alasan ?? '-',
+                                            'keterangan_khusus' => $izin->keterangan_khusus ?? '-',
+                                            'materi' => $izin->materi_dititipkan ?? '-',
+                                            'file_tugas_url' => $izin->file_tugas ? asset('uploads/tugas_pengganti/' . $izin->file_tugas) : null,
+                                            'foto_url' => $izin->foto_surat ? asset('uploads/guru_izin/' . $izin->foto_surat) : null,
+                                            'status_waka' => ucfirst($izin->status_waka ?? 'pending'),
+                                            'status_waka_sdm' => ucfirst($izin->status_waka_sdm ?? 'pending'),
+                                            'status_kepsek' => ucfirst($izin->status_kepsek ?? 'pending'),
+                                            'status_final' => ucfirst($izin->status_final ?? 'pending'),
+                                            'catatan_waka' => $izin->catatan_waka ?? '-',
+                                            'catatan_kepsek' => $izin->catatan_kepsek ?? '-',
+                                        ];
+                                    @endphp
+                                    <div class="action-btn-group" style="justify-content: center;">
+                                        <button type="button" class="btn-action btn-detail-sm" onclick='openDetailModal(@json($sdmGiDetailData))' title="Lihat Rincian Pengajuan">
+                                            <i class="fa-solid fa-eye"></i> Detail
+                                        </button>
+
+                                        @if($izin->status_waka_sdm === 'pending')
+                                            <button type="button" class="btn-action btn-approve" onclick="openApproveModal('{{ $izin->id_guru_izin }}', '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')" title="Setujui Pengajuan">
+                                                <i class="fa-solid fa-check"></i> Setujui
+                                            </button>
+                                            <button type="button" class="btn-action btn-reject" onclick="openRejectModal('{{ $izin->id_guru_izin }}', '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')" title="Tolak Pengajuan">
+                                                <i class="fa-solid fa-xmark"></i> Tolak
+                                            </button>
+                                        @endif
+
+                                        <!-- Soft Delete Single -->
+                                        <form action="{{ route('waka-sdm.izin.destroy', $izin->id_guru_izin) }}" method="POST" style="display:inline;" onsubmit="return confirm('Pindahkan data izin guru {{ $izin->guru->nama_guru ?? '' }} ke Sampah (Soft Delete)?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-action btn-delete-soft" title="Hapus ke Sampah">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: #94a3b8; padding: 40px;">
+                                    <i class="fa-solid fa-inbox" style="font-size: 36px; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
+                                    Tidak ada data pengajuan izin guru untuk kriteria filter ini.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Responsive Cards View -->
+            <div class="waka-mobile-cards">
+                @forelse($daftarIzin as $index => $izin)
+                    @php
+                        $sdmGiDetailData = [
+                            'nama_guru' => $izin->guru->nama_guru ?? 'Guru',
+                            'nip' => $izin->guru->nip ?? '-',
+                            'mapel' => optional($izin->guru)->mapel->nama_mapel ?? '-',
+                            'tanggal' => ($izin->tanggal_mulai === $izin->tanggal_selesai || !$izin->tanggal_selesai) ? \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d-m-Y') : \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d-m-Y') . ' s/d ' . \Carbon\Carbon::parse($izin->tanggal_selesai)->format('d-m-Y'),
+                            'durasi' => $izin->durasi_formatted ?? '1 Hari',
+                            'kategori_izin' => $izin->kategori_izin ?? 'biasa',
+                            'alasan' => $izin->alasan ?? '-',
+                            'keterangan_khusus' => $izin->keterangan_khusus ?? '-',
+                            'materi' => $izin->materi_dititipkan ?? '-',
+                            'file_tugas_url' => $izin->file_tugas ? asset('uploads/tugas_pengganti/' . $izin->file_tugas) : null,
+                            'foto_url' => $izin->foto_surat ? asset('uploads/guru_izin/' . $izin->foto_surat) : null,
+                            'status_waka' => ucfirst($izin->status_waka ?? 'pending'),
+                            'status_waka_sdm' => ucfirst($izin->status_waka_sdm ?? 'pending'),
+                            'status_kepsek' => ucfirst($izin->status_kepsek ?? 'pending'),
+                            'status_final' => ucfirst($izin->status_final ?? 'pending'),
+                            'catatan_waka' => $izin->catatan_waka ?? '-',
+                            'catatan_kepsek' => $izin->catatan_kepsek ?? '-',
+                        ];
+                    @endphp
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <input type="checkbox" name="ids[]" value="{{ $izin->id_guru_izin }}" class="cb-izin-item" onchange="updateBatchDeleteButton()" style="cursor: pointer; width: 17px; height: 17px; margin-top: 2px;">
+                                <div>
+                                    <div class="m-card-title">{{ $izin->guru->nama_guru ?? 'Guru' }}</div>
+                                    <div class="m-card-subtitle">
+                                        NIP: {{ $izin->guru->nip ?? '-' }}
+                                        @if(optional($izin->guru)->mapel)
+                                            • {{ $izin->guru->mapel->nama_mapel }}
+                                        @endif
+                                    </div>
                                 </div>
-                            </td>
-                            <td>
-                                <div style="font-weight: 700; color: #1e293b;">
-                                    <i class="fa-solid fa-calendar-day" style="color: #94a3b8; font-size: 11px; margin-right: 3px;"></i>
-                                    {{ $izin->tanggal_formatted }}
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 5px; margin-top: 4px;">
-                                    <span class="badge badge-slate" style="text-transform: uppercase; font-size: 10px;">{{ $izin->kategori_izin ?? 'biasa' }}</span>
-                                    <span style="font-size: 11px; color: #64748b;">{{ $izin->durasi_formatted }}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div style="font-weight: 600; color: #1e293b; font-size: 12.5px;">{{ Str::limit($izin->alasan, 45) }}</div>
+                            </div>
+                            <span class="badge badge-slate" style="text-transform: uppercase;">{{ $izin->kategori_izin ?? 'biasa' }}</span>
+                        </div>
+                        <div class="m-card-body">
+                            <div class="m-card-row">
+                                <span class="m-card-label"><i class="fa-solid fa-calendar-day" style="color: #64748b; margin-right: 4px;"></i> Tanggal Izin</span>
+                                <span class="m-card-val">{{ $izin->tanggal_formatted }} ({{ $izin->durasi_formatted }})</span>
+                            </div>
+                            <div class="m-card-box">
+                                <strong style="display: block; font-size: 11px; color: #64748b; text-transform: uppercase; margin-bottom: 2px;">Alasan Izin:</strong>
+                                {{ $izin->alasan }}
                                 @if($izin->materi_dititipkan)
-                                    <div style="font-size: 11px; color: #2563eb; margin-top: 3px; font-weight: 600;">
+                                    <div style="font-size: 11px; color: #2563eb; margin-top: 4px; font-weight: 700;">
                                         <i class="fa-solid fa-book-bookmark"></i> Ada Titipan Materi
                                     </div>
                                 @endif
                                 @if($izin->foto_surat)
-                                    <div style="font-size: 10.5px; color: #059669; margin-top: 2px;">
+                                    <div style="font-size: 10.5px; color: #059669; margin-top: 3px; font-weight: 700;">
                                         <i class="fa-solid fa-file-image"></i> Ada Lampiran Surat
                                     </div>
                                 @endif
-                            </td>
-                            <td>
-                                <div class="approval-matrix">
-                                    <div class="matrix-row">
-                                        <span class="matrix-label">Kur:</span>
+                            </div>
+                            <div style="margin-top: 2px;">
+                                <div class="m-card-label" style="margin-bottom: 4px;">Persetujuan Berjenjang:</div>
+                                <div class="m-card-approval-grid">
+                                    <div class="m-approval-stage-box">
+                                        <div class="m-approval-stage-title">WAKA KUR</div>
                                         @if($izin->status_waka === 'approved')
                                             <span class="badge badge-approved" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-check"></i> Approved</span>
                                         @elseif($izin->status_waka === 'rejected')
@@ -637,8 +1058,8 @@
                                             <span class="badge badge-pending" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
                                         @endif
                                     </div>
-                                    <div class="matrix-row">
-                                        <span class="matrix-label">SDM:</span>
+                                    <div class="m-approval-stage-box">
+                                        <div class="m-approval-stage-title">WAKA SDM</div>
                                         @if($izin->status_waka_sdm === 'approved')
                                             <span class="badge badge-approved" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-check"></i> Approved</span>
                                         @elseif($izin->status_waka_sdm === 'rejected')
@@ -647,8 +1068,8 @@
                                             <span class="badge badge-pending" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
                                         @endif
                                     </div>
-                                    <div class="matrix-row">
-                                        <span class="matrix-label">Kepsek:</span>
+                                    <div class="m-approval-stage-box">
+                                        <div class="m-approval-stage-title">KEPSEK</div>
                                         @if($izin->status_kepsek === 'approved')
                                             <span class="badge badge-approved" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-check"></i> Approved</span>
                                         @elseif($izin->status_kepsek === 'rejected')
@@ -657,78 +1078,51 @@
                                             <span class="badge badge-pending" style="padding: 2px 6px; font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
                                         @endif
                                     </div>
-                                    <div style="margin-top: 4px;">
-                                        @php
-                                            $isAllApproved = ($izin->status_waka === 'approved' && $izin->status_waka_sdm === 'approved' && $izin->status_kepsek === 'approved');
-                                            $isAnyRejected = ($izin->status_waka === 'rejected' || $izin->status_waka_sdm === 'rejected' || $izin->status_kepsek === 'rejected' || $izin->status_final === 'rejected');
-                                        @endphp
-                                        @if($isAllApproved || $izin->status_final === 'approved')
-                                            <span class="badge badge-final-approved"><i class="fa-solid fa-circle-check"></i> Disetujui Resmi</span>
-                                        @elseif($isAnyRejected)
-                                            <span class="badge badge-rejected"><i class="fa-solid fa-circle-xmark"></i> Ditolak</span>
-                                        @else
-                                            <span class="badge badge-process"><i class="fa-solid fa-hourglass-half"></i> Dalam Proses</span>
-                                        @endif
-                                    </div>
                                 </div>
-                            </td>
-                            <td style="text-align: center;">
+                            </div>
+                            <div class="m-card-row" style="margin-top: 6px; padding-top: 8px; border-top: 1px dashed #f1f5f9;">
+                                <span class="m-card-label">Status Final</span>
                                 @php
-                                    $sdmGiDetailData = [
-                                        'nama_guru' => $izin->guru->nama_guru ?? 'Guru',
-                                        'nip' => $izin->guru->nip ?? '-',
-                                        'mapel' => optional($izin->guru)->mapel->nama_mapel ?? '-',
-                                        'tanggal' => ($izin->tanggal_mulai === $izin->tanggal_selesai || !$izin->tanggal_selesai) ? \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d-m-Y') : \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d-m-Y') . ' s/d ' . \Carbon\Carbon::parse($izin->tanggal_selesai)->format('d-m-Y'),
-                                        'durasi' => $izin->durasi_formatted ?? '1 Hari',
-                                        'kategori_izin' => $izin->kategori_izin ?? 'biasa',
-                                        'alasan' => $izin->alasan ?? '-',
-                                        'keterangan_khusus' => $izin->keterangan_khusus ?? '-',
-                                        'materi' => $izin->materi_dititipkan ?? '-',
-                                        'file_tugas_url' => $izin->file_tugas ? asset('uploads/tugas_pengganti/' . $izin->file_tugas) : null,
-                                        'foto_url' => $izin->foto_surat ? asset('uploads/guru_izin/' . $izin->foto_surat) : null,
-                                        'status_waka' => ucfirst($izin->status_waka ?? 'pending'),
-                                        'status_waka_sdm' => ucfirst($izin->status_waka_sdm ?? 'pending'),
-                                        'status_kepsek' => ucfirst($izin->status_kepsek ?? 'pending'),
-                                        'status_final' => ucfirst($izin->status_final ?? 'pending'),
-                                        'catatan_waka' => $izin->catatan_waka ?? '-',
-                                        'catatan_kepsek' => $izin->catatan_kepsek ?? '-',
-                                    ];
+                                    $isAllApproved = ($izin->status_waka === 'approved' && $izin->status_waka_sdm === 'approved' && $izin->status_kepsek === 'approved');
+                                    $isAnyRejected = ($izin->status_waka === 'rejected' || $izin->status_waka_sdm === 'rejected' || $izin->status_kepsek === 'rejected' || $izin->status_final === 'rejected');
                                 @endphp
-                                <div class="action-btn-group" style="justify-content: center;">
-                                    <button type="button" class="btn-action btn-detail-sm" onclick='openDetailModal(@json($sdmGiDetailData))' title="Lihat Rincian Pengajuan">
-                                        <i class="fa-solid fa-eye"></i> Detail
-                                    </button>
-
-                                    @if($izin->status_waka_sdm === 'pending')
-                                        <button type="button" class="btn-action btn-approve" onclick="openApproveModal('{{ $izin->id_guru_izin }}', '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')" title="Setujui Pengajuan">
-                                            <i class="fa-solid fa-check"></i> Setujui
-                                        </button>
-                                        <button type="button" class="btn-action btn-reject" onclick="openRejectModal('{{ $izin->id_guru_izin }}', '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')" title="Tolak Pengajuan">
-                                            <i class="fa-solid fa-xmark"></i> Tolak
-                                        </button>
-                                    @endif
-
-                                    <!-- Soft Delete Single -->
-                                    <form action="{{ route('waka-sdm.izin.destroy', $izin->id_guru_izin) }}" method="POST" style="display:inline;" onsubmit="return confirm('Pindahkan data izin guru {{ $izin->guru->nama_guru ?? '' }} ke Sampah (Soft Delete)?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-action btn-delete-soft" title="Hapus ke Sampah">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" style="text-align: center; color: #94a3b8; padding: 40px;">
-                                <i class="fa-solid fa-inbox" style="font-size: 36px; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
-                                Tidak ada data pengajuan izin guru untuk kriteria filter ini.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                                @if($isAllApproved || $izin->status_final === 'approved')
+                                    <span class="badge badge-final-approved"><i class="fa-solid fa-circle-check"></i> Disetujui Resmi</span>
+                                @elseif($isAnyRejected)
+                                    <span class="badge badge-rejected"><i class="fa-solid fa-circle-xmark"></i> Ditolak</span>
+                                @else
+                                    <span class="badge badge-process"><i class="fa-solid fa-hourglass-half"></i> Dalam Proses</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="m-card-actions">
+                            <button type="button" class="btn-action btn-detail-sm" onclick='openDetailModal(@json($sdmGiDetailData))'>
+                                <i class="fa-solid fa-eye"></i> Detail
+                            </button>
+                            @if($izin->status_waka_sdm === 'pending')
+                                <button type="button" class="btn-action btn-approve" onclick="openApproveModal('{{ $izin->id_guru_izin }}', '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')">
+                                    <i class="fa-solid fa-check"></i> Setujui
+                                </button>
+                                <button type="button" class="btn-action btn-reject" onclick="openRejectModal('{{ $izin->id_guru_izin }}', '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')">
+                                    <i class="fa-solid fa-xmark"></i> Tolak
+                                </button>
+                            @endif
+                            <form action="{{ route('waka-sdm.izin.destroy', $izin->id_guru_izin) }}" method="POST" style="display:inline; margin:0;" onsubmit="return confirm('Pindahkan data izin guru {{ $izin->guru->nama_guru ?? '' }} ke Sampah (Soft Delete)?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-action btn-delete-soft" title="Hapus ke Sampah">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 32px 20px; background: #ffffff; border-radius: 14px; border: 1px dashed #e2e8f0;">
+                        <i class="fa-solid fa-inbox" style="font-size: 32px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                        Tidak ada data pengajuan izin guru untuk kriteria filter ini.
+                    </div>
+                @endforelse
+            </div>
         </div>
     </form>
 
@@ -820,7 +1214,7 @@
             </div>
 
             <!-- Tanggal & Kategori -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="m-modal-grid-2" style="margin-bottom: 14px;">
                 <div>
                     <div class="info-label">Kategori Izin</div>
                     <div id="dt_kategori" class="info-val" style="text-transform: uppercase;"></div>
@@ -873,17 +1267,17 @@
             <!-- Persetujuan Berjenjang -->
             <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid #e2e8f0;">
                 <div class="info-label">Status Persetujuan Berjenjang</div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px;">
-                    <div style="background: #f8fafc; padding: 8px 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
-                        <div style="font-size: 10.5px; color: #64748b; font-weight: 700;">WAKA KUR</div>
+                <div class="m-card-approval-grid">
+                    <div class="m-approval-stage-box">
+                        <div class="m-approval-stage-title">WAKA KUR</div>
                         <div id="dt_st_waka" style="margin-top: 4px; font-size: 11px; font-weight: 800;"></div>
                     </div>
-                    <div style="background: #f8fafc; padding: 8px 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
-                        <div style="font-size: 10.5px; color: #64748b; font-weight: 700;">WAKA SDM</div>
+                    <div class="m-approval-stage-box">
+                        <div class="m-approval-stage-title">WAKA SDM</div>
                         <div id="dt_st_sdm" style="margin-top: 4px; font-size: 11px; font-weight: 800;"></div>
                     </div>
-                    <div style="background: #f8fafc; padding: 8px 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
-                        <div style="font-size: 10.5px; color: #64748b; font-weight: 700;">KEPSEK</div>
+                    <div class="m-approval-stage-box">
+                        <div class="m-approval-stage-title">KEPSEK</div>
                         <div id="dt_st_kepsek" style="margin-top: 4px; font-size: 11px; font-weight: 800;"></div>
                     </div>
                 </div>

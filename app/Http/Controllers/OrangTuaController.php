@@ -1051,11 +1051,7 @@ class OrangTuaController extends Controller
 
             // 2. Data Surat Izin pada tanggal ini
             $izinHariIni = SiswaSuratIzin::where('id_siswa', $siswa->id_siswa)
-                ->whereDate('tanggal', '<=', $targetDateStr)
-                ->where(function($sq) use ($targetDateStr) {
-                    $sq->whereDate('tanggal_selesai', '>=', $targetDateStr)
-                       ->orWhereNull('tanggal_selesai');
-                })
+                ->activeOnDate($targetDateStr)
                 ->whereIn('status', ['disetujui', 'Terverifikasi', 'Menunggu'])
                 ->first();
 

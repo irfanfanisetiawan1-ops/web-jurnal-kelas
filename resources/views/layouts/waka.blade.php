@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         :root {
@@ -26,6 +27,13 @@
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--body-bg);
@@ -33,9 +41,12 @@
                               radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.04) 0%, transparent 40%);
             color: var(--text-dark);
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             width: 100%;
-            overflow-x: hidden;
+            max-width: 100%;
+            overflow-x: clip;
+            box-sizing: border-box;
         }
 
         /* Sidebar Navigation */
@@ -275,6 +286,43 @@
             background: rgba(239, 68, 68, 0.15);
         }
 
+        /* SweetAlert2 Logout Modal Styling */
+        .swal2-logout-popup {
+            border-radius: 16px !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+            padding: 24px 20px !important;
+        }
+        .swal2-logout-popup .swal2-title {
+            font-size: 1.25rem !important;
+            font-weight: 700 !important;
+            color: #1e293b !important;
+            margin-bottom: 6px !important;
+        }
+        .swal2-logout-popup .swal2-html-container {
+            font-size: 0.95rem !important;
+            color: #64748b !important;
+            line-height: 1.5 !important;
+            margin: 6px 0 0 0 !important;
+        }
+        .swal2-logout-popup .swal2-actions {
+            margin-top: 20px !important;
+            gap: 10px !important;
+        }
+        .swal2-logout-confirm {
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            padding: 10px 20px !important;
+            background-color: #ef4444 !important;
+        }
+        .swal2-logout-cancel {
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            padding: 10px 20px !important;
+            background-color: #64748b !important;
+        }
+
         /* Main Wrapper */
         .main-wrapper {
             margin-left: var(--sidebar-width);
@@ -285,7 +333,7 @@
             min-width: 0;
             width: calc(100% - var(--sidebar-width));
             max-width: calc(100vw - var(--sidebar-width));
-            overflow-x: hidden;
+            overflow-x: clip;
         }
 
         /* Top Bar Header */
@@ -299,7 +347,7 @@
             justify-content: space-between;
             position: sticky;
             top: 0;
-            z-index: 90;
+            z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.02);
             flex-wrap: wrap;
             gap: 12px;
@@ -450,11 +498,217 @@
             margin: 0;
         }
 
+        .alert {
+            padding: 12px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .sidebar-close-btn,
+        .btn-sidebar-toggle {
+            display: none;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1040;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
         @media (max-width: 992px) {
-            .sidebar { transform: translateX(-100%); }
-            .main-wrapper { margin-left: 0; }
-            .topbar { padding: 12px 16px; }
-            .content-body { padding: 16px; }
+            .sidebar { 
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                bottom: 0 !important;
+                width: 270px !important;
+                max-width: 82vw !important;
+                height: 100vh !important;
+                height: 100dvh !important;
+                max-height: 100dvh !important;
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1050 !important;
+                box-shadow: 4px 0 25px rgba(0,0,0,0.3);
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
+                overscroll-behavior: contain !important;
+            }
+            .sidebar.open {
+                transform: translateX(0) !important;
+            }
+            .sidebar-brand {
+                flex-shrink: 0 !important;
+                padding: 16px 18px !important;
+            }
+            .sidebar-menu {
+                flex: 1 1 auto !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                overscroll-behavior: contain !important;
+            }
+            .sidebar-footer {
+                flex-shrink: 0 !important;
+                margin-top: auto !important;
+                padding: 12px 14px !important;
+            }
+            .sidebar-overlay {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                height: 100dvh !important;
+                touch-action: none !important;
+                overscroll-behavior: none !important;
+            }
+            body.sidebar-open {
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-wrapper {
+                margin-left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                overflow-x: clip !important;
+            }
+            .topbar {
+                height: auto !important;
+                min-height: unset !important;
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 1000 !important;
+                background: #ffffff !important;
+                padding: 6px 10px !important;
+                gap: 5px 6px !important;
+                display: grid !important;
+                grid-template-columns: auto 1fr !important;
+                align-items: center !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+                border-bottom: 1px solid var(--border-color) !important;
+            }
+            .topbar-right {
+                display: contents !important;
+            }
+            .topbar-left {
+                grid-column: 1 / 2 !important;
+                grid-row: 1 / 2 !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 6px !important;
+                justify-self: start !important;
+                align-self: center !important;
+            }
+            .btn-sidebar-toggle {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+                width: 32px !important;
+                height: 32px !important;
+                border-radius: 8px !important;
+                background: #f1f5f9;
+                border: 1px solid #cbd5e1;
+                color: #1e293b;
+                font-size: 13px !important;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+                flex-shrink: 0;
+                margin: 0 !important;
+            }
+            .btn-sidebar-toggle:hover, .btn-sidebar-toggle:active {
+                background: #e2e8f0;
+                color: #0f172a;
+            }
+            .semester-pill {
+                grid-column: 2 / 3 !important;
+                grid-row: 1 / 2 !important;
+                justify-self: end !important;
+                align-self: center !important;
+                padding: 4px 8px !important;
+                font-size: 11px !important;
+                height: 32px !important;
+                border-radius: 8px !important;
+                gap: 5px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
+            }
+            .live-clock-wrapper {
+                grid-column: 1 / -1 !important;
+                grid-row: 2 / 3 !important;
+                width: 100% !important;
+                margin: 0 !important;
+            }
+            .content-body {
+                padding: 10px 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                box-sizing: border-box;
+                overflow-x: clip !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                padding: 5px 8px !important;
+                gap: 4px 6px !important;
+            }
+            .btn-sidebar-toggle {
+                width: 30px !important;
+                height: 30px !important;
+                font-size: 12px !important;
+            }
+            .semester-pill {
+                padding: 3px 6px !important;
+                font-size: 10.5px !important;
+                height: 30px !important;
+                gap: 4px !important;
+            }
+            .content-body {
+                padding: 8px 8px !important;
+                overflow-x: clip !important;
+            }
         }
     </style>
     @yield('styles')
@@ -462,7 +716,7 @@
 <body>
 
     <!-- Sidebar Navigation -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="wakaSidebar">
         <div class="sidebar-brand">
             <div class="logo-icon">
                 <img src="{{ asset('images/logo_jurnal_side_bar.png') }}" alt="EDU JOURNAL Logo">
@@ -537,9 +791,9 @@
             </div>
 
             <div class="sidebar-footer-actions">
-                <form action="{{ route('logout') }}" method="POST" style="flex:1; display:flex;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="flex:1; display:flex;">
                     @csrf
-                    <button type="submit" class="btn-footer-action btn-logout-footer" style="width:100%;" title="Keluar dari Sistem">
+                    <button type="button" class="btn-footer-action btn-logout-footer" style="width:100%;" title="Keluar dari Sistem" onclick="confirmLogout(event)">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         <span>Keluar</span>
                     </button>
@@ -556,11 +810,18 @@
         </div>
     </aside>
 
+    <!-- Overlay Backdrop for Mobile Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <!-- Main Wrapper -->
     <div class="main-wrapper">
         <!-- Topbar Header -->
         <header class="topbar">
-            <div></div>
+            <div class="topbar-left">
+                <button type="button" class="btn-sidebar-toggle" id="sidebarToggleBtn" aria-label="Buka Menu Sidebar">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
 
             <div class="topbar-right">
                 <div class="semester-pill">
@@ -576,10 +837,135 @@
 
         <!-- Content Body -->
         <main class="content-body">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-error">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>{{ session('error') }}</span>
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>
 
+    <script>
+        (function() {
+            const sidebar = document.getElementById('wakaSidebar');
+            const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            let scrollY = 0;
+
+            function openSidebar() {
+                if (sidebar) sidebar.classList.add('open');
+                if (sidebarOverlay) sidebarOverlay.classList.add('active');
+                scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+                document.body.classList.add('sidebar-open');
+                document.documentElement.classList.add('sidebar-open');
+            }
+
+            function closeSidebar() {
+                if (sidebar) sidebar.classList.remove('open');
+                if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                document.body.classList.remove('sidebar-open');
+                document.documentElement.classList.remove('sidebar-open');
+                window.scrollTo(0, scrollY);
+            }
+
+            if (sidebarToggleBtn) {
+                sidebarToggleBtn.addEventListener('click', openSidebar);
+            }
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', closeSidebar);
+                sidebarOverlay.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                }, { passive: false });
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && sidebar && sidebar.classList.contains('open')) {
+                    closeSidebar();
+                }
+            });
+
+            if (sidebar) {
+                const navLinks = sidebar.querySelectorAll('.nav-item, .user-profile, .btn-footer-action');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (this.classList.contains('btn-logout') || this.classList.contains('btn-logout-footer') || this.closest('form#logout-form')) {
+                            return;
+                        }
+                        if (window.innerWidth <= 992) {
+                            closeSidebar();
+                        }
+                    });
+                });
+            }
+        })();
+
+        // Global Confirmation Modal for Logout
+        function confirmLogout(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            const form = (event && event.currentTarget) ? event.currentTarget.closest('form') : (document.getElementById('logout-form') || document.querySelector('form[action*="logout"]'));
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Konfirmasi Keluar',
+                    text: 'Apakah Anda yakin ingin keluar dari akun Anda?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: '<i class="fa-solid fa-right-from-bracket" style="margin-right: 6px;"></i> Ya, Keluar',
+                    cancelButtonText: '<i class="fa-solid fa-xmark" style="margin-right: 6px;"></i> Batal',
+                    reverseButtons: true,
+                    focusCancel: true,
+                    customClass: {
+                        popup: 'swal2-logout-popup',
+                        confirmButton: 'swal2-logout-confirm',
+                        cancelButton: 'swal2-logout-cancel'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (form) {
+                            form.submit();
+                        } else {
+                            const fallbackForm = document.createElement('form');
+                            fallbackForm.method = 'POST';
+                            fallbackForm.action = '{{ route("logout") }}';
+                            const csrfInput = document.createElement('input');
+                            csrfInput.type = 'hidden';
+                            csrfInput.name = '_token';
+                            csrfInput.value = '{{ csrf_token() }}';
+                            fallbackForm.appendChild(csrfInput);
+                            document.body.appendChild(fallbackForm);
+                            fallbackForm.submit();
+                        }
+                    }
+                });
+            } else {
+                if (confirm('Apakah Anda yakin ingin keluar dari akun Anda?')) {
+                    if (form) form.submit();
+                }
+            }
+            return false;
+        }
+    </script>
     @yield('scripts')
 </body>
 </html>

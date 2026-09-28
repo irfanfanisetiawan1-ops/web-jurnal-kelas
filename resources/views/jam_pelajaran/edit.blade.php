@@ -154,11 +154,13 @@
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, 0.5);
+        background: rgba(15, 23, 42, 0.6);
         backdrop-filter: blur(4px);
-        z-index: 200;
+        z-index: 99999 !important;
         align-items: center;
         justify-content: center;
+        padding: 16px;
+        box-sizing: border-box;
     }
     .modal-bg.active { display: flex; }
     .modal-box {
@@ -207,6 +209,75 @@
         border-radius: 12px;
         cursor: pointer;
         box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+    }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+        .page-title-group p { font-size: 13px !important; }
+
+        .edit-card {
+            padding: 18px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .edit-header-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            padding-bottom: 16px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .edit-header-row .btn-cancel {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
+
+        .edit-grid-times {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse !important;
+            width: 100% !important;
+            gap: 10px !important;
+            margin-top: 20px !important;
+            padding-top: 16px !important;
+        }
+
+        .form-actions .btn-cancel,
+        .form-actions .btn-update {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+            padding: 12px 16px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+        }
+
+        .edit-card {
+            padding: 14px 12px !important;
+        }
     }
 </style>
 @endsection
@@ -310,7 +381,7 @@
             </div>
 
             <!-- Grid 2 Kolom: Waktu Senin-Kamis & Waktu Jumat -->
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-bottom:20px;">
+            <div class="edit-grid-times" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-bottom:20px;">
                 <!-- Section Waktu Senin - Kamis -->
                 <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:14px; padding:18px;">
                     <strong style="font-size:13.5px; color:#1e293b; display:flex; align-items:center; gap:8px; margin-bottom:14px;">
@@ -319,12 +390,12 @@
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="jam_mulai" style="font-size:12px;">Jam Mulai</label>
-                            <input type="time" id="jam_mulai" name="jam_mulai" value="{{ old('jam_mulai', $jamPelajaran->jam_mulai ? substr($jamPelajaran->jam_mulai, 0, 5) : '') }}"
+                            <input type="time" id="jam_mulai" name="jam_mulai" value="{{ old('jam_mulai', ($jamPelajaran->jam_mulai_default ?? $jamPelajaran->jam_mulai) ? substr(($jamPelajaran->jam_mulai_default ?? $jamPelajaran->jam_mulai), 0, 5) : '') }}"
                                 class="form-control {{ $errors->has('jam_mulai') ? 'is-invalid' : '' }}">
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="jam_selesai" style="font-size:12px;">Jam Selesai</label>
-                            <input type="time" id="jam_selesai" name="jam_selesai" value="{{ old('jam_selesai', $jamPelajaran->jam_selesai ? substr($jamPelajaran->jam_selesai, 0, 5) : '') }}"
+                            <input type="time" id="jam_selesai" name="jam_selesai" value="{{ old('jam_selesai', ($jamPelajaran->jam_selesai_default ?? $jamPelajaran->jam_selesai) ? substr(($jamPelajaran->jam_selesai_default ?? $jamPelajaran->jam_selesai), 0, 5) : '') }}"
                                 class="form-control {{ $errors->has('jam_selesai') ? 'is-invalid' : '' }}">
                         </div>
                     </div>
@@ -339,12 +410,12 @@
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="jam_mulai_jumat" style="font-size:12px; color:#1e40af;">Jam Mulai Jumat</label>
-                            <input type="time" id="jam_mulai_jumat" name="jam_mulai_jumat" value="{{ old('jam_mulai_jumat', $jamPelajaran->jam_mulai_jumat ? substr($jamPelajaran->jam_mulai_jumat, 0, 5) : '') }}"
+                            <input type="time" id="jam_mulai_jumat" name="jam_mulai_jumat" value="{{ old('jam_mulai_jumat', ($jamPelajaran->jam_mulai_jumat_default ?? $jamPelajaran->jam_mulai_jumat) ? substr(($jamPelajaran->jam_mulai_jumat_default ?? $jamPelajaran->jam_mulai_jumat), 0, 5) : '') }}"
                                 class="form-control {{ $errors->has('jam_mulai_jumat') ? 'is-invalid' : '' }}">
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label for="jam_selesai_jumat" style="font-size:12px; color:#1e40af;">Jam Selesai Jumat</label>
-                            <input type="time" id="jam_selesai_jumat" name="jam_selesai_jumat" value="{{ old('jam_selesai_jumat', $jamPelajaran->jam_selesai_jumat ? substr($jamPelajaran->jam_selesai_jumat, 0, 5) : '') }}"
+                            <input type="time" id="jam_selesai_jumat" name="jam_selesai_jumat" value="{{ old('jam_selesai_jumat', ($jamPelajaran->jam_selesai_jumat_default ?? $jamPelajaran->jam_selesai_jumat) ? substr(($jamPelajaran->jam_selesai_jumat_default ?? $jamPelajaran->jam_selesai_jumat), 0, 5) : '') }}"
                                 class="form-control {{ $errors->has('jam_selesai_jumat') ? 'is-invalid' : '' }}">
                         </div>
                     </div>

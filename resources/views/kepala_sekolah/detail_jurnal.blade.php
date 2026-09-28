@@ -190,6 +190,47 @@
         align-items: center;
         gap: 6px;
     }
+
+    @media (max-width: 768px) {
+        .detail-card-main {
+            padding: 16px;
+            border-radius: 16px;
+            gap: 16px;
+        }
+
+        .top-header-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .header-info-title {
+            font-size: 17px !important;
+        }
+
+        .header-actions {
+            width: 100%;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-action-detail {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .grid-info-section {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        .signature-card-box {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 16px;
+        }
+    }
 </style>
 @endsection
 

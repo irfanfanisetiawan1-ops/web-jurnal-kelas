@@ -8,6 +8,10 @@
         display: flex;
         flex-direction: column;
         gap: 24px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: clip;
     }
 
     /* Page Header */
@@ -51,6 +55,9 @@
         grid-template-columns: 1.6fr 1fr;
         gap: 24px;
         align-items: start;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     @media (max-width: 1024px) {
@@ -66,6 +73,10 @@
         padding: 24px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         border: 1px solid #e2e8f0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: clip;
     }
 
     .lapor-card-header-flex {
@@ -91,6 +102,8 @@
     .form-group-lapor {
         margin-bottom: 20px;
         position: relative;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .form-group-lapor label {
@@ -115,6 +128,7 @@
         outline: none;
         transition: all 0.2s ease;
         font-family: inherit;
+        box-sizing: border-box;
     }
 
     .form-control-lapor:focus {
@@ -140,10 +154,12 @@
     .custom-select-container {
         position: relative;
         width: 100%;
+        box-sizing: border-box;
     }
 
     .select-trigger-box {
         width: 100%;
+        max-width: 100%;
         padding: 12px 16px;
         background: #f8fafc;
         border: 1.5px solid #cbd5e1;
@@ -153,6 +169,9 @@
         justify-content: space-between;
         cursor: pointer;
         transition: all 0.2s ease;
+        box-sizing: border-box;
+        overflow: hidden;
+        gap: 10px;
     }
 
     .select-trigger-box:hover {
@@ -176,6 +195,9 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        flex: 1;
+        min-width: 0;
+        width: 0;
     }
 
     .trigger-info .placeholder-text {
@@ -525,6 +547,15 @@
         border-color: #94a3b8;
     }
 
+    /* Desktop vs Mobile Toggle */
+    .desktop-lapor-table-wrapper {
+        display: block;
+    }
+
+    .mobile-lapor-cards-wrapper {
+        display: none;
+    }
+
     /* Table History */
     .table-responsive {
         overflow-x: auto;
@@ -704,26 +735,471 @@
         align-items: center;
         gap: 10px;
     }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .lapor-page-wrapper {
+            gap: 16px;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: clip !important;
+        }
+
+        .lapor-header {
+            gap: 12px;
+        }
+
+        .lapor-header-icon {
+            width: 44px;
+            height: 44px;
+            font-size: 18px;
+            border-radius: 12px;
+        }
+
+        .lapor-header-text h1 {
+            font-size: 20px;
+        }
+
+        .lapor-header-text p {
+            font-size: 12px;
+        }
+
+        .lapor-card {
+            padding: 16px 12px !important;
+            border-radius: 16px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: clip !important;
+        }
+
+        .lapor-card-header-flex {
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .lapor-card-title {
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .btn-reset-lapor {
+            padding: 5px 10px;
+            font-size: 11px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .form-group-lapor {
+            margin-bottom: 16px;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .form-group-lapor label {
+            font-size: 11.5px;
+            margin-bottom: 6px;
+        }
+
+        .form-control-lapor {
+            padding: 10px 14px;
+            font-size: 12.5px;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .custom-select-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .select-trigger-box {
+            padding: 10px 12px;
+            font-size: 12.5px;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: hidden;
+            gap: 8px;
+        }
+
+        .trigger-info {
+            font-size: 12.5px;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            width: 0;
+        }
+
+        .trigger-info span, #triggerText {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+            max-width: 100%;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .arrow-icon {
+            flex-shrink: 0;
+        }
+
+        .student-dropdown-menu {
+            max-height: 280px;
+            z-index: 99999;
+            border-radius: 14px;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .dropdown-search-header {
+            padding: 10px;
+        }
+
+        .dropdown-search-header input {
+            padding: 8px 12px 8px 34px;
+            font-size: 12.5px;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        .dropdown-search-header i {
+            left: 20px;
+            font-size: 13px;
+        }
+
+        .student-item-row {
+            padding: 9px 12px;
+            gap: 8px;
+        }
+
+        .student-item-info .student-name {
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .student-item-info .student-sub {
+            font-size: 11px;
+        }
+
+        .badge-student-status {
+            font-size: 9.5px;
+            padding: 2px 7px;
+            flex-shrink: 0;
+        }
+
+        .kejadian-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .pill-item {
+            padding: 7px 12px;
+            font-size: 11.5px;
+            border-radius: 18px;
+            white-space: normal;
+            word-break: break-word;
+            text-align: center;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            line-height: 1.35;
+        }
+
+        .recipient-list {
+            gap: 10px;
+            margin-bottom: 16px;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .recipient-card {
+            padding: 12px 10px !important;
+            border-radius: 14px !important;
+            gap: 8px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+
+        .recipient-info {
+            gap: 8px !important;
+            flex: 1 !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+        }
+
+        .recipient-avatar {
+            width: 36px;
+            height: 36px;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .recipient-details {
+            flex: 1 !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+        }
+
+        .recipient-details .name {
+            font-size: 12.5px;
+            word-break: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .recipient-details .role-title {
+            font-size: 10.5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .recipient-details .phone-no {
+            font-size: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .switch-toggle {
+            flex-shrink: 0;
+        }
+
+        .action-buttons-group {
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-submit-lapor {
+            padding: 12px;
+            font-size: 13.5px;
+            border-radius: 12px;
+        }
+
+        .btn-draft-lapor {
+            padding: 11px;
+            font-size: 13px;
+            border-radius: 12px;
+        }
+
+        /* Mobile Zero Horizontal Scroll Cards */
+        .desktop-lapor-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-lapor-cards-wrapper {
+            display: flex !important;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .mobile-lapor-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mlc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .mlc-number-date {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 700;
+            flex-wrap: wrap;
+        }
+
+        .mlc-number {
+            background: #eff6ff;
+            color: #2563eb;
+            font-weight: 800;
+            font-size: 11.5px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid #bfdbfe;
+            font-family: monospace;
+        }
+
+        .mlc-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mlc-body {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .mlc-student-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #0f172a;
+            word-break: break-word;
+        }
+
+        .mlc-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+
+        .mlc-meta-dot {
+            color: #cbd5e1;
+        }
+
+        .mlc-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mlc-kejadian-row {
+            margin-top: 2px;
+        }
+
+        .mlc-kejadian-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 11.5px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .mlc-catatan-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: #334155;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .mlc-catatan-lbl {
+            font-weight: 800;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .mlc-footer {
+            padding-top: 8px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .mlc-actions-row {
+            display: flex;
+            gap: 6px;
+            width: 100%;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .mlc-btn-wa {
+            flex: 1;
+            min-height: 34px;
+            justify-content: center;
+            font-size: 11.5px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+
+        .mlc-delete-form {
+            display: inline-flex;
+        }
+
+        .mlc-btn-delete {
+            min-height: 34px;
+            width: 36px;
+            padding: 6px;
+        }
+
+        .mlc-empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            color: #94a3b8;
+        }
+
+        .mlc-empty-state i {
+            font-size: 28px;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .mlc-empty-state p {
+            font-size: 12.5px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* WA Modal Mobile */
+        .wa-modal-card {
+            padding: 20px 16px;
+            border-radius: 20px;
+        }
+
+        .wa-modal-icon {
+            width: 52px;
+            height: 52px;
+            font-size: 26px;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="lapor-page-wrapper">
-
-    <!-- Flash Alert Messages -->
-    @if(session('success'))
-        <div style="background: #dcfce7; border: 1px solid #86efac; color: #14532d; padding: 14px 18px; border-radius: 12px; font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #16a34a;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #7f1d1d; padding: 14px 18px; border-radius: 12px; font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-triangle-exclamation" style="font-size: 18px; color: #dc2626;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <!-- Header Page Title & Subtitle -->
     <div class="lapor-header">
@@ -956,7 +1432,8 @@
             <span>Riwayat Laporan Kejadian Siswa</span>
         </h2>
 
-        <div class="table-responsive">
+        <!-- Desktop View Table (Hidden on Mobile) -->
+        <div class="desktop-lapor-table-wrapper table-responsive">
             <table class="table-lapor">
                 <thead>
                     <tr>
@@ -1057,6 +1534,100 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile View Cards (Shown ONLY on Mobile, ZERO Horizontal Scroll) -->
+        <div class="mobile-lapor-cards-wrapper">
+            @forelse($laporanList as $index => $item)
+                @php
+                    $tglText = $item->created_at ? $item->created_at->translatedFormat('l, d F Y') : '-';
+                    $msg = "🚨 *LAPORAN KEJADIAN / KETERLAMBATAN SISWA*\n*PORTAL SATPAM SMEA*\n\n"
+                        . "👤 *Nama Siswa:* " . ($item->siswa->nama_siswa ?? '-') . "\n"
+                        . "🆔 *NISN:* " . ($item->siswa->nisn ?? '-') . "\n"
+                        . "🏫 *Kelas:* " . ($item->kelas->nama_kelas ?? '-') . "\n"
+                        . "⚠️ *Jenis Kejadian:* " . $item->jenis_kejadian . "\n"
+                        . "📝 *Catatan:* " . ($item->catatan ?: '-') . "\n\n"
+                        . "📅 *Tanggal:* " . $tglText . "\n"
+                        . "👮 *Pelapor:* " . ($item->satpamUser->name ?? 'Satpam') . " (Satpam)\n\n"
+                        . "Mohon dapat ditindaklanjuti. Terima kasih.";
+                    $encodedMsg = rawurlencode($msg);
+
+                    // Nomor WA Wali Kelas
+                    $noWali = '';
+                    if ($item->kelas && $item->kelas->wali_kelas) {
+                        $gWali = \App\Models\Guru::where('nip', trim($item->kelas->wali_kelas))->first();
+                        $uWali = \App\Models\User::where('nip', trim($item->kelas->wali_kelas))->first();
+                        $noWali = $gWali->no_hp ?? ($uWali->no_hp ?? '');
+                    }
+                    $waWaliClean = preg_replace('/[^0-9]/', '', $noWali);
+                    if (str_starts_with($waWaliClean, '0')) $waWaliClean = '62' . substr($waWaliClean, 1);
+
+                    // Nomor WA Guru Piket
+                    $pUser = \App\Models\User::whereIn('role', ['piket', 'guru_piket'])->whereNull('deleted_at')->first();
+                    $noPiket = $pUser->no_hp ?? '';
+                    $waPiketClean = preg_replace('/[^0-9]/', '', $noPiket);
+                    if (str_starts_with($waPiketClean, '0')) $waPiketClean = '62' . substr($waPiketClean, 1);
+                @endphp
+                <div class="mobile-lapor-card">
+                    <div class="mlc-header">
+                        <div class="mlc-number-date">
+                            <span class="mlc-number">#{{ $laporanList->firstItem() + $index }}</span>
+                            <span class="mlc-date"><i class="fa-solid fa-clock"></i> {{ $item->created_at ? $item->created_at->format('H:i') : '-' }} &bull; {{ $item->created_at ? $item->created_at->format('d/m/Y') : '-' }}</span>
+                        </div>
+                        <span class="badge-status {{ $item->status }}">
+                            {{ $item->status === 'draft' ? 'Draft' : 'Terkirim' }}
+                        </span>
+                    </div>
+
+                    <div class="mlc-body">
+                        <div class="mlc-student-name">{{ $item->siswa->nama_siswa ?? 'Siswa Dihapus' }}</div>
+                        <div class="mlc-meta-row">
+                            <span class="mlc-meta-item"><i class="fa-solid fa-id-card"></i> NISN: {{ $item->siswa->nisn ?? '-' }}</span>
+                            <span class="mlc-meta-dot">&bull;</span>
+                            <span class="mlc-meta-item"><i class="fa-solid fa-school"></i> {{ $item->kelas->nama_kelas ?? '-' }}</span>
+                        </div>
+
+                        <div class="mlc-kejadian-row">
+                            <span class="mlc-kejadian-badge"><i class="fa-solid fa-triangle-exclamation"></i> {{ $item->jenis_kejadian }}</span>
+                        </div>
+
+                        @if($item->catatan)
+                        <div class="mlc-catatan-box">
+                            <span class="mlc-catatan-lbl">Catatan:</span> {{ $item->catatan }}
+                        </div>
+                        @endif
+                    </div>
+
+                    <div class="mlc-footer">
+                        <div class="mlc-actions-row">
+                            @if(!empty($waWaliClean))
+                                <a href="https://wa.me/{{ $waWaliClean }}?text={{ $encodedMsg }}" target="_blank" class="btn-wa-sm mlc-btn-wa" title="Kirim WA ke Wali Kelas">
+                                    <i class="fa-brands fa-whatsapp"></i> Wali Kelas
+                                </a>
+                            @endif
+
+                            @if(!empty($waPiketClean))
+                                <a href="https://wa.me/{{ $waPiketClean }}?text={{ $encodedMsg }}" target="_blank" class="btn-wa-sm mlc-btn-wa" style="background: #16a34a;" title="Kirim WA ke Guru Piket">
+                                    <i class="fa-brands fa-whatsapp"></i> Guru Piket
+                                </a>
+                            @endif
+
+                            <form action="{{ route('satpam.destroy-lapor-siswa', $item->id_lapor_siswa) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus riwayat laporan ini?');" class="mlc-delete-form">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-delete-sm mlc-btn-delete" title="Hapus Laporan">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="mlc-empty-state">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <p>Belum ada riwayat laporan kejadian siswa.</p>
+                </div>
+            @endforelse
         </div>
 
         <div style="margin-top: 16px;">

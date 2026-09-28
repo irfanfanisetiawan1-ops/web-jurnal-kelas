@@ -5,20 +5,6 @@
 @section('content')
 <div class="validasi-page-wrapper">
 
-    @if(session('success'))
-        <div style="background: #dcfce7; border: 1px solid #86efac; color: #14532d; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #16a34a;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #7f1d1d; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-triangle-exclamation" style="font-size: 18px; color: #dc2626;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
-
     <!-- Header Page Title & Subtitle matching TU style -->
     <div class="dashboard-page-header">
         <div class="header-left">
@@ -101,15 +87,15 @@
         </div>
 
         <!-- Filter & Search Bar untuk Tabel Validasi -->
-        <div class="table-filter-bar" style="padding: 16px 24px; background: #ffffff; border-bottom: 1px solid #e2e8f0;">
-            <form method="GET" action="{{ route('satpam.validasi') }}" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-                <div style="position: relative; flex: 1; min-width: 220px;">
-                    <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 13px;"></i>
-                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari Kode Dispen / Nama Siswa / NISN..." style="width: 100%; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px 8px 34px; font-size: 12.5px; outline: none; font-family: inherit;">
+        <div class="table-filter-bar">
+            <form method="GET" action="{{ route('satpam.validasi') }}" class="validasi-filter-form">
+                <div class="filter-search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari Kode Dispen / Nama Siswa / NISN...">
                 </div>
 
-                <div style="width: 200px;">
-                    <select name="status" style="width: 100%; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; font-size: 12.5px; outline: none; font-family: inherit;">
+                <div class="filter-select-box">
+                    <select name="status">
                         <option value="">-- Semua Status Satpam --</option>
                         <option value="belum_keluar" {{ request('status') == 'belum_keluar' ? 'selected' : '' }}>Belum Keluar</option>
                         <option value="dizinkan_keluar" {{ request('status') == 'dizinkan_keluar' ? 'selected' : '' }}>Dizinkan Keluar</option>
@@ -118,19 +104,20 @@
                     </select>
                 </div>
 
-                <button type="submit" style="background: #2563eb; color: #ffffff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                <button type="submit" class="btn-filter-submit">
                     <i class="fa-solid fa-filter"></i> Filter
                 </button>
 
                 @if(request()->hasAny(['q', 'status']))
-                    <a href="{{ route('satpam.validasi') }}" style="background: #e2e8f0; color: #475569; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 12.5px; display: inline-flex; align-items: center;">
-                        <i class="fa-solid fa-rotate-left" style="margin-right: 4px;"></i> Reset
+                    <a href="{{ route('satpam.validasi') }}" class="btn-filter-reset">
+                        <i class="fa-solid fa-rotate-left"></i> Reset
                     </a>
                 @endif
             </form>
         </div>
 
-        <div class="table-responsive">
+        <!-- Desktop View Table (Hidden on Mobile) -->
+        <div class="desktop-validasi-table-wrapper table-responsive">
             <table class="satpam-custom-table">
                 <thead>
                     <tr>
@@ -215,6 +202,92 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile View Cards (Shown ONLY on Mobile, ZERO Horizontal Scroll) -->
+        <div class="mobile-validasi-cards-wrapper">
+            @forelse($dispenList as $d)
+            @php
+                $isApprovedWaka = ($d->status_waka === 'approved' || $d->status_wali_kelas === 'approved');
+            @endphp
+            <div class="mobile-validasi-card">
+                <div class="mvc-header">
+                    <span class="mvc-kode">{{ $d->kode_dispen }}</span>
+                    @if($isApprovedWaka)
+                        <span class="badge-status status-approved">
+                            <i class="fa-solid fa-circle-check"></i> Disetujui Waka
+                        </span>
+                    @elseif($d->status_waka === 'rejected' || $d->status_wali_kelas === 'rejected')
+                        <span class="badge-status status-rejected">
+                            <i class="fa-solid fa-circle-xmark"></i> Ditolak Waka
+                        </span>
+                    @else
+                        <span class="badge-status status-pending">
+                            <i class="fa-solid fa-clock"></i> Pending Waka
+                        </span>
+                    @endif
+                </div>
+
+                <div class="mvc-body">
+                    <div class="mvc-student-name">{{ $d->siswa->nama_siswa ?? 'Siswa Tidak Ditemukan' }}</div>
+                    <div class="mvc-meta-row">
+                        <span class="mvc-meta-item"><i class="fa-solid fa-school"></i> {{ $d->kelas->nama_kelas ?? '-' }}</span>
+                        <span class="mvc-meta-dot">•</span>
+                        <span class="mvc-meta-item"><i class="fa-solid fa-clock"></i> {{ $d->jam_keluar }} - {{ $d->jam_kembali }} WIB</span>
+                    </div>
+                    @if($d->alasan)
+                    <div class="mvc-reason-box">
+                        <span class="mvc-reason-lbl">Alasan:</span> {{ $d->alasan }}
+                    </div>
+                    @endif
+                </div>
+
+                <div class="mvc-footer">
+                    <div class="mvc-status-row">
+                        <span class="mvc-status-lbl">Status Satpam:</span>
+                        @if($d->status_satpam === 'dizinkan_keluar')
+                            <span class="badge-satpam satpam-keluar">Keluar Gerbang</span>
+                        @elseif($d->status_satpam === 'sudah_kembali')
+                            <span class="badge-satpam satpam-kembali">Sudah Kembali</span>
+                        @elseif($d->status_satpam === 'ditolak')
+                            <span class="badge-satpam satpam-ditolak">Ditolak</span>
+                        @else
+                            <span class="badge-satpam satpam-belum">Belum Keluar</span>
+                        @endif
+                    </div>
+
+                    <div class="mvc-actions-row">
+                        <button type="button" class="btn-detail-sm mvc-btn-detail" onclick='openDetailModal(@json($d))'>
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+
+                        @if($isApprovedWaka)
+                            <form action="{{ route('satpam.update-status', $d->id_siswa_dispen) }}" method="POST" class="mvc-action-form">
+                                @csrf
+                                @if($d->status_satpam === 'belum_keluar')
+                                    <button type="submit" name="status_satpam" value="dizinkan_keluar" class="btn-table-action btn-blue mvc-btn-action">
+                                        <i class="fa-solid fa-door-open"></i> Izinkan Keluar
+                                    </button>
+                                @elseif($d->status_satpam === 'dizinkan_keluar')
+                                    <button type="submit" name="status_satpam" value="sudah_kembali" class="btn-table-action btn-purple mvc-btn-action">
+                                        <i class="fa-solid fa-door-closed"></i> Konfirmasi Kembali
+                                    </button>
+                                @else
+                                    <span class="text-completed"><i class="fa-solid fa-circle-check"></i> Selesai</span>
+                                @endif
+                            </form>
+                        @else
+                            <span class="text-hold"><i class="fa-solid fa-ban"></i> Perlu Persetujuan Waka</span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="mvc-empty-state">
+                <i class="fa-solid fa-folder-open"></i>
+                <p>Belum ada data dispen siswa yang sesuai filter pencarian.</p>
+            </div>
+            @endforelse
         </div>
     </div>
 
@@ -459,6 +532,115 @@
         padding: 4px 12px;
         border-radius: 20px;
         border: 1px solid #bfdbfe;
+    }
+
+    /* Filter Bar */
+    .table-filter-bar {
+        padding: 16px 24px;
+        background: #ffffff;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .validasi-filter-form {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .filter-search-box {
+        position: relative;
+        flex: 1;
+        min-width: 220px;
+    }
+
+    .filter-search-box i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+    .filter-search-box input {
+        width: 100%;
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 8px 12px 8px 34px;
+        font-size: 12.5px;
+        outline: none;
+        font-family: inherit;
+        box-sizing: border-box;
+    }
+
+    .filter-search-box input:focus {
+        background: #ffffff;
+        border-color: #2563eb;
+    }
+
+    .filter-select-box {
+        width: 200px;
+    }
+
+    .filter-select-box select {
+        width: 100%;
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 12.5px;
+        outline: none;
+        font-family: inherit;
+        box-sizing: border-box;
+    }
+
+    .btn-filter-submit {
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 12.5px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: background 0.15s ease;
+    }
+
+    .btn-filter-submit:hover {
+        background: #1d4ed8;
+    }
+
+    .btn-filter-reset {
+        background: #e2e8f0;
+        color: #475569;
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 12.5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.15s ease;
+    }
+
+    .btn-filter-reset:hover {
+        background: #cbd5e1;
+        color: #0f172a;
+    }
+
+    /* Desktop vs Mobile Toggle */
+    .desktop-validasi-table-wrapper {
+        display: block;
+    }
+
+    .mobile-validasi-cards-wrapper {
+        display: none;
     }
 
     .table-responsive {
@@ -755,6 +937,377 @@
         border-radius: 10px;
         border: 1px solid #cbd5e1;
         object-fit: cover;
+    }
+
+    /* Mobile Responsive Media Queries */
+    @media (max-width: 768px) {
+        .dashboard-page-header {
+            margin-bottom: 16px;
+            gap: 8px;
+        }
+
+        .header-left h1 {
+            font-size: 20px;
+        }
+
+        .header-left p {
+            font-size: 11.5px;
+            line-height: 1.4;
+        }
+
+        /* Scan Card Mobile */
+        .validasi-main-card {
+            padding: 20px 14px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+        }
+
+        .barcode-illustration svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .scan-heading {
+            font-size: 17px;
+        }
+
+        .scan-subheading {
+            font-size: 11.5px;
+            margin-bottom: 14px;
+        }
+
+        .scan-subheading br {
+            display: none;
+        }
+
+        .btn-buka-kamera-validasi {
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
+            padding: 10px 18px;
+            font-size: 12.5px;
+            margin-bottom: 14px;
+        }
+
+        #reader {
+            padding: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        #reader video,
+        #reader canvas {
+            max-width: 100% !important;
+            height: auto !important;
+            border-radius: 8px !important;
+        }
+
+        #reader img {
+            max-width: 100% !important;
+        }
+
+        .search-input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .validasi-input-control {
+            width: 100%;
+            flex: 1 1 100%;
+            font-size: 12px;
+            padding: 9px 12px;
+        }
+
+        .btn-submit-search {
+            flex: 1 1 calc(60% - 4px);
+            justify-content: center;
+            padding: 10px 12px;
+            font-size: 12px;
+            min-height: 38px;
+        }
+
+        .btn-reset-search-form {
+            flex: 1 1 calc(40% - 4px);
+            justify-content: center;
+            padding: 10px 12px;
+            font-size: 12px;
+            min-height: 38px;
+        }
+
+        .validasi-result-card {
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+
+        /* Table Card & Filter Bar Mobile */
+        .validasi-table-card {
+            border-radius: 14px;
+        }
+
+        .table-card-header {
+            padding: 14px 16px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .table-card-title {
+            font-size: 15px;
+        }
+
+        .table-filter-bar {
+            padding: 12px 14px;
+        }
+
+        .validasi-filter-form {
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .filter-search-box {
+            width: 100%;
+            min-width: 0;
+        }
+
+        .filter-select-box {
+            width: 100%;
+        }
+
+        .btn-filter-submit,
+        .btn-filter-reset {
+            width: 100%;
+            justify-content: center;
+            padding: 9px 14px;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+
+        /* Mobile Zero Horizontal Scroll Cards */
+        .desktop-validasi-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-validasi-cards-wrapper {
+            display: flex !important;
+            flex-direction: column;
+            gap: 12px;
+            padding: 14px;
+            background: #f8fafc;
+        }
+
+        .mobile-validasi-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mvc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .mvc-kode {
+            font-family: monospace;
+            font-weight: 800;
+            color: #2563eb;
+            font-size: 12px;
+            background: #eff6ff;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .mvc-body {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .mvc-student-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            word-break: break-word;
+        }
+
+        .mvc-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+
+        .mvc-meta-dot {
+            color: #cbd5e1;
+        }
+
+        .mvc-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mvc-reason-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: #334155;
+            margin-top: 4px;
+            word-break: break-word;
+        }
+
+        .mvc-reason-lbl {
+            font-weight: 800;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .mvc-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .mvc-status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mvc-status-lbl {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .mvc-actions-row {
+            display: flex;
+            gap: 6px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .mvc-btn-detail {
+            flex: 1;
+            min-height: 34px;
+            justify-content: center;
+            font-size: 11.5px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+
+        .mvc-action-form {
+            flex: 1;
+            width: 100%;
+            display: flex;
+        }
+
+        .mvc-btn-action {
+            width: 100%;
+            min-height: 34px;
+            justify-content: center;
+            font-size: 11.5px;
+            padding: 6px 10px;
+            text-align: center;
+        }
+
+        .mvc-empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            color: #94a3b8;
+        }
+
+        .mvc-empty-state i {
+            font-size: 28px;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .mvc-empty-state p {
+            font-size: 12.5px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Modal Detail Mobile */
+        .modal-backdrop-custom {
+            padding: 12px !important;
+        }
+
+        .modal-card-detail {
+            max-height: 92vh;
+            border-radius: 16px;
+        }
+
+        .modal-detail-header {
+            padding: 14px 16px;
+        }
+
+        .modal-detail-header h3 {
+            font-size: 14px;
+        }
+
+        .modal-detail-body {
+            padding: 16px 14px;
+        }
+
+        .detail-section-title {
+            font-size: 11px;
+            margin: 12px 0 8px 0;
+        }
+
+        .detail-item-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+            padding: 6px 0;
+            font-size: 12px;
+        }
+
+        .detail-item-row .lbl {
+            min-width: unset;
+            font-size: 11px;
+        }
+
+        .detail-item-row .val {
+            text-align: left;
+            font-size: 12px;
+            width: 100%;
+            word-break: break-word;
+        }
+
+        .detail-image-box {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .detail-image-box img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+        }
     }
 </style>
 @endsection

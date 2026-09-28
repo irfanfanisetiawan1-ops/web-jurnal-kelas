@@ -717,6 +717,586 @@
         from { opacity: 0; transform: scale(0.96); }
         to { opacity: 1; transform: scale(1); }
     }
+
+    /* Schedule Desktop & Mobile Views */
+    .schedule-desktop-view,
+    .homeroom-schedule-desktop-view,
+    .modal-absen-desktop-table {
+        display: block;
+    }
+
+    .schedule-mobile-view,
+    .homeroom-schedule-mobile-view,
+    .modal-absen-mobile-cards {
+        display: none;
+    }
+
+    .schedule-mobile-card {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 14px;
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .schedule-mobile-card.card-is-today {
+        border-left: 4px solid #2563eb;
+    }
+
+    .card-mobile-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .card-mobile-time {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .badge-jam-range {
+        font-size: 12px;
+        font-weight: 800;
+        color: #0f172a;
+        background: #f1f5f9;
+        padding: 3px 8px;
+        border-radius: 6px;
+    }
+
+    .badge-time-range {
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #475569;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .card-mobile-pills {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .badge-pill-day {
+        font-size: 11px;
+        font-weight: 800;
+        color: #1d4ed8;
+        background: #eff6ff;
+        padding: 3px 8px;
+        border-radius: 6px;
+        border: 1px solid #dbeafe;
+    }
+
+    .badge-pill-class {
+        font-size: 11.5px;
+        font-weight: 800;
+        color: #0f172a;
+        background: #e2e8f0;
+        padding: 3px 9px;
+        border-radius: 6px;
+    }
+
+    .card-mobile-mid {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .card-mobile-mapel-name {
+        font-size: 15px;
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1.35;
+    }
+
+    .badge-pengganti-mobile {
+        font-size: 11px;
+        font-weight: 700;
+        color: #2563eb;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        padding: 3px 8px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        width: fit-content;
+    }
+
+    .card-mobile-room {
+        font-size: 12px;
+        font-weight: 600;
+        color: #475569;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .card-mobile-bottom {
+        margin-top: 2px;
+    }
+
+    .mobile-action-split {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE MOBILE STYLES (HP & TABLET)
+       ========================================================================== */
+    @media (max-width: 768px) {
+        /* Page Header */
+        .dashboard-page-header {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 14px !important;
+            margin-bottom: 18px !important;
+            width: 100% !important;
+        }
+
+        .header-left h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+            letter-spacing: -0.5px !important;
+            gap: 8px !important;
+            word-break: break-word !important;
+        }
+
+        .header-left p {
+            font-size: 12.5px !important;
+            line-height: 1.45 !important;
+            margin-top: 4px !important;
+            gap: 6px !important;
+        }
+
+        .header-status-badge {
+            font-size: 11px !important;
+            padding: 2px 8px !important;
+            border-radius: 6px !important;
+        }
+
+        .header-actions-group {
+            width: 100% !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+        }
+
+        .btn-header-action {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 12px !important;
+            font-size: 12.5px !important;
+            text-align: center !important;
+            white-space: nowrap !important;
+        }
+
+        /* Scope Tab Bar (Wali Kelas) */
+        .scope-tab-bar {
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 5px !important;
+            padding: 5px !important;
+            margin-bottom: 18px !important;
+            box-sizing: border-box !important;
+        }
+
+        .scope-tab-btn {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 14px !important;
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+            text-align: center !important;
+            border-radius: 8px !important;
+        }
+
+        /* Stats Container */
+        .stats-container {
+            padding: 16px 14px !important;
+            border-radius: 16px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .stats-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+            margin-bottom: 12px !important;
+        }
+
+        .stats-title-group {
+            font-size: 14.5px !important;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card {
+            padding: 12px 14px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-title {
+            font-size: 11px !important;
+        }
+
+        .stat-value {
+            font-size: 20px !important;
+            margin-top: 4px !important;
+        }
+
+        .stat-sub {
+            font-size: 11px !important;
+            margin-top: 3px !important;
+        }
+
+        .stat-card.stat-card-weekly {
+            grid-column: 1 / -1 !important;
+        }
+
+        .weekly-badges {
+            gap: 4px !important;
+            margin-top: 6px !important;
+        }
+
+        .badge-week {
+            padding: 4px 2px !important;
+            font-size: 10px !important;
+        }
+
+        .badge-week span.count {
+            font-size: 8.5px !important;
+        }
+
+        /* Notice & Banners */
+        .weekend-banner,
+        .notice-izin-wrapper {
+            padding: 14px 16px !important;
+            border-radius: 14px !important;
+            gap: 12px !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            margin-bottom: 18px !important;
+        }
+
+        .banner-inner-left,
+        .notice-izin-inner-left {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+        }
+
+        .banner-icon,
+        .notice-izin-icon {
+            width: 38px !important;
+            height: 38px !important;
+            border-radius: 10px !important;
+            font-size: 18px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .banner-title,
+        .notice-izin-title {
+            font-size: 13.5px !important;
+            font-weight: 800 !important;
+        }
+
+        .banner-desc,
+        .notice-izin-desc {
+            font-size: 12px !important;
+            line-height: 1.45 !important;
+            margin-top: 2px !important;
+        }
+
+        .btn-banner-action,
+        .notice-izin-btn {
+            width: 100% !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 9px 14px !important;
+            font-size: 12px !important;
+        }
+
+        /* Schedule Card & Responsive Switch */
+        .card-schedule {
+            padding: 16px 14px !important;
+            border-radius: 16px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .schedule-header-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            margin-bottom: 14px !important;
+        }
+
+        .schedule-header-row h2,
+        .schedule-header-row h3 {
+            font-size: 15.5px !important;
+        }
+
+        .day-nav-pills {
+            display: flex !important;
+            gap: 6px !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            padding-bottom: 4px !important;
+            scrollbar-width: none !important;
+            width: 100% !important;
+        }
+
+        .day-nav-pills::-webkit-scrollbar {
+            display: none !important;
+        }
+
+        .day-pill-btn {
+            flex-shrink: 0 !important;
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+        }
+
+        /* Switch Desktop Table to Mobile Cards */
+        .schedule-desktop-view,
+        .homeroom-schedule-desktop-view,
+        .modal-absen-desktop-table {
+            display: none !important;
+        }
+
+        .schedule-mobile-view,
+        .homeroom-schedule-mobile-view {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        .modal-absen-mobile-cards {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        /* Right Sidebar Widgets */
+        .widget-card {
+            padding: 16px 14px !important;
+            border-radius: 16px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .widget-header {
+            font-size: 14px !important;
+            margin-bottom: 12px !important;
+        }
+
+        .next-class-box {
+            padding: 14px !important;
+            border-radius: 12px !important;
+        }
+
+        .next-class-title {
+            font-size: 16px !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+        }
+
+        .next-class-time {
+            font-size: 11.5px !important;
+            padding: 2px 7px !important;
+        }
+
+        .next-class-desc {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+            margin-top: 6px !important;
+        }
+
+        .news-item {
+            padding: 10px 12px !important;
+            border-radius: 10px !important;
+        }
+
+        .news-title {
+            font-size: 12.5px !important;
+        }
+
+        .news-meta {
+            font-size: 10.5px !important;
+        }
+
+        .quick-links-grid {
+            gap: 8px !important;
+        }
+
+        .quick-link-btn {
+            padding: 12px 8px !important;
+            border-radius: 10px !important;
+            font-size: 11.5px !important;
+            gap: 5px !important;
+        }
+
+        .quick-link-btn i {
+            font-size: 16px !important;
+        }
+
+        /* Homeroom Wali Kelas Section */
+        .homeroom-overview-box {
+            padding: 16px 14px !important;
+            border-radius: 16px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .homeroom-header-wrap {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            padding-bottom: 14px !important;
+        }
+
+        .homeroom-header-wrap h2 {
+            font-size: 16px !important;
+            line-height: 1.35 !important;
+        }
+
+        .homeroom-header-wrap p {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
+        .homeroom-actions-wrap {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .homeroom-actions-wrap .btn-header-action {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 8px 10px !important;
+            font-size: 11.5px !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+        }
+
+        .homeroom-metrics-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+            margin-top: 14px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .homeroom-metric-item {
+            padding: 12px 12px !important;
+            border-radius: 12px !important;
+        }
+
+        .homeroom-metric-label {
+            font-size: 10.5px !important;
+        }
+
+        .homeroom-metric-val {
+            font-size: 18px !important;
+        }
+
+        #tableJadwalWali {
+            min-width: 650px !important;
+        }
+
+        /* Modals */
+        .modal-box-custom {
+            max-width: 95vw !important;
+            border-radius: 16px !important;
+            margin: 10px !important;
+        }
+
+        .modal-box-custom > div:first-child {
+            padding: 14px 16px !important;
+            border-radius: 16px 16px 0 0 !important;
+        }
+
+        .modal-box-custom > div:nth-child(2) {
+            padding: 16px 14px !important;
+        }
+
+        .modal-box-custom > div:last-child {
+            padding: 12px 16px !important;
+            border-radius: 0 0 16px 16px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-left h1 {
+            font-size: 25px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        .header-actions-group {
+            grid-template-columns: 1fr !important;
+        }
+
+        .homeroom-actions-wrap {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 6px !important;
+        }
+
+        .homeroom-actions-wrap .btn-header-action {
+            font-size: 11px !important;
+            padding: 7px 6px !important;
+        }
+
+        .homeroom-metrics-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+        }
+
+        .homeroom-metric-item {
+            padding: 10px 10px !important;
+        }
+
+        .homeroom-metric-val {
+            font-size: 16px !important;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr 1fr !important;
+        }
+
+        .stat-card.stat-card-weekly {
+            grid-column: 1 / -1 !important;
+        }
+
+        .modal-two-col-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+
+        .modal-timelock-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+    }
 </style>
 @endsection
 
@@ -820,7 +1400,7 @@
                 </div>
 
                 <!-- Card 4: Jurnal Terisi per Minggu (M1-M5) -->
-                <div class="stat-card">
+                <div class="stat-card stat-card-weekly">
                     <div class="stat-title">
                         <span>Jurnal per Minggu</span>
                         <i class="fa-solid fa-calendar-week" style="color: #a855f7;"></i>
@@ -840,23 +1420,52 @@
             </div>
         </div>
 
+        <!-- Guru Izin Tidak Hadir Notice Banner -->
+        @if(!empty($guruIzinHariIni))
+            <div class="notice-izin-wrapper" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border: 1px solid #fecdd3; border-radius: 16px; padding: 18px 22px; margin-bottom: 22px; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                <div class="notice-izin-inner-left" style="display: flex; align-items: center; gap: 14px;">
+                    <div class="notice-izin-icon" style="width: 46px; height: 46px; border-radius: 12px; background: #e11d48; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(225, 29, 72, 0.3);">
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                    </div>
+                    <div>
+                        <div class="notice-izin-title" style="font-size: 15px; font-weight: 800; color: #9f1239; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span>Anda Tercatat Sedang Izin Tidak Hadir Resmi Hari Ini</span>
+                            <span style="font-size: 11px; background: #be123c; color: #ffffff; padding: 2px 8px; border-radius: 6px; font-weight: 700;">Disetujui Full</span>
+                        </div>
+                        <div class="notice-izin-desc" style="font-size: 13px; color: #4c0519; margin-top: 3px; font-weight: 600;">
+                            Keterangan: <strong style="color: #881337;">{{ $guruIzinHariIni->keterangan ?? $guruIzinHariIni->alasan_izin ?? 'Izin Resmi' }}</strong>
+                            &bull; Tanggal: <strong>{{ \Carbon\Carbon::parse($guruIzinHariIni->tanggal_mulai)->translatedFormat('d M Y') }} s/d {{ \Carbon\Carbon::parse($guruIzinHariIni->tanggal_selesai)->translatedFormat('d M Y') }}</strong>
+                        </div>
+                        <div style="font-size: 12px; color: #9f1239; margin-top: 2px;">
+                            <i class="fa-solid fa-circle-info"></i> Pengisian jurnal mengajar kelas Anda untuk hari ini dialihkan kepada Guru Pengganti yang ditugaskan oleh Guru Piket.
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <a href="{{ route('guru.jurnal-harian') }}" class="btn-action-view notice-izin-btn" style="background: #ffffff; color: #be123c; border-color: #fecdd3; padding: 8px 16px; font-size: 12.5px; font-weight: 800; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+                        <i class="fa-solid fa-eye"></i> Pantau Jurnal Harian
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <!-- Weekend Notice Banner (Jika Hari Ini Akhir Pekan) -->
         @if($isWeekend && !request('hari'))
             <div class="weekend-banner">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 44px; height: 44px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
+                <div class="banner-inner-left" style="display: flex; align-items: center; gap: 14px;">
+                    <div class="banner-icon" style="width: 44px; height: 44px; border-radius: 12px; background: #e0f2fe; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
                         <i class="fa-solid fa-calendar-day"></i>
                     </div>
                     <div>
-                        <div style="font-size: 14.5px; font-weight: 800; color: #0369a1;">
+                        <div class="banner-title" style="font-size: 14.5px; font-weight: 800; color: #0369a1;">
                             Hari Ini Libur Akhir Pekan ({{ $todayIndo }}, {{ $formattedDateStr }})
                         </div>
-                        <div style="font-size: 12.5px; color: #475569; margin-top: 2px;">
+                        <div class="banner-desc" style="font-size: 12.5px; color: #475569; margin-top: 2px;">
                             Tidak ada jadwal kegiatan belajar mengajar aktif hari ini. Tabel di bawah menampilkan <strong>Jadwal Mengajar Hari Kerja Berikutnya (Senin)</strong>.
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('guru.jadwal') }}" class="btn-action-view" style="padding: 8px 14px; font-size: 12px; text-decoration: none;">
+                <a href="{{ route('guru.jadwal') }}" class="btn-action-view btn-banner-action" style="padding: 8px 14px; font-size: 12px; text-decoration: none;">
                     <i class="fa-solid fa-calendar-days"></i> Lihat Jadwal Lengkap
                 </a>
             </div>
@@ -884,8 +1493,9 @@
                     </div>
                 </div>
 
-                <div style="overflow-x: auto;">
-                    <table class="table-schedule">
+                <!-- Desktop Table View (Hidden on mobile) -->
+                <div class="schedule-desktop-view" style="overflow-x: auto;">
+                    <table class="table-schedule" style="min-width: 650px;">
                         <thead>
                             <tr>
                                 <th style="width: 150px;">JAM KE-</th>
@@ -946,6 +1556,10 @@
                                                     </button>
                                                 @endif
                                             </div>
+                                        @elseif($isTodaySchedule && !empty($guruIzinHariIni) && empty($j->is_guru_pengganti))
+                                            <span class="badge-status" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 11.5px; display: inline-flex; align-items: center; gap: 5px;" title="Anda tercatat sedang izin tidak hadir. Jurnal kelas ini diisi oleh Guru Pengganti.">
+                                                <i class="fa-solid fa-user-clock"></i> Izin Tidak Hadir
+                                            </span>
                                         @elseif($isTodaySchedule && ($sudahMasuk || !empty($j->is_guru_pengganti)))
                                             <a href="{{ route('guru.jurnal-harian', ['id_jadwal' => $j->id_jadwal]) }}" class="btn-jurnal" title="Isi Jurnal Mengajar Sekarang">
                                                 <i class="fa-solid fa-pen-to-square"></i> Isi Jurnal
@@ -974,6 +1588,89 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Mobile Cards View (Visible on mobile <= 768px, hidden on desktop) -->
+                <div class="schedule-mobile-view">
+                    @forelse($jadwals as $j)
+                        @php
+                            $waktuMulai   = $j->waktu_mulai_effective;
+                            $waktuSelesai = $j->waktu_selesai_effective;
+                            $isTodaySchedule = (strtolower(trim($j->hari)) === strtolower(trim($todayIndo)));
+                            $sudahMasuk   = $isTodaySchedule && $j->sudah_masuk_jam;
+                            $sudahDiisi   = $isTodaySchedule && $j->isDiisiHariIni();
+                            $jurnalToday  = $sudahDiisi ? $j->jurnal_hari_ini : null;
+                        @endphp
+                        <div class="schedule-mobile-card {{ $isTodaySchedule ? 'card-is-today' : '' }}">
+                            <!-- Top: Jam & Badges -->
+                            <div class="card-mobile-top">
+                                <div class="card-mobile-time">
+                                    <span class="badge-jam-range">Jam ke-{{ $j->jam_range }}</span>
+                                    <span class="badge-time-range"><i class="fa-regular fa-clock"></i> {{ $waktuMulai }} - {{ $waktuSelesai }} WIB</span>
+                                </div>
+                                <div class="card-mobile-pills">
+                                    @if($isViewingAllDays)
+                                        <span class="badge-pill-day">{{ $j->hari }}</span>
+                                    @endif
+                                    <span class="badge-pill-class">{{ $j->kelas->nama_kelas ?? '-' }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Middle: Mapel & Ruangan -->
+                            <div class="card-mobile-mid">
+                                <div class="card-mobile-mapel-name">{{ $j->mapel->nama_mapel ?? '-' }}</div>
+                                @if(!empty($j->is_guru_pengganti))
+                                    <div class="badge-pengganti-mobile">
+                                        <i class="fa-solid fa-user-shield"></i> Penugasan Guru Pengganti (Menggantikan {{ $j->guru->nama_guru ?? 'Guru' }})
+                                    </div>
+                                @endif
+                                <div class="card-mobile-room">
+                                    <i class="fa-solid fa-location-dot" style="color: #2563eb;"></i>
+                                    <span>Ruang: <strong>{{ $j->ruangan->nama_ruangan ?? '-' }}</strong></span>
+                                </div>
+                            </div>
+
+                            <!-- Bottom: Aksi Jurnal -->
+                            <div class="card-mobile-bottom">
+                                @if($sudahDiisi)
+                                    <div class="mobile-action-split">
+                                        <span class="badge-filled" style="flex: 1; justify-content: center; padding: 9px 12px; font-size: 12.5px;">
+                                            <i class="fa-solid fa-circle-check"></i> Jurnal Sudah Diisi
+                                        </span>
+                                        @if($jurnalToday)
+                                            <button type="button" class="btn-action-view" onclick='openModalDetailJurnal(@json($jurnalToday), "{{ addslashes($j->kelas->nama_kelas ?? "-") }}", "{{ addslashes($j->mapel->nama_mapel ?? "-") }}")' style="padding: 9px 16px; font-size: 12.5px;" title="Lihat Detail Jurnal">
+                                                <i class="fa-solid fa-eye"></i> Detail
+                                            </button>
+                                        @endif
+                                    </div>
+                                @elseif($isTodaySchedule && !empty($guruIzinHariIni) && empty($j->is_guru_pengganti))
+                                    <span class="badge-status" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; padding: 9px 14px; border-radius: 10px; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;" title="Anda tercatat sedang izin tidak hadir. Jurnal kelas ini diisi oleh Guru Pengganti.">
+                                        <i class="fa-solid fa-user-clock"></i> Izin Tidak Hadir (Diisi Guru Pengganti)
+                                    </span>
+                                @elseif($isTodaySchedule && ($sudahMasuk || !empty($j->is_guru_pengganti)))
+                                    <a href="{{ route('guru.jurnal-harian', ['id_jadwal' => $j->id_jadwal]) }}" class="btn-jurnal" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px; font-weight: 800; border-radius: 10px;" title="Isi Jurnal Mengajar Sekarang">
+                                        <i class="fa-solid fa-pen-to-square"></i> Isi Jurnal Sekarang
+                                    </a>
+                                @elseif($isTodaySchedule && !$sudahMasuk)
+                                    <button type="button" class="btn-lock-time" onclick="showBelumJamModal('{{ addslashes($j->mapel->nama_mapel ?? '-') }}', '{{ addslashes($j->kelas->nama_kelas ?? '-') }}', 'Hari Ini ({{ $j->hari }})', '{{ $waktuMulai }} - {{ $waktuSelesai }} WIB', 'belum_jam')" style="width: 100%; justify-content: center; padding: 9px 14px; font-size: 12.5px; border-radius: 10px;" title="Klik untuk informasi jam KBM">
+                                        <i class="fa-solid fa-lock"></i> Belum Jam-nya ({{ $waktuMulai }} WIB)
+                                    </button>
+                                @else
+                                    <button type="button" class="btn-lock-time" onclick="showBelumJamModal('{{ addslashes($j->mapel->nama_mapel ?? '-') }}', '{{ addslashes($j->kelas->nama_kelas ?? '-') }}', 'Hari {{ $j->hari }}', '{{ $waktuMulai }} - {{ $waktuSelesai }} WIB', 'bukan_hari')" style="width: 100%; justify-content: center; padding: 9px 14px; font-size: 12.5px; border-radius: 10px;" title="Klik untuk informasi jadwal pelajaran">
+                                        <i class="fa-solid fa-clock"></i> Belum Jadwalnya (Hari {{ $j->hari }})
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <div style="text-align: center; color: #94a3b8; padding: 32px 16px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 14px;">
+                            <i class="fa-regular fa-calendar-xmark" style="font-size: 32px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                            <div style="font-size: 14px; font-weight: 800; color: #334155;">Tidak Ada Jadwal Mengajar</div>
+                            <div style="font-size: 12px; color: #64748b; margin-top: 3px;">
+                                Anda tidak memiliki jam mengajar pada hari {{ ucfirst($hariAktif) }}.
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
             </div>
 
@@ -1118,7 +1815,7 @@
         <div id="sectionPerwalian" style="display: none;">
             
             <div class="homeroom-overview-box">
-                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
+                <div class="homeroom-header-wrap" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;">
                     <div>
                         <h2 style="font-size: 18px; font-weight: 800; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 10px;">
                             <i class="fa-solid fa-chalkboard-user" style="color: #2563eb;"></i>
@@ -1129,7 +1826,7 @@
                         </p>
                     </div>
 
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <div class="homeroom-actions-wrap" style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <a href="{{ route('guru.kehadiran-kelas') }}" class="btn-header-action btn-header-secondary" style="padding: 7px 14px; font-size: 12px;" title="Buka Rekap Presensi & Perkembangan Kelas">
                             <i class="fa-solid fa-id-card-clip" style="color: #2563eb;"></i> Presensi Kelas
                         </a>
@@ -1200,7 +1897,8 @@
                         </div>
                     </div>
 
-                    <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px;">
+                    <!-- Desktop Table View -->
+                    <div class="homeroom-schedule-desktop-view" style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px;">
                         <table class="table-schedule" id="tableJadwalWali">
                             <thead>
                                 <tr>
@@ -1277,6 +1975,84 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Mobile Cards View -->
+                    <div class="homeroom-schedule-mobile-view">
+                        @forelse($waliKelasData['semuaJadwals'] as $jw)
+                            @php
+                                $jwDiisi = $jw->isDiisiHariIni();
+                                $jwJurnalToday = $jwDiisi ? $jw->jurnal_hari_ini : null;
+                                $jwHariLower = strtolower(trim($jw->hari));
+                                $isTodayJadwal = ($jwHariLower === strtolower(trim($todayIndo)));
+                            @endphp
+                            <div class="schedule-mobile-card row-jadwal-wali-card {{ $isTodayJadwal ? 'card-is-today' : '' }}" data-day="{{ $jwHariLower }}">
+                                <div class="card-mobile-top">
+                                    <div class="card-mobile-time">
+                                        <span class="badge-jam-range">Jam ke-{{ $jw->jam_range }}</span>
+                                        <span class="badge-time-range"><i class="fa-regular fa-clock"></i> {{ $jw->waktu_mulai_effective }} - {{ $jw->waktu_selesai_effective }} WIB</span>
+                                    </div>
+                                    <div class="card-mobile-pills">
+                                        <span class="badge-pill-day">{{ $jw->hari }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-mobile-mid">
+                                    <div class="card-mobile-mapel-name">{{ $jw->mapel->nama_mapel ?? '-' }}</div>
+                                    <div style="font-size: 12.5px; color: #334155; font-weight: 700; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                        <i class="fa-solid fa-chalkboard-user" style="color: #64748b; font-size: 13px;"></i>
+                                        <span>{{ $jw->guru->nama_guru ?? '-' }}</span>
+                                        @if(Auth::user()->id_guru && $jw->id_guru == Auth::user()->id_guru)
+                                            <span style="font-size: 10px; font-weight: 800; background: #eff6ff; color: #1d4ed8; padding: 2px 6px; border-radius: 4px;">Anda</span>
+                                        @endif
+                                    </div>
+                                    <div class="card-mobile-room">
+                                        <i class="fa-solid fa-location-dot" style="color: #2563eb;"></i>
+                                        <span>Ruang: <strong>{{ $jw->ruangan->nama_ruangan ?? '-' }}</strong></span>
+                                    </div>
+                                </div>
+
+                                <div class="card-mobile-bottom">
+                                    @if($jwDiisi)
+                                        <div class="mobile-action-split">
+                                            <span class="badge-filled" style="flex: 1; justify-content: center; padding: 9px 12px; font-size: 12.5px;">
+                                                <i class="fa-solid fa-circle-check"></i> Jurnal Terisi
+                                            </span>
+                                            @if($jwJurnalToday)
+                                                <button type="button" class="btn-action-view" onclick='openModalDetailJurnal(@json($jwJurnalToday), "{{ addslashes($kelasWali->nama_kelas) }}", "{{ addslashes($jw->mapel->nama_mapel ?? "-") }}")' style="padding: 9px 16px; font-size: 12.5px;" title="Lihat Catatan KBM & Presensi">
+                                                    <i class="fa-solid fa-eye"></i> Detail
+                                                </button>
+                                            @endif
+                                        </div>
+                                    @else
+                                        @if(Auth::user()->id_guru && $jw->id_guru == Auth::user()->id_guru && $jwHariLower === strtolower(trim($todayIndo)) && $jw->sudah_masuk_jam)
+                                            <a href="{{ route('guru.jurnal-harian', ['id_jadwal' => $jw->id_jadwal]) }}" class="btn-jurnal" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px; font-weight: 800; border-radius: 10px;" title="Isi Jurnal Mengajar Sekarang">
+                                                <i class="fa-solid fa-pen-to-square"></i> Isi Jurnal Sekarang
+                                            </a>
+                                        @else
+                                            <div style="background: #fff7ed; border: 1px solid #ffedd5; color: #9a3412; padding: 9px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                                <i class="fa-solid fa-clock"></i> Jurnal Belum Diisi Guru Pengajar
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div style="text-align: center; color: #94a3b8; padding: 32px 16px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 14px;">
+                                <i class="fa-regular fa-calendar-xmark" style="font-size: 32px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                                <div style="font-size: 14px; font-weight: 800; color: #334155;">Belum Ada Jadwal KBM</div>
+                                <div style="font-size: 12px; color: #64748b; margin-top: 3px;">
+                                    Belum ada data jadwal KBM untuk kelas {{ $kelasWali->nama_kelas }}.
+                                </div>
+                            </div>
+                        @endforelse
+                        <div id="cardJadwalWaliEmpty" style="display: none; text-align: center; color: #94a3b8; padding: 32px 16px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 14px;">
+                            <i class="fa-regular fa-calendar-xmark" style="font-size: 32px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                            <div style="font-size: 14px; font-weight: 800; color: #334155;">Tidak Ada Jadwal KBM</div>
+                            <div style="font-size: 12px; color: #64748b; margin-top: 3px;">
+                                Tidak ada jadwal KBM di kelas {{ $kelasWali->nama_kelas }} pada hari yang dipilih.
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -1296,7 +2072,7 @@
             </div>
 
             <div style="padding: 22px;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                <div class="modal-two-col-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
                     <div style="background: #f8fafc; padding: 10px 14px; border-radius: 10px; border: 1px solid #e2e8f0;">
                         <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b;">Kelas &amp; Mapel</div>
                         <div style="font-size: 13.5px; font-weight: 800; color: #0f172a;" id="mdlKelasMapel">-</div>
@@ -1384,7 +2160,7 @@
                 </div>
 
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12.5px;">
+                    <div class="modal-timelock-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12.5px;">
                         <div>
                             <span style="display: block; color: #64748b; font-size: 11px; font-weight: 700; text-transform: uppercase;">Mata Pelajaran &amp; Kelas</span>
                             <strong style="color: #0f172a; font-size: 13px;" id="timeLockMapelKelas">-</strong>
@@ -1435,7 +2211,8 @@
                         <span style="font-size: 11.5px; color: #64748b;">{{ $waliKelasData['rekapAbsen']['sakit'] }} S &bull; {{ $waliKelasData['rekapAbsen']['izin'] }} I &bull; {{ $waliKelasData['rekapAbsen']['alpa'] }} A &bull; {{ $waliKelasData['rekapAbsen']['dispen'] }} D</span>
                     </div>
 
-                    <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px;">
+                    <!-- Desktop Table View -->
+                    <div class="modal-absen-desktop-table" style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px;">
                         <table class="table-schedule" style="font-size: 12.5px;">
                             <thead>
                                 <tr>
@@ -1479,6 +2256,41 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Mobile Cards View -->
+                    <div class="modal-absen-mobile-cards">
+                        @foreach($waliKelasData['siswaTidakHadirList'] as $idx => $sAbsen)
+                            @php
+                                $stLower = strtolower($sAbsen['status']);
+                                $badgeColor = '#475569';
+                                $badgeBg = '#f1f5f9';
+                                if ($stLower === 'sakit') {
+                                    $badgeColor = '#0369a1'; $badgeBg = '#e0f2fe';
+                                } elseif ($stLower === 'izin') {
+                                    $badgeColor = '#4338ca'; $badgeBg = '#e0e7ff';
+                                } elseif ($stLower === 'dispen') {
+                                    $badgeColor = '#c2410c'; $badgeBg = '#ffedd5';
+                                } elseif ($stLower === 'alpa') {
+                                    $badgeColor = '#b91c1c'; $badgeBg = '#fee2e2';
+                                }
+                            @endphp
+                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.02);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                                    <div>
+                                        <strong style="color: #0f172a; font-size: 13.5px; display: block;">{{ $sAbsen['nama'] }}</strong>
+                                        <div style="font-size: 11.5px; color: #64748b; margin-top: 1px;">NISN / NIS: {{ $sAbsen['nisn'] }}</div>
+                                    </div>
+                                    <span style="font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px; background: {{ $badgeBg }}; color: {{ $badgeColor }}; text-transform: uppercase;">
+                                        {{ $sAbsen['status'] }}
+                                    </span>
+                                </div>
+                                <div style="margin-top: 8px; font-size: 12px; color: #334155; background: #f8fafc; padding: 8px 10px; border-radius: 8px; border: 1px solid #f1f5f9;">
+                                    <div>{{ $sAbsen['keterangan'] }}</div>
+                                    <div style="font-size: 10.5px; color: #64748b; font-weight: 700; margin-top: 2px;">Sumber: {{ $sAbsen['sumber'] }}</div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 @endif
             </div>
@@ -1525,7 +2337,9 @@
         if (btn) btn.classList.add('active');
 
         const rows = document.querySelectorAll('.row-jadwal-wali');
+        const cards = document.querySelectorAll('.row-jadwal-wali-card');
         let visibleCount = 0;
+        let visibleCardsCount = 0;
 
         rows.forEach(r => {
             if (day === 'semua' || r.dataset.day === day) {
@@ -1536,9 +2350,23 @@
             }
         });
 
+        cards.forEach(c => {
+            if (day === 'semua' || c.dataset.day === day) {
+                c.style.display = 'flex';
+                visibleCardsCount++;
+            } else {
+                c.style.display = 'none';
+            }
+        });
+
         const emptyRow = document.getElementById('rowJadwalWaliEmpty');
         if (emptyRow) {
             emptyRow.style.display = (visibleCount === 0) ? '' : 'none';
+        }
+
+        const emptyCard = document.getElementById('cardJadwalWaliEmpty');
+        if (emptyCard) {
+            emptyCard.style.display = (visibleCardsCount === 0) ? 'block' : 'none';
         }
     }
 

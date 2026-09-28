@@ -4,7 +4,7 @@
 
 @section('styles')
 <style>
-    /* ─── Base Persetujuan Izin Layout (No Horizontal Page Scrollbar) ─── */
+    /* ─── Base Persetujuan Izin Layout ─── */
     .izin-container {
         display: flex;
         flex-direction: column;
@@ -15,7 +15,7 @@
         overflow-x: hidden;
     }
 
-    /* Page Header Banner (Clean, Modern & Focused) */
+    /* Page Header Banner (Clean & Modern) */
     .page-header-box {
         background: #ffffff;
         padding: 20px 24px;
@@ -31,7 +31,7 @@
         font-weight: 800;
         color: #0f172a;
         letter-spacing: -0.02em;
-        line-height: 1.2;
+        line-height: 1.25;
         margin: 0;
         display: flex;
         align-items: center;
@@ -42,9 +42,9 @@
         font-size: 13px;
         color: #64748b;
         font-weight: 500;
-        margin-top: 5px;
+        margin-top: 6px;
         margin-bottom: 0;
-        line-height: 1.4;
+        line-height: 1.45;
     }
 
     /* ─── 5 Stat Metric Cards Row ─── */
@@ -98,6 +98,7 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        min-width: 0;
     }
 
     .stat-card-label {
@@ -132,7 +133,7 @@
         background: #ffffff;
         border: 1px solid #e2e8f0;
         border-radius: 14px;
-        padding: 12px 16px;
+        padding: 14px 16px;
         box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
         width: 100%;
         box-sizing: border-box;
@@ -169,6 +170,7 @@
         transform: translateY(-50%);
         color: #94a3b8;
         font-size: 13px;
+        pointer-events: none;
     }
 
     .form-input-control {
@@ -207,13 +209,14 @@
         background: #2563eb;
         color: #ffffff;
         border: none;
-        padding: 8px 16px;
+        padding: 8.5px 16px;
         border-radius: 9px;
         font-size: 12px;
         font-weight: 700;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         transition: background 0.2s;
         font-family: inherit;
@@ -228,13 +231,14 @@
         background: #f1f5f9;
         color: #475569;
         border: 1px solid #cbd5e1;
-        padding: 8px 14px;
+        padding: 8.5px 14px;
         border-radius: 9px;
         font-size: 12px;
         font-weight: 700;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         transition: all 0.2s;
         font-family: inherit;
@@ -250,13 +254,14 @@
         background: #fee2e2;
         color: #dc2626;
         border: 1px solid #fca5a5;
-        padding: 8px 14px;
+        padding: 8.5px 14px;
         border-radius: 9px;
         font-size: 12px;
         font-weight: 700;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         transition: all 0.2s;
         font-family: inherit;
@@ -277,13 +282,14 @@
         background: #fef2f2;
         color: #dc2626;
         border: 1px solid #fecaca;
-        padding: 8px 14px;
+        padding: 8.5px 14px;
         border-radius: 9px;
         font-size: 12px;
         font-weight: 700;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         transition: all 0.2s;
         font-family: inherit;
@@ -325,9 +331,9 @@
     .tabs-nav {
         display: inline-flex;
         background: #f1f5f9;
-        padding: 3px;
+        padding: 4px;
         border-radius: 10px;
-        gap: 3px;
+        gap: 4px;
         flex-wrap: wrap;
     }
 
@@ -393,7 +399,12 @@
         cursor: pointer;
     }
 
-    /* ─── Table Layout (Clean, Proportional, No Horizontal Scroll Shifts) ─── */
+    /* ─── Table Layout (Desktop View) ─── */
+    .waka-desktop-table {
+        width: 100%;
+        display: block;
+    }
+
     .table-responsive {
         width: 100%;
         border-radius: 10px;
@@ -441,13 +452,13 @@
     }
 
     .avatar-circle {
-        width: 36px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
         background: #eff6ff;
         color: #2563eb;
         font-weight: 800;
-        font-size: 13px;
+        font-size: 13.5px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -473,7 +484,6 @@
     .badge-rejected  { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
     .badge-cuti      { background: #faf5ff; color: #7c3aed; border: 1px solid #e9d5ff; }
     .badge-biasa     { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
-    .badge-final-ok  { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; border: 1px solid #1d4ed8; }
 
     /* Approval Matrix Box */
     .approval-matrix-box {
@@ -498,7 +508,7 @@
         text-transform: uppercase;
     }
 
-    /* ─── Action Buttons (Kombinasi Modern Abu-abu, Biru, Putih, Abu-abu Muda) ─── */
+    /* ─── Action Buttons ─── */
     .btn-action-group {
         display: flex;
         align-items: center;
@@ -511,7 +521,7 @@
         align-items: center;
         justify-content: center;
         gap: 4px;
-        padding: 5.5px 10px;
+        padding: 6px 10px;
         border-radius: 8px;
         font-size: 11px;
         font-weight: 700;
@@ -522,7 +532,6 @@
         font-family: inherit;
     }
 
-    /* Tombol Setujui (Biru Primer Modern & Putih) */
     .btn-action-approve {
         background: #2563eb;
         color: #ffffff;
@@ -532,12 +541,9 @@
     .btn-action-approve:hover {
         background: #1d4ed8;
         border-color: #1e40af;
-        transform: translateY(-1px);
         color: #ffffff;
-        box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
     }
 
-    /* Tombol Tolak (Abu-abu Muda Cerah / Putih dengan Border Slate & Teks Elegan) */
     .btn-action-reject {
         background: #ffffff;
         color: #b91c1c;
@@ -548,11 +554,8 @@
         background: #f8fafc;
         border-color: #fca5a5;
         color: #991b1b;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 6px rgba(220, 38, 38, 0.1);
     }
 
-    /* Tombol Detail (Abu-abu Cerah, Putih, Border Biru Halus, Teks Biru) */
     .btn-action-detail {
         background: #f8fafc;
         color: #2563eb;
@@ -563,10 +566,8 @@
         background: #eff6ff;
         border-color: #bfdbfe;
         color: #1d4ed8;
-        transform: translateY(-1px);
     }
 
-    /* Tombol Link (Abu-abu Muda Cerah, Border Abu-abu, Teks Slate) */
     .btn-action-link {
         background: #f8fafc;
         color: #475569;
@@ -577,10 +578,8 @@
         background: #f1f5f9;
         border-color: #cbd5e1;
         color: #0f172a;
-        transform: translateY(-1px);
     }
 
-    /* Tombol Hapus */
     .btn-action-delete {
         background: #ffffff;
         color: #e11d48;
@@ -590,6 +589,145 @@
         background: #fff1f2;
         border-color: #fca5a5;
         color: #be123c;
+    }
+
+    /* ─── Mobile Cards Component (Hidden on Desktop) ─── */
+    .waka-mobile-cards {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .m-izin-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px;
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+
+    .m-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .m-teacher-info-box {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        min-width: 0;
+        flex: 1;
+    }
+
+    .m-teacher-name {
+        font-weight: 800;
+        font-size: 13.5px;
+        color: #0f172a;
+        line-height: 1.25;
+        word-break: break-word;
+    }
+
+    .m-teacher-meta {
+        font-size: 11px;
+        color: #64748b;
+        margin-top: 2px;
+        line-height: 1.3;
+    }
+
+    .m-teacher-mapel {
+        font-size: 11px;
+        color: #2563eb;
+        font-weight: 700;
+        margin-top: 1px;
+    }
+
+    .m-card-body-section {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .m-detail-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 12px;
+    }
+
+    .m-detail-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        flex-shrink: 0;
+    }
+
+    .m-detail-val {
+        font-weight: 700;
+        color: #0f172a;
+        text-align: right;
+        word-break: break-word;
+    }
+
+    .m-alasan-box {
+        font-size: 12.5px;
+        color: #1e293b;
+        line-height: 1.4;
+        margin-top: 2px;
+    }
+
+    .m-approval-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 8px;
+        margin-top: 4px;
+    }
+
+    .m-approval-stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 4px;
+    }
+
+    .m-approval-stage-title {
+        font-size: 9.5px;
+        font-weight: 800;
+        color: #64748b;
+        text-transform: uppercase;
+    }
+
+    .m-card-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 4px;
+    }
+
+    .m-card-actions .btn-table-action {
+        flex: 1 1 auto;
+        padding: 8px 12px;
+        font-size: 11.5px;
     }
 
     /* ─── Modal Styles ─── */
@@ -602,7 +740,7 @@
         z-index: 1050;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 16px;
         box-sizing: border-box;
     }
 
@@ -621,6 +759,7 @@
         max-height: 90vh;
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
     }
 
     @keyframes modalSlideUp {
@@ -633,7 +772,7 @@
     }
 
     .modal-header-custom {
-        padding: 16px 20px;
+        padding: 14px 18px;
         border-bottom: 1px solid #f1f5f9;
         display: flex;
         align-items: center;
@@ -642,7 +781,7 @@
     }
 
     .modal-header-custom h3 {
-        font-size: 16px;
+        font-size: 15.5px;
         font-weight: 800;
         color: #0f172a;
         margin: 0;
@@ -667,22 +806,24 @@
     }
 
     .modal-body-custom {
-        padding: 20px;
+        padding: 16px 18px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
-        gap: 14px;
+        gap: 12px;
         background: #ffffff;
+        box-sizing: border-box;
     }
 
     .modal-footer-custom {
-        padding: 12px 20px;
+        padding: 12px 18px;
         border-top: 1px solid #f1f5f9;
         background: #f8fafc;
         display: flex;
         align-items: center;
         justify-content: flex-end;
         gap: 8px;
+        flex-wrap: wrap;
     }
 
     /* Detail Grid Layout */
@@ -727,20 +868,29 @@
         align-items: center;
         gap: 8px;
         text-align: center;
-        transition: border-color 0.2s;
-    }
-
-    .surat-preview-card:hover {
-        border-color: #2563eb;
     }
 
     .surat-preview-card img {
         max-width: 100%;
-        max-height: 200px;
+        max-height: 180px;
         object-fit: contain;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         cursor: pointer;
+    }
+
+    /* Modal Jadwal Terdampak Responsive Switcher */
+    .modal-jadwal-desktop {
+        display: block;
+        width: 100%;
+    }
+
+    .modal-jadwal-mobile {
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* Toast Notification */
@@ -770,36 +920,348 @@
         bottom: 40px;
     }
 
-    /* Responsive */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* ─── RESPONSIVE MEDIA QUERIES (MOBILE / HP OPTIMIZATION) ─────────── */
+    /* ═══════════════════════════════════════════════════════════════════ */
     @media (max-width: 1200px) {
-        .stat-cards-grid { grid-template-columns: repeat(3, 1fr); }
+        .stat-cards-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .stat-cards-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
     }
 
     @media (max-width: 768px) {
-        .stat-cards-grid { grid-template-columns: 1fr; }
-        .tabs-nav { width: 100%; overflow-x: auto; }
-        .detail-info-grid { grid-template-columns: 1fr; }
+        .izin-container {
+            gap: 14px;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
+        }
+
+        .page-header-box {
+            padding: 16px;
+            border-radius: 14px;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .page-main-title {
+            font-size: 17.5px;
+        }
+
+        .page-sub-title {
+            font-size: 12px;
+        }
+
+        /* 5 Stat Cards on Mobile: 2-column grid with last card spanning full (Zero overflow) */
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .stat-card {
+            padding: 10px 10px !important;
+            border-radius: 12px !important;
+            gap: 8px !important;
+            min-width: 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            align-items: center !important;
+        }
+
+        .stat-card-icon {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 15px !important;
+            border-radius: 10px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .stat-card-content {
+            min-width: 0 !important;
+            flex: 1 !important;
+            overflow: hidden !important;
+        }
+
+        .stat-card-label {
+            font-size: 10px !important;
+            font-weight: 700 !important;
+            line-height: 1.25 !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+            margin-bottom: 2px !important;
+        }
+
+        .stat-card-num {
+            font-size: 18px !important;
+            font-weight: 800 !important;
+            line-height: 1.1 !important;
+        }
+
+        .stat-card-sub {
+            font-size: 9.5px !important;
+            line-height: 1.2 !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+            margin-top: 2px !important;
+        }
+
+        /* Make 5th card span 2 columns */
+        .stat-card:last-child:nth-child(odd) {
+            grid-column: 1 / -1 !important;
+        }
+
+        /* Filter Card on Mobile */
+        .filter-card {
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .filter-form {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .filter-inputs-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .search-input-box {
+            width: 100%;
+            min-width: 100%;
+            flex: none;
+        }
+
+        .filter-selects-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .filter-date-btn-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-filter-submit,
+        .btn-filter-reset {
+            width: 100%;
+            padding: 9px 12px;
+            font-size: 12px;
+            justify-content: center;
+        }
+
+        .filter-actions-right {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-batch-delete,
+        .btn-trash-view {
+            flex: 1 1 50%;
+            justify-content: center;
+            padding: 9px 10px;
+            font-size: 11.5px;
+        }
+
+        /* Main Panel & Tabs on Mobile */
+        .main-panel-card {
+            padding: 14px;
+            border-radius: 14px;
+            gap: 12px;
+        }
+
+        .panel-top-nav {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding-bottom: 12px;
+        }
+
+        .tabs-nav {
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            flex-wrap: nowrap;
+            width: 100%;
+            padding: 4px;
+            gap: 4px;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        .tabs-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            flex-shrink: 0;
+            padding: 7px 12px;
+            font-size: 11.5px;
+        }
+
+        /* Batch strip on Mobile */
+        .batch-strip {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding: 10px 12px;
+        }
+
+        .batch-strip button {
+            width: 100%;
+            justify-content: center;
+            padding: 9px 14px !important;
+            font-size: 12px !important;
+        }
+
+        /* Toggle Desktop Table vs Mobile Cards */
+        .waka-desktop-table {
+            display: none !important;
+        }
+
+        .waka-mobile-cards {
+            display: flex !important;
+        }
+
+        /* Modals on Mobile */
+        .modal-backdrop-custom {
+            padding: 10px !important;
+            overflow-x: hidden !important;
+        }
+
+        .modal-dialog-custom {
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: 94vh !important;
+            border-radius: 14px;
+            margin: auto;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+        }
+
+        .modal-dialog-custom.modal-lg {
+            max-width: 100% !important;
+        }
+
+        .modal-header-custom {
+            padding: 12px 14px;
+        }
+
+        .modal-header-custom h3 {
+            font-size: 14px;
+        }
+
+        .modal-body-custom {
+            padding: 12px 14px;
+            gap: 10px;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .modal-footer-custom {
+            padding: 10px 14px;
+            gap: 6px;
+            flex-direction: row;
+        }
+
+        .modal-footer-custom button,
+        .modal-footer-custom a {
+            flex: 1 1 auto;
+            justify-content: center;
+            padding: 8px 10px;
+            font-size: 11.5px;
+        }
+
+        .detail-info-grid {
+            grid-template-columns: 1fr;
+            padding: 10px;
+        }
+
+        /* Modal Jadwal Responsive Switcher in Mobile */
+        .modal-jadwal-desktop {
+            display: none !important;
+        }
+
+        .modal-jadwal-mobile {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-main-title {
+            font-size: 16px;
+        }
+
+        .stat-cards-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 6px !important;
+        }
+
+        .stat-card {
+            padding: 8px 9px !important;
+            gap: 6px !important;
+        }
+
+        .stat-card-icon {
+            width: 32px !important;
+            height: 32px !important;
+            font-size: 13px !important;
+        }
+
+        .stat-card-num {
+            font-size: 16px !important;
+        }
+
+        .m-approval-grid {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+
+        .m-approval-stage {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 8px;
+            background: #f8fafc;
+            border-radius: 6px;
+        }
     }
 </style>
 @endsection
 
 @section('content')
 <div class="izin-container">
-
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #16a34a;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-xmark" style="font-size: 18px; color: #ef4444;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     @if(isset($errors) && $errors->any())
         <div style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700;">
@@ -815,7 +1277,7 @@
         </div>
     @endif
 
-    <!-- Page Header Box (Clean & Focused) -->
+    <!-- Page Header Box -->
     <div class="page-header-box">
         <h1 class="page-main-title">
             <i class="fa-solid fa-clipboard-check" style="color: #2563eb;"></i>
@@ -901,52 +1363,58 @@
                     <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama guru, NIP, mapel, alasan..." class="form-input-control">
                 </div>
 
-                <!-- Dropdown Status -->
-                <div style="min-width: 140px; flex: 1 1 140px;">
-                    <select name="status" class="form-input-control">
-                        <option value="all" {{ $filterStatus == 'all' ? 'selected' : '' }}>-- Semua Status --</option>
-                        <option value="pending" {{ $filterStatus == 'pending' ? 'selected' : '' }}>Menunggu Persetujuan</option>
-                        <option value="approved" {{ $filterStatus == 'approved' ? 'selected' : '' }}>Disetujui Waka</option>
-                        <option value="rejected" {{ $filterStatus == 'rejected' ? 'selected' : '' }}>Ditolak Waka</option>
-                        <option value="final_approved" {{ $filterStatus == 'final_approved' ? 'selected' : '' }}>Disetujui Resmi Full</option>
-                    </select>
+                <!-- Dropdowns Row on Mobile -->
+                <div class="filter-selects-row">
+                    <!-- Dropdown Status -->
+                    <div>
+                        <select name="status" class="form-input-control">
+                            <option value="all" {{ $filterStatus == 'all' ? 'selected' : '' }}>-- Semua Status --</option>
+                            <option value="pending" {{ $filterStatus == 'pending' ? 'selected' : '' }}>Menunggu</option>
+                            <option value="approved" {{ $filterStatus == 'approved' ? 'selected' : '' }}>Disetujui Waka</option>
+                            <option value="rejected" {{ $filterStatus == 'rejected' ? 'selected' : '' }}>Ditolak Waka</option>
+                            <option value="final_approved" {{ $filterStatus == 'final_approved' ? 'selected' : '' }}>Disetujui Resmi</option>
+                        </select>
+                    </div>
+
+                    <!-- Dropdown Kategori -->
+                    <div>
+                        <select name="kategori" class="form-input-control">
+                            <option value="all" {{ ($kategori == 'all' || empty($kategori)) ? 'selected' : '' }}>-- Kategori Izin --</option>
+                            <option value="biasa" {{ $kategori == 'biasa' ? 'selected' : '' }}>Izin Biasa (1-3 Hari)</option>
+                            <option value="cuti" {{ $kategori == 'cuti' ? 'selected' : '' }}>Cuti / Izin Khusus (&gt;3 Hari)</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Dropdown Kategori -->
-                <div style="min-width: 130px; flex: 1 1 130px;">
-                    <select name="kategori" class="form-input-control">
-                        <option value="all" {{ ($kategori == 'all' || empty($kategori)) ? 'selected' : '' }}>-- Kategori Izin --</option>
-                        <option value="biasa" {{ $kategori == 'biasa' ? 'selected' : '' }}>Izin Biasa (1 s/d 3 Hari)</option>
-                        <option value="cuti" {{ $kategori == 'cuti' ? 'selected' : '' }}>Cuti / Izin Khusus (&gt;3 Hari)</option>
-                    </select>
+                <!-- Date & Filter Button Row on Mobile -->
+                <div class="filter-date-btn-row">
+                    <!-- Tanggal Filter -->
+                    <div>
+                        <input type="date" name="tanggal" value="{{ $tanggal }}" class="form-input-control" title="Filter berdasarkan tanggal izin">
+                    </div>
+
+                    <!-- Action Filter / Reset Buttons -->
+                    <div style="display: flex; gap: 6px;">
+                        <button type="submit" class="btn-filter-submit" style="flex: 1;">
+                            <i class="fa-solid fa-filter"></i> Filter
+                        </button>
+
+                        @if(!empty($search) || ($filterStatus !== 'all' && !empty($filterStatus)) || (!empty($kategori) && $kategori !== 'all') || !empty($tanggal))
+                            <a href="{{ route('waka-kurikulum.persetujuan-izin', ['tab' => $activeTab]) }}" class="btn-filter-reset" title="Reset filter">
+                                <i class="fa-solid fa-rotate-left"></i>
+                            </a>
+                        @endif
+                    </div>
                 </div>
-
-                <!-- Tanggal Filter -->
-                <div style="min-width: 120px; flex: 1 1 120px;">
-                    <input type="date" name="tanggal" value="{{ $tanggal }}" class="form-input-control" title="Filter berdasarkan tanggal izin">
-                </div>
-
-                <!-- Action Filter / Reset Buttons -->
-                <button type="submit" class="btn-filter-submit">
-                    <i class="fa-solid fa-filter"></i> Filter
-                </button>
-
-                @if(!empty($search) || ($filterStatus !== 'all' && !empty($filterStatus)) || (!empty($kategori) && $kategori !== 'all') || !empty($tanggal))
-                    <a href="{{ route('waka-kurikulum.persetujuan-izin', ['tab' => $activeTab]) }}" class="btn-filter-reset">
-                        <i class="fa-solid fa-rotate-left"></i> Reset
-                    </a>
-                @endif
             </div>
 
             <!-- Right Actions: Hapus Terpilih & Sampah -->
             <div class="filter-actions-right">
-                <!-- Tombol Hapus Terpilih -->
                 <button type="button" class="btn-batch-delete" id="btnBatchDelete" onclick="submitBatchDelete()" disabled title="Pilih checkbox data yang ingin dihapus">
                     <i class="fa-solid fa-trash-can"></i>
                     <span id="labelBatchDelete">Hapus Terpilih ( 0 )</span>
                 </button>
 
-                <!-- Tombol Kotak Sampah -->
                 <a href="{{ route('waka-kurikulum.persetujuan-izin.trash') }}" class="btn-trash-view" title="Buka Kotak Sampah Perizinan Guru">
                     <i class="fa-solid fa-trash"></i>
                     <span>Sampah ({{ $trashedCount }})</span>
@@ -1010,7 +1478,7 @@
                     @csrf
                     <div class="batch-strip">
                         <label class="batch-select-label">
-                            <input type="checkbox" id="selectAllPending" onchange="toggleSelectAll(this, 'row-check-item')" style="width: 16px; height: 16px; accent-color: #2563eb; cursor: pointer;">
+                            <input type="checkbox" id="selectAllPending" onchange="toggleSelectAll(this, 'pending-check-item')" style="width: 16px; height: 16px; accent-color: #2563eb; cursor: pointer;">
                             <span>Pilih Semua Pengajuan Pending ({{ $pendingIzinList->count() }})</span>
                         </label>
 
@@ -1021,28 +1489,319 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive" style="margin-top: 12px;">
+                    <!-- Desktop Table View -->
+                    <div class="waka-desktop-table" style="margin-top: 12px;">
+                        <div class="table-responsive">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 38px; text-align: center;">#</th>
+                                        <th style="width: 25%;">Guru Pemohon</th>
+                                        <th style="width: 20%;">Tanggal &amp; Kategori</th>
+                                        <th style="width: 21%;">Alasan Izin</th>
+                                        <th style="width: 16%; text-align: center;">Status Berjenjang</th>
+                                        <th style="width: 18%; text-align: center;">Aksi Persetujuan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($pendingIzinList as $izin)
+                                        @php
+                                            $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                                            $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
+                                            $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
+                                            $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                                            $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
+                                            
+                                            $durasiRaw = $izin->durasi ?? '';
+                                            if (preg_match('/(\d+\s*Hari)/i', $durasiRaw, $m)) {
+                                                $durasiDisplay = $m[1];
+                                            } elseif (!empty($durasiRaw) && !str_contains(strtolower($durasiRaw), 'cuti') && !str_contains(strtolower($durasiRaw), 'izin')) {
+                                                $durasiDisplay = $durasiRaw;
+                                            } else {
+                                                $durasiDisplay = $tglMulai === $tglSelesai ? '1 Hari' : 'Multi Hari';
+                                            }
+
+                                            $hasMateri = !empty($izin->materi_dititipkan) || !empty($izin->tugas_dititipkan) || !empty($izin->file_tugas);
+                                            $hasFoto = !empty($izin->foto_surat);
+                                        @endphp
+                                        <tr>
+                                            <td style="text-align: center;">
+                                                <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item pending-check-item" onchange="updateSelectedCount()" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
+                                            </td>
+                                            <td>
+                                                <div class="teacher-cell">
+                                                    <div class="avatar-circle">
+                                                        {{ strtoupper(substr($namaGuru, 0, 1)) }}
+                                                    </div>
+                                                    <div style="min-width: 0;">
+                                                        <div style="font-weight: 800; color: #0f172a; font-size: 13px; line-height: 1.2;">
+                                                            {{ $namaGuru }}
+                                                        </div>
+                                                        <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
+                                                            NIP: {{ $izin->guru->nip ?? '-' }}
+                                                        </div>
+                                                        <div style="font-size: 11px; color: #2563eb; font-weight: 600; margin-top: 1px;">
+                                                            {{ $mapelGuru }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style="font-weight: 700; color: #1e293b; font-size: 12.5px;">
+                                                    {{ $tglMulai }}
+                                                    @if($tglSelesai !== $tglMulai)
+                                                        <span style="color: #64748b; font-weight: 500;">s/d</span> {{ $tglSelesai }}
+                                                    @endif
+                                                </div>
+                                                <div style="margin-top: 3px;">
+                                                    <span class="badge-status {{ $isCuti ? 'badge-cuti' : 'badge-biasa' }}">
+                                                        <i class="fa-solid {{ $isCuti ? 'fa-calendar-minus' : 'fa-calendar-check' }}"></i>
+                                                        {{ $isCuti ? 'Cuti Khusus' : 'Izin Biasa' }} ({{ $durasiDisplay }})
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style="font-weight: 600; color: #0f172a; font-size: 12.5px; line-height: 1.35;">
+                                                    {{ $izin->alasan ?? '-' }}
+                                                </div>
+                                                @if($izin->keterangan_khusus)
+                                                    <div style="font-size: 11px; color: #ea580c; font-weight: 600; margin-top: 2px;">
+                                                        <i class="fa-solid fa-bookmark"></i> {{ $izin->keterangan_khusus }}
+                                                    </div>
+                                                @endif
+                                                @if($hasMateri || $hasFoto)
+                                                    <div style="margin-top: 4px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                                                        @if($hasMateri)
+                                                            <span style="background: #eff6ff; color: #2563eb; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #bfdbfe;">
+                                                                <i class="fa-solid fa-book-open"></i> Titipan KBM
+                                                            </span>
+                                                        @endif
+                                                        @if($hasFoto)
+                                                            <span style="background: #f8fafc; color: #475569; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #cbd5e1;">
+                                                                <i class="fa-solid fa-file-image"></i> Ada Surat
+                                                            </span>
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <div class="approval-matrix-box" style="margin: 0 auto;">
+                                                    <div class="matrix-item">
+                                                        <span class="matrix-role-name">Kurikulum</span>
+                                                        <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Menunggu</span>
+                                                    </div>
+                                                    <div class="matrix-item">
+                                                        <span class="matrix-role-name">SDM</span>
+                                                        @if($izin->status_waka_sdm === 'approved')
+                                                            <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
+                                                        @elseif($izin->status_waka_sdm === 'rejected')
+                                                            <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                                        @else
+                                                            <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Menunggu</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="matrix-item">
+                                                        <span class="matrix-role-name">Kepsek</span>
+                                                        @if($izin->status_kepsek === 'approved')
+                                                            <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
+                                                        @elseif($izin->status_kepsek === 'rejected')
+                                                            <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                                        @else
+                                                            <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Menunggu</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <div class="btn-action-group" style="justify-content: center;">
+                                                    <button type="button" class="btn-table-action btn-action-approve" onclick="openApproveModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')">
+                                                        <i class="fa-solid fa-check"></i> Setujui
+                                                    </button>
+                                                    <button type="button" class="btn-table-action btn-action-reject" onclick="openRejectModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')">
+                                                        <i class="fa-solid fa-xmark"></i> Tolak
+                                                    </button>
+                                                    <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                                                        <i class="fa-solid fa-circle-info"></i> Detail
+                                                    </button>
+                                                    @if($izin->token_approval)
+                                                        <button type="button" class="btn-table-action btn-action-link" onclick="copyApprovalLink('{{ route('approval.guru-izin.show', $izin->token_approval) }}')" title="Salin Link Approval">
+                                                            <i class="fa-solid fa-link"></i> Link
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Responsive Cards View -->
+                    <div class="waka-mobile-cards" style="margin-top: 12px;">
+                        @foreach($pendingIzinList as $izin)
+                            @php
+                                $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                                $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
+                                $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
+                                $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                                $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
+                                
+                                $durasiRaw = $izin->durasi ?? '';
+                                if (preg_match('/(\d+\s*Hari)/i', $durasiRaw, $m)) {
+                                    $durasiDisplay = $m[1];
+                                } elseif (!empty($durasiRaw) && !str_contains(strtolower($durasiRaw), 'cuti') && !str_contains(strtolower($durasiRaw), 'izin')) {
+                                    $durasiDisplay = $durasiRaw;
+                                } else {
+                                    $durasiDisplay = $tglMulai === $tglSelesai ? '1 Hari' : 'Multi Hari';
+                                }
+
+                                $hasMateri = !empty($izin->materi_dititipkan) || !empty($izin->tugas_dititipkan) || !empty($izin->file_tugas);
+                                $hasFoto = !empty($izin->foto_surat);
+                            @endphp
+                            <div class="m-izin-card">
+                                <div class="m-card-top">
+                                    <div class="m-teacher-info-box">
+                                        <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item pending-check-item" onchange="updateSelectedCount()" style="width: 17px; height: 17px; accent-color: #2563eb; margin-top: 2px; flex-shrink: 0; cursor: pointer;">
+                                        <div class="avatar-circle">
+                                            {{ strtoupper(substr($namaGuru, 0, 1)) }}
+                                        </div>
+                                        <div style="min-width: 0; flex: 1;">
+                                            <div class="m-teacher-name">{{ $namaGuru }}</div>
+                                            <div class="m-teacher-meta">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                            <div class="m-teacher-mapel">{{ $mapelGuru }}</div>
+                                        </div>
+                                    </div>
+                                    <span class="badge-status {{ $isCuti ? 'badge-cuti' : 'badge-biasa' }}">
+                                        {{ $isCuti ? 'Cuti' : 'Izin' }} ({{ $durasiDisplay }})
+                                    </span>
+                                </div>
+
+                                <div class="m-card-body-section">
+                                    <div class="m-detail-row">
+                                        <span class="m-detail-label"><i class="fa-solid fa-calendar-day" style="color: #64748b; margin-right: 4px;"></i> Tanggal Izin</span>
+                                        <span class="m-detail-val" style="color: #2563eb;">
+                                            {{ $tglMulai }} {{ $tglSelesai !== $tglMulai ? 's/d ' . $tglSelesai : '' }}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="m-detail-label" style="margin-top: 2px;">Alasan Permohonan:</div>
+                                        <div class="m-alasan-box">
+                                            {{ $izin->alasan ?? '-' }}
+                                        </div>
+                                        @if($izin->keterangan_khusus)
+                                            <div style="font-size: 11px; color: #ea580c; font-weight: 700; margin-top: 3px;">
+                                                <i class="fa-solid fa-bookmark"></i> {{ $izin->keterangan_khusus }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    @if($hasMateri || $hasFoto)
+                                        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 2px;">
+                                            @if($hasMateri)
+                                                <span style="background: #eff6ff; color: #2563eb; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px; border: 1px solid #bfdbfe;">
+                                                    <i class="fa-solid fa-book-open"></i> Titipan KBM
+                                                </span>
+                                            @endif
+                                            @if($hasFoto)
+                                                <span style="background: #f8fafc; color: #475569; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px; border: 1px solid #cbd5e1;">
+                                                    <i class="fa-solid fa-file-image"></i> Ada Surat
+                                                </span>
+                                            @endif
+                                        </div>
+                                    @endif
+
+                                    <div style="margin-top: 4px;">
+                                        <div class="m-detail-label">Status Persetujuan Berjenjang:</div>
+                                        <div class="m-approval-grid">
+                                            <div class="m-approval-stage">
+                                                <span class="m-approval-stage-title">Kurikulum</span>
+                                                <span class="badge-status badge-pending" style="font-size: 9.5px; padding: 2px 6px;"><i class="fa-solid fa-clock"></i> Menunggu</span>
+                                            </div>
+                                            <div class="m-approval-stage">
+                                                <span class="m-approval-stage-title">SDM</span>
+                                                @if($izin->status_waka_sdm === 'approved')
+                                                    <span class="badge-status badge-approved" style="font-size: 9.5px; padding: 2px 6px;"><i class="fa-solid fa-check"></i> Setuju</span>
+                                                @elseif($izin->status_waka_sdm === 'rejected')
+                                                    <span class="badge-status badge-rejected" style="font-size: 9.5px; padding: 2px 6px;"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                                @else
+                                                    <span class="badge-status badge-pending" style="font-size: 9.5px; padding: 2px 6px;"><i class="fa-solid fa-clock"></i> Menunggu</span>
+                                                @endif
+                                            </div>
+                                            <div class="m-approval-stage">
+                                                <span class="m-approval-stage-title">Kepsek</span>
+                                                @if($izin->status_kepsek === 'approved')
+                                                    <span class="badge-status badge-approved" style="font-size: 9.5px; padding: 2px 6px;"><i class="fa-solid fa-check"></i> Setuju</span>
+                                                @elseif($izin->status_kepsek === 'rejected')
+                                                    <span class="badge-status badge-rejected" style="font-size: 9.5px; padding: 2px 6px;"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                                @else
+                                                    <span class="badge-status badge-pending" style="font-size: 9.5px; padding: 2px 6px;"><i class="fa-solid fa-clock"></i> Menunggu</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="m-card-actions">
+                                    <button type="button" class="btn-table-action btn-action-approve" onclick="openApproveModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')">
+                                        <i class="fa-solid fa-check"></i> Setujui
+                                    </button>
+                                    <button type="button" class="btn-table-action btn-action-reject" onclick="openRejectModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')">
+                                        <i class="fa-solid fa-xmark"></i> Tolak
+                                    </button>
+                                    <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                                        <i class="fa-solid fa-circle-info"></i> Detail
+                                    </button>
+                                    @if($izin->token_approval)
+                                        <button type="button" class="btn-table-action btn-action-link" onclick="copyApprovalLink('{{ route('approval.guru-izin.show', $izin->token_approval) }}')" title="Salin Link Approval">
+                                            <i class="fa-solid fa-link"></i> Link
+                                        </button>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </form>
+            @endif
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- TAB 2: IZIN RESMI DISETUJUI (SINKRON GURU PIKET & KEPSEK)            -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <div id="pane-resmi" class="tab-pane-content" style="{{ $activeTab == 'resmi' ? '' : 'display:none;' }}">
+            @if($guruIzinResmiList->isEmpty())
+                <div style="text-align: center; padding: 48px 16px; color: #94a3b8;">
+                    <i class="fa-solid fa-user-check" style="font-size: 32px; margin-bottom: 8px; color: #cbd5e1;"></i>
+                    <h4 style="font-size: 15px; font-weight: 700; color: #475569; margin: 0;">Belum Ada Izin Resmi Disetujui</h4>
+                    <p style="font-size: 12.5px; color: #64748b; margin: 4px 0 0 0;">Daftar izin yang telah disetujui resmi oleh Waka &amp; Kepala Sekolah akan otomatis tampil di sini.</p>
+                </div>
+            @else
+                <!-- Desktop Table View -->
+                <div class="waka-desktop-table">
+                    <div class="table-responsive">
                         <table class="custom-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 38px; text-align: center;">#</th>
-                                    <th style="width: 25%;">Guru Pemohon</th>
+                                    <th style="width: 38px; text-align: center;">
+                                        <input type="checkbox" onchange="toggleSelectAll(this, 'resmi-check-item')" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
+                                    </th>
+                                    <th style="width: 25%;">Guru Tidak Hadir</th>
                                     <th style="width: 20%;">Tanggal &amp; Kategori</th>
                                     <th style="width: 21%;">Alasan Izin</th>
-                                    <th style="width: 16%; text-align: center;">Status Berjenjang</th>
-                                    <th style="width: 18%; text-align: center;">Aksi Persetujuan</th>
+                                    <th style="width: 14%; text-align: center;">Persetujuan</th>
+                                    <th style="width: 12%; text-align: center;">Guru Pengganti</th>
+                                    <th style="width: 8%; text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($pendingIzinList as $izin)
+                                @foreach($guruIzinResmiList as $idx => $izin)
                                     @php
                                         $namaGuru = $izin->guru->nama_guru ?? 'Guru';
                                         $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
-                                        $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
-                                        $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                                        $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d-m-Y');
+                                        $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d-m-Y') : $tglMulai;
                                         $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
                                         
-                                        // Bersihkan string durasi agar tidak berulang
                                         $durasiRaw = $izin->durasi ?? '';
                                         if (preg_match('/(\d+\s*Hari)/i', $durasiRaw, $m)) {
                                             $durasiDisplay = $m[1];
@@ -1051,13 +1810,10 @@
                                         } else {
                                             $durasiDisplay = $tglMulai === $tglSelesai ? '1 Hari' : 'Multi Hari';
                                         }
-
-                                        $hasMateri = !empty($izin->materi_dititipkan) || !empty($izin->tugas_dititipkan) || !empty($izin->file_tugas);
-                                        $hasFoto = !empty($izin->foto_surat);
                                     @endphp
                                     <tr>
                                         <td style="text-align: center;">
-                                            <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item" onchange="updateSelectedCount()" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
+                                            <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item resmi-check-item" onchange="updateSelectedCount()" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
                                         </td>
                                         <td>
                                             <div class="teacher-cell">
@@ -1065,13 +1821,13 @@
                                                     {{ strtoupper(substr($namaGuru, 0, 1)) }}
                                                 </div>
                                                 <div style="min-width: 0;">
-                                                    <div style="font-weight: 800; color: #0f172a; font-size: 13px; line-height: 1.2;">
+                                                    <div style="font-weight: 800; color: #0f172a; font-size: 13px;">
                                                         {{ $namaGuru }}
                                                     </div>
-                                                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;">
+                                                    <div style="font-size: 11px; color: #64748b;">
                                                         NIP: {{ $izin->guru->nip ?? '-' }}
                                                     </div>
-                                                    <div style="font-size: 11px; color: #2563eb; font-weight: 600; margin-top: 1px;">
+                                                    <div style="font-size: 11px; color: #2563eb; font-weight: 600;">
                                                         {{ $mapelGuru }}
                                                     </div>
                                                 </div>
@@ -1095,20 +1851,15 @@
                                             <div style="font-weight: 600; color: #0f172a; font-size: 12.5px; line-height: 1.35;">
                                                 {{ $izin->alasan ?? '-' }}
                                             </div>
-                                            @if($izin->keterangan_khusus)
-                                                <div style="font-size: 11px; color: #ea580c; font-weight: 600; margin-top: 2px;">
-                                                    <i class="fa-solid fa-bookmark"></i> {{ $izin->keterangan_khusus }}
-                                                </div>
-                                            @endif
-                                            @if($hasMateri || $hasFoto)
+                                            @if($izin->materi_dititipkan || $izin->tugas_dititipkan || $izin->foto_surat)
                                                 <div style="margin-top: 4px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
-                                                    @if($hasMateri)
-                                                        <span style="background: #eff6ff; color: #2563eb; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #bfdbfe;" title="Tersedia materi/tugas titipan di detail">
-                                                            <i class="fa-solid fa-book-open"></i> Titipan KBM
+                                                    @if($izin->materi_dititipkan || $izin->tugas_dititipkan)
+                                                        <span style="background: #eff6ff; color: #2563eb; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #bfdbfe;">
+                                                            <i class="fa-solid fa-book-open"></i> Ada Materi
                                                         </span>
                                                     @endif
-                                                    @if($hasFoto)
-                                                        <span style="background: #f8fafc; color: #475569; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #cbd5e1;" title="Tersedia bukti surat di detail">
+                                                    @if($izin->foto_surat)
+                                                        <span style="background: #f8fafc; color: #475569; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #cbd5e1;">
                                                             <i class="fa-solid fa-file-image"></i> Ada Surat
                                                         </span>
                                                     @endif
@@ -1119,53 +1870,33 @@
                                             <div class="approval-matrix-box" style="margin: 0 auto;">
                                                 <div class="matrix-item">
                                                     <span class="matrix-role-name">Kurikulum</span>
-                                                    <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Menunggu</span>
-                                                </div>
-                                                <div class="matrix-item">
-                                                    <span class="matrix-role-name">SDM</span>
-                                                    @if($izin->status_waka_sdm === 'approved')
-                                                        <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
-                                                    @elseif($izin->status_waka_sdm === 'rejected')
-                                                        <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
-                                                    @else
-                                                        <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Menunggu</span>
-                                                    @endif
+                                                    <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Disetujui</span>
                                                 </div>
                                                 <div class="matrix-item">
                                                     <span class="matrix-role-name">Kepsek</span>
-                                                    @if($izin->status_kepsek === 'approved')
-                                                        <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
-                                                    @elseif($izin->status_kepsek === 'rejected')
-                                                        <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
-                                                    @else
-                                                        <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Menunggu</span>
-                                                    @endif
+                                                    <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Disetujui</span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td style="text-align: center;">
+                                            @if($izin->has_penugasan)
+                                                <span class="badge-status badge-approved" title="Guru Pengganti: {{ $izin->nama_guru_pengganti }}">
+                                                    <i class="fa-solid fa-user-shield"></i> Ada Pengganti
+                                                </span>
+                                                <div style="font-size: 11px; color: #166534; font-weight: 700; margin-top: 2px;">
+                                                    {{ $izin->nama_guru_pengganti }}
+                                                </div>
+                                            @else
+                                                <span class="badge-status badge-pending">
+                                                    <i class="fa-solid fa-triangle-exclamation"></i> Belum Ada
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center;">
                                             <div class="btn-action-group" style="justify-content: center;">
-                                                <!-- Tombol Setujui (Biru Primer Modern & Putih) -->
-                                                <button type="button" class="btn-table-action btn-action-approve" onclick="openApproveModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')">
-                                                    <i class="fa-solid fa-check"></i> Setujui
-                                                </button>
-
-                                                <!-- Tombol Tolak (Abu-abu Muda Cerah / Putih dengan Border Slate) -->
-                                                <button type="button" class="btn-table-action btn-action-reject" onclick="openRejectModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')">
-                                                    <i class="fa-solid fa-xmark"></i> Tolak
-                                                </button>
-
-                                                <!-- Tombol Detail AJAX (Abu-abu muda cerah dengan border & teks biru) -->
                                                 <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
                                                     <i class="fa-solid fa-circle-info"></i> Detail
                                                 </button>
-
-                                                <!-- Tombol Link Approval (Abu-abu muda cerah) -->
-                                                @if($izin->token_approval)
-                                                    <button type="button" class="btn-table-action btn-action-link" onclick="copyApprovalLink('{{ route('approval.guru-izin.show', $izin->token_approval) }}')" title="Salin Link Approval Resmi">
-                                                        <i class="fa-solid fa-link"></i> Link
-                                                    </button>
-                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -1173,146 +1904,96 @@
                             </tbody>
                         </table>
                     </div>
-                </form>
-            @endif
-        </div>
-
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
-        <!-- TAB 2: IZIN RESMI DISETUJUI (SINKRON GURU PIKET & KEPSEK)            -->
-        <!-- ═══════════════════════════════════════════════════════════════════ -->
-        <div id="pane-resmi" class="tab-pane-content" style="{{ $activeTab == 'resmi' ? '' : 'display:none;' }}">
-            @if($guruIzinResmiList->isEmpty())
-                <div style="text-align: center; padding: 48px 16px; color: #94a3b8;">
-                    <i class="fa-solid fa-user-check" style="font-size: 32px; margin-bottom: 8px; color: #cbd5e1;"></i>
-                    <h4 style="font-size: 15px; font-weight: 700; color: #475569; margin: 0;">Belum Ada Izin Resmi Disetujui</h4>
-                    <p style="font-size: 12.5px; color: #64748b; margin: 4px 0 0 0;">Daftar izin yang telah disetujui resmi oleh Waka &amp; Kepala Sekolah akan otomatis tampil di sini.</p>
                 </div>
-            @else
-                <div class="table-responsive">
-                    <table class="custom-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 38px; text-align: center;">
-                                    <input type="checkbox" onchange="toggleSelectAll(this, 'resmi-check-item')" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
-                                </th>
-                                <th style="width: 25%;">Guru Tidak Hadir</th>
-                                <th style="width: 20%;">Tanggal &amp; Kategori</th>
-                                <th style="width: 21%;">Alasan Izin</th>
-                                <th style="width: 14%; text-align: center;">Persetujuan</th>
-                                <th style="width: 12%; text-align: center;">Guru Pengganti</th>
-                                <th style="width: 8%; text-align: center;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($guruIzinResmiList as $idx => $izin)
-                                @php
-                                    $namaGuru = $izin->guru->nama_guru ?? 'Guru';
-                                    $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
-                                    $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d-m-Y');
-                                    $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d-m-Y') : $tglMulai;
-                                    $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
-                                    
-                                    $durasiRaw = $izin->durasi ?? '';
-                                    if (preg_match('/(\d+\s*Hari)/i', $durasiRaw, $m)) {
-                                        $durasiDisplay = $m[1];
-                                    } elseif (!empty($durasiRaw) && !str_contains(strtolower($durasiRaw), 'cuti') && !str_contains(strtolower($durasiRaw), 'izin')) {
-                                        $durasiDisplay = $durasiRaw;
-                                    } else {
-                                        $durasiDisplay = $tglMulai === $tglSelesai ? '1 Hari' : 'Multi Hari';
-                                    }
-                                @endphp
-                                <tr>
-                                    <td style="text-align: center;">
-                                        <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item resmi-check-item" onchange="updateSelectedCount()" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
-                                    </td>
-                                    <td>
-                                        <div class="teacher-cell">
-                                            <div class="avatar-circle">
-                                                {{ strtoupper(substr($namaGuru, 0, 1)) }}
-                                            </div>
-                                            <div style="min-width: 0;">
-                                                <div style="font-weight: 800; color: #0f172a; font-size: 13px;">
-                                                    {{ $namaGuru }}
-                                                </div>
-                                                <div style="font-size: 11px; color: #64748b;">
-                                                    NIP: {{ $izin->guru->nip ?? '-' }}
-                                                </div>
-                                                <div style="font-size: 11px; color: #2563eb; font-weight: 600;">
-                                                    {{ $mapelGuru }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div style="font-weight: 700; color: #1e293b; font-size: 12.5px;">
-                                            {{ $tglMulai }}
-                                            @if($tglSelesai !== $tglMulai)
-                                                <span style="color: #64748b; font-weight: 500;">s/d</span> {{ $tglSelesai }}
-                                            @endif
-                                        </div>
-                                        <div style="margin-top: 3px;">
-                                            <span class="badge-status {{ $isCuti ? 'badge-cuti' : 'badge-biasa' }}">
-                                                <i class="fa-solid {{ $isCuti ? 'fa-calendar-minus' : 'fa-calendar-check' }}"></i>
-                                                {{ $isCuti ? 'Cuti Khusus' : 'Izin Biasa' }} ({{ $durasiDisplay }})
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div style="font-weight: 600; color: #0f172a; font-size: 12.5px; line-height: 1.35;">
-                                            {{ $izin->alasan ?? '-' }}
-                                        </div>
-                                        @if($izin->materi_dititipkan || $izin->tugas_dititipkan || $izin->foto_surat)
-                                            <div style="margin-top: 4px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
-                                                @if($izin->materi_dititipkan || $izin->tugas_dititipkan)
-                                                    <span style="background: #eff6ff; color: #2563eb; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #bfdbfe;">
-                                                        <i class="fa-solid fa-book-open"></i> Ada Materi
-                                                    </span>
-                                                @endif
-                                                @if($izin->foto_surat)
-                                                    <span style="background: #f8fafc; color: #475569; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; border: 1px solid #cbd5e1;">
-                                                        <i class="fa-solid fa-file-image"></i> Ada Surat
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <div class="approval-matrix-box" style="margin: 0 auto;">
-                                            <div class="matrix-item">
-                                                <span class="matrix-role-name">Kurikulum</span>
-                                                <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Disetujui</span>
-                                            </div>
-                                            <div class="matrix-item">
-                                                <span class="matrix-role-name">Kepsek</span>
-                                                <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Disetujui</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center;">
+
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @foreach($guruIzinResmiList as $idx => $izin)
+                        @php
+                            $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                            $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
+                            $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
+                            $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                            $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
+                            
+                            $durasiRaw = $izin->durasi ?? '';
+                            if (preg_match('/(\d+\s*Hari)/i', $durasiRaw, $m)) {
+                                $durasiDisplay = $m[1];
+                            } elseif (!empty($durasiRaw) && !str_contains(strtolower($durasiRaw), 'cuti') && !str_contains(strtolower($durasiRaw), 'izin')) {
+                                $durasiDisplay = $durasiRaw;
+                            } else {
+                                $durasiDisplay = $tglMulai === $tglSelesai ? '1 Hari' : 'Multi Hari';
+                            }
+                        @endphp
+                        <div class="m-izin-card">
+                            <div class="m-card-top">
+                                <div class="m-teacher-info-box">
+                                    <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item resmi-check-item" onchange="updateSelectedCount()" style="width: 17px; height: 17px; accent-color: #2563eb; margin-top: 2px; flex-shrink: 0; cursor: pointer;">
+                                    <div class="avatar-circle">
+                                        {{ strtoupper(substr($namaGuru, 0, 1)) }}
+                                    </div>
+                                    <div style="min-width: 0; flex: 1;">
+                                        <div class="m-teacher-name">{{ $namaGuru }}</div>
+                                        <div class="m-teacher-meta">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                        <div class="m-teacher-mapel">{{ $mapelGuru }}</div>
+                                    </div>
+                                </div>
+                                <span class="badge-status {{ $isCuti ? 'badge-cuti' : 'badge-biasa' }}">
+                                    {{ $isCuti ? 'Cuti' : 'Izin' }} ({{ $durasiDisplay }})
+                                </span>
+                            </div>
+
+                            <div class="m-card-body-section">
+                                <div class="m-detail-row">
+                                    <span class="m-detail-label"><i class="fa-solid fa-calendar-day" style="color: #64748b; margin-right: 4px;"></i> Tanggal Izin</span>
+                                    <span class="m-detail-val" style="color: #2563eb;">
+                                        {{ $tglMulai }} {{ $tglSelesai !== $tglMulai ? 's/d ' . $tglSelesai : '' }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div class="m-detail-label" style="margin-top: 2px;">Alasan Permohonan:</div>
+                                    <div class="m-alasan-box">
+                                        {{ $izin->alasan ?? '-' }}
+                                    </div>
+                                </div>
+
+                                <div class="m-detail-row" style="margin-top: 4px; padding-top: 6px; border-top: 1px dashed #cbd5e1;">
+                                    <span class="m-detail-label">Guru Pengganti:</span>
+                                    <span class="m-detail-val">
                                         @if($izin->has_penugasan)
-                                            <span class="badge-status badge-approved" title="Guru Pengganti: {{ $izin->nama_guru_pengganti }}">
-                                                <i class="fa-solid fa-user-shield"></i> Ada Pengganti
+                                            <span class="badge-status badge-approved" style="font-size: 10px;">
+                                                <i class="fa-solid fa-user-shield"></i> {{ $izin->nama_guru_pengganti }}
                                             </span>
-                                            <div style="font-size: 11px; color: #166534; font-weight: 700; margin-top: 2px;">
-                                                {{ $izin->nama_guru_pengganti }}
-                                            </div>
                                         @else
-                                            <span class="badge-status badge-pending">
+                                            <span class="badge-status badge-pending" style="font-size: 10px;">
                                                 <i class="fa-solid fa-triangle-exclamation"></i> Belum Ada
                                             </span>
                                         @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <div class="btn-action-group" style="justify-content: center;">
-                                            <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
-                                                <i class="fa-solid fa-circle-info"></i> Detail
-                                            </button>
+                                    </span>
+                                </div>
+
+                                <div style="margin-top: 4px;">
+                                    <div class="m-detail-label">Persetujuan Resmi:</div>
+                                    <div class="m-approval-grid" style="grid-template-columns: 1fr 1fr;">
+                                        <div class="m-approval-stage">
+                                            <span class="m-approval-stage-title">Kurikulum</span>
+                                            <span class="badge-status badge-approved" style="font-size: 9.5px;"><i class="fa-solid fa-check"></i> Disetujui</span>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                        <div class="m-approval-stage">
+                                            <span class="m-approval-stage-title">Kepsek</span>
+                                            <span class="badge-status badge-approved" style="font-size: 9.5px;"><i class="fa-solid fa-check"></i> Disetujui</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-card-actions">
+                                <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                                    <i class="fa-solid fa-circle-info"></i> Lihat Detail Lengkap
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             @endif
         </div>
@@ -1328,60 +2009,131 @@
                     <p style="font-size: 12.5px; color: #64748b; margin: 4px 0 0 0;">Seluruh permohonan yang telah Anda setujui atau tolak akan tercatat di sini.</p>
                 </div>
             @else
-                <div class="table-responsive">
-                    <table class="custom-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 38px; text-align: center;">
-                                    <input type="checkbox" onchange="toggleSelectAll(this, 'history-check-item')" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
-                                </th>
-                                <th style="width: 25%;">Guru yang Mengajukan</th>
-                                <th style="width: 18%;">Tanggal Izin</th>
-                                <th style="width: 20%;">Alasan</th>
-                                <th style="width: 13%; text-align: center;">Keputusan Waka</th>
-                                <th style="width: 16%;">Catatan Kurikulum</th>
-                                <th style="width: 8%; text-align: center;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($historyIzinList as $idx => $izin)
-                                @php
-                                    $namaGuru = $izin->guru->nama_guru ?? 'Guru';
-                                    $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
-                                    $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
-                                @endphp
+                <!-- Desktop Table View -->
+                <div class="waka-desktop-table">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
                                 <tr>
-                                    <td style="text-align: center;">
-                                        <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item history-check-item" onchange="updateSelectedCount()" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
-                                    </td>
-                                    <td>
-                                        <div class="teacher-cell">
-                                            <div class="avatar-circle">
-                                                {{ strtoupper(substr($namaGuru, 0, 1)) }}
+                                    <th style="width: 38px; text-align: center;">
+                                        <input type="checkbox" onchange="toggleSelectAll(this, 'history-check-item')" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
+                                    </th>
+                                    <th style="width: 25%;">Guru yang Mengajukan</th>
+                                    <th style="width: 18%;">Tanggal Izin</th>
+                                    <th style="width: 20%;">Alasan</th>
+                                    <th style="width: 13%; text-align: center;">Keputusan Waka</th>
+                                    <th style="width: 16%;">Catatan Kurikulum</th>
+                                    <th style="width: 8%; text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($historyIzinList as $idx => $izin)
+                                    @php
+                                        $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                                        $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
+                                        $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                                    @endphp
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item history-check-item" onchange="updateSelectedCount()" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
+                                        </td>
+                                        <td>
+                                            <div class="teacher-cell">
+                                                <div class="avatar-circle">
+                                                    {{ strtoupper(substr($namaGuru, 0, 1)) }}
+                                                </div>
+                                                <div style="min-width: 0;">
+                                                    <div style="font-weight: 800; color: #0f172a; font-size: 13px;">{{ $namaGuru }}</div>
+                                                    <div style="font-size: 11px; color: #64748b;">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                                </div>
                                             </div>
-                                            <div style="min-width: 0;">
-                                                <div style="font-weight: 800; color: #0f172a; font-size: 13px;">{{ $namaGuru }}</div>
-                                                <div style="font-size: 11px; color: #64748b;">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                        </td>
+                                        <td>
+                                            <div style="font-weight: 700; color: #1e293b;">
+                                                {{ $tglMulai }}
+                                                @if($tglSelesai !== $tglMulai)
+                                                    <span style="color: #64748b;">s/d</span> {{ $tglSelesai }}
+                                                @endif
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div style="font-weight: 700; color: #1e293b;">
-                                            {{ $tglMulai }}
-                                            @if($tglSelesai !== $tglMulai)
-                                                <span style="color: #64748b;">s/d</span> {{ $tglSelesai }}
+                                            <span class="badge-status {{ strtolower($izin->kategori_izin ?? '') === 'cuti' ? 'badge-cuti' : 'badge-biasa' }}" style="margin-top: 2px;">
+                                                {{ ucfirst($izin->kategori_izin ?? 'biasa') }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 12.5px; color: #334155; line-height: 1.35;">
+                                                {{ $izin->alasan ?? '-' }}
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            @if($izin->status_waka === 'approved')
+                                                <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Disetujui</span>
+                                            @elseif($izin->status_waka === 'rejected')
+                                                <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                            @else
+                                                <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
                                             @endif
-                                        </div>
-                                        <span class="badge-status {{ strtolower($izin->kategori_izin ?? '') === 'cuti' ? 'badge-cuti' : 'badge-biasa' }}" style="margin-top: 2px;">
-                                            {{ ucfirst($izin->kategori_izin ?? 'biasa') }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div style="font-size: 12.5px; color: #334155; line-height: 1.35;">
-                                            {{ $izin->alasan ?? '-' }}
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center;">
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 12px; color: #475569; font-style: italic;">
+                                                {{ $izin->catatan_waka ?? '-' }}
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <div class="btn-action-group" style="justify-content: center;">
+                                                <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                                                    <i class="fa-solid fa-circle-info"></i> Detail
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @foreach($historyIzinList as $idx => $izin)
+                        @php
+                            $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                            $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
+                            $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
+                            $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                            $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
+                        @endphp
+                        <div class="m-izin-card">
+                            <div class="m-card-top">
+                                <div class="m-teacher-info-box">
+                                    <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item history-check-item" onchange="updateSelectedCount()" style="width: 17px; height: 17px; accent-color: #2563eb; margin-top: 2px; flex-shrink: 0; cursor: pointer;">
+                                    <div class="avatar-circle">
+                                        {{ strtoupper(substr($namaGuru, 0, 1)) }}
+                                    </div>
+                                    <div style="min-width: 0; flex: 1;">
+                                        <div class="m-teacher-name">{{ $namaGuru }}</div>
+                                        <div class="m-teacher-meta">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                    </div>
+                                </div>
+                                <span class="badge-status {{ $isCuti ? 'badge-cuti' : 'badge-biasa' }}">
+                                    {{ $isCuti ? 'Cuti' : 'Izin' }}
+                                </span>
+                            </div>
+
+                            <div class="m-card-body-section">
+                                <div class="m-detail-row">
+                                    <span class="m-detail-label"><i class="fa-solid fa-calendar-day" style="color: #64748b; margin-right: 4px;"></i> Tanggal</span>
+                                    <span class="m-detail-val" style="color: #2563eb;">
+                                        {{ $tglMulai }} {{ $tglSelesai !== $tglMulai ? 's/d ' . $tglSelesai : '' }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div class="m-detail-label" style="margin-top: 2px;">Alasan:</div>
+                                    <div class="m-alasan-box">{{ $izin->alasan ?? '-' }}</div>
+                                </div>
+
+                                <div class="m-detail-row" style="margin-top: 4px; padding-top: 6px; border-top: 1px dashed #cbd5e1;">
+                                    <span class="m-detail-label">Keputusan Kurikulum:</span>
+                                    <span class="m-detail-val">
                                         @if($izin->status_waka === 'approved')
                                             <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Disetujui</span>
                                         @elseif($izin->status_waka === 'rejected')
@@ -1389,23 +2141,23 @@
                                         @else
                                             <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
                                         @endif
-                                    </td>
-                                    <td>
-                                        <div style="font-size: 12px; color: #475569; font-style: italic;">
-                                            {{ $izin->catatan_waka ?? '-' }}
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <div class="btn-action-group" style="justify-content: center;">
-                                            <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
-                                                <i class="fa-solid fa-circle-info"></i> Detail
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    </span>
+                                </div>
+
+                                @if($izin->catatan_waka)
+                                    <div style="font-size: 11.5px; color: #475569; font-style: italic; background: #ffffff; padding: 6px 8px; border-radius: 6px; border: 1px solid #e2e8f0; margin-top: 2px;">
+                                        <b style="color: #0f172a; font-style: normal;">Catatan:</b> "{{ $izin->catatan_waka }}"
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="m-card-actions">
+                                <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                                    <i class="fa-solid fa-circle-info"></i> Lihat Detail Lengkap
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             @endif
         </div>
@@ -1421,119 +2173,228 @@
                     <p style="font-size: 12.5px; color: #64748b; margin: 4px 0 0 0;">Tidak ada data perizinan yang sesuai dengan filter pencarian Anda.</p>
                 </div>
             @else
-                <div class="table-responsive">
-                    <table class="custom-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 38px; text-align: center;">
-                                    <input type="checkbox" onchange="toggleSelectAll(this, 'all-check-item')" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
-                                </th>
-                                <th style="width: 24%;">Guru yang Mengajukan</th>
-                                <th style="width: 17%;">Tanggal &amp; Kategori</th>
-                                <th style="width: 18%;">Alasan</th>
-                                <th style="width: 10%; text-align: center;">Kurikulum</th>
-                                <th style="width: 10%; text-align: center;">SDM</th>
-                                <th style="width: 10%; text-align: center;">Kepsek</th>
-                                <th style="width: 11%; text-align: center;">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($semuaIzinList as $izin)
-                                @php
-                                    $namaGuru = $izin->guru->nama_guru ?? 'Guru';
-                                    $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
-                                    $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
-                                    $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
-                                    $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
-                                @endphp
+                <!-- Desktop Table View -->
+                <div class="waka-desktop-table">
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
                                 <tr>
-                                    <td style="text-align: center;">
-                                        <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item all-check-item" onchange="updateSelectedCount()" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
-                                    </td>
-                                    <td>
-                                        <div class="teacher-cell">
-                                            <div class="avatar-circle">
-                                                {{ strtoupper(substr($namaGuru, 0, 1)) }}
-                                            </div>
-                                            <div style="min-width: 0;">
-                                                <div style="font-weight: 800; color: #0f172a; font-size: 13px;">{{ $namaGuru }}</div>
-                                                <div style="font-size: 11px; color: #64748b;">NIP: {{ $izin->guru->nip ?? '-' }}</div>
-                                                <div style="font-size: 11px; color: #2563eb; font-weight: 600;">{{ $mapelGuru }}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div style="font-weight: 700; color: #1e293b;">
-                                            {{ $tglMulai }}
-                                            @if($tglSelesai !== $tglMulai)
-                                                <span style="color: #64748b;">s/d</span> {{ $tglSelesai }}
-                                            @endif
-                                        </div>
-                                        <span class="badge-status {{ $isCuti ? 'badge-cuti' : 'badge-biasa' }}" style="margin-top: 2px;">
-                                            {{ $isCuti ? 'Cuti Khusus' : 'Izin Biasa' }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div style="font-size: 12.5px; color: #334155; line-height: 1.35;">{{ $izin->alasan ?? '-' }}</div>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @if($izin->status_waka === 'approved')
-                                            <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
-                                        @elseif($izin->status_waka === 'rejected')
-                                            <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
-                                        @else
-                                            <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @if($izin->status_waka_sdm === 'approved')
-                                            <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
-                                        @elseif($izin->status_waka_sdm === 'rejected')
-                                            <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
-                                        @else
-                                            <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @if($izin->status_kepsek === 'approved')
-                                            <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
-                                        @elseif($izin->status_kepsek === 'rejected')
-                                            <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
-                                        @else
-                                            <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <div class="btn-action-group" style="justify-content: center;">
-                                            @if($izin->status_waka === 'pending' || empty($izin->status_waka))
-                                                <button type="button" class="btn-table-action btn-action-approve" onclick="openApproveModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')" title="Setujui Izin">
-                                                    <i class="fa-solid fa-check"></i>
-                                                </button>
-                                                <button type="button" class="btn-table-action btn-action-reject" onclick="openRejectModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')" title="Tolak Izin">
-                                                    <i class="fa-solid fa-xmark"></i>
-                                                </button>
-                                            @endif
-                                            <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})" title="Lihat Detail Lengkap">
-                                                <i class="fa-solid fa-circle-info"></i>
-                                            </button>
-                                            @if($izin->token_approval)
-                                                <button type="button" class="btn-table-action btn-action-link" onclick="copyApprovalLink('{{ route('approval.guru-izin.show', $izin->token_approval) }}')" title="Salin Link Approval">
-                                                    <i class="fa-solid fa-link"></i>
-                                                </button>
-                                            @endif
-                                            <form action="{{ route('waka-kurikulum.izin.destroy', $izin->id_guru_izin) }}" method="POST" style="display:inline;" onsubmit="return confirm('Pindahkan permohonan izin ini ke kotak sampah?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn-table-action btn-action-delete" title="Hapus ke Kotak Sampah">
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
+                                    <th style="width: 38px; text-align: center;">
+                                        <input type="checkbox" onchange="toggleSelectAll(this, 'all-check-item')" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
+                                    </th>
+                                    <th style="width: 24%;">Guru yang Mengajukan</th>
+                                    <th style="width: 17%;">Tanggal &amp; Kategori</th>
+                                    <th style="width: 18%;">Alasan</th>
+                                    <th style="width: 10%; text-align: center;">Kurikulum</th>
+                                    <th style="width: 10%; text-align: center;">SDM</th>
+                                    <th style="width: 10%; text-align: center;">Kepsek</th>
+                                    <th style="width: 11%; text-align: center;">Aksi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach($semuaIzinList as $izin)
+                                    @php
+                                        $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                                        $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
+                                        $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
+                                        $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                                        $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
+                                    @endphp
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item all-check-item" onchange="updateSelectedCount()" style="width: 15px; height: 15px; accent-color: #2563eb; cursor: pointer;">
+                                        </td>
+                                        <td>
+                                            <div class="teacher-cell">
+                                                <div class="avatar-circle">
+                                                    {{ strtoupper(substr($namaGuru, 0, 1)) }}
+                                                </div>
+                                                <div style="min-width: 0;">
+                                                    <div style="font-weight: 800; color: #0f172a; font-size: 13px;">{{ $namaGuru }}</div>
+                                                    <div style="font-size: 11px; color: #64748b;">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                                    <div style="font-size: 11px; color: #2563eb; font-weight: 600;">{{ $mapelGuru }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-weight: 700; color: #1e293b;">
+                                                {{ $tglMulai }}
+                                                @if($tglSelesai !== $tglMulai)
+                                                    <span style="color: #64748b;">s/d</span> {{ $tglSelesai }}
+                                                @endif
+                                            </div>
+                                            <span class="badge-status {{ $isCuti ? 'badge-cuti' : 'badge-biasa' }}" style="margin-top: 2px;">
+                                                {{ $isCuti ? 'Cuti Khusus' : 'Izin Biasa' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div style="font-size: 12.5px; color: #334155; line-height: 1.35;">{{ $izin->alasan ?? '-' }}</div>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            @if($izin->status_waka === 'approved')
+                                                <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
+                                            @elseif($izin->status_waka === 'rejected')
+                                                <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                            @else
+                                                <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center;">
+                                            @if($izin->status_waka_sdm === 'approved')
+                                                <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
+                                            @elseif($izin->status_waka_sdm === 'rejected')
+                                                <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                            @else
+                                                <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center;">
+                                            @if($izin->status_kepsek === 'approved')
+                                                <span class="badge-status badge-approved"><i class="fa-solid fa-check"></i> Setuju</span>
+                                            @elseif($izin->status_kepsek === 'rejected')
+                                                <span class="badge-status badge-rejected"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                            @else
+                                                <span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <div class="btn-action-group" style="justify-content: center;">
+                                                @if($izin->status_waka === 'pending' || empty($izin->status_waka))
+                                                    <button type="button" class="btn-table-action btn-action-approve" onclick="openApproveModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')" title="Setujui Izin">
+                                                        <i class="fa-solid fa-check"></i>
+                                                    </button>
+                                                    <button type="button" class="btn-table-action btn-action-reject" onclick="openRejectModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')" title="Tolak Izin">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                @endif
+                                                <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})" title="Lihat Detail Lengkap">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                                </button>
+                                                @if($izin->token_approval)
+                                                    <button type="button" class="btn-table-action btn-action-link" onclick="copyApprovalLink('{{ route('approval.guru-izin.show', $izin->token_approval) }}')" title="Salin Link Approval">
+                                                        <i class="fa-solid fa-link"></i>
+                                                    </button>
+                                                @endif
+                                                <form action="{{ route('waka-kurikulum.izin.destroy', $izin->id_guru_izin) }}" method="POST" style="display:inline;" onsubmit="return confirm('Pindahkan permohonan izin ini ke kotak sampah?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-table-action btn-action-delete" title="Hapus ke Kotak Sampah">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @foreach($semuaIzinList as $izin)
+                        @php
+                            $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                            $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM';
+                            $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
+                            $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                            $isCuti = strtolower($izin->kategori_izin ?? '') === 'cuti' || str_contains(strtolower($izin->kategori_izin ?? ''), 'cuti');
+                        @endphp
+                        <div class="m-izin-card">
+                            <div class="m-card-top">
+                                <div class="m-teacher-info-box">
+                                    <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="row-check-item all-check-item" onchange="updateSelectedCount()" style="width: 17px; height: 17px; accent-color: #2563eb; margin-top: 2px; flex-shrink: 0; cursor: pointer;">
+                                    <div class="avatar-circle">
+                                        {{ strtoupper(substr($namaGuru, 0, 1)) }}
+                                    </div>
+                                    <div style="min-width: 0; flex: 1;">
+                                        <div class="m-teacher-name">{{ $namaGuru }}</div>
+                                        <div class="m-teacher-meta">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                        <div class="m-teacher-mapel">{{ $mapelGuru }}</div>
+                                    </div>
+                                </div>
+                                <span class="badge-status {{ $isCuti ? 'badge-cuti' : 'badge-biasa' }}">
+                                    {{ $isCuti ? 'Cuti' : 'Izin' }}
+                                </span>
+                            </div>
+
+                            <div class="m-card-body-section">
+                                <div class="m-detail-row">
+                                    <span class="m-detail-label"><i class="fa-solid fa-calendar-day" style="color: #64748b; margin-right: 4px;"></i> Tanggal</span>
+                                    <span class="m-detail-val" style="color: #2563eb;">
+                                        {{ $tglMulai }} {{ $tglSelesai !== $tglMulai ? 's/d ' . $tglSelesai : '' }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div class="m-detail-label" style="margin-top: 2px;">Alasan:</div>
+                                    <div class="m-alasan-box">{{ $izin->alasan ?? '-' }}</div>
+                                </div>
+
+                                <div style="margin-top: 4px;">
+                                    <div class="m-detail-label">Status Persetujuan Berjenjang:</div>
+                                    <div class="m-approval-grid">
+                                        <div class="m-approval-stage">
+                                            <span class="m-approval-stage-title">Kurikulum</span>
+                                            @if($izin->status_waka === 'approved')
+                                                <span class="badge-status badge-approved" style="font-size: 9.5px;"><i class="fa-solid fa-check"></i> Setuju</span>
+                                            @elseif($izin->status_waka === 'rejected')
+                                                <span class="badge-status badge-rejected" style="font-size: 9.5px;"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                            @else
+                                                <span class="badge-status badge-pending" style="font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </div>
+                                        <div class="m-approval-stage">
+                                            <span class="m-approval-stage-title">SDM</span>
+                                            @if($izin->status_waka_sdm === 'approved')
+                                                <span class="badge-status badge-approved" style="font-size: 9.5px;"><i class="fa-solid fa-check"></i> Setuju</span>
+                                            @elseif($izin->status_waka_sdm === 'rejected')
+                                                <span class="badge-status badge-rejected" style="font-size: 9.5px;"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                            @else
+                                                <span class="badge-status badge-pending" style="font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </div>
+                                        <div class="m-approval-stage">
+                                            <span class="m-approval-stage-title">Kepsek</span>
+                                            @if($izin->status_kepsek === 'approved')
+                                                <span class="badge-status badge-approved" style="font-size: 9.5px;"><i class="fa-solid fa-check"></i> Setuju</span>
+                                            @elseif($izin->status_kepsek === 'rejected')
+                                                <span class="badge-status badge-rejected" style="font-size: 9.5px;"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                                            @else
+                                                <span class="badge-status badge-pending" style="font-size: 9.5px;"><i class="fa-solid fa-clock"></i> Pending</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-card-actions">
+                                @if($izin->status_waka === 'pending' || empty($izin->status_waka))
+                                    <button type="button" class="btn-table-action btn-action-approve" onclick="openApproveModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')">
+                                        <i class="fa-solid fa-check"></i> Setujui
+                                    </button>
+                                    <button type="button" class="btn-table-action btn-action-reject" onclick="openRejectModal({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')">
+                                        <i class="fa-solid fa-xmark"></i> Tolak
+                                    </button>
+                                @endif
+                                <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                                    <i class="fa-solid fa-circle-info"></i> Detail
+                                </button>
+                                @if($izin->token_approval)
+                                    <button type="button" class="btn-table-action btn-action-link" onclick="copyApprovalLink('{{ route('approval.guru-izin.show', $izin->token_approval) }}')" title="Salin Link Approval">
+                                        <i class="fa-solid fa-link"></i> Link
+                                    </button>
+                                @endif
+                                <form action="{{ route('waka-kurikulum.izin.destroy', $izin->id_guru_izin) }}" method="POST" style="display:inline; flex: 1 1 auto;" onsubmit="return confirm('Pindahkan permohonan izin ini ke kotak sampah?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-table-action btn-action-delete" style="width: 100%;" title="Hapus ke Kotak Sampah">
+                                        <i class="fa-solid fa-trash-can"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
 
                 <!-- Pagination Container -->
@@ -1649,11 +2510,11 @@
             <button type="button" class="modal-close-btn" onclick="closeModal('modalSurat')">&times;</button>
         </div>
         <div class="modal-body-custom" style="align-items: center; justify-content: center; background: #0f172a; padding: 16px;">
-            <img id="suratModalImg" src="" alt="Surat Izin Full" style="max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+            <img id="suratModalImg" src="" alt="Surat Izin Full" style="max-width: 100%; max-height: 60vh; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
         </div>
         <div class="modal-footer-custom" style="justify-content: space-between;">
             <div style="font-size: 12px; color: #64748b;" id="suratModalInfo">-</div>
-            <div style="display: flex; gap: 8px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                 <a id="suratModalDownload" href="#" target="_blank" class="btn-table-action btn-action-detail">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Ukuran Asli
                 </a>
@@ -1777,7 +2638,7 @@
         document.getElementById('modalSurat').classList.add('show');
     }
 
-    // Open Modal Detail AJAX (Menampilkan Profil, Alasan, Titipan Materi, Bukti Surat, Matriks 3 Tingkat, Jadwal Terdampak, & Guru Pengganti)
+    // Open Modal Detail AJAX
     function openDetailModal(id) {
         const modal = document.getElementById('modalDetail');
         const body = document.getElementById('modalDetailBody');
@@ -1810,28 +2671,51 @@
                     return `<span class="badge-status badge-pending"><i class="fa-solid fa-clock"></i> Menunggu</span>`;
                 };
 
-                let jadwalRows = '';
+                let jadwalDesktopRows = '';
+                let jadwalMobileCards = '';
                 if (d.jadwals_terdampak && d.jadwals_terdampak.length > 0) {
                     d.jadwals_terdampak.forEach(j => {
-                        jadwalRows += `
+                        jadwalDesktopRows += `
                             <tr>
-                                <td style="font-weight:700; color:#0f172a;">${j.hari}</td>
-                                <td>${j.jam_ke} <span style="font-size:11px; color:#64748b;">(${j.waktu})</span></td>
-                                <td style="font-weight:700; color:#2563eb;">${j.kelas}</td>
-                                <td style="font-weight:600; color:#334155;">${j.mapel}</td>
-                                <td><span style="background:#f1f5f9; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:600;">${j.ruangan}</span></td>
+                                <td style="font-weight:700; color:#0f172a; white-space:nowrap;">${j.hari}</td>
+                                <td style="white-space:nowrap;">${j.jam_ke} <div style="font-size:10.5px; color:#64748b;">(${j.waktu})</div></td>
+                                <td style="font-weight:700; color:#2563eb; white-space:nowrap;">${j.kelas}</td>
+                                <td style="font-weight:600; color:#334155; min-width:130px;">${j.mapel}</td>
+                                <td style="white-space:nowrap;"><span style="background:#f1f5f9; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:600;">${j.ruangan}</span></td>
                             </tr>
+                        `;
+                        jadwalMobileCards += `
+                            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box; width: 100%; box-shadow: 0 1px 3px rgba(15,23,42,0.03);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 6px;">
+                                    <div style="display: flex; align-items: center; gap: 6px; min-width: 0;">
+                                        <span style="font-weight: 800; color: #0f172a; font-size: 13px;">${j.hari}</span>
+                                        <span style="font-size: 11px; color: #64748b; font-weight: 600;">• ${j.jam_ke} <span style="color:#94a3b8;">(${j.waktu})</span></span>
+                                    </div>
+                                    <span style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 6px; flex-shrink: 0;">
+                                        ${j.kelas}
+                                    </span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px dashed #f1f5f9; padding-top: 6px;">
+                                    <div style="font-weight: 700; color: #1e293b; font-size: 12px; line-height: 1.3; min-width: 0; word-break: break-word;">
+                                        <i class="fa-solid fa-book-open" style="color: #64748b; font-size: 10.5px; margin-right: 4px;"></i>${j.mapel}
+                                    </div>
+                                    <span style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px; flex-shrink: 0;">
+                                        <i class="fa-solid fa-door-open" style="font-size: 9.5px; margin-right: 3px; color: #94a3b8;"></i>${j.ruangan}
+                                    </span>
+                                </div>
+                            </div>
                         `;
                     });
                 } else {
-                    jadwalRows = `<tr><td colspan="5" style="text-align:center; color:#94a3b8; font-style:italic; padding:12px;">Tidak ada jadwal mengajar tetap yang terdaftar untuk guru ini.</td></tr>`;
+                    jadwalDesktopRows = `<tr><td colspan="5" style="text-align:center; color:#94a3b8; font-style:italic; padding:12px;">Tidak ada jadwal mengajar tetap yang terdaftar untuk guru ini.</td></tr>`;
+                    jadwalMobileCards = `<div style="text-align: center; color: #94a3b8; font-style: italic; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; font-size: 12px;">Tidak ada jadwal mengajar tetap yang terdaftar untuk guru ini.</div>`;
                 }
 
                 let penggantiHtml = '';
                 if (d.penugasan_pengganti && d.penugasan_pengganti.length > 0) {
                     d.penugasan_pengganti.forEach(p => {
                         penggantiHtml += `
-                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px 14px; border-radius: 10px; margin-top: 6px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px 14px; border-radius: 10px; margin-top: 6px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                                 <div>
                                     <div style="font-weight:800; color:#166534; font-size:13px;">${p.guru_pengganti}</div>
                                     <div style="font-size:11px; color:#15803d; margin-top:2px;">NIP: ${p.nip_pengganti} • Tanggal Bertugas: <b>${p.tanggal}</b></div>
@@ -1858,7 +2742,7 @@
                                 <i class="fa-solid fa-image" style="color: #2563eb;"></i> Dokumen Surat Izin
                             </div>
                             <img src="${d.foto_surat_url}" alt="Foto Surat" onclick="openSuratModal('${d.nama_guru.replace(/'/g, "\\'")}', '${d.tanggal_mulai}', '${d.alasan.replace(/'/g, "\\'")}', '${d.foto_surat_url}')" onerror="this.onerror=null; this.parentNode.innerHTML='<div style=\\'color:#94a3b8; font-size:12px; padding:20px;\\'><i class=\\'fa-solid fa-file-excel\\'></i> Gambar tidak dapat dimuat</div>';">
-                            <div style="display: flex; gap: 6px; margin-top: 4px;">
+                            <div style="display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; justify-content: center;">
                                 <button type="button" class="btn-table-action btn-action-detail" onclick="openSuratModal('${d.nama_guru.replace(/'/g, "\\'")}', '${d.tanggal_mulai}', '${d.alasan.replace(/'/g, "\\'")}', '${d.foto_surat_url}')" style="font-size: 11px; padding: 5px 10px;">
                                     <i class="fa-solid fa-magnifying-glass-plus"></i> Perbesar
                                 </button>
@@ -1881,18 +2765,18 @@
                 body.innerHTML = `
                     <!-- 1. Hero Guru Profile -->
                     <div style="background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%); border: 1px solid #dbeafe; border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div class="avatar-circle" style="width: 46px; height: 46px; font-size: 17px; background: #2563eb; color: #ffffff; border-color: #1d4ed8;">
+                        <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+                            <div class="avatar-circle" style="width: 44px; height: 44px; font-size: 16px; background: #2563eb; color: #ffffff; border-color: #1d4ed8; flex-shrink: 0;">
                                 ${d.nama_guru.charAt(0).toUpperCase()}
                             </div>
-                            <div>
-                                <div style="font-weight: 800; color: #0f172a; font-size: 15px;">${d.nama_guru}</div>
-                                <div style="font-size: 12px; color: #64748b; margin-top: 1px;">
+                            <div style="min-width: 0;">
+                                <div style="font-weight: 800; color: #0f172a; font-size: 14.5px; word-break: break-word;">${d.nama_guru}</div>
+                                <div style="font-size: 11.5px; color: #64748b; margin-top: 1px;">
                                     NIP: <b>${d.nip}</b> • Mapel: <b style="color: #2563eb;">${d.mapel}</b>
                                 </div>
                             </div>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                             ${d.no_hp && d.no_hp !== '-' ? `
                                 <a href="https://wa.me/${d.no_hp.replace(/[^0-9]/g, '')}" target="_blank" class="btn-table-action" style="background: #2563eb; color: #ffffff; border: 1px solid #1d4ed8; padding: 6px 12px; font-size: 11.5px;">
                                     <i class="fa-brands fa-whatsapp"></i> Chat Guru (${d.no_hp})
@@ -1905,7 +2789,7 @@
                     </div>
 
                     <!-- 2. Grid Info: Data Izin & Materi Titipan (Kiri) + Bukti Surat (Kanan) -->
-                    <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
                         <!-- Kolom Kiri: Detail Izin & Titipan Materi -->
                         <div style="display: flex; flex-direction: column; gap: 10px;">
                             <div class="detail-info-grid" style="grid-template-columns: 1fr;">
@@ -1964,7 +2848,7 @@
                     <!-- 3. Status Persetujuan Berjenjang 3 Tingkat -->
                     <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px;">
                         <span class="detail-label" style="margin-bottom: 8px; display:block;">Status Persetujuan Berjenjang Resmi</span>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
                             <div style="background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0;">
                                 <div style="font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase;">1. Waka Kurikulum</div>
                                 <div style="margin-top: 4px;">${renderStatusBadge(d.status_waka)}</div>
@@ -1990,21 +2874,28 @@
                         <h4 style="font-size: 13px; font-weight: 800; color: #0f172a; margin: 0 0 8px 0; display:flex; align-items:center; gap:6px;">
                             <i class="fa-solid fa-calendar-week" style="color: #2563eb;"></i> Jadwal Pelajaran Guru yang Terdampak
                         </h4>
-                        <div class="table-responsive">
-                            <table class="custom-table" style="background: #ffffff;">
-                                <thead>
-                                    <tr>
-                                        <th>Hari</th>
-                                        <th>Sesi / Waktu</th>
-                                        <th>Kelas</th>
-                                        <th>Mata Pelajaran</th>
-                                        <th>Ruangan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${jadwalRows}
-                                </tbody>
-                            </table>
+                        <!-- Tampilan Desktop (Tabel) -->
+                        <div class="modal-jadwal-desktop">
+                            <div class="table-responsive">
+                                <table class="custom-table" style="background: #ffffff; width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 15%;">Hari</th>
+                                            <th style="width: 25%;">Sesi / Waktu</th>
+                                            <th style="width: 15%;">Kelas</th>
+                                            <th style="width: 30%;">Mata Pelajaran</th>
+                                            <th style="width: 15%;">Ruangan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${jadwalDesktopRows}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Tampilan Mobile (Card List Bebas Geser Samping) -->
+                        <div class="modal-jadwal-mobile">
+                            ${jadwalMobileCards}
                         </div>
                     </div>
 
@@ -2035,20 +2926,20 @@
                     </div>
                 `;
 
-                // Update Footer Modal: jika waka belum memutuskan, berikan tombol aksi langsung
+                // Update Footer Modal
                 if (d.status_waka === 'pending' || !d.status_waka) {
                     footer.innerHTML = `
-                        <button type="button" class="btn-table-action btn-action-approve" style="padding: 7px 14px; font-size: 12px;" onclick="closeModal('modalDetail'); openApproveModal(${d.id_guru_izin}, '${d.nama_guru.replace(/'/g, "\\'")}')">
-                            <i class="fa-solid fa-check"></i> Setujui Izin Ini
+                        <button type="button" class="btn-table-action btn-action-approve" style="padding: 8px 14px; font-size: 12px; flex: 1 1 auto;" onclick="closeModal('modalDetail'); openApproveModal(${d.id_guru_izin}, '${d.nama_guru.replace(/'/g, "\\'")}')">
+                            <i class="fa-solid fa-check"></i> Setujui
                         </button>
-                        <button type="button" class="btn-table-action btn-action-reject" style="padding: 7px 14px; font-size: 12px;" onclick="closeModal('modalDetail'); openRejectModal(${d.id_guru_izin}, '${d.nama_guru.replace(/'/g, "\\'")}')">
-                            <i class="fa-solid fa-xmark"></i> Tolak Izin Ini
+                        <button type="button" class="btn-table-action btn-action-reject" style="padding: 8px 14px; font-size: 12px; flex: 1 1 auto;" onclick="closeModal('modalDetail'); openRejectModal(${d.id_guru_izin}, '${d.nama_guru.replace(/'/g, "\\'")}')">
+                            <i class="fa-solid fa-xmark"></i> Tolak
                         </button>
-                        <button type="button" class="btn-filter-reset" onclick="closeModal('modalDetail')">Tutup</button>
+                        <button type="button" class="btn-filter-reset" style="padding: 8px 14px; font-size: 12px; flex: 1 1 auto;" onclick="closeModal('modalDetail')">Tutup</button>
                     `;
                 } else {
                     footer.innerHTML = `
-                        <button type="button" class="btn-filter-reset" onclick="closeModal('modalDetail')">Tutup</button>
+                        <button type="button" class="btn-filter-reset" style="padding: 8px 16px; font-size: 12px; width: 100%;" onclick="closeModal('modalDetail')">Tutup</button>
                     `;
                 }
             })

@@ -132,12 +132,6 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div style="background:#ecfdf5; border:1.5px solid #a7f3d0; color:#065f46; padding:14px 18px; border-radius:14px; font-size:13.5px; font-weight:700;">
-            <i class="fa-solid fa-circle-check" style="color:#10b981;"></i> {{ session('success') }}
-        </div>
-    @endif
-
     <div class="main-card">
         <div class="table-scroll-wrapper">
             <table class="siswa-table">

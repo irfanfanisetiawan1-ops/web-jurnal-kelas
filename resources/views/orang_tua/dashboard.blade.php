@@ -523,6 +523,439 @@
         border-color: #cbd5e1;
         box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
+    .schedule-left-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        min-width: 0;
+    }
+    .schedule-idx-box {
+        background: #384972;
+        color: #ffffff;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+    .schedule-mapel-info {
+        min-width: 0;
+    }
+    .schedule-mapel-name {
+        font-size: 15px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+    .schedule-mapel-sub {
+        font-size: 12.5px;
+        color: #64748b;
+        font-weight: 600;
+        margin-top: 2px;
+    }
+    .schedule-right-info {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-align: right;
+        flex-shrink: 0;
+    }
+    .schedule-time-jam {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+    .schedule-time-waktu {
+        font-size: 11.5px;
+        color: #64748b;
+        font-weight: 600;
+    }
+    .schedule-badge-done {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+        padding: 6px 12px;
+        border-radius: 10px;
+        font-size: 11.5px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+    .schedule-badge-planned {
+        background: #f1f5f9;
+        color: #475569;
+        border: 1px solid #cbd5e1;
+        padding: 6px 12px;
+        border-radius: 10px;
+        font-size: 11.5px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+    /* Desktop vs Mobile Laporan Kehadiran */
+    .desktop-lapor-table {
+        display: block;
+    }
+    .mobile-lapor-cards {
+        display: none;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .dashboard-wrapper {
+            gap: 16px;
+        }
+
+        .page-header > div:last-child {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 10px !important;
+        }
+
+        .page-title {
+            font-size: 20px;
+        }
+
+        .page-subtitle {
+            font-size: 12px;
+        }
+
+        .btn-ajukan-izin {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 12px;
+        }
+
+        .student-hero-card {
+            padding: 16px 14px;
+            gap: 14px;
+            border-radius: 16px;
+        }
+
+        .student-avatar-box {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+        }
+
+        .student-avatar-box i {
+            font-size: 30px !important;
+        }
+
+        .student-hero-card > div:last-child {
+            width: 100%;
+            min-width: 0 !important;
+        }
+
+        .student-name {
+            font-size: 18px;
+            word-break: break-word;
+        }
+
+        .student-meta {
+            font-size: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .badge-pill-group {
+            gap: 6px;
+        }
+
+        .badge-status-aktif, .badge-wali-kelas, .badge-jurusan {
+            font-size: 11px;
+            padding: 4px 10px;
+        }
+
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px;
+        }
+
+        .stat-card-item:last-child {
+            grid-column: 1 / -1;
+        }
+
+        .stat-card-item {
+            padding: 12px 10px;
+            border-radius: 14px;
+        }
+
+        .stat-card-item .card-label {
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .stat-card-item .card-number {
+            font-size: 24px;
+        }
+
+        .stat-card-item .card-unit {
+            font-size: 11.5px;
+        }
+
+        .middle-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px;
+        }
+
+        .custom-card {
+            padding: 16px 14px;
+            border-radius: 16px;
+        }
+
+        .card-section-title {
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .status-terkini-box {
+            gap: 12px;
+        }
+
+        .status-icon-circle {
+            width: 48px;
+            height: 48px;
+            font-size: 22px;
+            border-radius: 14px;
+        }
+
+        .status-info-title {
+            font-size: 17px;
+        }
+
+        .status-info-subtext {
+            font-size: 12px;
+        }
+
+        /* Jadwal KBM Mobile */
+        .schedule-item-card {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 14px;
+        }
+
+        .schedule-left-info {
+            gap: 10px;
+            width: 100%;
+        }
+
+        .schedule-idx-box {
+            width: 36px;
+            height: 36px;
+            font-size: 12px;
+            border-radius: 10px;
+        }
+
+        .schedule-mapel-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .schedule-mapel-name {
+            font-size: 13.5px;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .schedule-mapel-sub {
+            font-size: 11.5px;
+            margin-top: 3px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .schedule-right-info {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+            text-align: left;
+        }
+
+        .schedule-time-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .schedule-time-jam {
+            font-size: 12px;
+        }
+
+        .schedule-time-waktu {
+            font-size: 11px;
+        }
+
+        .schedule-badge-done, .schedule-badge-planned {
+            padding: 4px 10px;
+            font-size: 10.5px;
+        }
+
+        /* Laporan Kehadiran Mobile */
+        .laporan-header-flex {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 10px !important;
+        }
+
+        .laporan-filter-form {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+        }
+
+        .laporan-filter-form select {
+            flex: 1;
+            min-width: 0 !important;
+            font-size: 12px;
+            padding: 8px 10px;
+        }
+
+        .desktop-lapor-table {
+            display: none !important;
+        }
+
+        .mobile-lapor-cards {
+            display: flex !important;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mobile-lapor-card-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mlc-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mlc-date-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mlc-date-val {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .mlc-day-val {
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .mlc-keterangan-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: 12px;
+            color: #475569;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px 10px;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        .mlc-empty-state {
+            text-align: center;
+            padding: 24px 16px;
+            color: #64748b;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .mlc-empty-state i {
+            font-size: 28px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .mlc-empty-state p {
+            margin: 0;
+            font-size: 12.5px;
+            font-weight: 600;
+        }
+
+        /* Chart Mobile */
+        .chart-bars-wrapper {
+            padding: 0 6px !important;
+        }
+
+        .chart-bar-col {
+            width: 60px !important;
+        }
+
+        .chart-bar-col > div:first-child {
+            font-size: 10.5px !important;
+        }
+
+        .chart-labels-row > div {
+            width: 60px !important;
+            font-size: 11px !important;
+        }
+
+        /* Modal Responsive */
+        .modal-card {
+            max-width: 100%;
+            border-radius: 18px;
+            margin: 10px;
+        }
+
+        .modal-header {
+            padding: 14px 16px;
+        }
+
+        .modal-header h3 {
+            font-size: 15px;
+        }
+
+        .modal-body {
+            padding: 16px;
+        }
+
+        .modal-footer {
+            padding: 12px 16px;
+        }
+
+        .modal-footer button {
+            flex: 1;
+            justify-content: center;
+        }
+    }
 </style>
 @endsection
 
@@ -736,42 +1169,44 @@
                         $jurnalItem = $jdw->jurnal_today ?? null;
                     @endphp
                     <div class="schedule-item-card" style="cursor: pointer;" onclick="openModalDetailKbm('{{ addslashes($jdw->mapel->nama_mapel ?? 'Mata Pelajaran') }}', '{{ addslashes($jdw->guru->nama_guru ?? 'Guru Mapel') }}', '{{ $jamMulai }} - {{ $jamSelesai }} ({{ $waktuDisplay }} WIB)', '{{ addslashes($jdw->ruangan->nama_ruangan ?? 'Ruang Kelas') }}', '{{ addslashes($jurnalItem->materi ?? 'Belum ada materi pembelajaran yang diinput oleh guru.') }}', '{{ $hasJurnal ? 'KBM Terlaksana' : 'Terjadwal' }}', '{{ addslashes($jurnalItem->catatan ?? '-') }}', '{{ $jurnalItem->dokumentasi_url ?? '' }}')" title="Klik untuk melihat detail pembelajaran">
-                        <div style="display: flex; align-items: center; gap: 16px;">
-                            <div style="background: #384972; color: #ffffff; width: 44px; height: 44px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0;">
+                        <div class="schedule-left-info">
+                            <div class="schedule-idx-box">
                                 <span>{{ $idx + 1 }}</span>
                             </div>
 
-                            <div>
-                                <div style="font-size: 15px; font-weight: 800; color: #0f172a;">
+                            <div class="schedule-mapel-info">
+                                <div class="schedule-mapel-name">
                                     {{ $jdw->mapel->nama_mapel ?? 'Mata Pelajaran' }}
                                 </div>
-                                <div style="font-size: 12.5px; color: #64748b; font-weight: 600; margin-top: 2px;">
-                                    <i class="fa-solid fa-chalkboard-user" style="font-size: 11px; margin-right: 4px;"></i> {{ $jdw->guru->nama_guru ?? 'Guru Mapel' }}
-                                    &nbsp;•&nbsp;
-                                    <i class="fa-solid fa-door-open" style="font-size: 11px; margin-right: 4px;"></i> {{ $jdw->ruangan->nama_ruangan ?? 'Ruang Kelas' }}
+                                <div class="schedule-mapel-sub">
+                                    <span><i class="fa-solid fa-chalkboard-user" style="font-size: 11px; margin-right: 4px;"></i> {{ $jdw->guru->nama_guru ?? 'Guru Mapel' }}</span>
+                                    <span style="opacity: 0.5;">•</span>
+                                    <span><i class="fa-solid fa-door-open" style="font-size: 11px; margin-right: 4px;"></i> {{ $jdw->ruangan->nama_ruangan ?? 'Ruang Kelas' }}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div style="display: flex; align-items: center; gap: 16px; text-align: right;">
-                            <div>
-                                <div style="font-size: 13px; font-weight: 700; color: #1e293b;">
+                        <div class="schedule-right-info">
+                            <div class="schedule-time-box">
+                                <div class="schedule-time-jam">
                                     {{ $jamMulai }} - {{ $jamSelesai }}
                                 </div>
-                                <div style="font-size: 11.5px; color: #64748b; font-weight: 600;">
+                                <div class="schedule-time-waktu">
                                     {{ $waktuDisplay }} WIB
                                 </div>
                             </div>
 
-                            @if($hasJurnal)
-                                <span style="background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; padding: 6px 12px; border-radius: 10px; font-size: 11.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px;">
-                                    <i class="fa-solid fa-circle-check"></i> KBM Terlaksana
-                                </span>
-                            @else
-                                <span style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 10px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-                                    <i class="fa-regular fa-clock"></i> Terjadwal
-                                </span>
-                            @endif
+                            <div class="schedule-status-box">
+                                @if($hasJurnal)
+                                    <span class="schedule-badge-done">
+                                        <i class="fa-solid fa-circle-check"></i> KBM Terlaksana
+                                    </span>
+                                @else
+                                    <span class="schedule-badge-planned">
+                                        <i class="fa-regular fa-clock"></i> Terjadwal
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -786,7 +1221,7 @@
 
     <!-- 5. Laporan Kehadiran (Image 1 Referensi) -->
     <div class="custom-card">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+        <div class="laporan-header-flex" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
             <div>
                 <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">
                     Laporan Kehadiran
@@ -797,7 +1232,7 @@
             </div>
 
             <!-- Filter Bulan / Tahun -->
-            <form method="GET" action="{{ route('orang-tua.dashboard') }}" style="display: flex; align-items: center; gap: 8px;">
+            <form method="GET" action="{{ route('orang-tua.dashboard') }}" class="laporan-filter-form" style="display: flex; align-items: center; gap: 8px;">
                 <select name="bulan" class="form-select" style="min-width: 145px; padding: 7px 14px; font-size: 13px; font-weight: 700;" onchange="this.form.submit()">
                     @for($m = 1; $m <= 12; $m++)
                         <option value="{{ $m }}" {{ $filterBulan == $m ? 'selected' : '' }}>
@@ -812,7 +1247,8 @@
             </form>
         </div>
 
-        <div class="table-container">
+        <!-- Desktop View Table -->
+        <div class="table-container desktop-lapor-table">
             <table class="custom-table">
                 <thead>
                     <tr>
@@ -857,6 +1293,42 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Mobile View Zero-Horizontal-Scroll Cards -->
+        <div class="mobile-lapor-cards">
+            @forelse($laporanKehadiranHarian as $item)
+                @php
+                    $pillClass = 'pill-hadir';
+                    $statusLower = strtolower($item['status']);
+                    if (str_contains($statusLower, 'sakit')) $pillClass = 'pill-sakit';
+                    elseif (str_contains($statusLower, 'izin')) $pillClass = 'pill-izin';
+                    elseif (str_contains($statusLower, 'alpa') || str_contains($statusLower, 'alpha')) $pillClass = 'pill-alpa';
+                    elseif (str_contains($statusLower, 'dispen')) $pillClass = 'pill-dispen';
+                @endphp
+                <div class="mobile-lapor-card-item">
+                    <div class="mlc-top-row">
+                        <div class="mlc-date-info">
+                            <span class="mlc-date-val">{{ $item['tanggal'] }}</span>
+                            <span class="mlc-day-val">{{ $item['hari'] }}</span>
+                        </div>
+                        <span class="status-badge-pill {{ $pillClass }}">
+                            {{ $item['status'] }}
+                        </span>
+                    </div>
+                    @if(!empty($item['keterangan']))
+                        <div class="mlc-keterangan-row">
+                            <i class="fa-solid fa-note-sticky" style="color: #64748b; font-size: 12px; margin-top: 2px;"></i>
+                            <span>{{ $item['keterangan'] }}</span>
+                        </div>
+                    @endif
+                </div>
+            @empty
+                <div class="mlc-empty-state">
+                    <i class="fa-solid fa-calendar-xmark"></i>
+                    <p>Belum ada catatan laporan kehadiran untuk periode ini.</p>
+                </div>
+            @endforelse
+        </div>
     </div>
 
     <!-- 6. Bottom Full-Width Card: Ringkasan Kehadiran Bulan Ini (Grafik Batang) -->
@@ -871,35 +1343,35 @@
         </div>
 
         <!-- Bar Chart Visualization -->
-        <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 190px; padding: 0 20px; border-bottom: 2px solid #e2e8f0; position: relative;">
+        <div class="chart-bars-wrapper" style="display: flex; align-items: flex-end; justify-content: space-around; height: 190px; padding: 0 20px; border-bottom: 2px solid #e2e8f0; position: relative;">
             
             <!-- Hadir Bar -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; height: 100%; justify-content: flex-end;">
+            <div class="chart-bar-col" style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; height: 100%; justify-content: flex-end;">
                 <div style="font-size: 12px; font-weight: 800; color: #384972;">{{ $rekapBulan['hadir'] }} ({{ $rekapBulan['persen_hadir'] }}%)</div>
                 <div style="width: 100%; max-width: 64px; height: {{ max(16, $rekapBulan['persen_hadir']) }}%; background: #384972; border-radius: 10px 10px 0 0; transition: height 0.5s ease; box-shadow: 0 4px 10px rgba(56, 73, 114, 0.2);"></div>
             </div>
 
             <!-- Sakit Bar -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; height: 100%; justify-content: flex-end;">
+            <div class="chart-bar-col" style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; height: 100%; justify-content: flex-end;">
                 <div style="font-size: 12px; font-weight: 800; color: #d97706;">{{ $rekapBulan['sakit'] }}</div>
                 <div style="width: 100%; max-width: 64px; height: {{ max(8, $rekapBulan['persen_sakit'] > 0 ? $rekapBulan['persen_sakit'] : ($rekapBulan['sakit'] > 0 ? 15 : 4)) }}%; background: #f59e0b; border-radius: 10px 10px 0 0; transition: height 0.5s ease;"></div>
             </div>
 
             <!-- Izin Bar -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; height: 100%; justify-content: flex-end;">
+            <div class="chart-bar-col" style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; height: 100%; justify-content: flex-end;">
                 <div style="font-size: 12px; font-weight: 800; color: #166534;">{{ $rekapBulan['izin'] }}</div>
                 <div style="width: 100%; max-width: 64px; height: {{ max(8, $rekapBulan['persen_izin'] > 0 ? $rekapBulan['persen_izin'] : ($rekapBulan['izin'] > 0 ? 15 : 4)) }}%; background: #86efac; border-radius: 10px 10px 0 0; transition: height 0.5s ease;"></div>
             </div>
 
             <!-- Alfa Bar -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; height: 100%; justify-content: flex-end;">
+            <div class="chart-bar-col" style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; height: 100%; justify-content: flex-end;">
                 <div style="font-size: 12px; font-weight: 800; color: #dc2626;">{{ $rekapBulan['alfa'] }}</div>
                 <div style="width: 100%; max-width: 64px; height: {{ max(8, $rekapBulan['persen_alfa'] > 0 ? $rekapBulan['persen_alfa'] : ($rekapBulan['alfa'] > 0 ? 15 : 4)) }}%; background: #fca5a5; border-radius: 10px 10px 0 0; transition: height 0.5s ease;"></div>
             </div>
         </div>
 
         <!-- Chart Labels -->
-        <div style="display: flex; justify-content: space-around; margin-top: 14px; text-align: center;">
+        <div class="chart-labels-row" style="display: flex; justify-content: space-around; margin-top: 14px; text-align: center;">
             <div style="width: 80px; font-size: 13px; font-weight: 800; color: #384972;">HADIR</div>
             <div style="width: 80px; font-size: 13px; font-weight: 800; color: #d97706;">SAKIT</div>
             <div style="width: 80px; font-size: 13px; font-weight: 800; color: #166534;">IZIN</div>

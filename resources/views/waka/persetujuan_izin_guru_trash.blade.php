@@ -34,17 +34,6 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div style="background: #d1fae5; color: #065f46; padding: 12px 16px; border-radius: 10px; font-weight: 700; margin-bottom: 20px; border: 1px solid #a7f3d0;">
-            <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div style="background: #fee2e2; color: #991b1b; padding: 12px 16px; border-radius: 10px; font-weight: 700; margin-bottom: 20px; border: 1px solid #fca5a5;">
-            <i class="fa-solid fa-triangle-exclamation"></i> {{ session('error') }}
-        </div>
-    @endif
-
     <div class="card-panel">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <div style="display: flex; gap: 8px;">

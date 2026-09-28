@@ -487,24 +487,313 @@
         color: #1e293b;
     }
 
+    /* Mobile Rekap Base (Hidden on Desktop) */
+    .mobile-rekap-wrapper {
+        display: none;
+    }
+
+    /* Responsive Breakpoints */
     @media (max-width: 1024px) {
         .stat-cards-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
         .filter-form-grid {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 2fr repeat(2, 1fr);
         }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
+        .rekap-container {
+            gap: 14px;
+        }
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .page-main-title {
+            font-size: 20px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-sub-title {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
+        .header-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .header-actions .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 8px 10px !important;
+            font-size: 12px !important;
+        }
+
+        /* 4 Stat Cards in 2x2 Grid */
         .stat-cards-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
         }
+
+        .stat-card-item {
+            padding: 12px 12px !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .stat-title {
+            font-size: 11px !important;
+        }
+
+        .stat-count {
+            font-size: 18px !important;
+        }
+
+        /* Filter Panel */
+        .filter-panel {
+            padding: 12px 14px !important;
+            border-radius: 14px !important;
+        }
+
         .filter-form-grid {
-            grid-template-columns: 1fr;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
         }
+
+        .search-input-wrapper {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+        }
+
+        .filter-input {
+            padding: 8px 12px 8px 34px !important;
+            font-size: 12.5px !important;
+            height: 38px !important;
+        }
+
+        .filter-select {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+            padding: 7px 8px !important;
+            height: 38px !important;
+        }
+
+        .btn-filter-submit {
+            grid-column: 1 / 2 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12.5px !important;
+            padding: 0 12px !important;
+        }
+
+        .btn-filter-reset {
+            grid-column: 2 / 3 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12.5px !important;
+            padding: 0 12px !important;
+        }
+
+        /* Switch Desktop Table to Mobile Cards */
+        .desktop-rekap-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-rekap-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+        }
+
+        .mobile-rekap-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: border-color 0.2s ease;
+        }
+
+        .mobile-rekap-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .mobile-rekap-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+        }
+
+        .mobile-rekap-header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .mobile-rekap-index {
+            font-weight: 800;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .mobile-rekap-body {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .mobile-mapel-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.25;
+        }
+
+        .mobile-guru-info {
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .mobile-materi-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid #3b82f6;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: #334155;
+            line-height: 1.4;
+        }
+
+        .mobile-rekap-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .mobile-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mobile-meta-lbl {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mobile-meta-val {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .mobile-btn-detail {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+            border-radius: 9px;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .mobile-btn-detail:hover {
+            background: #dbeafe;
+        }
+
+        /* Modal Mobile Optimization */
+        .modal-overlay {
+            padding: 12px !important;
+        }
+
+        .modal-box {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            border-radius: 16px !important;
+            margin: 0 !important;
+        }
+
+        .modal-header {
+            padding: 14px 16px !important;
+        }
+
+        .modal-header h3 {
+            font-size: 15px !important;
+        }
+
+        .modal-body {
+            padding: 14px 16px !important;
+        }
+
         .modal-detail-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+            margin-bottom: 12px !important;
+        }
+
+        .detail-item-box {
+            padding: 9px 12px !important;
+        }
+
+        .modal-footer {
+            padding: 12px 16px !important;
+        }
+
+        .modal-footer .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
         }
     }
 </style>
@@ -634,7 +923,8 @@
             </div>
         </div>
 
-        <div class="table-scroll-wrapper">
+        <!-- Desktop View Table -->
+        <div class="desktop-rekap-table-wrapper table-scroll-wrapper">
             <table class="rekap-table">
                 <thead>
                     <tr>
@@ -745,6 +1035,101 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile View Cards -->
+        <div class="mobile-rekap-wrapper">
+            @forelse($jurnalList as $index => $j)
+                @php
+                    $guruName = $j->guru->nama_guru ?? '-';
+                    $guruInval = $j->guruPengganti ? $j->guruPengganti->nama_guru : null;
+                    $absenCount = $j->detailKetidakhadiran->count();
+                    $k = strtolower($j->kondisi_kelas ?? '');
+                    $kClass = 'kondisi-kondusif';
+                    if(str_contains($k, 'kurang')) $kClass = 'kondisi-kurang';
+                    elseif(str_contains($k, 'tidak')) $kClass = 'kondisi-tidak';
+                    elseif(str_contains($k, 'cukup')) $kClass = 'kondisi-cukup';
+                @endphp
+                <div class="mobile-rekap-card">
+                    <!-- Top header: Index + Kelas & Ruang + Kondisi -->
+                    <div class="mobile-rekap-header">
+                        <div class="mobile-rekap-header-left">
+                            <span class="mobile-rekap-index">#{{ $jurnalList->firstItem() + $index }}</span>
+                            <span class="class-chip">
+                                <i class="fa-solid fa-graduation-cap"></i> {{ $j->kelas->nama_kelas ?? '-' }}
+                            </span>
+                            <span class="room-badge">
+                                <i class="fa-solid fa-door-open"></i> {{ $j->jadwal->ruangan->nama_ruangan ?? ($j->kelas->nama_kelas ?? 'R. Kelas') }}
+                            </span>
+                        </div>
+                        <span class="badge-kondisi {{ $kClass }}">
+                            {{ $j->kondisi_kelas ?? 'Kondusif' }}
+                        </span>
+                    </div>
+
+                    <!-- Mata Pelajaran & Pertemuan -->
+                    <div class="mobile-rekap-body">
+                        <div class="mobile-mapel-title">{{ $j->mapel->nama_mapel ?? '-' }}</div>
+                        <div class="mobile-guru-info">
+                            <span><i class="fa-solid fa-chalkboard-user" style="color: #64748b;"></i> {{ $guruName }}</span>
+                            <span>•</span>
+                            <span style="color: #64748b; font-weight: 600;">Pertemuan Ke-{{ $j->pertemuan_ke ?? '-' }}</span>
+                            @if($guruInval)
+                                <div style="width: 100%; font-size: 11px; color: #7c3aed; font-weight: 700; margin-top: 2px;">
+                                    <i class="fa-solid fa-user-tag"></i> Inval: {{ $guruInval }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Materi Pembelajaran -->
+                        <div class="mobile-materi-box">
+                            <div style="font-size: 10.5px; font-weight: 800; color: #64748b; margin-bottom: 2px; text-transform: uppercase;">
+                                Materi:
+                            </div>
+                            <div>{{ $j->materi ?: '-' }}</div>
+                        </div>
+
+                        <!-- Meta Grid: Tanggal, Waktu, Presensi -->
+                        <div class="mobile-rekap-meta-grid">
+                            <div class="mobile-meta-item">
+                                <span class="mobile-meta-lbl"><i class="fa-regular fa-calendar"></i> Tanggal KBM</span>
+                                <span class="mobile-meta-val">
+                                    {{ $j->tanggal ? \Carbon\Carbon::parse($j->tanggal)->translatedFormat('d M Y') : '-' }}
+                                </span>
+                            </div>
+                            <div class="mobile-meta-item">
+                                <span class="mobile-meta-lbl"><i class="fa-regular fa-clock"></i> Jam Pelajaran</span>
+                                <span class="mobile-meta-val" style="color: #d97706;">
+                                    Jam ke-{{ $j->jadwal->jam_mulai_ke ?? '-' }} - {{ $j->jadwal->jam_selesai_ke ?? '-' }}
+                                </span>
+                            </div>
+                            <div class="mobile-meta-item" style="grid-column: 1 / -1; display: flex; flex-direction: row; justify-content: space-between; align-items: center; padding-top: 4px; border-top: 1px dashed #e2e8f0;">
+                                <span class="mobile-meta-lbl"><i class="fa-solid fa-clipboard-user"></i> Presensi Siswa:</span>
+                                @if($absenCount > 0)
+                                    <span class="badge-absen badge-absen-ada" title="Terdapat {{ $absenCount }} siswa tidak hadir">
+                                        <i class="fa-solid fa-user-xmark"></i> {{ $absenCount }} Siswa Absen
+                                    </span>
+                                @else
+                                    <span class="badge-absen badge-absen-nihil">
+                                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Nihil Absen (Hadir Semua)
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button type="button" class="mobile-btn-detail" onclick="showDetailJurnal({{ $j->id_jurnal }})">
+                        <i class="fa-solid fa-eye"></i> Rincian Jurnal &amp; Presensi
+                    </button>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 32px 16px; color: #94a3b8; background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <i class="fa-solid fa-book-open" style="font-size: 28px; margin-bottom: 8px; display: block; color: #cbd5e1;"></i>
+                    <div style="font-weight: 700; color: #475569; font-size: 13.5px;">Tidak ada data jurnal mengajar ditemukan</div>
+                    <div style="font-size: 12px; margin-top: 4px;">Coba ubah kata kunci pencarian atau sesuaikan filter periode.</div>
+                </div>
+            @endforelse
         </div>
 
         <div style="padding: 16px 20px; border-top: 1px solid #e2e8f0; background: #ffffff;">
@@ -892,6 +1277,12 @@
     window.addEventListener('click', function(e) {
         if (e.target.classList.contains('modal-overlay')) {
             e.target.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeDetailJurnalModal();
         }
     });
 </script>

@@ -158,6 +158,223 @@
         color: #991b1b;
         border: 1px solid #fecaca;
     }
+
+    /* ========================================================
+       MOBILE RESPONSIVE STYLES (KHUSUS MOBILE HP <= 768px)
+       Tampilan Desktop/Laptop Tetap 100% Sesuai & Tidak Terganggu
+       ======================================================== */
+    .mobile-label-text,
+    .badge-kelas-mobile {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            margin-bottom: 14px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 25px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+
+        .breadcrumb-text {
+            font-size: 12.5px !important;
+            flex-wrap: wrap !important;
+            line-height: 1.4 !important;
+            gap: 4px 6px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .card-top-header {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 14px !important;
+        }
+
+        .card-top-header h2 {
+            font-size: 17px !important;
+            line-height: 1.3 !important;
+        }
+
+        .btn-back-main {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 11px 16px !important;
+            box-sizing: border-box !important;
+        }
+
+        .table-responsive {
+            overflow-x: visible !important;
+            border: none !important;
+        }
+
+        .table-custom {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .table-custom thead {
+            display: none !important;
+        }
+
+        .table-custom tbody {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        tr.trash-row-card {
+            display: grid !important;
+            grid-template-columns: auto 1fr auto !important;
+            gap: 8px 10px !important;
+            padding: 14px 16px !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03) !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        tr.trash-row-card td {
+            padding: 0 !important;
+            border: none !important;
+        }
+
+        .col-no {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+            align-self: center !important;
+        }
+
+        .badge-no-trash {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            color: #64748b !important;
+            background: #f1f5f9 !important;
+            padding: 3px 8px !important;
+            border-radius: 8px !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        .col-hari-jam {
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+            align-self: center !important;
+        }
+
+        .col-kelas {
+            grid-column: 3 !important;
+            grid-row: 1 !important;
+            justify-self: end !important;
+            align-self: center !important;
+        }
+
+        .badge-kelas-mobile {
+            display: inline-flex !important;
+            align-items: center !important;
+            padding: 4px 10px !important;
+            background: #eff6ff !important;
+            color: #1d4ed8 !important;
+            border: 1px solid #bfdbfe !important;
+            border-radius: 10px !important;
+            font-size: 12px !important;
+            font-weight: 800 !important;
+        }
+
+        .desktop-only-kelas {
+            display: none !important;
+        }
+
+        .col-mapel {
+            grid-column: 1 / -1 !important;
+            grid-row: 2 !important;
+            font-size: 13px !important;
+        }
+
+        .col-guru {
+            grid-column: 1 / -1 !important;
+            grid-row: 3 !important;
+            font-size: 13px !important;
+        }
+
+        .col-ruangan {
+            grid-column: 1 / -1 !important;
+            grid-row: 4 !important;
+            font-size: 13px !important;
+        }
+
+        .col-waktu {
+            grid-column: 1 / -1 !important;
+            grid-row: 5 !important;
+            background: #fff1f2 !important;
+            padding: 6px 10px !important;
+            border-radius: 8px !important;
+            font-size: 12px !important;
+            color: #be123c !important;
+        }
+
+        .col-aksi {
+            grid-column: 1 / -1 !important;
+            grid-row: 6 !important;
+            border-top: 1px dashed #e2e8f0 !important;
+            padding-top: 10px !important;
+            margin-top: 2px !important;
+        }
+
+        .col-aksi > div {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .col-aksi form {
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .col-aksi .btn-act {
+            width: 100% !important;
+            height: 38px !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            font-size: 12.5px !important;
+            border-radius: 10px !important;
+        }
+
+        .mobile-label-text {
+            display: inline-block !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.3px !important;
+            margin-right: 4px !important;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .col-aksi > div {
+            grid-template-columns: 1fr !important;
+        }
+    }
 </style>
 @endsection
 
@@ -176,26 +393,6 @@
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
         <span>Tempat Sampah Jadwal</span>
     </div>
-
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert-custom alert-danger">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-triangle-exclamation" style="font-size:18px;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
 
     <div class="card">
         <div class="card-top-header">
@@ -224,26 +421,41 @@
                 </thead>
                 <tbody>
                     @forelse($jadwals as $index => $item)
-                        <tr>
-                            <td style="font-weight:700; color:#64748b;">{{ $index + 1 }}</td>
-                            <td>
+                        <tr class="trash-row-card">
+                            <td class="col-no" style="font-weight:700; color:#64748b;">
+                                <span class="badge-no-trash">{{ $index + 1 }}</span>
+                            </td>
+                            <td class="col-hari-jam">
                                 <strong style="color:#0f172a;">{{ $item->hari }}</strong><br>
                                 <small style="color:#3b5490; font-weight:700;">Jam ke-{{ $item->jam_range }} ({{ $item->waktu_range }})</small>
                             </td>
-                            <td><strong style="color:#0f172a;">{{ $item->kelas->nama_kelas ?? '-' }}</strong></td>
-                            <td>{{ $item->mapel->nama_mapel ?? '-' }}</td>
-                            <td>
+                            <td class="col-kelas">
+                                <span class="badge-kelas-mobile">{{ $item->kelas->nama_kelas ?? '-' }}</span>
+                                <strong class="desktop-only-kelas" style="color:#0f172a;">{{ $item->kelas->nama_kelas ?? '-' }}</strong>
+                            </td>
+                            <td class="col-mapel">
+                                <span class="mobile-label-text">Mapel:</span>
+                                <span>{{ $item->mapel->nama_mapel ?? '-' }}</span>
+                            </td>
+                            <td class="col-guru">
+                                <span class="mobile-label-text">Guru:</span>
                                 <strong>{{ $item->guru->nama_guru ?? '-' }}</strong><br>
                                 <small style="color:#64748b;">NIP: {{ $item->guru->nip ?? '-' }}</small>
                             </td>
-                            <td>{{ $item->ruangan->nama_ruangan ?? '-' }}</td>
-                            <td>{{ $item->deleted_at ? \Carbon\Carbon::parse($item->deleted_at)->format('d/m/Y H:i') : '-' }}</td>
-                            <td style="text-align:center;">
+                            <td class="col-ruangan">
+                                <span class="mobile-label-text">Ruangan:</span>
+                                <span>{{ $item->ruangan->nama_ruangan ?? '-' }}</span>
+                            </td>
+                            <td class="col-waktu">
+                                <span class="mobile-label-text">Dihapus:</span>
+                                <span>{{ $item->deleted_at ? \Carbon\Carbon::parse($item->deleted_at)->format('d/m/Y H:i') : '-' }}</span>
+                            </td>
+                            <td class="col-aksi" style="text-align:center;">
                                 <div style="display:inline-flex; gap:6px;">
                                     <form action="{{ route('jadwal.restore', $item->id_jadwal) }}" method="POST" style="display:inline-block;" id="restoreForm-{{ $item->id_jadwal }}">
                                         @csrf
                                         <button type="button" class="btn-act btn-restore" onclick="confirmRestore('restoreForm-{{ $item->id_jadwal }}', '{{ addslashes(($item->kelas->nama_kelas ?? 'Kelas') . ' - ' . ($item->mapel->nama_mapel ?? 'Mapel') . ' (' . $item->hari . ')') }}')" title="Pulihkan Jadwal">
-                                            <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                                            <i class="fa-solid fa-rotate-left"></i> <span>Pulihkan</span>
                                         </button>
                                     </form>
 
@@ -251,7 +463,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn-act btn-force-delete" onclick="confirmForceDelete('forceDeleteForm-{{ $item->id_jadwal }}', '{{ addslashes(($item->kelas->nama_kelas ?? 'Kelas') . ' - ' . ($item->mapel->nama_mapel ?? 'Mapel') . ' (' . $item->hari . ')') }}')" title="Hapus Permanen">
-                                            <i class="fa-solid fa-skull"></i> Hapus Permanen
+                                            <i class="fa-solid fa-skull"></i> <span>Hapus Permanen</span>
                                         </button>
                                     </form>
                                 </div>

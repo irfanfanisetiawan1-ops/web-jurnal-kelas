@@ -249,7 +249,7 @@
         box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
     }
 
-    /* Bar Tooltip on Hover */
+    /* Bar Tooltip on Hover / Focus */
     .bar-tooltip {
         position: absolute;
         top: -42px;
@@ -283,7 +283,9 @@
         width: 0;
     }
 
-    .bar-column-group:hover .bar-tooltip {
+    .bar-column-group:hover .bar-tooltip,
+    .bar-column-group:active .bar-tooltip,
+    .bar-column-group:focus .bar-tooltip {
         opacity: 1;
         transform: translateY(0);
     }
@@ -696,37 +698,766 @@
         flex-shrink: 0;
     }
 
+    /* Mobile Izin Cards Layout (Desktop: Hidden) */
+    .mobile-izin-cards-list {
+        display: none;
+    }
+
+    .mobile-izin-card-item {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        text-decoration: none;
+        color: inherit;
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .mobile-izin-card-item:hover,
+    .mobile-izin-card-item:active {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        transform: translateY(-1px);
+    }
+
+    .m-izin-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .m-izin-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .m-izin-name {
+        font-size: 13px;
+        font-weight: 800;
+        color: #0f172a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .m-izin-date {
+        font-size: 11px;
+        font-weight: 700;
+        color: #475569;
+        white-space: nowrap;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        padding: 3px 7px;
+        border-radius: 6px;
+    }
+
+    .m-izin-body-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #475569;
+        width: 100%;
+    }
+
+    .m-izin-kelas {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        padding: 2px 7px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 11px;
+        color: #1e293b;
+        flex-shrink: 0;
+    }
+
+    .m-izin-alasan {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        color: #334155;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 11.5px;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════
+       RESPONSIVE MEDIA QUERIES (DESKTOP TETAP UTUH DAN TIDAK TERGANGGU)
+       ═════════════════════════════════════════════════════════════════════ */
     @media (max-width: 1100px) {
         .stat-cards-row { grid-template-columns: repeat(2, 1fr); }
         .dashboard-main-grid { grid-template-columns: 1fr; }
         .lower-section-grid { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 640px) {
-        .stat-cards-row { grid-template-columns: 1fr; }
-        .info-group-grid { grid-template-columns: 1fr; }
-        .mini-stats-grid { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+        /* General Page & Container */
+        .dashboard-container {
+            gap: 14px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: clip !important;
+        }
+
+        .page-header-box {
+            margin-bottom: 2px !important;
+        }
+
+        .page-main-title {
+            font-size: 20px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+            letter-spacing: -0.02em !important;
+        }
+
+        .page-sub-title {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+            color: #64748b !important;
+            margin-top: 3px !important;
+        }
+
+        /* 4 Top Stat Cards on Mobile */
+        .stat-cards-row {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .stat-box-card {
+            padding: 14px 16px !important;
+            border-radius: 14px !important;
+            gap: 14px !important;
+            display: flex !important;
+            align-items: center !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .stat-icon-circle {
+            width: 48px !important;
+            height: 48px !important;
+            font-size: 18px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .stat-content {
+            min-width: 0 !important;
+            flex: 1 1 auto !important;
+        }
+
+        .stat-label-text {
+            font-size: 12.5px !important;
+            font-weight: 600 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            margin-bottom: 2px !important;
+        }
+
+        .stat-number-text {
+            font-size: 22px !important;
+            line-height: 1.15 !important;
+            font-weight: 800 !important;
+        }
+
+        .stat-subtext {
+            font-size: 11px !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            margin-top: 2px !important;
+        }
+
+        /* Panels */
+        .dashboard-main-grid,
+        .lower-section-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .panel-card {
+            padding: 16px 14px !important;
+            border-radius: 16px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+
+        .panel-card-header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+            margin-bottom: 16px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .panel-card-title {
+            font-size: 14.5px !important;
+            font-weight: 800 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            min-width: 0 !important;
+            flex: 1 1 auto !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        .panel-card-title i {
+            font-size: 15px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .panel-header-link {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+            padding: 4px 8px !important;
+            background: #eff6ff !important;
+            color: #2563eb !important;
+            border-radius: 8px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+        }
+
+        .panel-header-link:hover,
+        .panel-header-link:active {
+            background: #dbeafe !important;
+            color: #1d4ed8 !important;
+        }
+
+        /* ── SECTION 1: Rekap Kehadiran Minggu Ini (Chart) ── */
+        .chart-wrapper {
+            height: 210px !important;
+            padding-top: 6px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+
+        .chart-grid-area {
+            position: relative !important;
+            flex: 1 !important;
+            display: flex !important;
+            align-items: flex-end !important;
+            justify-content: space-around !important;
+            padding-left: 38px !important;
+            padding-right: 8px !important;
+            border-bottom: 1.5px solid #cbd5e1 !important;
+            margin-bottom: 6px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .y-axis-lines {
+            position: absolute !important;
+            left: 0 !important;
+            right: 0 !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            pointer-events: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .y-grid-line {
+            position: relative !important;
+            width: 100% !important;
+            height: 1px !important;
+            background: #f1f5f9 !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .y-grid-label {
+            position: absolute !important;
+            left: 0 !important;
+            font-size: 10px !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+            width: 34px !important;
+            text-align: left !important;
+        }
+
+        .bar-column-group {
+            flex: 1 1 0 !important;
+            min-width: 0 !important;
+            max-width: 20% !important;
+            width: 20% !important;
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            z-index: 2 !important;
+            cursor: pointer !important;
+            position: relative !important;
+            padding: 0 1px !important;
+            box-sizing: border-box !important;
+        }
+
+        .bar-rect {
+            width: 24px !important;
+            max-width: 75% !important;
+            margin: 0 auto !important;
+            border-radius: 4px 4px 0 0 !important;
+            background: #2b3957 !important;
+            transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease !important;
+            position: relative !important;
+        }
+
+        .bar-rect.is-active-day {
+            background: #2563eb !important;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.4) !important;
+        }
+
+        .x-axis-labels {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-around !important;
+            padding-left: 38px !important;
+            padding-right: 8px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            margin-top: 2px !important;
+        }
+
+        .x-label-item {
+            flex: 1 1 0 !important;
+            min-width: 0 !important;
+            max-width: 20% !important;
+            width: 20% !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #475569 !important;
+            text-align: center !important;
+            box-sizing: border-box !important;
+        }
+
+        .x-label-item.is-active-day {
+            color: #2563eb !important;
+            font-weight: 800 !important;
+        }
+
+        .bar-tooltip {
+            font-size: 10px !important;
+            padding: 5px 8px !important;
+            top: -42px !important;
+        }
+
+        /* ── SECTION 2: Pengajuan Izin Terbaru (Switch to Mobile Cards) ── */
+        .desktop-izin-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-izin-cards-list {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .mobile-izin-card-item {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            padding: 12px 14px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+        }
+
+        .m-izin-header-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 6px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .m-izin-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            min-width: 0 !important;
+            flex: 1 1 auto !important;
+            overflow: hidden !important;
+        }
+
+        .badge-cat {
+            flex-shrink: 0 !important;
+            padding: 2px 7px !important;
+            font-size: 10px !important;
+            font-weight: 800 !important;
+            border-radius: 6px !important;
+        }
+
+        .m-izin-name {
+            font-size: 13px !important;
+            font-weight: 800 !important;
+            color: #0f172a !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            min-width: 0 !important;
+            flex: 1 1 auto !important;
+        }
+
+        .m-izin-date {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #475569 !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            padding: 2px 7px !important;
+            border-radius: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 3px !important;
+        }
+
+        .m-izin-body-row {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            font-size: 12px !important;
+            color: #475569 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .m-izin-kelas {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            padding: 2px 7px !important;
+            border-radius: 6px !important;
+            font-weight: 700 !important;
+            font-size: 11px !important;
+            color: #1e293b !important;
+            flex-shrink: 0 !important;
+        }
+
+        .m-izin-alasan {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            color: #334155 !important;
+            font-weight: 500 !important;
+            font-size: 11.5px !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            min-width: 0 !important;
+            flex: 1 1 auto !important;
+        }
+
+        /* ── SECTION 3: Antrean Persetujuan Cepat ── */
+        .approval-list {
+            gap: 10px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .approval-item {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            padding: 12px 14px !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .approval-item-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .user-avatar-circle {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 12px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .user-details-text .name {
+            font-size: 13px !important;
+            line-height: 1.25 !important;
+        }
+
+        .user-details-text .subtext {
+            font-size: 11px !important;
+        }
+
+        .reason-text {
+            padding: 8px 10px !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+            font-size: 12px !important;
+            color: #334155 !important;
+            line-height: 1.4 !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .approval-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            gap: 8px !important;
+            margin-top: 2px !important;
+        }
+
+        .approval-actions form {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .approval-actions .btn-action-reject,
+        .approval-actions .btn-action-approve {
+            width: 100% !important;
+            padding: 8px 12px !important;
+            font-size: 12px !important;
+            text-align: center !important;
+            justify-content: center !important;
+            display: flex !important;
+            align-items: center !important;
+            box-sizing: border-box !important;
+        }
+
+        /* ── SECTION 4: Monitoring Tingkat Kelas & Kedisiplinan ── */
+        .progress-list {
+            gap: 12px !important;
+            margin-top: 2px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .progress-item-label {
+            font-size: 12px !important;
+            margin-bottom: 5px !important;
+        }
+
+        .progress-bar-bg {
+            height: 8px !important;
+            border-radius: 6px !important;
+        }
+
+        .mini-stats-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            margin-top: 12px !important;
+            padding-top: 12px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .mini-stat-pill {
+            padding: 9px 11px !important;
+            border-radius: 10px !important;
+        }
+
+        .mini-stat-title {
+            font-size: 11px !important;
+            white-space: nowrap !important;
+        }
+
+        .mini-stat-val {
+            font-size: 14px !important;
+            font-weight: 800 !important;
+        }
+
+        /* Modals on Mobile */
+        .modal-card-custom {
+            max-width: 95vw !important;
+            border-radius: 16px !important;
+        }
+
+        .modal-header-custom {
+            padding: 14px 18px !important;
+        }
+
+        .modal-header-custom h3 {
+            font-size: 14.5px !important;
+        }
+
+        .modal-body-custom {
+            padding: 16px 18px !important;
+            gap: 10px !important;
+        }
+
+        .info-group-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+
+        .modal-footer-custom {
+            padding: 12px 18px !important;
+            flex-direction: column-reverse !important;
+            gap: 8px !important;
+        }
+
+        .modal-footer-custom .btn-modal-close,
+        .modal-footer-custom .btn-action-approve {
+            width: 100% !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 10px 14px !important;
+        }
+    }
+
+    @media (min-width: 541px) and (max-width: 768px) {
+        .stat-cards-row {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stat-box-card {
+            padding: 12px 14px !important;
+            gap: 12px !important;
+        }
+
+        .stat-icon-circle {
+            width: 44px !important;
+            height: 44px !important;
+            font-size: 17px !important;
+        }
+
+        .stat-label-text {
+            font-size: 12px !important;
+        }
+
+        .stat-number-text {
+            font-size: 20px !important;
+        }
+
+        .chart-grid-area {
+            padding-left: 32px !important;
+            padding-right: 4px !important;
+        }
+
+        .y-grid-label {
+            width: 28px !important;
+            font-size: 9.5px !important;
+        }
+
+        .x-axis-labels {
+            padding-left: 32px !important;
+            padding-right: 4px !important;
+        }
+
+        .bar-rect {
+            width: 20px !important;
+        }
+
+        .x-label-item {
+            font-size: 10.5px !important;
+        }
+
+        .panel-card-title {
+            font-size: 13.5px !important;
+        }
+
+        .panel-header-link {
+            font-size: 11px !important;
+            padding: 3px 6px !important;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .chart-grid-area {
+            padding-left: 28px !important;
+            padding-right: 2px !important;
+        }
+
+        .y-grid-label {
+            width: 26px !important;
+            font-size: 9px !important;
+        }
+
+        .x-axis-labels {
+            padding-left: 28px !important;
+            padding-right: 2px !important;
+        }
+
+        .bar-rect {
+            width: 16px !important;
+        }
+
+        .x-label-item {
+            font-size: 10px !important;
+        }
     }
 </style>
 @endsection
 
 @section('content')
 <div class="dashboard-container">
-
-    <!-- Flash Alert Success -->
-    @if(session('success'))
-        <div style="background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; padding: 14px 18px; border-radius: 12px; font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; color: #991b1b; border: 1px solid #fecdd3; padding: 14px 18px; border-radius: 12px; font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-exclamation" style="font-size: 18px;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <!-- Page Header -->
     <div class="page-header-box">
@@ -814,7 +1545,7 @@
 
                     <!-- Bars for Sen, Sel, Rab, Kam, Jum -->
                     @foreach($rekapMingguan as $item)
-                        <div class="bar-column-group">
+                        <div class="bar-column-group" tabindex="0">
                             <div class="bar-tooltip">
                                 <div style="font-weight: 800;">{{ $item['tanggal'] }}</div>
                                 <div>{{ number_format($item['hadir'], 0, ',', '.') }} Hadir ({{ $item['persentase'] }}%)</div>
@@ -847,7 +1578,8 @@
                 </a>
             </div>
 
-            <div style="overflow-x: auto;">
+            <!-- Desktop Table View -->
+            <div class="desktop-izin-table-wrapper" style="overflow-x: auto;">
                 <table class="recent-izin-table">
                     <tbody>
                         @forelse($pengajuanIzinTerbaru as $izin)
@@ -875,6 +1607,35 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Card View (Khusus Layar HP <= 768px) -->
+            <div class="mobile-izin-cards-list">
+                @forelse($pengajuanIzinTerbaru as $izin)
+                    <div class="mobile-izin-card-item" onclick='openIzinDetailModal(@json($izin))' title="Klik untuk melihat detail permohonan">
+                        <div class="m-izin-header-row">
+                            <div class="m-izin-left">
+                                @if(str_contains(strtolower($izin->kategori), 'sakit'))
+                                    <span class="badge-cat badge-cat-sakit">Sakit</span>
+                                @elseif(str_contains(strtolower($izin->kategori), 'dispen'))
+                                    <span class="badge-cat badge-cat-dispen">Dispen</span>
+                                @else
+                                    <span class="badge-cat badge-cat-izin">Izin</span>
+                                @endif
+                                <span class="m-izin-name">{{ $izin->nama_siswa }}</span>
+                            </div>
+                            <span class="m-izin-date"><i class="fa-regular fa-calendar" style="font-size: 10px; margin-right: 2px;"></i>{{ $izin->tanggal }}</span>
+                        </div>
+                        <div class="m-izin-body-row">
+                            <span class="m-izin-kelas"><i class="fa-solid fa-graduation-cap"></i> {{ $izin->kelas }}</span>
+                            <span class="m-izin-alasan" title="{{ $izin->alasan }}"><i class="fa-regular fa-comment-dots"></i> {{ $izin->alasan }}</span>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 20px 0; font-size: 13px;">
+                        Belum ada pengajuan izin terbaru hari ini.
+                    </div>
+                @endforelse
             </div>
         </div>
 

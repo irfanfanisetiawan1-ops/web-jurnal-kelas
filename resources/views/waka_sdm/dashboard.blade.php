@@ -218,6 +218,12 @@
         display: grid;
         grid-template-columns: 2.3fr 1fr;
         gap: 24px;
+        width: 100%;
+    }
+
+    .dashboard-layout > div {
+        min-width: 0;
+        width: 100%;
     }
 
     /* Gray Modern Tabs Navigation */
@@ -231,6 +237,13 @@
         border-radius: 14px;
         margin-bottom: 20px;
         overflow-x: auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .tab-content-pane {
+        width: 100%;
+        min-width: 0;
     }
 
     .tab-btn {
@@ -248,6 +261,7 @@
         white-space: nowrap;
         transition: all 0.2s ease;
         font-family: inherit;
+        flex-shrink: 0;
     }
 
     .tab-btn i {
@@ -287,6 +301,8 @@
         padding: 24px;
         box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
         margin-bottom: 24px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .card-head {
@@ -298,6 +314,8 @@
         border-bottom: 1px solid #f1f5f9;
         flex-wrap: wrap;
         gap: 10px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .card-head h3 {
@@ -333,6 +351,7 @@
     .table-responsive {
         width: 100%;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .custom-table {
@@ -363,6 +382,571 @@
 
     .custom-table tbody tr:hover {
         background-color: #f8fafc;
+    }
+
+    /* Desktop vs Mobile Toggle */
+    .waka-desktop-table {
+        display: block;
+    }
+    .waka-mobile-cards {
+        display: none;
+    }
+
+    /* Mobile Card Component Styles */
+    .m-card-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 15px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    .m-card-item:last-child {
+        margin-bottom: 0;
+    }
+    .m-card-item:hover {
+        border-color: #cbd5e1;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+    }
+    .m-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f1f5f9;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .m-card-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+    .m-card-subtitle {
+        font-size: 11px;
+        color: #64748b;
+        font-weight: 600;
+        margin-top: 2px;
+        word-break: break-word;
+    }
+    .m-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12.5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .m-card-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .m-card-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #64748b;
+        flex-shrink: 0;
+    }
+    .m-card-val {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #1e293b;
+        text-align: right;
+        word-break: break-word;
+        min-width: 0;
+    }
+    .m-card-box {
+        background: #f8fafc;
+        border: 1px solid #f1f5f9;
+        border-radius: 10px;
+        padding: 9px 12px;
+        font-size: 12px;
+        color: #334155;
+        line-height: 1.45;
+        word-break: break-word;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .m-card-approval-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-top: 4px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .m-modal-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    @media (max-width: 640px) {
+        .m-modal-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+    }
+    .m-approval-stage-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 6px 4px;
+        text-align: center;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    .m-approval-stage-title {
+        font-size: 9.5px;
+        font-weight: 800;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+    }
+    .m-card-actions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .m-card-actions .btn-action {
+        width: 100%;
+        min-width: 0;
+        padding: 8px 6px;
+        font-size: 12px;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
+        white-space: nowrap;
+        flex: none;
+    }
+
+    @media (max-width: 1100px) {
+        .primary-stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .monitoring-strip { grid-template-columns: repeat(2, 1fr); }
+        .dashboard-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+        .gray-welcome-banner {
+            padding: 16px 14px;
+            border-radius: 14px;
+            gap: 10px;
+            margin-bottom: 14px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .welcome-text h2 {
+            font-size: 15.5px !important;
+            line-height: 1.35 !important;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .welcome-text p {
+            font-size: 12px;
+            line-height: 1.45;
+        }
+        .primary-stats-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+            margin-bottom: 14px !important;
+            width: 100%;
+        }
+        .primary-stat-card {
+            padding: 14px 16px !important;
+            min-height: auto !important;
+            border-radius: 14px !important;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .primary-stat-icon {
+            width: 42px !important;
+            height: 42px !important;
+            font-size: 17px !important;
+            border-radius: 11px !important;
+        }
+        .primary-stat-card .card-title {
+            font-size: 13.5px;
+        }
+        .primary-stat-card .card-val-row {
+            margin-top: 6px;
+        }
+        .primary-stat-card .card-value {
+            font-size: 26px !important;
+        }
+        .primary-stat-card .card-unit {
+            font-size: 11.5px;
+        }
+        .primary-stat-card .card-link {
+            margin-top: 8px;
+            font-size: 11.5px;
+        }
+        .monitoring-strip {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+            margin-bottom: 16px !important;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .strip-item {
+            padding: 10px 12px !important;
+            border-radius: 12px !important;
+            gap: 8px !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+        .strip-icon {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 15px !important;
+            border-radius: 10px !important;
+            flex-shrink: 0 !important;
+        }
+        .strip-info {
+            min-width: 0 !important;
+        }
+        .strip-info h4 {
+            font-size: 15px !important;
+            line-height: 1.2 !important;
+        }
+        .strip-info p {
+            font-size: 10.5px !important;
+            line-height: 1.25 !important;
+            margin-top: 2px !important;
+            word-break: break-word !important;
+        }
+        .dashboard-layout {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 16px !important;
+            width: 100% !important;
+        }
+        .dashboard-layout > div {
+            min-width: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        .tab-navigation {
+            display: flex !important;
+            overflow-x: auto !important;
+            flex-wrap: nowrap !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: none !important;
+            padding: 4px !important;
+            gap: 6px !important;
+            margin-bottom: 14px !important;
+            border-radius: 12px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .tab-navigation::-webkit-scrollbar {
+            display: none !important;
+        }
+        .tab-btn {
+            padding: 8px 12px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+            flex-shrink: 0 !important;
+            gap: 6px !important;
+            white-space: nowrap !important;
+        }
+        .tab-btn i {
+            font-size: 13px !important;
+        }
+        .tab-btn .tab-badge {
+            padding: 2px 6px !important;
+            font-size: 10px !important;
+        }
+        .tab-content-pane {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+        }
+        .dashboard-card {
+            padding: 14px 12px !important;
+            border-radius: 15px !important;
+            margin-bottom: 14px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+        .card-head {
+            margin-bottom: 12px !important;
+            padding-bottom: 10px !important;
+            gap: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .card-head h3 {
+            font-size: 13.5px !important;
+            line-height: 1.3 !important;
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+            word-break: break-word !important;
+        }
+        .head-link {
+            font-size: 11.5px !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+        }
+        .m-card-item {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 12px !important;
+            padding: 12px 10px !important;
+            margin-bottom: 10px !important;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+        .m-card-header {
+            display: flex !important;
+            align-items: flex-start !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+            margin-bottom: 8px !important;
+            padding-bottom: 8px !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .m-card-header > div:first-child {
+            min-width: 0 !important;
+            flex: 1 !important;
+        }
+        .m-card-title {
+            font-size: 13.5px !important;
+            font-weight: 800 !important;
+            color: #0f172a !important;
+            line-height: 1.3 !important;
+            word-break: normal !important;
+        }
+        .m-card-header .badge {
+            max-width: 65% !important;
+            white-space: normal !important;
+            line-height: 1.3 !important;
+            text-align: right !important;
+            word-break: break-word !important;
+            font-size: 11px !important;
+        }
+        .m-card-subtitle {
+            font-size: 10.5px !important;
+            color: #64748b !important;
+            font-weight: 600 !important;
+            margin-top: 2px !important;
+            word-break: break-word !important;
+        }
+        .m-card-body {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 7px !important;
+            font-size: 12px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .m-card-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .m-card-label {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+            flex-shrink: 0 !important;
+        }
+        .m-card-val {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            color: #1e293b !important;
+            text-align: right !important;
+            word-break: break-word !important;
+            min-width: 0 !important;
+        }
+        .m-card-box {
+            background: #f8fafc !important;
+            border: 1px solid #f1f5f9 !important;
+            border-radius: 9px !important;
+            padding: 8px 10px !important;
+            font-size: 11.5px !important;
+            color: #334155 !important;
+            line-height: 1.45 !important;
+            word-break: break-word !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .m-card-approval-grid {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 5px !important;
+            margin-top: 4px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .m-approval-stage-box {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+            padding: 5px 3px !important;
+            text-align: center !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+        .m-approval-stage-title {
+            font-size: 8.5px !important;
+            font-weight: 800 !important;
+            color: #64748b !important;
+            text-transform: uppercase !important;
+            margin-bottom: 2px !important;
+        }
+        .m-approval-stage-box .badge {
+            font-size: 8.5px !important;
+            padding: 2px 4px !important;
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
+        .m-card-actions {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 6px !important;
+            margin-top: 10px !important;
+            padding-top: 10px !important;
+            border-top: 1px solid #f1f5f9 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .m-card-actions .btn-action {
+            width: 100% !important;
+            min-width: 0 !important;
+            padding: 8px 4px !important;
+            font-size: 11.5px !important;
+            justify-content: center !important;
+            text-align: center !important;
+            box-sizing: border-box !important;
+            flex: none !important;
+            gap: 4px !important;
+        }
+        .m-card-actions .btn-action i {
+            font-size: 11px !important;
+        }
+        .quick-link-item {
+            padding: 10px 12px !important;
+            font-size: 12px !important;
+            border-radius: 10px !important;
+        }
+        .quick-link-item .icon-box {
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 12px !important;
+            border-radius: 6px !important;
+        }
+        .announcement-item {
+            padding: 10px 12px !important;
+            border-radius: 10px !important;
+            margin-bottom: 8px !important;
+        }
+        .announcement-item h4 {
+            font-size: 12px !important;
+        }
+        .announcement-item p {
+            font-size: 11px !important;
+        }
+        .modal-card {
+            width: 95% !important;
+            max-width: 95vw !important;
+            max-height: 90vh !important;
+            border-radius: 16px !important;
+            margin: 10px auto !important;
+            box-sizing: border-box !important;
+        }
+        .modal-header {
+            padding: 14px 16px !important;
+        }
+        .modal-header h3 {
+            font-size: 14px !important;
+        }
+        .modal-body {
+            padding: 14px 16px !important;
+        }
+        .modal-footer {
+            padding: 12px 16px !important;
+            border-radius: 0 0 16px 16px !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+        }
+        .modal-footer button {
+            flex: 1 1 auto !important;
+            padding: 10px 14px !important;
+            font-size: 12.5px !important;
+        }
+
+        /* Toggle Table and Mobile Cards */
+        .waka-desktop-table {
+            display: none !important;
+        }
+        .waka-mobile-cards {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .monitoring-strip {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 6px !important;
+        }
+        .m-card-actions {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 5px !important;
+        }
+        .m-card-actions .btn-action {
+            padding: 7px 2px !important;
+            font-size: 11px !important;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .monitoring-strip {
+            grid-template-columns: 1fr !important;
+            gap: 6px !important;
+        }
+        .m-card-actions {
+            grid-template-columns: 1fr !important;
+            gap: 5px !important;
+        }
+        .m-card-actions .btn-action {
+            padding: 8px 10px !important;
+            font-size: 12px !important;
+        }
     }
 
     /* Badges */
@@ -656,17 +1240,6 @@
         border: none;
         cursor: pointer;
     }
-
-    @media (max-width: 1100px) {
-        .primary-stats-grid { grid-template-columns: repeat(2, 1fr); }
-        .monitoring-strip { grid-template-columns: repeat(2, 1fr); }
-        .dashboard-layout { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-        .primary-stats-grid { grid-template-columns: 1fr; }
-        .monitoring-strip { grid-template-columns: 1fr; }
-    }
 </style>
 @endsection
 
@@ -832,7 +1405,8 @@
                     </a>
                 </div>
 
-                <div class="table-responsive">
+                <!-- Desktop Table View -->
+                <div class="table-responsive waka-desktop-table">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -888,96 +1462,52 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-            <!-- 2. Riwayat Persetujuan Izin Guru Terakhir (Sesuai Referensi Gambar) -->
-            <div class="dashboard-card">
-                <div class="card-head">
-                    <h3>
-                        <i class="fa-solid fa-clock-rotate-left" style="color: #2563eb;"></i>
-                        Riwayat Persetujuan Izin Guru Terakhir
-                    </h3>
-                    <a href="{{ route('waka-sdm.persetujuan-izin') }}" class="head-link" style="color: #2563eb;">
-                        Lihat Riwayat Lengkap <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="table-responsive">
-                    <table class="custom-table">
-                        <thead>
-                            <tr>
-                                <th>Guru</th>
-                                <th>Tanggal Izin</th>
-                                <th style="text-align: center;">Waka Kur</th>
-                                <th style="text-align: center;">Waka SDM</th>
-                                <th style="text-align: center;">Kepsek</th>
-                                <th style="text-align: center;">Status Final</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($riwayatPengajuan as $r)
-                                <tr>
-                                    <td>
-                                        <div style="font-weight: 800; color: #0f172a;">{{ $r->guru->nama_guru ?? 'Guru' }}</div>
-                                        <div style="display: flex; align-items: center; gap: 6px; margin-top: 3px;">
-                                            <span class="badge badge-slate" style="font-size: 10px; padding: 2px 7px; text-transform: uppercase;">{{ $r->kategori_izin ?? 'Izin' }}</span>
-                                            <span style="font-size: 11px; color: #64748b;">NIP: {{ $r->guru->nip ?? '-' }}</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div style="font-weight: 700; color: #1e293b;">
-                                            <i class="fa-solid fa-calendar-day" style="color: #94a3b8; font-size: 11.5px; margin-right: 4px;"></i>
-                                            {{ $r->tanggal_formatted }}
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @if(in_array($r->status_waka, ['approved', 'Disetujui']))
-                                            <span class="badge badge-approved"><i class="fa-solid fa-check"></i> Approved</span>
-                                        @elseif(in_array($r->status_waka, ['rejected', 'Ditolak']))
-                                            <span class="badge badge-rejected"><i class="fa-solid fa-xmark"></i> Rejected</span>
-                                        @else
-                                            <span class="badge badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @if(in_array($r->status_waka_sdm, ['approved', 'Disetujui']))
-                                            <span class="badge badge-approved"><i class="fa-solid fa-check"></i> Approved</span>
-                                        @elseif(in_array($r->status_waka_sdm, ['rejected', 'Ditolak']))
-                                            <span class="badge badge-rejected"><i class="fa-solid fa-xmark"></i> Rejected</span>
-                                        @else
-                                            <span class="badge badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @if(in_array($r->status_kepsek, ['approved', 'Disetujui']))
-                                            <span class="badge badge-approved"><i class="fa-solid fa-check"></i> Approved</span>
-                                        @elseif(in_array($r->status_kepsek, ['rejected', 'Ditolak']))
-                                            <span class="badge badge-rejected"><i class="fa-solid fa-xmark"></i> Rejected</span>
-                                        @else
-                                            <span class="badge badge-pending"><i class="fa-solid fa-clock"></i> Pending</span>
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center;">
-                                        @php
-                                            $isAllApproved = ($r->status_waka === 'approved' && $r->status_waka_sdm === 'approved' && $r->status_kepsek === 'approved');
-                                            $isAnyRejected = ($r->status_waka === 'rejected' || $r->status_waka_sdm === 'rejected' || $r->status_kepsek === 'rejected' || $r->status_final === 'rejected');
-                                        @endphp
-                                        @if($isAllApproved || $r->status_final === 'approved')
-                                            <span class="badge badge-final-approved"><i class="fa-solid fa-circle-check"></i> Disetujui Resmi</span>
-                                        @elseif($isAnyRejected)
-                                            <span class="badge badge-rejected"><i class="fa-solid fa-circle-xmark"></i> Ditolak</span>
-                                        @else
-                                            <span class="badge badge-process"><i class="fa-solid fa-hourglass-half"></i> Dalam Proses</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" style="text-align: center; color: #94a3b8; padding: 24px;">Belum ada riwayat persetujuan izin guru.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @forelse($pendingGuruIzin as $izin)
+                        <div class="m-card-item">
+                            <div class="m-card-header">
+                                <div>
+                                    <div class="m-card-title">{{ $izin->guru->nama_guru ?? 'Guru' }}</div>
+                                    <div class="m-card-subtitle">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                </div>
+                                <span class="badge badge-slate" style="text-transform: uppercase;">{{ $izin->kategori_izin ?? 'biasa' }}</span>
+                            </div>
+                            <div class="m-card-body">
+                                <div class="m-card-row">
+                                    <span class="m-card-label"><i class="fa-solid fa-calendar-day" style="color: #64748b; margin-right: 4px;"></i> Tanggal Izin</span>
+                                    <span class="m-card-val">{{ $izin->tanggal_formatted }} ({{ $izin->durasi_formatted }})</span>
+                                </div>
+                                <div class="m-card-box">
+                                    <strong style="display: block; font-size: 11px; color: #64748b; text-transform: uppercase; margin-bottom: 2px;">Alasan Izin:</strong>
+                                    {{ $izin->alasan }}
+                                </div>
+                                <div class="m-card-row" style="margin-top: 2px;">
+                                    <span class="m-card-label">Status Waka SDM</span>
+                                    <span class="badge badge-pending">
+                                        <i class="fa-solid fa-hourglass-half"></i> Pending Waka SDM
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="m-card-actions">
+                                <button type="button" class="btn-action btn-approve" onclick="openApproveModal('{{ $izin->id_guru_izin }}', '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')">
+                                    <i class="fa-solid fa-check"></i> Setujui
+                                </button>
+                                <button type="button" class="btn-action btn-reject" onclick="openRejectModal('{{ $izin->id_guru_izin }}', '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')">
+                                    <i class="fa-solid fa-xmark"></i> Tolak
+                                </button>
+                                <button type="button" class="btn-action btn-detail" onclick="openDetailModal({{ json_encode($izin) }})">
+                                    <i class="fa-solid fa-eye"></i> Detail
+                                </button>
+                            </div>
+                        </div>
+                    @empty
+                        <div style="text-align: center; color: #94a3b8; padding: 24px; background: #f8fafc; border-radius: 12px; border: 1px dashed #e2e8f0;">
+                            <i class="fa-solid fa-circle-check" style="font-size: 28px; color: #16a34a; margin-bottom: 6px; display: block;"></i>
+                            Tidak ada antrean pengajuan izin yang menunggu persetujuan Waka SDM saat ini.
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -994,7 +1524,8 @@
                     <span class="badge badge-slate">{{ $guruIzinHariIniCount }} Guru Izin Aktif</span>
                 </div>
 
-                <div class="table-responsive">
+                <!-- Desktop Table View -->
+                <div class="table-responsive waka-desktop-table">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -1051,6 +1582,57 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @forelse($guruIzinHariIni as $giz)
+                        <div class="m-card-item">
+                            <div class="m-card-header">
+                                <div>
+                                    <div class="m-card-title">{{ $giz->guru->nama_guru ?? 'Guru' }}</div>
+                                    <div class="m-card-subtitle">NIP: {{ $giz->guru->nip ?? '-' }}</div>
+                                </div>
+                                <span class="badge badge-slate">{{ strtoupper($giz->kategori_izin ?? 'biasa') }}</span>
+                            </div>
+                            <div class="m-card-body">
+                                <div class="m-card-row">
+                                    <span class="m-card-label"><i class="fa-solid fa-calendar-day" style="color: #64748b; margin-right: 4px;"></i> Rentang Tanggal</span>
+                                    <span class="m-card-val">{{ $giz->tanggal_formatted }} ({{ $giz->durasi_formatted }})</span>
+                                </div>
+                                <div class="m-card-box">
+                                    <strong style="display: block; font-size: 11px; color: #64748b; text-transform: uppercase; margin-bottom: 2px;">Alasan Izin:</strong>
+                                    {{ $giz->alasan }}
+                                </div>
+                                <div class="m-card-row">
+                                    <span class="m-card-label">Guru Pengganti (Piket)</span>
+                                    <div>
+                                        @if($giz->has_penugasan)
+                                            @foreach($giz->penugasans_list as $png)
+                                                <div style="font-size: 12px; font-weight: 700; color: #15803d; text-align: right;">
+                                                    <i class="fa-solid fa-user-check"></i> {{ $png->guruPengganti->nama_guru ?? 'Pengganti' }}
+                                                </div>
+                                                <div style="font-size: 10.5px; color: #64748b; text-align: right;">Kelas: {{ $png->kelas->nama_kelas ?? '-' }}</div>
+                                            @endforeach
+                                        @else
+                                            <span class="badge badge-pending">
+                                                <i class="fa-solid fa-circle-exclamation"></i> Belum Ada Pengganti
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="m-card-row">
+                                    <span class="m-card-label">Jadwal Terdampak</span>
+                                    <span class="badge badge-slate">{{ count($giz->jadwals_list ?? []) }} Jadwal Mengajar</span>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div style="text-align: center; color: #94a3b8; padding: 24px; background: #f8fafc; border-radius: 12px; border: 1px dashed #e2e8f0;">
+                            <i class="fa-solid fa-user-check" style="font-size: 28px; color: #16a34a; margin-bottom: 6px; display: block;"></i>
+                            Tidak ada guru yang izin tidak hadir pada tanggal terpilih (Seluruh guru hadir/standby).
+                        </div>
+                    @endforelse
+                </div>
             </div>
 
             <!-- Subcard 2: Penugasan Guru Pengganti Aktif Hari Ini (Sinkronisasi Guru Piket) -->
@@ -1063,7 +1645,8 @@
                     <span class="badge badge-approved">{{ $guruPenggantiHariIni }} Penugasan</span>
                 </div>
 
-                <div class="table-responsive">
+                <!-- Desktop Table View -->
+                <div class="table-responsive waka-desktop-table">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -1114,6 +1697,46 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @forelse($penugasanGuruPengganti as $penugasan)
+                        <div class="m-card-item">
+                            <div class="m-card-header">
+                                <div>
+                                    <div style="font-size: 12px; font-weight: 700; color: #dc2626; margin-bottom: 3px;">
+                                        <i class="fa-solid fa-user-xmark"></i> {{ $penugasan->guruTidakHadir->nama_guru ?? 'Guru Utama' }}
+                                    </div>
+                                    <div style="font-size: 13.5px; font-weight: 800; color: #16a34a;">
+                                        <i class="fa-solid fa-user-check"></i> {{ $penugasan->guruPengganti->nama_guru ?? 'Guru Pengganti' }}
+                                    </div>
+                                </div>
+                                <span class="badge badge-slate">{{ $penugasan->jam_pelajaran ?? 'Jam KBM' }}</span>
+                            </div>
+                            <div class="m-card-body">
+                                <div class="m-card-row">
+                                    <span class="m-card-label">Kelas & Mapel</span>
+                                    <span class="m-card-val">
+                                        <strong>{{ $penugasan->kelas->nama_kelas ?? '-' }}</strong>
+                                        <span style="font-size: 11px; color: #64748b; display: block;">{{ $penugasan->jadwal->mapel->nama_mapel ?? '-' }}</span>
+                                    </span>
+                                </div>
+                                <div class="m-card-row">
+                                    <span class="m-card-label">Status Penugasan</span>
+                                    @if($penugasan->is_diisi_hari_ini)
+                                        <span class="badge badge-approved"><i class="fa-solid fa-check-double"></i> Jurnal Terisi</span>
+                                    @else
+                                        <span class="badge badge-slate"><i class="fa-solid fa-clock"></i> Aktif Bertugas</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div style="text-align: center; color: #94a3b8; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px dashed #e2e8f0;">
+                            Belum ada penugasan guru pengganti yang tercatat pada tanggal terpilih.
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </div>
 
@@ -1131,7 +1754,8 @@
                     </div>
                 </div>
 
-                <div class="table-responsive">
+                <!-- Desktop Table View -->
+                <div class="table-responsive waka-desktop-table">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -1173,6 +1797,43 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @forelse($jadwalList as $jadwal)
+                        <div class="m-card-item">
+                            <div class="m-card-header">
+                                <div>
+                                    <span class="badge badge-slate" style="margin-bottom: 4px;">Jam Ke {{ $jadwal->id_jam_mulai }} - {{ $jadwal->id_jam_selesai }}</span>
+                                    <div class="m-card-title" style="margin-top: 2px;">{{ $jadwal->kelas->nama_kelas ?? '-' }}</div>
+                                </div>
+                                @if($jadwal->is_jurnal_diisi)
+                                    <span class="badge badge-approved"><i class="fa-solid fa-circle-check"></i> Terisi</span>
+                                @else
+                                    <span class="badge badge-pending"><i class="fa-solid fa-clock"></i> Belum</span>
+                                @endif
+                            </div>
+                            <div class="m-card-body">
+                                <div class="m-card-row">
+                                    <span class="m-card-label">Mata Pelajaran</span>
+                                    <span class="m-card-val" style="color: #0f172a;">{{ $jadwal->mapel->nama_mapel ?? '-' }}</span>
+                                </div>
+                                <div class="m-card-row">
+                                    <span class="m-card-label">Guru Pengampu</span>
+                                    <span class="m-card-val">{{ $jadwal->guru->nama_guru ?? 'Guru' }}</span>
+                                </div>
+                                <div class="m-card-row">
+                                    <span class="m-card-label">Ruangan</span>
+                                    <span class="m-card-val"><i class="fa-solid fa-door-open" style="color: #64748b; font-size: 11px;"></i> {{ $jadwal->ruangan->nama_ruangan ?? '-' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div style="text-align: center; color: #94a3b8; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px dashed #e2e8f0;">
+                            Tidak ada data jadwal pada hari {{ $selectedHari }}.
+                        </div>
+                    @endforelse
+                </div>
             </div>
 
             <!-- Subcard 2: Master Jam Pelajaran Sekolah (Data TU) -->
@@ -1185,7 +1846,8 @@
                     <span class="badge badge-slate">{{ $jamPelajaranList->count() }} Slot Jam</span>
                 </div>
 
-                <div class="table-responsive">
+                <!-- Desktop Table View -->
+                <div class="table-responsive waka-desktop-table">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -1221,6 +1883,50 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @forelse($jamPelajaranList as $jam)
+                        <div class="m-card-item">
+                            <div class="m-card-header" style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;">
+                                <div style="flex-shrink: 0; min-width: fit-content;">
+                                    <div class="m-card-title" style="white-space: nowrap !important; font-size: 14px; font-weight: 800; color: #0f172a;">
+                                        {{ str_starts_with($jam->jam_ke, 'Jam') ? $jam->jam_ke : 'Jam Ke-' . $jam->jam_ke }}
+                                    </div>
+                                </div>
+                                <span class="badge badge-slate" style="font-size: 11px; line-height: 1.35; text-align: right; white-space: normal; word-break: break-word; max-width: 65%; padding: 4px 8px;">
+                                    {{ $jam->keterangan ?? 'Jam Pembelajaran' }}
+                                </span>
+                            </div>
+                            <div class="m-card-body">
+                                <div class="m-card-row">
+                                    <span class="m-card-label"><i class="fa-solid fa-calendar-days" style="color: #64748b; margin-right: 4px;"></i> Senin - Kamis (40 Menit)</span>
+                                    <span class="badge badge-slate" style="font-weight: 700; white-space: nowrap;">
+                                        @if($jam->jam_mulai && $jam->jam_selesai)
+                                            {{ substr($jam->jam_mulai, 0, 5) }} - {{ substr($jam->jam_selesai, 0, 5) }} WIB
+                                        @else
+                                            - WIB
+                                        @endif
+                                    </span>
+                                </div>
+                                <div class="m-card-row">
+                                    <span class="m-card-label"><i class="fa-solid fa-calendar-days" style="color: #64748b; margin-right: 4px;"></i> Jumat (30 Menit)</span>
+                                    <span class="badge badge-slate" style="font-weight: 700; white-space: nowrap;">
+                                        @if($jam->jam_mulai_jumat && $jam->jam_selesai_jumat)
+                                            {{ substr($jam->jam_mulai_jumat, 0, 5) }} - {{ substr($jam->jam_selesai_jumat, 0, 5) }} WIB
+                                        @else
+                                            - WIB
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div style="text-align: center; color: #94a3b8; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px dashed #e2e8f0;">
+                            Master jam pelajaran belum dikonfigurasi oleh TU.
+                        </div>
+                    @endforelse
+                </div>
             </div>
         </div>
 
@@ -1237,7 +1943,8 @@
                     </a>
                 </div>
 
-                <div class="table-responsive">
+                <!-- Desktop Table View -->
+                <div class="table-responsive waka-desktop-table">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -1289,6 +1996,47 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Mobile Responsive Cards View -->
+                <div class="waka-mobile-cards">
+                    @forelse($jurnalMonitoring as $jurnal)
+                        <div class="m-card-item">
+                            <div class="m-card-header">
+                                <div>
+                                    <div class="m-card-title">{{ $jurnal->jadwal->guru->nama_guru ?? 'Guru' }}</div>
+                                    <div class="m-card-subtitle">{{ $jurnal->jadwal->kelas->nama_kelas ?? '-' }} &bull; {{ $jurnal->jadwal->mapel->nama_mapel ?? '-' }}</div>
+                                </div>
+                                <span class="badge badge-slate">
+                                    <i class="fa-solid fa-clock"></i> {{ $jurnal->created_at ? $jurnal->created_at->format('H:i') : ($jurnal->dicatat_pada ?? '-') }} WIB
+                                </span>
+                            </div>
+                            <div class="m-card-body">
+                                <div class="m-card-box">
+                                    <strong style="display: block; font-size: 11px; color: #64748b; text-transform: uppercase; margin-bottom: 2px;">Materi / Pembahasan:</strong>
+                                    {{ $jurnal->materi }}
+                                    @if($jurnal->keterangan)
+                                        <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Keterangan: {{ $jurnal->keterangan }}</div>
+                                    @endif
+                                </div>
+                                <div class="m-card-row">
+                                    <span class="m-card-label">Guru Pengganti</span>
+                                    @if($jurnal->id_guru_pengganti)
+                                        <span class="badge badge-teal">
+                                            <i class="fa-solid fa-user-check"></i> {{ $jurnal->guruPengganti->nama_guru ?? 'Pengganti' }}
+                                        </span>
+                                    @else
+                                        <span style="font-size: 12px; color: #94a3b8;">- (Guru Utama)</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div style="text-align: center; color: #94a3b8; padding: 24px; background: #f8fafc; border-radius: 12px; border: 1px dashed #e2e8f0;">
+                            <i class="fa-solid fa-clipboard" style="font-size: 28px; color: #cbd5e1; margin-bottom: 6px; display: block;"></i>
+                            Belum ada data jurnal mengajar yang diinput pada tanggal terpilih.
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -1505,7 +2253,7 @@
                     <label style="font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">Judul Pengumuman *</label>
                     <input type="text" name="judul" required placeholder="Contoh: Rapat Koordinasi Kedisiplinan Guru" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                <div class="m-modal-grid-2" style="margin-bottom: 12px;">
                     <div>
                         <label style="font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">Kategori *</label>
                         <select name="kategori" required style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
@@ -1623,7 +2371,7 @@
                 <div style="font-size: 12px; color: #64748b;">NIP: ${nip}</div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+            <div class="m-modal-grid-2" style="margin-bottom: 14px;">
                 <div>
                     <label style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Kategori Izin</label>
                     <div style="font-weight: 700; font-size: 13px; text-transform: uppercase; color: #1e293b;">${izin.kategori_izin || 'biasa'}</div>
@@ -1654,21 +2402,21 @@
 
             <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
                 <label style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase;">Status Persetujuan Berjenjang</label>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px;">
-                    <div style="background: #f8fafc; padding: 8px 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
-                        <div style="font-size: 10.5px; color: #64748b; font-weight: 700;">WAKA KUR</div>
+                <div class="m-card-approval-grid">
+                    <div class="m-approval-stage-box">
+                        <div class="m-approval-stage-title">WAKA KUR</div>
                         <span class="badge ${izin.status_waka === 'approved' ? 'badge-approved' : (izin.status_waka === 'rejected' ? 'badge-rejected' : 'badge-pending')}" style="margin-top: 4px;">
                             ${izin.status_waka || 'pending'}
                         </span>
                     </div>
-                    <div style="background: #f8fafc; padding: 8px 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
-                        <div style="font-size: 10.5px; color: #64748b; font-weight: 700;">WAKA SDM</div>
+                    <div class="m-approval-stage-box">
+                        <div class="m-approval-stage-title">WAKA SDM</div>
                         <span class="badge ${izin.status_waka_sdm === 'approved' ? 'badge-approved' : (izin.status_waka_sdm === 'rejected' ? 'badge-rejected' : 'badge-pending')}" style="margin-top: 4px;">
                             ${izin.status_waka_sdm || 'pending'}
                         </span>
                     </div>
-                    <div style="background: #f8fafc; padding: 8px 10px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0;">
-                        <div style="font-size: 10.5px; color: #64748b; font-weight: 700;">KEPSEK</div>
+                    <div class="m-approval-stage-box">
+                        <div class="m-approval-stage-title">KEPSEK</div>
                         <span class="badge ${izin.status_kepsek === 'approved' ? 'badge-approved' : (izin.status_kepsek === 'rejected' ? 'badge-rejected' : 'badge-pending')}" style="margin-top: 4px;">
                             ${izin.status_kepsek || 'pending'}
                         </span>

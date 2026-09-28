@@ -33,6 +33,8 @@
         flex-direction: column;
         gap: 20px;
         padding-bottom: 40px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* Page Header */
@@ -252,6 +254,7 @@
         padding: 22px 26px;
         box-shadow: 0 3px 12px rgba(15, 23, 42, 0.03);
         border: 1.5px solid var(--c-gray-border);
+        box-sizing: border-box;
     }
     .card-title-header {
         font-size: 16px;
@@ -289,6 +292,18 @@
         max-width: 54px;
         border-radius: 8px 8px 0 0;
         transition: height 0.5s ease;
+    }
+    .chart-labels-row {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 14px;
+        text-align: center;
+        width: 100%;
+    }
+    .chart-labels-row div {
+        width: 80px;
+        font-size: 12px;
+        font-weight: 800;
     }
 
     /* Tables */
@@ -339,9 +354,277 @@
     .pill-alpa   { background: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5; }
     .pill-dispen { background: #faf5ff; color: #7e22ce; border: 1px solid #d8b4fe; }
 
+    /* Mobile Views Toggle */
+    .desktop-only-table {
+        display: block;
+    }
+    .mobile-only-cards {
+        display: none;
+    }
+
+    /* Mobile Cards Style */
+    .mobile-harian-card {
+        background: var(--c-gray-bg-light);
+        border: 1.5px solid var(--c-gray-border);
+        border-radius: 14px;
+        padding: 14px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+    .mobile-harian-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .mobile-harian-date {
+        font-size: 13.5px;
+        font-weight: 800;
+        color: var(--c-gray-slate);
+    }
+    .mobile-harian-day {
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--c-gray-muted);
+    }
+    .mobile-harian-sesi {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: var(--c-navy-brand);
+        background: var(--c-white);
+        border: 1px solid var(--c-gray-border-light);
+        padding: 3px 8px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+    .mobile-harian-body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        border-top: 1px dashed var(--c-gray-border);
+        padding-top: 8px;
+    }
+    .mobile-harian-ket {
+        font-size: 12px;
+        color: var(--c-gray-dark);
+        font-weight: 500;
+        width: 100%;
+        line-height: 1.4;
+    }
+
+    /* Mobile Mapel Card */
+    .mobile-mapel-card {
+        background: var(--c-gray-bg-light);
+        border: 1.5px solid var(--c-gray-border);
+        border-radius: 14px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-sizing: border-box;
+    }
+    .mobile-mapel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        border-bottom: 1px dashed var(--c-gray-border);
+        padding-bottom: 8px;
+    }
+    .mobile-mapel-date-badge {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--c-gray-slate);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .mobile-mapel-jam-badge {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--c-navy-brand);
+        background: var(--c-white);
+        padding: 3px 8px;
+        border-radius: 6px;
+        border: 1px solid var(--c-gray-border-light);
+    }
+    .mobile-mapel-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--c-gray-slate);
+        line-height: 1.3;
+        margin-bottom: 3px;
+    }
+    .mobile-mapel-guru {
+        font-size: 12px;
+        color: var(--c-gray-muted);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .mobile-mapel-materi-box {
+        background: var(--c-white);
+        border: 1px solid var(--c-gray-border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 12.5px;
+        color: var(--c-gray-dark);
+        line-height: 1.4;
+    }
+    .mobile-mapel-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
     /* Print Kop Header */
     .print-only-kop {
         display: none;
+    }
+
+    /* MOBILE RESPONSIVE STYLES */
+    @media (max-width: 768px) {
+        .laporan-wrapper {
+            gap: 16px;
+            width: 100%;
+            overflow-x: hidden;
+            padding-bottom: 24px;
+        }
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            gap: 8px;
+        }
+
+        .page-title-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 12.5px;
+            line-height: 1.4;
+        }
+
+        .filter-group-wrapper {
+            width: 100%;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group-wrapper form {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-select-box {
+            flex: 1;
+            justify-content: space-between;
+            padding: 8px 12px;
+        }
+
+        .filter-select-box select {
+            width: 100%;
+            font-size: 12.5px;
+        }
+
+        .btn-print-action {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 14px;
+            font-size: 13px;
+        }
+
+        .student-info-strip {
+            padding: 16px 14px;
+            border-radius: 16px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .student-info-left {
+            gap: 12px;
+            width: 100%;
+        }
+
+        .student-mini-avatar {
+            width: 46px;
+            height: 46px;
+            font-size: 20px;
+            border-radius: 12px;
+        }
+
+        .custom-card {
+            padding: 16px 14px;
+            border-radius: 16px;
+        }
+
+        .card-title-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .bar-chart-container {
+            height: 150px;
+            padding: 0 4px;
+        }
+
+        .chart-bar-col {
+            width: 18%;
+            gap: 4px;
+        }
+
+        .chart-bar-pillar {
+            max-width: 36px;
+        }
+
+        .chart-labels-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .chart-labels-row div {
+            width: 18%;
+            font-size: 10.5px;
+            font-weight: 800;
+        }
+
+        /* Toggle Table and Mobile Cards */
+        .desktop-only-table {
+            display: none !important;
+        }
+
+        .mobile-only-cards {
+            display: flex !important;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
     }
 
     /* Print Styles */
@@ -390,6 +673,12 @@
             margin-top: 30px;
             padding: 0 40px;
             page-break-inside: avoid;
+        }
+        .desktop-only-table {
+            display: block !important;
+        }
+        .mobile-only-cards {
+            display: none !important;
         }
     }
 </style>
@@ -614,12 +903,12 @@
                 </div>
             </div>
 
-            <div style="display: flex; justify-content: space-around; margin-top: 14px; text-align: center;">
-                <div style="width: 80px; font-size: 12px; font-weight: 800; color: #166534;">HADIR</div>
-                <div style="width: 80px; font-size: 12px; font-weight: 800; color: #2563eb;">SAKIT</div>
-                <div style="width: 80px; font-size: 12px; font-weight: 800; color: #d97706;">IZIN</div>
-                <div style="width: 80px; font-size: 12px; font-weight: 800; color: #dc2626;">ALPA</div>
-                <div style="width: 80px; font-size: 12px; font-weight: 800; color: #9333ea;">DISPEN</div>
+            <div class="chart-labels-row">
+                <div style="color: #166534;">HADIR</div>
+                <div style="color: #2563eb;">SAKIT</div>
+                <div style="color: #d97706;">IZIN</div>
+                <div style="color: #dc2626;">ALPA</div>
+                <div style="color: #9333ea;">DISPEN</div>
             </div>
         </div>
 
@@ -640,7 +929,8 @@
                 </div>
             </div>
 
-            <div class="table-container">
+            <!-- Desktop View: Standard Table -->
+            <div class="table-container desktop-only-table">
                 <table class="custom-table">
                     <thead>
                         <tr>
@@ -690,6 +980,50 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Mobile View: Responsive Cards -->
+            <div class="mobile-only-cards">
+                @forelse($rekapHarian as $rh)
+                <div class="mobile-harian-card">
+                    <div class="mobile-harian-top">
+                        <div>
+                            <div class="mobile-harian-date">{{ $rh->tanggal }}</div>
+                            <div class="mobile-harian-day">{{ $rh->hari }}</div>
+                        </div>
+                        <div class="mobile-harian-sesi">
+                            <i class="fa-regular fa-clock" style="color: var(--c-blue-primary);"></i>
+                            <span>{{ $rh->total_kbm }} Sesi KBM</span>
+                        </div>
+                    </div>
+
+                    <div class="mobile-harian-body">
+                        <span class="status-badge-pill {{ $rh->pill_class }}">
+                            @if($rh->pill_class === 'pill-hadir')
+                                <i class="fa-solid fa-circle-check"></i>
+                            @elseif($rh->pill_class === 'pill-sakit')
+                                <i class="fa-solid fa-hospital-user"></i>
+                            @elseif($rh->pill_class === 'pill-izin')
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            @elseif($rh->pill_class === 'pill-alpa')
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            @else
+                                <i class="fa-solid fa-file-signature"></i>
+                            @endif
+                            <span>{{ $rh->status_utama }}</span>
+                        </span>
+
+                        <div class="mobile-harian-ket">
+                            <i class="fa-solid fa-circle-info" style="color: var(--c-gray-muted); margin-right: 4px;"></i>
+                            {{ $rh->keterangan }}
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <div style="text-align: center; padding: 24px; color: var(--c-gray-muted); font-size: 13px; background: var(--c-gray-bg-light); border-radius: 12px; border: 1px dashed var(--c-gray-border-light);">
+                    Belum ada data catatan kehadiran harian untuk bulan ini.
+                </div>
+                @endforelse
+            </div>
         </div>
 
         <!-- 3. Tabel Rincian Presensi per Mata Pelajaran (KBM Jurnal Guru) -->
@@ -709,7 +1043,8 @@
                 </div>
             </div>
 
-            <div class="table-container">
+            <!-- Desktop View: Standard Table -->
+            <div class="table-container desktop-only-table">
                 <table class="custom-table">
                     <thead>
                         <tr>
@@ -776,6 +1111,68 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile View: Responsive Cards -->
+            <div class="mobile-only-cards">
+                @forelse($rincianPerMapel as $p)
+                @php
+                    $pClass = 'pill-hadir';
+                    $stLow = strtolower($p->status_presensi);
+                    if ($stLow === 'sakit') $pClass = 'pill-sakit';
+                    elseif ($stLow === 'izin') $pClass = 'pill-izin';
+                    elseif ($stLow === 'alpa' || $stLow === 'alpha') $pClass = 'pill-alpa';
+                    elseif ($stLow === 'dispen') $pClass = 'pill-dispen';
+                @endphp
+                <div class="mobile-mapel-card">
+                    <div class="mobile-mapel-header">
+                        <div class="mobile-mapel-date-badge">
+                            <i class="fa-regular fa-calendar" style="color: var(--c-blue-primary);"></i>
+                            <span>{{ $p->tanggal }} ({{ $p->hari }})</span>
+                        </div>
+                        <div class="mobile-mapel-jam-badge">
+                            <i class="fa-regular fa-clock" style="color: var(--c-blue-primary);"></i>
+                            <span>Jam Ke-{{ $p->jam_ke }} • {{ $p->ruangan }}</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="mobile-mapel-title">{{ $p->mapel }}</div>
+                        <div class="mobile-mapel-guru">
+                            <i class="fa-solid fa-chalkboard-user" style="font-size: 11px; color: var(--c-blue-primary);"></i>
+                            <span>{{ $p->guru }}</span>
+                        </div>
+                    </div>
+
+                    <div class="mobile-mapel-materi-box">
+                        <div style="font-weight: 700; color: var(--c-gray-slate); margin-bottom: 2px;">
+                            {{ $p->materi }}
+                            @if($p->pertemuan_ke)
+                                <span style="font-size: 10px; background: #e2e8f0; color: var(--c-navy-deep); padding: 1px 6px; border-radius: 4px; font-weight: 800; display: inline-block;">
+                                    {{ $p->pertemuan_ke }}
+                                </span>
+                            @endif
+                        </div>
+                        @if($p->catatan)
+                            <div style="font-size: 11.5px; color: var(--c-gray-muted); margin-top: 3px;">
+                                <em>Catatan: {{ $p->catatan }}</em>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="mobile-mapel-footer">
+                        <span style="font-size: 11px; font-weight: 700; color: var(--c-gray-muted);">Status Presensi:</span>
+                        <span class="status-badge-pill {{ $pClass }}">
+                            <i class="fa-solid {{ $p->icon }}"></i>
+                            <span>{{ strtoupper($p->status_presensi) }}</span>
+                        </span>
+                    </div>
+                </div>
+                @empty
+                <div style="text-align: center; padding: 24px; color: var(--c-gray-muted); font-size: 13px; background: var(--c-gray-bg-light); border-radius: 12px; border: 1px dashed var(--c-gray-border-light);">
+                    Tidak ditemukan data pembelajaran untuk bulan ini.
+                </div>
+                @endforelse
             </div>
         </div>
 

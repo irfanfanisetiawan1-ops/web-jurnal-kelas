@@ -392,32 +392,299 @@
         background: #b91c1c;
     }
 
+    /* Desktop vs Mobile Toggle */
+    .desktop-final-table-wrapper {
+        display: block;
+    }
+
+    .mobile-final-cards-list {
+        display: none;
+    }
+
     @media (max-width: 992px) {
         .top-metric-grid { grid-template-columns: repeat(2, 1fr); }
         .perhatian-grid { grid-template-columns: 1fr; }
         .percentage-grid { grid-template-columns: 1fr; }
         .colored-cards-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
+    @media (max-width: 768px) {
+        .dashboard-container {
+            gap: 14px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-x: clip;
+        }
+
+        .page-header-box {
+            padding: 14px 16px;
+            border-radius: 14px;
+        }
+
+        .page-header-title {
+            font-size: 20px;
+            line-height: 1.25;
+        }
+
+        .top-metric-grid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .metric-card {
+            padding: 16px 14px;
+            border-radius: 14px;
+        }
+
+        .metric-card-label {
+            font-size: 11px;
+        }
+
+        .metric-card-val {
+            font-size: 28px;
+            margin-top: 6px;
+        }
+
+        .metric-card-sub {
+            font-size: 11.5px;
+            margin-top: 4px;
+        }
+
+        .section-card {
+            padding: 16px 14px;
+            border-radius: 14px;
+        }
+
+        .section-header {
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 16px;
+        }
+
+        .perhatian-grid {
+            gap: 12px;
+        }
+
+        .perhatian-item-card {
+            padding: 16px 14px;
+            border-radius: 14px;
+        }
+
+        .perhatian-item-title {
+            font-size: 16px;
+        }
+
+        .perhatian-item-sub {
+            font-size: 12px;
+        }
+
+        .perhatian-item-date {
+            font-size: 11.5px;
+        }
+
+        .perhatian-item-alasan {
+            font-size: 13.5px;
+            margin-top: 10px;
+        }
+
+        .approval-status-row {
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+            padding-top: 10px;
+        }
+
+        .status-badge-mini {
+            font-size: 11px;
+            padding: 3px 10px;
+        }
+
+        .btn-action-setujui,
+        .btn-action-tolak {
+            padding: 9px;
+            font-size: 12.5px;
+            border-radius: 8px;
+        }
+
+        .percentage-grid {
+            gap: 10px;
+        }
+
+        .pct-card {
+            padding: 18px 16px;
+            border-radius: 14px;
+        }
+
+        .pct-title {
+            font-size: 12px;
+        }
+
+        .pct-number {
+            font-size: 40px;
+            margin-top: 6px;
+        }
+
+        .colored-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .colored-box {
+            padding: 16px 12px;
+            border-radius: 12px;
+        }
+
+        .colored-box-num {
+            font-size: 26px;
+        }
+
+        .colored-box-label {
+            font-size: 10.5px;
+            margin-top: 4px;
+        }
+
+        /* Antrean Persetujuan Final Mobile Cards View */
+        .desktop-final-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-final-cards-list {
+            display: flex !important;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .mobile-final-card-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .m-final-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .m-final-guru-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .m-final-guru-sub {
+            font-size: 11.5px;
+            color: #64748b;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .m-final-status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .m-final-status-badge.approved { background: #dcfce7; color: #166534; }
+        .m-final-status-badge.rejected { background: #fee2e2; color: #991b1b; }
+        .m-final-status-badge.pending  { background: #fef3c7; color: #92400e; }
+
+        .m-final-date {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f8fafc;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .m-final-alasan {
+            font-size: 12.5px;
+            color: #334155;
+            line-height: 1.45;
+            word-break: break-word;
+            background: #f8fafc;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .m-final-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 2px;
+            width: 100%;
+        }
+
+        .m-final-actions form {
+            flex: 1;
+            display: flex;
+        }
+
+        .m-btn-full {
+            width: 100%;
+            justify-content: center;
+            padding: 9px 12px;
+            font-size: 12px;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+    }
+
+    @media (min-width: 541px) and (max-width: 768px) {
+        .top-metric-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .colored-cards-grid {
+            gap: 8px;
+        }
+
+        .colored-box {
+            padding: 14px 10px;
+        }
+
+        .colored-box-num {
+            font-size: 24px;
+        }
+
+        .colored-box-label {
+            font-size: 10px;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="dashboard-container">
-
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div style="background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; padding: 13px 18px; border-radius: 12px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 16px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 13px 18px; border-radius: 12px; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-circle-xmark" style="font-size: 16px;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <!-- Title Banner Header -->
     <div class="page-header-box">
@@ -634,7 +901,8 @@
             </span>
         </div>
 
-        <div style="overflow-x: auto;">
+        <!-- Desktop Table View -->
+        <div class="desktop-final-table-wrapper" style="overflow-x: auto;">
             <table class="table-custom-final">
                 <thead>
                     <tr>
@@ -691,6 +959,66 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Cards List View (Khusus Layar HP) -->
+        <div class="mobile-final-cards-list">
+            @foreach($pendingIzin as $izin)
+            @php
+                $stWakaItem = $izin->status_waka ?? 'pending';
+                $tglFormatted = \Carbon\Carbon::parse($izin->tanggal_mulai)->locale('id')->translatedFormat('d M Y');
+                if ($izin->tanggal_selesai && $izin->tanggal_selesai !== $izin->tanggal_mulai) {
+                    $tglFormatted .= ' s/d ' . \Carbon\Carbon::parse($izin->tanggal_selesai)->locale('id')->translatedFormat('d M Y');
+                }
+            @endphp
+            <div class="mobile-final-card-item">
+                <div class="m-final-header">
+                    <div>
+                        <h4 class="m-final-guru-name">{{ $izin->guru->nama_guru ?? 'Guru' }}</h4>
+                        <div class="m-final-guru-sub">{{ $izin->guru->mapel->nama_mapel ?? 'Guru Mapel' }}</div>
+                    </div>
+                    <div>
+                        @if($stWakaItem === 'approved')
+                            <span class="m-final-status-badge approved">
+                                <i class="fa-solid fa-check"></i> Disetujui Waka
+                            </span>
+                        @elseif($stWakaItem === 'rejected')
+                            <span class="m-final-status-badge rejected">
+                                <i class="fa-solid fa-xmark"></i> Ditolak Waka
+                            </span>
+                        @else
+                            <span class="m-final-status-badge pending">
+                                <i class="fa-solid fa-clock"></i> Menunggu Waka
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="m-final-date">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <span>{{ $tglFormatted }}</span>
+                </div>
+
+                <div class="m-final-alasan">
+                    <strong>Alasan:</strong> {{ $izin->alasan }}
+                </div>
+
+                <div class="m-final-actions">
+                    <form action="{{ route('kepala-sekolah.izin.approve', $izin->id_guru_izin) }}" method="POST" onsubmit="return confirm('Approve final izin {{ addslashes($izin->guru->nama_guru ?? 'Guru') }}?')">
+                        @csrf
+                        <button type="submit" class="btn-approve-final m-btn-full">
+                            <i class="fa-solid fa-check-double"></i> Approve Final
+                        </button>
+                    </form>
+                    <form action="{{ route('kepala-sekolah.izin.reject', $izin->id_guru_izin) }}" method="POST" onsubmit="return confirm('Tolak izin {{ addslashes($izin->guru->nama_guru ?? 'Guru') }}?')">
+                        @csrf
+                        <button type="submit" class="btn-reject-final m-btn-full">
+                            <i class="fa-solid fa-xmark"></i> Tolak
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @endforeach
         </div>
     </div>
     @endif

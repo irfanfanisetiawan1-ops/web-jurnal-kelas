@@ -528,12 +528,13 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(15, 23, 42, 0.6);
+        background: rgba(15, 23, 42, 0.65);
         backdrop-filter: blur(4px);
         z-index: 9999;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 16px;
+        box-sizing: border-box;
     }
 
     .modal-box {
@@ -542,27 +543,37 @@
         max-width: 600px;
         width: 100%;
         max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        max-height: 90dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2), 0 10px 10px -5px rgba(0,0,0,0.1);
+        box-sizing: border-box;
+        border: 1px solid #cbd5e1;
     }
 
     .modal-box.modal-lg {
-        max-width: 800px;
+        max-width: 820px;
     }
 
     .modal-header {
-        padding: 18px 22px;
+        padding: 16px 20px;
         border-bottom: 1px solid #e2e8f0;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-shrink: 0;
+        background: #ffffff;
     }
 
     .modal-header h3 {
-        font-size: 17px;
+        font-size: 16px;
         font-weight: 800;
         color: #0f172a;
         margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     .modal-close-btn {
@@ -571,8 +582,12 @@
         color: #94a3b8;
         font-size: 18px;
         cursor: pointer;
-        padding: 4px;
-        border-radius: 6px;
+        padding: 6px 8px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
     }
     .modal-close-btn:hover {
         color: #0f172a;
@@ -580,17 +595,21 @@
     }
 
     .modal-body {
-        padding: 20px 22px;
+        padding: 20px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        flex: 1 1 auto;
     }
 
     .modal-footer {
-        padding: 14px 22px;
+        padding: 14px 20px;
         border-top: 1px solid #e2e8f0;
         display: flex;
         justify-content: flex-end;
         gap: 10px;
         background: #f8fafc;
         border-radius: 0 0 16px 16px;
+        flex-shrink: 0;
     }
 
     .form-group-modal {
@@ -661,28 +680,559 @@
         margin-bottom: 14px;
     }
 
+    /* Base Classes for Mobile/Desktop Elements */
+    .filter-actions-group {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+
+    .desktop-jadwal-table-wrapper {
+        display: block;
+    }
+
+    .mobile-jadwal-wrapper {
+        display: none;
+    }
+
+    .matrix-scroll-hint {
+        display: none;
+    }
+
+    .kbm-modal-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .matrix-controls-wrap {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .matrix-select-form {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .cetak-kelas-group {
+        display: flex;
+        gap: 8px;
+    }
+
+    /* Responsive Media Queries */
     @media (max-width: 1024px) {
         .stat-cards-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
         .filter-form-grid {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 
-    @media (max-width: 640px) {
-        .stat-cards-grid {
-            grid-template-columns: 1fr;
+    @media (max-width: 768px) {
+        .jadwal-container {
+            gap: 14px;
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
-        .filter-form-grid {
-            grid-template-columns: 1fr;
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
         }
+
+        .page-main-title {
+            font-size: 22px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-sub-title {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
         .header-actions {
-            width: 100%;
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 8px !important;
+            width: 100% !important;
         }
-        .btn-action {
-            flex: 1;
+
+        .header-actions .btn-action {
+            justify-content: center !important;
+            padding: 8px 6px !important;
+            font-size: 11.5px !important;
+            white-space: nowrap !important;
+        }
+
+        /* 4 Stat Cards in 2x2 Grid */
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card-item {
+            padding: 12px 14px !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 40px !important;
+            height: 40px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .stat-title {
+            font-size: 11px !important;
+        }
+
+        .stat-count {
+            font-size: 18px !important;
+        }
+
+        /* View Mode Switcher */
+        .view-switcher-bar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 6px !important;
+            padding: 6px !important;
+        }
+
+        .view-pills {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 6px !important;
+            width: 100% !important;
+        }
+
+        .view-pill-btn {
+            justify-content: flex-start !important;
+            padding: 10px 14px !important;
+            font-size: 12.5px !important;
+            border-radius: 8px !important;
+        }
+
+        .view-switcher-mode-label {
+            text-align: center !important;
+            padding: 4px 0 !important;
+            font-size: 11px !important;
+        }
+
+        /* Filter Panel */
+        .filter-panel {
+            padding: 12px 14px !important;
+        }
+
+        .filter-form-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .search-input-wrapper {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+        }
+
+        .filter-select {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+            padding: 8px 8px !important;
+        }
+
+        .filter-actions-group {
+            grid-column: 1 / -1 !important;
+            display: flex !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .btn-filter-submit {
+            flex: 1 !important;
+            justify-content: center !important;
+            padding: 9px 14px !important;
+            font-size: 13px !important;
+        }
+
+        .btn-filter-reset {
+            width: 44px !important;
+            padding: 9px 0 !important;
+            justify-content: center !important;
+        }
+
+        /* VIEW 1: Master Jadwal Table & Mobile Cards */
+        .table-action-bar {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+            padding: 10px 14px !important;
+        }
+
+        .desktop-jadwal-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-jadwal-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        .mobile-jadwal-card {
+            background: #ffffff !important;
+            border: 1.5px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            padding: 14px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        .mobile-jadwal-card:active {
+            transform: scale(0.99);
+            border-color: #93c5fd;
+        }
+
+        .m-jadwal-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding-bottom: 9px !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            flex-wrap: wrap !important;
+            width: 100% !important;
+        }
+
+        .m-jadwal-header-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            flex-wrap: wrap !important;
+        }
+
+        .m-jadwal-num {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-width: 22px !important;
+            height: 22px !important;
+            padding: 0 5px !important;
+            border-radius: 6px !important;
+            background: #f1f5f9 !important;
+            color: #64748b !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+        }
+
+        .m-jadwal-time {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #475569 !important;
+            background: #f8fafc !important;
+            padding: 3px 8px !important;
+            border-radius: 6px !important;
+            border: 1px solid #e2e8f0 !important;
+            font-family: inherit !important;
+        }
+
+        .m-jadwal-body {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .m-jadwal-mapel {
+            font-size: 14px !important;
+            font-weight: 800 !important;
+            color: #0f172a !important;
+            margin: 0 0 5px 0 !important;
+            line-height: 1.3 !important;
+            word-break: break-word !important;
+        }
+
+        .m-jadwal-meta-row {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            flex-wrap: wrap !important;
+        }
+
+        .m-code-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            padding: 3px 8px !important;
+            border-radius: 6px !important;
+            background: #f1f5f9 !important;
+            color: #475569 !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            font-family: monospace !important;
+        }
+
+        .m-jadwal-guru-box {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+            background: #f8fafc !important;
+            border: 1px solid #f1f5f9 !important;
+            border-radius: 8px !important;
+            padding: 8px 10px !important;
+            font-size: 12px !important;
+            color: #334155 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .m-jadwal-guru-box i {
+            color: #64748b !important;
+            margin-top: 2px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .m-jadwal-guru-text {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1px !important;
+            min-width: 0 !important;
+        }
+
+        .m-jadwal-guru-text strong {
+            color: #1e293b !important;
+            word-break: break-word !important;
+        }
+
+        .m-jadwal-guru-text span {
+            font-size: 11px !important;
+            color: #64748b !important;
+        }
+
+        .m-jadwal-footer {
+            padding-top: 2px !important;
+            width: 100% !important;
+        }
+
+        .m-btn-detail {
+            width: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            padding: 10px 12px !important;
+            background: #eff6ff !important;
+            color: #2563eb !important;
+            border: 1.5px solid #bfdbfe !important;
+            border-radius: 10px !important;
+            font-size: 13px !important;
+            font-weight: 800 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        .m-btn-detail:active {
+            background: #2563eb !important;
+            color: #ffffff !important;
+        }
+
+        .m-empty-state {
+            text-align: center !important;
+            padding: 32px 16px !important;
+            background: #ffffff !important;
+            border-radius: 12px !important;
+            border: 1.5px dashed #cbd5e1 !important;
+        }
+
+        /* VIEW 2 & 3: Matrix Views on Mobile */
+        .matrix-card {
+            padding: 14px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .matrix-header-box {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            margin-bottom: 12px !important;
+            padding-bottom: 12px !important;
+        }
+
+        .matrix-controls-wrap {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            width: 100% !important;
+            gap: 8px !important;
+        }
+
+        .matrix-select-form {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            width: 100% !important;
+            gap: 6px !important;
+        }
+
+        .matrix-select-form select {
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .matrix-controls-wrap .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        .matrix-scroll-hint {
+            display: flex !important;
+            align-items: center;
             justify-content: center;
+            gap: 6px;
+            padding: 8px 10px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 11.5px;
+            font-weight: 700;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px dashed #bfdbfe;
+            text-align: center;
+        }
+
+        .table-scroll-wrapper {
+            width: 100% !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        .matrix-table {
+            min-width: 820px !important;
+            font-size: 11.5px !important;
+        }
+
+        .matrix-table th {
+            padding: 8px 8px !important;
+            font-size: 11px !important;
+        }
+
+        .matrix-table td {
+            padding: 6px 8px !important;
+            font-size: 11px !important;
+        }
+
+        .matrix-cell-filled {
+            padding: 6px !important;
+            border-radius: 5px !important;
+        }
+
+        .matrix-cell-filled div {
+            line-height: 1.35 !important;
+        }
+
+        /* Modals on Mobile */
+        .modal-overlay {
+            padding: 12px !important;
+        }
+
+        .modal-box {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            max-height: 92dvh !important;
+            border-radius: 16px !important;
+            margin: 0 !important;
+        }
+
+        .modal-header {
+            padding: 14px 16px !important;
+        }
+
+        .modal-header h3 {
+            font-size: 14.5px !important;
+            line-height: 1.3 !important;
+        }
+
+        .modal-body {
+            padding: 14px 16px !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        .modal-footer {
+            padding: 12px 16px !important;
+        }
+
+        .modal-footer .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 10px 14px !important;
+            font-size: 13px !important;
+        }
+
+        .kbm-modal-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+        }
+
+        .kbm-ref-table {
+            font-size: 11.5px !important;
+            width: 100% !important;
+        }
+
+        .kbm-ref-table th, .kbm-ref-table td {
+            padding: 6px 8px !important;
+        }
+
+        .cetak-kelas-group {
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+
+        .cetak-kelas-group button {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-actions {
+            grid-template-columns: 1fr 1fr !important;
+        }
+
+        .header-actions .btn-indigo {
+            grid-column: 1 / -1 !important;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .stat-card-item {
+            padding: 10px !important;
+            gap: 8px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 15px !important;
+        }
+
+        .stat-count {
+            font-size: 16px !important;
         }
     }
 </style>
@@ -773,7 +1323,7 @@
                 <i class="fa-solid fa-user-tie"></i> Matriks Jadwal Per Guru
             </a>
         </div>
-        <div style="font-size: 12px; color: #64748b; font-weight: 600; padding: 0 10px;">
+        <div class="view-switcher-mode-label" style="font-size: 12px; color: #64748b; font-weight: 600; padding: 0 10px;">
             Mode Tampilan: <span style="color: #0f172a; font-weight: 800;">{{ $viewMode === 'matriks_kelas' ? 'Matriks Kelas' : ($viewMode === 'matriks_guru' ? 'Matriks Guru' : 'Tabel Master') }}</span>
         </div>
     </div>
@@ -816,13 +1366,15 @@
                 @endforeach
             </select>
 
-            <button type="submit" class="btn-filter-submit">
-                <i class="fa-solid fa-filter"></i> Terapkan
-            </button>
+            <div class="filter-actions-group">
+                <button type="submit" class="btn-filter-submit">
+                    <i class="fa-solid fa-filter"></i> Terapkan
+                </button>
 
-            <a href="{{ route('waka.jadwal', ['view_mode' => $viewMode]) }}" class="btn-filter-reset" title="Reset Filter">
-                <i class="fa-solid fa-rotate-left"></i>
-            </a>
+                <a href="{{ route('waka.jadwal', ['view_mode' => $viewMode]) }}" class="btn-filter-reset" title="Reset Filter">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </a>
+            </div>
         </form>
     </div>
 
@@ -840,7 +1392,8 @@
             </div>
         </div>
 
-        <div class="table-scroll-wrapper">
+        <!-- Desktop Table View -->
+        <div class="table-scroll-wrapper desktop-jadwal-table-wrapper">
             <table class="jadwal-table">
                 <thead>
                     <tr>
@@ -924,6 +1477,69 @@
             </table>
         </div>
 
+        <!-- Mobile Cards List View -->
+        <div class="mobile-jadwal-wrapper">
+            @forelse($jadwals as $j)
+                <div class="mobile-jadwal-card">
+                    <div class="m-jadwal-header">
+                        <div class="m-jadwal-header-left">
+                            <span class="m-jadwal-num">#{{ $jadwals->firstItem() + $loop->index }}</span>
+                            <span class="day-badge day-{{ $j->hari }}">
+                                <i class="fa-regular fa-calendar"></i> {{ $j->hari }}
+                            </span>
+                            <div class="period-badge">
+                                <i class="fa-regular fa-clock"></i> Jam {{ $j->jam_mulai_ke }} - {{ $j->jam_selesai_ke }}
+                            </div>
+                        </div>
+                        <div class="m-jadwal-header-right">
+                            <span class="m-jadwal-time">{{ substr($j->waktu_mulai_effective, 0, 5) }} - {{ substr($j->waktu_selesai_effective, 0, 5) }} WIB</span>
+                        </div>
+                    </div>
+
+                    <div class="m-jadwal-body">
+                        <div class="m-jadwal-main-info">
+                            <h4 class="m-jadwal-mapel">{{ $j->mapel->nama_mapel ?? 'Mapel -' }}</h4>
+                            <div class="m-jadwal-meta-row">
+                                <span class="class-chip">
+                                    <i class="fa-solid fa-graduation-cap"></i> {{ $j->kelas->nama_kelas ?? 'Kelas -' }}
+                                </span>
+                                <span class="room-badge">
+                                    <i class="fa-solid fa-door-open"></i> {{ $j->ruangan->nama_ruangan ?? ($j->kelas->nama_kelas ?? 'Ruang Kelas') }}
+                                </span>
+                                @if($j->mapel && $j->mapel->kode_mapel)
+                                    <span class="m-code-badge">{{ $j->mapel->kode_mapel }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="m-jadwal-guru-box">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                            <div class="m-jadwal-guru-text">
+                                <strong>{{ $j->guru->nama_guru ?? 'Guru -' }}</strong>
+                                @if($j->guru && $j->guru->nip)
+                                    <span>NIP: {{ $j->guru->nip }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-jadwal-footer">
+                        <button type="button" class="m-btn-detail" onclick='openDetailModal(@json($j))'>
+                            <i class="fa-solid fa-circle-info"></i> Lihat Detail Jadwal
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div class="m-empty-state">
+                    <div style="color: #94a3b8; font-size: 32px; margin-bottom: 8px;">
+                        <i class="fa-solid fa-calendar-xmark"></i>
+                    </div>
+                    <div style="font-size: 14px; font-weight: 800; color: #475569;">Tidak ada data jadwal ditemukan</div>
+                    <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Coba ubah kata kunci pencarian atau reset filter.</div>
+                </div>
+            @endforelse
+        </div>
+
         <div style="padding: 16px 20px; border-top: 1px solid #e2e8f0; background: #ffffff;">
             {{ $jadwals->links('partials.custom-pagination') }}
         </div>
@@ -944,8 +1560,8 @@
                 </div>
             </div>
 
-            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                <form method="GET" action="{{ route('waka.jadwal') }}" style="display: flex; gap: 8px; align-items: center;">
+            <div class="matrix-controls-wrap">
+                <form method="GET" action="{{ route('waka.jadwal') }}" class="matrix-select-form">
                     <input type="hidden" name="view_mode" value="matriks_kelas">
                     <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Pilih Kelas:</label>
                     <select name="selected_kelas" class="filter-select" onchange="this.form.submit()" style="width: auto; min-width: 160px;">
@@ -963,6 +1579,10 @@
                 </a>
                 @endif
             </div>
+        </div>
+
+        <div class="matrix-scroll-hint">
+            <i class="fa-solid fa-arrows-left-right"></i> Geser tabel ke samping untuk melihat seluruh hari (Senin – Jumat)
         </div>
 
         <div class="table-scroll-wrapper">
@@ -1111,8 +1731,8 @@
                 </div>
             </div>
 
-            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                <form method="GET" action="{{ route('waka.jadwal') }}" style="display: flex; gap: 8px; align-items: center;">
+            <div class="matrix-controls-wrap">
+                <form method="GET" action="{{ route('waka.jadwal') }}" class="matrix-select-form">
                     <input type="hidden" name="view_mode" value="matriks_guru">
                     <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Pilih Guru:</label>
                     <select name="selected_guru" class="filter-select" onchange="this.form.submit()" style="width: auto; min-width: 200px;">
@@ -1124,6 +1744,10 @@
                     </select>
                 </form>
             </div>
+        </div>
+
+        <div class="matrix-scroll-hint">
+            <i class="fa-solid fa-arrows-left-right"></i> Geser tabel ke samping untuk melihat seluruh hari (Senin – Jumat)
         </div>
 
         <div class="table-scroll-wrapper">
@@ -1225,7 +1849,7 @@
                 Berdasarkan pedoman kurikulum KBM Semester Ganjil 2026/2027:
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="kbm-modal-grid">
                 <div>
                     <h4 style="font-size: 13px; font-weight: 800; color: #1e293b; margin: 0 0 6px 0;">
                         <i class="fa-solid fa-calendar-week" style="color: #2563eb;"></i> Senin – Kamis (10 Jam Pelajaran)
@@ -1309,7 +1933,7 @@
 
                 <div style="border-top: 1px solid #e2e8f0; padding-top: 12px;">
                     <label style="font-size: 13px; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">Cetak Matriks Jadwal Per Kelas:</label>
-                    <div style="display: flex; gap: 8px;">
+                    <div class="cetak-kelas-group">
                         <select id="cetakKelasSelect" class="modal-select">
                             @foreach($kelasList as $k)
                                 <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }} ({{ $k->tingkat }})</option>
@@ -1367,6 +1991,15 @@
     window.addEventListener('click', function(e) {
         if (e.target.classList.contains('modal-overlay')) {
             e.target.style.display = 'none';
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeDetailModal();
+            closeKbmModal();
+            closeCetakModal();
         }
     });
 </script>

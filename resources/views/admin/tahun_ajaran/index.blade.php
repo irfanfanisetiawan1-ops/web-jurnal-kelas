@@ -270,11 +270,13 @@
         transform: translateY(-50%);
         color: #94a3b8;
         font-size: 13px;
+        pointer-events: none;
+        z-index: 2;
     }
 
     .search-input-group input {
         width: 100%;
-        padding: 9px 14px 9px 38px;
+        padding: 9px 14px 9px 38px !important;
         background: #f8fafc;
         border: 1px solid #e2e8f0;
         border-radius: 10px;
@@ -283,6 +285,7 @@
         font-family: inherit;
         outline: none;
         transition: border 0.2s ease;
+        box-sizing: border-box;
     }
 
     .search-input-group input:focus {
@@ -616,19 +619,15 @@
     /* Table Footer & Pagination */
     .ta-table-footer {
         padding: 16px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         background: #ffffff;
         border-top: 1px solid #f1f5f9;
-        flex-wrap: wrap;
-        gap: 12px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .ta-footer-info {
-        font-size: 13px;
-        color: #64748b;
-        font-weight: 600;
+    .ta-table-footer .custom-pagination-bar {
+        margin: 0;
+        width: 100%;
     }
 
     /* Modal Overlay & Card */
@@ -854,6 +853,598 @@
         font-weight: 700;
         color: #0f172a;
     }
+
+    /* ========================================================
+       MOBILE RESPONSIVE STYLES (KHUSUS MOBILE HP <= 768px & <= 480px)
+       Tampilan Desktop/Laptop Tetap 100% Sesuai & Tidak Terganggu
+       ======================================================== */
+    .mobile-select-all-bar,
+    .mobile-label-text,
+    .mobile-only-btn-text {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .ta-page-container {
+            gap: 16px !important;
+        }
+
+        /* Header Area */
+        .ta-header-wrapper {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 14px !important;
+        }
+
+        .ta-title-area h1 {
+            font-size: 25px !important;
+            line-height: 1.25 !important;
+        }
+
+        .ta-title-area p {
+            font-size: 12.5px !important;
+            line-height: 1.4 !important;
+        }
+
+        .ta-header-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .btn-action-outline,
+        .btn-action-primary {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 10px 12px !important;
+            font-size: 12.5px !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+        }
+
+        /* 5 KPI Cards on Mobile */
+        .kpi-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .kpi-card:first-child {
+            grid-column: 1 / -1 !important;
+        }
+
+        .kpi-card {
+            padding: 14px 16px !important;
+            min-height: auto !important;
+            border-radius: 14px !important;
+        }
+
+        .kpi-value {
+            font-size: 19px !important;
+        }
+
+        .kpi-subtext {
+            font-size: 11px !important;
+        }
+
+        /* Tabs Bar */
+        .ta-tabs-bar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            padding: 0 14px 10px 14px !important;
+            gap: 10px !important;
+        }
+
+        .ta-nav-tabs {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+        }
+
+        .ta-tab-item {
+            justify-content: center !important;
+            padding: 12px 6px !important;
+            font-size: 12.5px !important;
+            text-align: center !important;
+        }
+
+        .ta-school-label {
+            text-align: center !important;
+            font-size: 11.5px !important;
+            color: #94a3b8 !important;
+        }
+
+        /* Filter Toolbar */
+        .ta-filter-bar {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 10px !important;
+            padding: 14px !important;
+        }
+
+        .search-input-group {
+            grid-column: 1 / -1 !important;
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+
+        .ta-select-filter {
+            width: 100% !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+            font-size: 12.5px !important;
+        }
+
+        .btn-search {
+            grid-column: 1 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 10px 12px !important;
+        }
+
+        .btn-reset {
+            grid-column: 2 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 10px 12px !important;
+        }
+
+        /* Bulk Action Bar */
+        .bulk-bar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            margin: 10px 14px !important;
+            padding: 12px 14px !important;
+            text-align: center !important;
+        }
+
+        .bulk-bar-actions {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .bulk-bar-actions button {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 10px 12px !important;
+        }
+
+        /* Mobile Select All Bar */
+        .mobile-select-all-bar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            background: #f8fafc !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            padding: 10px 14px !important;
+        }
+
+        .mobile-select-all-bar label {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            color: #334155 !important;
+            cursor: pointer !important;
+            margin: 0 !important;
+        }
+
+        .mobile-select-all-bar input[type="checkbox"] {
+            width: 18px !important;
+            height: 18px !important;
+            accent-color: #2563eb !important;
+            cursor: pointer !important;
+        }
+
+        .mobile-data-count {
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            padding: 2px 8px !important;
+            border-radius: 12px !important;
+        }
+
+        .mobile-label-text {
+            display: inline-block !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.3px !important;
+            margin-right: 4px !important;
+        }
+
+        /* Table Card Transformation */
+        .ta-table-container {
+            overflow-x: visible !important;
+        }
+
+        .ta-table {
+            display: block !important;
+            width: 100% !important;
+            border: none !important;
+        }
+
+        .ta-table thead {
+            display: none !important;
+        }
+
+        .ta-table tbody {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 12px 14px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .ta-table tbody tr.ta-row-card {
+            display: grid !important;
+            grid-template-columns: 26px 1fr auto !important;
+            gap: 8px 10px !important;
+            padding: 14px !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            position: relative !important;
+        }
+
+        .ta-table tbody tr.ta-row-card.is-active-row {
+            border-color: #93c5fd !important;
+            background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 50px) !important;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08) !important;
+        }
+
+        .ta-table tbody tr.ta-row-card td {
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        /* Checkbox cell */
+        .ta-table tbody tr.ta-row-card .col-checkbox {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+            width: 26px !important;
+            align-self: center !important;
+            text-align: left !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .col-checkbox input[type="checkbox"] {
+            width: 18px !important;
+            height: 18px !important;
+            accent-color: #2563eb !important;
+            cursor: pointer !important;
+        }
+
+        /* Tahun Ajaran title cell */
+        .ta-table tbody tr.ta-row-card .col-ta {
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+            align-self: center !important;
+            text-align: left !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .col-ta .ta-year-title {
+            font-size: 15px !important;
+            font-weight: 800 !important;
+            color: #0f172a !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .col-ta .ta-period-sub {
+            font-size: 12px !important;
+            color: #64748b !important;
+            display: block !important;
+            margin-top: 1px !important;
+        }
+
+        /* No badge cell */
+        .ta-table tbody tr.ta-row-card .col-no {
+            grid-column: 3 !important;
+            grid-row: 1 !important;
+            width: auto !important;
+            align-self: center !important;
+            justify-self: end !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .col-no .ta-no-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            color: #64748b !important;
+            background: #f1f5f9 !important;
+            padding: 3px 8px !important;
+            border-radius: 8px !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        /* Semester cell */
+        .ta-table tbody tr.ta-row-card .col-semester {
+            grid-column: 1 / 3 !important;
+            grid-row: 2 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        /* Status cell */
+        .ta-table tbody tr.ta-row-card .col-status {
+            grid-column: 3 !important;
+            grid-row: 2 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 6px !important;
+        }
+
+        /* Akses Jurnal cell */
+        .ta-table tbody tr.ta-row-card .col-akses {
+            grid-column: 1 / -1 !important;
+            grid-row: 3 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            background: #f8fafc !important;
+            padding: 8px 10px !important;
+            border-radius: 10px !important;
+            border: 1px solid #f1f5f9 !important;
+            font-size: 12px !important;
+        }
+
+        /* Aksi cell */
+        .ta-table tbody tr.ta-row-card .col-aksi {
+            grid-column: 1 / -1 !important;
+            grid-row: 4 !important;
+            border-top: 1px dashed #e2e8f0 !important;
+            padding-top: 10px !important;
+            margin-top: 2px !important;
+            width: 100% !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .action-buttons-group {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 8px !important;
+            width: 100% !important;
+            flex-wrap: wrap !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .btn-act-activate {
+            flex: 1 1 auto !important;
+            height: 38px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            font-size: 12.5px !important;
+            padding: 0 12px !important;
+            border-radius: 10px !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .btn-act-detail {
+            flex: 1 1 auto !important;
+            height: 38px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            font-size: 12.5px !important;
+            padding: 0 12px !important;
+            border-radius: 10px !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .btn-act-edit {
+            flex: 1 1 auto !important;
+            height: 38px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            font-size: 12.5px !important;
+            padding: 0 14px !important;
+            border-radius: 10px !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .btn-act-delete {
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 10px !important;
+            font-size: 14px !important;
+        }
+
+        /* Trash Tab Specific Buttons */
+        .ta-table tbody tr.ta-row-card .btn-act-restore {
+            flex: 1 !important;
+            height: 38px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            font-size: 13px !important;
+            padding: 0 14px !important;
+            border-radius: 10px !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .btn-act-force-delete {
+            flex: 1 !important;
+            width: auto !important;
+            height: 38px !important;
+            padding: 0 12px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            border-radius: 10px !important;
+        }
+
+        .mobile-only-btn-text {
+            display: inline-block !important;
+        }
+
+        /* Empty state row */
+        .ta-table tbody tr.ta-row-empty {
+            display: block !important;
+            width: 100% !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+
+        .ta-table tbody tr.ta-row-empty td {
+            display: block !important;
+            width: 100% !important;
+            padding: 36px 14px !important;
+        }
+
+        /* Table Footer / Pagination */
+        .ta-table-footer {
+            padding: 14px 16px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .ta-table-footer .custom-pagination-bar {
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            gap: 10px !important;
+            width: 100% !important;
+        }
+
+        .ta-table-footer .pagination-info {
+            text-align: center !important;
+            font-size: 12.5px !important;
+            width: 100% !important;
+            display: flex !important;
+            justify-content: center !important;
+        }
+
+        .ta-table-footer .pagination-list {
+            display: flex !important;
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+            gap: 4px !important;
+            width: 100% !important;
+        }
+
+        /* Modals on Mobile */
+        .modal-card-custom {
+            max-width: 95vw !important;
+            margin: 10px auto !important;
+            border-radius: 14px !important;
+            max-height: 94vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        .modal-header-custom {
+            padding: 14px 18px !important;
+        }
+
+        .modal-header-custom h3 {
+            font-size: 16px !important;
+        }
+
+        .modal-body-custom {
+            padding: 16px 18px !important;
+            max-height: calc(94vh - 130px) !important;
+        }
+
+        .form-row-2 {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+        }
+
+        .month-picker-container {
+            padding: 12px !important;
+        }
+
+        .month-picker-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+        }
+
+        .modal-footer-custom {
+            padding: 12px 18px !important;
+            flex-direction: column-reverse !important;
+            gap: 8px !important;
+        }
+
+        .modal-footer-custom button {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 11px 16px !important;
+        }
+
+        /* Detail Modal Elements */
+        .detail-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        .detail-item-full {
+            grid-column: span 1 !important;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .ta-header-actions {
+            grid-template-columns: 1fr !important;
+        }
+
+        .month-picker-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .col-semester {
+            grid-column: 1 / -1 !important;
+            grid-row: 2 !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .col-status {
+            grid-column: 1 / -1 !important;
+            grid-row: 3 !important;
+            justify-content: flex-start !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .col-akses {
+            grid-column: 1 / -1 !important;
+            grid-row: 4 !important;
+        }
+
+        .ta-table tbody tr.ta-row-card .col-aksi {
+            grid-column: 1 / -1 !important;
+            grid-row: 5 !important;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .kpi-grid {
+            grid-template-columns: 1fr !important;
+        }
+    }
 </style>
 @endsection
 
@@ -1040,6 +1631,15 @@
             </div>
         </div>
 
+        {{-- Mobile Select All Bar --}}
+        <div class="mobile-select-all-bar">
+            <label for="mobileSelectAllCheckbox">
+                <input type="checkbox" id="mobileSelectAllCheckbox" onchange="toggleSelectAll(this)">
+                <span>Pilih Semua Data</span>
+            </label>
+            <span class="mobile-data-count">{{ $tahunAjaranList->total() }} Periode</span>
+        </div>
+
         {{-- Data Table --}}
         <div class="ta-table-container">
             <table class="ta-table">
@@ -1058,23 +1658,27 @@
                 </thead>
                 <tbody>
                     @forelse($tahunAjaranList as $index => $item)
-                        <tr>
+                        <tr class="ta-row-card {{ $item->is_aktif ? 'is-active-row' : '' }}">
                             <td class="col-checkbox">
                                 <input type="checkbox" class="row-checkbox" value="{{ $item->id }}" data-active="{{ $item->is_aktif ? '1' : '0' }}" onchange="handleRowCheckbox()" style="cursor: pointer;">
                             </td>
-                            <td class="col-no">{{ $tahunAjaranList->firstItem() + $index }}</td>
-                            <td>
+                            <td class="col-no">
+                                <span class="ta-no-badge">{{ $tahunAjaranList->firstItem() + $index }}</span>
+                            </td>
+                            <td class="col-ta">
                                 <div class="ta-name-group">
                                     <span class="ta-year-title">{{ $item->tahun_ajaran }}</span>
                                     <span class="ta-period-sub">{{ $item->periode_label ?? ($item->semester === 'Ganjil' ? 'Juli - Desember ' . explode('/', $item->tahun_ajaran)[0] : 'Januari - Juni ' . (explode('/', $item->tahun_ajaran)[1] ?? '')) }}</span>
                                 </div>
                             </td>
-                            <td>
+                            <td class="col-semester">
+                                <span class="mobile-label-text">Semester:</span>
                                 <span class="badge-semester {{ $item->semester === 'Genap' ? 'sem-genap' : '' }}">
                                     {{ $item->semester_formatted }}
                                 </span>
                             </td>
-                            <td>
+                            <td class="col-status">
+                                <span class="mobile-label-text">Status:</span>
                                 @if($item->is_aktif)
                                     <span class="badge-status-active">
                                         <span class="dot"></span> Aktif
@@ -1083,7 +1687,8 @@
                                     <span class="badge-status-inactive">Tidak Aktif</span>
                                 @endif
                             </td>
-                            <td>
+                            <td class="col-akses">
+                                <span class="mobile-label-text">Akses:</span>
                                 @if($item->buka_jurnal)
                                     <div class="akses-jurnal-group open" title="Pengisian jurnal guru dapat dilakukan untuk periode ini">
                                         <i class="fa-solid fa-lock-open"></i>
@@ -1096,30 +1701,30 @@
                                     </div>
                                 @endif
                             </td>
-                            <td style="text-align: right;">
+                            <td class="col-aksi" style="text-align: right;">
                                 <div class="action-buttons-group" style="justify-content: flex-end;">
                                     @if($tab === 'trash')
                                         {{-- Actions in Trash Tab --}}
                                         <button type="button" class="btn-act-restore" onclick="confirmRestore({{ $item->id }}, '{{ $item->nama_lengkap }}')">
-                                            <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                                            <i class="fa-solid fa-rotate-left"></i> <span>Pulihkan</span>
                                         </button>
-                                        <button type="button" class="btn-act-delete" onclick="confirmForceDelete({{ $item->id }}, '{{ $item->nama_lengkap }}')" title="Hapus Permanen">
-                                            <i class="fa-solid fa-xmark"></i>
+                                        <button type="button" class="btn-act-delete btn-act-force-delete" onclick="confirmForceDelete({{ $item->id }}, '{{ $item->nama_lengkap }}')" title="Hapus Permanen">
+                                            <i class="fa-solid fa-trash-can"></i> <span class="mobile-only-btn-text">Hapus Permanen</span>
                                         </button>
                                     @else
                                         {{-- Actions in Active List --}}
                                         @if(!$item->is_aktif)
                                             <button type="button" class="btn-act-activate" onclick="confirmActivate({{ $item->id }}, '{{ $item->nama_lengkap }}')">
-                                                Aktifkan
+                                                <span>Aktifkan</span>
                                             </button>
                                         @endif
 
                                         <button type="button" class="btn-act-detail" onclick="openDetailModal({{ $item->id }})">
-                                            Detail
+                                            <span>Detail</span>
                                         </button>
 
                                         <button type="button" class="btn-act-edit" onclick="openEditModal({{ $item->id }})">
-                                            Edit
+                                            <span>Edit</span>
                                         </button>
 
                                         @if($item->is_aktif)
@@ -1136,7 +1741,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
+                        <tr class="ta-row-empty">
                             <td colspan="7" style="text-align: center; padding: 48px 20px;">
                                 <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; color: #94a3b8;">
                                     <i class="fa-regular fa-folder-open" style="font-size: 38px;"></i>
@@ -1157,13 +1762,7 @@
 
         {{-- Table Footer & Pagination --}}
         <div class="ta-table-footer">
-            <div class="ta-footer-info">
-                Menampilkan {{ $tahunAjaranList->firstItem() ?? 0 }}-{{ $tahunAjaranList->lastItem() ?? 0 }} dari {{ $tahunAjaranList->total() }} data periode {{ $tab === 'trash' ? 'sampah' : 'aktif' }}
-            </div>
-
-            <div class="pagination-bar">
-                {{ $tahunAjaranList->links() }}
-            </div>
+            {{ $tahunAjaranList->links() }}
         </div>
     </div>
 </div>
@@ -1733,15 +2332,28 @@
 
     // Checkbox & Bulk Actions
     function toggleSelectAll(master) {
+        const desktopMaster = document.getElementById('selectAllCheckbox');
+        const mobileMaster = document.getElementById('mobileSelectAllCheckbox');
+        if (desktopMaster && desktopMaster !== master) desktopMaster.checked = master.checked;
+        if (mobileMaster && mobileMaster !== master) mobileMaster.checked = master.checked;
+
         const checkboxes = document.querySelectorAll('.row-checkbox');
         checkboxes.forEach(cb => cb.checked = master.checked);
         handleRowCheckbox();
     }
 
     function handleRowCheckbox() {
+        const checkboxes = document.querySelectorAll('.row-checkbox');
         const checked = document.querySelectorAll('.row-checkbox:checked');
         const bulkBar = document.getElementById('bulkBar');
         const text = document.getElementById('bulkSelectedText');
+
+        const desktopMaster = document.getElementById('selectAllCheckbox');
+        const mobileMaster = document.getElementById('mobileSelectAllCheckbox');
+        const allChecked = checkboxes.length > 0 && checked.length === checkboxes.length;
+
+        if (desktopMaster) desktopMaster.checked = allChecked;
+        if (mobileMaster) mobileMaster.checked = allChecked;
 
         if (checked.length > 0) {
             bulkBar.style.display = 'flex';

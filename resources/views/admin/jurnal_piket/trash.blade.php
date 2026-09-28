@@ -232,26 +232,6 @@
         <span>Tempat Sampah Jurnal Piket</span>
     </div>
 
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert-custom alert-error">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-triangle-exclamation" style="font-size:18px;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
-
     <div class="card">
         <div class="card-top-header">
             <div>
@@ -341,8 +321,7 @@
 
         @if($jurnalsPiket->hasPages())
             <div class="table-footer">
-                <div>Menampilkan {{ $jurnalsPiket->firstItem() ?? 0 }} - {{ $jurnalsPiket->lastItem() ?? 0 }} dari {{ $jurnalsPiket->total() }} data sampah</div>
-                <div>{{ $jurnalsPiket->links() }}</div>
+                {{ $jurnalsPiket->withQueryString()->links('partials.custom-pagination') }}
             </div>
         @endif
     </div>

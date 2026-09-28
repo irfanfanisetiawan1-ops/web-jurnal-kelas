@@ -21,6 +21,13 @@
         gap: 12px;
     }
 
+    .page-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
     .page-title-group h1 {
         font-size: 24px;
         font-weight: 800;
@@ -603,31 +610,322 @@
         justify-content: space-between;
         min-height: 100px;
     }
+
+    /* Responsive Styles for Mobile */
+    @media (max-width: 768px) {
+        .page-header-container {
+            display: contents !important;
+        }
+
+        .page-title-group {
+            order: 1 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+
+        /* 4 Summary Stat Cards diletakkan di bawah Judul Halaman */
+        .stat-grid-4 {
+            order: 2 !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card {
+            padding: 12px 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .stat-left {
+            gap: 10px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .stat-label {
+            font-size: 10.5px !important;
+        }
+
+        .stat-val {
+            font-size: 18px !important;
+        }
+
+        /* Tombol Fitur Tempat Sampah & Tandai Semua Dibaca diletakkan di bawah 4 Kartu Statistik */
+        .page-header-actions {
+            order: 3 !important;
+            display: flex !important;
+            flex-direction: row !important;
+            width: 100% !important;
+            gap: 8px !important;
+        }
+
+        .page-header-actions a.btn-reset-light {
+            flex: 1 !important;
+            width: auto !important;
+            justify-content: center !important;
+            padding: 9px 12px !important;
+            font-size: 12.5px !important;
+            white-space: nowrap !important;
+        }
+
+        .page-header-actions form {
+            flex: 1 !important;
+            display: flex !important;
+            width: auto !important;
+        }
+
+        .page-header-actions form button {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 12px !important;
+            font-size: 12.5px !important;
+            white-space: nowrap !important;
+        }
+
+        .subnav-tabs-bar {
+            order: 4 !important;
+            padding: 6px !important;
+            gap: 6px !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: thin;
+        }
+
+        .subnav-tab-btn {
+            padding: 8px 14px !important;
+            font-size: 12px !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+        }
+
+        .filter-card {
+            order: 5 !important;
+            padding: 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .filter-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+        }
+
+        .filter-input {
+            width: 100% !important;
+            min-width: 0 !important;
+            flex: none !important;
+            box-sizing: border-box !important;
+        }
+
+        .filter-actions-group {
+            display: flex !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .filter-actions-group button,
+        .filter-actions-group a {
+            flex: 1 !important;
+            justify-content: center !important;
+        }
+
+        .selection-toolbar-bar {
+            order: 6 !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+            padding: 10px 14px !important;
+        }
+
+        .dispen-cards-grid {
+            order: 7 !important;
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+        }
+
+        .dispen-card {
+            padding: 16px !important;
+            border-radius: 16px !important;
+        }
+
+        .dispen-card-top {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+        }
+
+        .card-footer-actions {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+        }
+
+        .card-footer-actions > div:last-child {
+            width: 100% !important;
+            display: flex !important;
+            gap: 8px !important;
+        }
+
+        .card-footer-actions .btn-card-action {
+            flex: 1 !important;
+            justify-content: center !important;
+            padding: 9px 12px !important;
+        }
+
+        /* Floating Toolbar */
+        .floating-batch-bar {
+            left: 14px !important;
+            right: 14px !important;
+            transform: translateY(140px) !important;
+            width: auto !important;
+            max-width: none !important;
+            border-radius: 16px !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 12px 16px !important;
+            text-align: center !important;
+            box-sizing: border-box !important;
+        }
+
+        .floating-batch-bar.show {
+            transform: translateY(0) !important;
+        }
+
+        .floating-batch-bar > div:last-child {
+            width: 100% !important;
+            display: flex !important;
+            gap: 8px !important;
+        }
+
+        .floating-batch-bar button {
+            flex: 1 !important;
+            justify-content: center !important;
+        }
+
+        /* Modal Detail Responsive */
+        .modal-box-custom {
+            max-width: 100% !important;
+            border-radius: 16px !important;
+            margin: 0 !important;
+            max-height: 92vh !important;
+        }
+
+        .modal-box-custom > div:first-child {
+            padding: 14px 16px !important;
+        }
+
+        .modal-box-custom > div:nth-child(2) {
+            padding: 14px 12px !important;
+        }
+
+        .modal-box-custom > div:last-child {
+            padding: 12px 16px !important;
+            flex-direction: column-reverse !important;
+            gap: 8px !important;
+        }
+
+        .modal-box-custom > div:last-child a,
+        .modal-box-custom > div:last-child button {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        .surat-official-paper {
+            padding: 16px 12px !important;
+            border-radius: 8px !important;
+            font-size: 11.5px !important;
+        }
+
+        .surat-kop-header h2 { font-size: 10.5px !important; }
+        .surat-kop-header h1 { font-size: 12.5px !important; }
+        .surat-kop-header p { font-size: 9px !important; }
+
+        .surat-table-data td.label-col {
+            width: 100px !important;
+            font-size: 11px !important;
+        }
+        .surat-table-data td {
+            font-size: 11px !important;
+            word-break: break-word !important;
+        }
+
+        .surat-sign-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+            margin-top: 14px !important;
+        }
+
+        .surat-sign-col {
+            min-height: auto !important;
+            border-bottom: 1px dashed #e2e8f0 !important;
+            padding-bottom: 10px !important;
+        }
+
+        .surat-sign-col:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        #sectionLampiranSurat > div:nth-child(2) {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-header-actions {
+            flex-direction: row !important;
+            gap: 8px !important;
+        }
+
+        .stat-grid-4 {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+
+        .stat-card {
+            padding: 10px 12px !important;
+        }
+
+        .stat-val {
+            font-size: 17px !important;
+        }
+
+        .ttd-box-container {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 6px !important;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="dispen-container">
-
-    <!-- Flash Feedback -->
-    @if(session('success'))
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 14px 18px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13.5px;">
-                <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #10b981;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 16px; color: #065f46; cursor: pointer;">&times;</button>
-        </div>
-    @endif
-    @if(session('error'))
-        <div style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 14px 18px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13.5px;">
-                <i class="fa-solid fa-circle-xmark" style="font-size: 18px; color: #ef4444;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 16px; color: #991b1b; cursor: pointer;">&times;</button>
-        </div>
-    @endif
 
     <!-- Header & Page Actions -->
     <div class="page-header-container">
@@ -639,7 +937,7 @@
             <p>Daftar surat dispensasi siswa resmi lengkap dengan lembar surat pengesahan tanda tangan siswa, guru piket, dan persetujuan Waka Kesiswaan</p>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <div class="page-header-actions">
             <!-- Tombol Tempat Sampah -->
             <a href="{{ route('guru.surat-dispen.trash') }}" class="btn-reset-light" style="position: relative;" title="Buka Tempat Sampah">
                 <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i> Tempat Sampah
@@ -762,12 +1060,14 @@
             <input type="date" name="tanggal" value="{{ $tanggalFilter ?? '' }}" class="filter-input" style="flex: 1; min-width: 140px;">
 
             <!-- Actions -->
-            <button type="submit" class="btn-filter-dark">
-                <i class="fa-solid fa-magnifying-glass"></i> Cari
-            </button>
-            <a href="{{ route('guru.surat-dispen', ['tab' => $tab ?? 'semua']) }}" class="btn-reset-light">
-                <i class="fa-solid fa-arrow-rotate-left"></i> Reset
-            </a>
+            <div class="filter-actions-group" style="display: flex; gap: 8px;">
+                <button type="submit" class="btn-filter-dark">
+                    <i class="fa-solid fa-magnifying-glass"></i> Cari
+                </button>
+                <a href="{{ route('guru.surat-dispen', ['tab' => $tab ?? 'semua']) }}" class="btn-reset-light">
+                    <i class="fa-solid fa-arrow-rotate-left"></i> Reset
+                </a>
+            </div>
         </form>
     </div>
 

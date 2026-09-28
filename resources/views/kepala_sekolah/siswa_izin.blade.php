@@ -3,10 +3,359 @@
 @section('title', 'Siswa Sedang Izin — Jurnal SMEA')
 
 @section('content')
-<div style="display: flex; flex-direction: column; gap: 24px; padding-bottom: 40px;">
+<style>
+    /* Responsive Styling for Siswa Izin Page (Kepala Sekolah) */
+    .page-container-izin {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding-bottom: 40px;
+    }
 
-    <!-- 1. Page Header Banner (Persis Mockup UI) -->
-    <div style="background: #ffffff; padding: 24px 28px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px;">
+    .header-banner-izin {
+        background: #ffffff;
+        padding: 24px 28px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .header-actions-izin {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .kpi-grid-izin {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .kpi-card-item {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .filter-card-izin {
+        background: #ffffff;
+        padding: 18px 24px;
+        border-radius: 16px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        border: 1px solid #e2e8f0;
+    }
+
+    .table-section-card {
+        background: #ffffff;
+        padding: 24px;
+        border-radius: 16px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        border: 1px solid #e2e8f0;
+    }
+
+    .table-header-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+        border-bottom: 1px solid #f1f5f9;
+        padding-bottom: 14px;
+    }
+
+    .filter-pill-container {
+        display: flex;
+        gap: 6px;
+        background: #f8fafc;
+        padding: 4px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+    }
+
+    .filter-pill-container::-webkit-scrollbar {
+        height: 3px;
+    }
+
+    .filter-pill-container::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+    }
+
+    /* Desktop table wrappers vs Mobile cards */
+    .desktop-table-wrapper {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-cards-list {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .mobile-data-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .mobile-data-card:active {
+        background: #f8fafc;
+    }
+
+    .mobile-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        border-bottom: 1px dashed #f1f5f9;
+        padding-bottom: 10px;
+    }
+
+    .mobile-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .mobile-card-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #475569;
+    }
+
+    .mobile-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    /* Media Queries for Tablet & Mobile */
+    @media (max-width: 1024px) {
+        .kpi-grid-izin {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .page-container-izin {
+            gap: 16px;
+        }
+
+        .header-banner-izin {
+            padding: 16px 18px;
+            border-radius: 14px;
+        }
+
+        .header-banner-izin h1 {
+            font-size: 18px !important;
+        }
+
+        .header-banner-izin p {
+            font-size: 12.5px !important;
+        }
+
+        .header-actions-izin {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 8px;
+        }
+
+        .header-actions-izin button,
+        .header-actions-izin a {
+            justify-content: center;
+            font-size: 12px !important;
+            padding: 9px 10px !important;
+        }
+
+        .kpi-grid-izin {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .kpi-card-item {
+            padding: 14px;
+            border-radius: 12px;
+        }
+
+        .kpi-card-item .kpi-title {
+            font-size: 10.5px !important;
+        }
+
+        .kpi-card-item .kpi-value {
+            font-size: 20px !important;
+        }
+
+        .kpi-card-item .kpi-desc {
+            font-size: 10px !important;
+        }
+
+        .kpi-card-item .kpi-icon {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .filter-card-izin {
+            padding: 16px;
+            border-radius: 14px;
+        }
+
+        .filter-form-grid {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+        }
+
+        .filter-form-inputs {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            width: 100% !important;
+        }
+
+        .filter-form-inputs > div {
+            width: 100% !important;
+            min-width: unset !important;
+        }
+
+        .filter-form-inputs input[type="date"],
+        .filter-form-inputs select {
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .filter-form-buttons {
+            width: 100% !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px !important;
+        }
+
+        .filter-form-buttons button,
+        .filter-form-buttons a {
+            justify-content: center !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .table-section-card {
+            padding: 16px;
+            border-radius: 14px;
+        }
+
+        .table-header-toolbar {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .table-header-toolbar h3 {
+            font-size: 15px !important;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .table-toolbar-controls {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .table-search-box {
+            width: 100% !important;
+        }
+
+        /* Hide desktop tables, show mobile cards */
+        .desktop-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-cards-list {
+            display: flex !important;
+        }
+
+        /* Responsive Modal adjustments */
+        .modal-body-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+        .modal-content-container {
+            max-width: 95vw !important;
+            margin: 10px !important;
+            border-radius: 14px !important;
+        }
+
+        .modal-header-responsive {
+            padding: 14px 18px !important;
+        }
+
+        .modal-body-responsive {
+            padding: 16px !important;
+            gap: 14px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-actions-izin {
+            grid-template-columns: 1fr;
+        }
+
+        .kpi-grid-izin {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .kpi-card-item {
+            padding: 12px 10px;
+        }
+
+        .kpi-card-item .kpi-value {
+            font-size: 18px !important;
+        }
+
+        .kpi-card-item .kpi-icon {
+            display: none !important;
+        }
+    }
+</style>
+
+<div class="page-container-izin">
+
+    <!-- 1. Page Header Banner -->
+    <div class="header-banner-izin">
         <div>
             <div style="font-size: 12.5px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
                 DATA MASTER <i class="fa-solid fa-chevron-right" style="font-size: 10px; color: #94a3b8;"></i> <span style="color: #1e293b; font-weight: 800;">siswa yang sedang izin</span>
@@ -20,7 +369,7 @@
         </div>
 
         <!-- Action Header Buttons -->
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <div class="header-actions-izin">
             <button type="button" onclick="openModalCetak()" style="background: #384972; color: #ffffff; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(56, 73, 114, 0.25); transition: all 0.2s;">
                 <i class="fa-solid fa-print"></i> Cetak Rekap Izin
             </button>
@@ -34,64 +383,64 @@
     </div>
 
     <!-- 2. KPI Executive Stat Cards -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px;">
+    <div class="kpi-grid-izin">
         <!-- Card 1: Total Dispen Hari Ini -->
-        <div style="background: #ffffff; border-radius: 14px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
+        <div class="kpi-card-item">
             <div>
-                <div style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-bottom: 4px;">TOTAL DISPENSASI</div>
-                <div style="font-size: 26px; font-weight: 900; color: #0f172a;">{{ count($dispenSiswa) }}</div>
-                <div style="font-size: 11.5px; color: #384972; font-weight: 600; margin-top: 4px;">Dispensasi Keluar Gerbang</div>
+                <div class="kpi-title" style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-bottom: 4px;">TOTAL DISPENSASI</div>
+                <div class="kpi-value" style="font-size: 26px; font-weight: 900; color: #0f172a;">{{ count($dispenSiswa) }}</div>
+                <div class="kpi-desc" style="font-size: 11.5px; color: #384972; font-weight: 600; margin-top: 4px;">Dispensasi Keluar Gerbang</div>
             </div>
-            <div style="width: 48px; height: 48px; border-radius: 12px; background: #e0e7ff; color: #3730a3; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            <div class="kpi-icon" style="width: 48px; height: 48px; border-radius: 12px; background: #e0e7ff; color: #3730a3; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
                 <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
             </div>
         </div>
 
         <!-- Card 2: Siswa Sedang Di Luar -->
-        <div style="background: #ffffff; border-radius: 14px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
+        <div class="kpi-card-item">
             <div>
-                <div style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-bottom: 4px;">SEDANG DI LUAR</div>
-                <div style="font-size: 26px; font-weight: 900; color: #d97706;">
+                <div class="kpi-title" style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-bottom: 4px;">SEDANG DI LUAR</div>
+                <div class="kpi-value" style="font-size: 26px; font-weight: 900; color: #d97706;">
                     {{ $dispenSiswa->where('status_satpam', 'dizinkan_keluar')->count() }}
                 </div>
-                <div style="font-size: 11.5px; color: #d97706; font-weight: 600; margin-top: 4px;">Disetujui Satpam & Belum Kembali</div>
+                <div class="kpi-desc" style="font-size: 11.5px; color: #d97706; font-weight: 600; margin-top: 4px;">Disetujui Satpam & Belum Kembali</div>
             </div>
-            <div style="width: 48px; height: 48px; border-radius: 12px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            <div class="kpi-icon" style="width: 48px; height: 48px; border-radius: 12px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
                 <i class="fa-solid fa-door-open"></i>
             </div>
         </div>
 
         <!-- Card 3: Sudah Kembali -->
-        <div style="background: #ffffff; border-radius: 14px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
+        <div class="kpi-card-item">
             <div>
-                <div style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-bottom: 4px;">SUDAH KEMBALI</div>
-                <div style="font-size: 26px; font-weight: 900; color: #16a34a;">
+                <div class="kpi-title" style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-bottom: 4px;">SUDAH KEMBALI</div>
+                <div class="kpi-value" style="font-size: 26px; font-weight: 900; color: #16a34a;">
                     {{ $dispenSiswa->where('status_satpam', 'sudah_kembali')->count() }}
                 </div>
-                <div style="font-size: 11.5px; color: #16a34a; font-weight: 600; margin-top: 4px;">Selesai Dispensasi Masuk Kelas</div>
+                <div class="kpi-desc" style="font-size: 11.5px; color: #16a34a; font-weight: 600; margin-top: 4px;">Selesai Dispensasi Masuk Kelas</div>
             </div>
-            <div style="width: 48px; height: 48px; border-radius: 12px; background: #dcfce7; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            <div class="kpi-icon" style="width: 48px; height: 48px; border-radius: 12px; background: #dcfce7; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
                 <i class="fa-solid fa-circle-check"></i>
             </div>
         </div>
 
         <!-- Card 4: Surat Izin Tidak Masuk -->
-        <div style="background: #ffffff; border-radius: 14px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between;">
+        <div class="kpi-card-item">
             <div>
-                <div style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-bottom: 4px;">SURAT IZIN TIDAK MASUK</div>
-                <div style="font-size: 26px; font-weight: 900; color: #2563eb;">{{ count($suratIzinSiswa) }}</div>
-                <div style="font-size: 11.5px; color: #2563eb; font-weight: 600; margin-top: 4px;">Izin Sakit / Keperluan Pribadi</div>
+                <div class="kpi-title" style="font-size: 12.5px; font-weight: 700; color: #64748b; margin-bottom: 4px;">SURAT IZIN TIDAK MASUK</div>
+                <div class="kpi-value" style="font-size: 26px; font-weight: 900; color: #2563eb;">{{ count($suratIzinSiswa) }}</div>
+                <div class="kpi-desc" style="font-size: 11.5px; color: #2563eb; font-weight: 600; margin-top: 4px;">Izin Sakit / Keperluan Pribadi</div>
             </div>
-            <div style="width: 48px; height: 48px; border-radius: 12px; background: #dbeafe; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            <div class="kpi-icon" style="width: 48px; height: 48px; border-radius: 12px; background: #dbeafe; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
                 <i class="fa-solid fa-notes-medical"></i>
             </div>
         </div>
     </div>
 
-    <!-- 3. Global Filter & Search Toolbar (Lengkap dengan Fitur Reset Permanen) -->
-    <div style="background: #ffffff; padding: 18px 24px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
-        <form method="GET" action="{{ route('kepala-sekolah.siswa-izin') }}" id="filterFormGlobal" style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; justify-content: space-between;">
-            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; flex: 1;">
+    <!-- 3. Global Filter & Search Toolbar -->
+    <div class="filter-card-izin">
+        <form method="GET" action="{{ route('kepala-sekolah.siswa-izin') }}" id="filterFormGlobal" class="filter-form-grid" style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px; justify-content: space-between;">
+            <div class="filter-form-inputs" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; flex: 1;">
                 <!-- Filter Tanggal -->
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <label style="font-size: 13px; font-weight: 700; color: #475569; white-space: nowrap;"><i class="fa-solid fa-calendar-day" style="color: #384972;"></i> Tanggal:</label>
@@ -124,7 +473,7 @@
             </div>
 
             <!-- Buttons: Terapkan & Reset Filter -->
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="filter-form-buttons" style="display: flex; align-items: center; gap: 8px;">
                 <button type="submit" style="background: #384972; color: #ffffff; border: none; padding: 9px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(56, 73, 114, 0.2);">
                     <i class="fa-solid fa-filter"></i> Terapkan
                 </button>
@@ -135,9 +484,9 @@
         </form>
     </div>
 
-    <!-- 4. Table 1: Siswa Dispensasi Keluar Gerbang Sekolah (Persis Mockup UI media_1788785632809.png) -->
-    <div style="background: #ffffff; padding: 24px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 18px; border-bottom: 1px solid #f1f5f9; padding-bottom: 14px;">
+    <!-- 4. Table 1: Siswa Dispensasi Keluar Gerbang Sekolah -->
+    <div class="table-section-card">
+        <div class="table-header-toolbar">
             <h3 style="font-size: 16.5px; font-weight: 800; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-building-flag" style="color: #384972;"></i> Siswa Dispensasi Keluar Gerbang Sekolah
                 <span style="background: #e0e7ff; color: #3730a3; font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 20px;">
@@ -146,15 +495,15 @@
             </h3>
 
             <!-- Quick Table 1 Filter Pills & Search -->
-            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <div style="display: flex; gap: 6px; background: #f8fafc; padding: 4px; border-radius: 10px; border: 1px solid #e2e8f0;">
-                    <button type="button" onclick="filterDispenTable('all')" class="dispen-filter-btn active" data-filter="all" style="border: none; background: #384972; color: #fff; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer;">Semua</button>
-                    <button type="button" onclick="filterDispenTable('dizinkan_keluar')" class="dispen-filter-btn" data-filter="dizinkan_keluar" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer;">Sedang di Luar</button>
-                    <button type="button" onclick="filterDispenTable('sudah_kembali')" class="dispen-filter-btn" data-filter="sudah_kembali" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer;">Sudah Kembali</button>
-                    <button type="button" onclick="filterDispenTable('belum_keluar')" class="dispen-filter-btn" data-filter="belum_keluar" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer;">Belum Keluar</button>
+            <div class="table-toolbar-controls" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <div class="filter-pill-container">
+                    <button type="button" onclick="filterDispenTable('all')" class="dispen-filter-btn active" data-filter="all" style="border: none; background: #384972; color: #fff; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">Semua</button>
+                    <button type="button" onclick="filterDispenTable('dizinkan_keluar')" class="dispen-filter-btn" data-filter="dizinkan_keluar" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">Sedang di Luar</button>
+                    <button type="button" onclick="filterDispenTable('sudah_kembali')" class="dispen-filter-btn" data-filter="sudah_kembali" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">Sudah Kembali</button>
+                    <button type="button" onclick="filterDispenTable('belum_keluar')" class="dispen-filter-btn" data-filter="belum_keluar" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">Belum Keluar</button>
                 </div>
 
-                <div style="position: relative; width: 200px;">
+                <div class="table-search-box" style="position: relative; width: 200px;">
                     <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 12px;"></i>
                     <input type="text" id="liveSearchDispen" onkeyup="searchDispenRows()" placeholder="Cari di tabel dispen..." style="width: 100%; padding: 6px 28px 6px 28px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 12px; color: #1e293b; background: #f8fafc; box-sizing: border-box;">
                     <button type="button" onclick="clearSearchDispen()" id="btnResetSearchDispen" style="display: none; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 11px;">
@@ -164,7 +513,8 @@
             </div>
         </div>
 
-        <div style="overflow-x: auto;">
+        <!-- Desktop Table View -->
+        <div class="desktop-table-wrapper">
             <table id="tableDispen" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13.5px;">
                 <thead>
                     <tr style="background: #f8fafc; color: #475569; border-bottom: 1.5px solid #cbd5e1;">
@@ -299,11 +649,131 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Mobile Cards List View (Dispensasi) -->
+        <div class="mobile-cards-list mobile-dispen-cards-list">
+            @forelse($dispenSiswa as $idx => $d)
+                @php
+                    $namaSiswa = $d->siswa->nama_siswa ?? 'Siswa';
+                    $nisnSiswa = $d->siswa->nisn ?? '-';
+                    $namaKelas = $d->kelas->nama_kelas ?? ($d->siswa->kelas->nama_kelas ?? 'X AK 4');
+                    
+                    $jamTeks = '-';
+                    if ($d->created_at) {
+                        $jamTeks = $d->created_at->format('H:i') . ' WIB';
+                    } elseif ($d->jam_keluar) {
+                        $jamTeks = $d->jam_keluar . ' WIB';
+                    }
+
+                    $stSatpam = strtolower($d->status_satpam ?? 'belum_keluar');
+                    $satpamBg = '#dcfce7';
+                    $satpamColor = '#166534';
+                    $satpamTeks = 'Dizinkan keluar';
+
+                    if ($stSatpam === 'belum_keluar') {
+                        $satpamBg = '#f1f5f9';
+                        $satpamColor = '#475569';
+                        $satpamTeks = 'Belum keluar';
+                    } elseif ($stSatpam === 'dizinkan_keluar') {
+                        $satpamBg = '#dcfce7';
+                        $satpamColor = '#166534';
+                        $satpamTeks = 'Dizinkan keluar';
+                    } elseif ($stSatpam === 'sudah_kembali') {
+                        $satpamBg = '#dbeafe';
+                        $satpamColor = '#1e40af';
+                        $satpamTeks = 'Sudah kembali';
+                    } elseif ($stSatpam === 'ditolak') {
+                        $satpamBg = '#fee2e2';
+                        $satpamColor = '#991b1b';
+                        $satpamTeks = 'Ditolak satpam';
+                    }
+
+                    $detailJson = json_encode([
+                        'id' => $d->id_siswa_dispen,
+                        'nama' => $namaSiswa,
+                        'nisn' => $nisnSiswa,
+                        'kelas' => $namaKelas,
+                        'tanggal' => $d->tanggal ? \Carbon\Carbon::parse($d->tanggal)->translatedFormat('l, d F Y') : '-',
+                        'jam_keluar' => $d->jam_keluar ? $d->jam_keluar . ' WIB' : ($d->created_at ? $d->created_at->format('H:i') . ' WIB' : '-'),
+                        'jam_kembali' => $d->jam_kembali ? $d->jam_kembali . ' WIB' : '-',
+                        'alasan' => $d->alasan ?? '-',
+                        'tempat' => $d->tempat ?? '-',
+                        'kode_dispen' => $d->kode_dispen ?? 'DSP-' . str_pad($d->id_siswa_dispen, 5, '0', STR_PAD_LEFT),
+                        'guru_piket' => $d->nama_guru_piket ?? ($d->guruPiketUser->nama ?? 'Guru Piket'),
+                        'nip_guru_piket' => $d->nip_guru_piket ?? '-',
+                        'status_waka' => $d->status_waka ?? 'approved',
+                        'catatan_waka' => $d->catatan_waka ?? '-',
+                        'status_satpam' => $satpamTeks,
+                        'status_satpam_raw' => $stSatpam,
+                        'waktu_scan_satpam' => $d->waktu_scan_satpam ?? ($d->waktu_satpam ?? '-'),
+                        'catatan_satpam' => $d->catatan_satpam ?? '-',
+                        'foto_surat' => $d->foto_surat_url,
+                        'foto_kartu' => $d->foto_kartu_url,
+                        'foto_live' => $d->foto_siswa_live_url,
+                        'ttd_siswa' => $d->ttd_siswa_url,
+                        'ttd_piket' => $d->ttd_piket_url,
+                    ]);
+                @endphp
+                <div class="mobile-data-card mobile-dispen-card" data-status="{{ $stSatpam }}">
+                    <div class="mobile-card-top">
+                        <div>
+                            <div style="font-weight: 800; color: #0f172a; font-size: 15px;">{{ $namaSiswa }}</div>
+                            <div style="font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">
+                                NISN: {{ $nisnSiswa }}
+                            </div>
+                        </div>
+                        <span style="background: #eef2ff; color: #384972; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #c7d2fe;">
+                            {{ $namaKelas }}
+                        </span>
+                    </div>
+
+                    <div class="mobile-card-body">
+                        <div class="mobile-card-row">
+                            <i class="fa-solid fa-note-sticky" style="color: #384972; width: 16px;"></i>
+                            <div style="flex: 1; font-weight: 600; color: #1e293b;">
+                                {{ $d->alasan }}
+                                @if($d->tempat)
+                                    <div style="font-size: 11.5px; color: #64748b; margin-top: 2px;">
+                                        <i class="fa-solid fa-location-dot" style="color: #384972;"></i> {{ $d->tempat }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="mobile-card-row">
+                            <i class="fa-regular fa-clock" style="color: #384972; width: 16px;"></i>
+                            <div style="font-weight: 700; color: #334155;">
+                                <span>Izin: {{ $jamTeks }}</span>
+                                @if($d->jam_kembali)
+                                    <span style="color: #64748b; font-size: 11.5px; margin-left: 6px;">(Kembali: {{ $d->jam_kembali }} WIB)</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card-footer">
+                        <div>
+                            <span style="background: {{ $satpamBg }}; color: {{ $satpamColor }}; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 11.5px; display: inline-block;">
+                                {{ $satpamTeks }}
+                            </span>
+                        </div>
+                        <button type="button" onclick='showDetailDispen({!! $detailJson !!})' style="background: #384972; color: #ffffff; border: none; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(56, 73, 114, 0.2);">
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 26px 16px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1; color: #64748b; font-weight: 600; font-size: 13px;">
+                    <i class="fa-solid fa-folder-open" style="font-size: 26px; color: #cbd5e1; display: block; margin-bottom: 8px;"></i>
+                    Tidak ada data siswa dispensasi keluar yang sesuai dengan filter.
+                </div>
+            @endforelse
+        </div>
     </div>
 
-    <!-- 5. Table 2: Siswa Izin Tidak Masuk Sekolah (Sakit / Izin) (Persis Mockup UI media_1788785645488.png) -->
-    <div style="background: #ffffff; padding: 24px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 18px; border-bottom: 1px solid #f1f5f9; padding-bottom: 14px;">
+    <!-- 5. Table 2: Siswa Izin Tidak Masuk Sekolah (Sakit / Izin) -->
+    <div class="table-section-card">
+        <div class="table-header-toolbar">
             <h3 style="font-size: 16.5px; font-weight: 800; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-notes-medical" style="color: #384972;"></i> Siswa Izin Tidak Masuk Sekolah (Sakit / Izin)
                 <span style="background: #dbeafe; color: #1e40af; font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 20px;">
@@ -312,15 +782,15 @@
             </h3>
 
             <!-- Quick Table 2 Filter Pills & Search -->
-            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                <div style="display: flex; gap: 6px; background: #f8fafc; padding: 4px; border-radius: 10px; border: 1px solid #e2e8f0;">
-                    <button type="button" onclick="filterSuratIzinTable('all')" class="surat-filter-btn active" data-filter="all" style="border: none; background: #384972; color: #fff; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer;">Semua</button>
-                    <button type="button" onclick="filterSuratIzinTable('sakit')" class="surat-filter-btn" data-filter="sakit" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer;">Sakit</button>
-                    <button type="button" onclick="filterSuratIzinTable('izin')" class="surat-filter-btn" data-filter="izin" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer;">Izin</button>
-                    <button type="button" onclick="filterSuratIzinTable('dispen')" class="surat-filter-btn" data-filter="dispen" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer;">Dispensasi</button>
+            <div class="table-toolbar-controls" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <div class="filter-pill-container">
+                    <button type="button" onclick="filterSuratIzinTable('all')" class="surat-filter-btn active" data-filter="all" style="border: none; background: #384972; color: #fff; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">Semua</button>
+                    <button type="button" onclick="filterSuratIzinTable('sakit')" class="surat-filter-btn" data-filter="sakit" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">Sakit</button>
+                    <button type="button" onclick="filterSuratIzinTable('izin')" class="surat-filter-btn" data-filter="izin" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">Izin</button>
+                    <button type="button" onclick="filterSuratIzinTable('dispen')" class="surat-filter-btn" data-filter="dispen" style="border: none; background: transparent; color: #64748b; padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">Dispensasi</button>
                 </div>
 
-                <div style="position: relative; width: 200px;">
+                <div class="table-search-box" style="position: relative; width: 200px;">
                     <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 12px;"></i>
                     <input type="text" id="liveSearchSuratIzin" onkeyup="searchSuratIzinRows()" placeholder="Cari di tabel surat..." style="width: 100%; padding: 6px 28px 6px 28px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 12px; color: #1e293b; background: #f8fafc; box-sizing: border-box;">
                     <button type="button" onclick="clearSearchSuratIzin()" id="btnResetSearchSuratIzin" style="display: none; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 11px;">
@@ -330,7 +800,8 @@
             </div>
         </div>
 
-        <div style="overflow-x: auto;">
+        <!-- Desktop Table View -->
+        <div class="desktop-table-wrapper">
             <table id="tableSuratIzin" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13.5px;">
                 <thead>
                     <tr style="background: #f8fafc; color: #475569; border-bottom: 1.5px solid #cbd5e1;">
@@ -427,6 +898,95 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Mobile Cards List View (Surat Izin) -->
+        <div class="mobile-cards-list mobile-surat-cards-list">
+            @forelse($suratIzinSiswa as $idx => $s)
+                @php
+                    $namaSiswaIzin = $s->siswa->nama_siswa ?? 'Siswa';
+                    $nisnSiswaIzin = $s->siswa->nisn ?? '-';
+                    $namaKelasIzin = $s->kelas->nama_kelas ?? ($s->siswa->kelas->nama_kelas ?? 'X AK 1');
+                    $rawKategori = strtolower($s->kategori ?? 'izin');
+                    $ketTeks = strtoupper($s->kategori ?? 'IZIN');
+
+                    $katBg = '#fef3c7';
+                    $katColor = '#92400e';
+                    if (str_contains($rawKategori, 'sakit')) {
+                        $katBg = '#fee2e2';
+                        $katColor = '#991b1b';
+                    } elseif (str_contains($rawKategori, 'dispen')) {
+                        $katBg = '#e0e7ff';
+                        $katColor = '#3730a3';
+                    }
+
+                    $startDate = \Carbon\Carbon::parse($s->tanggal)->format('d/m/Y');
+                    $endDate = $s->tanggal_selesai ? \Carbon\Carbon::parse($s->tanggal_selesai)->format('d/m/Y') : $startDate;
+                    $durasi = ($s->durasi_hari > 0) ? $s->durasi_hari : 1;
+                    $dateDisplay = ($startDate === $endDate) ? $startDate : "$startDate s/d $endDate";
+
+                    $detailSuratJson = json_encode([
+                        'id' => $s->id_surat_izin,
+                        'nama' => $namaSiswaIzin,
+                        'nisn' => $nisnSiswaIzin,
+                        'kelas' => $namaKelasIzin,
+                        'kategori' => $ketTeks,
+                        'tanggal_mulai' => $startDate,
+                        'tanggal_selesai' => $endDate,
+                        'durasi' => $durasi . ' Hari',
+                        'keterangan' => $s->keterangan ?? $s->alasan ?? 'Izin berhalangan hadir',
+                        'status' => $s->status ?? 'Terverifikasi',
+                        'petugas' => $s->petugasPiket->nama ?? ($s->petugasPiket->nama_guru ?? 'Guru Piket'),
+                        'foto_url' => $s->foto_url,
+                    ]);
+                @endphp
+                <div class="mobile-data-card mobile-surat-card" data-kategori="{{ $rawKategori }}">
+                    <div class="mobile-card-top">
+                        <div>
+                            <div style="font-weight: 800; color: #0f172a; font-size: 15px;">{{ $namaSiswaIzin }}</div>
+                            <div style="font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">
+                                NISN: {{ $nisnSiswaIzin }}
+                            </div>
+                        </div>
+                        <span style="background: #eef2ff; color: #384972; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #c7d2fe;">
+                            {{ $namaKelasIzin }}
+                        </span>
+                    </div>
+
+                    <div class="mobile-card-body">
+                        <div class="mobile-card-row">
+                            <i class="fa-solid fa-calendar-days" style="color: #384972; width: 16px;"></i>
+                            <div style="font-weight: 700; color: #334155;">
+                                <span>{{ $dateDisplay }}</span>
+                                <span style="color: #2563eb; font-size: 11.5px; margin-left: 6px;">({{ $durasi }} Hari)</span>
+                            </div>
+                        </div>
+
+                        <div class="mobile-card-row">
+                            <i class="fa-solid fa-align-left" style="color: #384972; width: 16px;"></i>
+                            <div style="flex: 1; font-weight: 600; color: #1e293b;">
+                                {{ $s->keterangan ?? $s->alasan ?? 'Izin keperluan pribadi' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card-footer">
+                        <div>
+                            <span style="background: {{ $katBg }}; color: {{ $katColor }}; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 11.5px; display: inline-block;">
+                                {{ $ketTeks }}
+                            </span>
+                        </div>
+                        <button type="button" onclick='showDetailSuratIzin({!! $detailSuratJson !!})' style="background: #384972; color: #ffffff; border: none; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(56, 73, 114, 0.2);">
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 26px 16px; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1; color: #64748b; font-weight: 600; font-size: 13px;">
+                    <i class="fa-solid fa-folder-open" style="font-size: 26px; color: #cbd5e1; display: block; margin-bottom: 8px;"></i>
+                    Belum ada data surat izin tidak masuk sekolah hari ini.
+                </div>
+            @endforelse
+        </div>
     </div>
 
 </div>
@@ -434,11 +994,11 @@
 <!-- ========================================================================= -->
 <!-- MODAL 1: DETAIL DISPENSASI KELUAR GERBANG SEKOLAH (LENGKAP FOTO & TTD)   -->
 <!-- ========================================================================= -->
-<div id="modalDetailDispen" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px;">
-    <div style="background: #ffffff; width: 100%; max-width: 680px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); overflow: hidden; display: flex; flex-direction: column; max-height: 92vh;">
+<div id="modalDetailDispen" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 14px;">
+    <div class="modal-content-container" style="background: #ffffff; width: 100%; max-width: 680px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); overflow: hidden; display: flex; flex-direction: column; max-height: 92vh;">
         
         <!-- Modal Header -->
-        <div style="background: linear-gradient(135deg, #1e293b, #384972); padding: 20px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-header-responsive" style="background: linear-gradient(135deg, #1e293b, #384972); padding: 20px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
             <div>
                 <div style="font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; font-weight: 700;">
                     DETAIL DISPENSASI KELUAR GERBANG SEKOLAH
@@ -447,16 +1007,16 @@
                     Nama Siswa
                 </h3>
             </div>
-            <button onclick="closeModal('modalDetailDispen')" style="background: rgba(255,255,255,0.15); border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;">
+            <button onclick="closeModal('modalDetailDispen')" style="background: rgba(255,255,255,0.15); border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
         <!-- Modal Body -->
-        <div style="padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; font-size: 13.5px;">
+        <div class="modal-body-responsive" style="padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; font-size: 13.5px;">
             
             <!-- Student Header Box -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <div>
                     <div style="font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase;">Identitas Siswa</div>
                     <div id="mdDispenSub" style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">NISN: - | Kelas: -</div>
@@ -467,7 +1027,7 @@
             </div>
 
             <!-- Detail Grid -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="modal-body-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                 <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
                     <div style="font-size: 11.5px; color: #64748b; font-weight: 700;">Tanggal Dispensasi</div>
                     <div id="mdDispenTanggal" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-top: 3px;">-</div>
@@ -494,21 +1054,21 @@
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <!-- Guru Piket -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; gap: 8px;">
                         <div>
                             <div style="font-weight: 700; color: #1e293b;">Petugas Guru Piket:</div>
                             <div id="mdDispenPiket" style="color: #64748b;">-</div>
                         </div>
-                        <span style="background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 800;">Telah Disetujui</span>
+                        <span style="background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; white-space: nowrap;">Telah Disetujui</span>
                     </div>
 
                     <!-- Satpam -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; gap: 8px;">
                         <div>
                             <div style="font-weight: 700; color: #1e293b;">Pemeriksaan Satpam Gerbang:</div>
                             <div id="mdDispenSatpamKet" style="color: #64748b; font-size: 11.5px;">-</div>
                         </div>
-                        <span id="mdDispenSatpamBadge" style="background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 800;">
+                        <span id="mdDispenSatpamBadge" style="background: #dcfce7; color: #166534; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; white-space: nowrap;">
                             -
                         </span>
                     </div>
@@ -521,7 +1081,7 @@
                     <i class="fa-solid fa-images"></i> Lampiran Berkas, Kartu & Tanda Tangan
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px;">
                     <!-- Foto Surat Dispensasi -->
                     <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; text-align: center; background: #f8fafc;">
                         <div style="font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 6px;">Foto Surat Dispensasi</div>
@@ -574,11 +1134,11 @@
 <!-- ========================================================================= -->
 <!-- MODAL 2: DETAIL SURAT IZIN TIDAK MASUK (LENGKAP FOTO DOKTER/ORTU)        -->
 <!-- ========================================================================= -->
-<div id="modalDetailSuratIzin" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px;">
-    <div style="background: #ffffff; width: 100%; max-width: 680px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); overflow: hidden; display: flex; flex-direction: column; max-height: 92vh;">
+<div id="modalDetailSuratIzin" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 14px;">
+    <div class="modal-content-container" style="background: #ffffff; width: 100%; max-width: 680px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.25); overflow: hidden; display: flex; flex-direction: column; max-height: 92vh;">
         
         <!-- Modal Header -->
-        <div style="background: linear-gradient(135deg, #1e293b, #384972); padding: 20px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-header-responsive" style="background: linear-gradient(135deg, #1e293b, #384972); padding: 20px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
             <div>
                 <div style="font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; font-weight: 700;">
                     DETAIL SURAT PERMOHONAN IZIN SISWA
@@ -587,16 +1147,16 @@
                     Nama Siswa
                 </h3>
             </div>
-            <button onclick="closeModal('modalDetailSuratIzin')" style="background: rgba(255,255,255,0.15); border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;">
+            <button onclick="closeModal('modalDetailSuratIzin')" style="background: rgba(255,255,255,0.15); border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
         <!-- Modal Body -->
-        <div style="padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; font-size: 13.5px;">
+        <div class="modal-body-responsive" style="padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; font-size: 13.5px;">
             
             <!-- Student Header Box -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <div>
                     <div style="font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase;">Identitas Siswa</div>
                     <div id="mdSuratSub" style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">NISN: - | Kelas: -</div>
@@ -607,7 +1167,7 @@
             </div>
 
             <!-- Dates Grid -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="modal-body-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
                 <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px;">
                     <div style="font-size: 11.5px; color: #64748b; font-weight: 700;">Rentang Waktu Izin</div>
                     <div id="mdSuratRentang" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-top: 3px;">-</div>
@@ -629,18 +1189,18 @@
                 <div style="font-size: 12px; color: #384972; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
                     <i class="fa-solid fa-circle-check"></i> Status Verifikasi Surat
                 </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; gap: 8px;">
                     <div>
                         <div style="font-weight: 700; color: #1e293b;">Petugas Piket Pemeriksa:</div>
                         <div id="mdSuratPetugas" style="color: #64748b;">-</div>
                     </div>
-                    <span id="mdSuratStatusBadge" style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 800;">
+                    <span id="mdSuratStatusBadge" style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 800; white-space: nowrap;">
                         Terverifikasi
                     </span>
                 </div>
             </div>
 
-            <!-- Lampiran Foto Surat Dokter / Orang Tua (FOTO TAMPIL & BISA DI-ZOOM) -->
+            <!-- Lampiran Foto Surat Dokter / Orang Tua -->
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
                 <div style="font-size: 12px; color: #384972; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
                     <i class="fa-solid fa-file-medical"></i> Bukti Lampiran Surat (Dokter / Orang Tua)
@@ -667,10 +1227,10 @@
 </div>
 
 <!-- ========================================================================= -->
-<!-- MODAL 3: LIGHTBOX IMAGE VIEWER (UNTUK PREVIEW FOTO RESOLUSI PENUH)       -->
+<!-- MODAL 3: LIGHTBOX IMAGE VIEWER                                           -->
 <!-- ========================================================================= -->
-<div id="modalImageLightbox" style="display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 20px;">
-    <div style="position: relative; max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center;">
+<div id="modalImageLightbox" style="display: none; position: fixed; inset: 0; z-index: 10000; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 16px;">
+    <div style="position: relative; max-width: 92vw; max-height: 90vh; display: flex; flex-direction: column; align-items: center;">
         <div style="position: absolute; top: -45px; right: 0; display: flex; gap: 10px;">
             <a id="lightboxDownloadBtn" href="" target="_blank" download style="background: rgba(255,255,255,0.2); color: #fff; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-size: 12.5px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
                 <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Asli
@@ -679,7 +1239,7 @@
                 <i class="fa-solid fa-times"></i>
             </button>
         </div>
-        <img id="lightboxImg" src="" alt="Pratinjau Foto" style="max-width: 85vw; max-height: 80vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: contain;">
+        <img id="lightboxImg" src="" alt="Pratinjau Foto" style="max-width: 88vw; max-height: 75vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); object-fit: contain;">
         <div id="lightboxCaption" style="color: #fff; font-size: 13.5px; font-weight: 700; margin-top: 12px; text-align: center;">
             Pratinjau Berkas
         </div>
@@ -689,9 +1249,9 @@
 <!-- ========================================================================= -->
 <!-- MODAL 4: CETAK REKAP IZIN SISWA                                          -->
 <!-- ========================================================================= -->
-<div id="modalCetakIzin" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px;">
-    <div style="background: #ffffff; width: 100%; max-width: 480px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow: hidden;">
-        <div style="background: #384972; padding: 18px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+<div id="modalCetakIzin" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 14px;">
+    <div class="modal-content-container" style="background: #ffffff; width: 100%; max-width: 480px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow: hidden;">
+        <div class="modal-header-responsive" style="background: #384972; padding: 18px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
             <h3 style="margin: 0; font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-print"></i> Cetak Rekap Izin Siswa
             </h3>
@@ -737,9 +1297,9 @@
 <!-- ========================================================================= -->
 <!-- MODAL 5: EXPORT REKAP CSV                                                -->
 <!-- ========================================================================= -->
-<div id="modalExportIzin" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px;">
-    <div style="background: #ffffff; width: 100%; max-width: 480px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow: hidden;">
-        <div style="background: #10b981; padding: 18px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+<div id="modalExportIzin" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 14px;">
+    <div class="modal-content-container" style="background: #ffffff; width: 100%; max-width: 480px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow: hidden;">
+        <div class="modal-header-responsive" style="background: #10b981; padding: 18px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
             <h3 style="margin: 0; font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-file-excel"></i> Export Rekap Data CSV
             </h3>
@@ -954,7 +1514,7 @@ function showDetailSuratIzin(data) {
     openModal('modalDetailSuratIzin');
 }
 
-// Table 1 Quick Filter Pills
+// Table 1 Quick Filter Pills (filters desktop rows and mobile cards)
 function filterDispenTable(status) {
     document.querySelectorAll('.dispen-filter-btn').forEach(btn => {
         if (btn.getAttribute('data-filter') === status) {
@@ -966,7 +1526,7 @@ function filterDispenTable(status) {
         }
     });
 
-    const rows = document.querySelectorAll('#tableDispen .dispen-row');
+    const rows = document.querySelectorAll('#tableDispen .dispen-row, .mobile-dispen-card');
     rows.forEach(r => {
         const rowStatus = r.getAttribute('data-status');
         if (status === 'all' || rowStatus === status) {
@@ -977,7 +1537,7 @@ function filterDispenTable(status) {
     });
 }
 
-// Table 1 Live Search
+// Table 1 Live Search (searches desktop rows and mobile cards)
 function searchDispenRows() {
     const input = document.getElementById('liveSearchDispen').value.toLowerCase();
     const btnReset = document.getElementById('btnResetSearchDispen');
@@ -985,7 +1545,7 @@ function searchDispenRows() {
         btnReset.style.display = input.length > 0 ? 'block' : 'none';
     }
 
-    const rows = document.querySelectorAll('#tableDispen .dispen-row');
+    const rows = document.querySelectorAll('#tableDispen .dispen-row, .mobile-dispen-card');
     rows.forEach(r => {
         const text = r.textContent.toLowerCase();
         if (text.includes(input)) {
@@ -1002,7 +1562,7 @@ function clearSearchDispen() {
     searchDispenRows();
 }
 
-// Table 2 Quick Filter Pills
+// Table 2 Quick Filter Pills (filters desktop rows and mobile cards)
 function filterSuratIzinTable(kategori) {
     document.querySelectorAll('.surat-filter-btn').forEach(btn => {
         if (btn.getAttribute('data-filter') === kategori) {
@@ -1014,9 +1574,9 @@ function filterSuratIzinTable(kategori) {
         }
     });
 
-    const rows = document.querySelectorAll('#tableSuratIzin .surat-row');
+    const rows = document.querySelectorAll('#tableSuratIzin .surat-row, .mobile-surat-card');
     rows.forEach(r => {
-        const rowKat = r.getAttribute('data-kategori');
+        const rowKat = r.getAttribute('data-kategori') || '';
         if (kategori === 'all' || rowKat.includes(kategori)) {
             r.style.display = '';
         } else {
@@ -1025,7 +1585,7 @@ function filterSuratIzinTable(kategori) {
     });
 }
 
-// Table 2 Live Search
+// Table 2 Live Search (searches desktop rows and mobile cards)
 function searchSuratIzinRows() {
     const input = document.getElementById('liveSearchSuratIzin').value.toLowerCase();
     const btnReset = document.getElementById('btnResetSearchSuratIzin');
@@ -1033,7 +1593,7 @@ function searchSuratIzinRows() {
         btnReset.style.display = input.length > 0 ? 'block' : 'none';
     }
 
-    const rows = document.querySelectorAll('#tableSuratIzin .surat-row');
+    const rows = document.querySelectorAll('#tableSuratIzin .surat-row, .mobile-surat-card');
     rows.forEach(r => {
         const text = r.textContent.toLowerCase();
         if (text.includes(input)) {

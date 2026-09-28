@@ -140,6 +140,79 @@
         transition: background 0.15s;
     }
     .btn-cancel:hover { background: #e2e8f0; }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            margin-bottom: 14px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 20px !important;
+            line-height: 1.3 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+
+        .breadcrumb-text {
+            font-size: 12.5px !important;
+            flex-wrap: wrap !important;
+            line-height: 1.4 !important;
+            gap: 4px 6px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .edit-card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .edit-header-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .edit-header-row h2 {
+            font-size: 18px !important;
+        }
+
+        .form-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+        }
+
+        .form-group {
+            margin-bottom: 14px !important;
+        }
+
+        .form-control {
+            font-size: 13.5px !important;
+            padding: 10px 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse !important;
+            width: 100% !important;
+            gap: 8px !important;
+            margin-top: 20px !important;
+            padding-top: 16px !important;
+        }
+
+        .btn-update,
+        .btn-cancel {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 12px 16px !important;
+            box-sizing: border-box !important;
+            font-size: 13.5px !important;
+        }
+    }
 </style>
 @endsection
 

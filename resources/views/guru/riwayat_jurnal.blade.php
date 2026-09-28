@@ -53,12 +53,6 @@
         }
     }
 
-    @media (max-width: 576px) {
-        .metrics-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
     .metric-card {
         background: #ffffff;
         border-radius: 16px;
@@ -457,6 +451,7 @@
         border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 12px 16px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     }
 
     .detail-box-label {
@@ -465,42 +460,399 @@
         text-transform: uppercase;
         color: #64748b;
         margin-bottom: 4px;
+        letter-spacing: 0.3px;
     }
 
     .detail-box-val {
         font-size: 13.5px;
         font-weight: 700;
         color: #0f172a;
+        word-break: break-word;
+    }
+
+    /* Desktop Table vs Mobile Cards */
+    .desktop-table-wrapper {
+        display: block;
+    }
+    .mobile-jurnal-cards-wrapper {
+        display: none;
+    }
+
+    /* Mobile Cards Styling */
+    .mobile-jurnal-card {
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        transition: all 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .mobile-jurnal-card.selected-card {
+        background: #f0f9ff;
+        border-color: #93c5fd;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
+
+    .mobile-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .mobile-card-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .mobile-card-no {
+        width: 26px;
+        height: 26px;
+        background: #f1f5f9;
+        border-radius: 8px;
+        color: #475569;
+        font-weight: 800;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .mobile-card-date {
+        font-size: 13.5px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .mobile-card-day {
+        font-size: 11.5px;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .mobile-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .mobile-info-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .mobile-materi-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 12.5px;
+        line-height: 1.5;
+        color: #1e293b;
+    }
+
+    .mobile-card-footer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-top: 12px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .mobile-card-footer .btn-action-view,
+    .mobile-card-footer .btn-action-delete {
+        flex: 1;
+        justify-content: center;
+        padding: 9px 12px;
+        font-size: 12.5px;
+    }
+
+    /* Rekap Ketidakhadiran Siswa in Modal */
+    .absen-table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        background: #ffffff;
+    }
+
+    .absen-detail-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+    }
+
+    .absen-detail-table th {
+        background: #f8fafc;
+        padding: 9px 12px;
+        font-size: 11px;
+        font-weight: 800;
+        color: #475569;
+        border-bottom: 1px solid #e2e8f0;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .absen-detail-table td {
+        padding: 9px 12px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+
+    .absen-detail-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 768px) {
+        .page-header-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-subtitle {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+
+        .page-header-actions {
+            display: flex !important;
+            flex-direction: row !important;
+            width: 100% !important;
+            gap: 8px !important;
+        }
+
+        .page-header-actions a,
+        .page-header-actions button {
+            flex: 1 !important;
+            width: auto !important;
+            justify-content: center !important;
+            padding: 9px 12px !important;
+            font-size: 12.5px !important;
+            white-space: nowrap !important;
+        }
+
+        .metrics-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .metric-card {
+            padding: 12px 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .metric-info h4 {
+            font-size: 10.5px !important;
+            margin-bottom: 3px !important;
+        }
+
+        .metric-info .metric-num {
+            font-size: 18px !important;
+        }
+
+        .metric-icon-box {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .filter-card {
+            padding: 14px !important;
+            margin-bottom: 16px !important;
+            border-radius: 14px !important;
+        }
+
+        .scope-pills {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            gap: 8px !important;
+            padding-bottom: 4px !important;
+            width: 100% !important;
+            scrollbar-width: thin;
+        }
+
+        .scope-pill-btn {
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+            padding: 8px 14px !important;
+            font-size: 12px !important;
+        }
+
+        .filter-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+
+        .form-group-filter {
+            grid-column: auto !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .form-control-filter {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .filter-buttons-group {
+            display: flex !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .filter-buttons-group button,
+        .filter-buttons-group a {
+            flex: 1 !important;
+            width: auto !important;
+            justify-content: center !important;
+            height: 38px !important;
+        }
+
+        /* Dual View Switch */
+        .desktop-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-jurnal-cards-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 12px !important;
+        }
+
+        .card-table {
+            border-radius: 16px !important;
+        }
+
+        /* Floating Batch Bar */
+        .floating-batch-bar {
+            left: 14px !important;
+            right: 14px !important;
+            transform: translateY(140px) !important;
+            width: auto !important;
+            max-width: none !important;
+            bottom: 20px !important;
+            border-radius: 16px !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 12px 16px !important;
+            text-align: center !important;
+            box-sizing: border-box !important;
+        }
+
+        .floating-batch-bar.show {
+            transform: translateY(0) !important;
+        }
+
+        .floating-batch-bar > div:last-child {
+            width: 100% !important;
+            display: flex !important;
+            gap: 8px !important;
+        }
+
+        .floating-batch-bar button {
+            flex: 1 !important;
+            justify-content: center !important;
+        }
+
+        /* Modals */
+        .modal-box-custom {
+            max-width: 100% !important;
+            margin: 8px !important;
+            border-radius: 16px !important;
+            max-height: 90vh !important;
+        }
+
+        .modal-header-custom {
+            padding: 14px 16px !important;
+        }
+
+        .modal-body-custom {
+            padding: 14px !important;
+        }
+
+        .modal-footer-custom {
+            padding: 12px 16px !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+
+        .modal-footer-custom button,
+        .modal-footer-custom form,
+        .modal-footer-custom form button {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        .detail-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+
+        .detail-box {
+            padding: 10px 12px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title {
+            font-size: 25px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .metrics-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+
+        .metric-card {
+            padding: 10px 12px !important;
+        }
+
+        .metric-info .metric-num {
+            font-size: 17px !important;
+        }
+
+        .page-header-actions {
+            flex-direction: row !important;
+            gap: 8px !important;
+        }
     }
 </style>
 @endsection
 
 @section('content')
-
-    <!-- Flash Notification -->
-    @if(session('success'))
-        <div style="background: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700;">
-                <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #15803d;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #166534; cursor: pointer; font-size: 16px;">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700;">
-                <i class="fa-solid fa-triangle-exclamation" style="font-size: 18px; color: #dc2626;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #991b1b; cursor: pointer; font-size: 16px;">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-    @endif
 
     <!-- Page Header & Top Buttons -->
     <div class="page-header-row">
@@ -513,7 +865,7 @@
                 Arsip dan dokumentasi pelaksanaan kegiatan belajar mengajar (KBM) serta rekap presensi kelas
             </p>
         </div>
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <div class="page-header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <a href="{{ route('guru.riwayat-jurnal.trash') }}" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 9px 16px; border-radius: 10px; font-weight: 800; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s ease;">
                 <i class="fa-solid fa-trash-can" style="color: #dc2626;"></i> Sampah
                 @if($trashedCount > 0)
@@ -648,7 +1000,7 @@
                 </div>
 
                 <!-- Buttons -->
-                <div style="display: flex; gap: 8px;">
+                <div class="filter-buttons-group" style="display: flex; gap: 8px;">
                     <button type="submit" class="btn-filter-action btn-apply-filter" title="Terapkan Filter">
                         <i class="fa-solid fa-filter"></i> Filter
                     </button>
@@ -660,9 +1012,10 @@
         </form>
     </div>
 
-    <!-- Main Table Card -->
+    <!-- Main Table Card (Dual View: Desktop Table + Mobile Cards) -->
     <div class="card-table">
-        <div style="overflow-x: auto;">
+        <!-- Desktop Table View -->
+        <div class="desktop-table-wrapper" style="overflow-x: auto;">
             <table class="table-custom">
                 <thead>
                     <tr>
@@ -718,6 +1071,7 @@
                                         'nama'       => $d->siswa ? $d->siswa->nama_siswa : 'Siswa',
                                         'nisn'       => $d->siswa ? $d->siswa->nisn : '-',
                                         'keterangan' => $d->keterangan,
+                                        'catatan'    => $d->catatan ?? null,
                                     ];
                                 }),
                             ];
@@ -744,7 +1098,7 @@
                             <td>
                                 <div style="font-weight: 800; color: #0f172a;">{{ $mapelNama }}</div>
                                 <div style="font-size: 11.5px; color: #64748b; margin-top: 2px;">
-                                    Pertemuan Ke-{{ $j->pertemuan_ke ?: '1' }}
+                                    Pertemuan Ke-{{ preg_replace('/^(pertemuan\s*)?ke\-?/i', '', trim($j->pertemuan_ke ?? '1')) }}
                                 </div>
                             </td>
                             <td>
@@ -815,6 +1169,158 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Cards View -->
+        <div class="mobile-jurnal-cards-wrapper">
+            @forelse($jurnals as $idx => $j)
+                @php
+                    $carbonDate = \Carbon\Carbon::parse($j->tanggal);
+                    $daysInIndo = ['Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'];
+                    $namaHari = $daysInIndo[$carbonDate->format('l')] ?? '';
+                    
+                    $kelasNama = $j->jadwal && $j->jadwal->kelas ? $j->jadwal->kelas->nama_kelas : '-';
+                    $ruangNama = $j->jadwal && $j->jadwal->ruangan ? $j->jadwal->ruangan->nama_ruangan : '';
+                    $mapelNama = $j->jadwal && $j->jadwal->mapel ? $j->jadwal->mapel->nama_mapel : '-';
+                    $guruNama  = $j->jadwal && $j->jadwal->guru ? $j->jadwal->guru->nama_guru : '-';
+                    $penggantiNama = $j->guruPengganti ? $j->guruPengganti->nama_guru : null;
+                    
+                    $absenDetails = $j->detailKetidakhadiran;
+                    $absenCount = $absenDetails->count();
+
+                    // JSON encoded for modal detail
+                    $detailPayload = [
+                        'id_jurnal' => $j->id_jurnal,
+                        'tanggal'   => $carbonDate->format('d F Y'),
+                        'hari'      => $namaHari,
+                        'kelas'     => $kelasNama,
+                        'ruangan'   => $ruangNama ?: '-',
+                        'mapel'     => $mapelNama,
+                        'guru'      => $guruNama,
+                        'guru_pengganti' => $penggantiNama,
+                        'pertemuan_ke'   => $j->pertemuan_ke ?: '1',
+                        'jam_ke'         => $j->jam_ke ?: '-',
+                        'status_guru'    => $j->status_kehadiran_guru,
+                        'kondisi_kelas'  => $j->kondisi_kelas ?: 'Kondusif',
+                        'materi'         => $j->materi ?: '-',
+                        'catatan'        => $j->catatan ?: '-',
+                        'dokumentasi'    => $j->dokumentasi_url,
+                        'absen_list'     => $absenDetails->map(function($d) {
+                            return [
+                                'nama'       => $d->siswa ? $d->siswa->nama_siswa : 'Siswa',
+                                'nisn'       => $d->siswa ? $d->siswa->nisn : '-',
+                                'keterangan' => $d->keterangan,
+                                'catatan'    => $d->catatan ?? null,
+                            ];
+                        }),
+                    ];
+                @endphp
+                <div class="mobile-jurnal-card" id="card_{{ $j->id_jurnal }}">
+                    <!-- Card Header -->
+                    <div class="mobile-card-header">
+                        <div class="mobile-card-left">
+                            <input type="checkbox" class="row-checkbox custom-checkbox" value="{{ $j->id_jurnal }}" onchange="handleRowCheckboxChange(this)">
+                            <span class="mobile-card-no">{{ $idx + 1 }}</span>
+                            <div>
+                                <div class="mobile-card-date">{{ $carbonDate->format('d/m/Y') }}</div>
+                                <div class="mobile-card-day">{{ $namaHari }}</div>
+                            </div>
+                        </div>
+                        <div>
+                            @php $stGuru = $j->status_kehadiran_guru; @endphp
+                            @if($stGuru === 'Hadir')
+                                <span class="badge-status-guru badge-status-hadir"><i class="fa-solid fa-check"></i> Hadir</span>
+                            @elseif($stGuru === 'Izin')
+                                <span class="badge-status-guru badge-status-izin"><i class="fa-solid fa-envelope"></i> Izin</span>
+                            @elseif($stGuru === 'Sakit')
+                                <span class="badge-status-guru badge-status-sakit"><i class="fa-solid fa-hospital"></i> Sakit</span>
+                            @else
+                                <span class="badge-status-guru badge-status-alpa"><i class="fa-solid fa-circle-xmark"></i> {{ $stGuru }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="mobile-card-body">
+                        <div class="mobile-info-row">
+                            <div>
+                                <span style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">KELAS & RUANG:</span>
+                                <div style="font-weight: 800; color: #1e293b; font-size: 13.5px;">
+                                    {{ $kelasNama }}
+                                    @if($ruangNama)
+                                        <span style="font-size: 11px; color: #0284c7; background: #e0f2fe; padding: 1px 6px; border-radius: 4px; font-weight: 700; margin-left: 4px;">
+                                            {{ $ruangNama }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">MAPEL & PERTEMUAN:</span>
+                                <div style="font-weight: 800; color: #0f172a; font-size: 13.5px;">{{ $mapelNama }}</div>
+                                <div style="font-size: 11px; color: #64748b;">Pertemuan Ke-{{ preg_replace('/^(pertemuan\s*)?ke\-?/i', '', trim($j->pertemuan_ke ?? '1')) }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Materi -->
+                        <div class="mobile-materi-box">
+                            <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 3px;">
+                                <i class="fa-solid fa-book-open" style="color: #2563eb; margin-right: 4px;"></i> Materi:
+                            </div>
+                            <div style="font-weight: 600; color: #1e293b;">
+                                {{ $j->materi ?: '-' }}
+                            </div>
+                        </div>
+
+                        <!-- Presensi & Lampiran row -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+                            <div>
+                                @if($absenCount === 0)
+                                    <span class="badge-presensi-siswa badge-presensi-lengkap">
+                                        <i class="fa-solid fa-users"></i> Lengkap (100%)
+                                    </span>
+                                @else
+                                    <span class="badge-presensi-siswa badge-presensi-absen" title="{{ $absenCount }} siswa tidak hadir">
+                                        <i class="fa-solid fa-user-xmark"></i> {{ $absenCount }} Absen
+                                    </span>
+                                @endif
+                            </div>
+
+                            <div>
+                                @if($j->dokumentasi_url)
+                                    <a href="{{ $j->dokumentasi_url }}" target="_blank" style="display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; color: #2563eb; background: #eff6ff; border: 1px solid #bfdbfe; padding: 4px 8px; border-radius: 6px; text-decoration: none;">
+                                        <i class="fa-solid fa-image"></i> Foto Lampiran
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer Actions -->
+                    <div class="mobile-card-footer">
+                        <button type="button" class="btn-action-view" onclick="showDetailModal({{ json_encode($detailPayload) }})" title="Lihat Detail Lengkap">
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+                        <button type="button" class="btn-action-delete" onclick="openSingleDeleteModal({{ $j->id_jurnal }}, '{{ $carbonDate->format('d/m/Y') }}', '{{ $kelasNama }}', '{{ addslashes($mapelNama) }}')" title="Pindahkan ke Sampah">
+                            <i class="fa-solid fa-trash-can"></i> Sampah
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 36px 16px; background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <div style="color: #94a3b8; margin-bottom: 10px;">
+                        <i class="fa-solid fa-book-open" style="font-size: 36px; color: #cbd5e1;"></i>
+                    </div>
+                    <div style="font-size: 15px; font-weight: 800; color: #334155;">Tidak Ada Riwayat Jurnal</div>
+                    <div style="font-size: 12.5px; color: #64748b; margin-top: 4px;">
+                        Belum ada catatan jurnal mengajar yang sesuai.
+                    </div>
+                    <div style="margin-top: 14px;">
+                        <a href="{{ route('guru.riwayat-jurnal') }}" class="btn-filter-action btn-reset-filter" style="display: inline-flex;">
+                            <i class="fa-solid fa-rotate-left"></i> Bersihkan Filter
+                        </a>
+                    </div>
+                </div>
+            @endforelse
         </div>
     </div>
 
@@ -1001,13 +1507,16 @@
 <script>
     // 1. Checkbox Select All & Floating Batch Bar Logic
     const selectAllCheckbox = document.getElementById('selectAllCheckbox');
-    const rowCheckboxes = document.querySelectorAll('.row-checkbox');
     const floatingBatchBar = document.getElementById('floatingBatchBar');
     const selectedCountBadge = document.getElementById('selectedCountBadge');
 
     function updateBatchBar() {
-        const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
-        const count = checkedBoxes.length;
+        const checkedValues = new Set();
+        document.querySelectorAll('.row-checkbox:checked').forEach(cb => {
+            checkedValues.add(cb.value);
+        });
+
+        const count = checkedValues.size;
 
         if (selectedCountBadge) {
             selectedCountBadge.textContent = count;
@@ -1019,25 +1528,36 @@
             if (floatingBatchBar) floatingBatchBar.classList.remove('show');
         }
 
-        // Update row highlight
-        rowCheckboxes.forEach(cb => {
+        // Update row highlight & card highlight
+        document.querySelectorAll('.row-checkbox').forEach(cb => {
             const tr = document.getElementById('row_' + cb.value);
+            const card = document.getElementById('card_' + cb.value);
+            const isChecked = checkedValues.has(cb.value);
+
+            cb.checked = isChecked;
+
             if (tr) {
-                if (cb.checked) tr.classList.add('selected-row');
+                if (isChecked) tr.classList.add('selected-row');
                 else tr.classList.remove('selected-row');
+            }
+            if (card) {
+                if (isChecked) card.classList.add('selected-card');
+                else card.classList.remove('selected-card');
             }
         });
 
         // Update select all state
         if (selectAllCheckbox) {
-            selectAllCheckbox.checked = (count === rowCheckboxes.length && rowCheckboxes.length > 0);
+            const totalUnique = new Set();
+            document.querySelectorAll('.row-checkbox').forEach(cb => totalUnique.add(cb.value));
+            selectAllCheckbox.checked = (count === totalUnique.size && totalUnique.size > 0);
         }
     }
 
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
             const isChecked = this.checked;
-            rowCheckboxes.forEach(cb => {
+            document.querySelectorAll('.row-checkbox').forEach(cb => {
                 cb.checked = isChecked;
             });
             updateBatchBar();
@@ -1045,12 +1565,20 @@
     }
 
     function handleRowCheckboxChange(elem) {
+        const val = elem.value;
+        const isChecked = elem.checked;
+
+        // Sync all matching checkboxes (both in desktop table and mobile cards)
+        document.querySelectorAll('.row-checkbox[value="' + val + '"]').forEach(cb => {
+            cb.checked = isChecked;
+        });
+
         updateBatchBar();
     }
 
     function uncheckAllRows() {
         if (selectAllCheckbox) selectAllCheckbox.checked = false;
-        rowCheckboxes.forEach(cb => cb.checked = false);
+        document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = false);
         updateBatchBar();
     }
 
@@ -1058,19 +1586,23 @@
     const modalDetail = document.getElementById('modalDetailJurnal');
 
     function showDetailModal(data) {
-        document.getElementById('detTanggalHari').textContent = data.hari + ', ' + data.tanggal;
-        document.getElementById('detKelasRuangan').textContent = data.kelas + (data.ruangan !== '-' ? ' (Ruang ' + data.ruangan + ')' : '');
+        document.getElementById('detTanggalHari').textContent = (data.hari ? data.hari + ', ' : '') + data.tanggal;
+        document.getElementById('detKelasRuangan').textContent = data.kelas + (data.ruangan && data.ruangan !== '-' ? ' (Ruang ' + data.ruangan + ')' : '');
         document.getElementById('detMapel').textContent = data.mapel;
-        document.getElementById('detPertemuanJam').textContent = 'Pertemuan Ke-' + data.pertemuan_ke + (data.jam_ke !== '-' ? ' • Jam Ke-' + data.jam_ke : '');
+        
+        // Clean double "Pertemuan Ke-Ke-" if stored with prefix in db
+        let pertRaw = (data.pertemuan_ke || '1').toString().trim();
+        let pertClean = pertRaw.replace(/^(pertemuan\s*)?ke\-?/i, '').trim();
+        document.getElementById('detPertemuanJam').textContent = 'Pertemuan Ke-' + (pertClean || '1') + (data.jam_ke && data.jam_ke !== '-' ? ' • Jam Ke-' + data.jam_ke : '');
         
         let guruStr = data.guru;
         if (data.guru_pengganti) {
             guruStr += ' (Digantikan oleh: ' + data.guru_pengganti + ')';
         }
         document.getElementById('detGuru').textContent = guruStr;
-        document.getElementById('detStatusKondisi').textContent = data.status_guru + ' • Kondisi: ' + data.kondisi_kelas;
-        document.getElementById('detMateri').textContent = data.materi;
-        document.getElementById('detCatatan').textContent = data.catatan;
+        document.getElementById('detStatusKondisi').textContent = (data.status_guru || '-') + ' • Kondisi: ' + (data.kondisi_kelas || 'Kondusif');
+        document.getElementById('detMateri').textContent = data.materi || '-';
+        document.getElementById('detCatatan').textContent = data.catatan || '-';
 
         // Foto Dokumentasi
         const dokWrapper = document.getElementById('detDokumentasiWrapper');
@@ -1093,22 +1625,41 @@
             absenBadge.style.background = '#fef3c7';
             absenBadge.style.color = '#92400e';
 
-            let tableHtml = '<table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">';
-            tableHtml += '<tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;"><th style="padding: 6px 10px; text-align: left;">Nama Siswa</th><th style="padding: 6px 10px; text-align: left;">NISN</th><th style="padding: 6px 10px; text-align: center;">Keterangan</th></tr>';
+            let tableHtml = '<div class="absen-table-wrap"><table class="absen-detail-table">';
+            tableHtml += '<thead><tr>' +
+                         '<th style="text-align: left;">Nama Siswa & NISN</th>' +
+                         '<th style="text-align: right; width: 110px;">Keterangan</th>' +
+                         '</tr></thead><tbody>';
 
             data.absen_list.forEach(s => {
-                let badgeClass = 'background: #e0f2fe; color: #0369a1;';
-                if (s.keterangan === 'Sakit') badgeClass = 'background: #fef3c7; color: #92400e;';
-                else if (s.keterangan === 'Alpa') badgeClass = 'background: #fee2e2; color: #991b1b;';
-                else if (s.keterangan.includes('Dispen')) badgeClass = 'background: #f1f5f9; color: #334155;';
+                let badgeClass = 'background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5;';
+                const st = (s.keterangan || '').toLowerCase();
+                if (st.includes('sakit')) {
+                    badgeClass = 'background: #dbeafe; color: #1d4ed8; border: 1px solid #bfdbfe;';
+                } else if (st.includes('izin')) {
+                    badgeClass = 'background: #fef9c3; color: #a16207; border: 1px solid #fde047;';
+                } else if (st.includes('dispen')) {
+                    badgeClass = 'background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe;';
+                } else if (st.includes('telat') || st.includes('terlambat')) {
+                    badgeClass = 'background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa;';
+                } else if (st.includes('hadir')) {
+                    badgeClass = 'background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0;';
+                }
 
-                tableHtml += '<tr style="border-bottom: 1px solid #f1f5f9;">' +
-                    '<td style="padding: 8px 10px; font-weight: 700; color: #1e293b;">' + s.nama + '</td>' +
-                    '<td style="padding: 8px 10px; color: #64748b;">' + (s.nisn || '-') + '</td>' +
-                    '<td style="padding: 8px 10px; text-align: center;"><span style="font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 4px; ' + badgeClass + '">' + s.keterangan + '</span></td>' +
+                const nisnText = s.nisn && s.nisn !== '-' ? '<span style="font-size: 11px; color: #64748b; font-weight: 600; margin-left: 6px;">(NISN: ' + s.nisn + ')</span>' : '';
+                const noteSnippet = s.catatan ? '<div style="font-size: 11px; color: #475569; font-weight: normal; margin-top: 3px;"><i class="fa-regular fa-note-sticky" style="color: #6366f1; margin-right: 4px;"></i><em>' + s.catatan + '</em></div>' : '';
+
+                tableHtml += '<tr>' +
+                    '<td style="padding: 9px 12px; font-weight: 700; color: #1e293b; vertical-align: middle; word-break: break-word;">' +
+                        '<div>' + s.nama + nisnText + '</div>' +
+                        noteSnippet +
+                    '</td>' +
+                    '<td style="padding: 9px 12px; text-align: right; vertical-align: middle; white-space: nowrap;">' +
+                        '<span style="font-weight: 800; font-size: 11px; padding: 3px 9px; border-radius: 6px; display: inline-block; ' + badgeClass + '">' + s.keterangan + '</span>' +
+                    '</td>' +
                 '</tr>';
             });
-            tableHtml += '</table>';
+            tableHtml += '</tbody></table></div>';
             absenContainer.innerHTML = tableHtml;
         } else {
             absenBadge.textContent = 'Semua Hadir (100%)';
@@ -1148,9 +1699,11 @@
         const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
         if (checkedBoxes.length === 0) return;
 
-        const ids = Array.from(checkedBoxes).map(cb => cb.value);
-        document.getElementById('delBatchCountText').textContent = ids.length;
-        document.getElementById('delBatchIdsInput').value = ids.join(',');
+        const uniqueIds = Array.from(new Set(Array.from(checkedBoxes).map(cb => cb.value)));
+        if (uniqueIds.length === 0) return;
+
+        document.getElementById('delBatchCountText').textContent = uniqueIds.length;
+        document.getElementById('delBatchIdsInput').value = uniqueIds.join(',');
         modalBatchDelete.style.display = 'flex';
     }
 

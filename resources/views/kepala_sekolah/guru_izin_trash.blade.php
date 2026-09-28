@@ -50,6 +50,13 @@
         margin-top: 3px;
     }
 
+    .trash-header-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
     .btn-back {
         background: #f1f5f9;
         color: #475569;
@@ -130,15 +137,14 @@
         overflow: hidden;
         width: 100%;
         max-width: 100%;
+        min-width: 0;
         box-sizing: border-box;
     }
 
-    .table-responsive {
+    /* Desktop Table View */
+    .desktop-trash-table-wrapper {
         width: 100%;
-        max-width: 100%;
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        box-sizing: border-box;
     }
 
     .custom-table {
@@ -207,40 +213,95 @@
 
     .btn-force:hover { background: #fca5a5; color: #7f1d1d; }
 
-    .table-responsive::-webkit-scrollbar {
-        height: 6px;
+    /* Mobile Cards Wrapper (Hidden on Desktop) */
+    .mobile-trash-cards-wrapper {
+        display: none;
     }
-    .table-responsive::-webkit-scrollbar-track {
-        background: #f1f5f9;
-        border-radius: 4px;
+
+    .mobile-trash-card {
+        background: #ffffff;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-sizing: border-box;
+        transition: background 0.15s ease;
     }
-    .table-responsive::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 4px;
+
+    .mobile-trash-card:last-child {
+        border-bottom: none;
     }
-    .table-responsive::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
+
+    .mobile-trash-card:hover {
+        background: #f8fafc;
+    }
+
+    /* Mobile Responsive Rules */
+    @media (max-width: 768px) {
+        .trash-container {
+            gap: 14px;
+        }
+
+        .page-header-box {
+            padding: 16px 18px;
+            border-radius: 14px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .page-header-title {
+            font-size: 20px;
+        }
+
+        .page-header-sub {
+            font-size: 12px;
+        }
+
+        .trash-header-actions {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-back,
+        .btn-batch-restore,
+        .btn-empty-trash {
+            width: 100%;
+            height: 38px;
+            justify-content: center;
+            font-size: 12.5px;
+            box-sizing: border-box;
+        }
+
+        .trash-header-actions form {
+            width: 100%;
+        }
+
+        /* Switch Desktop Table to Mobile Cards (Zero Horizontal Scroll!) */
+        .desktop-trash-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-trash-cards-wrapper {
+            display: flex !important;
+            flex-direction: column;
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header-title {
+            font-size: 18px;
+        }
     }
 </style>
 @endsection
 
 @section('content')
 <div class="trash-container">
-
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div style="background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; padding: 12px 16px; border-radius: 10px; font-weight: 600; font-size: 12.5px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 16px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 12px 16px; border-radius: 10px; font-weight: 600; font-size: 12.5px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-circle-xmark" style="font-size: 16px;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <div class="page-header-box">
         <div>
@@ -251,7 +312,7 @@
                 Kelola data izin guru yang telah dihapus. Anda dapat memulihkan kembali atau menghapusnya secara permanen.
             </div>
         </div>
-        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <div class="trash-header-actions">
             <a href="{{ route('kepala-sekolah.guru-izin-tidak-hadir') }}" class="btn-back">
                 <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Utama
             </a>
@@ -261,7 +322,7 @@
                     <i class="fa-solid fa-rotate-left"></i> Pulihkan Terpilih (<span id="selectedTrashCount">0</span>)
                 </button>
 
-                <form action="{{ route('kepala-sekolah.guru-izin-tidak-hadir.empty-trash') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mengosongkan seluruh tempat sampah secara permanen? Data tidak dapat dikembalikan lagi.');">
+                <form action="{{ route('kepala-sekolah.guru-izin-tidak-hadir.empty-trash') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin mengosongkan seluruh tempat sampah secara permanen? Data tidak dapat dikembalikan lagi.');" style="margin: 0; padding: 0;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn-empty-trash">
@@ -275,7 +336,9 @@
     <div class="table-card">
         <form id="batchRestoreForm" action="{{ route('kepala-sekolah.guru-izin-tidak-hadir.batch-restore') }}" method="POST">
             @csrf
-            <div class="table-responsive">
+
+            <!-- A. DESKTOP VIEW: TABEL STANDAR -->
+            <div class="desktop-trash-table-wrapper">
                 <table class="custom-table">
                     <thead>
                         <tr>
@@ -338,6 +401,72 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- B. MOBILE VIEW: KARTU RESPONSIF (ZERO HORIZONTAL SCROLL) -->
+            <div class="mobile-trash-cards-wrapper">
+                @forelse($guruIzinList as $index => $item)
+                    <div class="mobile-trash-card">
+                        <!-- Top Header: Checkbox + No + Dihapus Pada -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" name="ids[]" value="{{ $item->id_guru_izin }}" class="check-trash" style="cursor: pointer; width: 17px; height: 17px; accent-color: #16a34a;" onchange="updateTrashSelectState()">
+                                <span style="background: #e2e8f0; color: #334155; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 6px;">
+                                    #{{ $index + 1 }}
+                                </span>
+                            </div>
+                            <span style="font-size: 11px; color: #64748b; font-weight: 600;">
+                                <i class="fa-regular fa-clock"></i> {{ $item->deleted_at ? $item->deleted_at->format('d-m-Y H:i') : '-' }}
+                            </span>
+                        </div>
+
+                        <!-- Info Guru -->
+                        <div style="margin-top: 2px;">
+                            <div style="font-weight: 800; color: #0f172a; font-size: 14px;">
+                                {{ $item->guru->nama_guru ?? 'Guru' }}
+                            </div>
+                            <div style="font-size: 11.5px; color: #64748b; font-weight: 600; margin-top: 1px;">
+                                NIP: {{ $item->guru->nip ?? '-' }}
+                            </div>
+                        </div>
+
+                        <!-- Tanggal & Kategori Box -->
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                            <div>
+                                <div style="font-size: 10.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Rentang Izin</div>
+                                <div style="font-weight: 800; color: #0f172a; font-size: 12.5px; margin-top: 1px;">
+                                    {{ $item->tanggal_mulai ? \Carbon\Carbon::parse($item->tanggal_mulai)->format('d-m-Y') : '-' }} s/d {{ $item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai)->format('d-m-Y') : '-' }}
+                                </div>
+                            </div>
+                            <span style="background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 10px;">
+                                {{ $item->kategori_izin ?? 'Izin' }} ({{ $item->durasi_hari ?? 1 }} Hari)
+                            </span>
+                        </div>
+
+                        <!-- Alasan -->
+                        <div style="font-size: 13px; color: #1e293b; font-weight: 600; line-height: 1.4;">
+                            <span style="color: #64748b; font-size: 11px; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 2px;">Alasan:</span>
+                            {{ $item->alasan }}
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div style="display: flex; gap: 8px; margin-top: 6px; padding-top: 10px; border-top: 1px dashed #e2e8f0;">
+                            <button type="button" class="btn-restore" onclick="restoreSingle({{ $item->id_guru_izin }})" style="flex: 1; justify-content: center; padding: 9px 12px; font-size: 12px;">
+                                <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                            </button>
+
+                            <button type="button" class="btn-force" onclick="forceDeleteSingle({{ $item->id_guru_izin }}, '{{ addslashes($item->guru->nama_guru ?? 'Guru') }}')" style="flex: 1; justify-content: center; padding: 9px 12px; font-size: 12px;">
+                                <i class="fa-solid fa-trash-can"></i> Hapus Permanen
+                            </button>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; padding: 36px 16px; color: #94a3b8;">
+                        <i class="fa-solid fa-trash-arrow-up" style="font-size: 32px; margin-bottom: 8px; color: #cbd5e1; display: block;"></i>
+                        Tempat sampah kosong. Tidak ada data guru izin yang dihapus sementara.
+                    </div>
+                @endforelse
+            </div>
+
         </form>
     </div>
 
@@ -361,7 +490,8 @@
 
     if (selectAllTrash) {
         selectAllTrash.addEventListener('change', function() {
-            trashCheckboxes.forEach(cb => {
+            const allBoxes = document.querySelectorAll('.check-trash');
+            allBoxes.forEach(cb => {
                 cb.checked = selectAllTrash.checked;
             });
             updateTrashSelectState();
@@ -369,7 +499,8 @@
     }
 
     function updateTrashSelectState() {
-        const checkedCount = document.querySelectorAll('.check-trash:checked').length;
+        const checkedBoxes = document.querySelectorAll('.check-trash:checked');
+        const checkedCount = checkedBoxes.length;
         if (selectedTrashCount) selectedTrashCount.innerText = checkedCount;
 
         if (btnBatchRestore) {
@@ -380,8 +511,9 @@
             }
         }
 
+        const allBoxes = document.querySelectorAll('.check-trash');
         if (selectAllTrash) {
-            selectAllTrash.checked = (checkedCount === trashCheckboxes.length && trashCheckboxes.length > 0);
+            selectAllTrash.checked = (checkedCount === allBoxes.length && allBoxes.length > 0);
         }
     }
 
@@ -392,7 +524,7 @@
             return;
         }
 
-        if (confirm(`Pulihkan ${checkedCount} data guru izin terpilih kembali ke daftar aktif?`)) {
+        if (confirm(`Pulihkan data guru izin terpilih kembali ke daftar aktif?`)) {
             document.getElementById('batchRestoreForm').submit();
         }
     }

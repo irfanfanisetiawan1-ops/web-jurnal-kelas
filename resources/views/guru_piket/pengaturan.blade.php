@@ -742,12 +742,12 @@
         }
 
         .mobile-topbar-title {
-            font-size: 18px;
-            font-weight: 800;
+            font-size: 28px !important;
+            font-weight: 800 !important;
             color: #1e3a8a;
             margin: 0;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
+            line-height: 1.25 !important;
+            letter-spacing: -0.5px !important;
         }
 
         .mobile-topbar-sub {
@@ -1073,6 +1073,13 @@
         .m-btn-logout-mobile:active {
             background: #fecaca;
             transform: scale(0.98);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .mobile-topbar-title {
+            font-size: 26px !important;
+            letter-spacing: -0.5px !important;
         }
     }
 </style>
@@ -1482,9 +1489,9 @@
         </a>
 
         <!-- 6. Tombol Keluar / Logout -->
-        <form action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
+        <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" style="margin: 0; width: 100%;">
             @csrf
-            <button type="submit" class="m-btn-logout-mobile" onclick="return confirm('Apakah Anda yakin ingin keluar dari aplikasi?')">
+            <button type="button" class="m-btn-logout-mobile" onclick="confirmLogout(event)">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 <span>Keluar dari Akun Piket</span>
             </button>
@@ -1554,13 +1561,6 @@
         </button>
     </div>
 
-    <!-- Session Feedback Alerts -->
-    @if(session('success'))
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 10px; color: #065f46; font-size: 13.5px; font-weight: 750;">
-            <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 18px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
 
     @if(isset($errors) && $errors->any())
         <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; padding: 14px 18px; color: #991b1b; font-size: 13px;">

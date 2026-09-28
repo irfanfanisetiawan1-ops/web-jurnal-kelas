@@ -52,6 +52,7 @@
         height: 40px;
         border-radius: 12px;
         border: 1px solid #dbeafe;
+        flex-shrink: 0;
     }
 
     .title-header-text {
@@ -69,6 +70,7 @@
         border-radius: 20px;
         font-size: 12px;
         font-weight: 800;
+        white-space: nowrap;
     }
 
     .header-actions-group {
@@ -180,6 +182,7 @@
         color: #334155;
         font-weight: 600;
         transition: all 0.2s ease;
+        box-sizing: border-box;
     }
 
     .search-input-box input:focus {
@@ -204,6 +207,7 @@
         color: #334155;
         font-weight: 600;
         transition: all 0.2s ease;
+        box-sizing: border-box;
     }
 
     .filter-select-item select:focus, .filter-select-item input:focus {
@@ -222,6 +226,7 @@
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         transition: all 0.2s ease;
     }
@@ -242,6 +247,7 @@
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         text-decoration: none;
         transition: all 0.2s ease;
@@ -252,12 +258,13 @@
         color: #334155;
     }
 
-    /* Table Custom */
+    /* Table Custom (Desktop View) */
     .table-container-responsive {
         width: 100%;
         overflow-x: auto;
         border-radius: 14px;
         border: 1px solid #e2e8f0;
+        display: block;
     }
 
     .table-jurnal-custom {
@@ -399,7 +406,7 @@
         background: #dcfce7;
         color: #166534;
         border: 1px solid #bbf7d0;
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 20px;
         font-size: 11.5px;
         font-weight: 800;
@@ -413,7 +420,7 @@
         background: #fef3c7;
         color: #92400e;
         border: 1px solid #fde68a;
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 20px;
         font-size: 11.5px;
         font-weight: 800;
@@ -427,7 +434,7 @@
         background: #fee2e2;
         color: #991b1b;
         border: 1px solid #fecaca;
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 20px;
         font-size: 11.5px;
         font-weight: 800;
@@ -441,7 +448,7 @@
         background: #dbeafe;
         color: #1e40af;
         border: 1px solid #bfdbfe;
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 20px;
         font-size: 11.5px;
         font-weight: 800;
@@ -455,7 +462,7 @@
         background: #eff6ff;
         color: #2563eb;
         border: 1px solid #bfdbfe;
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 20px;
         font-size: 11.5px;
         font-weight: 800;
@@ -477,7 +484,7 @@
         background: #f8fafc;
         color: #94a3b8;
         border: 1px solid #e2e8f0;
-        padding: 6px 14px;
+        padding: 5px 12px;
         border-radius: 20px;
         font-size: 11.5px;
         font-weight: 700;
@@ -509,11 +516,99 @@
         box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
     }
 
+    /* Mobile Cards List */
+    .mobile-jurnal-card-list {
+        display: none;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .mobile-jurnal-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .mobile-jurnal-card:active {
+        background: #f8fafc;
+    }
+
+    .mobile-card-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        border-bottom: 1px dashed #f1f5f9;
+        padding-bottom: 12px;
+    }
+
+    .mobile-date-badge {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 6px 10px;
+        text-align: center;
+        min-width: 48px;
+        flex-shrink: 0;
+    }
+
+    .mobile-date-day {
+        font-size: 20px;
+        font-weight: 900;
+        color: #0f172a;
+        line-height: 1;
+    }
+
+    .mobile-date-my {
+        font-size: 9.5px;
+        font-weight: 800;
+        color: #64748b;
+        margin-top: 2px;
+        line-height: 1.1;
+    }
+
+    .mobile-card-details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .mobile-detail-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        color: #475569;
+    }
+
+    .mobile-detail-row i {
+        color: #3b82f6;
+        width: 16px;
+        margin-top: 3px;
+        flex-shrink: 0;
+    }
+
+    .mobile-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        flex-wrap: wrap;
+    }
+
     /* Pagination */
     .custom-pagination-wrapper {
         display: flex;
         align-items: center;
         gap: 6px;
+        flex-wrap: wrap;
     }
 
     .page-num-btn, .page-nav-btn {
@@ -561,7 +656,7 @@
         z-index: 9999;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 16px;
     }
 
     .modal-card {
@@ -569,7 +664,7 @@
         border-radius: 20px;
         width: 100%;
         max-width: 680px;
-        max-height: 88vh;
+        max-height: 90vh;
         overflow-y: auto;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
@@ -585,6 +680,7 @@
         position: sticky;
         top: 0;
         z-index: 10;
+        gap: 10px;
     }
 
     .modal-body-styled {
@@ -654,6 +750,7 @@
         justify-content: space-between;
         gap: 14px;
         transition: all 0.2s ease;
+        flex-wrap: wrap;
     }
 
     .date-pick-item-card:hover {
@@ -672,9 +769,144 @@
         font-weight: 800;
     }
 
+    /* Responsive Media Queries */
     @media (max-width: 992px) {
-        .card-top-header { flex-direction: column; align-items: flex-start; }
-        .filter-grid-row-1, .filter-grid-row-2 { flex-direction: column; align-items: stretch; }
+        .card-top-header { flex-direction: column; align-items: flex-start; gap: 14px; }
+        .header-actions-group { width: 100%; }
+        .filter-grid-row-1, .filter-grid-row-2 { flex-direction: column; align-items: stretch; gap: 10px; }
+    }
+
+    @media (max-width: 768px) {
+        .jurnal-kepsek-container {
+            gap: 16px;
+        }
+
+        .card-jurnal-main {
+            padding: 16px;
+            border-radius: 16px;
+            gap: 16px;
+        }
+
+        .title-left-group {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .title-header-text {
+            font-size: 17px;
+        }
+
+        .header-actions-group {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .header-actions-group .btn-action-top {
+            justify-content: center;
+            font-size: 12px;
+            padding: 9px 10px;
+        }
+
+        .header-actions-group .btn-action-harian {
+            grid-column: span 2;
+        }
+
+        .filter-section-card {
+            padding: 14px;
+            border-radius: 14px;
+        }
+
+        .search-input-box {
+            min-width: unset;
+            width: 100%;
+            flex: unset;
+        }
+
+        .filter-select-item {
+            min-width: unset !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            flex: unset !important;
+        }
+
+        .btn-filter-action, .btn-reset-action {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        /* Switch from Desktop Table to Mobile Cards */
+        .table-container-responsive {
+            display: none !important;
+        }
+
+        .mobile-jurnal-card-list {
+            display: flex !important;
+        }
+
+        /* Pagination on mobile */
+        .pagination-footer-wrapper {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center;
+            gap: 10px !important;
+        }
+
+        /* Modal styling on mobile */
+        .modal-card {
+            max-width: 95vw;
+            border-radius: 16px;
+        }
+
+        .modal-header-styled {
+            padding: 14px 18px;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .modal-header-styled h3 {
+            font-size: 15px !important;
+        }
+
+        .modal-body-styled {
+            padding: 16px;
+            gap: 14px;
+        }
+
+        .detail-grid-card {
+            grid-template-columns: 1fr;
+            gap: 10px;
+            padding: 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-actions-group {
+            grid-template-columns: 1fr;
+        }
+
+        .header-actions-group .btn-action-harian {
+            grid-column: span 1;
+        }
+
+        .mobile-card-footer {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .mobile-card-footer .footer-badges {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .mobile-card-footer .btn-mobile-detail {
+            width: 100%;
+            justify-content: center;
+        }
     }
 </style>
 @endsection
@@ -803,7 +1035,7 @@
             </form>
         </div>
 
-        <!-- Table Responsive -->
+        <!-- Table Responsive (Desktop & Laptop View) -->
         <div class="table-container-responsive">
             <table class="table-jurnal-custom">
                 <thead>
@@ -959,8 +1191,143 @@
             </table>
         </div>
 
+        <!-- Mobile Cards List (Mobile/HP View) -->
+        <div class="mobile-jurnal-card-list">
+            @forelse($jurnals as $j)
+            @php
+                $tglObj = \Carbon\Carbon::parse($j->tanggal);
+                $dayNum = $tglObj->format('d');
+                $monthStr = strtoupper($tglObj->format('M'));
+                $yearStr = $tglObj->format('Y');
+
+                $namaGuru = $j->jadwal->guru->nama_guru ?? ($j->guru->nama_guru ?? '-');
+                $nipGuru = $j->jadwal->guru->nip ?? ($j->guru->nip ?? '-');
+                $namaKelas = $j->jadwal->kelas->nama_kelas ?? ($j->kelas->nama_kelas ?? '-');
+                $namaRuangan = $j->jadwal->ruangan->nama_ruangan ?? 'Ruang Kelas';
+                $namaMapel = $j->jadwal->mapel->nama_mapel ?? ($j->mapel->nama_mapel ?? '-');
+
+                $jamMulaiStr = $j->jadwal->waktu_mulai_effective ?? '07:00';
+                $jamSelesaiStr = $j->jadwal->waktu_selesai_effective ?? '15:00';
+                $jamText = substr($jamMulaiStr, 0, 5) . ' - ' . substr($jamSelesaiStr, 0, 5) . ' WIB';
+                $sesiText = $j->jam_ke ?: ('Jam ke-' . ($j->jadwal->id_jam_mulai ?? 1) . ($j->jadwal->id_jam_selesai && $j->jadwal->id_jam_selesai != $j->jadwal->id_jam_mulai ? ' - ' . $j->jadwal->id_jam_selesai : ''));
+
+                $stKehadiran = $j->status_kehadiran_guru ?? 'Hadir';
+                $isDigantikan = $j->id_guru_pengganti && $j->guruPengganti;
+
+                $mulaiId = $j->jadwal->id_jam_mulai ?? 1;
+                $selesaiId = $j->jadwal->id_jam_selesai ?? $mulaiId;
+                $totalJp = max(1, ($selesaiId - $mulaiId + 1));
+                $pertemuanClean = preg_replace('/^ke[-_\s]*/i', '', trim($j->pertemuan_ke ?? '1'));
+
+                $verif = $j->verifikasiPiket;
+                $isVerified = $verif && $verif->status === 'terverifikasi';
+            @endphp
+            <div class="mobile-jurnal-card">
+                <!-- Card Header: Tanggal & Mapel -->
+                <div class="mobile-card-header">
+                    <div class="mobile-date-badge">
+                        <div class="mobile-date-day">{{ $dayNum }}</div>
+                        <div class="mobile-date-my">{{ $monthStr }}<br>{{ $yearStr }}</div>
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div class="subject-title-bold" style="font-size: 15px; line-height: 1.3;">{{ $namaMapel }}</div>
+                        <div class="subject-time-sub" style="margin-top: 3px;">
+                            <i class="fa-regular fa-clock" style="color: #3b82f6;"></i> {{ $sesiText }} &bull; {{ $jamText }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Details: Kelas, Guru, Materi -->
+                <div class="mobile-card-details">
+                    <!-- Kelas & Ruangan -->
+                    <div class="mobile-detail-row">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <div style="flex: 1;">
+                            <span style="font-weight: 800; color: #0f172a;">{{ $namaKelas }}</span>
+                            <span style="color: #64748b; font-size: 12px; margin-left: 6px;">
+                                <i class="fa-solid fa-location-dot" style="font-size: 11px;"></i> {{ $namaRuangan }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Guru Pengampu -->
+                    <div class="mobile-detail-row">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 700; color: #1e293b;">{{ $namaGuru }}</div>
+                            <div style="font-size: 11px; color: #94a3b8;">NIP: {{ $nipGuru }}</div>
+                            @if($isDigantikan)
+                                <div style="margin-top: 3px;">
+                                    <span style="font-size: 10.5px; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 6px; font-weight: 700; display: inline-block;">
+                                        <i class="fa-solid fa-arrows-rotate"></i> Inval: {{ $j->guruPengganti->nama_guru }}
+                                    </span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <!-- Materi Pembelajaran -->
+                    <div class="mobile-detail-row">
+                        <i class="fa-solid fa-book-open"></i>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #334155; line-height: 1.4;">
+                                {{ $j->materi ?: 'Pembelajaran KBM Sesuai Silabus' }}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px; flex-wrap: wrap;">
+                                <span class="badge-kondisi-tag">Ke-{{ $pertemuanClean ?: 1 }} ({{ $totalJp }} JP)</span>
+                                <span class="badge-kondisi-tag">Kondisi: {{ $j->kondisi_kelas ?: 'Kondusif' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Footer: Status KBM, Verif Piket & Aksi Detail -->
+                <div class="mobile-card-footer">
+                    <div class="footer-badges" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                        @if($isDigantikan)
+                            <span class="badge-kbm-digantikan">
+                                <i class="fa-solid fa-arrows-rotate"></i> Digantikan
+                            </span>
+                        @elseif($stKehadiran === 'Hadir')
+                            <span class="badge-kbm-terlaksana">
+                                <i class="fa-solid fa-circle-check"></i> Terlaksana
+                            </span>
+                        @elseif($stKehadiran === 'Izin')
+                            <span class="badge-kbm-izin">
+                                <i class="fa-solid fa-clock"></i> Izin
+                            </span>
+                        @else
+                            <span class="badge-kbm-tidak-hadir">
+                                <i class="fa-solid fa-circle-xmark"></i> {{ $stKehadiran }}
+                            </span>
+                        @endif
+
+                        @if($isVerified)
+                            <button type="button" class="badge-verif-terverifikasi" onclick="openVerifModal({{ json_encode($verif) }}, '{{ $j->tanggal }}')">
+                                <i class="fa-solid fa-signature"></i> Verif
+                            </button>
+                        @else
+                            <span class="badge-verif-belum">
+                                <i class="fa-solid fa-clock"></i> Belum Verif
+                            </span>
+                        @endif
+                    </div>
+
+                    <button type="button" class="btn-action-top btn-mobile-detail" onclick="openDetailModal({{ json_encode($j) }}, '{{ addslashes($namaGuru) }}', '{{ addslashes($nipGuru) }}', '{{ addslashes($namaKelas) }}', '{{ addslashes($namaRuangan) }}', '{{ addslashes($namaMapel) }}', '{{ addslashes($sesiText) }}', '{{ addslashes($jamText) }}', '{{ $totalJp }} JP', 'Ke-{{ $pertemuanClean ?: 1 }}', {{ json_encode($verif) }})" style="background: #2563eb; color: #ffffff; padding: 7px 14px; border-radius: 10px; font-size: 12px; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);">
+                        <i class="fa-solid fa-eye"></i> Detail
+                    </button>
+                </div>
+            </div>
+            @empty
+            <div style="text-align: center; padding: 28px 16px; background: #f8fafc; border-radius: 14px; border: 1px dashed #cbd5e1; color: #94a3b8; font-weight: 600; font-size: 13px;">
+                <i class="fa-regular fa-folder-open" style="font-size: 32px; display: block; margin-bottom: 8px; opacity: 0.5;"></i>
+                Belum ada data jurnal mengajar guru yang sesuai dengan filter.
+            </div>
+            @endforelse
+        </div>
+
         <!-- Table Footer / Pagination -->
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+        <div class="pagination-footer-wrapper" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
             <div style="font-size: 12.5px; font-weight: 700; color: #64748b;">
                 Menampilkan {{ $jurnals->firstItem() ?? 0 }} - {{ $jurnals->lastItem() ?? 0 }} dari {{ $jurnals->total() }} data jurnal
             </div>
@@ -1037,8 +1404,8 @@
                 <div style="font-size: 12.5px; font-weight: 700; color: #334155;">
                     <i class="fa-regular fa-calendar-plus" style="color: #2563eb; margin-right: 4px;"></i> Atau Pilih Tanggal Lain:
                 </div>
-                <div style="display: flex; align-items: center; gap: 8px; flex: 1; max-width: 320px; justify-content: flex-end;">
-                    <input type="date" id="customPrintDateInput" value="{{ date('Y-m-d') }}" style="padding: 7px 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 13px; outline: none; font-family: inherit;">
+                <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 240px; justify-content: flex-end; flex-wrap: wrap;">
+                    <input type="date" id="customPrintDateInput" value="{{ date('Y-m-d') }}" style="padding: 7px 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 13px; outline: none; font-family: inherit; flex: 1; min-width: 140px;">
                     <button type="button" onclick="printCustomSelectedDate()" style="background: #2563eb; color: #ffffff; border: none; padding: 8px 14px; border-radius: 10px; font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
                         <i class="fa-solid fa-print"></i> Cetak
                     </button>
@@ -1068,7 +1435,7 @@
                                 <span style="font-size: 14px; font-weight: 800; color: #0f172a;">{{ $formattedTgl }}</span>
                                 <span class="date-badge-pill">{{ $ad->total_sesi }} Sesi KBM</span>
                             </div>
-                            <div style="font-size: 11.5px; color: #64748b; display: flex; align-items: center; gap: 8px;">
+                            <div style="font-size: 11.5px; color: #64748b; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                                 @if($ad->is_verified)
                                     <span style="color: #166534; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
                                         <i class="fa-solid fa-circle-check"></i> Terverifikasi Piket ({{ $ad->nama_guru_piket }})
@@ -1212,7 +1579,7 @@
 
             <!-- Full Detail Page Link -->
             <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
-                <a id="mdlFullPageBtn" href="#" style="background: #2563eb; color: #ffffff; text-decoration: none; padding: 9px 18px; border-radius: 10px; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; gap: 8px;">
+                <a id="mdlFullPageBtn" href="#" style="background: #2563eb; color: #ffffff; text-decoration: none; padding: 9px 18px; border-radius: 10px; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; box-sizing: border-box;">
                     Lihat Halaman Detail Lengkap <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </a>
             </div>

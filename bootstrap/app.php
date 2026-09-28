@@ -12,6 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->validateCsrfTokens(except: [
+            'guru-piket/surat-izin-siswa/*/send-chatbot',
+            'surat-izin-siswa/*/send-chatbot',
+            'guru-piket/siswa-telat/*/send-chatbot',
+            'siswa-telat/*/send-chatbot',
+            'guru-piket/permintaan-izin/*/send-chatbot',
+            'permintaan-izin/*/send-chatbot',
+            'guru-piket/dispensasi-siswa/*/send-chatbot',
+            'dispensasi-siswa/*/send-chatbot',
+        ]);
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);

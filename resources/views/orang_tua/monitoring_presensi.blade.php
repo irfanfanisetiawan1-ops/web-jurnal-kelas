@@ -621,6 +621,19 @@
         font-weight: 500;
     }
 
+    .lesson-status-area {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+        flex-shrink: 0;
+    }
+    .lesson-status-jurnal {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--c-gray-muted);
+    }
+
     /* Image Preview Modal */
     .modal-img-backdrop {
         display: none;
@@ -649,6 +662,252 @@
         object-fit: contain;
         background: #0f172a;
         display: block;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        .monitoring-wrapper {
+            gap: 14px;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .page-title-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            gap: 8px;
+        }
+
+        .page-title-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 15px;
+            border-radius: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 12px;
+        }
+
+        .header-controls-group {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-controls-group form {
+            flex: 1;
+        }
+
+        .date-filter-box {
+            width: 100%;
+            padding: 7px 10px;
+            border-radius: 10px;
+            justify-content: space-between;
+        }
+
+        .date-filter-box input[type="date"] {
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .btn-action-pill {
+            padding: 7px 12px;
+            font-size: 12px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        .student-hero-card {
+            padding: 14px;
+            gap: 12px;
+            border-radius: 16px;
+        }
+
+        .student-avatar-box {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            border-radius: 12px;
+        }
+
+        .student-hero-card > div:last-child {
+            width: 100%;
+            min-width: 0 !important;
+        }
+
+        .student-name {
+            font-size: 16.5px;
+            word-break: break-word;
+        }
+
+        .student-meta {
+            font-size: 11.5px;
+            gap: 4px 6px;
+            margin-bottom: 8px;
+        }
+
+        .badge-pill-group {
+            gap: 6px;
+        }
+
+        .badge-status-aktif, .badge-wali-kelas, .badge-live-pulse {
+            font-size: 10.5px;
+            padding: 3px 9px;
+        }
+
+        /* Live Presence Hero Card Mobile */
+        .live-presence-hero-card {
+            padding: 16px 14px;
+            border-radius: 16px;
+        }
+
+        .presence-top-row {
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .presence-beacon {
+            font-size: 10px;
+            padding: 4px 10px;
+        }
+
+        .presence-location-title {
+            font-size: 16px;
+        }
+
+        .presence-desc-short {
+            font-size: 12px;
+        }
+
+        .presence-side-box {
+            padding: 10px 12px;
+            border-radius: 12px;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .presence-side-row {
+            font-size: 11.5px;
+        }
+
+        /* Summary Stats Grid Mobile */
+        .summary-stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px;
+        }
+
+        .stat-card-box {
+            padding: 10px 12px;
+            border-radius: 12px;
+        }
+
+        .stat-card-head {
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .stat-icon-pill {
+            width: 22px;
+            height: 22px;
+            font-size: 10.5px;
+            border-radius: 6px;
+        }
+
+        .stat-card-val {
+            font-size: 19px;
+            margin-bottom: 2px;
+        }
+
+        .stat-card-sub {
+            font-size: 10px;
+        }
+
+        /* Timeline Section Mobile */
+        .timeline-container {
+            gap: 10px;
+        }
+
+        .lesson-schedule-card {
+            padding: 14px 12px;
+            border-radius: 14px;
+        }
+
+        .lesson-card-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+            padding-bottom: 8px;
+        }
+
+        .lesson-title-area {
+            min-width: 0;
+            width: 100%;
+        }
+
+        .lesson-mapel-name {
+            font-size: 14.5px;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        .lesson-meta-line {
+            font-size: 11.5px;
+            gap: 4px 6px;
+            margin-top: 4px;
+        }
+
+        .lesson-status-area {
+            width: 100%;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 8px;
+            border-top: 1px dashed var(--c-gray-border);
+        }
+
+        .badge-presensi {
+            font-size: 11px;
+            padding: 4px 10px;
+        }
+
+        .lesson-status-jurnal {
+            font-size: 10.5px;
+        }
+
+        .lesson-content-box {
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-top: 8px;
+        }
+
+        .lesson-content-box > div {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .lesson-content-box > div > div:first-child {
+            min-width: 0 !important;
+            width: 100%;
+        }
+
+        .lesson-materi-title {
+            font-size: 12px;
+        }
+
+        .lesson-materi-text {
+            font-size: 12px;
+        }
+
+        .modal-img-content {
+            border-radius: 14px;
+        }
     }
 </style>
 @endsection
@@ -929,12 +1188,12 @@
                         </div>
 
                         <!-- Right Attendance Status Badge -->
-                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                        <div class="lesson-status-area">
                             <span class="badge-presensi {{ $tItem->status_badge_class }}">
                                 <i class="fa-solid {{ $tItem->status_icon }}"></i>
                                 <span>{{ strtoupper($tItem->status_presensi) }}</span>
                             </span>
-                            <span style="font-size: 11px; font-weight: 700; color: var(--c-gray-muted);">
+                            <span class="lesson-status-jurnal">
                                 {{ $tItem->status_jurnal_teks }}
                             </span>
                         </div>

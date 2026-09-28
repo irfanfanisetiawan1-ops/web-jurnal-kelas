@@ -239,6 +239,78 @@
         cursor: pointer;
         box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
     }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+        }
+
+        .breadcrumb-text {
+            font-size: 12.5px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .edit-card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .edit-header-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+            margin-bottom: 16px !important;
+            padding-bottom: 14px !important;
+        }
+
+        .edit-header-row h2 {
+            font-size: 16px !important;
+        }
+
+        .form-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse !important;
+            width: 100% !important;
+            gap: 10px !important;
+            margin-top: 20px !important;
+            padding-top: 16px !important;
+        }
+
+        .form-actions .btn-update,
+        .form-actions .btn-cancel {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            padding: 12px 16px !important;
+            font-size: 13.5px !important;
+            margin: 0 !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+        }
+    }
 </style>
 @endsection
 

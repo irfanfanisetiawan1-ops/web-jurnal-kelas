@@ -196,67 +196,232 @@
         background: #f8fafc;
     }
 
-    .btn-modal-cancel {
+    /* Desktop Table vs Mobile Cards */
+    .desktop-table-wrapper {
+        display: block;
+    }
+
+    .mobile-trash-cards-wrapper {
+        display: none;
+    }
+
+    /* Mobile Trash Card */
+    .mobile-trash-card {
         background: #ffffff;
-        color: #475569;
         border: 1px solid #cbd5e1;
-        padding: 8px 16px;
-        border-radius: 10px;
-        font-weight: 700;
-        font-size: 13px;
-        cursor: pointer;
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        transition: all 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
 
-    .btn-modal-danger {
-        background: #dc2626;
-        color: #ffffff;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 10px;
-        font-weight: 800;
-        font-size: 13px;
-        cursor: pointer;
+    .mobile-trash-card.selected-card {
+        background: #fff1f2;
+        border-color: #fca5a5;
+        box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
     }
 
-    .btn-modal-success {
-        background: #16a34a;
-        color: #ffffff;
-        border: none;
-        padding: 8px 18px;
-        border-radius: 10px;
+    .mobile-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .mobile-card-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .mobile-card-no {
+        width: 26px;
+        height: 26px;
+        background: #f1f5f9;
+        border-radius: 8px;
+        color: #475569;
         font-weight: 800;
-        font-size: 13px;
-        cursor: pointer;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .mobile-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .mobile-info-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .mobile-materi-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 12.5px;
+        line-height: 1.5;
+        color: #334155;
+    }
+
+    .mobile-card-footer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-top: 12px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .mobile-card-footer form,
+    .mobile-card-footer .btn-action-restore,
+    .mobile-card-footer .btn-action-force {
+        flex: 1;
+        justify-content: center;
+        padding: 9px 12px;
+        font-size: 12.5px;
+    }
+
+    .mobile-card-footer form {
+        display: flex;
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 768px) {
+        .page-header-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-subtitle {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+
+        .page-header-actions {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            width: 100% !important;
+            gap: 8px !important;
+        }
+
+        .page-header-actions a,
+        .page-header-actions button {
+            flex: 1 !important;
+            width: auto !important;
+            justify-content: center !important;
+            padding: 9px 12px !important;
+            font-size: 12.5px !important;
+            white-space: nowrap !important;
+        }
+
+        .batch-bar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            padding: 12px 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .batch-buttons-group {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .batch-buttons-group button {
+            flex: 1 !important;
+            width: auto !important;
+            justify-content: center !important;
+            padding: 9px 12px !important;
+            font-size: 12.5px !important;
+        }
+
+        /* Dual View Switch */
+        .desktop-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-trash-cards-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 12px !important;
+        }
+
+        .card-table {
+            border-radius: 16px !important;
+        }
+
+        /* Modals */
+        .modal-box-custom {
+            max-width: 100% !important;
+            margin: 8px !important;
+            border-radius: 16px !important;
+        }
+
+        .modal-header-custom {
+            padding: 14px 16px !important;
+        }
+
+        .modal-body-custom {
+            padding: 14px !important;
+        }
+
+        .modal-footer-custom {
+            padding: 12px 16px !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+
+        .modal-footer-custom button,
+        .modal-footer-custom form,
+        .modal-footer-custom form button {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title {
+            font-size: 25px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-header-actions {
+            flex-direction: row !important;
+            gap: 8px !important;
+        }
     }
 </style>
 @endsection
 
 @section('content')
-
-    <!-- Flash Notification -->
-    @if(session('success'))
-        <div style="background: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700;">
-                <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #15803d;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #166534; cursor: pointer; font-size: 16px;">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700;">
-                <i class="fa-solid fa-triangle-exclamation" style="font-size: 18px; color: #dc2626;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #991b1b; cursor: pointer; font-size: 16px;">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-    @endif
 
     <!-- Page Header & Top Buttons -->
     <div class="page-header-row">
@@ -269,7 +434,7 @@
                 Data jurnal mengajar yang telah dipindahkan ke tempat sampah (dapat dipulihkan atau dihapus permanen)
             </p>
         </div>
-        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <div class="page-header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <a href="{{ route('guru.riwayat-jurnal') }}" style="background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 9px 16px; border-radius: 10px; font-weight: 800; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-arrow-left"></i> Kembali ke Riwayat
             </a>
@@ -291,7 +456,7 @@
             <i class="fa-solid fa-circle-check"></i>
             <span><strong id="batchCount">0</strong> data sampah dipilih</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="batch-buttons-group" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
             <button type="button" class="btn-action-restore" onclick="submitBatchRestore()">
                 <i class="fa-solid fa-rotate-left"></i> Pulihkan Terpilih
             </button>
@@ -304,9 +469,10 @@
         </div>
     </div>
 
-    <!-- Main Table Card -->
+    <!-- Main Table Card (Dual View: Desktop Table + Mobile Cards) -->
     <div class="card-table">
-        <div style="overflow-x: auto;">
+        <!-- Desktop Table View -->
+        <div class="desktop-table-wrapper" style="overflow-x: auto;">
             <table class="table-custom">
                 <thead>
                     <tr>
@@ -350,7 +516,7 @@
                             </td>
                             <td>
                                 <div style="font-weight: 700; color: #0f172a;">{{ $mapelNama }}</div>
-                                <div style="font-size: 11px; color: #64748b;">Pertemuan Ke-{{ $j->pertemuan_ke ?: '1' }}</div>
+                                <div style="font-size: 11px; color: #64748b;">Pertemuan Ke-{{ preg_replace('/^(pertemuan\s*)?ke\-?/i', '', trim($j->pertemuan_ke ?? '1')) }}</div>
                             </td>
                             <td>
                                 <div style="line-height: 1.5; font-weight: 600; color: #475569; max-width: 320px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
@@ -397,6 +563,93 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Mobile Cards View -->
+        <div class="mobile-trash-cards-wrapper">
+            @forelse($trashedJurnals as $idx => $j)
+                @php
+                    $carbonTgl = \Carbon\Carbon::parse($j->tanggal);
+                    $carbonDeleted = \Carbon\Carbon::parse($j->deleted_at);
+                    $kelasNama = $j->jadwal && $j->jadwal->kelas ? $j->jadwal->kelas->nama_kelas : '-';
+                    $mapelNama = $j->jadwal && $j->jadwal->mapel ? $j->jadwal->mapel->nama_mapel : '-';
+                @endphp
+                <div class="mobile-trash-card" id="card_{{ $j->id_jurnal }}">
+                    <!-- Card Header -->
+                    <div class="mobile-card-header">
+                        <div class="mobile-card-left">
+                            <input type="checkbox" class="row-checkbox custom-checkbox" value="{{ $j->id_jurnal }}" onchange="handleRowCheckboxChange(this)">
+                            <span class="mobile-card-no">{{ $idx + 1 }}</span>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 800; color: #dc2626;">
+                                    <i class="fa-solid fa-clock-rotate-left" style="margin-right: 3px;"></i> {{ $carbonDeleted->format('d/m/Y H:i') }}
+                                </div>
+                                <div style="font-size: 11px; color: #64748b;">Waktu Dihapus</div>
+                            </div>
+                        </div>
+                        <div>
+                            <span style="font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; background: #f1f5f9; color: #334155;">
+                                {{ $j->status_kehadiran_guru }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="mobile-card-body">
+                        <div class="mobile-info-row">
+                            <div>
+                                <span style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">TANGGAL KBM & KELAS:</span>
+                                <div style="font-weight: 800; color: #0f172a; font-size: 13.5px;">
+                                    {{ $carbonTgl->format('d/m/Y') }} • <span style="color: #2563eb;">{{ $kelasNama }}</span>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">MAPEL:</span>
+                                <div style="font-weight: 800; color: #0f172a; font-size: 13px;">{{ $mapelNama }}</div>
+                                <div style="font-size: 11px; color: #64748b;">Pertemuan Ke-{{ preg_replace('/^(pertemuan\s*)?ke\-?/i', '', trim($j->pertemuan_ke ?? '1')) }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Materi -->
+                        <div class="mobile-materi-box">
+                            <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 3px;">
+                                <i class="fa-solid fa-book-open" style="color: #dc2626; margin-right: 4px;"></i> Materi Pembelajaran:
+                            </div>
+                            <div style="font-weight: 600; color: #1e293b;">
+                                {{ $j->materi ?: '-' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer Actions -->
+                    <div class="mobile-card-footer">
+                        <form method="POST" action="{{ route('guru.riwayat-jurnal.restore', $j->id_jurnal) }}" style="display: flex;">
+                            @csrf
+                            <button type="submit" class="btn-action-restore" style="width: 100%;" title="Pulihkan data jurnal ini">
+                                <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                            </button>
+                        </form>
+                        <button type="button" class="btn-action-force" onclick="openSingleForceDeleteModal({{ $j->id_jurnal }}, '{{ $carbonTgl->format('d/m/Y') }}', '{{ $kelasNama }}', '{{ addslashes($mapelNama) }}')" title="Hapus permanen data ini">
+                            <i class="fa-solid fa-trash"></i> Hapus Permanen
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 36px 16px; background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <div style="color: #94a3b8; margin-bottom: 10px;">
+                        <i class="fa-solid fa-trash-can-arrow-up" style="font-size: 36px; color: #cbd5e1;"></i>
+                    </div>
+                    <div style="font-size: 15px; font-weight: 800; color: #334155;">Tempat Sampah Kosong</div>
+                    <div style="font-size: 12.5px; color: #64748b; margin-top: 4px;">
+                        Tidak ada data jurnal mengajar di dalam tempat sampah saat ini.
+                    </div>
+                    <div style="margin-top: 14px;">
+                        <a href="{{ route('guru.riwayat-jurnal') }}" style="background: #2563eb; color: #ffffff; padding: 8px 18px; border-radius: 10px; font-weight: 800; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-arrow-left"></i> Kembali ke Riwayat Jurnal
+                        </a>
+                    </div>
+                </div>
+            @endforelse
+        </div>
     </div>
 
     <!-- Hidden Forms for Batch Operations -->
@@ -437,11 +690,11 @@
                 </div>
             </div>
             <div class="modal-footer-custom">
-                <form id="formSingleForce" method="POST" action="">
+                <form id="formSingleForce" method="POST" action="" style="display: flex; gap: 8px; width: 100%;">
                     @csrf
                     @method('DELETE')
-                    <button type="button" onclick="closeSingleForceModal()" class="btn-modal-cancel">Batal</button>
-                    <button type="submit" class="btn-modal-danger">
+                    <button type="button" onclick="closeSingleForceModal()" class="btn-modal-cancel" style="flex: 1;">Batal</button>
+                    <button type="submit" class="btn-modal-danger" style="flex: 1.5;">
                         <i class="fa-solid fa-trash-can"></i> Ya, Hapus Permanen
                     </button>
                 </form>
@@ -467,12 +720,12 @@
                 </p>
             </div>
             <div class="modal-footer-custom">
-                <form id="formBatchForce" method="POST" action="{{ route('guru.riwayat-jurnal.force-delete-batch') }}">
+                <form id="formBatchForce" method="POST" action="{{ route('guru.riwayat-jurnal.force-delete-batch') }}" style="display: flex; gap: 8px; width: 100%;">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="ids" id="forceBatchIdsInput" value="">
-                    <button type="button" onclick="closeBatchForceModal()" class="btn-modal-cancel">Batal</button>
-                    <button type="submit" class="btn-modal-danger">
+                    <button type="button" onclick="closeBatchForceModal()" class="btn-modal-cancel" style="flex: 1;">Batal</button>
+                    <button type="submit" class="btn-modal-danger" style="flex: 1.5;">
                         <i class="fa-solid fa-trash-can"></i> Ya, Hapus Permanen Semua
                     </button>
                 </form>
@@ -537,50 +790,73 @@
 @section('scripts')
 <script>
     const selectAllCheckbox = document.getElementById('selectAllCheckbox');
-    const rowCheckboxes = document.querySelectorAll('.row-checkbox');
     const batchBar = document.getElementById('batchBar');
     const batchCount = document.getElementById('batchCount');
 
     function updateBatchBar() {
-        const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
-        const count = checkedBoxes.length;
+        const checkedValues = new Set();
+        document.querySelectorAll('.row-checkbox:checked').forEach(cb => {
+            checkedValues.add(cb.value);
+        });
+
+        const count = checkedValues.size;
 
         if (count > 0) {
             batchBar.style.display = 'flex';
-            batchCount.textContent = count;
+            if (batchCount) batchCount.textContent = count;
         } else {
             batchBar.style.display = 'none';
-            batchCount.textContent = 0;
+            if (batchCount) batchCount.textContent = 0;
         }
 
-        rowCheckboxes.forEach(cb => {
+        document.querySelectorAll('.row-checkbox').forEach(cb => {
             const tr = document.getElementById('row_' + cb.value);
+            const card = document.getElementById('card_' + cb.value);
+            const isChecked = checkedValues.has(cb.value);
+
+            cb.checked = isChecked;
+
             if (tr) {
-                if (cb.checked) tr.classList.add('selected-row');
+                if (isChecked) tr.classList.add('selected-row');
                 else tr.classList.remove('selected-row');
+            }
+            if (card) {
+                if (isChecked) card.classList.add('selected-card');
+                else card.classList.remove('selected-card');
             }
         });
 
         if (selectAllCheckbox) {
-            selectAllCheckbox.checked = (count === rowCheckboxes.length && rowCheckboxes.length > 0);
+            const totalUnique = new Set();
+            document.querySelectorAll('.row-checkbox').forEach(cb => totalUnique.add(cb.value));
+            selectAllCheckbox.checked = (count === totalUnique.size && totalUnique.size > 0);
         }
     }
 
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
             const isChecked = this.checked;
-            rowCheckboxes.forEach(cb => cb.checked = isChecked);
+            document.querySelectorAll('.row-checkbox').forEach(cb => {
+                cb.checked = isChecked;
+            });
             updateBatchBar();
         });
     }
 
     function handleRowCheckboxChange(elem) {
+        const val = elem.value;
+        const isChecked = elem.checked;
+
+        document.querySelectorAll('.row-checkbox[value="' + val + '"]').forEach(cb => {
+            cb.checked = isChecked;
+        });
+
         updateBatchBar();
     }
 
     function uncheckAllRows() {
         if (selectAllCheckbox) selectAllCheckbox.checked = false;
-        rowCheckboxes.forEach(cb => cb.checked = false);
+        document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = false);
         updateBatchBar();
     }
 
@@ -588,8 +864,10 @@
         const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
         if (checkedBoxes.length === 0) return;
 
-        const ids = Array.from(checkedBoxes).map(cb => cb.value);
-        document.getElementById('batchRestoreIds').value = ids.join(',');
+        const uniqueIds = Array.from(new Set(Array.from(checkedBoxes).map(cb => cb.value)));
+        if (uniqueIds.length === 0) return;
+
+        document.getElementById('batchRestoreIds').value = uniqueIds.join(',');
         document.getElementById('formBatchRestore').submit();
     }
 
@@ -616,9 +894,11 @@
         const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
         if (checkedBoxes.length === 0) return;
 
-        const ids = Array.from(checkedBoxes).map(cb => cb.value);
-        document.getElementById('forceBatchCountText').textContent = ids.length;
-        document.getElementById('forceBatchIdsInput').value = ids.join(',');
+        const uniqueIds = Array.from(new Set(Array.from(checkedBoxes).map(cb => cb.value)));
+        if (uniqueIds.length === 0) return;
+
+        document.getElementById('forceBatchCountText').textContent = uniqueIds.length;
+        document.getElementById('forceBatchIdsInput').value = uniqueIds.join(',');
         modalBatchForce.style.display = 'flex';
     }
 

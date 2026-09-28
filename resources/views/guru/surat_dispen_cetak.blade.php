@@ -271,6 +271,57 @@
             background: #334155;
         }
 
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 12px;
+                font-size: 10.5pt;
+            }
+
+            .paper {
+                padding: 20px 16px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            }
+
+            .kop-surat {
+                gap: 10px;
+            }
+
+            .kop-logo {
+                width: 54px;
+            }
+
+            .kop-header h2 { font-size: 10pt; }
+            .kop-header h1 { font-size: 12.5pt; }
+            .kop-header h3 { font-size: 9pt; }
+            .kop-header p { font-size: 8pt; }
+            .kop-header .telp-web { font-size: 7.5pt; }
+
+            .title-block h4 { font-size: 12pt; }
+            .title-block .nomor { font-size: 9.5pt; }
+
+            .data-table td.label-col {
+                width: 110px;
+            }
+
+            .signatures-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .no-print-bar {
+                left: 14px;
+                right: 14px;
+                bottom: 14px;
+                justify-content: center;
+            }
+
+            .no-print-bar button,
+            .no-print-bar a {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+
         @media print {
             .no-print-bar { display: none !important; }
             body { padding: 0; background: #ffffff; }

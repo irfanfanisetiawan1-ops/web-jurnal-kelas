@@ -9,6 +9,8 @@
         flex-direction: column;
         gap: 20px;
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
         box-sizing: border-box;
     }
 
@@ -90,6 +92,13 @@
         align-items: center;
         gap: 14px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        min-width: 0;
+    }
+
+    .stat-card-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.04);
     }
 
     .stat-icon-wrapper {
@@ -111,12 +120,17 @@
     .stat-info-group {
         display: flex;
         flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
     }
 
     .stat-title {
         font-size: 12px;
         font-weight: 700;
         color: #64748b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .stat-count {
@@ -124,6 +138,7 @@
         font-weight: 800;
         color: #0f172a;
         margin-top: 1px;
+        line-height: 1.2;
     }
 
     /* Filter & View Mode Controls */
@@ -144,6 +159,7 @@
         border-bottom: 1px solid #e2e8f0;
         padding-bottom: 12px;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .tab-btn {
@@ -157,6 +173,8 @@
         align-items: center;
         gap: 8px;
         transition: all 0.15s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
 
     .tab-btn:hover { background: #f1f5f9; color: #0f172a; }
@@ -173,6 +191,7 @@
         display: flex;
         flex-direction: column;
         gap: 4px;
+        min-width: 0;
     }
 
     .form-group-filter label {
@@ -182,6 +201,7 @@
     }
 
     .form-control-filter {
+        width: 100%;
         padding: 8px 12px;
         border-radius: 8px;
         border: 1px solid #cbd5e1;
@@ -191,10 +211,17 @@
         outline: none;
         transition: border-color 0.15s ease;
         height: 38px;
+        box-sizing: border-box;
     }
 
     .form-control-filter:focus {
         border-color: #2563eb;
+    }
+
+    .filter-btn-group {
+        display: flex;
+        gap: 8px;
+        align-items: flex-end;
     }
 
     /* Table Section */
@@ -204,6 +231,37 @@
         border: 1px solid #e2e8f0;
         overflow: hidden;
         box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .table-header-bar {
+        padding: 14px 18px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .table-header-title {
+        font-size: 13.5px;
+        font-weight: 800;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .table-header-count {
+        font-size: 12px;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .desktop-jadwal-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
     }
 
     .jadwal-table {
@@ -242,6 +300,7 @@
         border-radius: 6px;
         font-size: 12px;
         font-weight: 800;
+        white-space: nowrap;
     }
     .day-Senin   { background: #eff6ff; color: #1d4ed8; }
     .day-Selasa  { background: #fdf2f8; color: #be185d; }
@@ -249,6 +308,37 @@
     .day-Kamis   { background: #fefce8; color: #a16207; }
     .day-Jumat   { background: #faf5ff; color: #7e22ce; }
     .day-Sabtu   { background: #fff7ed; color: #c2410c; }
+
+    .class-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        color: #1e40af;
+        font-weight: 800;
+        font-size: 11.5px;
+    }
+
+    .room-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        color: #475569;
+        font-size: 11.5px;
+        font-weight: 600;
+    }
+
+    /* Mobile Jadwal Cards (Hidden on Desktop) */
+    .mobile-jadwal-wrapper {
+        display: none;
+    }
 
     /* Matrix View Styles */
     .matrix-card {
@@ -268,6 +358,12 @@
         margin-bottom: 16px;
         padding-bottom: 14px;
         border-bottom: 1px solid #e2e8f0;
+    }
+
+    .table-scroll-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .matrix-table {
@@ -317,6 +413,10 @@
         padding: 6px;
     }
 
+    .matrix-scroll-hint {
+        display: none;
+    }
+
     /* Modals */
     .modal-overlay {
         display: none;
@@ -328,6 +428,7 @@
         justify-content: center;
         align-items: center;
         padding: 20px;
+        box-sizing: border-box;
     }
 
     .modal-box {
@@ -365,6 +466,12 @@
         color: #94a3b8;
         font-size: 18px;
         cursor: pointer;
+        padding: 4px;
+        border-radius: 6px;
+    }
+    .modal-close-btn:hover {
+        color: #0f172a;
+        background: #f1f5f9;
     }
 
     .modal-body { padding: 20px; }
@@ -389,6 +496,7 @@
         background: #ffffff;
         outline: none;
         margin-top: 4px;
+        box-sizing: border-box;
     }
 
     .modal-input:focus, .modal-select:focus {
@@ -401,58 +509,372 @@
         gap: 12px;
     }
 
-    .kbm-ref-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 12px;
-        margin-top: 10px;
-    }
-
-    .kbm-ref-table th {
-        background: #f1f5f9;
-        padding: 8px 10px;
-        text-align: left;
-        border: 1px solid #cbd5e1;
-        color: #334155;
-        font-weight: 700;
-    }
-
-    .kbm-ref-table td {
-        padding: 7px 10px;
-        border: 1px solid #e2e8f0;
-    }
-
     /* Action Buttons in Row */
     .btn-row-action {
-        width: 32px;
-        height: 32px;
         border-radius: 8px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 13px;
+        gap: 6px;
+        font-size: 12.5px;
+        font-weight: 700;
         cursor: pointer;
         text-decoration: none;
         border: none;
         transition: all 0.15s ease;
     }
-    .btn-row-detail { background: #eff6ff; color: #2563eb; }
-    .btn-row-detail:hover { background: #dbeafe; }
-    .btn-row-edit   { background: #fef3c7; color: #b45309; }
-    .btn-row-edit:hover   { background: #fde68a; }
-    .btn-row-delete { background: #fee2e2; color: #dc2626; }
-    .btn-row-delete:hover { background: #fca5a5; }
-
-    @media (max-width: 1024px) {
-        .stat-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .filter-form-grid { grid-template-columns: 1fr 1fr; }
+    .btn-row-detail {
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+        padding: 6px 14px;
+    }
+    .btn-row-detail:hover {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
     }
 
-    @media (max-width: 640px) {
-        .stat-cards-grid { grid-template-columns: 1fr; }
-        .filter-form-grid { grid-template-columns: 1fr; }
-        .header-actions { width: 100%; }
-        .btn-action { flex: 1; justify-content: center; }
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+        .stat-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .filter-form-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .jadwal-container {
+            gap: 14px;
+        }
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .page-main-title {
+            font-size: 19px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-sub-title {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
+        .header-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .header-actions .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 8px 10px !important;
+            font-size: 12px !important;
+            box-sizing: border-box;
+        }
+
+        /* 4 Stat Cards in 2x2 Grid */
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card-item {
+            padding: 12px 12px !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .stat-title {
+            font-size: 11px !important;
+        }
+
+        .stat-count {
+            font-size: 17px !important;
+        }
+
+        /* Control Card on Mobile */
+        .control-card {
+            padding: 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .view-mode-tabs {
+            padding-bottom: 10px !important;
+            gap: 6px !important;
+        }
+
+        .tab-btn {
+            padding: 7px 12px !important;
+            font-size: 12px !important;
+        }
+
+        .filter-form-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 10px !important;
+        }
+
+        .filter-search-col {
+            grid-column: 1 / -1 !important;
+        }
+
+        .filter-btn-group {
+            grid-column: 1 / -1 !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .filter-btn-group .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        /* TAB 1: Hide Desktop Table, Show Mobile Cards */
+        .desktop-jadwal-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-jadwal-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+        }
+
+        .mobile-jadwal-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: border-color 0.2s ease;
+        }
+
+        .mobile-jadwal-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .mobile-jadwal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+        }
+
+        .mobile-jadwal-header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .mobile-jadwal-index {
+            font-weight: 800;
+            color: #94a3b8;
+            font-size: 11.5px;
+        }
+
+        .mobile-jadwal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mobile-mapel-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.3;
+        }
+
+        .mobile-guru-info {
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .mobile-jadwal-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .mobile-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mobile-meta-lbl {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mobile-meta-val {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .mobile-btn-detail {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+            border-radius: 9px;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-sizing: border-box;
+        }
+
+        .mobile-btn-detail:hover {
+            background: #dbeafe;
+        }
+
+        /* TAB 2 & 3: Matrix Views Mobile Optimization */
+        .matrix-card {
+            padding: 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .matrix-header-box {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+        }
+
+        .matrix-controls-form {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .matrix-controls-form select {
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .matrix-controls-form .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        .matrix-scroll-hint {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 10px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 11.5px;
+            font-weight: 700;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px dashed #bfdbfe;
+            text-align: center;
+        }
+
+        .matrix-table {
+            min-width: 780px !important;
+            font-size: 11.5px !important;
+        }
+
+        .matrix-table th {
+            padding: 8px 6px !important;
+            font-size: 11px !important;
+        }
+
+        .matrix-table td {
+            padding: 6px 8px !important;
+            font-size: 11px !important;
+        }
+
+        .matrix-cell-filled {
+            padding: 6px !important;
+            border-radius: 5px !important;
+        }
+
+        /* Modals on Mobile */
+        .modal-overlay {
+            padding: 12px !important;
+        }
+
+        .modal-box {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            border-radius: 14px !important;
+        }
+
+        .modal-header {
+            padding: 14px 16px !important;
+        }
+
+        .modal-header h3 {
+            font-size: 15px !important;
+        }
+
+        .modal-body {
+            padding: 14px 16px !important;
+        }
+
+        .modal-footer {
+            padding: 12px 16px !important;
+        }
+
+        .modal-footer .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .filter-form-grid {
+            grid-template-columns: 1fr !important;
+        }
     }
 </style>
 @endsection
@@ -460,48 +882,19 @@
 @section('content')
 <div class="jadwal-container">
 
-    <!-- Flash Alerts -->
-    @if(session('success'))
-        <div style="background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; padding: 14px 18px; border-radius: 12px; font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-    @if(session('error'))
-        <div style="background: #fee2e2; color: #991b1b; border: 1px solid #fecdd3; padding: 14px 18px; border-radius: 12px; font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-exclamation" style="font-size: 18px;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
-
     {{-- Header & Action Buttons --}}
     <div class="page-header-box">
         <div>
-            <div style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 4px;">
-                Jurnal SMEA &gt; Portal Kurikulum &gt; <span style="color: #2563eb;">Master Jadwal Pelajaran</span>
-            </div>
-            <h1 class="page-main-title">Kelola Jadwal Pelajaran</h1>
-            <p class="page-sub-title">SMK Negeri 1 Boyolangu — Pengelolaan Jadwal KBM, Pemetaan Guru &amp; Distribusi Jam Pembelajaran</p>
+            <h1 class="page-main-title">Jadwal Pelajaran</h1>
+            <p class="page-sub-title">SMK Negeri 1 Boyolangu — Pemantauan Jadwal KBM, Pemetaan Guru &amp; Distribusi Jam Pembelajaran</p>
         </div>
 
         <div class="header-actions">
-            <button type="button" class="btn-action btn-primary" onclick="openTambahModal()">
-                <i class="fa-solid fa-plus"></i> Tambah Jadwal
-            </button>
-            <button type="button" class="btn-action btn-emerald" onclick="openBatchModal()">
-                <i class="fa-solid fa-layer-group"></i> Input Batch
-            </button>
-            <button type="button" class="btn-action btn-indigo" onclick="openKbmModal()">
-                <i class="fa-solid fa-clock"></i> Alokasi KBM
-            </button>
             <button type="button" class="btn-action btn-outline" onclick="openCetakModal()">
                 <i class="fa-solid fa-print"></i> Cetak
             </button>
-            <a href="{{ route('waka-kurikulum.jadwal.export', request()->all()) }}" class="btn-action btn-outline">
+            <a href="{{ route('waka-kurikulum.jadwal.export', request()->all()) }}" class="btn-action btn-primary">
                 <i class="fa-solid fa-file-csv"></i> Export CSV
-            </a>
-            <a href="{{ route('waka-kurikulum.jadwal.trash') }}" class="btn-action btn-trash" title="Lihat Jadwal di Kotak Sampah">
-                <i class="fa-solid fa-trash-can"></i> Sampah ({{ $stats['trashed'] ?? 0 }})
             </a>
         </div>
     </div>
@@ -600,12 +993,12 @@
                 </select>
             </div>
 
-            <div class="form-group-filter">
+            <div class="form-group-filter filter-search-col">
                 <label>Cari Kata Kunci</label>
                 <input type="text" name="search" value="{{ $search }}" class="form-control-filter" placeholder="Mapel / Ruangan...">
             </div>
 
-            <div style="display: flex; gap: 8px;">
+            <div class="filter-btn-group">
                 <button type="submit" class="btn-action btn-primary" style="height: 38px;">
                     <i class="fa-solid fa-magnifying-glass"></i> Filter
                 </button>
@@ -618,108 +1011,186 @@
 
     {{-- TABEL VIEW --}}
     @if($viewMode === 'table')
-    <form action="{{ route('waka-kurikulum.jadwal.batch-delete') }}" method="POST" id="batchDeleteForm">
-        @csrf
-        <div class="table-wrapper-card">
-            <div style="padding: 14px 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="checkbox" id="checkAll" style="width: 17px; height: 17px; cursor: pointer;" onclick="toggleCheckAll(this)">
-                    <label for="checkAll" style="font-size: 13px; font-weight: 700; color: #475569; cursor: pointer;">Pilih Semua Data</label>
-                </div>
-                <button type="submit" id="btnBatchDelete" class="btn-action btn-trash" style="display: none; padding: 6px 12px; font-size: 12px;" onclick="return confirm('Apakah Anda yakin ingin menghapus jadwal yang dipilih ke kotak sampah?')">
-                    <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="countSelected">0</span>)
-                </button>
+    <div class="table-wrapper-card">
+        <div class="table-header-bar">
+            <div class="table-header-title">
+                <i class="fa-solid fa-list-check" style="color: #2563eb;"></i>
+                Daftar Data Tabel Jadwal Pelajaran
             </div>
-
-            <div style="overflow-x: auto;">
-                <table class="jadwal-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 40px;"></th>
-                            <th>HARI</th>
-                            <th>JAM KE</th>
-                            <th>WAKTU KBM</th>
-                            <th>KELAS</th>
-                            <th>MATA PELAJARAN</th>
-                            <th>GURU PENGAMPU</th>
-                            <th>RUANGAN</th>
-                            <th style="text-align: center; width: 120px;">AKSI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($jadwals as $jadwal)
-                            @php
-                                $waktuMulaiStr = $jadwal->jamMulai ? substr($jadwal->jamMulai->jam_mulai, 0, 5) : '-';
-                                $waktuSelesaiStr = $jadwal->jamSelesai ? substr($jadwal->jamSelesai->jam_selesai, 0, 5) : '-';
-                                $rangeWaktu = ($waktuMulaiStr !== '-' && $waktuSelesaiStr !== '-') ? "{$waktuMulaiStr} – {$waktuSelesaiStr} WIB" : '-';
-                                $labelJamKe = $jadwal->jam_mulai_ke == $jadwal->jam_selesai_ke ? "Jam Ke-{$jadwal->jam_mulai_ke}" : "Jam Ke-{$jadwal->jam_mulai_ke} – {$jadwal->jam_selesai_ke}";
-                            @endphp
-                            <tr>
-                                <td>
-                                    <input type="checkbox" name="selected_ids[]" value="{{ $jadwal->id_jadwal }}" class="row-checkbox" style="width: 16px; height: 16px; cursor: pointer;" onchange="updateBatchDeleteBtn()">
-                                </td>
-                                <td>
-                                    <span class="day-badge day-{{ $jadwal->hari }}">
-                                        {{ $jadwal->hari }}
-                                    </span>
-                                </td>
-                                <td style="font-weight: 700; color: #1d4ed8;">
-                                    {{ $labelJamKe }}
-                                </td>
-                                <td style="font-size: 12px; color: #475569; font-weight: 600;">
-                                    <i class="fa-regular fa-clock" style="color: #2563eb; margin-right: 3px;"></i> {{ $rangeWaktu }}
-                                </td>
-                                <td style="font-weight: 800; color: #0f172a;">
-                                    {{ $jadwal->kelas->nama_kelas ?? '-' }}
-                                </td>
-                                <td style="font-weight: 700; color: #2563eb;">
-                                    {{ $jadwal->mapel->nama_mapel ?? '-' }}
-                                    <div style="font-size: 11px; color: #64748b; font-weight: 600;">{{ $jadwal->mapel->kode_mapel ?? '' }}</div>
-                                </td>
-                                <td style="font-weight: 600; color: #334155;">
-                                    {{ $jadwal->guru->nama_guru ?? '-' }}
-                                </td>
-                                <td style="font-size: 12px; color: #64748b;">
-                                    {{ $jadwal->ruangan->nama_ruangan ?? 'Kelas Reguler' }}
-                                </td>
-                                <td style="text-align: center;">
-                                    <div style="display: inline-flex; gap: 6px;">
-                                        <button type="button" class="btn-row-action btn-row-detail" title="Detail" data-json="{{ htmlspecialchars(json_encode($jadwal), ENT_QUOTES, 'UTF-8') }}" onclick="openDetailModalFromBtn(this)">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </button>
-                                        <button type="button" class="btn-row-action btn-row-edit" title="Edit" data-json="{{ htmlspecialchars(json_encode($jadwal), ENT_QUOTES, 'UTF-8') }}" onclick="openEditModalFromBtn(this)">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </button>
-                                        <button type="button" class="btn-row-action btn-row-delete" title="Hapus" onclick="confirmDeleteJadwal({{ $jadwal->id_jadwal }})">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="9" style="text-align: center; padding: 36px 20px; color: #94a3b8;">
-                                    <i class="fa-regular fa-calendar-xmark" style="font-size: 36px; margin-bottom: 8px;"></i>
-                                    <p style="font-weight: 700;">Tidak ada data jadwal yang sesuai dengan filter pencarian.</p>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            {{-- Pagination --}}
-            <div style="padding: 16px 20px; border-top: 1px solid #f1f5f9;">
-                {{ $jadwals->links('partials.custom-pagination') }}
+            <div class="table-header-count">
+                Menampilkan <span style="color: #0f172a; font-weight: 800;">{{ $jadwals->firstItem() ?? 0 }} - {{ $jadwals->lastItem() ?? 0 }}</span> dari <span style="color: #0f172a; font-weight: 800;">{{ $jadwals->total() }}</span> Data
             </div>
         </div>
-    </form>
 
-    {{-- Form Single Delete --}}
-    <form id="singleDeleteForm" action="" method="POST" style="display: none;">
-        @csrf
-        @method('DELETE')
-    </form>
+        {{-- Desktop View Table (100% Intact) --}}
+        <div class="desktop-jadwal-table-wrapper">
+            <table class="jadwal-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px; text-align: center;">NO</th>
+                        <th>HARI</th>
+                        <th>JAM KE</th>
+                        <th>WAKTU KBM</th>
+                        <th>KELAS</th>
+                        <th>MATA PELAJARAN</th>
+                        <th>GURU PENGAMPU</th>
+                        <th>RUANGAN</th>
+                        <th style="text-align: center; width: 100px;">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($jadwals as $index => $jadwal)
+                        @php
+                            $waktuMulaiStr = $jadwal->jamMulai ? substr($jadwal->jamMulai->jam_mulai, 0, 5) : '-';
+                            $waktuSelesaiStr = $jadwal->jamSelesai ? substr($jadwal->jamSelesai->jam_selesai, 0, 5) : '-';
+                            $rangeWaktu = ($waktuMulaiStr !== '-' && $waktuSelesaiStr !== '-') ? "{$waktuMulaiStr} – {$waktuSelesaiStr} WIB" : '-';
+                            $labelJamKe = $jadwal->jam_mulai_ke == $jadwal->jam_selesai_ke ? "Jam Ke-{$jadwal->jam_mulai_ke}" : "Jam Ke-{$jadwal->jam_mulai_ke} – {$jadwal->jam_selesai_ke}";
+                        @endphp
+                        <tr>
+                            <td style="text-align: center; font-weight: 700; color: #64748b; font-size: 12px;">
+                                {{ $jadwals->firstItem() + $index }}
+                            </td>
+                            <td>
+                                <span class="day-badge day-{{ $jadwal->hari }}">
+                                    {{ $jadwal->hari }}
+                                </span>
+                            </td>
+                            <td style="font-weight: 700; color: #1d4ed8;">
+                                {{ $labelJamKe }}
+                            </td>
+                            <td style="font-size: 12px; color: #475569; font-weight: 600;">
+                                <i class="fa-regular fa-clock" style="color: #2563eb; margin-right: 3px;"></i> {{ $rangeWaktu }}
+                            </td>
+                            <td style="font-weight: 800; color: #0f172a;">
+                                {{ $jadwal->kelas->nama_kelas ?? '-' }}
+                            </td>
+                            <td style="font-weight: 700; color: #2563eb;">
+                                {{ $jadwal->mapel->nama_mapel ?? '-' }}
+                                <div style="font-size: 11px; color: #64748b; font-weight: 600;">{{ $jadwal->mapel->kode_mapel ?? '' }}</div>
+                            </td>
+                            <td style="font-weight: 600; color: #334155;">
+                                {{ $jadwal->guru->nama_guru ?? '-' }}
+                            </td>
+                            <td style="font-size: 12px; color: #64748b;">
+                                {{ $jadwal->ruangan->nama_ruangan ?? 'Kelas Reguler' }}
+                            </td>
+                            <td style="text-align: center;">
+                                <button type="button" class="btn-row-action btn-row-detail" title="Lihat Detail Jadwal"
+                                    data-hari="{{ $jadwal->hari }}"
+                                    data-jam-ke="{{ $labelJamKe }}"
+                                    data-waktu="{{ $rangeWaktu }}"
+                                    data-kelas="{{ $jadwal->kelas->nama_kelas ?? '-' }}"
+                                    data-tingkat="{{ $jadwal->kelas->tingkat ?? '-' }}"
+                                    data-jurusan="{{ $jadwal->kelas->jurusan->nama_jurusan ?? '-' }}"
+                                    data-mapel="{{ $jadwal->mapel->nama_mapel ?? '-' }}"
+                                    data-kode-mapel="{{ $jadwal->mapel->kode_mapel ?? '-' }}"
+                                    data-guru="{{ $jadwal->guru->nama_guru ?? '-' }}"
+                                    data-nip="{{ $jadwal->guru->nip ?? '-' }}"
+                                    data-ruangan="{{ $jadwal->ruangan->nama_ruangan ?? 'Kelas Reguler' }}"
+                                    onclick="openDetailModalFromDataset(this)">
+                                    <i class="fa-solid fa-eye"></i> Detail
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 36px 20px; color: #94a3b8;">
+                                <i class="fa-regular fa-calendar-xmark" style="font-size: 36px; margin-bottom: 8px;"></i>
+                                <p style="font-weight: 700;">Tidak ada data jadwal yang sesuai dengan filter pencarian.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        {{-- Mobile View Cards (Responsive for Handphones <= 768px) --}}
+        <div class="mobile-jadwal-wrapper">
+            @forelse($jadwals as $index => $jadwal)
+                @php
+                    $waktuMulaiStr = $jadwal->jamMulai ? substr($jadwal->jamMulai->jam_mulai, 0, 5) : '-';
+                    $waktuSelesaiStr = $jadwal->jamSelesai ? substr($jadwal->jamSelesai->jam_selesai, 0, 5) : '-';
+                    $rangeWaktu = ($waktuMulaiStr !== '-' && $waktuSelesaiStr !== '-') ? "{$waktuMulaiStr} – {$waktuSelesaiStr} WIB" : '-';
+                    $labelJamKe = $jadwal->jam_mulai_ke == $jadwal->jam_selesai_ke ? "Jam Ke-{$jadwal->jam_mulai_ke}" : "Jam Ke-{$jadwal->jam_mulai_ke} – {$jadwal->jam_selesai_ke}";
+                @endphp
+                <div class="mobile-jadwal-card">
+                    {{-- Header Card --}}
+                    <div class="mobile-jadwal-header">
+                        <div class="mobile-jadwal-header-left">
+                            <span class="mobile-jadwal-index">#{{ $jadwals->firstItem() + $index }}</span>
+                            <span class="day-badge day-{{ $jadwal->hari }}">
+                                {{ $jadwal->hari }}
+                            </span>
+                            <span class="class-chip">
+                                <i class="fa-solid fa-graduation-cap"></i> {{ $jadwal->kelas->nama_kelas ?? '-' }}
+                            </span>
+                        </div>
+                        <span class="room-badge">
+                            <i class="fa-solid fa-door-open"></i> {{ $jadwal->ruangan->nama_ruangan ?? 'R. Kelas' }}
+                        </span>
+                    </div>
+
+                    {{-- Body Card --}}
+                    <div class="mobile-jadwal-body">
+                        <div>
+                            <div class="mobile-mapel-title">{{ $jadwal->mapel->nama_mapel ?? '-' }}</div>
+                            @if(!empty($jadwal->mapel->kode_mapel))
+                                <div style="font-size: 11px; color: #64748b; font-weight: 700;">Kode: {{ $jadwal->mapel->kode_mapel }}</div>
+                            @endif
+                        </div>
+
+                        <div class="mobile-guru-info">
+                            <i class="fa-solid fa-chalkboard-user" style="color: #2563eb;"></i>
+                            <span>{{ $jadwal->guru->nama_guru ?? '-' }}</span>
+                        </div>
+
+                        {{-- Meta Info --}}
+                        <div class="mobile-jadwal-meta-grid">
+                            <div class="mobile-meta-item">
+                                <span class="mobile-meta-lbl"><i class="fa-solid fa-clock-rotate-left"></i> Jam Pelajaran</span>
+                                <span class="mobile-meta-val" style="color: #1d4ed8;">
+                                    {{ $labelJamKe }}
+                                </span>
+                            </div>
+                            <div class="mobile-meta-item">
+                                <span class="mobile-meta-lbl"><i class="fa-regular fa-clock"></i> Waktu KBM</span>
+                                <span class="mobile-meta-val">
+                                    {{ $rangeWaktu }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Action Button --}}
+                    <button type="button" class="mobile-btn-detail"
+                        data-hari="{{ $jadwal->hari }}"
+                        data-jam-ke="{{ $labelJamKe }}"
+                        data-waktu="{{ $rangeWaktu }}"
+                        data-kelas="{{ $jadwal->kelas->nama_kelas ?? '-' }}"
+                        data-tingkat="{{ $jadwal->kelas->tingkat ?? '-' }}"
+                        data-jurusan="{{ $jadwal->kelas->jurusan->nama_jurusan ?? '-' }}"
+                        data-mapel="{{ $jadwal->mapel->nama_mapel ?? '-' }}"
+                        data-kode-mapel="{{ $jadwal->mapel->kode_mapel ?? '-' }}"
+                        data-guru="{{ $jadwal->guru->nama_guru ?? '-' }}"
+                        data-nip="{{ $jadwal->guru->nip ?? '-' }}"
+                        data-ruangan="{{ $jadwal->ruangan->nama_ruangan ?? 'Kelas Reguler' }}"
+                        onclick="openDetailModalFromDataset(this)">
+                        <i class="fa-solid fa-eye"></i> Detail Jadwal Pelajaran
+                    </button>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 35px 15px; color: #94a3b8; background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <i class="fa-regular fa-calendar-xmark" style="font-size: 32px; margin-bottom: 8px;"></i>
+                    <p style="font-weight: 700; font-size: 13px; margin: 0;">Tidak ada data jadwal yang sesuai dengan filter pencarian.</p>
+                </div>
+            @endforelse
+        </div>
+
+        {{-- Pagination --}}
+        <div style="padding: 16px 20px; border-top: 1px solid #f1f5f9; overflow-x: auto;">
+            {{ $jadwals->links('partials.custom-pagination') }}
+        </div>
+    </div>
     @endif
 
     {{-- VIEW 2: MATRIKS KELAS --}}
@@ -736,11 +1207,11 @@
                 </div>
             </div>
 
-            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                <form method="GET" action="{{ route('waka-kurikulum.jadwal') }}" style="display: flex; gap: 8px; align-items: center;">
+            <div class="matrix-controls-form">
+                <form method="GET" action="{{ route('waka-kurikulum.jadwal') }}" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                     <input type="hidden" name="view_mode" value="matriks_kelas">
-                    <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Pilih Kelas:</label>
-                    <select name="selected_kelas" class="form-control-filter" onchange="this.form.submit()" style="width: auto; min-width: 160px; height: 36px;">
+                    <label style="font-size: 12.5px; font-weight: 700; color: #334155; white-space: nowrap;">Pilih Kelas:</label>
+                    <select name="selected_kelas" class="form-control-filter" onchange="this.form.submit()" style="width: auto; min-width: 160px; height: 36px; flex: 1;">
                         @foreach($kelasList as $k)
                             <option value="{{ $k->id_kelas }}" {{ ($selectedKelas == $k->id_kelas) ? 'selected' : '' }}>
                                 {{ $k->nama_kelas }} ({{ $k->tingkat }})
@@ -757,7 +1228,11 @@
             </div>
         </div>
 
-        <div style="overflow-x: auto;">
+        <div class="matrix-scroll-hint">
+            <i class="fa-solid fa-arrows-left-right"></i> Geser tabel ke samping untuk melihat seluruh hari (Senin – Jumat)
+        </div>
+
+        <div class="table-scroll-wrapper">
             <table class="matrix-table">
                 <thead>
                     <tr>
@@ -903,11 +1378,11 @@
                 </div>
             </div>
 
-            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                <form method="GET" action="{{ route('waka-kurikulum.jadwal') }}" style="display: flex; gap: 8px; align-items: center;">
+            <div class="matrix-controls-form">
+                <form method="GET" action="{{ route('waka-kurikulum.jadwal') }}" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                     <input type="hidden" name="view_mode" value="matriks_guru">
-                    <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Pilih Guru:</label>
-                    <select name="selected_guru" class="form-control-filter" onchange="this.form.submit()" style="width: auto; min-width: 200px; height: 36px;">
+                    <label style="font-size: 12.5px; font-weight: 700; color: #334155; white-space: nowrap;">Pilih Guru:</label>
+                    <select name="selected_guru" class="form-control-filter" onchange="this.form.submit()" style="width: auto; min-width: 200px; height: 36px; flex: 1;">
                         @foreach($guruList as $g)
                             <option value="{{ $g->id_guru }}" {{ ($selectedGuru == $g->id_guru) ? 'selected' : '' }}>
                                 {{ $g->nama_guru }}
@@ -918,7 +1393,11 @@
             </div>
         </div>
 
-        <div style="overflow-x: auto;">
+        <div class="matrix-scroll-hint">
+            <i class="fa-solid fa-arrows-left-right"></i> Geser tabel ke samping untuk melihat seluruh jadwal mengajar mingguan
+        </div>
+
+        <div class="table-scroll-wrapper">
             <table class="matrix-table">
                 <thead>
                     <tr>
@@ -964,346 +1443,56 @@
 
 </div>
 
-{{-- MODAL TAMBAH JADWAL BARU --}}
-<div class="modal-overlay" id="modalTambah">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3><i class="fa-solid fa-plus-circle" style="color: #2563eb;"></i> Tambah Jadwal Pelajaran Baru</h3>
-            <button type="button" class="modal-close-btn" onclick="closeTambahModal()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form action="{{ route('waka-kurikulum.jadwal.store') }}" method="POST">
-            @csrf
-            <div class="modal-body">
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <div>
-                        <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Kelas Target <span style="color: #ef4444;">*</span></label>
-                        <select name="id_kelas" class="modal-select" required>
-                            <option value="">-- Pilih Kelas --</option>
-                            @foreach($kelasList as $k)
-                                <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }} ({{ $k->tingkat }})</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Guru Pengampu <span style="color: #ef4444;">*</span></label>
-                        <select name="id_guru" class="modal-select" required>
-                            <option value="">-- Pilih Guru --</option>
-                            @foreach($guruList as $g)
-                                <option value="{{ $g->id_guru }}">{{ $g->nama_guru }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Mata Pelajaran <span style="color: #ef4444;">*</span></label>
-                        <select name="id_mapel" class="modal-select" required>
-                            <option value="">-- Pilih Mapel --</option>
-                            @foreach($mapelList as $m)
-                                <option value="{{ $m->id_mapel }}">{{ $m->nama_mapel }} ({{ $m->kode_mapel ?? '-' }})</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-grid-2">
-                        <div>
-                            <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Hari <span style="color: #ef4444;">*</span></label>
-                            <select name="hari" class="modal-select" required>
-                                @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $h)
-                                    <option value="{{ $h }}">{{ $h }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Ruangan Belajar</label>
-                            <select name="id_ruangan" class="modal-select">
-                                <option value="">-- Kelas Reguler --</option>
-                                @foreach($ruanganList as $r)
-                                    <option value="{{ $r->id_ruangan }}">{{ $r->nama_ruangan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-grid-2">
-                        <div>
-                            <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Jam Mulai <span style="color: #ef4444;">*</span></label>
-                            <select name="id_jam_mulai" class="modal-select" required>
-                                @foreach($jamList as $jm)
-                                    <option value="{{ $jm->id_jam }}">Jam ke-{{ $jm->jam_ke }} ({{ $jm->jam_mulai }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Jam Selesai <span style="color: #ef4444;">*</span></label>
-                            <select name="id_jam_selesai" class="modal-select" required>
-                                @foreach($jamList as $jm)
-                                    <option value="{{ $jm->id_jam }}">Jam ke-{{ $jm->jam_ke }} ({{ $jm->jam_selesai }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-action btn-outline" onclick="closeTambahModal()">Batal</button>
-                <button type="submit" class="btn-action btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan Jadwal</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-{{-- MODAL EDIT JADWAL --}}
-<div class="modal-overlay" id="modalEdit">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3><i class="fa-solid fa-pen-to-square" style="color: #f59e0b;"></i> Edit Data Jadwal Pelajaran</h3>
-            <button type="button" class="modal-close-btn" onclick="closeEditModal()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form id="editJadwalForm" action="" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="modal-body">
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <div>
-                        <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Kelas Target</label>
-                        <select name="id_kelas" id="edit_id_kelas" class="modal-select" required>
-                            @foreach($kelasList as $k)
-                                <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Guru Pengampu</label>
-                        <select name="id_guru" id="edit_id_guru" class="modal-select" required>
-                            @foreach($guruList as $g)
-                                <option value="{{ $g->id_guru }}">{{ $g->nama_guru }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Mata Pelajaran</label>
-                        <select name="id_mapel" id="edit_id_mapel" class="modal-select" required>
-                            @foreach($mapelList as $m)
-                                <option value="{{ $m->id_mapel }}">{{ $m->nama_mapel }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-grid-2">
-                        <div>
-                            <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Hari</label>
-                            <select name="hari" id="edit_hari" class="modal-select" required>
-                                @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $h)
-                                    <option value="{{ $h }}">{{ $h }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Ruangan Belajar</label>
-                            <select name="id_ruangan" id="edit_id_ruangan" class="modal-select">
-                                <option value="">-- Kelas Reguler --</option>
-                                @foreach($ruanganList as $r)
-                                    <option value="{{ $r->id_ruangan }}">{{ $r->nama_ruangan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-grid-2">
-                        <div>
-                            <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Jam Mulai</label>
-                            <select name="id_jam_mulai" id="edit_id_jam_mulai" class="modal-select" required>
-                                @foreach($jamList as $jm)
-                                    <option value="{{ $jm->id_jam }}">Jam ke-{{ $jm->jam_ke }} ({{ $jm->jam_mulai }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 12.5px; font-weight: 700; color: #334155;">Jam Selesai</label>
-                            <select name="id_jam_selesai" id="edit_id_jam_selesai" class="modal-select" required>
-                                @foreach($jamList as $jm)
-                                    <option value="{{ $jm->id_jam }}">Jam ke-{{ $jm->jam_ke }} ({{ $jm->jam_selesai }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-action btn-outline" onclick="closeEditModal()">Batal</button>
-                <button type="submit" class="btn-action btn-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-{{-- MODAL INPUT BATCH JADWAL --}}
-<div class="modal-overlay" id="modalBatch">
-    <div class="modal-box modal-lg" style="max-width: 900px;">
-        <div class="modal-header">
-            <h3><i class="fa-solid fa-layer-group" style="color: #059669;"></i> Input Batch Jadwal Pelajaran (Multi-Baris)</h3>
-            <button type="button" class="modal-close-btn" onclick="closeBatchModal()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <form action="{{ route('waka-kurikulum.jadwal.batch-store') }}" method="POST">
-            @csrf
-            <div class="modal-body">
-                <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 13px; color: #64748b; font-weight: 600;">Masukkan beberapa sesi jadwal sekaligus untuk mempermudah alokasi KBM.</span>
-                    <button type="button" class="btn-action btn-emerald" onclick="addBatchRow()" style="padding: 6px 12px; font-size: 12px;">
-                        <i class="fa-solid fa-plus"></i> Tambah Baris
-                    </button>
-                </div>
-
-                <div style="overflow-x: auto; max-height: 350px;">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 12px;" id="batchTable">
-                        <thead>
-                            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
-                                <th style="padding: 8px;">Kelas</th>
-                                <th style="padding: 8px;">Guru</th>
-                                <th style="padding: 8px;">Mapel</th>
-                                <th style="padding: 8px; width: 100px;">Hari</th>
-                                <th style="padding: 8px; width: 100px;">Jam Mulai</th>
-                                <th style="padding: 8px; width: 100px;">Jam Selesai</th>
-                                <th style="padding: 8px; width: 40px;"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="batchTableBody">
-                            <!-- Row 1 Default -->
-                            <tr style="border-bottom: 1px solid #f1f5f9;">
-                                <td style="padding: 6px;">
-                                    <select name="jadwals[0][id_kelas]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                                        <option value="">Pilih Kelas</option>
-                                        @foreach($kelasList as $k)
-                                            <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td style="padding: 6px;">
-                                    <select name="jadwals[0][id_guru]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                                        <option value="">Pilih Guru</option>
-                                        @foreach($guruList as $g)
-                                            <option value="{{ $g->id_guru }}">{{ $g->nama_guru }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td style="padding: 6px;">
-                                    <select name="jadwals[0][id_mapel]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                                        <option value="">Pilih Mapel</option>
-                                        @foreach($mapelList as $m)
-                                            <option value="{{ $m->id_mapel }}">{{ $m->nama_mapel }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td style="padding: 6px;">
-                                    <select name="jadwals[0][hari]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                                        @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $h)
-                                            <option value="{{ $h }}">{{ $h }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td style="padding: 6px;">
-                                    <select name="jadwals[0][id_jam_mulai]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                                        @foreach($jamList as $jm)
-                                            <option value="{{ $jm->id_jam }}">Jam {{ $jm->jam_ke }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td style="padding: 6px;">
-                                    <select name="jadwals[0][id_jam_selesai]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                                        @foreach($jamList as $jm)
-                                            <option value="{{ $jm->id_jam }}">Jam {{ $jm->jam_ke }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td style="padding: 6px; text-align: center;">
-                                    <button type="button" style="color: #ef4444; background: none; border: none; cursor: pointer;" onclick="removeBatchRow(this)"><i class="fa-solid fa-xmark"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-action btn-outline" onclick="closeBatchModal()">Batal</button>
-                <button type="submit" class="btn-action btn-emerald"><i class="fa-solid fa-layer-group"></i> Simpan Batch Jadwal</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 {{-- MODAL DETAIL JADWAL --}}
 <div class="modal-overlay" id="modalDetail">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3><i class="fa-solid fa-circle-info" style="color: #2563eb;"></i> Detail Jadwal Pelajaran</h3>
-            <button type="button" class="modal-close-btn" onclick="closeDetailModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-box" style="max-width: 520px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);">
+        <div class="modal-header" style="background: #2563eb; color: #ffffff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: #ffffff;">
+                <i class="fa-solid fa-circle-info"></i> Detail Jadwal Pelajaran
+            </h3>
+            <button type="button" class="modal-close-btn" onclick="closeDetailModal()" style="color: #ffffff; background: none; border: none; font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div class="modal-body">
-            <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 10px; font-weight: 700; color: #64748b; width: 35%;">Hari</td><td style="padding: 10px; font-weight: 800; color: #0f172a;" id="det_hari">-</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 10px; font-weight: 700; color: #64748b;">Jam Pelajaran</td><td style="padding: 10px; font-weight: 700; color: #1e293b;" id="det_jam">-</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 10px; font-weight: 700; color: #64748b;">Kelas Target</td><td style="padding: 10px; font-weight: 800; color: #2563eb;" id="det_kelas">-</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 10px; font-weight: 700; color: #64748b;">Mata Pelajaran</td><td style="padding: 10px; font-weight: 800; color: #0f172a;" id="det_mapel">-</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 10px; font-weight: 700; color: #64748b;">Guru Pengajar</td><td style="padding: 10px; font-weight: 700; color: #1e293b;" id="det_guru">-</td></tr>
-                <tr style="border-bottom: 1px solid #f1f5f9;"><td style="padding: 10px; font-weight: 700; color: #64748b;">Ruangan Belajar</td><td style="padding: 10px; font-weight: 700; color: #1e293b;" id="det_ruangan">-</td></tr>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn-action btn-outline" onclick="closeDetailModal()">Tutup</button>
-        </div>
-    </div>
-</div>
-
-{{-- MODAL ALOKASI KBM --}}
-<div class="modal-overlay" id="modalKbm">
-    <div class="modal-box modal-lg">
-        <div class="modal-header">
-            <h3><i class="fa-solid fa-clock" style="color: #4f46e5;"></i> Struktur Alokasi Waktu Jam KBM SMKN 1 Boyolangu</h3>
-            <button type="button" class="modal-close-btn" onclick="closeKbmModal()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="modal-body">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                <div>
-                    <h4 style="font-size: 13px; font-weight: 800; color: #1e293b; margin: 0 0 6px 0;">Senin – Kamis (10 Jam Pelajaran)</h4>
-                    <table class="kbm-ref-table">
-                        <thead><tr><th>Jam</th><th>Alokasi Waktu</th><th>Keterangan</th></tr></thead>
-                        <tbody>
-                            <tr><td>1</td><td>07.00 - 07.40</td><td>Upacara / Apel</td></tr>
-                            <tr><td>2</td><td>07.40 - 08.20</td><td>KBM</td></tr>
-                            <tr><td>3</td><td>08.20 - 09.00</td><td>KBM</td></tr>
-                            <tr><td>4</td><td>09.00 - 09.40</td><td>KBM</td></tr>
-                            <tr style="background: #fef3c7; font-weight: 700;"><td>-</td><td>09.40 - 10.00</td><td>Istirahat 1 (20 Menit)</td></tr>
-                            <tr><td>5</td><td>10.00 - 10.35</td><td>KBM</td></tr>
-                            <tr><td>6</td><td>10.35 - 11.10</td><td>KBM</td></tr>
-                            <tr><td>7</td><td>11.10 - 11.45</td><td>KBM</td></tr>
-                            <tr style="background: #fef3c7; font-weight: 700;"><td>-</td><td>11.45 - 13.15</td><td>ISHOMA</td></tr>
-                            <tr><td>8</td><td>13.15 - 13.50</td><td>KBM</td></tr>
-                            <tr><td>9</td><td>13.50 - 14.25</td><td>KBM</td></tr>
-                            <tr><td>10</td><td>14.25 - 15.00</td><td>KBM / Pulang</td></tr>
-                        </tbody>
-                    </table>
+        <div class="modal-body" style="padding: 20px;">
+            {{-- Top Badge Card --}}
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 12px 16px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="det_badge_hari" class="day-badge day-Senin" style="font-size: 13px; font-weight: 800; padding: 4px 12px; border-radius: 8px;">Senin</span>
+                    <span id="det_badge_jam" style="font-weight: 800; color: #1d4ed8; font-size: 13.5px;">Jam Ke-1</span>
                 </div>
-                <div>
-                    <h4 style="font-size: 13px; font-weight: 800; color: #1e293b; margin: 0 0 6px 0;">Jumat (13 Jam Pelajaran)</h4>
-                    <table class="kbm-ref-table">
-                        <thead><tr><th>Jam</th><th>Alokasi Waktu</th><th>Keterangan</th></tr></thead>
-                        <tbody>
-                            <tr><td>1</td><td>07.00 - 07.30</td><td>Pembiasaan</td></tr>
-                            <tr><td>2-5</td><td>07.30 - 09.30</td><td>KBM Sesi Pagi</td></tr>
-                            <tr style="background: #fef3c7; font-weight: 700;"><td>-</td><td>09.30 - 09.50</td><td>Istirahat 1</td></tr>
-                            <tr><td>6-8</td><td>09.50 - 11.20</td><td>KBM</td></tr>
-                            <tr style="background: #fef3c7; font-weight: 700;"><td>-</td><td>11.20 - 13.00</td><td>Sholat Jumat &amp; Ishoma</td></tr>
-                            <tr><td>9-13</td><td>13.00 - 15.35</td><td>KBM Sesi Siang</td></tr>
-                        </tbody>
-                    </table>
+                <div id="det_badge_waktu" style="font-size: 12px; font-weight: 700; color: #2563eb; background: #ffffff; border: 1px solid #bfdbfe; padding: 4px 10px; border-radius: 8px;">
+                    <i class="fa-regular fa-clock"></i> 07:00 – 07:40 WIB
                 </div>
             </div>
+
+            <table style="width: 100%; font-size: 13px; border-collapse: collapse; word-break: break-word;">
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 10px; font-weight: 700; color: #64748b; width: 38%;"><i class="fa-solid fa-graduation-cap" style="color: #2563eb; width: 18px;"></i> Kelas Target</td>
+                    <td style="padding: 10px; font-weight: 800; color: #0f172a;" id="det_kelas">-</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 10px; font-weight: 700; color: #64748b;"><i class="fa-solid fa-book-open" style="color: #2563eb; width: 18px;"></i> Mata Pelajaran</td>
+                    <td style="padding: 10px; font-weight: 800; color: #2563eb;" id="det_mapel">-</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 10px; font-weight: 700; color: #64748b;"><i class="fa-solid fa-barcode" style="color: #64748b; width: 18px;"></i> Kode Mapel</td>
+                    <td style="padding: 10px; font-weight: 700; color: #475569;" id="det_kode_mapel">-</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 10px; font-weight: 700; color: #64748b;"><i class="fa-solid fa-chalkboard-user" style="color: #10b981; width: 18px;"></i> Guru Pengampu</td>
+                    <td style="padding: 10px; font-weight: 800; color: #0f172a;" id="det_guru">-</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 10px; font-weight: 700; color: #64748b;"><i class="fa-solid fa-id-card" style="color: #64748b; width: 18px;"></i> NIP Guru</td>
+                    <td style="padding: 10px; font-weight: 700; color: #475569;" id="det_nip">-</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <td style="padding: 10px; font-weight: 700; color: #64748b;"><i class="fa-solid fa-door-open" style="color: #f59e0b; width: 18px;"></i> Ruangan Belajar</td>
+                    <td style="padding: 10px; font-weight: 700; color: #1e293b;" id="det_ruangan">-</td>
+                </tr>
+            </table>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn-action btn-outline" onclick="closeKbmModal()">Tutup</button>
+        <div class="modal-footer" style="padding: 14px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end;">
+            <button type="button" class="btn-action btn-outline" onclick="closeDetailModal()" style="padding: 8px 18px; font-size: 13px; font-weight: 700; border-radius: 8px;">Tutup</button>
         </div>
     </div>
 </div>
@@ -1323,13 +1512,13 @@
 
                 <div style="border-top: 1px solid #e2e8f0; padding-top: 14px;">
                     <label style="font-size: 13px; font-weight: 700; color: #334155; display: block; margin-bottom: 6px;">Cetak Matriks Jadwal Per Kelas:</label>
-                    <div style="display: flex; gap: 8px;">
-                        <select id="cetakKelasSelect" class="modal-select">
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <select id="cetakKelasSelect" class="modal-select" style="flex: 1; min-width: 160px;">
                             @foreach($kelasList as $k)
                                 <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }} ({{ $k->tingkat }})</option>
                             @endforeach
                         </select>
-                        <button type="button" class="btn-action btn-emerald" onclick="cetakPerKelas()" style="white-space: nowrap;">
+                        <button type="button" class="btn-action btn-emerald" onclick="cetakPerKelas()" style="white-space: nowrap; flex-shrink: 0;">
                             <i class="fa-solid fa-print"></i> Cetak Kelas
                         </button>
                     </div>
@@ -1341,163 +1530,57 @@
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('scripts')
 <script>
-    let batchIndex = 1;
+    function openDetailModalFromDataset(btn) {
+        const hari = btn.getAttribute('data-hari') || '-';
+        const jamKe = btn.getAttribute('data-jam-ke') || '-';
+        const waktu = btn.getAttribute('data-waktu') || '-';
+        const kelas = btn.getAttribute('data-kelas') || '-';
+        const mapel = btn.getAttribute('data-mapel') || '-';
+        const kodeMapel = btn.getAttribute('data-kode-mapel') || '-';
+        const guru = btn.getAttribute('data-guru') || '-';
+        const nip = btn.getAttribute('data-nip') || '-';
+        const ruangan = btn.getAttribute('data-ruangan') || 'Kelas Reguler';
 
-    function openTambahModal() { document.getElementById('modalTambah').style.display = 'flex'; }
-    function closeTambahModal() { document.getElementById('modalTambah').style.display = 'none'; }
-
-    function openDetailModalFromBtn(btn) {
-        try {
-            const data = JSON.parse(btn.getAttribute('data-json'));
-            openDetailModal(data);
-        } catch(e) {
-            console.error("Error parsing JSON for detail modal:", e);
+        const badgeHari = document.getElementById('det_badge_hari');
+        if (badgeHari) {
+            badgeHari.textContent = hari;
+            badgeHari.className = 'day-badge day-' + hari;
         }
-    }
+        const badgeJam = document.getElementById('det_badge_jam');
+        if (badgeJam) badgeJam.textContent = jamKe;
+        const badgeWaktu = document.getElementById('det_badge_waktu');
+        if (badgeWaktu) badgeWaktu.innerHTML = `<i class="fa-regular fa-clock"></i> ${waktu}`;
 
-    function openEditModalFromBtn(btn) {
-        try {
-            const data = JSON.parse(btn.getAttribute('data-json'));
-            openEditModal(data);
-        } catch(e) {
-            console.error("Error parsing JSON for edit modal:", e);
-        }
-    }
+        document.getElementById('det_kelas').textContent = kelas;
+        document.getElementById('det_mapel').textContent = mapel;
+        document.getElementById('det_kode_mapel').textContent = (kodeMapel && kodeMapel !== '-') ? kodeMapel : '-';
+        document.getElementById('det_guru').textContent = guru;
+        document.getElementById('det_nip').textContent = (nip && nip !== '-') ? nip : 'NIP: -';
+        document.getElementById('det_ruangan').textContent = ruangan;
 
-    function openEditModal(jadwal) {
-        document.getElementById('editJadwalForm').action = '/waka-kurikulum/jadwal/' + jadwal.id_jadwal;
-        document.getElementById('edit_id_kelas').value = jadwal.id_kelas;
-        document.getElementById('edit_id_guru').value = jadwal.id_guru;
-        document.getElementById('edit_id_mapel').value = jadwal.id_mapel;
-        document.getElementById('edit_hari').value = jadwal.hari;
-        document.getElementById('edit_id_ruangan').value = jadwal.id_ruangan || '';
-        document.getElementById('edit_id_jam_mulai').value = jadwal.id_jam_mulai;
-        document.getElementById('edit_id_jam_selesai').value = jadwal.id_jam_selesai;
-        document.getElementById('modalEdit').style.display = 'flex';
-    }
-    function closeEditModal() { document.getElementById('modalEdit').style.display = 'none'; }
-
-    function openBatchModal() { document.getElementById('modalBatch').style.display = 'flex'; }
-    function closeBatchModal() { document.getElementById('modalBatch').style.display = 'none'; }
-
-    function addBatchRow() {
-        const tbody = document.getElementById('batchTableBody');
-        const tr = document.createElement('tr');
-        tr.style.borderBottom = '1px solid #f1f5f9';
-        tr.innerHTML = `
-            <td style="padding: 6px;">
-                <select name="jadwals[${batchIndex}][id_kelas]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                    <option value="">Pilih Kelas</option>
-                    @foreach($kelasList as $k)
-                        <option value="{{ $k->id_kelas }}">{{ $k->nama_kelas }}</option>
-                    @endforeach
-                </select>
-            </td>
-            <td style="padding: 6px;">
-                <select name="jadwals[${batchIndex}][id_guru]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                    <option value="">Pilih Guru</option>
-                    @foreach($guruList as $g)
-                        <option value="{{ $g->id_guru }}">{{ $g->nama_guru }}</option>
-                    @endforeach
-                </select>
-            </td>
-            <td style="padding: 6px;">
-                <select name="jadwals[${batchIndex}][id_mapel]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                    <option value="">Pilih Mapel</option>
-                    @foreach($mapelList as $m)
-                        <option value="{{ $m->id_mapel }}">{{ $m->nama_mapel }}</option>
-                    @endforeach
-                </select>
-            </td>
-            <td style="padding: 6px;">
-                <select name="jadwals[${batchIndex}][hari]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                    @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $h)
-                        <option value="{{ $h }}">{{ $h }}</option>
-                    @endforeach
-                </select>
-            </td>
-            <td style="padding: 6px;">
-                <select name="jadwals[${batchIndex}][id_jam_mulai]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                    @foreach($jamList as $jm)
-                        <option value="{{ $jm->id_jam }}">Jam {{ $jm->jam_ke }}</option>
-                    @endforeach
-                </select>
-            </td>
-            <td style="padding: 6px;">
-                <select name="jadwals[${batchIndex}][id_jam_selesai]" class="modal-select" style="font-size: 11.5px; padding: 6px;" required>
-                    @foreach($jamList as $jm)
-                        <option value="{{ $jm->id_jam }}">Jam {{ $jm->jam_ke }}</option>
-                    @endforeach
-                </select>
-            </td>
-            <td style="padding: 6px; text-align: center;">
-                <button type="button" style="color: #ef4444; background: none; border: none; cursor: pointer;" onclick="removeBatchRow(this)"><i class="fa-solid fa-xmark"></i></button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-        batchIndex++;
-    }
-
-    function removeBatchRow(btn) {
-        const row = btn.closest('tr');
-        if (row) row.remove();
-    }
-
-    function openDetailModal(jadwal) {
-        const jamMulaiKe = jadwal.jam_mulai_ke || (jadwal.jam_mulai ? jadwal.jam_mulai.jam_ke : '-');
-        const jamSelesaiKe = jadwal.jam_selesai_ke || (jadwal.jam_selesai ? jadwal.jam_selesai.jam_ke : '-');
-        
-        document.getElementById('det_hari').textContent = 'Hari ' + (jadwal.hari || '-');
-        document.getElementById('det_jam').textContent = (jamMulaiKe === jamSelesaiKe ? 'Jam Ke-' + jamMulaiKe : 'Jam Ke-' + jamMulaiKe + ' s/d ' + jamSelesaiKe);
-        document.getElementById('det_kelas').textContent = (jadwal.kelas ? jadwal.kelas.nama_kelas : '-');
-        document.getElementById('det_mapel').textContent = (jadwal.mapel ? jadwal.mapel.nama_mapel : '-');
-        document.getElementById('det_guru').textContent = (jadwal.guru ? jadwal.guru.nama_guru : '-');
-        document.getElementById('det_ruangan').textContent = (jadwal.ruangan ? jadwal.ruangan.nama_ruangan : 'Kelas Reguler');
         document.getElementById('modalDetail').style.display = 'flex';
     }
-    function closeDetailModal() { document.getElementById('modalDetail').style.display = 'none'; }
 
-    function openKbmModal() { document.getElementById('modalKbm').style.display = 'flex'; }
-    function closeKbmModal() { document.getElementById('modalKbm').style.display = 'none'; }
+    function closeDetailModal() {
+        document.getElementById('modalDetail').style.display = 'none';
+    }
 
-    function openCetakModal() { document.getElementById('modalCetak').style.display = 'flex'; }
-    function closeCetakModal() { document.getElementById('modalCetak').style.display = 'none'; }
+    function openCetakModal() {
+        document.getElementById('modalCetak').style.display = 'flex';
+    }
+
+    function closeCetakModal() {
+        document.getElementById('modalCetak').style.display = 'none';
+    }
 
     function cetakPerKelas() {
         const idKelas = document.getElementById('cetakKelasSelect').value;
         if (idKelas) {
             window.open('/waka-kurikulum/jadwal/print-kelas/' + idKelas, '_blank');
-        }
-    }
-
-    function confirmDeleteJadwal(id) {
-        if (confirm('Apakah Anda yakin ingin memindahkan jadwal ini ke kotak sampah?')) {
-            const form = document.getElementById('singleDeleteForm');
-            form.action = '/waka-kurikulum/jadwal/' + id;
-            form.submit();
-        }
-    }
-
-    function toggleCheckAll(source) {
-        const checkboxes = document.querySelectorAll('.row-checkbox');
-        checkboxes.forEach(cb => cb.checked = source.checked);
-        updateBatchDeleteBtn();
-    }
-
-    function updateBatchDeleteBtn() {
-        const checked = document.querySelectorAll('.row-checkbox:checked');
-        const btn = document.getElementById('btnBatchDelete');
-        const countSpan = document.getElementById('countSelected');
-        if (checked.length > 0) {
-            btn.style.display = 'inline-flex';
-            countSpan.textContent = checked.length;
-        } else {
-            btn.style.display = 'none';
         }
     }
 

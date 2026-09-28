@@ -481,25 +481,251 @@
         from { transform: scale(0.95); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
     }
+
+    /* Mobile Nilai Cards View */
+    .mobile-nilai-cards-wrapper {
+        display: none;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .mobile-student-card {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .mobile-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .mobile-result-banner {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .mobile-result-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        flex: 1;
+    }
+
+    .mobile-result-label {
+        font-size: 9.5px;
+        font-weight: 800;
+        color: #64748b;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+
+    .mobile-scores-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .mobile-score-box {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mobile-score-box label {
+        font-size: 11px;
+        font-weight: 800;
+        color: #475569;
+    }
+
+    .mobile-score-box input {
+        height: 40px;
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 768px) {
+        .page-title-group h1 {
+            font-size: 28px !important;
+            line-height: 1.25;
+        }
+
+        .page-header-container {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .page-header-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .page-header-actions button,
+        .page-header-actions a {
+            justify-content: center;
+            padding: 10px 12px;
+            font-size: 12.5px;
+        }
+
+        .page-header-actions .btn-action-primary {
+            grid-column: 1 / -1;
+            padding: 11px 16px;
+            font-size: 13.5px;
+        }
+
+        .stat-summary-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .filter-card-container {
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .filter-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .filter-group {
+            width: 100% !important;
+            min-width: 100% !important;
+        }
+
+        .filter-row > div:last-child {
+            padding-top: 6px !important;
+            width: 100%;
+        }
+
+        .filter-row > div:last-child button {
+            flex: 1;
+            justify-content: center;
+            height: 40px;
+        }
+
+        .filter-row > div:last-child a {
+            height: 40px;
+            width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nilai-layout-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px;
+        }
+
+        .main-nilai-box {
+            padding: 16px;
+            border-radius: 16px;
+        }
+
+        .box-header-title {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .box-header-title > div:last-child {
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        /* Show mobile cards, hide table */
+        .desktop-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-nilai-cards-wrapper {
+            display: flex !important;
+        }
+
+        /* Modal Quick Fill */
+        .modal-content-box {
+            max-width: 100% !important;
+            border-radius: 16px;
+            margin: 0;
+        }
+
+        .modal-content-box > div:first-child {
+            padding: 14px 16px !important;
+        }
+
+        .modal-content-box > div:last-child {
+            padding: 16px 14px !important;
+        }
+
+        .modal-content-box > div:last-child > div:last-child {
+            flex-direction: column-reverse;
+            gap: 8px !important;
+        }
+
+        .modal-content-box > div:last-child > div:last-child > div {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-content-box button {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+        }
+
+        .stat-summary-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px;
+        }
+
+        .stat-metric-card {
+            padding: 14px 16px;
+        }
+
+        .mobile-scores-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 
-    <!-- Flash Alert Feedback -->
-    @if(session('success'))
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 12px 16px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px;">
-                <i class="fa-solid fa-circle-check" style="font-size: 17px; color: #10b981;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 16px; color: #065f46; cursor: pointer;">&times;</button>
-        </div>
-    @endif
-
     <!-- Top Page Header -->
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 14px;">
-        <div>
+    <div class="page-header-container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 14px;">
+        <div class="page-title-group">
             <h1 style="font-size: 23px; font-weight: 900; color: #0f172a; display: flex; align-items: center; gap: 10px; margin: 0;">
                 <i class="fa-solid fa-graduation-cap" style="color: #2563eb;"></i>
                 Nilai Siswa
@@ -510,7 +736,7 @@
         </div>
 
         <!-- Header Actions -->
-        <div style="display: flex; align-items: center; gap: 9px; flex-wrap: wrap;">
+        <div class="page-header-actions" style="display: flex; align-items: center; gap: 9px; flex-wrap: wrap;">
             <!-- Tombol Quick Fill -->
             <button type="button" onclick="openQuickFillModal()" class="btn-action-secondary">
                 <i class="fa-solid fa-wand-magic-sparkles" style="color: #6366f1;"></i> Isi Cepat
@@ -724,7 +950,8 @@
                 <input type="hidden" name="tahun_ajaran" value="{{ $tahunAjaran }}">
                 <input type="hidden" name="kkm" id="hiddenKkm" value="{{ $kkm }}">
 
-                <div style="overflow-x: auto;">
+                <!-- Desktop Table View (>= 769px) -->
+                <div class="desktop-table-wrapper" style="overflow-x: auto;">
                     <table class="table-nilai-custom" id="tableNilai">
                         <thead>
                             <tr>
@@ -779,9 +1006,11 @@
                                         <input type="number" step="0.1" min="0" max="100" 
                                                name="nilai[{{ $s->id_siswa }}][tugas]" 
                                                value="{{ $tugas !== '' ? $tugas : '' }}" 
-                                               class="input-score-control score-input score-tugas" 
+                                               class="input-score-control score-input score-tugas desktop-input-score" 
                                                placeholder="-"
-                                               oninput="calcRowScore(this)">
+                                               data-siswa-id="{{ $s->id_siswa }}"
+                                               data-field="tugas"
+                                               oninput="handleScoreInput(this, false)">
                                     </td>
 
                                     <!-- Nilai UH / Formatif -->
@@ -789,9 +1018,11 @@
                                         <input type="number" step="0.1" min="0" max="100" 
                                                name="nilai[{{ $s->id_siswa }}][harian]" 
                                                value="{{ $uh !== '' ? $uh : '' }}" 
-                                               class="input-score-control score-input score-uh" 
+                                               class="input-score-control score-input score-uh desktop-input-score" 
                                                placeholder="-"
-                                               oninput="calcRowScore(this)">
+                                               data-siswa-id="{{ $s->id_siswa }}"
+                                               data-field="harian"
+                                               oninput="handleScoreInput(this, false)">
                                     </td>
 
                                     <!-- Nilai UTS -->
@@ -799,9 +1030,11 @@
                                         <input type="number" step="0.1" min="0" max="100" 
                                                name="nilai[{{ $s->id_siswa }}][uts]" 
                                                value="{{ $uts !== '' ? $uts : '' }}" 
-                                               class="input-score-control score-input score-uts" 
+                                               class="input-score-control score-input score-uts desktop-input-score" 
                                                placeholder="-"
-                                               oninput="calcRowScore(this)">
+                                               data-siswa-id="{{ $s->id_siswa }}"
+                                               data-field="uts"
+                                               oninput="handleScoreInput(this, false)">
                                     </td>
 
                                     <!-- Nilai UAS -->
@@ -809,9 +1042,11 @@
                                         <input type="number" step="0.1" min="0" max="100" 
                                                name="nilai[{{ $s->id_siswa }}][uas]" 
                                                value="{{ $uas !== '' ? $uas : '' }}" 
-                                               class="input-score-control score-input score-uas" 
+                                               class="input-score-control score-input score-uas desktop-input-score" 
                                                placeholder="-"
-                                               oninput="calcRowScore(this)">
+                                               data-siswa-id="{{ $s->id_siswa }}"
+                                               data-field="uas"
+                                               oninput="handleScoreInput(this, false)">
                                     </td>
 
                                     <!-- Nilai Akhir Live Display -->
@@ -848,8 +1083,11 @@
                                         <input type="text" name="nilai[{{ $s->id_siswa }}][catatan]" 
                                                value="{{ $catatan }}" 
                                                placeholder="Catatan perkembangan..." 
-                                               class="form-input-custom" 
-                                               style="height: 34px; font-size: 12px; padding: 0 9px;">
+                                               class="form-input-custom desktop-input-catatan" 
+                                               data-siswa-id="{{ $s->id_siswa }}"
+                                               data-field="catatan"
+                                               style="height: 34px; font-size: 12px; padding: 0 9px;"
+                                               oninput="handleScoreInput(this, false)">
                                     </td>
 
                                     <!-- Aksi: Fitur Reset Nilai Baris Ini -->
@@ -869,6 +1107,144 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Mobile Cards View (<= 768px) -->
+                <div class="mobile-nilai-cards-wrapper">
+                    @forelse($siswas as $idx => $s)
+                        @php
+                            $nameArr = explode(' ', trim($s->nama_siswa));
+                            $initials = strtoupper(substr($nameArr[0] ?? 'S', 0, 1) . substr($nameArr[1] ?? '', 0, 1));
+                            $val = $existingNilai->get($s->id_siswa);
+
+                            $tugas = ($val && $val->nilai_tugas > 0) ? (floatval($val->nilai_tugas) == intval($val->nilai_tugas) ? intval($val->nilai_tugas) : floatval($val->nilai_tugas)) : '';
+                            $uh    = ($val && $val->nilai_harian > 0) ? (floatval($val->nilai_harian) == intval($val->nilai_harian) ? intval($val->nilai_harian) : floatval($val->nilai_harian)) : '';
+                            $uts   = ($val && $val->nilai_uts > 0) ? (floatval($val->nilai_uts) == intval($val->nilai_uts) ? intval($val->nilai_uts) : floatval($val->nilai_uts)) : '';
+                            $uas   = ($val && $val->nilai_uas > 0) ? (floatval($val->nilai_uas) == intval($val->nilai_uas) ? intval($val->nilai_uas) : floatval($val->nilai_uas)) : '';
+                            $catatan = $val ? $val->catatan : '';
+
+                            $hasVal = ($tugas !== '' || $uh !== '' || $uts !== '' || $uas !== '');
+                            $nAkhir = $hasVal ? round((floatval($tugas)*0.2) + (floatval($uh)*0.2) + (floatval($uts)*0.3) + (floatval($uas)*0.3), 1) : 0;
+
+                            $predikat = 'D';
+                            if ($nAkhir >= 88) $predikat = 'A';
+                            elseif ($nAkhir >= 78) $predikat = 'B';
+                            elseif ($nAkhir >= 68) $predikat = 'C';
+                        @endphp
+                        <div class="mobile-student-card student-row" id="mobile-card-{{ $s->id_siswa }}" data-siswa-id="{{ $s->id_siswa }}" data-nama="{{ $s->nama_siswa }}" data-nis="{{ $s->nis ?? '-' }}">
+                            <!-- Header: No, Avatar, Name, NISN & Reset -->
+                            <div class="mobile-card-header">
+                                <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                                    <span style="font-size: 13px; font-weight: 800; color: #94a3b8; min-width: 20px;">#{{ $idx + 1 }}</span>
+                                    <div class="avatar-initial">{{ $initials }}</div>
+                                    <div style="min-width: 0;">
+                                        <div class="student-name" style="word-break: break-word;">{{ $s->nama_siswa }}</div>
+                                        <div class="student-subinfo">NIS: {{ $s->nis ?? '-' }} • NISN: {{ $s->nisn ?? '-' }}</div>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="resetStudentScoreById({{ $s->id_siswa }})" class="btn-reset-row" title="Reset Nilai Siswa Ini">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </button>
+                            </div>
+
+                            <!-- Live Result Banner -->
+                            <div class="mobile-result-banner">
+                                <div class="mobile-result-item">
+                                    <span class="mobile-result-label">NILAI AKHIR</span>
+                                    <span class="cell-score-na" style="font-size: 17px; font-weight: 900; color: #0f172a;">
+                                        {{ $hasVal && $nAkhir > 0 ? $nAkhir : '-' }}
+                                    </span>
+                                </div>
+                                <div class="mobile-result-item">
+                                    <span class="mobile-result-label">PREDIKAT</span>
+                                    @if($hasVal && $nAkhir > 0)
+                                        <span class="badge-predikat predikat-{{ $predikat }} cell-predikat">{{ $predikat }}</span>
+                                    @else
+                                        <span class="badge-predikat cell-predikat" style="background: #f1f5f9; color: #94a3b8;">-</span>
+                                    @endif
+                                </div>
+                                <div class="mobile-result-item" style="flex: 1.2;">
+                                    <span class="mobile-result-label">STATUS</span>
+                                    @if($hasVal && $nAkhir > 0)
+                                        @if($nAkhir >= $kkm)
+                                            <span class="badge-status-tuntas cell-status"><i class="fa-solid fa-circle-check"></i> Tuntas</span>
+                                        @else
+                                            <span class="badge-status-belum cell-status"><i class="fa-solid fa-circle-xmark"></i> Remidi</span>
+                                        @endif
+                                    @else
+                                        <span class="badge-status-empty cell-status">Belum Diisi</span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- 4 Score Inputs Grid -->
+                            <div class="mobile-scores-grid">
+                                <div class="mobile-score-box">
+                                    <label>Tugas (20%)</label>
+                                    <input type="number" step="0.1" min="0" max="100" 
+                                           name="nilai[{{ $s->id_siswa }}][tugas]" 
+                                           value="{{ $tugas !== '' ? $tugas : '' }}" 
+                                           class="form-input-custom input-score-control score-input score-tugas mobile-input-score" 
+                                           placeholder="-"
+                                           data-siswa-id="{{ $s->id_siswa }}"
+                                           data-field="tugas"
+                                           oninput="handleScoreInput(this, true)">
+                                </div>
+                                <div class="mobile-score-box">
+                                    <label>UH / Form. (20%)</label>
+                                    <input type="number" step="0.1" min="0" max="100" 
+                                           name="nilai[{{ $s->id_siswa }}][harian]" 
+                                           value="{{ $uh !== '' ? $uh : '' }}" 
+                                           class="form-input-custom input-score-control score-input score-uh mobile-input-score" 
+                                           placeholder="-"
+                                           data-siswa-id="{{ $s->id_siswa }}"
+                                           data-field="harian"
+                                           oninput="handleScoreInput(this, true)">
+                                </div>
+                                <div class="mobile-score-box">
+                                    <label>UTS (30%)</label>
+                                    <input type="number" step="0.1" min="0" max="100" 
+                                           name="nilai[{{ $s->id_siswa }}][uts]" 
+                                           value="{{ $uts !== '' ? $uts : '' }}" 
+                                           class="form-input-custom input-score-control score-input score-uts mobile-input-score" 
+                                           placeholder="-"
+                                           data-siswa-id="{{ $s->id_siswa }}"
+                                           data-field="uts"
+                                           oninput="handleScoreInput(this, true)">
+                                </div>
+                                <div class="mobile-score-box">
+                                    <label>UAS / PAS (30%)</label>
+                                    <input type="number" step="0.1" min="0" max="100" 
+                                           name="nilai[{{ $s->id_siswa }}][uas]" 
+                                           value="{{ $uas !== '' ? $uas : '' }}" 
+                                           class="form-input-custom input-score-control score-input score-uas mobile-input-score" 
+                                           placeholder="-"
+                                           data-siswa-id="{{ $s->id_siswa }}"
+                                           data-field="uas"
+                                           oninput="handleScoreInput(this, true)">
+                                </div>
+                            </div>
+
+                            <!-- Catatan Guru -->
+                            <div style="margin-top: 4px;">
+                                <label style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 4px; display: block;">Catatan Guru (Opsional):</label>
+                                <input type="text" name="nilai[{{ $s->id_siswa }}][catatan]" 
+                                       value="{{ $catatan }}" 
+                                       placeholder="Catatan perkembangan siswa..." 
+                                       class="form-input-custom mobile-input-catatan" 
+                                       data-siswa-id="{{ $s->id_siswa }}"
+                                       data-field="catatan"
+                                       style="height: 38px; font-size: 12.5px; padding: 0 10px;"
+                                       oninput="handleScoreInput(this, true)">
+                            </div>
+                        </div>
+                    @empty
+                        <div style="background: #ffffff; border-radius: 16px; border: 1px dashed #cbd5e1; padding: 36px 16px; text-align: center;">
+                            <i class="fa-solid fa-user-slash" style="font-size: 30px; margin-bottom: 8px; color: #cbd5e1; display: block;"></i>
+                            <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0 0 4px;">Tidak Ada Data Siswa</h3>
+                            <p style="font-size: 12.5px; color: #64748b; margin: 0;">Tidak ada data siswa ditemukan untuk kelas ini atau kriteria pencarian yang diberikan.</p>
+                        </div>
+                    @endforelse
                 </div>
             </form>
         </div>
@@ -975,7 +1351,7 @@
                     <li>Nilai diinput dalam skala <strong>0 - 100</strong>.</li>
                     <li>Nilai Akhir dan Predikat terhitung otomatis secara <em>real-time</em>.</li>
                     <li>Gunakan tombol <i class="fa-solid fa-rotate-left" style="color: #dc2626;"></i> pada kolom <strong>AKSI</strong> untuk mengosongkan/mereset nilai siswa tertentu.</li>
-                    <li>Klik <strong>Simpan Nilai</strong> di pojok kanan atas setelah selesai mengisi.</li>
+                    <li>Klik <strong>Simpan Nilai</strong> di bagian atas setelah selesai mengisi.</li>
                 </ul>
             </div>
         </div>
@@ -1046,65 +1422,92 @@
 
 @section('scripts')
 <script>
-    // Live Calculation Function for Each Student Row
-    function calcRowScore(inputEl) {
-        const row = inputEl.closest('.student-row');
-        if (!row) return;
+    // Handle Score Input & Synchronize Between Desktop Table & Mobile Cards
+    function handleScoreInput(inputEl, isMobile) {
+        const siswaId = inputEl.dataset.siswaId;
+        const field = inputEl.dataset.field;
 
-        const tugasInput = row.querySelector('.score-tugas');
-        const uhInput    = row.querySelector('.score-uh');
-        const utsInput   = row.querySelector('.score-uts');
-        const uasInput   = row.querySelector('.score-uas');
+        // Synchronize opposite input if exists
+        const counterpartSelector = isMobile 
+            ? `.desktop-table-wrapper [data-siswa-id="${siswaId}"][data-field="${field}"]`
+            : `.mobile-nilai-cards-wrapper [data-siswa-id="${siswaId}"][data-field="${field}"]`;
+        const counterpart = document.querySelector(counterpartSelector);
+        if (counterpart && counterpart.value !== inputEl.value) {
+            counterpart.value = inputEl.value;
+            colorizeInput(counterpart);
+        }
+
+        colorizeInput(inputEl);
+        calcStudentScore(siswaId);
+    }
+
+    // Live Calculation Function for Each Student (Updates Both Desktop & Mobile DOM)
+    function calcStudentScore(siswaId) {
+        const desktopRow = document.querySelector(`.desktop-table-wrapper .student-row[data-siswa-id="${siswaId}"]`);
+        const mobileCard = document.querySelector(`.mobile-nilai-cards-wrapper .student-row[data-siswa-id="${siswaId}"]`);
+
+        const tugasInput = document.querySelector(`[data-siswa-id="${siswaId}"][data-field="tugas"]`);
+        const uhInput    = document.querySelector(`[data-siswa-id="${siswaId}"][data-field="harian"]`);
+        const utsInput   = document.querySelector(`[data-siswa-id="${siswaId}"][data-field="uts"]`);
+        const uasInput   = document.querySelector(`[data-siswa-id="${siswaId}"][data-field="uas"]`);
+
+        if (!tugasInput) return;
 
         const tugas = parseFloat(tugasInput.value) || 0;
         const uh    = parseFloat(uhInput.value) || 0;
         const uts   = parseFloat(utsInput.value) || 0;
         const uas   = parseFloat(uasInput.value) || 0;
 
-        // Visual coloring on inputs
-        colorizeInput(tugasInput);
-        colorizeInput(uhInput);
-        colorizeInput(utsInput);
-        colorizeInput(uasInput);
-
         const hasAnyValue = (tugasInput.value.trim() !== '' || uhInput.value.trim() !== '' || utsInput.value.trim() !== '' || uasInput.value.trim() !== '');
-
-        const cellNA = row.querySelector('.cell-score-na');
-        const cellPred = row.querySelector('.cell-predikat');
-        const cellStatus = row.querySelector('.cell-status');
         const kkm = parseFloat(document.getElementById('kkmInput').value) || 75;
 
-        if (hasAnyValue) {
-            // Formula: 20% Tugas + 20% UH + 30% UTS + 30% UAS
-            const na = Math.round(((tugas * 0.2) + (uh * 0.2) + (uts * 0.3) + (uas * 0.3)) * 10) / 10;
-            cellNA.innerText = na.toFixed(1);
+        const targets = [desktopRow, mobileCard].filter(Boolean);
 
-            // Predikat
-            let pred = 'D';
-            if (na >= 88) pred = 'A';
-            else if (na >= 78) pred = 'B';
-            else if (na >= 68) pred = 'C';
+        targets.forEach(target => {
+            const cellNA = target.querySelector('.cell-score-na');
+            const cellPred = target.querySelector('.cell-predikat');
+            const cellStatus = target.querySelector('.cell-status');
 
-            cellPred.innerText = pred;
-            cellPred.className = 'badge-predikat predikat-' + pred + ' cell-predikat';
+            if (hasAnyValue) {
+                // Formula: 20% Tugas + 20% UH + 30% UTS + 30% UAS
+                const na = Math.round(((tugas * 0.2) + (uh * 0.2) + (uts * 0.3) + (uas * 0.3)) * 10) / 10;
+                if (cellNA) cellNA.innerText = na.toFixed(1);
 
-            // Status KKM
-            if (na >= kkm) {
-                cellStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Tuntas';
-                cellStatus.className = 'badge-status-tuntas cell-status';
+                let pred = 'D';
+                if (na >= 88) pred = 'A';
+                else if (na >= 78) pred = 'B';
+                else if (na >= 68) pred = 'C';
+
+                if (cellPred) {
+                    cellPred.innerText = pred;
+                    cellPred.className = 'badge-predikat predikat-' + pred + ' cell-predikat';
+                    cellPred.style.background = '';
+                    cellPred.style.color = '';
+                }
+
+                if (cellStatus) {
+                    if (na >= kkm) {
+                        cellStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Tuntas';
+                        cellStatus.className = 'badge-status-tuntas cell-status';
+                    } else {
+                        cellStatus.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Remidi';
+                        cellStatus.className = 'badge-status-belum cell-status';
+                    }
+                }
             } else {
-                cellStatus.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Remidi';
-                cellStatus.className = 'badge-status-belum cell-status';
+                if (cellNA) cellNA.innerText = '-';
+                if (cellPred) {
+                    cellPred.innerText = '-';
+                    cellPred.className = 'badge-predikat cell-predikat';
+                    cellPred.style.background = '#f1f5f9';
+                    cellPred.style.color = '#94a3b8';
+                }
+                if (cellStatus) {
+                    cellStatus.innerHTML = 'Belum Diisi';
+                    cellStatus.className = 'badge-status-empty cell-status';
+                }
             }
-        } else {
-            cellNA.innerText = '-';
-            cellPred.innerText = '-';
-            cellPred.className = 'badge-predikat cell-predikat';
-            cellPred.style.background = '#f1f5f9';
-            cellPred.style.color = '#94a3b8';
-            cellStatus.innerHTML = 'Belum Diisi';
-            cellStatus.className = 'badge-status-empty cell-status';
-        }
+        });
 
         updateTopSummaryCards();
     }
@@ -1120,49 +1523,51 @@
         else el.classList.add('score-low');
     }
 
-    // Reset Specific Student Row (Fitur Reset Nilai Baris Ini)
+    // Reset Specific Student Row / Card
+    function resetStudentScoreById(siswaId) {
+        ['tugas', 'harian', 'uts', 'uas', 'catatan'].forEach(field => {
+            const inputs = document.querySelectorAll(`[data-siswa-id="${siswaId}"][data-field="${field}"]`);
+            inputs.forEach(inp => {
+                inp.value = '';
+                colorizeInput(inp);
+            });
+        });
+
+        calcStudentScore(siswaId);
+
+        const card = document.getElementById('mobile-card-' + siswaId);
+        if (card) {
+            card.style.transition = 'background-color 0.3s ease';
+            card.style.backgroundColor = '#fef2f2';
+            setTimeout(() => { card.style.backgroundColor = ''; }, 400);
+        }
+        const row = document.querySelector(`.desktop-table-wrapper .student-row[data-siswa-id="${siswaId}"]`);
+        if (row) {
+            row.style.transition = 'background-color 0.3s ease';
+            row.style.backgroundColor = '#fef2f2';
+            setTimeout(() => { row.style.backgroundColor = ''; }, 400);
+        }
+    }
+
     function resetRowScore(btn) {
         const row = btn.closest('.student-row');
         if (!row) return;
-
-        const inTugas = row.querySelector('.score-tugas');
-        const inUh    = row.querySelector('.score-uh');
-        const inUts   = row.querySelector('.score-uts');
-        const inUas   = row.querySelector('.score-uas');
-        const inNotes = row.querySelector('input[name*="[catatan]"]');
-
-        inTugas.value = '';
-        inUh.value = '';
-        inUts.value = '';
-        inUas.value = '';
-        if (inNotes) inNotes.value = '';
-
-        colorizeInput(inTugas);
-        colorizeInput(inUh);
-        colorizeInput(inUts);
-        colorizeInput(inUas);
-
-        calcRowScore(inTugas);
-
-        // Subtle row animation feedback
-        row.style.transition = 'background-color 0.3s ease';
-        row.style.backgroundColor = '#fef2f2';
-        setTimeout(() => {
-            row.style.backgroundColor = '';
-        }, 400);
+        const siswaId = row.dataset.siswaId;
+        resetStudentScoreById(siswaId);
     }
 
     function updateAllCalculations() {
         const kkm = document.getElementById('kkmInput').value;
         document.getElementById('hiddenKkm').value = kkm;
-        document.querySelectorAll('.student-row').forEach(row => {
-            const firstInput = row.querySelector('.score-tugas');
-            if (firstInput) calcRowScore(firstInput);
+        const uniqueSiswaIds = Array.from(new Set(Array.from(document.querySelectorAll('.student-row')).map(r => r.dataset.siswaId)));
+        uniqueSiswaIds.forEach(siswaId => {
+            calcStudentScore(siswaId);
         });
     }
 
     function updateTopSummaryCards() {
-        const rows = document.querySelectorAll('.student-row');
+        // Use desktop rows for calculating unique summary (since one row per student)
+        const rows = document.querySelectorAll('.desktop-table-wrapper .student-row');
         const kkm = parseFloat(document.getElementById('kkmInput').value) || 75;
         let totalNA = 0;
         let countFilled = 0;
@@ -1194,22 +1599,41 @@
         const belumCount = totalStudents - tuntasCount;
 
         // Update card DOM
-        document.getElementById('cardAvgScore').innerText = avg;
-        document.getElementById('cardTuntasCount').innerHTML = `${tuntasCount} <span style="font-size: 14px; font-weight: 700; color: #64748b;">Siswa</span>`;
-        document.getElementById('cardTuntasPct').innerText = `${tuntasPct}% Tuntas`;
-        document.getElementById('cardBelumCount').innerHTML = `${belumCount} <span style="font-size: 14px; font-weight: 700; color: #64748b;">Siswa</span>`;
-        document.getElementById('cardInputProgress').innerHTML = `${countFilled} <span style="font-size: 14px; font-weight: 700; color: #64748b;">/ ${totalStudents}</span>`;
-        document.getElementById('cardMaxScore').innerText = maxScore;
-        document.getElementById('cardMinScore').innerText = minScore;
+        const avgEl = document.getElementById('cardAvgScore');
+        if (avgEl) avgEl.innerText = avg;
+        const tuntasEl = document.getElementById('cardTuntasCount');
+        if (tuntasEl) tuntasEl.innerHTML = `${tuntasCount} <span style="font-size: 14px; font-weight: 700; color: #64748b;">Siswa</span>`;
+        const pctEl = document.getElementById('cardTuntasPct');
+        if (pctEl) pctEl.innerText = `${tuntasPct}% Tuntas`;
+        const belumEl = document.getElementById('cardBelumCount');
+        if (belumEl) belumEl.innerHTML = `${belumCount} <span style="font-size: 14px; font-weight: 700; color: #64748b;">Siswa</span>`;
+        const progEl = document.getElementById('cardInputProgress');
+        if (progEl) progEl.innerHTML = `${countFilled} <span style="font-size: 14px; font-weight: 700; color: #64748b;">/ ${totalStudents}</span>`;
+        const maxEl = document.getElementById('cardMaxScore');
+        if (maxEl) maxEl.innerText = maxScore;
+        const minEl = document.getElementById('cardMinScore');
+        if (minEl) minEl.innerText = minScore;
 
-        document.getElementById('distA').innerText = `${dist.A} Siswa`;
-        document.getElementById('distB').innerText = `${dist.B} Siswa`;
-        document.getElementById('distC').innerText = `${dist.C} Siswa`;
-        document.getElementById('distD').innerText = `${dist.D} Siswa`;
+        const distA = document.getElementById('distA');
+        if (distA) distA.innerText = `${dist.A} Siswa`;
+        const distB = document.getElementById('distB');
+        if (distB) distB.innerText = `${dist.B} Siswa`;
+        const distC = document.getElementById('distC');
+        if (distC) distC.innerText = `${dist.C} Siswa`;
+        const distD = document.getElementById('distD');
+        if (distD) distD.innerText = `${dist.D} Siswa`;
     }
 
-    // Submit handler
+    // Submit handler - disables inactive viewport inputs to guarantee clean payload
     function submitNilaiForm() {
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            document.querySelectorAll('.desktop-table-wrapper input').forEach(i => i.disabled = true);
+            document.querySelectorAll('.mobile-nilai-cards-wrapper input').forEach(i => i.disabled = false);
+        } else {
+            document.querySelectorAll('.mobile-nilai-cards-wrapper input').forEach(i => i.disabled = true);
+            document.querySelectorAll('.desktop-table-wrapper input').forEach(i => i.disabled = false);
+        }
         const form = document.getElementById('formNilai');
         form.submit();
     }
@@ -1229,24 +1653,30 @@
         const qfUas   = parseFloat(document.getElementById('qfUas').value) || 85;
         const targetMode = document.querySelector('input[name="qfTarget"]:checked').value;
 
-        document.querySelectorAll('.student-row').forEach(row => {
-            const inTugas = row.querySelector('.score-tugas');
-            const inUh    = row.querySelector('.score-uh');
-            const inUts   = row.querySelector('.score-uts');
-            const inUas   = row.querySelector('.score-uas');
+        const uniqueSiswaIds = Array.from(new Set(Array.from(document.querySelectorAll('.student-row')).map(r => r.dataset.siswaId)));
+
+        uniqueSiswaIds.forEach(siswaId => {
+            const inTugas = document.querySelectorAll(`[data-siswa-id="${siswaId}"][data-field="tugas"]`);
+            const inUh    = document.querySelectorAll(`[data-siswa-id="${siswaId}"][data-field="harian"]`);
+            const inUts   = document.querySelectorAll(`[data-siswa-id="${siswaId}"][data-field="uts"]`);
+            const inUas   = document.querySelectorAll(`[data-siswa-id="${siswaId}"][data-field="uas"]`);
+
+            const currentTugasVal = inTugas[0] ? inTugas[0].value.trim() : '';
 
             if (targetMode === 'all') {
-                inTugas.value = qfTugas;
-                inUh.value    = qfUh;
-                inUts.value   = qfUts;
-                inUas.value   = qfUas;
-                calcRowScore(inTugas);
+                inTugas.forEach(i => { i.value = qfTugas; colorizeInput(i); });
+                inUh.forEach(i => { i.value = qfUh; colorizeInput(i); });
+                inUts.forEach(i => { i.value = qfUts; colorizeInput(i); });
+                inUas.forEach(i => { i.value = qfUas; colorizeInput(i); });
+                calcStudentScore(siswaId);
             } else if (targetMode === 'empty_only') {
-                if (inTugas.value.trim() === '') inTugas.value = qfTugas;
-                if (inUh.value.trim() === '') inUh.value = qfUh;
-                if (inUts.value.trim() === '') inUts.value = qfUts;
-                if (inUas.value.trim() === '') inUas.value = qfUas;
-                calcRowScore(inTugas);
+                if (currentTugasVal === '') {
+                    inTugas.forEach(i => { i.value = qfTugas; colorizeInput(i); });
+                    inUh.forEach(i => { i.value = qfUh; colorizeInput(i); });
+                    inUts.forEach(i => { i.value = qfUts; colorizeInput(i); });
+                    inUas.forEach(i => { i.value = qfUas; colorizeInput(i); });
+                    calcStudentScore(siswaId);
+                }
             }
         });
 
@@ -1255,25 +1685,9 @@
 
     function resetAllScoresConfirm() {
         if (confirm('Apakah Anda yakin ingin mengosongkan seluruh nilai pada tabel ini?')) {
-            document.querySelectorAll('.student-row').forEach(row => {
-                const inTugas = row.querySelector('.score-tugas');
-                const inUh    = row.querySelector('.score-uh');
-                const inUts   = row.querySelector('.score-uts');
-                const inUas   = row.querySelector('.score-uas');
-                const inNotes = row.querySelector('input[name*="[catatan]"]');
-
-                inTugas.value = '';
-                inUh.value = '';
-                inUts.value = '';
-                inUas.value = '';
-                if (inNotes) inNotes.value = '';
-
-                colorizeInput(inTugas);
-                colorizeInput(inUh);
-                colorizeInput(inUts);
-                colorizeInput(inUas);
-
-                calcRowScore(inTugas);
+            const uniqueSiswaIds = Array.from(new Set(Array.from(document.querySelectorAll('.student-row')).map(r => r.dataset.siswaId)));
+            uniqueSiswaIds.forEach(siswaId => {
+                resetStudentScoreById(siswaId);
             });
             closeQuickFillModal();
         }

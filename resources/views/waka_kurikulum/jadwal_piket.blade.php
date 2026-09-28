@@ -514,6 +514,27 @@
         box-sizing: border-box;
     }
 
+    .date-cell-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .date-cell-mobile-action {
+        display: none;
+    }
+
+    .slot-mobile-label {
+        display: none;
+    }
+
+    .slot-input-group {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        width: 100%;
+    }
+
     .guru-slot-select {
         flex: 1;
         min-width: 0;
@@ -598,6 +619,527 @@
         background: #ef4444;
         color: #ffffff;
         border-color: #ef4444;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════ */
+    /* ─── RESPONSIVE MEDIA QUERIES (MOBILE / HP OPTIMIZATION) ─────────── */
+    /* ═══════════════════════════════════════════════════════════════════ */
+    @media (max-width: 1200px) {
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .jadwal-piket-container {
+            gap: 14px;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Page Header */
+        .page-header-box {
+            padding: 16px !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        .page-main-title {
+            font-size: 18px !important;
+        }
+
+        .page-sub-title {
+            font-size: 12px !important;
+        }
+
+        .header-actions-group {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .btn-action-custom {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 10px !important;
+            font-size: 11.5px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* 4 Stat Cards: 2 Columns */
+        .stat-cards-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .stat-card-item {
+            padding: 10px 10px !important;
+            gap: 8px !important;
+            border-radius: 12px !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .stat-meta-label {
+            font-size: 10px !important;
+            line-height: 1.2 !important;
+            word-break: break-word !important;
+        }
+
+        .stat-meta-value {
+            font-size: 16px !important;
+            line-height: 1.2 !important;
+        }
+
+        .stat-meta-sub {
+            font-size: 9.5px !important;
+            line-height: 1.2 !important;
+            word-break: break-word !important;
+        }
+
+        /* Filter Periode Bulan & Tahun */
+        .filter-card {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            padding: 12px 14px !important;
+            border-radius: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        .filter-form-row {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .filter-form-row > div {
+            width: 100% !important;
+        }
+
+        .filter-select {
+            width: 100% !important;
+            min-width: 100% !important;
+            box-sizing: border-box !important;
+            font-size: 12px !important;
+            padding: 8px 10px !important;
+        }
+
+        .btn-submit-filter {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px !important;
+            font-size: 12px !important;
+        }
+
+        /* Table Card Container */
+        .table-schedule-card {
+            border-radius: 14px !important;
+            overflow: visible !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .table-card-header {
+            padding: 12px 14px !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 8px !important;
+        }
+
+        .table-card-header h3 {
+            font-size: 14.5px !important;
+        }
+
+        .table-card-header p {
+            font-size: 11.5px !important;
+        }
+
+        /* Table Toolbar Filter */
+        .table-filter-toolbar {
+            padding: 12px 14px !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 8px !important;
+        }
+
+        .toolbar-left-controls {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .search-input-wrapper {
+            min-width: 100% !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .toolbar-select {
+            max-width: 100% !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            font-size: 12px !important;
+            padding: 8px 10px !important;
+        }
+
+        .toolbar-right-controls {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+            width: 100% !important;
+            justify-content: space-between !important;
+        }
+
+        .filter-count-badge {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
+
+        .btn-reset-filter, 
+        .btn-quick-assign {
+            flex: 1 1 calc(50% - 4px) !important;
+            justify-content: center !important;
+            padding: 8px 10px !important;
+            font-size: 11.5px !important;
+        }
+
+        /* ─── TABLE TO MOBILE CARDS TRANSFORMATION ─── */
+        .table-fit-box {
+            overflow: visible !important;
+            padding: 10px !important;
+            background: #f1f5f9 !important;
+            box-sizing: border-box !important;
+        }
+
+        .table-piket-grid {
+            display: block !important;
+            width: 100% !important;
+            border: none !important;
+        }
+
+        .table-piket-grid thead {
+            display: none !important;
+        }
+
+        .table-piket-grid tbody {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        .piket-data-row {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 14px !important;
+            padding: 12px !important;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03) !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        .td-no-cell {
+            display: none !important;
+        }
+
+        .td-date-cell {
+            grid-column: 1 / -1 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%) !important;
+            border: 1px solid #dbeafe !important;
+            border-radius: 10px !important;
+            padding: 8px 12px !important;
+            margin-bottom: 2px !important;
+            border-right: 1px solid #dbeafe !important;
+            border-bottom: 1px solid #dbeafe !important;
+        }
+
+        .date-cell-inner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-direction: row !important;
+        }
+
+        .date-day-badge {
+            font-size: 13px !important;
+            font-weight: 800 !important;
+            color: #0f172a !important;
+        }
+
+        .date-num-text {
+            font-size: 11.5px !important;
+            color: #2563eb !important;
+            font-weight: 700 !important;
+            margin-top: 0 !important;
+        }
+
+        .date-cell-mobile-action {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .m-row-counter {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            color: #2563eb !important;
+            background: #ffffff !important;
+            border: 1px solid #bfdbfe !important;
+            padding: 2px 7px !important;
+            border-radius: 6px !important;
+        }
+
+        .td-slot-cell {
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+            min-width: 0 !important;
+        }
+
+        .slot-cell-container {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 5px !important;
+            width: 100% !important;
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 10px !important;
+            padding: 8px !important;
+            box-sizing: border-box !important;
+        }
+
+        .slot-cell-container.is-coord-box {
+            background: #fffdf5 !important;
+            border-color: #fef08a !important;
+        }
+
+        .slot-mobile-label {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            font-size: 10.5px !important;
+            font-weight: 800 !important;
+            color: #1e40af !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.02em !important;
+            line-height: 1.2 !important;
+        }
+
+        .slot-mobile-label.label-coord {
+            color: #92400e !important;
+        }
+
+        .slot-time-badge {
+            font-size: 9px !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+            background: #ffffff !important;
+            padding: 1px 5px !important;
+            border-radius: 4px !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        .slot-input-group {
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            width: 100% !important;
+        }
+
+        .guru-slot-select {
+            height: 32px !important;
+            font-size: 11.5px !important;
+            padding: 4px 6px !important;
+        }
+
+        .btn-slot-search {
+            width: 30px !important;
+            height: 32px !important;
+            font-size: 11px !important;
+            border-radius: 7px !important;
+        }
+
+        .td-action-cell {
+            display: none !important;
+        }
+
+        /* Sticky Action Bar */
+        .sticky-submit-bar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            padding: 12px 14px !important;
+            bottom: 8px !important;
+            border-radius: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        .sticky-bar-left {
+            gap: 10px !important;
+        }
+
+        .sticky-icon-box {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 16px !important;
+        }
+
+        .sticky-title {
+            font-size: 12.5px !important;
+        }
+
+        .sticky-desc {
+            font-size: 10.5px !important;
+        }
+
+        .sticky-bar-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .btn-cancel-schedule, 
+        .btn-save-schedule {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 10px !important;
+            font-size: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Modal Dialogs */
+        .modal-piket-backdrop {
+            padding: 10px !important;
+        }
+
+        .modal-piket-dialog {
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: 94vh !important;
+            border-radius: 14px !important;
+            margin: auto !important;
+        }
+
+        .modal-piket-header {
+            padding: 12px 14px !important;
+        }
+
+        .modal-piket-header h4 {
+            font-size: 14px !important;
+        }
+
+        .modal-target-banner {
+            padding: 8px 12px !important;
+            font-size: 11.5px !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+        }
+
+        #modalTargetSelectBox {
+            padding: 10px 12px 0 12px !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+
+        #modalTargetSelectBox > div {
+            width: 100% !important;
+            min-width: 100% !important;
+        }
+
+        .modal-search-box {
+            padding: 10px 12px !important;
+        }
+
+        .modal-search-box i {
+            left: 24px !important;
+        }
+
+        .modal-search-input {
+            padding: 8px 10px 8px 32px !important;
+            font-size: 12px !important;
+        }
+
+        .modal-teacher-list {
+            padding: 10px 12px !important;
+            max-height: 48vh !important;
+            gap: 6px !important;
+        }
+
+        .teacher-item-card {
+            padding: 8px 10px !important;
+            gap: 8px !important;
+            border-radius: 10px !important;
+        }
+
+        .teacher-avatar-circle {
+            width: 32px !important;
+            height: 32px !important;
+            font-size: 12px !important;
+        }
+
+        .teacher-info-name {
+            font-size: 12px !important;
+        }
+
+        .teacher-info-sub {
+            font-size: 10px !important;
+            gap: 4px !important;
+        }
+
+        .teacher-pick-btn {
+            padding: 4px 8px !important;
+            font-size: 10.5px !important;
+        }
+
+        #modalImportJadwal form {
+            padding: 14px !important;
+            gap: 12px !important;
+        }
+
+        .import-dropzone {
+            padding: 16px 12px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .piket-data-row {
+            grid-template-columns: 1fr !important;
+            gap: 6px !important;
+        }
     }
 
     /* ─── Sticky Bottom Action Bar ─── */
@@ -900,21 +1442,6 @@
 @section('content')
 <div class="jadwal-piket-container">
 
-    <!-- Alert Notifikasi Flash -->
-    @if(session('success'))
-        <div class="alert alert-success" style="background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:12px 16px; border-radius:12px; font-weight:700; display:flex; align-items:center; gap:10px;">
-            <i class="fa-solid fa-circle-check" style="font-size:17px; color:#10b981;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger" style="background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:12px 16px; border-radius:12px; font-weight:700; display:flex; align-items:center; gap:10px;">
-            <i class="fa-solid fa-triangle-exclamation" style="font-size:17px; color:#ef4444;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
-
     <!-- Page Header & Action Buttons (Ekspor CSV & Cetak Jadwal) -->
     <div class="page-header-box">
         <div>
@@ -1140,12 +1667,20 @@
                                 $tgl = $wd['tanggal'];
                             @endphp
                             <tr id="row-{{ $tgl }}" class="piket-data-row" data-tanggal="{{ $tgl }}" data-hari="{{ $wd['hari'] }}" data-label="{{ $wd['tanggal_format'] }}">
-                                <td style="text-align:center; font-weight:800; color:#64748b; font-size:11px;">
+                                <td class="td-no-cell" style="text-align:center; font-weight:800; color:#64748b; font-size:11px;">
                                     {{ $index + 1 }}
                                 </td>
                                 <td class="td-date-cell">
-                                    <div class="date-day-badge">{{ $wd['hari'] }}</div>
-                                    <div class="date-num-text">{{ $wd['tanggal_format'] }}</div>
+                                    <div class="date-cell-inner">
+                                        <div class="date-day-badge">{{ $wd['hari'] }}</div>
+                                        <div class="date-num-text">{{ $wd['tanggal_format'] }}</div>
+                                    </div>
+                                    <div class="date-cell-mobile-action">
+                                        <span class="m-row-counter">#{{ $index + 1 }}</span>
+                                        <button type="button" class="btn-reset-row" onclick="resetRow('{{ $tgl }}')" title="Kosongkan 8 slot pada {{ $wd['hari'] }}, {{ $wd['tanggal_format'] }}">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </div>
                                 </td>
 
                                 <!-- 8 Slot Guru Piket -->
@@ -1154,48 +1689,65 @@
                                         $currentIdGuru = $jadwalMatrix[$tgl][$slot]['id_guru'] ?? null;
                                         $currentNamaGuru = $jadwalMatrix[$tgl][$slot]['nama_guru'] ?? '';
                                         $isCoord = in_array($slot, [4, 8]);
+                                        $isSiang = $slot >= 5;
                                     @endphp
-                                    <td style="text-align:center;">
-                                        <div class="slot-cell-container">
-                                            <select 
-                                                name="jadwal[{{ $tgl }}][{{ $slot }}]" 
-                                                id="select-{{ $tgl }}-{{ $slot }}"
-                                                class="guru-slot-select {{ $currentIdGuru ? 'is-assigned' : '' }} {{ $isCoord ? 'is-coord' : '' }}"
-                                                onchange="handleSelectChange(this)"
-                                                data-tanggal="{{ $tgl }}"
-                                                data-slot="{{ $slot }}"
-                                                data-hari="{{ $wd['hari'] }}"
-                                                data-tgl-label="{{ $wd['tanggal_format'] }}"
-                                                title="Slot {{ $slot }} ({{ $wd['hari'] }}, {{ $wd['tanggal_format'] }}): {{ $currentNamaGuru ?: 'Kosong' }}"
-                                            >
-                                                <option value="">-- Kosong --</option>
-                                                @foreach($gurus as $g)
-                                                    <option 
-                                                        value="{{ $g->id_guru }}" 
-                                                        {{ $currentIdGuru == $g->id_guru ? 'selected' : '' }} 
-                                                        data-nama="{{ $g->nama_guru }}"
-                                                        data-nip="{{ $g->nip }}"
-                                                        data-mapel="{{ $g->mapel->nama_mapel ?? '-' }}"
-                                                        data-role="{{ $g->user->role ?? 'guru' }}"
-                                                        title="{{ $g->nama_guru }} | NIP: {{ $g->nip ?: '-' }}"
-                                                    >
-                                                        {{ $g->nama_guru }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <button 
-                                                type="button" 
-                                                class="btn-slot-search" 
-                                                onclick="openQuickAssignModal('{{ $tgl }}', {{ $slot }})"
-                                                title="Cari & pilih guru untuk slot ini"
-                                            >
-                                                <i class="fa-solid fa-magnifying-glass"></i>
-                                            </button>
+                                    <td class="td-slot-cell td-slot-{{ $slot }} {{ $isSiang ? 'td-slot-siang' : 'td-slot-pagi' }}" data-slot="{{ $slot }}" style="text-align:center;">
+                                        <div class="slot-cell-container {{ $isCoord ? 'is-coord-box' : '' }}">
+                                            <div class="slot-mobile-label {{ $isCoord ? 'label-coord' : '' }}">
+                                                <span>
+                                                    @if($slot == 1) Piket 1 (Pagi)
+                                                    @elseif($slot == 2) Piket 2 (Pagi)
+                                                    @elseif($slot == 3) Piket 3 (Pagi)
+                                                    @elseif($slot == 4) Koord. Pagi
+                                                    @elseif($slot == 5) Piket 4 (Siang)
+                                                    @elseif($slot == 6) Piket 5 (Siang)
+                                                    @elseif($slot == 7) Piket 6 (Siang)
+                                                    @elseif($slot == 8) Koord. Siang
+                                                    @endif
+                                                </span>
+                                                <span class="slot-time-badge">{{ $slot <= 4 ? '07.00 - 11.00' : '11.00 - 15.00' }}</span>
+                                            </div>
+                                            <div class="slot-input-group">
+                                                <select 
+                                                    name="jadwal[{{ $tgl }}][{{ $slot }}]" 
+                                                    id="select-{{ $tgl }}-{{ $slot }}"
+                                                    class="guru-slot-select {{ $currentIdGuru ? 'is-assigned' : '' }} {{ $isCoord ? 'is-coord' : '' }}"
+                                                    onchange="handleSelectChange(this)"
+                                                    data-tanggal="{{ $tgl }}"
+                                                    data-slot="{{ $slot }}"
+                                                    data-hari="{{ $wd['hari'] }}"
+                                                    data-tgl-label="{{ $wd['tanggal_format'] }}"
+                                                    title="Slot {{ $slot }} ({{ $wd['hari'] }}, {{ $wd['tanggal_format'] }}): {{ $currentNamaGuru ?: 'Kosong' }}"
+                                                >
+                                                    <option value="">-- Kosong --</option>
+                                                    @foreach($gurus as $g)
+                                                        <option 
+                                                            value="{{ $g->id_guru }}" 
+                                                            {{ $currentIdGuru == $g->id_guru ? 'selected' : '' }} 
+                                                            data-nama="{{ $g->nama_guru }}"
+                                                            data-nip="{{ $g->nip }}"
+                                                            data-mapel="{{ $g->mapel->nama_mapel ?? '-' }}"
+                                                            data-role="{{ $g->user->role ?? 'guru' }}"
+                                                            title="{{ $g->nama_guru }} | NIP: {{ $g->nip ?: '-' }}"
+                                                        >
+                                                            {{ $g->nama_guru }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <button 
+                                                    type="button" 
+                                                    class="btn-slot-search" 
+                                                    onclick="openQuickAssignModal('{{ $tgl }}', {{ $slot }})"
+                                                    title="Cari & pilih guru untuk slot ini"
+                                                >
+                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </td>
                                 @endfor
 
-                                <td style="text-align:center;">
+                                <td class="td-action-cell" style="text-align:center;">
                                     <button type="button" class="btn-reset-row" onclick="resetRow('{{ $tgl }}')" title="Kosongkan 8 slot pada {{ $wd['hari'] }}, {{ $wd['tanggal_format'] }}">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>

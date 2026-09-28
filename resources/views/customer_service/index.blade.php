@@ -597,12 +597,539 @@
         padding: 24px;
     }
 
+    /* Desktop vs Mobile Card Views */
+    .cs-desktop-table,
+    .cs-desktop-history-table {
+        display: block;
+    }
+
+    .cs-mobile-cards,
+    .cs-mobile-history-cards {
+        display: none;
+    }
+
+    .cs-ticket-card-mobile {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 16px 14px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
     @media (max-width: 992px) {
         .cs-cards-grid {
             grid-template-columns: 1fr;
+            gap: 14px;
         }
         .cs-content-grid {
             grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .cs-desktop-table,
+        .cs-desktop-history-table {
+            display: none !important;
+        }
+
+        .cs-mobile-cards,
+        .cs-mobile-history-cards {
+            display: flex !important;
+            flex-direction: column;
+            gap: 12px;
+            padding: 14px 12px;
+        }
+
+        .cs-pagination-wrapper {
+            padding: 12px 14px !important;
+        }
+
+        .cs-container {
+            padding: 0;
+            gap: 16px;
+        }
+
+        .page-header-container {
+            margin-bottom: 12px;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            line-height: 1.25 !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+            color: #64748b;
+        }
+
+        /* Hero Banner */
+        .cs-hero-banner {
+            padding: 18px 16px !important;
+            border-radius: 14px !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 14px !important;
+        }
+
+        .cs-hero-banner h2 {
+            font-size: 18px !important;
+            line-height: 1.3 !important;
+            word-break: break-word;
+        }
+
+        .cs-hero-banner p {
+            font-size: 12.5px !important;
+            line-height: 1.4;
+        }
+
+        .cs-hero-action {
+            width: 100% !important;
+            margin-top: 2px;
+        }
+
+        .cs-hero-action .btn-wa-direct {
+            width: 100% !important;
+            justify-content: center !important;
+            text-align: center !important;
+            box-sizing: border-box !important;
+            padding: 11px 16px !important;
+            font-size: 13.5px !important;
+        }
+
+        /* Contact Cards */
+        .cs-cards-grid {
+            gap: 12px;
+        }
+
+        .cs-contact-card {
+            padding: 14px 16px;
+            border-radius: 14px;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .cs-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .cs-contact-info h4 {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .cs-contact-info p {
+            font-size: 12.5px;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .cs-contact-info .btn-wa-direct {
+            padding: 7px 14px;
+            font-size: 12px;
+            display: inline-flex;
+        }
+
+        /* Chatbot Section */
+        .chatbot-card-wrapper {
+            border-radius: 14px;
+        }
+
+        .chatbot-header-bar {
+            padding: 14px 16px;
+            gap: 10px;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .chatbot-header-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bot-avatar-icon {
+            width: 38px;
+            height: 38px;
+            font-size: 17px;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .chatbot-header-bar h3 {
+            font-size: 15px !important;
+            line-height: 1.3;
+        }
+
+        .chatbot-header-bar p {
+            font-size: 11.5px !important;
+            line-height: 1.35;
+        }
+
+        .chatbot-header-actions {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .user-role-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            white-space: nowrap;
+        }
+
+        .btn-reset-chat {
+            font-size: 11px;
+            padding: 5px 12px;
+            white-space: nowrap;
+        }
+
+        .quick-topics-wrapper {
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .quick-topics-wrapper > span {
+            font-size: 11.5px !important;
+            font-weight: 800;
+            color: #475569;
+        }
+
+        .quick-pills-scroll {
+            width: 100%;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .quick-pills-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick-topic-pill {
+            padding: 6px 12px;
+            font-size: 11.5px;
+            border-radius: 16px;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .chatbot-messages-body {
+            padding: 14px 12px;
+            height: 350px;
+            max-height: 380px;
+            gap: 12px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .chat-message {
+            max-width: 92%;
+            gap: 8px;
+        }
+
+        .bot-msg-avatar,
+        .user-msg-avatar {
+            width: 28px;
+            height: 28px;
+            font-size: 12.5px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .bot-msg-content,
+        .user-msg-content {
+            padding: 10px 14px;
+            font-size: 12.5px;
+            line-height: 1.5;
+            border-radius: 12px;
+            word-break: break-word;
+        }
+
+        .bot-name {
+            font-size: 10.5px;
+        }
+
+        .btn-bot-action-link {
+            padding: 8px 14px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 8px;
+            border-radius: 8px;
+        }
+
+        .bot-suggestions-group {
+            margin-top: 10px;
+            padding-top: 8px;
+            gap: 6px;
+        }
+
+        .bot-sub-pill {
+            padding: 5px 10px;
+            font-size: 11px;
+            border-radius: 12px;
+        }
+
+        .chatbot-input-footer {
+            padding: 12px 14px;
+        }
+
+        .chatbot-input-footer form {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .chatbot-input-field {
+            min-width: 0;
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 12.5px;
+            border-radius: 10px;
+        }
+
+        .btn-send-chat {
+            flex-shrink: 0;
+            padding: 10px 18px;
+            font-size: 13px;
+            border-radius: 10px;
+        }
+
+        /* Content Grid */
+        .cs-content-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .cs-section-card {
+            border-radius: 14px;
+        }
+
+        .cs-section-header {
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cs-section-header h3 {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .cs-section-body {
+            padding: 16px 14px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            font-size: 12.5px;
+        }
+
+        .form-control {
+            padding: 10px 14px;
+            font-size: 13px;
+            border-radius: 9px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-send-ticket {
+            padding: 12px 16px;
+            font-size: 13.5px;
+            border-radius: 9px;
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        /* Ticket Cards Mobile */
+        .cs-ticket-card-mobile {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Tables & Responsive Scrolling */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .cs-history-table {
+            min-width: 480px;
+        }
+
+        .cs-admin-table {
+            min-width: 650px;
+        }
+
+        .cs-table th {
+            padding: 10px 12px;
+            font-size: 12px;
+        }
+
+        .cs-table td {
+            padding: 12px 12px;
+            font-size: 12.5px;
+        }
+
+        .ticket-code {
+            font-size: 11px;
+            padding: 2px 6px;
+        }
+
+        .response-box {
+            padding: 8px 10px;
+            font-size: 11.5px;
+            border-radius: 6px;
+            word-break: break-word;
+        }
+
+        /* Admin Panel Header & Filter Tabs */
+        .admin-panel-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+        }
+
+        .admin-filter-tabs {
+            width: 100% !important;
+            display: flex !important;
+            gap: 6px !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            padding-bottom: 4px !important;
+            flex-wrap: nowrap !important;
+            scrollbar-width: none !important;
+        }
+
+        .admin-filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .admin-filter-tabs a {
+            flex-shrink: 0 !important;
+            padding: 6px 14px !important;
+            font-size: 12px !important;
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            padding: 12px;
+        }
+
+        .modal-content {
+            border-radius: 14px;
+            max-width: 95vw;
+            margin: auto;
+        }
+
+        .modal-header {
+            padding: 14px 16px;
+        }
+
+        .modal-header h4 {
+            font-size: 15px;
+        }
+
+        .modal-body {
+            padding: 16px 14px;
+        }
+
+        .modal-action-buttons {
+            display: flex !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .modal-action-buttons button {
+            flex: 1 !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 10px 14px !important;
+            font-size: 13px !important;
+            border-radius: 8px !important;
+        }
+
+        /* Pagination on Mobile */
+        .pagination {
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 4px !important;
+        }
+
+        .page-item .page-link {
+            padding: 6px 10px !important;
+            font-size: 12px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        .page-title-group p {
+            font-size: 12px !important;
+        }
+
+        .chatbot-messages-body {
+            height: 320px;
+        }
+
+        .chatbot-input-field {
+            font-size: 12px;
+            padding: 9px 12px;
+        }
+
+        .btn-send-chat {
+            padding: 9px 14px;
+            font-size: 12px;
+        }
+
+        .cs-hero-banner {
+            padding: 16px 14px !important;
+        }
+
+        .cs-hero-banner h2 {
+            font-size: 18px !important;
+        }
+
+        .cs-contact-card {
+            padding: 12px 14px;
         }
     }
 </style>
@@ -620,13 +1147,13 @@
 <div class="cs-container">
     
     <!-- Header Section -->
-    <div style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); border-radius: 18px; padding: 28px 32px; color: #ffffff; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+    <div class="cs-hero-banner" style="background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); border-radius: 18px; padding: 28px 32px; color: #ffffff; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
         <div>
             <span style="background: rgba(255, 255, 255, 0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Pusat Bantuan & Support</span>
             <h2 style="font-size: 22px; font-weight: 800; margin-top: 6px;">Customer Service EDU JOURNAL</h2>
             <p style="font-size: 13.5px; color: #dbeafe; margin-top: 4px;">Kami siap membantu kendala penggunaan sistem presensi dan portal mengajar Anda.</p>
         </div>
-        <div>
+        <div class="cs-hero-action">
             <a href="{{ $waLink }}" target="_blank" class="btn-wa-direct" style="padding: 12px 20px; font-size: 14px;">
                 <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Live Chat WhatsApp CS
             </a>
@@ -678,7 +1205,7 @@
     <!-- Asisten Virtual CS (Murni Tanpa Emoji & Bentuk) -->
     <div class="chatbot-card-wrapper" id="chatbot-section">
         <div class="chatbot-header-bar">
-            <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="chatbot-header-main" style="display: flex; align-items: center; gap: 12px;">
                 <div class="bot-avatar-icon">
                     <i class="fa-solid fa-robot"></i>
                 </div>
@@ -691,7 +1218,7 @@
                     </p>
                 </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="chatbot-header-actions" style="display: flex; align-items: center; gap: 8px;">
                 <span class="user-role-badge">
                     Role: {{ $user->role_label }}
                 </span>
@@ -736,7 +1263,7 @@
         <!-- Chat Input Footer -->
         <div class="chatbot-input-footer">
             <form id="chatbotForm" onsubmit="handleChatSubmit(event)" style="display: flex; gap: 10px; width: 100%;">
-                <input type="text" id="chatbotInput" class="chatbot-input-field" placeholder="Ketikkan pertanyaan atau kendala Anda di sini... (contoh: cara isi jurnal, reset password, barcode kadaluarsa)" autocomplete="off">
+                <input type="text" id="chatbotInput" class="chatbot-input-field" placeholder="Ketikkan pertanyaan atau kendala Anda di sini..." autocomplete="off">
                 <button type="submit" class="btn-send-chat" id="btnSendChat">
                     <span>Kirim</span>
                 </button>
@@ -798,8 +1325,9 @@
                         <p style="font-size: 12.5px;">Jika ada kendala, kirimkan pertanyaan melalui form di samping.</p>
                     </div>
                 @else
-                    <div class="table-responsive">
-                        <table class="cs-table">
+                    <!-- Desktop Table View -->
+                    <div class="table-responsive cs-desktop-history-table">
+                        <table class="cs-table cs-history-table">
                             <thead>
                                 <tr>
                                     <th>Kode & Tanggal</th>
@@ -841,6 +1369,37 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Mobile Cards View -->
+                    <div class="cs-mobile-history-cards">
+                        @foreach($myTickets as $ticket)
+                            <div class="cs-ticket-card-mobile">
+                                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                                    <span class="ticket-code">{{ $ticket->ticket_code }}</span>
+                                    {!! $ticket->status_badge !!}
+                                </div>
+                                <div style="margin-top: 8px;">
+                                    <strong style="color: #1e293b; font-size: 13.5px; display: block;">{{ $ticket->subjek }}</strong>
+                                    <div style="font-size: 11.5px; color: #2563eb; font-weight: 600; margin-top: 2px;">Kategori: {{ $ticket->kategori }}</div>
+                                    <div style="font-size: 12px; color: #475569; margin-top: 6px; background: #f8fafc; padding: 8px 10px; border-radius: 8px; border: 1px solid #e2e8f0; font-style: italic; line-height: 1.45;">
+                                        "{{ $ticket->pesan }}"
+                                    </div>
+                                </div>
+                                <div style="font-size: 11px; color: #94a3b8; margin-top: 6px;">
+                                    <i class="fa-regular fa-clock"></i> {{ $ticket->created_at->format('d M Y H:i') }}
+                                </div>
+                                @if($ticket->tanggapan_admin)
+                                    <div class="response-box" style="margin-top: 8px;">
+                                        <strong><i class="fa-solid fa-reply"></i> Tanggapan Tim CS:</strong>
+                                        <div style="margin-top: 2px;">{{ $ticket->tanggapan_admin }}</div>
+                                        <div style="font-size: 10.5px; color: #15803d; margin-top: 4px;">
+                                            Oleh: {{ $ticket->responder->name ?? 'Admin CS' }} ({{ $ticket->responded_at ? $ticket->responded_at->format('d M Y H:i') : '-' }})
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
                 @endif
             </div>
         </div>
@@ -849,9 +1408,9 @@
     @if($user->isAdmin())
     <!-- Panel Pengelolaan Tiket CS Pengguna (Khusus Admin/TU) -->
     <div class="cs-section-card" style="margin-top: 10px;">
-        <div class="cs-section-header">
+        <div class="cs-section-header admin-panel-header">
             <h3><i class="fa-solid fa-headset" style="color: #4f46e5;"></i> Kelola Tiket Masuk Pengguna (Administrator Panel)</h3>
-            <div style="display: flex; gap: 8px;">
+            <div class="admin-filter-tabs" style="display: flex; gap: 8px;">
                 <a href="{{ route('customer-service.index') }}" class="btn-filter {{ !request('status') ? 'active' : '' }}" style="padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; background: {{ !request('status') ? '#1e293b' : '#f1f5f9' }}; color: {{ !request('status') ? '#fff' : '#475569' }};">Semua</a>
                 <a href="{{ route('customer-service.index', ['status' => 'pending']) }}" style="padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; background: {{ request('status') == 'pending' ? '#92400e' : '#fef3c7' }}; color: {{ request('status') == 'pending' ? '#fff' : '#92400e' }};">Pending</a>
                 <a href="{{ route('customer-service.index', ['status' => 'diproses']) }}" style="padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; background: {{ request('status') == 'diproses' ? '#075985' : '#e0f2fe' }}; color: {{ request('status') == 'diproses' ? '#fff' : '#075985' }};">Diproses</a>
@@ -865,8 +1424,9 @@
                     <p style="font-weight: 700;">Tidak ada tiket masuk dari pengguna.</p>
                 </div>
             @else
-                <div class="table-responsive">
-                    <table class="cs-table">
+                <!-- Desktop Table View -->
+                <div class="table-responsive cs-desktop-table">
+                    <table class="cs-table cs-admin-table">
                         <thead>
                             <tr>
                                 <th>Kode & Pelapor</th>
@@ -918,6 +1478,54 @@
                     </table>
                 </div>
 
+                <!-- Mobile Cards View -->
+                <div class="cs-mobile-cards">
+                    @foreach($allTickets as $t)
+                        <div class="cs-ticket-card-mobile">
+                            <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                                <span class="ticket-code">{{ $t->ticket_code }}</span>
+                                {!! $t->status_badge !!}
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <div style="font-weight: 800; font-size: 13.5px; color: #0f172a;">
+                                    <i class="fa-solid fa-user-circle" style="color: #3b82f6; margin-right: 4px;"></i> {{ $t->user->name ?? 'Pengguna' }}
+                                    <span style="font-size: 11px; font-weight: 600; color: #64748b;">({{ $t->user->role_label ?? '-' }})</span>
+                                </div>
+                                <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
+                                    <i class="fa-regular fa-clock"></i> {{ $t->created_at->format('d M Y H:i') }}
+                                </div>
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <div style="font-weight: 700; font-size: 13px; color: #1e293b;">{{ $t->subjek }}</div>
+                                <span style="display: inline-block; font-size: 11px; color: #2563eb; background: #eff6ff; padding: 2px 8px; border-radius: 6px; margin: 4px 0;">Kategori: {{ $t->kategori }}</span>
+                                <div style="font-size: 12px; color: #475569; background: #f8fafc; padding: 8px 10px; border-radius: 8px; border: 1px solid #e2e8f0; line-height: 1.45;">
+                                    {{ $t->pesan }}
+                                </div>
+                            </div>
+
+                            @if($t->tanggapan_admin)
+                                <div class="response-box" style="margin-top: 8px;">
+                                    <strong><i class="fa-solid fa-reply"></i> Tanggapan Admin:</strong>
+                                    <div style="margin-top: 2px;">{{ $t->tanggapan_admin }}</div>
+                                    <div style="font-size: 10.5px; color: #15803d; margin-top: 4px;">
+                                        Oleh: {{ $t->responder->name ?? 'Admin' }} ({{ $t->responded_at ? $t->responded_at->format('d M Y H:i') : '-' }})
+                                    </div>
+                                </div>
+                            @else
+                                <div style="font-size: 11.5px; color: #94a3b8; font-style: italic; margin-top: 6px;">
+                                    <i class="fa-regular fa-clock"></i> Belum ditanggapi
+                                </div>
+                            @endif
+
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #f1f5f9;">
+                                <button type="button" class="btn-wa-direct" style="width: 100%; justify-content: center; padding: 9px 14px; font-size: 13px; background: #3b82f6; border-radius: 8px;" onclick="openRespondModal('{{ $t->id }}', '{{ $t->ticket_code }}', '{{ $t->status }}', '{{ addslashes($t->tanggapan_admin ?? '') }}')">
+                                    <i class="fa-solid fa-reply"></i> Balas / Tanggapi Tiket
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
                 <div style="padding: 16px 24px;">
                     {{ $allTickets->appends(request()->query())->links() }}
                 </div>
@@ -949,9 +1557,9 @@
                         <textarea id="modalResponse" name="tanggapan_admin" class="form-control" rows="4" placeholder="Tuliskan balasan atau instruksi penyelesaian untuk pelapor..."></textarea>
                     </div>
 
-                    <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
-                        <button type="button" onclick="closeRespondModal()" style="padding: 10px 18px; border-radius: 8px; border: 1px solid #cbd5e1; background: #ffffff; color: #475569; font-weight: 700; cursor: pointer;">Batal</button>
-                        <button type="submit" class="btn-send-ticket" style="width: auto; padding: 10px 20px;">Simpan Tanggapan</button>
+                    <div class="modal-action-buttons" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                        <button type="button" class="btn-modal-cancel" onclick="closeRespondModal()" style="padding: 10px 18px; border-radius: 8px; border: 1px solid #cbd5e1; background: #ffffff; color: #475569; font-weight: 700; cursor: pointer;">Batal</button>
+                        <button type="submit" class="btn-send-ticket btn-modal-submit" style="width: auto; padding: 10px 20px;">Simpan Tanggapan</button>
                     </div>
                 </div>
             </form>

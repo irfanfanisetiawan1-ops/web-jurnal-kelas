@@ -298,16 +298,6 @@
         <span>Data Siswa Alumni</span>
     </div>
 
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
-
     <div class="card">
         <div class="card-top-header">
             <div>

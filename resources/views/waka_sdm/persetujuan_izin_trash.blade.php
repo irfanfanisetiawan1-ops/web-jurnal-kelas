@@ -129,6 +129,76 @@
     }
     .badge-slate { background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; }
     .badge-amber { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+    /* Responsive rules for Desktop vs Mobile */
+    .trash-desktop-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .trash-mobile-cards {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .trash-card-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .trash-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .trash-card-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+        padding-top: 8px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    @media (max-width: 768px) {
+        .trash-action-bar {
+            padding: 14px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .trash-action-bar > div {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .trash-action-bar .btn-action {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .trash-desktop-table {
+            display: none !important;
+        }
+
+        .trash-mobile-cards {
+            display: flex !important;
+        }
+    }
 </style>
 @endsection
 
@@ -149,7 +219,7 @@
             <form action="{{ route('waka-sdm.izin.empty-trash') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin MENGOSONGKAN SELURUH SAMPAH izin guru? Data yang dihapus permanen TIDAK DAPAT dikembalikan!');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn-action btn-delete-perm">
+                <button type="submit" class="btn-action btn-delete-perm" style="width: 100%;">
                     <i class="fa-solid fa-dumpster-fire"></i> Kosongkan Seluruh Sampah
                 </button>
             </form>
@@ -161,7 +231,9 @@
 <div class="main-table-card">
     <form id="formBatchTrashGuru" method="POST" action="">
         @csrf
-        <div style="width: 100%;">
+        
+        <!-- Desktop Table View -->
+        <div class="trash-desktop-table">
             <table class="custom-table">
                 <thead>
                     <tr>
@@ -212,19 +284,12 @@
                             </td>
                             <td style="text-align: center;">
                                 <div style="display: inline-flex; gap: 6px; justify-content: center;">
-                                    <form action="{{ route('waka-sdm.izin.restore', $gi->id_guru_izin) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="btn-action btn-restore" title="Pulihkan Pengajuan Izin">
-                                            <i class="fa-solid fa-rotate-left"></i> Pulihkan
-                                        </button>
-                                    </form>
-                                    <form action="{{ route('waka-sdm.izin.force-delete', $gi->id_guru_izin) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus PERMANEN pengajuan izin guru ini? Data tidak dapat dipulihkan lagi!');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-action btn-delete-perm" title="Hapus Permanen">
-                                            <i class="fa-solid fa-trash-can"></i> Permanen
-                                        </button>
-                                    </form>
+                                    <button type="button" onclick="document.getElementById('form-restore-{{ $gi->id_guru_izin }}').submit();" class="btn-action btn-restore" title="Pulihkan Pengajuan Izin">
+                                        <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                                    </button>
+                                    <button type="button" onclick="if(confirm('Hapus PERMANEN pengajuan izin guru ini? Data tidak dapat dipulihkan lagi!')) document.getElementById('form-force-{{ $gi->id_guru_izin }}').submit();" class="btn-action btn-delete-perm" title="Hapus Permanen">
+                                        <i class="fa-solid fa-trash-can"></i> Permanen
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -239,7 +304,70 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Mobile Cards View -->
+        <div class="trash-mobile-cards">
+            @forelse($guruIzinList as $index => $gi)
+                <div class="trash-card-item">
+                    <div class="trash-card-header">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" name="ids[]" value="{{ $gi->id_guru_izin }}" class="cb-guru-trash" onchange="updateTrashBatchButton()" style="cursor: pointer; width: 17px; height: 17px;">
+                            <div>
+                                <strong style="color: #0f172a; font-size: 13.5px; display: block;">{{ $gi->guru->nama_guru ?? 'Guru' }}</strong>
+                                <span style="font-size: 11px; color: #64748b;">
+                                    NIP: {{ $gi->guru->nip ?? '-' }}
+                                    @if(optional($gi->guru)->mapel)
+                                        • {{ $gi->guru->mapel->nama_mapel }}
+                                    @endif
+                                </span>
+                            </div>
+                        </div>
+                        <span class="badge badge-slate" style="text-transform: uppercase;">{{ $gi->kategori_izin ?? 'biasa' }}</span>
+                    </div>
+
+                    <div style="font-size: 12px; color: #334155; display: flex; flex-direction: column; gap: 4px;">
+                        <div>
+                            <i class="fa-solid fa-calendar-day" style="color: #94a3b8; width: 16px;"></i>
+                            <strong>Tanggal:</strong> {{ $gi->tanggal_formatted }} ({{ $gi->durasi_formatted }})
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-comment-dots" style="color: #94a3b8; width: 16px;"></i>
+                            <strong>Alasan:</strong> {{ $gi->alasan ?? '-' }}
+                        </div>
+                        <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
+                            <i class="fa-regular fa-clock" style="width: 16px;"></i>
+                            Dihapus: {{ $gi->deleted_at ? $gi->deleted_at->format('d/m/Y H:i') : '-' }}
+                        </div>
+                    </div>
+
+                    <div class="trash-card-actions">
+                        <button type="button" onclick="document.getElementById('form-restore-{{ $gi->id_guru_izin }}').submit();" class="btn-action btn-restore" style="flex: 1;">
+                            <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                        </button>
+                        <button type="button" onclick="if(confirm('Hapus PERMANEN pengajuan izin guru ini? Data tidak dapat dipulihkan lagi!')) document.getElementById('form-force-{{ $gi->id_guru_izin }}').submit();" class="btn-action btn-delete-perm" style="flex: 1;">
+                            <i class="fa-solid fa-trash-can"></i> Permanen
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 35px 20px; color: #94a3b8;">
+                    <i class="fa-solid fa-trash-arrow-up" style="font-size: 36px; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
+                    Tidak ada data pengajuan izin guru di dalam tong sampah.
+                </div>
+            @endforelse
+        </div>
     </form>
+
+    <!-- Individual Forms for Restore and Force Delete to prevent nested form issues -->
+    @foreach($guruIzinList as $gi)
+        <form id="form-restore-{{ $gi->id_guru_izin }}" action="{{ route('waka-sdm.izin.restore', $gi->id_guru_izin) }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+        <form id="form-force-{{ $gi->id_guru_izin }}" action="{{ route('waka-sdm.izin.force-delete', $gi->id_guru_izin) }}" method="POST" style="display: none;">
+            @csrf
+            @method('DELETE')
+        </form>
+    @endforeach
 </div>
 @endsection
 

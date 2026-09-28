@@ -35,24 +35,47 @@
     .stat-card {
         background: #ffffff;
         border-radius: 16px;
-        padding: 20px 22px;
+        padding: 18px 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         box-shadow: 0 4px 15px rgba(15, 23, 42, 0.02);
         border: 1px solid #e2e8f0;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        text-decoration: none;
+        cursor: pointer;
     }
 
     .stat-card:hover {
         transform: translateY(-2px);
         border-color: #cbd5e1;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    .stat-card.active-total {
+        border-color: #2563eb !important;
+        background: #f8faff !important;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.08) !important;
+    }
+
+    .stat-card.active-aktif {
+        border-color: #059669 !important;
+        background: #f0fdf4 !important;
+        box-shadow: 0 4px 15px rgba(5, 150, 105, 0.08) !important;
+    }
+
+    .stat-card.active-selesai {
+        border-color: #d97706 !important;
+        background: #fffbeb !important;
+        box-shadow: 0 4px 15px rgba(217, 119, 6, 0.08) !important;
     }
 
     .stat-left {
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 14px;
+        flex: 1;
+        min-width: 0;
     }
 
     .stat-icon-wrapper {
@@ -73,33 +96,82 @@
     .stat-details {
         display: flex;
         flex-direction: column;
+        min-width: 0;
+        flex: 1;
     }
 
     .stat-label {
         font-size: 12px;
         font-weight: 700;
         color: #64748b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .stat-val {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 800;
         color: #0f172a;
         line-height: 1.2;
         margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    .stat-link {
-        font-size: 12px;
-        font-weight: 700;
-        color: #2563eb;
-        text-decoration: none;
+    .btn-stat-action {
         display: inline-flex;
         align-items: center;
-        gap: 4px;
-        transition: color 0.15s ease;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 7px 13px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
     }
-    .stat-link:hover { color: #1d4ed8; text-decoration: underline; }
+
+    .btn-stat-blue {
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #bfdbfe;
+    }
+    .stat-card:hover .btn-stat-blue,
+    .stat-card.active-total .btn-stat-blue {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-stat-green {
+        background: #ecfdf5;
+        color: #059669;
+        border: 1px solid #a7f3d0;
+    }
+    .stat-card:hover .btn-stat-green,
+    .stat-card.active-aktif .btn-stat-green {
+        background: #059669;
+        color: #ffffff;
+        border-color: #059669;
+        box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+    }
+
+    .btn-stat-amber {
+        background: #fffbeb;
+        color: #d97706;
+        border: 1px solid #fde68a;
+    }
+    .stat-card:hover .btn-stat-amber,
+    .stat-card.active-selesai .btn-stat-amber {
+        background: #d97706;
+        color: #ffffff;
+        border-color: #d97706;
+        box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+    }
 
     /* Card Main Panel */
     .card-panel {
@@ -384,17 +456,229 @@
         font-family: inherit;
         outline: none;
         transition: border-color 0.15s ease;
+        box-sizing: border-box;
     }
     .form-control-modal:focus {
         border-color: #2563eb;
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
+    /* Responsive Table vs Cards System */
+    .pengumuman-desktop-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .pengumuman-mobile-cards {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .m-card-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: border-color 0.2s ease;
+    }
+
+    .m-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .m-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12.5px;
+        color: #334155;
+    }
+
+    .m-info-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .m-info-row i {
+        color: #94a3b8;
+        font-size: 13px;
+        width: 16px;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .m-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        margin-top: 2px;
+    }
+
+    /* Modal Trash Cards for Mobile */
+    .trash-modal-desktop-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .trash-modal-mobile-cards {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+    }
+
     @media (max-width: 900px) {
         .stat-grid-3 { grid-template-columns: 1fr; }
     }
-    @media (max-width: 600px) {
-        .form-grid-2 { grid-template-columns: 1fr; }
+
+    @media (max-width: 768px) {
+        .pengumuman-container {
+            gap: 14px;
+            padding-bottom: 20px;
+        }
+
+        .stat-grid-3 {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            padding: 12px 14px;
+            border-radius: 14px;
+            gap: 10px;
+        }
+
+        .stat-left {
+            gap: 12px;
+        }
+
+        .stat-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            font-size: 18px;
+            border-radius: 12px;
+        }
+
+        .stat-label {
+            font-size: 11.5px;
+        }
+
+        .stat-val {
+            font-size: 15px;
+            margin-top: 1px;
+        }
+
+        .btn-stat-action {
+            font-size: 11px;
+            padding: 5px 8px;
+            border-radius: 7px;
+        }
+
+        .filter-bar-container {
+            padding: 14px;
+        }
+
+        .filter-bar-container form {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .filter-bar-container form > input,
+        .filter-bar-container form > select {
+            width: 100% !important;
+            max-width: 100% !important;
+            flex: 1 1 100% !important;
+            box-sizing: border-box;
+        }
+
+        .filter-bar-container form > button,
+        .filter-bar-container form > a {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .card-panel {
+            padding: 16px;
+            border-radius: 16px;
+        }
+
+        .card-panel > div:first-child {
+            flex-direction: column;
+            align-items: stretch !important;
+            gap: 12px;
+        }
+
+        .card-panel > div:first-child > div:last-child {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-panel > div:first-child > div:last-child button {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Hide tables on mobile, show cards */
+        .pengumuman-desktop-table, .trash-modal-desktop-table {
+            display: none !important;
+        }
+
+        .pengumuman-mobile-cards, .trash-modal-mobile-cards {
+            display: flex !important;
+        }
+
+        .modal-card-custom {
+            margin: 10px;
+            max-height: 85vh;
+        }
+
+        .modal-header-custom {
+            padding: 14px 18px;
+        }
+
+        .modal-body-custom {
+            padding: 16px;
+        }
+
+        .modal-footer-custom {
+            padding: 12px 16px;
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .modal-footer-custom button {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .form-grid-2 {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .form-grid-2 > div[style*="grid-column: span 2"] {
+            grid-column: span 1 !important;
+        }
     }
 </style>
 @endsection
@@ -403,7 +687,7 @@
 <div class="pengumuman-container">
     <!-- 3 Stat Cards Grid -->
     <div class="stat-grid-3">
-        <div class="stat-card">
+        <a href="{{ route('waka-sdm.pengumuman') }}" class="stat-card {{ empty($statusFilter) ? 'active-total' : '' }}">
             <div class="stat-left">
                 <div class="stat-icon-wrapper stat-icon-purple">
                     <i class="fa-solid fa-bullhorn"></i>
@@ -413,12 +697,12 @@
                     <span class="stat-val">{{ $stats['totalPengumuman'] ?? 0 }} Data</span>
                 </div>
             </div>
-            <a href="{{ route('waka-sdm.pengumuman') }}" class="stat-link">
+            <span class="btn-stat-action btn-stat-blue">
                 Lihat Semua <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i>
-            </a>
-        </div>
+            </span>
+        </a>
 
-        <div class="stat-card">
+        <a href="{{ route('waka-sdm.pengumuman', ['status' => 'aktif']) }}" class="stat-card {{ $statusFilter === 'aktif' ? 'active-aktif' : '' }}">
             <div class="stat-left">
                 <div class="stat-icon-wrapper stat-icon-green">
                     <i class="fa-solid fa-circle-check"></i>
@@ -428,12 +712,12 @@
                     <span class="stat-val">{{ $stats['pengumumanAktif'] ?? 0 }} Pengumuman</span>
                 </div>
             </div>
-            <a href="{{ route('waka-sdm.pengumuman', ['status' => 'aktif']) }}" class="stat-link">
+            <span class="btn-stat-action btn-stat-green">
                 Lihat Detail <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i>
-            </a>
-        </div>
+            </span>
+        </a>
 
-        <div class="stat-card">
+        <a href="{{ route('waka-sdm.pengumuman', ['status' => 'selesai']) }}" class="stat-card {{ $statusFilter === 'selesai' ? 'active-selesai' : '' }}">
             <div class="stat-left">
                 <div class="stat-icon-wrapper stat-icon-gold">
                     <i class="fa-solid fa-clock-rotate-left"></i>
@@ -443,17 +727,23 @@
                     <span class="stat-val">{{ $stats['pengumumanSelesai'] ?? 0 }} Selesai</span>
                 </div>
             </div>
-            <a href="{{ route('waka-sdm.pengumuman', ['status' => 'selesai']) }}" class="stat-link">
+            <span class="btn-stat-action btn-stat-amber">
                 Lihat Detail <i class="fa-solid fa-arrow-right" style="font-size: 10px;"></i>
-            </a>
-        </div>
+            </span>
+        </a>
     </div>
 
     <!-- Card Main Panel -->
     <div class="card-panel">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
             <h2 style="font-size: 17px; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 10px; margin: 0;">
-                <i class="fa-solid fa-list-check" style="color: #2563eb;"></i> Daftar Pengumuman Sekolah &amp; SDM
+                @if($statusFilter === 'aktif')
+                    <i class="fa-solid fa-circle-check" style="color: #059669;"></i> Daftar Pengumuman Aktif ({{ count($pengumumanList) }} Data)
+                @elseif($statusFilter === 'selesai')
+                    <i class="fa-solid fa-clock-rotate-left" style="color: #d97706;"></i> Daftar Pengumuman Selesai ({{ count($pengumumanList) }} Data)
+                @else
+                    <i class="fa-solid fa-list-check" style="color: #2563eb;"></i> Daftar Seluruh Pengumuman Sekolah &amp; SDM ({{ count($pengumumanList) }} Data)
+                @endif
             </h2>
             <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <button type="button" class="btn-action-primary" onclick="openModalAddPengumuman()">
@@ -464,6 +754,18 @@
                 </button>
             </div>
         </div>
+
+        @if(!empty($statusFilter))
+            <div style="background: {{ $statusFilter === 'aktif' ? '#ecfdf5' : '#fffbeb' }}; border: 1px solid {{ $statusFilter === 'aktif' ? '#a7f3d0' : '#fde68a' }}; border-radius: 12px; padding: 10px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: {{ $statusFilter === 'aktif' ? '#065f46' : '#92400e' }};">
+                    <i class="fa-solid {{ $statusFilter === 'aktif' ? 'fa-circle-check' : 'fa-clock-rotate-left' }}"></i>
+                    <span>Menampilkan Data: Pengumuman Berstatus <strong>{{ ucfirst($statusFilter) }}</strong> ({{ count($pengumumanList) }} Pengumuman Ditemukan)</span>
+                </div>
+                <a href="{{ route('waka-sdm.pengumuman') }}" class="btn-action-secondary" style="padding: 5px 12px; font-size: 12px; border-radius: 8px; font-weight: 700;">
+                    <i class="fa-solid fa-rotate-left"></i> Tampilkan Semua
+                </a>
+            </div>
+        @endif
 
         <!-- Filter Bar Form -->
         <div class="filter-bar-container">
@@ -508,8 +810,8 @@
             </form>
         </div>
 
-        <!-- Table Data -->
-        <div class="table-responsive">
+        <!-- Table Data (Desktop View) -->
+        <div class="pengumuman-desktop-table table-responsive">
             <table class="table-custom">
                 <thead>
                     <tr>
@@ -594,6 +896,85 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Cards View -->
+        <div class="pengumuman-mobile-cards">
+            @forelse($pengumumanList as $index => $p)
+                @php $st = strtolower($p->status ?? 'aktif'); @endphp
+                <div class="m-card-item">
+                    <div class="m-card-header">
+                        <div>
+                            <span class="badge-cat">{{ $p->kategori ?? 'Umum' }}</span>
+                            <strong style="font-size: 14px; color: #0f172a; display: block; margin-top: 4px;">{{ $p->judul }}</strong>
+                        </div>
+                        <div>
+                            <span class="badge-status badge-status-{{ $st }}">
+                                @if($st === 'aktif')
+                                    <i class="fa-solid fa-circle-check"></i> Aktif
+                                @elseif($st === 'selesai')
+                                    <i class="fa-solid fa-check-double"></i> Selesai
+                                @else
+                                    <i class="fa-solid fa-box-archive"></i> Arsip
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="m-card-body">
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; font-size: 12.5px; color: #334155; line-height: 1.5;">
+                            {{ Str::limit($p->isi, 120) }}
+                        </div>
+
+                        <div class="m-info-row">
+                            <i class="fa-solid fa-users" style="color: #2563eb;"></i>
+                            <div><strong>Kelas Target:</strong> {{ $p->kelas ? $p->kelas->nama_kelas : 'Semua Kelas' }}</div>
+                        </div>
+
+                        <div class="m-info-row">
+                            <i class="fa-regular fa-clock" style="color: #64748b;"></i>
+                            <div><strong>Jam / Waktu:</strong> {{ $p->jam_mengajar ?? '-' }}</div>
+                        </div>
+
+                        <div class="m-info-row">
+                            <i class="fa-solid fa-note-sticky" style="color: #d97706;"></i>
+                            <div><strong>Keterangan:</strong> {{ $p->keterangan ?? '-' }}</div>
+                        </div>
+
+                        <div class="m-info-row">
+                            <i class="fa-regular fa-user" style="color: #475569;"></i>
+                            <div>
+                                <strong>Pembuat:</strong> {{ $p->pembuat ? $p->pembuat->nama_guru : ($p->penulis ?? 'Waka SDM') }}
+                                <span style="color: #94a3b8; font-size: 11px;">({{ $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->format('d M Y') : $p->created_at->format('d M Y') }})</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-card-footer">
+                        <span style="font-size: 11px; color: #64748b; font-weight: 700;">No. {{ $index + 1 }}</span>
+                        <div style="display: flex; gap: 6px;">
+                            <button type="button" class="btn-act btn-act-view" onclick='openModalDetailPengumuman(@json($p))' title="Lihat Rincian Pengumuman">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button type="button" class="btn-act btn-act-edit" onclick='openModalEditPengumuman(@json($p))' title="Edit Pengumuman">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                            <form action="{{ route('waka-sdm.pengumuman.destroy', $p->id_pengumuman ?? $p->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Pindahkan pengumuman \'{{ addslashes($p->judul) }}\' ke Sampah (Soft Delete)?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-act btn-act-del" title="Hapus ke Sampah">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; color: #94a3b8; padding: 35px 20px;">
+                    <i class="fa-solid fa-inbox" style="font-size: 36px; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
+                    Belum ada data pengumuman yang sesuai dengan kriteria filter.
+                </div>
+            @endforelse
         </div>
     </div>
 </div>
@@ -845,7 +1226,8 @@
                 @endif
             </div>
 
-            <div class="table-responsive">
+            <!-- Desktop Table View -->
+            <div class="trash-modal-desktop-table table-responsive">
                 <table class="table-custom">
                     <thead>
                         <tr>
@@ -891,6 +1273,46 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Cards View -->
+            <div class="trash-modal-mobile-cards">
+                @forelse($trashPengumuman ?? [] as $tp)
+                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+                            <div>
+                                <span class="badge-cat">{{ $tp->kategori ?? 'Umum' }}</span>
+                                <strong style="color: #0f172a; font-size: 13px; display: block; margin-top: 3px;">{{ $tp->judul }}</strong>
+                            </div>
+                            <span style="font-size: 10.5px; color: #94a3b8;">
+                                {{ $tp->deleted_at ? $tp->deleted_at->format('d/m/Y H:i') : '-' }}
+                            </span>
+                        </div>
+                        <div style="font-size: 11.5px; color: #64748b;">
+                            {{ Str::limit($tp->isi, 60) }}
+                        </div>
+                        <div style="display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid #f1f5f9; padding-top: 8px;">
+                            <form action="{{ route('waka-sdm.pengumuman.restore', $tp->id_pengumuman ?? $tp->id) }}" method="POST" style="display:inline; flex: 1;">
+                                @csrf
+                                <button type="submit" class="btn-action-secondary" style="width: 100%; justify-content: center; padding: 6px 10px; font-size: 11.5px;">
+                                    <i class="fa-solid fa-rotate-left" style="color:#059669;"></i> Pulihkan
+                                </button>
+                            </form>
+                            <form action="{{ route('waka-sdm.pengumuman.force-delete', $tp->id_pengumuman ?? $tp->id) }}" method="POST" style="display:inline; flex: 1;" onsubmit="return confirm('Hapus PERMANEN pengumuman ini? Data tidak dapat dikembalikan lagi!')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-action-danger" style="width: 100%; justify-content: center; padding: 6px 10px; font-size: 11.5px;">
+                                    <i class="fa-solid fa-ban"></i> Permanen
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 25px;">
+                        <i class="fa-solid fa-trash-arrow-up" style="font-size: 32px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                        Tidak ada data pengumuman di dalam tong sampah.
+                    </div>
+                @endforelse
             </div>
         </div>
         <div class="modal-footer-custom">

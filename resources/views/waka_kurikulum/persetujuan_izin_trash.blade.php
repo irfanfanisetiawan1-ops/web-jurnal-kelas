@@ -102,6 +102,7 @@
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 4px;
         font-family: inherit;
     }
@@ -122,6 +123,7 @@
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 4px;
         font-family: inherit;
     }
@@ -142,6 +144,7 @@
         text-decoration: none;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         font-family: inherit;
     }
@@ -162,6 +165,7 @@
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 6px;
         font-family: inherit;
     }
@@ -169,26 +173,83 @@
     .btn-empty-trash:hover {
         background: #b91c1c;
     }
+
+    .waka-trash-desktop {
+        display: block;
+    }
+
+    .waka-trash-mobile {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .m-trash-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+        .trash-header-box {
+            padding: 16px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .trash-title {
+            font-size: 18px;
+        }
+
+        .trash-subtitle {
+            font-size: 12px;
+        }
+
+        .trash-header-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-back-link,
+        .btn-empty-trash {
+            width: 100%;
+        }
+
+        .batch-strip {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .btn-action-restore {
+            width: 100%;
+            padding: 8px 12px;
+        }
+
+        .waka-trash-desktop {
+            display: none !important;
+        }
+
+        .waka-trash-mobile {
+            display: flex !important;
+        }
+
+        .trash-card {
+            padding: 14px;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="trash-container">
-
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #16a34a;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-xmark" style="font-size: 18px; color: #ef4444;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <!-- Header Box -->
     <div class="trash-header-box">
@@ -201,13 +262,13 @@
                 Data permohonan izin guru yang telah dihapus sementara. Anda dapat memulihkan (restore) data kembali ke antrean atau menghapusnya secara permanen.
             </p>
         </div>
-        <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="trash-header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <a href="{{ route('waka-kurikulum.persetujuan-izin') }}" class="btn-back-link">
                 <i class="fa-solid fa-arrow-left"></i> Kembali ke Persetujuan Izin
             </a>
 
             @if($trashedList->total() > 0)
-                <form action="{{ route('waka-kurikulum.izin.empty-trash') }}" method="POST" onsubmit="return confirm('PERINGATAN: Apakah Anda yakin ingin mengosongkan seluruh kotak sampah perizinan secara permanen? Data yang dihapus tidak dapat dipulihkan kembali.');">
+                <form action="{{ route('waka-kurikulum.izin.empty-trash') }}" method="POST" onsubmit="return confirm('PERINGATAN: Apakah Anda yakin ingin mengosongkan seluruh kotak sampah perizinan secara permanen? Data yang dihapus tidak dapat dipulihkan kembali.');" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn-empty-trash">
@@ -242,7 +303,8 @@
                     </button>
                 </div>
 
-                <div style="overflow-x: auto;">
+                <!-- Desktop Table -->
+                <div class="waka-trash-desktop" style="overflow-x: auto;">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -307,6 +369,55 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Mobile Cards -->
+                <div class="waka-trash-mobile">
+                    @foreach($trashedList as $izin)
+                        @php
+                            $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                            $tglMulai = Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y');
+                            $tglSelesai = $izin->tanggal_selesai ? Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') : $tglMulai;
+                        @endphp
+                        <div class="m-trash-card">
+                            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                                <input type="checkbox" name="selected_ids[]" value="{{ $izin->id_guru_izin }}" class="trash-check" style="width: 17px; height: 17px; accent-color: #2563eb; margin-top: 2px; cursor: pointer;">
+                                <div style="flex: 1; min-width: 0;">
+                                    <div style="font-weight: 800; color: #0f172a; font-size: 13.5px;">{{ $namaGuru }}</div>
+                                    <div style="font-size: 11px; color: #64748b;">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                                </div>
+                            </div>
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; font-size: 12px;">
+                                <div style="display: flex; justify-content: space-between; gap: 6px; margin-bottom: 4px;">
+                                    <span style="color: #64748b; font-weight: 700;">Tanggal:</span>
+                                    <span style="color: #2563eb; font-weight: 700;">{{ $tglMulai }} {{ $tglSelesai !== $tglMulai ? 's/d ' . $tglSelesai : '' }}</span>
+                                </div>
+                                <div style="margin-bottom: 4px;">
+                                    <span style="color: #64748b; font-weight: 700; display: block;">Alasan:</span>
+                                    <span style="color: #1e293b;">{{ $izin->alasan ?? '-' }}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; gap: 6px; font-size: 11px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 4px; margin-top: 4px;">
+                                    <span>Dihapus:</span>
+                                    <span>{{ $izin->deleted_at ? Carbon\Carbon::parse($izin->deleted_at)->format('d/m/Y H:i') : '-' }}</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <form action="{{ route('waka-kurikulum.izin.restore', $izin->id_guru_izin) }}" method="POST" style="flex: 1;">
+                                    @csrf
+                                    <button type="submit" class="btn-action-restore" style="width: 100%; padding: 7px 10px;">
+                                        <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                                    </button>
+                                </form>
+                                <form action="{{ route('waka-kurikulum.izin.force-delete', $izin->id_guru_izin) }}" method="POST" style="flex: 1;" onsubmit="return confirm('Hapus permanen izin {{ addslashes($namaGuru) }}? Data tidak bisa dipulihkan kembali.');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-action-force" style="width: 100%; padding: 7px 10px;">
+                                        <i class="fa-solid fa-ban"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
 
                 <div style="margin-top: 16px;">

@@ -188,66 +188,55 @@
                 <!-- Tombol Otomatis WhatsApp jika disetujui -->
                 @if($dispen->status_waka === 'approved')
                     @php
-                        $namaSiswa = $dispen->siswa->nama_siswa ?? 'Siswa';
-                        $namaKelas = $dispen->kelas->nama_kelas ?? '-';
-                        $jamRange  = ($dispen->jam_keluar ?? '00:00') . ' s/d ' . ($dispen->jam_kembali ?? '00:00');
-                        $tglIndo   = \Carbon\Carbon::parse($dispen->tanggal)->format('d-m-Y');
                         $namaWaka  = $dispen->nama_waka ?: (isset($dispen->waka_user) ? $dispen->waka_user->name : 'Waka Kesiswaan');
+                        $linkDispenPage = \App\Services\WhatsAppNotificationService::makeApprovalDispenUrl($dispen->token_wali_kelas);
+                        $waService = app(\App\Services\WhatsAppNotificationService::class);
+                        $defaultPesan = $waService->buildPesanDispensasiKeSatpam($dispen, $namaWaka, $linkDispenPage);
 
-                        $linkFotoSiswa = $dispen->foto_siswa_live ? asset($dispen->foto_siswa_live) : null;
-                        $linkKartu = $dispen->foto_kartu_identitas ? asset($dispen->foto_kartu_identitas) : null;
-                        $linkSurat = $dispen->foto_surat_dispen ? asset($dispen->foto_surat_dispen) : null;
-                        $linkDispenPage = url('/approval/dispen/' . $dispen->token_wali_kelas);
+                        $satpamUser = \App\Models\User::where('role', 'satpam')
+                            ->where(function ($q) {
+                                $q->whereNull('status_verifikasi')->orWhere('status_verifikasi', 'verified');
+                            })->first() ?? \App\Models\User::where('role', 'satpam')->first();
 
-                        $defaultPesan = "OFFICIAL NOTIFIKASI DISPENSASI SISWA (EDU JOURNAL)\n"
-                            . "===============================================\n\n"
-                            . "Memberitahukan bahwa permohonan dispensasi siswa berikut telah DISETUJUI oleh Waka Kesiswaan ({$namaWaka}):\n\n"
-                            . "* Kode Dispen: {$dispen->kode_dispen}\n"
-                            . "* Nama Siswa: {$namaSiswa}\n"
-                            . "* Kelas: {$namaKelas}\n"
-                            . "* Tanggal & Jam: {$tglIndo} ({$jamRange})\n"
-                            . "* Alasan Dispen: {$dispen->alasan}\n";
-
-                        if ($linkFotoSiswa) {
-                            $defaultPesan .= "* Lihat Foto Siswa (Live Kamera): {$linkFotoSiswa}\n";
-                        }
-                        if ($linkKartu) {
-                            $defaultPesan .= "* Lihat Foto Kartu Pelajar: {$linkKartu}\n";
-                        }
-                        if ($linkSurat) {
-                            $defaultPesan .= "* Lihat Surat Dispen Resmi: {$linkSurat}\n";
-                        }
-
-                        $defaultPesan .= "\n* Link Verifikasi Detail: {$linkDispenPage}\n\n"
-                            . "STATUS: TERVERIFIKASI & DISETUJUI WAKA KESISWAAN.\n"
-                            . "Petugas Satpam dapat mencocokkan fisik & wajah Siswa serta Kartu Pelajar dengan foto live terlampir, lalu membiarkan siswa keluar sekolah.";
-
-                        $satpamUser = \App\Models\User::where('role', 'satpam')->first();
-                        $hpSatpam = $satpamUser && $satpamUser->no_hp ? preg_replace('/[^0-9]/', '', $satpamUser->no_hp) : '';
-                        if (str_starts_with($hpSatpam, '0')) {
-                            $hpSatpam = '62' . substr($hpSatpam, 1);
-                        }
+                        $hpSatpam = $satpamUser ? $waService->resolvePhoneNumber($satpamUser) : null;
+                        $hpSatpamClean = \App\Services\WhatsAppNotificationService::formatPhoneNumber($hpSatpam);
 
                         $pesanWa = session('pesan_wa_satpam') ?? $defaultPesan;
-                        $defaultWaUrl = !empty($hpSatpam) 
-                            ? "https://api.whatsapp.com/send?phone={$hpSatpam}&text=" . urlencode($pesanWa)
+                        $defaultWaUrl = !empty($hpSatpamClean) 
+                            ? "https://api.whatsapp.com/send?phone={$hpSatpamClean}&text=" . urlencode($pesanWa)
                             : "https://api.whatsapp.com/send?text=" . urlencode($pesanWa);
                         $waUrl = session('wa_satpam_url') ?? $defaultWaUrl;
+                        $isChatbotSent = session('chatbot_sent', true);
                     @endphp
 
                     <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 18px; margin-top: 16px;">
-                        <h4 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 800; color: #166534; display: flex; align-items: center; gap: 8px;">
-                            <i class="fa-brands fa-whatsapp" style="font-size: 18px; color: #25d366;"></i> Link Otomatis Notifikasi WhatsApp Satpam
-                        </h4>
-                        <p style="font-size: 12.5px; color: #15803d; margin: 0 0 14px 0; font-weight: 600;">
-                            Waka Kesiswaan dapat mengeklik tombol di bawah untuk langsung terhubung ke WhatsApp dan mengirimkan verifikasi dispensasi siswa ke Petugas Satpam.
-                        </p>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+                            <div>
+                                <h4 style="margin: 0 0 4px 0; font-size: 14px; font-weight: 800; color: #166534; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa-brands fa-whatsapp" style="font-size: 20px; color: #25d366;"></i> Notifikasi ChatBot WhatsApp Satpam Gerbang
+                                </h4>
+                                <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #15803d; background: #dcfce7; border: 1px solid #86efac; border-radius: 20px; padding: 3px 10px;">
+                                    <i class="fa-solid fa-robot"></i> ChatBot WhatsApp Otomatis
+                                </span>
+                            </div>
+                            @if($satpamUser)
+                                <div style="font-size: 12px; color: #166534; background: #ffffff; border: 1px solid #bbf7d0; border-radius: 8px; padding: 6px 12px;">
+                                    <i class="fa-solid fa-shield-halved"></i> Petugas Satpam: <strong>{{ $satpamUser->name }}</strong> ({{ $satpamUser->no_hp ?? '-' }})
+                                </div>
+                            @endif
+                        </div>
                         
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <form action="{{ route('approval.siswa-dispen.resend-satpam', $dispen->token_wali_kelas) }}" method="POST" style="margin: 0;">
+                                @csrf
+                                <button type="submit" class="btn" style="background: #16a34a; color: #ffffff; font-weight: 700;">
+                                    <i class="fa-solid fa-paper-plane"></i> Kirim Ulang via ChatBot WA
+                                </button>
+                            </form>
                             <a href="{{ $waUrl }}" target="_blank" class="btn btn-wa" style="flex: 1; min-width: 200px;">
-                                <i class="fa-brands fa-whatsapp fa-lg"></i> Kirim Notifikasi ke Satpam via WhatsApp
+                                <i class="fa-brands fa-whatsapp fa-lg"></i> Cadangan Kirim Manual via WhatsApp
                             </a>
-                            <button type="button" onclick="copyDispenLink(`{{ url('/approval/dispen/' . $dispen->token_wali_kelas) }}`)" class="btn btn-copy">
+                            <button type="button" onclick="copyDispenLink(`{{ $linkDispenPage }}`)" class="btn btn-copy">
                                 <i class="fa-solid fa-copy"></i> Salin Link Verifikasi
                             </button>
                             <button type="button" onclick="window.print()" class="btn" style="background: #475569; color: #ffffff;">

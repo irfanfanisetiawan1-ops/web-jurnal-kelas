@@ -9,6 +9,14 @@
         display: grid;
         grid-template-columns: 2.5fr 1fr;
         gap: 24px;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .jadwal-container-grid > div {
+        min-width: 0;
+        max-width: 100%;
+        width: 100%;
     }
 
     @media (max-width: 1150px) {
@@ -448,19 +456,427 @@
         justify-content: flex-end;
         gap: 10px;
     }
+
+    /* Desktop vs Mobile Schedule View Toggles */
+    .schedule-desktop-view {
+        display: block;
+    }
+
+    .schedule-mobile-view {
+        display: none;
+    }
+
+    .mobile-matrix-scroll-hint {
+        display: none;
+    }
+
+    .page-header-jadwal {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .page-title-text {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+    }
+
+    .page-subtitle-text {
+        font-size: 13.5px;
+        color: #64748b;
+        margin-top: 4px;
+        margin-bottom: 0;
+    }
+
+    .header-action-buttons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* Mobile Schedule Card Styles */
+    .schedule-mobile-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-left: 4px solid #94a3b8;
+        border-radius: 14px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .schedule-mobile-card.row-selesai {
+        border-left-color: #22c55e !important;
+        background: #f0fdf4;
+    }
+
+    .schedule-mobile-card.row-berlangsung {
+        border-left-color: #f59e0b !important;
+        background: #fffbeb;
+    }
+
+    .schedule-mobile-card.row-belum {
+        border-left-color: #ef4444 !important;
+        background: #fef2f2;
+    }
+
+    .schedule-mobile-card.row-guru-pengganti {
+        border-left-color: #a855f7 !important;
+        background: #faf5ff;
+    }
+
+    .schedule-mobile-card.row-future {
+        border-left-color: #94a3b8 !important;
+        background: #f8fafc;
+    }
+
+    .card-mobile-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .card-mobile-time {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .badge-jam-range {
+        font-size: 11px;
+        font-weight: 800;
+        background: #384972;
+        color: #ffffff;
+        padding: 3px 8px;
+        border-radius: 6px;
+    }
+
+    .badge-time-range {
+        font-size: 11px;
+        font-weight: 700;
+        color: #475569;
+        background: #e2e8f0;
+        padding: 3px 7px;
+        border-radius: 6px;
+    }
+
+    .badge-hari {
+        font-size: 11px;
+        font-weight: 800;
+        background: #eff6ff;
+        color: #2563eb;
+        padding: 2px 7px;
+        border-radius: 6px;
+        border: 1px solid #bfdbfe;
+    }
+
+    .card-mobile-body {
+        margin-bottom: 12px;
+    }
+
+    .card-mobile-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 3px;
+    }
+
+    .card-mobile-class {
+        font-size: 15px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .card-mobile-subject {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+
+    .card-mobile-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px 14px;
+        font-size: 11.5px;
+        color: #64748b;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 8px 12px;
+    }
+
+    .card-mobile-footer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-top: 10px;
+        border-top: 1px dashed #e2e8f0;
+    }
+
+    .card-mobile-footer .btn-action-jurnal {
+        width: 100% !important;
+        height: 38px !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        font-size: 12.5px !important;
+        border-radius: 8px !important;
+    }
+
+    .card-mobile-footer .btn-modal-detail {
+        height: 38px !important;
+        padding: 0 12px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+        border-radius: 8px !important;
+        font-size: 12px !important;
+    }
+
+    @media (max-width: 768px) {
+        .jadwal-container-grid {
+            gap: 16px !important;
+        }
+
+        .page-header-jadwal {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .page-title-text {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-subtitle-text {
+            font-size: 12.5px !important;
+            line-height: 1.4 !important;
+        }
+
+        .header-action-buttons {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .header-action-buttons .btn-toolbar {
+            width: 100% !important;
+            height: 38px !important;
+            justify-content: center !important;
+            padding: 8px 10px !important;
+            font-size: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        .header-action-buttons .btn-switch-mode {
+            grid-column: 1 / -1 !important;
+            height: 40px !important;
+            font-size: 13px !important;
+            font-weight: 800 !important;
+        }
+
+        .context-tab-bar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 6px !important;
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        .context-tab-btn {
+            border-radius: 10px !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            padding: 10px 14px !important;
+            justify-content: center !important;
+            margin-bottom: 0 !important;
+            font-size: 13px !important;
+        }
+
+        .context-tab-btn.active {
+            border: 1px solid #2563eb !important;
+            background: #eff6ff !important;
+        }
+
+        .day-selector-bar {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 8px !important;
+            margin-bottom: 16px !important;
+            width: 100% !important;
+        }
+
+        .day-pill {
+            min-width: 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 8px 4px !important;
+            border-radius: 12px !important;
+        }
+
+        .day-pill .day-name {
+            font-size: 10px !important;
+        }
+
+        .day-pill .day-num {
+            font-size: 15px !important;
+        }
+
+        .filter-action-toolbar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .search-filter-box {
+            flex-direction: column !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            gap: 8px !important;
+        }
+
+        .input-search-jadwal,
+        .select-status-filter {
+            width: 100% !important;
+            height: 42px !important;
+            box-sizing: border-box !important;
+            font-size: 13px !important;
+        }
+
+        .filter-info-count {
+            font-size: 12px !important;
+        }
+
+        .urgent-alert-box {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            padding: 14px 16px !important;
+            gap: 12px !important;
+        }
+
+        .urgent-btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
+
+        .card-jadwal-table {
+            padding: 14px 12px !important;
+            border-radius: 16px !important;
+        }
+
+        .mobile-matrix-scroll-hint {
+            display: flex !important;
+            align-items: center;
+            gap: 6px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px dashed #bfdbfe;
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .matrix-timetable {
+            min-width: 720px !important;
+        }
+
+        .schedule-desktop-view {
+            display: none !important;
+        }
+
+        .schedule-mobile-view {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+        }
+
+        .widget-box {
+            padding: 16px 14px !important;
+            border-radius: 16px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .custom-modal-backdrop {
+            padding: 12px !important;
+        }
+
+        .custom-modal-box {
+            width: calc(100% - 16px) !important;
+            max-width: 100% !important;
+            border-radius: 16px !important;
+            margin: 8px auto !important;
+        }
+
+        .modal-header-styled {
+            padding: 14px 16px !important;
+        }
+
+        .modal-body-styled {
+            padding: 16px 14px !important;
+        }
+
+        .modal-footer-styled {
+            padding: 12px 16px !important;
+            flex-direction: column-reverse !important;
+            gap: 8px !important;
+        }
+
+        .modal-footer-styled .btn-toolbar {
+            width: 100% !important;
+            height: 40px !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-text {
+            font-size: 25px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        .modal-schedule-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 
     <!-- Header & Subtitle -->
-    <div style="margin-bottom: 20px; display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
-        <div>
-            <h1 style="font-size: 24px; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 10px;">
+    <div class="page-header-jadwal">
+        <div class="page-title-group">
+            <h1 class="page-title-text">
                 <i class="fa-solid fa-calendar-days" style="color: #2563eb;"></i>
                 Jadwal Mengajar
             </h1>
-            <p style="font-size: 13.5px; color: #64748b; margin-top: 4px;">
+            <p class="page-subtitle-text">
                 {{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('l, d F Y') }}
                 @if($hariFilter === 'semua')
                     &nbsp;•&nbsp; <span style="font-weight: 700; color: #384972;">Jadwal Lengkap Mingguan (Senin – Jumat)</span>
@@ -471,14 +887,14 @@
         </div>
 
         <!-- Global Action Buttons: Cetak & Export -->
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="header-action-buttons">
             <a href="{{ route('guru.jadwal.print', ['tab' => $activeTab]) }}" target="_blank" class="btn-toolbar btn-toolbar-white" title="Cetak Lembar Resmi Jadwal">
                 <i class="fa-solid fa-print" style="color: #2563eb;"></i> Cetak Jadwal
             </a>
             <a href="{{ route('guru.jadwal.export', ['tab' => $activeTab]) }}" class="btn-toolbar btn-toolbar-white" title="Ekspor ke format CSV/Excel">
                 <i class="fa-solid fa-file-excel" style="color: #16a34a;"></i> Ekspor CSV
             </a>
-            <a href="{{ route('guru.jadwal', ['tab' => $activeTab, 'hari' => $hariFilter, 'tampilan' => ($viewMode === 'matriks' ? 'tabel' : 'matriks')]) }}" class="btn-toolbar {{ $viewMode === 'matriks' ? 'btn-toolbar-primary' : 'btn-toolbar-white' }}" title="Beralih Mode Tampilan">
+            <a href="{{ route('guru.jadwal', ['tab' => $activeTab, 'hari' => $hariFilter, 'tampilan' => ($viewMode === 'matriks' ? 'tabel' : 'matriks')]) }}" class="btn-toolbar {{ $viewMode === 'matriks' ? 'btn-toolbar-primary' : 'btn-toolbar-white' }} btn-switch-mode" title="Beralih Mode Tampilan">
                 <i class="fa-solid {{ $viewMode === 'matriks' ? 'fa-table-list' : 'fa-table-cells' }}"></i> {{ $viewMode === 'matriks' ? 'Tampilan Tabel' : 'Matriks Mingguan' }}
             </a>
         </div>
@@ -530,7 +946,7 @@
             </select>
         </form>
 
-        <div style="font-size: 12.5px; color: #64748b; font-weight: 600;">
+        <div class="filter-info-count" style="font-size: 12.5px; color: #64748b; font-weight: 600;">
             Menampilkan <strong>{{ $jadwals->count() }}</strong> Sesi KBM
             @if($activeTab === 'perwalian')
                 di Kelas <strong>{{ $kelasWali->nama_kelas ?? '-' }}</strong>
@@ -558,7 +974,7 @@
     @endphp
 
     @if($urgentJadwal)
-        <div style="background: #fef2f2; border: 2px solid #ef4444; border-radius: 16px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 6px 18px rgba(239,68,68,0.15); animation: pulse 1.5s infinite;">
+        <div class="urgent-alert-box" style="background: #fef2f2; border: 2px solid #ef4444; border-radius: 16px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: 0 6px 18px rgba(239,68,68,0.15); animation: pulse 1.5s infinite;">
             <div style="display: flex; align-items: center; gap: 14px;">
                 <div style="width: 46px; height: 46px; border-radius: 50%; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;">
                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -570,7 +986,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('guru.jurnal-harian', ['id_jadwal' => $urgentJadwal->id_jadwal]) }}" style="background: #dc2626; color: #ffffff; font-weight: 800; padding: 10px 18px; border-radius: 10px; text-decoration: none; font-size: 13px; white-space: nowrap; box-shadow: 0 2px 8px rgba(220,38,38,0.3); display: inline-flex; align-items: center; gap: 8px;">
+            <a href="{{ route('guru.jurnal-harian', ['id_jadwal' => $urgentJadwal->id_jadwal]) }}" class="urgent-btn-action" style="background: #dc2626; color: #ffffff; font-weight: 800; padding: 10px 18px; border-radius: 10px; text-decoration: none; font-size: 13px; white-space: nowrap; box-shadow: 0 2px 8px rgba(220,38,38,0.3); display: inline-flex; align-items: center; gap: 8px;">
                 <i class="fa-solid fa-pen-to-square"></i> Isi Sekarang
             </a>
         </div>
@@ -584,7 +1000,7 @@
             @if($viewMode === 'matriks')
                 <!-- Mode Tampilan Matriks Mingguan (Timetable aSc Style) -->
                 <div class="card-jadwal-table">
-                    <div style="margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                         <div style="font-size: 15px; font-weight: 800; color: #0f172a;">
                             <i class="fa-solid fa-table-cells" style="color: #2563eb; margin-right: 6px;"></i> Matriks Jadwal Mingguan
                         </div>
@@ -592,14 +1008,19 @@
                             Format Matriks Mingguan SMKN 1 Boyolangu
                         </div>
                     </div>
+
+                    <!-- Scroll Hint for Mobile Screens -->
+                    <div class="mobile-matrix-scroll-hint">
+                        <i class="fa-solid fa-arrows-left-right"></i> Geser horizontal tabel untuk melihat hari lainnya
+                    </div>
                     
-                    <div style="overflow-x: auto;">
+                    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
                         <table class="matrix-timetable">
                             <thead>
                                 <tr>
-                                    <th style="width: 60px;">Jam Ke</th>
-                                    <th style="width: 90px;">Senin–Kamis</th>
-                                    <th style="width: 80px;">Jumat</th>
+                                    <th style="width: 55px; min-width: 55px;">Jam Ke</th>
+                                    <th style="width: 85px; min-width: 85px;">Senin–Kamis</th>
+                                    <th style="width: 75px; min-width: 75px;">Jumat</th>
                                     @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $dayCol)
                                         <th style="min-width: 140px;">{{ $dayCol }}</th>
                                     @endforeach
@@ -629,7 +1050,7 @@
                                                         <strong style="color: #1e3a8a;">{{ $mJ->kelas->nama_kelas ?? '-' }}</strong>
                                                         <div style="font-weight: 700; color: #0f172a; margin-top: 1px;">{{ $mJ->mapel->nama_mapel ?? '-' }}</div>
                                                         @if($activeTab === 'perwalian')
-                                                            <div style="font-size: 10px; color: #475569;">Guru: {{ $mJ->guru->nama_guru ?? '-' }}</div>
+                                                             <div style="font-size: 10px; color: #475569;">Guru: {{ $mJ->guru->nama_guru ?? '-' }}</div>
                                                         @endif
                                                         <div style="font-size: 10px; color: #64748b; margin-top: 2px;">
                                                             <i class="fa-solid fa-location-dot" style="font-size: 9px;"></i> {{ $mJ->ruangan->nama_ruangan ?? '-' }}
@@ -649,7 +1070,8 @@
             @else
                 <!-- Mode Tampilan Tabel Standar & Interaktif -->
                 <div class="card-jadwal-table">
-                    <div style="overflow-x: auto;">
+                    <!-- Desktop Table View (Hidden on mobile) -->
+                    <div class="schedule-desktop-view" style="overflow-x: auto;">
                         <table class="table-schedule" id="tableJadwalMengajar">
                             <thead>
                                 <tr>
@@ -801,6 +1223,143 @@
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Mobile Cards View (Visible on mobile <= 768px, hidden on desktop) -->
+                    <div class="schedule-mobile-view" id="cardsJadwalMengajar">
+                        @forelse($jadwals as $j)
+                            @php
+                                $hKey = strtolower(trim($j->hari));
+                                $targetDateRow = ($hariFilter !== 'semua' && isset($dayDates[$hKey]))
+                                    ? $dayDates[$hKey]['date']
+                                    : ($dayDates[$hKey]['date'] ?? \Carbon\Carbon::now('Asia/Jakarta')->toDateString());
+                                
+                                $isTargetToday = ($dayDates[$hKey]['is_today'] ?? false);
+                                $isPast = ($targetDateRow < \Carbon\Carbon::now('Asia/Jakarta')->toDateString());
+                                $isFuture = ($targetDateRow > \Carbon\Carbon::now('Asia/Jakarta')->toDateString());
+
+                                $jurnalRecord = $j->getJurnalPadaTanggal($targetDateRow);
+                                $sudahDiisi = ($jurnalRecord !== null);
+                                $isSedangBerlangsung = $isTargetToday && $j->is_sedang_berlangsung;
+                                $isHampirHabis = $isSedangBerlangsung && $j->hampir_habis;
+                                $isJamSelesai = $isPast || ($isTargetToday && $j->is_jam_sudah_selesai);
+
+                                $isOwnerGuru = ($currentGuruId && $j->id_guru == $currentGuruId) || !empty($j->is_guru_pengganti);
+
+                                $rowClass = 'row-future';
+                                $statusBadge = '<span class="badge-status badge-status-future"><i class="fa-regular fa-clock"></i> Belum Dimulai</span>';
+                                $actionBtn = '<button type="button" class="btn-action-jurnal btn-jurnal-belum" disabled title="Jadwal KBM belum dimulai"><i class="fa-solid fa-lock"></i> Belum Mulai</button>';
+
+                                if ($sudahDiisi) {
+                                    $rowClass = 'row-selesai';
+                                    $statusBadge = '<span class="badge-status badge-status-selesai"><i class="fa-solid fa-circle-check"></i> Selesai</span>';
+                                    $actionBtn = '<button type="button" onclick="showJurnalDetailModal(' . $jurnalRecord->id_jurnal . ')" class="btn-action-jurnal btn-jurnal-terisi" title="Lihat detail jurnal KBM yang telah diisi"><i class="fa-solid fa-eye"></i> Lihat Jurnal</button>';
+                                } elseif ($activeTab === 'perwalian' && !$isOwnerGuru) {
+                                    if ($isSedangBerlangsung) {
+                                        $rowClass = 'row-berlangsung';
+                                        $statusBadge = '<span class="badge-status badge-status-berlangsung"><i class="fa-solid fa-signal"></i> Berlangsung</span>';
+                                        $actionBtn = '<button type="button" class="btn-action-jurnal" style="background: #fef3c7; color: #92400e; border: 1px solid #fde68a; cursor: default;"><i class="fa-solid fa-chalkboard-user"></i> Diampu Guru</button>';
+                                    } elseif ($isJamSelesai) {
+                                        $rowClass = 'row-belum';
+                                        $statusBadge = '<span class="badge-status" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;"><i class="fa-solid fa-clock-rotate-left"></i> Belum Diisi</span>';
+                                        $actionBtn = '<button type="button" class="btn-action-jurnal" disabled style="background: #f8fafc; color: #94a3b8; border: 1px solid #cbd5e1; cursor: not-allowed;"><i class="fa-solid fa-circle-exclamation"></i> Belum Diisi Guru</button>';
+                                    } else {
+                                        $rowClass = 'row-future';
+                                        $statusBadge = '<span class="badge-status badge-status-future"><i class="fa-regular fa-clock"></i> Belum Dimulai</span>';
+                                        $actionBtn = '<button type="button" class="btn-action-jurnal btn-jurnal-belum" disabled><i class="fa-solid fa-lock"></i> Belum Mulai</button>';
+                                    }
+                                } else {
+                                    if ($isHampirHabis) {
+                                        $rowClass = 'row-berlangsung';
+                                        $statusBadge = '<span class="badge-status" style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-weight: 800; animation: pulse 1.5s infinite;"><i class="fa-solid fa-triangle-exclamation"></i> Sisa ' . $j->sisa_menit_selesai . ' Menit</span>';
+                                        $actionBtn = '<a href="' . route('guru.jurnal-harian', ['id_jadwal' => $j->id_jadwal, 'tanggal' => $targetDateRow]) . '" class="btn-action-jurnal" style="background: #dc2626; color: #ffffff; font-weight: 800; box-shadow: 0 2px 8px rgba(220,38,38,0.35); animation: pulse 1.5s infinite;" title="Segera isi jurnal sebelum jam KBM selesai!"><i class="fa-solid fa-bell"></i> Segera Isi</a>';
+                                    } elseif ($isSedangBerlangsung) {
+                                        $rowClass = 'row-berlangsung';
+                                        $statusBadge = '<span class="badge-status badge-status-berlangsung"><i class="fa-solid fa-signal"></i> Berlangsung</span>';
+                                        $actionBtn = '<a href="' . route('guru.jurnal-harian', ['id_jadwal' => $j->id_jadwal, 'tanggal' => $targetDateRow]) . '" class="btn-action-jurnal btn-jurnal-isi"><i class="fa-solid fa-pen-to-square"></i> Isi Jurnal</a>';
+                                    } elseif ($isJamSelesai) {
+                                        $rowClass = 'row-belum';
+                                        $statusBadge = '<span class="badge-status" style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5;"><i class="fa-solid fa-ban"></i> Waktu Habis</span>';
+                                        $actionBtn = '<button type="button" class="btn-action-jurnal" disabled style="background: #f1f5f9; color: #94a3b8; border: 1px solid #cbd5e1; cursor: not-allowed; opacity: 0.85;"><i class="fa-solid fa-lock"></i> Waktu Habis</button>';
+                                    }
+                                }
+
+                                if (!empty($j->is_guru_pengganti)) {
+                                    $rowClass = 'row-guru-pengganti';
+                                    $statusBadge = '<span class="badge-status badge-status-pengganti"><i class="fa-solid fa-user-shield"></i> Guru Pengganti</span>';
+                                }
+                            @endphp
+
+                            <div class="schedule-mobile-card {{ $rowClass }}" data-search="{{ strtolower($j->kelas->nama_kelas ?? '') }} {{ strtolower($j->mapel->nama_mapel ?? '') }} {{ strtolower($j->guru->nama_guru ?? '') }} {{ strtolower($j->ruangan->nama_ruangan ?? '') }}">
+                                <div class="card-mobile-top">
+                                    <div class="card-mobile-time">
+                                        <span class="badge-jam-range">Jam ke-{{ $j->jam_range }} ({{ $j->jumlah_jp }} JP)</span>
+                                        <span class="badge-time-range"><i class="fa-regular fa-clock"></i> {{ $j->waktu_mulai_effective }} - {{ $j->waktu_selesai_effective }} WIB</span>
+                                        @if($hariFilter === 'semua')
+                                            <span class="badge-hari">{{ $j->hari }}</span>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        {!! $statusBadge !!}
+                                    </div>
+                                </div>
+
+                                <div class="card-mobile-body">
+                                    <div class="card-mobile-title-row">
+                                        @if($activeTab === 'perwalian')
+                                            <div class="card-mobile-class">{{ $j->mapel->nama_mapel ?? '-' }}</div>
+                                            <span style="font-size: 11px; background: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 6px; font-weight: 800; flex-shrink: 0;">
+                                                {{ $j->kelas->nama_kelas ?? '-' }}
+                                            </span>
+                                        @else
+                                            <div class="card-mobile-class">{{ $j->kelas->nama_kelas ?? '-' }}</div>
+                                            <span style="font-size: 11px; background: #eff6ff; color: #2563eb; padding: 2px 8px; border-radius: 6px; font-weight: 800; flex-shrink: 0;">
+                                                {{ $j->mapel->kode_mapel ?? 'Kurikulum Merdeka' }}
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <div class="card-mobile-subject">
+                                        @if($activeTab === 'perwalian')
+                                            <i class="fa-solid fa-user-tie" style="color: #64748b; font-size: 11px;"></i> {{ $j->guru->nama_guru ?? 'Guru Mapel' }}
+                                        @else
+                                            {{ $j->mapel->nama_mapel ?? '-' }}
+                                        @endif
+                                    </div>
+
+                                    @if(!empty($j->is_guru_pengganti))
+                                        <div style="font-size: 11px; font-weight: 700; color: #7e22ce; background: #f3e8ff; border: 1px solid #d8b4fe; padding: 4px 8px; border-radius: 6px; margin-bottom: 8px;">
+                                            <i class="fa-solid fa-user-shield"></i> Guru Pengganti (Menggantikan {{ $j->guru->nama_guru ?? 'Guru' }})
+                                        </div>
+                                    @endif
+
+                                    <div class="card-mobile-meta">
+                                        <div>
+                                            <i class="fa-solid fa-location-dot" style="color: #2563eb;"></i> Ruang: <strong>{{ $j->ruangan->nama_ruangan ?? '-' }}</strong>
+                                        </div>
+                                        @if($activeTab !== 'perwalian')
+                                            <div>
+                                                <i class="fa-solid fa-user" style="color: #64748b;"></i> <strong>{{ $j->guru->nama_guru ?? Auth::user()->name }}</strong>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="card-mobile-footer">
+                                    <div style="flex: 1;">
+                                        {!! $actionBtn !!}
+                                    </div>
+                                    <button type="button" onclick="showJadwalModal({{ $j->id_jadwal }}, '{{ addslashes($j->kelas->nama_kelas ?? '-') }}', '{{ addslashes($j->mapel->nama_mapel ?? '-') }}', '{{ addslashes($j->guru->nama_guru ?? '-') }}', '{{ addslashes($j->ruangan->nama_ruangan ?? '-') }}', '{{ $j->hari }}', '{{ $j->jam_range }}', '{{ $j->waktu_mulai_effective }} - {{ $j->waktu_selesai_effective }} WIB', '{{ $j->jumlah_jp }} JP', {{ $isOwnerGuru ? 'true' : 'false' }})" class="btn-modal-detail" title="Detail Jadwal">
+                                        <i class="fa-solid fa-circle-info"></i> Detail
+                                    </button>
+                                </div>
+                            </div>
+                        @empty
+                            <div style="text-align: center; color: #94a3b8; padding: 36px 16px; background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0;">
+                                <i class="fa-regular fa-calendar-xmark" style="font-size: 32px; margin-bottom: 8px; display: block; opacity: 0.5;"></i>
+                                Tidak ada jadwal mengajar pada {{ $hariFilter === 'semua' ? 'seluruh hari' : 'hari ' . ($dayDates[$hariFilter]['day_name'] ?? ucfirst($hariFilter)) }}.
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             @endif
@@ -1071,7 +1630,7 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
+                <div class="modal-schedule-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
                     <div style="border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px;">
                         <div style="font-size: 11px; color: #64748b; font-weight: 700; text-transform: uppercase;">Hari & Jam Pelajaran</div>
                         <div id="modalHariJam" style="font-weight: 800; color: #0f172a; margin-top: 2px;">-</div>
@@ -1125,7 +1684,7 @@
 
 @section('scripts')
 <script>
-    // Live Client-side Filter Table
+    // Live Client-side Filter Table & Mobile Cards
     function filterTableLive() {
         const input = document.getElementById('inputSearchJadwal').value.toLowerCase().trim();
         const rows = document.querySelectorAll('#tableJadwalMengajar tbody tr.row-jadwal');
@@ -1136,6 +1695,17 @@
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
+            }
+        });
+
+        // Mobile Cards Live Filter
+        const cards = document.querySelectorAll('#cardsJadwalMengajar .schedule-mobile-card');
+        cards.forEach(card => {
+            const searchData = card.getAttribute('data-search') || '';
+            if (searchData.includes(input)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
             }
         });
     }

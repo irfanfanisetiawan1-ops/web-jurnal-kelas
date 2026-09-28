@@ -233,15 +233,14 @@
         overflow: hidden;
         width: 100%;
         max-width: 100%;
+        min-width: 0;
         box-sizing: border-box;
     }
 
-    .table-responsive {
+    /* Desktop Table Wrapper */
+    .desktop-table-wrapper {
         width: 100%;
-        max-width: 100%;
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        box-sizing: border-box;
     }
 
     .custom-table {
@@ -292,6 +291,7 @@
         gap: 4px;
         transition: all 0.15s ease;
         white-space: nowrap;
+        font-family: inherit;
     }
 
     .btn-action-detail:hover {
@@ -313,11 +313,36 @@
         gap: 3px;
         transition: all 0.15s ease;
         white-space: nowrap;
+        font-family: inherit;
     }
 
     .btn-action-delete:hover {
         background: #fecaca;
         color: #7f1d1d;
+    }
+
+    /* Mobile Cards Wrapper (Hidden on Desktop) */
+    .mobile-izin-cards-wrapper {
+        display: none;
+    }
+
+    .mobile-izin-card {
+        background: #ffffff;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-sizing: border-box;
+        transition: background 0.15s ease;
+    }
+
+    .mobile-izin-card:last-child {
+        border-bottom: none;
+    }
+
+    .mobile-izin-card:hover {
+        background: #f8fafc;
     }
 
     /* Modal Overlay & Styling */
@@ -349,6 +374,7 @@
         flex-direction: column;
         overflow: hidden;
         animation: modalFadeIn 0.2s ease-out;
+        box-sizing: border-box;
     }
 
     @keyframes modalFadeIn {
@@ -371,6 +397,8 @@
         display: flex;
         flex-direction: column;
         gap: 14px;
+        max-height: calc(90vh - 125px);
+        box-sizing: border-box;
     }
 
     .modal-footer {
@@ -393,6 +421,8 @@
         border: 1px solid #e2e8f0;
         border-radius: 10px;
         padding: 10px 14px;
+        box-sizing: border-box;
+        min-width: 0;
     }
 
     .detail-label {
@@ -410,41 +440,173 @@
         color: #0f172a;
     }
 
-    /* Custom Scrollbar for Table */
-    .table-responsive::-webkit-scrollbar {
-        height: 6px;
+    /* Mobile Responsive Rules */
+    @media (max-width: 768px) {
+        .guru-izin-container {
+            gap: 14px;
+        }
+
+        .page-header-box {
+            padding: 16px 18px;
+            border-radius: 14px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .page-header-title {
+            font-size: 20px;
+        }
+
+        .page-header-sub {
+            font-size: 12px;
+        }
+
+        .page-header-box .btn-trash {
+            width: 100%;
+            justify-content: center;
+            height: 38px;
+            box-sizing: border-box;
+        }
+
+        .filter-card {
+            padding: 14px 14px;
+            border-radius: 14px;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .filter-search-box {
+            grid-column: span 2;
+            width: 100%;
+            min-width: 100%;
+            flex: unset;
+        }
+
+        .filter-search-box input {
+            width: 100%;
+            height: 38px;
+            font-size: 13px;
+        }
+
+        .filter-select,
+        .filter-date {
+            grid-column: span 1;
+            width: 100%;
+            min-width: 100%;
+            flex: unset;
+        }
+
+        .filter-input {
+            height: 38px;
+            font-size: 12.5px;
+            width: 100%;
+        }
+
+        .filter-actions-group {
+            grid-column: span 2;
+            width: 100%;
+            margin-left: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .btn-filter,
+        .btn-reset {
+            width: 100%;
+            height: 38px;
+            justify-content: center;
+            font-size: 12.5px;
+            box-sizing: border-box;
+        }
+
+        .btn-bulk-delete {
+            grid-column: span 2;
+            width: 100%;
+            height: 38px;
+            justify-content: center;
+            font-size: 12.5px;
+            box-sizing: border-box;
+        }
+
+        /* Switch Desktop Table to Mobile Cards (Zero Horizontal Scroll!) */
+        .desktop-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-izin-cards-wrapper {
+            display: flex !important;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .detail-grid {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .modal-box {
+            width: 95%;
+            max-width: 520px;
+            max-height: 88vh;
+        }
+
+        .modal-header {
+            padding: 14px 16px;
+        }
+
+        .modal-body {
+            padding: 14px 16px;
+            gap: 10px;
+            max-height: calc(88vh - 115px);
+        }
+
+        .modal-footer {
+            padding: 12px 16px;
+        }
+
+        .modal-footer button {
+            width: 100%;
+            padding: 10px;
+            font-size: 13px;
+        }
     }
-    .table-responsive::-webkit-scrollbar-track {
-        background: #f1f5f9;
-        border-radius: 4px;
-    }
-    .table-responsive::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 4px;
-    }
-    .table-responsive::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
+
+    @media (max-width: 480px) {
+        .page-header-title {
+            font-size: 18px;
+        }
+
+        .filter-grid {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .filter-search-box,
+        .filter-select,
+        .filter-date {
+            grid-column: span 1;
+        }
+
+        .filter-actions-group {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .filter-actions-group .btn-bulk-delete {
+            grid-column: span 2;
+        }
     }
 </style>
 @endsection
 
 @section('content')
 <div class="guru-izin-container">
-
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div style="background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; padding: 12px 16px; border-radius: 10px; font-weight: 600; font-size: 12.5px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 16px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; padding: 12px 16px; border-radius: 10px; font-weight: 600; font-size: 12.5px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-circle-xmark" style="font-size: 16px;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <!-- Page Header Banner -->
     <div class="page-header-box">
@@ -525,11 +687,13 @@
         </form>
     </div>
 
-    <!-- Data Table Container -->
+    <!-- Data Container (Table on Desktop, Cards on Mobile) -->
     <div class="table-card">
         <form id="bulkDeleteForm" action="{{ route('kepala-sekolah.guru-izin-tidak-hadir.bulk-delete') }}" method="POST">
             @csrf
-            <div class="table-responsive">
+
+            <!-- A. DESKTOP VIEW: TABEL STANDAR -->
+            <div class="desktop-table-wrapper">
                 <table class="custom-table">
                     <thead>
                         <tr>
@@ -744,6 +908,205 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- B. MOBILE VIEW: KARTU RESPONSIF (ZERO HORIZONTAL SCROLL) -->
+            <div class="mobile-izin-cards-wrapper">
+                @forelse($guruIzinList as $index => $izin)
+                    @php
+                        $namaGuru = $izin->guru->nama_guru ?? 'Guru';
+                        $nipGuru = $izin->guru->nip ?? '-';
+                        $mapelGuru = $izin->guru->mapel->nama_mapel ?? 'Semua Mapel';
+                        $initials = strtoupper(substr($namaGuru, 0, 2));
+
+                        $tglMulaiObj = $izin->tanggal_mulai ? \Carbon\Carbon::parse($izin->tanggal_mulai) : null;
+                        $tglSelesaiObj = $izin->tanggal_selesai ? \Carbon\Carbon::parse($izin->tanggal_selesai) : $tglMulaiObj;
+
+                        $tglMulai = $tglMulaiObj ? $tglMulaiObj->format('d-m-Y') : '-';
+                        $tglSelesai = $tglSelesaiObj ? $tglSelesaiObj->format('d-m-Y') : $tglMulai;
+
+                        if ($tglMulaiObj && $tglSelesaiObj) {
+                            $durasiHari = $tglMulaiObj->diffInDays($tglSelesaiObj) + 1;
+                        } else {
+                            $durasiHari = 1;
+                        }
+
+                        $rawKat = strtolower($izin->kategori_izin ?? 'biasa');
+                        if (str_contains($rawKat, 'cuti')) {
+                            $kategoriLabel = 'Cuti / Izin Khusus';
+                            $katBg = '#ede9fe'; $katColor = '#6b21a8'; $katIcon = 'fa-calendar-day';
+                        } elseif (str_contains($rawKat, 'sakit')) {
+                            $kategoriLabel = 'Sakit';
+                            $katBg = '#fee2e2'; $katColor = '#991b1b'; $katIcon = 'fa-bed-pulse';
+                        } elseif (str_contains($rawKat, 'dinas')) {
+                            $kategoriLabel = 'Tugas Dinas Luar';
+                            $katBg = '#fef3c7'; $katColor = '#b45309'; $katIcon = 'fa-briefcase';
+                        } else {
+                            $kategoriLabel = 'Izin Biasa';
+                            $katBg = '#e0f2fe'; $katColor = '#0369a1'; $katIcon = 'fa-envelope-open-text';
+                        }
+
+                        $stWaka = $izin->status_waka ?? 'pending';
+                        $stKepsek = $izin->status_kepsek ?? 'pending';
+
+                        $hasTitipan = !empty($izin->tugas_dititipkan) || !empty($izin->materi_dititipkan) || !empty($izin->file_tugas);
+                        $substituteName = $izin->nama_guru_pengganti ?? ($izin->guruPiket->nama_guru ?? ($izin->nama_guru_piket ?? null));
+                        $hasSubstitute = !empty($izin->id_guru_pengganti) || !empty($izin->id_guru_piket) || !empty($substituteName);
+
+                        $todayStr = \Carbon\Carbon::today('Asia/Jakarta')->toDateString();
+                        $startStr = $izin->tanggal_mulai ? \Carbon\Carbon::parse($izin->tanggal_mulai)->toDateString() : $todayStr;
+                        $endStr = $izin->tanggal_selesai ? \Carbon\Carbon::parse($izin->tanggal_selesai)->toDateString() : $startStr;
+
+                        if ($todayStr >= $startStr && $todayStr <= $endStr) {
+                            $berlakuTeks = 'Berlangsung';
+                            $berlakuBg = '#dcfce7';
+                            $berlakuColor = '#15803d';
+                            $berlakuIcon = 'fa-rotate fa-spin';
+                        } elseif ($todayStr > $endStr) {
+                            $berlakuTeks = 'Selesai';
+                            $berlakuBg = '#f1f5f9';
+                            $berlakuColor = '#475569';
+                            $berlakuIcon = 'fa-circle-check';
+                        } else {
+                            $berlakuTeks = 'Mendatang';
+                            $berlakuBg = '#ede9fe';
+                            $berlakuColor = '#6b21a8';
+                            $berlakuIcon = 'fa-calendar-days';
+                        }
+
+                        $fotoSuratName = $izin->foto_surat;
+                        $fileTugasName = $izin->file_tugas;
+
+                        $detailPayload = [
+                            'id' => $izin->id_guru_izin,
+                            'nama' => $namaGuru,
+                            'nip' => $nipGuru,
+                            'mapel' => $mapelGuru,
+                            'kategori' => $kategoriLabel,
+                            'tgl_mulai' => $tglMulai,
+                            'tgl_selesai' => $tglSelesai,
+                            'durasi' => $durasiHari . ' Hari',
+                            'alasan' => $izin->alasan ?? '-',
+                            'materi' => $izin->materi_dititipkan ?? '-',
+                            'tugas' => $izin->tugas_dititipkan ?? '-',
+                            'file_tugas' => $fileTugasName ? asset('uploads/guru_izin_tugas/' . $fileTugasName) : null,
+                            'file_tugas_name' => $fileTugasName,
+                            'pengganti' => $hasSubstitute ? ($substituteName ?: 'Sudah Ditugaskan') : 'Belum Ada Pengganti',
+                            'has_pengganti' => $hasSubstitute,
+                            'status_waka' => $stWaka,
+                            'catatan_waka' => $izin->catatan_waka ?? '-',
+                            'status_kepsek' => $stKepsek,
+                            'catatan_kepsek' => $izin->catatan_kepsek ?? '-',
+                            'status_berlaku' => $berlakuTeks,
+                            'foto_surat' => $fotoSuratName ? asset('uploads/guru_izin/' . $fotoSuratName) : asset('uploads/guru_izin/1787625106_QJzh6X66.png'),
+                            'has_foto' => !empty($fotoSuratName)
+                        ];
+                    @endphp
+                    <div class="mobile-izin-card">
+                        <!-- Top Header: Checkbox + No + Profil Guru -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" name="ids[]" value="{{ $izin->id_guru_izin }}" class="check-izin" style="cursor: pointer; width: 17px; height: 17px; accent-color: #ef4444;" onchange="updateBulkDeleteState()">
+                                <span style="background: #e2e8f0; color: #334155; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 6px;">
+                                    #{{ $index + 1 }}
+                                </span>
+                            </div>
+                            <span style="background: {{ $berlakuBg }}; color: {{ $berlakuColor }}; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 12px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="fa-solid {{ $berlakuIcon }}"></i> {{ $berlakuTeks }}
+                            </span>
+                        </div>
+
+                        <!-- Profil Guru -->
+                        <div style="display: flex; align-items: center; gap: 10px; margin-top: 2px;">
+                            <div style="width: 38px; height: 38px; border-radius: 50%; background: #e2e8f0; color: #334155; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                {{ $initials }}
+                            </div>
+                            <div>
+                                <div style="font-weight: 800; color: #0f172a; font-size: 14px; line-height: 1.25;">
+                                    {{ $namaGuru }}
+                                </div>
+                                <div style="font-size: 11.5px; color: #64748b; font-weight: 600; margin-top: 1px;">
+                                    NIP: {{ $nipGuru }} • <span style="color: #384972;">{{ $mapelGuru }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tanggal & Kategori Box -->
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                            <div>
+                                <div style="font-size: 10.5px; font-weight: 700; color: #64748b; text-transform: uppercase;">Rentang Tanggal</div>
+                                <div style="font-weight: 800; color: #0f172a; font-size: 12.5px; margin-top: 1px;">
+                                    {{ $tglMulai }} @if($tglSelesai !== $tglMulai) s/d {{ $tglSelesai }} @endif
+                                </div>
+                            </div>
+                            <span style="background: {{ $katBg }}; color: {{ $katColor }}; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="fa-solid {{ $katIcon }}"></i> {{ $kategoriLabel }} ({{ $durasiHari }}H)
+                            </span>
+                        </div>
+
+                        <!-- Alasan & Titipan Materi -->
+                        <div style="font-size: 13px; color: #1e293b; font-weight: 600; line-height: 1.4;">
+                            <span style="color: #64748b; font-size: 11px; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 2px;">Alasan:</span>
+                            {{ $izin->alasan }}
+                        </div>
+
+                        @if($hasTitipan)
+                            <div>
+                                <span style="background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px;">
+                                    <i class="fa-solid fa-file-signature"></i> Ada Titipan Materi / Tugas
+                                </span>
+                            </div>
+                        @endif
+
+                        <!-- Status Persetujuan & Penugasan Pengganti -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 2px;">
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;">
+                                <div style="font-size: 10.5px; font-weight: 700; color: #64748b; margin-bottom: 3px;">Persetujuan</div>
+                                <div style="font-size: 11px; font-weight: 800; color: {{ $stWaka === 'approved' ? '#15803d' : ($stWaka === 'rejected' ? '#991b1b' : '#9d174d') }};">
+                                    Waka: {{ $stWaka === 'approved' ? 'Setuju' : ($stWaka === 'rejected' ? 'Tolak' : 'Menunggu') }}
+                                </div>
+                                <div style="font-size: 11px; font-weight: 800; color: {{ $stKepsek === 'approved' ? '#15803d' : ($stKepsek === 'rejected' ? '#991b1b' : '#9d174d') }}; margin-top: 2px;">
+                                    Kepsek: {{ $stKepsek === 'approved' ? 'Setuju' : ($stKepsek === 'rejected' ? 'Tolak' : 'Menunggu') }}
+                                </div>
+                            </div>
+
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px;">
+                                <div style="font-size: 10.5px; font-weight: 700; color: #64748b; margin-bottom: 3px;">Pengganti</div>
+                                @if($hasSubstitute)
+                                    <div style="font-size: 11px; font-weight: 800; color: #166534;">
+                                        <i class="fa-solid fa-user-check"></i> Ditugaskan
+                                    </div>
+                                    @if($substituteName)
+                                        <div style="font-size: 10.5px; color: #475569; font-weight: 600; margin-top: 2px; line-height: 1.2;">
+                                            {{ $substituteName }}
+                                        </div>
+                                    @endif
+                                @else
+                                    <div style="font-size: 11px; font-weight: 800; color: #b45309;">
+                                        <i class="fa-solid fa-triangle-exclamation"></i> Belum Ada
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div style="display: flex; gap: 8px; margin-top: 6px; padding-top: 10px; border-top: 1px dashed #e2e8f0;">
+                            <button type="button" onclick='openDetailModal(@json($detailPayload))' style="flex: 1; background: #e0f2fe; color: #0369a1; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-family: inherit;">
+                                <i class="fa-regular fa-eye"></i> Lihat Detail
+                            </button>
+
+                            <button type="button" onclick="confirmSingleDelete({{ $izin->id_guru_izin }}, '{{ addslashes($namaGuru) }}')" style="background: #fee2e2; color: #991b1b; border: none; padding: 9px 14px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 4px; font-family: inherit;">
+                                <i class="fa-regular fa-trash-can"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; padding: 36px 16px; color: #64748b; font-weight: 600;">
+                        <i class="fa-regular fa-folder-open" style="font-size: 32px; margin-bottom: 8px; color: #cbd5e1; display: block;"></i>
+                        Tidak ada data guru izin tidak hadir yang cocok dengan filter.
+                    </div>
+                @endforelse
+            </div>
+
         </form>
     </div>
 
@@ -761,14 +1124,14 @@
         <!-- Header -->
         <div class="modal-header">
             <div>
-                <h3 id="modalDetailTitle" style="margin: 0; font-size: 17px; font-weight: 800; color: #0f172a;">
+                <h3 id="modalDetailTitle" style="margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; line-height: 1.3;">
                     Detail Guru Izin Tidak Hadir
                 </h3>
                 <div id="modalDetailSub" style="font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">
                     NIP: - • Mapel: -
                 </div>
             </div>
-            <button type="button" onclick="closeDetailModal()" style="background: #e2e8f0; border: none; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #475569; cursor: pointer;">
+            <button type="button" onclick="closeDetailModal()" style="background: #e2e8f0; border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #475569; cursor: pointer; flex-shrink: 0; margin-left: 8px;">
                 &times;
             </button>
         </div>
@@ -816,8 +1179,9 @@
                     <strong>Tugas:</strong> <span id="modalDetailTugas">-</span>
                 </div>
                 <div id="modalDownloadFileBox" style="margin-top: 8px; display: none;">
-                    <a id="modalDownloadFileLink" href="#" target="_blank" style="background: #16a34a; color: #ffffff; padding: 5px 11px; border-radius: 6px; font-size: 11.5px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                        <i class="fa-solid fa-download"></i> Unduh Berkas Tugas (<span id="modalDetailFileName"></span>)
+                    <a id="modalDownloadFileLink" href="#" target="_blank" style="background: #16a34a; color: #ffffff; padding: 7px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; max-width: 100%; box-sizing: border-box; line-height: 1.35; word-break: break-all;">
+                        <i class="fa-solid fa-download" style="flex-shrink: 0;"></i>
+                        <span>Unduh Berkas Tugas (<span id="modalDetailFileName" style="word-break: break-all;"></span>)</span>
                     </a>
                 </div>
             </div>
@@ -855,7 +1219,7 @@
 
         <!-- Footer -->
         <div class="modal-footer">
-            <button type="button" onclick="closeDetailModal()" style="background: #384972; color: #ffffff; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer; font-family: inherit;">
+            <button type="button" onclick="closeDetailModal()" style="background: #384972; color: #ffffff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer; font-family: inherit; width: 100%;">
                 Tutup Detail
             </button>
         </div>
@@ -871,7 +1235,8 @@
 
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
-            itemCheckboxes.forEach(cb => {
+            const allBoxes = document.querySelectorAll('.check-izin');
+            allBoxes.forEach(cb => {
                 cb.checked = selectAllCheckbox.checked;
             });
             updateBulkDeleteState();
@@ -879,7 +1244,8 @@
     }
 
     function updateBulkDeleteState() {
-        const checkedCount = document.querySelectorAll('.check-izin:checked').length;
+        const checkedBoxes = document.querySelectorAll('.check-izin:checked');
+        const checkedCount = checkedBoxes.length;
         if (selectedCountSpan) selectedCountSpan.innerText = checkedCount;
 
         if (checkedCount > 0) {
@@ -888,8 +1254,9 @@
             btnBulkDelete.classList.remove('active');
         }
 
+        const allBoxes = document.querySelectorAll('.check-izin');
         if (selectAllCheckbox) {
-            selectAllCheckbox.checked = (checkedCount === itemCheckboxes.length && itemCheckboxes.length > 0);
+            selectAllCheckbox.checked = (checkedCount === allBoxes.length && allBoxes.length > 0);
         }
     }
 
@@ -900,7 +1267,7 @@
             return;
         }
 
-        if (confirm(`Apakah Anda yakin ingin memindahkan ${checkedCount} data guru izin terpilih ke tempat sampah?`)) {
+        if (confirm(`Apakah Anda yakin ingin memindahkan data guru izin terpilih ke tempat sampah?`)) {
             document.getElementById('bulkDeleteForm').submit();
         }
     }

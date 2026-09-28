@@ -179,6 +179,82 @@
         border-bottom: 1px solid #f1f5f9;
         vertical-align: middle;
     }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            margin-bottom: 14px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 25px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+
+        .breadcrumb-text {
+            font-size: 12.5px !important;
+            flex-wrap: wrap !important;
+            line-height: 1.4 !important;
+            gap: 4px 6px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .detail-card {
+            padding: 16px 14px !important;
+            border-radius: 14px !important;
+            margin-bottom: 18px !important;
+        }
+
+        .profile-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            padding-bottom: 16px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .avatar-large {
+            width: 52px !important;
+            height: 52px !important;
+            font-size: 20px !important;
+            border-radius: 14px !important;
+        }
+
+        .profile-info h1 {
+            font-size: 18px !important;
+            line-height: 1.3 !important;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        .info-item {
+            padding: 12px 14px !important;
+        }
+
+        .action-row {
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 8px !important;
+        }
+
+        .action-row .btn-act,
+        .action-row form {
+            width: 100% !important;
+        }
+
+        .action-row .btn-act {
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            padding: 11px 16px !important;
+        }
+    }
 </style>
 @endsection
 

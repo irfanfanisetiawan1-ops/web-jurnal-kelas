@@ -185,7 +185,7 @@ class WakaSdmController extends Controller
             ->get();
 
         // 5. Data Master Jam Pelajaran Lengkap (Sinkronisasi TU)
-        $jamPelajaranList = JamPelajaran::orderBy('jam_ke')->get();
+        $jamPelajaranList = JamPelajaran::orderBy('id_jam', 'asc')->get();
 
         // 6. Monitoring Realtime KBM & Jurnal Hari Ini
         $jurnalMonitoring = JurnalMengajar::with([
@@ -1138,7 +1138,7 @@ class WakaSdmController extends Controller
         $pengumumanList   = $query->get();
         $kelasList        = Kelas::orderBy('nama_kelas')->get();
         $mapelList        = Mapel::orderBy('nama_mapel')->get();
-        $jamPelajaranList = JamPelajaran::orderBy('jam_ke')->get();
+        $jamPelajaranList = JamPelajaran::orderBy('id_jam', 'asc')->get();
 
         // Data Sampah / Soft Deleted
         $trashPengumuman  = Pengumuman::onlyTrashed()->where('kategori', '!=', 'Siswa Telat')->with(['kelas', 'pembuat'])->orderBy('deleted_at', 'desc')->get();

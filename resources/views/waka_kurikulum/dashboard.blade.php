@@ -241,6 +241,47 @@
     .tab-badge-gray  { background: #e2e8f0; color: #475569; }
 
     /* ─── Modern Tables ─── */
+    .table-scroll-container {
+        overflow-x: auto;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    /* Dual layout: on desktop show table, hide cards */
+    .wk-desktop-table {
+        display: block;
+    }
+
+    .wk-mobile-cards {
+        display: none;
+    }
+
+    .batch-action-mobile {
+        display: none;
+    }
+
+    .table-scroll-container::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    .table-scroll-container::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+    .table-scroll-container::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    .table-scroll-container::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+
     .custom-table {
         width: 100%;
         border-collapse: collapse;
@@ -255,6 +296,14 @@
         color: #475569;
         border-bottom: 1.5px solid #e2e8f0;
         white-space: nowrap;
+    }
+
+    .table-scroll-container thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #f8fafc;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
     .custom-table td {
@@ -548,17 +597,497 @@
         gap: 8px;
     }
 
-    /* Responsive */
+    /* ─── Modern Responsive Styles ─── */
     @media (max-width: 1100px) {
         .stat-cards-row { grid-template-columns: repeat(2, 1fr); }
         .quick-summary-strip { grid-template-columns: repeat(2, 1fr); }
         .dashboard-main-grid { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 640px) {
-        .stat-cards-row { grid-template-columns: 1fr; }
-        .quick-summary-strip { grid-template-columns: 1fr; }
-        .tabs-nav { width: 100%; overflow-x: auto; }
+    @media (max-width: 768px) {
+        .dashboard-container {
+            gap: 14px;
+        }
+
+        /* Header Box */
+        .page-header-box {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .page-main-title {
+            font-size: 20px;
+        }
+
+        .page-sub-title {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .header-action-btns {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .header-action-btns .btn-table-action {
+            flex: 1;
+            padding: 8px 6px !important;
+            font-size: 11px !important;
+            height: 36px;
+            justify-content: center;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        /* 4 Stat Cards Row */
+        .stat-cards-row {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-box-card {
+            padding: 12px 14px;
+            border-radius: 12px;
+            gap: 10px;
+        }
+
+        .stat-icon-circle {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            border-radius: 10px;
+        }
+
+        .stat-number-text {
+            font-size: 18px;
+        }
+
+        .stat-label-text {
+            font-size: 11px;
+        }
+
+        .stat-subtext {
+            font-size: 10px;
+        }
+
+        /* Quick Summary Strip */
+        .quick-summary-strip {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .quick-pill-item {
+            padding: 6px 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            gap: 8px;
+        }
+
+        .quick-pill-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 11.5px;
+            border-radius: 6px;
+        }
+
+        .quick-pill-label {
+            font-size: 10px;
+        }
+
+        .quick-pill-val {
+            font-size: 12px;
+        }
+
+        /* Card Panels */
+        .card-panel {
+            padding: 14px 12px;
+            border-radius: 14px;
+        }
+
+        .panel-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+        }
+
+        .panel-header > div:first-child {
+            width: 100%;
+        }
+
+        .panel-header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 8px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+        }
+
+        .panel-subtitle {
+            font-size: 11px;
+            line-height: 1.35;
+        }
+
+        /* Tabs Nav Horizontal Scroll */
+        .tabs-nav {
+            width: 100%;
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 3px;
+            box-sizing: border-box;
+            background: #f1f5f9;
+        }
+
+        .tabs-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            padding: 6px 10px;
+            font-size: 11px;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        /* ─── Dual Layout: Desktop Table / Mobile Cards ─── */
+        .wk-desktop-table {
+            display: none !important;
+        }
+
+        .wk-mobile-cards {
+            display: block;
+        }
+
+        /* Mobile Card Base */
+        .m-card-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .m-card-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .m-card-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #eff6ff;
+            color: #2563eb;
+            font-weight: 800;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid #bfdbfe;
+        }
+
+        .m-card-guru-name {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #0f172a;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        .m-card-guru-sub {
+            font-size: 10.5px;
+            color: #64748b;
+        }
+
+        .m-card-body {
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .m-card-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .m-card-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #64748b;
+            min-width: 80px;
+            flex-shrink: 0;
+        }
+
+        .m-card-value {
+            font-size: 11px;
+            color: #1e293b;
+            font-weight: 600;
+            flex: 1;
+            min-width: 0;
+            word-break: break-word;
+        }
+
+        .m-card-actions {
+            padding: 8px 10px;
+            border-top: 1px solid #f1f5f9;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .m-card-actions .btn-table-action {
+            flex: none;
+            justify-content: center;
+            padding: 6px 4px;
+            font-size: 10.5px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .m-card-actions-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .m-card-actions-1 {
+            grid-template-columns: 1fr;
+        }
+
+        /* Batch action on mobile */
+        .batch-action-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        /* KBM monitoring card */
+        .m-kbm-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .m-kbm-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .m-kbm-jam {
+            font-size: 12px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .m-kbm-time {
+            font-size: 10px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .m-kbm-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 8px;
+        }
+
+        .m-kbm-field {
+            box-sizing: border-box;
+        }
+
+        .m-kbm-field-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .m-kbm-field-value {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #1e293b;
+            word-break: break-word;
+        }
+
+        /* Table scroll on mobile: keep scrollable but also offer card layout */
+        .table-scroll-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 6px;
+        }
+
+        /* Batch Action Row */
+        .batch-action-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 8px !important;
+        }
+
+        .batch-action-row .btn-table-action {
+            width: 100%;
+            justify-content: center;
+            padding: 8px 12px;
+        }
+
+        /* Live Monitoring KBM Section */
+        .monitoring-filter-bar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+        }
+
+        .filter-pills-row {
+            width: 100%;
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 2px;
+        }
+
+        .filter-pills-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pill-btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+            padding: 5px 10px;
+            font-size: 11px;
+        }
+
+        .monitoring-search-box {
+            width: 100% !important;
+        }
+
+        .monitoring-search-box input {
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Weekly Chart */
+        .weekly-chart-box {
+            height: 140px;
+            gap: 6px;
+            padding-top: 10px;
+        }
+
+        .chart-bar-pillar {
+            width: 26px;
+        }
+
+        .chart-bar-label {
+            font-size: 10.5px;
+        }
+
+        .chart-bar-count {
+            font-size: 9.5px;
+        }
+
+        /* Modals */
+        .modal-backdrop-custom {
+            padding: 12px;
+        }
+
+        .modal-dialog-custom {
+            max-width: 100%;
+            border-radius: 14px;
+            max-height: 92vh;
+        }
+
+        .modal-header-custom {
+            padding: 12px 16px;
+        }
+
+        .modal-header-custom h3 {
+            font-size: 14px;
+        }
+
+        .modal-body-custom {
+            padding: 14px 16px;
+            gap: 10px;
+        }
+
+        .modal-footer-custom {
+            padding: 10px 16px;
+        }
+
+        .modal-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-main-title {
+            font-size: 18px;
+        }
+
+        .header-action-btns {
+            flex-direction: column;
+        }
+
+        .header-action-btns .btn-table-action {
+            width: 100%;
+        }
+
+        .stat-cards-row {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .quick-summary-strip {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
     }
 </style>
 @endsection
@@ -566,37 +1095,11 @@
 @section('content')
 <div class="dashboard-container">
 
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #16a34a;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-xmark" style="font-size: 18px; color: #ef4444;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
-
     <!-- Page Header -->
     <div class="page-header-box">
         <div>
             <h1 class="page-main-title">Wakil Kurikulum</h1>
             <p class="page-sub-title">Pusat monitoring kurikulum, persetujuan izin guru, pengelolaan jadwal KBM, dan pemantauan pembelajaran sekolah.</p>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <a href="{{ route('waka-kurikulum.persetujuan-izin') }}" class="btn-table-action btn-action-approve" style="padding: 7px 13px; font-size: 12px;">
-                <i class="fa-solid fa-clipboard-check"></i> Persetujuan Izin
-            </a>
-            <a href="{{ route('waka-kurikulum.jadwal') }}" class="btn-table-action btn-action-detail" style="padding: 7px 13px; font-size: 12px;">
-                <i class="fa-solid fa-calendar-days"></i> Kelola Jadwal
-            </a>
-            <a href="{{ route('waka-kurikulum.rekap-jurnal') }}" class="btn-table-action btn-action-link" style="padding: 7px 13px; font-size: 12px;">
-                <i class="fa-solid fa-file-invoice"></i> Rekap Jurnal KBM
-            </a>
         </div>
     </div>
 
@@ -713,7 +1216,7 @@
                 <p class="panel-subtitle">Verifikasi izin mengajar dewan guru serta pantau status penugasan guru pengganti dari Guru Piket.</p>
             </div>
 
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="panel-header-actions" style="display: flex; align-items: center; gap: 8px;">
                 <a href="{{ route('waka-kurikulum.persetujuan-izin') }}" class="btn-table-action btn-action-detail" style="padding: 6px 12px;">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Halaman Penuh
                 </a>
@@ -754,9 +1257,11 @@
                     <p style="font-size: 12px; color: #64748b; margin: 0;">Seluruh permohonan izin guru telah diverifikasi dan diproses oleh Waka Kurikulum.</p>
                 </div>
             @else
+                {{-- ── DESKTOP TABLE (hidden on mobile) ── --}}
+                <div class="wk-desktop-table">
                 <form action="{{ route('waka-kurikulum.izin.batch-approve') }}" method="POST" id="formBatchApprove">
                     @csrf
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 8px 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div class="batch-action-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding: 8px 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
                         <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #334155; cursor: pointer;">
                             <input type="checkbox" id="selectAllPending" onchange="toggleSelectAllPending(this)" style="width: 15px; height: 15px; accent-color: #2563eb;">
                             <span>Pilih Semua Pengajuan Pending</span>
@@ -766,7 +1271,7 @@
                         </button>
                     </div>
 
-                    <div style="overflow-x: auto;">
+                    <div class="table-scroll-container">
                         <table class="custom-table">
                             <thead>
                                 <tr>
@@ -880,6 +1385,100 @@
                         </table>
                     </div>
                 </form>
+                </div>{{-- end wk-desktop-table --}}
+
+                {{-- ── MOBILE CARDS (visible on mobile only) ── --}}
+                <div class="wk-mobile-cards">
+                    <div class="batch-action-mobile">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #334155; cursor: pointer;">
+                            <input type="checkbox" id="selectAllPendingMobile" onchange="toggleSelectAllPending(this)" style="width: 15px; height: 15px; accent-color: #2563eb;">
+                            <span>Pilih Semua Pengajuan Pending</span>
+                        </label>
+                        <button type="button" class="btn-table-action btn-action-approve" style="width: 100%; justify-content: center;"
+                            onclick="document.getElementById('formBatchApprove').submit()">
+                            <i class="fa-solid fa-check-double"></i> Setujui Terpilih Sekaligus
+                        </button>
+                    </div>
+
+                    @foreach($pendingIzinList as $izin)
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div class="m-card-avatar">
+                                {{ strtoupper(substr($izin->guru->nama_guru ?? 'G', 0, 1)) }}
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div class="m-card-guru-name">{{ $izin->guru->nama_guru ?? 'Guru' }}</div>
+                                <div class="m-card-guru-sub">NIP: {{ $izin->guru->nip ?? '-' }} &bull; {{ $izin->guru->mapel->nama_mapel ?? 'Pengampu KBM' }}</div>
+                            </div>
+                            <input type="checkbox" name="selected_ids_mobile[]" value="{{ $izin->id_guru_izin }}" class="pending-item-check" style="width: 15px; height: 15px; accent-color: #2563eb; flex-shrink: 0;">
+                        </div>
+                        <div class="m-card-body">
+                            <div class="m-card-row">
+                                <span class="m-card-label">Tanggal</span>
+                                <span class="m-card-value">
+                                    {{ Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y') }}
+                                    @if($izin->tanggal_selesai && $izin->tanggal_selesai !== $izin->tanggal_mulai)
+                                        s/d {{ Carbon\Carbon::parse($izin->tanggal_selesai)->format('d/m/Y') }}
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Kategori</span>
+                                <span class="m-card-value">
+                                    @if(strtolower($izin->kategori_izin ?? '') === 'cuti')
+                                        <span class="badge-status badge-status-cuti">Cuti ({{ $izin->durasi_formatted }})</span>
+                                    @else
+                                        <span class="badge-status badge-status-active">Izin Biasa ({{ $izin->durasi_formatted }})</span>
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Alasan</span>
+                                <span class="m-card-value">{{ $izin->alasan ?? '-' }}</span>
+                            </div>
+                            @if($izin->materi_dititipkan || $izin->tugas_dititipkan)
+                            <div class="m-card-row">
+                                <span class="m-card-label">Titipan</span>
+                                <span class="m-card-value" style="color: #16a34a; font-weight: 700;">Ada Materi Titipan</span>
+                            </div>
+                            @endif
+                            <div class="m-card-row">
+                                <span class="m-card-label">Status</span>
+                                <span class="m-card-value" style="display: flex; flex-wrap: wrap; gap: 4px;">
+                                    <span class="badge-status badge-status-pending">Waka: Menunggu</span>
+                                    <span class="badge-status {{ $izin->status_kepsek === 'approved' ? 'badge-status-approved' : 'badge-status-pending' }}">Kepsek: {{ ucfirst($izin->status_kepsek ?? 'Menunggu') }}</span>
+                                </span>
+                            </div>
+                            @if($izin->foto_url)
+                            <div class="m-card-row">
+                                <span class="m-card-label">Bukti</span>
+                                <span class="m-card-value">
+                                    <div class="thumb-preview-box" onclick="openLightbox('{{ $izin->foto_url }}', 'Surat Izin: {{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')" style="display: inline-flex; margin: 0;">
+                                        <img src="{{ $izin->foto_url }}" alt="Surat">
+                                    </div>
+                                </span>
+                            </div>
+                            @endif
+                        </div>
+                        <div class="m-card-actions {{ $izin->token_approval ? 'm-card-actions-2' : '' }}">
+                            <button type="button" class="btn-table-action btn-action-approve" onclick="openApproveModal({{ $izin->id_guru_izin }}, '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')">
+                                <i class="fa-solid fa-check"></i> Setujui
+                            </button>
+                            <button type="button" class="btn-table-action btn-action-reject" onclick="openRejectModal({{ $izin->id_guru_izin }}, '{{ addslashes($izin->guru->nama_guru ?? 'Guru') }}')">
+                                <i class="fa-solid fa-xmark"></i> Tolak
+                            </button>
+                            <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                                <i class="fa-solid fa-circle-info"></i> Detail
+                            </button>
+                            @if($izin->token_approval)
+                            <a href="{{ route('approval.guru-izin.show', $izin->token_approval) }}" target="_blank" class="btn-table-action btn-action-link">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Link
+                            </a>
+                            @endif
+                        </div>
+                    </div>
+                    @endforeach
+                </div>{{-- end wk-mobile-cards --}}
             @endif
         </div>
 
@@ -894,7 +1493,9 @@
                     <p style="font-size: 12px; color: #64748b; margin: 0;">Seluruh guru hadir mengajar sesuai alokasi KBM sekolah.</p>
                 </div>
             @else
-                <div style="overflow-x: auto;">
+                {{-- DESKTOP TABLE --}}
+                <div class="wk-desktop-table">
+                <div class="table-scroll-container">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -1006,6 +1607,82 @@
                         </tbody>
                     </table>
                 </div>
+                </div>{{-- end wk-desktop-table --}}
+
+                {{-- MOBILE CARDS --}}
+                <div class="wk-mobile-cards">
+                    @foreach($guruIzinResmiList as $idx => $item)
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div class="m-card-avatar">
+                                {{ strtoupper(substr($item->guru->nama_guru ?? 'G', 0, 1)) }}
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div class="m-card-guru-name">{{ $item->guru->nama_guru ?? 'Guru' }}</div>
+                                <div class="m-card-guru-sub">NIP: {{ $item->guru->nip ?? '-' }} &bull; {{ $item->guru->mapel->nama_mapel ?? 'Mata Pelajaran' }}</div>
+                            </div>
+                        </div>
+                        <div class="m-card-body">
+                            <div class="m-card-row">
+                                <span class="m-card-label">Tanggal</span>
+                                <span class="m-card-value">
+                                    {{ Carbon\Carbon::parse($item->tanggal_mulai)->format('d/m/Y') }}
+                                    @if($item->tanggal_selesai && $item->tanggal_selesai !== $item->tanggal_mulai)
+                                        s/d {{ Carbon\Carbon::parse($item->tanggal_selesai)->format('d/m/Y') }}
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Kategori</span>
+                                <span class="m-card-value">
+                                    @if(strtolower($item->kategori_izin ?? '') === 'cuti')
+                                        <span class="badge-status badge-status-cuti">Cuti / Khusus</span>
+                                    @else
+                                        <span class="badge-status badge-status-active">Izin Biasa</span>
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Alasan</span>
+                                <span class="m-card-value">{{ $item->alasan ?? '-' }}</span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Persetujuan</span>
+                                <span class="m-card-value" style="display: flex; flex-wrap: wrap; gap: 4px;">
+                                    <span class="badge-status badge-status-approved">Waka: Disetujui</span>
+                                    <span class="badge-status badge-status-approved">Kepsek: Disetujui</span>
+                                </span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Pengganti</span>
+                                <span class="m-card-value">
+                                    @if($item->has_penugasan)
+                                        <span class="badge-status badge-status-approved">Sudah Ditugaskan</span>
+                                        <div style="font-size: 11px; color: #16a34a; font-weight: 700; margin-top: 2px;">{{ $item->nama_guru_pengganti ?? 'Guru Pengganti' }}</div>
+                                    @else
+                                        <span class="badge-status badge-status-pending">Belum Ditugaskan</span>
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Berlaku</span>
+                                <span class="m-card-value">
+                                    @if($item->status_masa_berlaku === 'aktif')
+                                        <span class="badge-status badge-status-active">Aktif</span>
+                                    @else
+                                        <span class="badge-status badge-status-expired">Selesai</span>
+                                    @endif
+                                </span>
+                            </div>
+                        </div>
+                        <div class="m-card-actions m-card-actions-1">
+                            <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $item->id_guru_izin }})">
+                                <i class="fa-solid fa-circle-info"></i> Lihat Detail
+                            </button>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>{{-- end wk-mobile-cards --}}
             @endif
         </div>
 
@@ -1016,7 +1693,9 @@
                     <p style="font-weight: 700;">Belum ada riwayat persetujuan atau penolakan izin oleh Waka Kurikulum.</p>
                 </div>
             @else
-                <div style="overflow-x: auto;">
+                {{-- DESKTOP TABLE --}}
+                <div class="wk-desktop-table">
+                <div class="table-scroll-container">
                     <table class="custom-table">
                         <thead>
                             <tr>
@@ -1074,12 +1753,68 @@
                         </tbody>
                     </table>
                 </div>
+                </div>{{-- end wk-desktop-table --}}
+
+                {{-- MOBILE CARDS --}}
+                <div class="wk-mobile-cards">
+                    @foreach($historyIzinList as $izin)
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div class="m-card-avatar">
+                                {{ strtoupper(substr($izin->guru->nama_guru ?? 'G', 0, 1)) }}
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div class="m-card-guru-name">{{ $izin->guru->nama_guru ?? 'Guru' }}</div>
+                                <div class="m-card-guru-sub">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                            </div>
+                            @if($izin->status_waka === 'approved')
+                                <span class="badge-status badge-status-approved" style="flex-shrink: 0;">Disetujui</span>
+                            @else
+                                <span class="badge-status badge-status-rejected" style="flex-shrink: 0;">Ditolak</span>
+                            @endif
+                        </div>
+                        <div class="m-card-body">
+                            <div class="m-card-row">
+                                <span class="m-card-label">Tanggal</span>
+                                <span class="m-card-value">{{ Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y') }} &bull; {{ $izin->durasi_formatted }}</span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Alasan</span>
+                                <span class="m-card-value">{{ $izin->alasan ?? '-' }}</span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Catatan</span>
+                                <span class="m-card-value">{{ $izin->catatan_waka ?? '-' }}</span>
+                            </div>
+                            <div class="m-card-row">
+                                <span class="m-card-label">Status Final</span>
+                                <span class="m-card-value">
+                                    @if($izin->status_final === 'approved')
+                                        <span class="badge-status badge-status-approved">Disetujui Resmi</span>
+                                    @elseif($izin->status_final === 'rejected')
+                                        <span class="badge-status badge-status-rejected">Ditolak</span>
+                                    @else
+                                        <span class="badge-status badge-status-pending">Menunggu Final</span>
+                                    @endif
+                                </span>
+                            </div>
+                        </div>
+                        <div class="m-card-actions m-card-actions-1">
+                            <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                                <i class="fa-solid fa-circle-info"></i> Lihat Detail
+                            </button>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>{{-- end wk-mobile-cards --}}
             @endif
         </div>
 
         <!-- ─── TAB 4: Semua Pengajuan Izin ─── -->
         <div id="tab-content-all" class="tab-pane-content" style="display: none;">
-            <div style="overflow-x: auto;">
+            {{-- DESKTOP TABLE --}}
+            <div class="wk-desktop-table">
+            <div class="table-scroll-container">
                 <table class="custom-table">
                     <thead>
                         <tr>
@@ -1141,6 +1876,75 @@
                     </tbody>
                 </table>
             </div>
+            </div>{{-- end wk-desktop-table --}}
+
+            {{-- MOBILE CARDS --}}
+            <div class="wk-mobile-cards">
+                @foreach($semuaIzinList as $izin)
+                <div class="m-card-item">
+                    <div class="m-card-header">
+                        <div class="m-card-avatar">
+                            {{ strtoupper(substr($izin->guru->nama_guru ?? 'G', 0, 1)) }}
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                            <div class="m-card-guru-name">{{ $izin->guru->nama_guru ?? 'Guru' }}</div>
+                            <div class="m-card-guru-sub">NIP: {{ $izin->guru->nip ?? '-' }}</div>
+                        </div>
+                    </div>
+                    <div class="m-card-body">
+                        <div class="m-card-row">
+                            <span class="m-card-label">Tanggal</span>
+                            <span class="m-card-value">{{ Carbon\Carbon::parse($izin->tanggal_mulai)->format('d/m/Y') }} &bull; {{ $izin->durasi_formatted }}</span>
+                        </div>
+                        <div class="m-card-row">
+                            <span class="m-card-label">Alasan</span>
+                            <span class="m-card-value">{{ $izin->alasan ?? '-' }}</span>
+                        </div>
+                        <div class="m-card-row">
+                            <span class="m-card-label">Status Waka</span>
+                            <span class="m-card-value">
+                                @if($izin->status_waka === 'approved')
+                                    <span class="badge-status badge-status-approved">Disetujui</span>
+                                @elseif($izin->status_waka === 'rejected')
+                                    <span class="badge-status badge-status-rejected">Ditolak</span>
+                                @else
+                                    <span class="badge-status badge-status-pending">Pending</span>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="m-card-row">
+                            <span class="m-card-label">Kepsek</span>
+                            <span class="m-card-value">
+                                @if($izin->status_kepsek === 'approved')
+                                    <span class="badge-status badge-status-approved">Disetujui</span>
+                                @elseif($izin->status_kepsek === 'rejected')
+                                    <span class="badge-status badge-status-rejected">Ditolak</span>
+                                @else
+                                    <span class="badge-status badge-status-pending">Pending</span>
+                                @endif
+                            </span>
+                        </div>
+                        <div class="m-card-row">
+                            <span class="m-card-label">Status Final</span>
+                            <span class="m-card-value">
+                                @if($izin->status_final === 'approved')
+                                    <span class="badge-status badge-status-approved">Disetujui</span>
+                                @elseif($izin->status_final === 'rejected')
+                                    <span class="badge-status badge-status-rejected">Ditolak</span>
+                                @else
+                                    <span class="badge-status badge-status-pending">Pending</span>
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+                    <div class="m-card-actions m-card-actions-1">
+                        <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $izin->id_guru_izin }})">
+                            <i class="fa-solid fa-circle-info"></i> Lihat Detail
+                        </button>
+                    </div>
+                </div>
+                @endforeach
+            </div>{{-- end wk-mobile-cards --}}
         </div>
     </div>
 
@@ -1158,31 +1962,33 @@
                     </div>
                     <p class="panel-subtitle">Pantau seluruh jam pembelajaran aktif, kehadiran guru, dan pengisian jurnal mengajar.</p>
                 </div>
-                <a href="{{ route('waka-kurikulum.rekap-jurnal', ['tanggal' => $todayDate]) }}" style="font-size: 12px; font-weight: 700; color: #2563eb; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-                    <span>Lihat Rekap</span> <i class="fa-solid fa-arrow-right"></i>
-                </a>
+                <div class="panel-header-actions">
+                    <a href="{{ route('waka-kurikulum.rekap-jurnal', ['tanggal' => $todayDate]) }}" class="btn-table-action btn-action-detail" style="padding: 6px 12px; font-size: 11.5px; text-decoration: none;">
+                        <i class="fa-solid fa-clipboard-list"></i> Lihat Rekap Jurnal &rarr;
+                    </a>
+                </div>
             </div>
 
             <!-- Quick Filter Bar -->
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <div class="monitoring-filter-bar" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
                 <div class="filter-pills-row">
                     <button type="button" class="pill-btn active" onclick="filterKbmTable('all', this)">
-                        Semua Sesi ({{ $jadwalHariIniList->count() }})
+                        Semua Sesi ({{ $countSemuaSesi ?? $jadwalHariIniList->count() }})
                     </button>
                     <button type="button" class="pill-btn" onclick="filterKbmTable('terisi', this)">
-                        Terisi ({{ $jurnalHariIniCount }})
+                        Terisi ({{ $countTerisiSesi ?? $jurnalHariIniCount }})
                     </button>
                     <button type="button" class="pill-btn" onclick="filterKbmTable('belum', this)">
-                        Belum Mengisi ({{ max(0, $jadwalHariIniCount - $jurnalHariIniCount) }})
+                        Belum Mengisi ({{ $countBelumSesi ?? max(0, $jadwalHariIniCount - $jurnalHariIniCount) }})
                     </button>
                     <button type="button" class="pill-btn" onclick="filterKbmTable('izin', this)">
-                        Guru Izin ({{ count($guruIzinTodayIds) }})
+                        Guru Izin ({{ $countIzinSesi ?? count($guruIzinTodayIds) }})
                     </button>
                 </div>
 
-                <div style="position: relative;">
-                    <input type="text" id="searchKbmLive" onkeyup="searchKbmTable()" placeholder="Cari kelas / guru / mapel..." style="padding: 5px 10px 5px 28px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 11.5px; width: 175px; outline: none;">
-                    <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 9px; top: 8px; font-size: 11px; color: #94a3b8;"></i>
+                <div class="monitoring-search-box" style="position: relative;">
+                    <input type="text" id="searchKbmLive" oninput="searchKbmTable()" placeholder="Cari kelas / guru / mapel..." style="padding: 6px 10px 6px 28px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 11.5px; width: 185px; outline: none;">
+                    <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 9px; top: 9px; font-size: 11px; color: #94a3b8;"></i>
                 </div>
             </div>
 
@@ -1192,11 +1998,13 @@
                     <p style="font-weight: 700; color: #64748b; font-size: 12.5px;">Tidak ada jadwal KBM aktif pada hari {{ $hariIni }}.</p>
                 </div>
             @else
-                <div style="overflow-x: auto; max-height: 440px;">
+                {{-- DESKTOP TABLE --}}
+                <div class="wk-desktop-table">
+                <div class="table-scroll-container" style="max-height: 480px; overflow-y: auto; overflow-x: auto;">
                     <table class="custom-table" id="kbmLiveTable">
-                        <thead style="position: sticky; top: 0; z-index: 2;">
+                        <thead>
                             <tr>
-                                <th>Jam Ke</th>
+                                <th style="width: 130px;">Jam Ke</th>
                                 <th>Kelas</th>
                                 <th>Mata Pelajaran</th>
                                 <th>Guru Pengampu</th>
@@ -1211,7 +2019,14 @@
                                 @endphp
                                 <tr class="kbm-row" data-category="{{ $rowCategory }}">
                                     <td style="font-weight: 700; color: #475569; white-space: nowrap;">
-                                        Jam ke-{{ $j->jam_mulai_ke }} - {{ $j->jam_selesai_ke }}
+                                        <div>
+                                            {{ $j->jam_mulai_ke == $j->jam_selesai_ke ? "Jam ke-{$j->jam_mulai_ke}" : "Jam ke-{$j->jam_mulai_ke} - {$j->jam_selesai_ke}" }}
+                                        </div>
+                                        @if($j->waktu_range && $j->waktu_range !== '-')
+                                            <div style="font-size: 10px; color: #64748b; font-weight: 600; margin-top: 1px;">
+                                                <i class="fa-regular fa-clock" style="font-size: 9.5px;"></i> {{ $j->waktu_range }}
+                                            </div>
+                                        @endif
                                     </td>
                                     <td style="font-weight: 800; color: #1e293b;">
                                         {{ $j->kelas->nama_kelas ?? '-' }}
@@ -1224,32 +2039,32 @@
                                             {{ $j->guru->nama_guru ?? '-' }}
                                         </div>
                                         @if($j->guru_pengganti_piket)
-                                            <div style="font-size: 10.5px; color: #16a34a; font-weight: 700; margin-top: 1px;">
+                                            <div style="font-size: 10.5px; color: #16a34a; font-weight: 700; margin-top: 1px; display: inline-flex; align-items: center; gap: 4px;">
                                                 <i class="fa-solid fa-user-shield"></i> Pengganti: {{ $j->guru_pengganti_piket }}
                                             </div>
                                         @endif
                                     </td>
-                                    <td style="color: #64748b; font-size: 11px;">
+                                    <td style="color: #64748b; font-size: 11px; font-weight: 600;">
                                         {{ $j->ruangan->nama_ruangan ?? 'Kelas Reguler' }}
                                     </td>
                                     <td style="text-align: center;">
                                         @if($j->is_terisi)
                                             @if($j->jurnal_diisi_pengganti)
-                                                <span class="badge-status badge-status-approved" title="Jurnal diisi oleh Guru Pengganti: {{ $j->jurnal_nama_pengisi }}">
+                                                <span class="badge-status badge-status-approved" title="{{ $j->jurnal_materi ? 'Materi: '.$j->jurnal_materi.' | ' : '' }}Jurnal diisi oleh Guru Pengganti: {{ $j->jurnal_nama_pengisi }}">
                                                     <i class="fa-solid fa-circle-check"></i> Terisi (Pengganti)
                                                 </span>
                                             @else
-                                                <span class="badge-status badge-status-approved">
+                                                <span class="badge-status badge-status-approved" title="{{ $j->jurnal_materi ? 'Materi: '.$j->jurnal_materi : 'Jurnal Terisi' }}">
                                                     <i class="fa-solid fa-circle-check"></i> Terisi
                                                 </span>
                                             @endif
                                         @elseif($j->is_guru_izin)
                                             @if($j->guru_pengganti_piket)
-                                                <span class="badge-status badge-status-active" title="Guru izin, Guru Piket telah menugaskan guru pengganti">
+                                                <span class="badge-status badge-status-active" title="Guru izin - Guru Piket telah menugaskan guru pengganti: {{ $j->guru_pengganti_piket }}">
                                                     <i class="fa-solid fa-user-clock"></i> Izin (Ada Pengganti)
                                                 </span>
                                             @else
-                                                <span class="badge-status badge-status-rejected" title="Guru mengajukan izin resmi">
+                                                <span class="badge-status badge-status-rejected" title="Guru mengajukan izin resmi (Belum ada guru pengganti)">
                                                     <i class="fa-solid fa-user-clock"></i> Guru Izin
                                                 </span>
                                             @endif
@@ -1261,9 +2076,83 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr id="emptyKbmSearchRow" style="display: none;">
+                                <td colspan="6" style="text-align: center; padding: 28px 16px; color: #94a3b8;">
+                                    <i class="fa-solid fa-magnifying-glass" style="font-size: 24px; color: #cbd5e1; margin-bottom: 6px;"></i>
+                                    <div style="font-weight: 700; color: #64748b; font-size: 12.5px;">Tidak ada sesi KBM yang cocok dengan filter atau pencarian.</div>
+                                    <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">Coba gunakan kata kunci lain atau pilih filter "Semua Sesi".</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
+                </div>{{-- end wk-desktop-table --}}
+
+                {{-- MOBILE CARDS --}}
+                <div class="wk-mobile-cards">
+                    @foreach($jadwalHariIniList as $j)
+                        @php
+                            $rowCategory = $j->is_terisi ? 'terisi' : ($j->is_guru_izin ? 'izin' : 'belum');
+                        @endphp
+                        <div class="m-kbm-card kbm-row" data-category="{{ $rowCategory }}"
+                             data-search="{{ strtolower(($j->kelas->nama_kelas ?? '') . ' ' . ($j->mapel->nama_mapel ?? '') . ' ' . ($j->guru->nama_guru ?? '')) }}">
+                            <div class="m-kbm-card-top">
+                                <div class="m-kbm-jam">
+                                    <div>
+                                        {{ $j->jam_mulai_ke == $j->jam_selesai_ke ? "Jam ke-{$j->jam_mulai_ke}" : "Jam ke-{$j->jam_mulai_ke}-{$j->jam_selesai_ke}" }}
+                                    </div>
+                                    @if($j->waktu_range && $j->waktu_range !== '-')
+                                        <div class="m-kbm-time">{{ $j->waktu_range }}</div>
+                                    @endif
+                                </div>
+                                <div>
+                                    @if($j->is_terisi)
+                                        @if($j->jurnal_diisi_pengganti)
+                                            <span class="badge-status badge-status-approved">Terisi (Pengganti)</span>
+                                        @else
+                                            <span class="badge-status badge-status-approved">Terisi</span>
+                                        @endif
+                                    @elseif($j->is_guru_izin)
+                                        @if($j->guru_pengganti_piket)
+                                            <span class="badge-status badge-status-active">Izin (Ada Pengganti)</span>
+                                        @else
+                                            <span class="badge-status badge-status-rejected">Guru Izin</span>
+                                        @endif
+                                    @else
+                                        <span class="badge-status badge-status-pending">Belum Mengisi</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="m-kbm-details">
+                                <div class="m-kbm-field">
+                                    <span class="m-kbm-field-label">Kelas</span>
+                                    <span class="m-kbm-field-value">{{ $j->kelas->nama_kelas ?? '-' }}</span>
+                                </div>
+                                <div class="m-kbm-field">
+                                    <span class="m-kbm-field-label">Mapel</span>
+                                    <span class="m-kbm-field-value" style="color: #2563eb; font-weight: 700;">{{ $j->mapel->nama_mapel ?? '-' }}</span>
+                                </div>
+                                <div class="m-kbm-field">
+                                    <span class="m-kbm-field-label">Guru</span>
+                                    <span class="m-kbm-field-value">
+                                        {{ $j->guru->nama_guru ?? '-' }}
+                                        @if($j->guru_pengganti_piket)
+                                            <br><span style="font-size: 10px; color: #16a34a; font-weight: 700;">Pengganti: {{ $j->guru_pengganti_piket }}</span>
+                                        @endif
+                                    </span>
+                                </div>
+                                <div class="m-kbm-field">
+                                    <span class="m-kbm-field-label">Ruangan</span>
+                                    <span class="m-kbm-field-value">{{ $j->ruangan->nama_ruangan ?? 'Kelas Reguler' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    <div id="emptyKbmSearchRowMobile" style="display: none; text-align: center; padding: 28px 16px; color: #94a3b8;">
+                        <div style="font-weight: 700; color: #64748b; font-size: 12.5px;">Tidak ada sesi KBM yang cocok dengan filter atau pencarian.</div>
+                        <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">Coba gunakan kata kunci lain atau pilih filter "Semua Sesi".</div>
+                    </div>
+                </div>{{-- end wk-mobile-cards --}}
             @endif
         </div>
 
@@ -1280,6 +2169,7 @@
                 <span style="font-size: 11px; font-weight: 700; color: #64748b; background: #f1f5f9; padding: 3px 8px; border-radius: 12px;">Senin - Jumat</span>
             </div>
 
+            <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
             <div class="weekly-chart-box">
                 @php
                     $maxTarget = max(array_column($rekapMingguan, 'target')) ?: 1;
@@ -1300,6 +2190,7 @@
                         <span class="chart-bar-label">{{ $item['label'] }}</span>
                     </div>
                 @endforeach
+            </div>
             </div>
 
             <div style="display: flex; justify-content: space-around; font-size: 11px; color: #64748b; font-weight: 700; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f1f5f9;">
@@ -1473,31 +2364,51 @@
         checkboxes.forEach(cb => cb.checked = master.checked);
     }
 
-    // Filter KBM Live Table by category
-    function filterKbmTable(category, btn) {
-        document.querySelectorAll('.pill-btn').forEach(el => el.classList.remove('active'));
-        btn.classList.add('active');
+    // Filter KBM Live Table by category & search query
+    let currentKbmFilter = 'all';
 
-        const rows = document.querySelectorAll('.kbm-row');
-        rows.forEach(row => {
-            if (category === 'all') {
-                row.style.display = '';
-            } else {
-                const rowCat = row.getAttribute('data-category');
-                row.style.display = (rowCat === category) ? '' : 'none';
-            }
-        });
+    function filterKbmTable(category, btn) {
+        currentKbmFilter = category;
+        document.querySelectorAll('.filter-pills-row .pill-btn').forEach(el => el.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        applyKbmFilters();
     }
 
     // Live search for KBM Table
     function searchKbmTable() {
-        const input = document.getElementById('searchKbmLive').value.toLowerCase();
+        applyKbmFilters();
+    }
+
+    function applyKbmFilters() {
+        const input = document.getElementById('searchKbmLive');
+        const query = input ? input.value.toLowerCase().trim() : '';
         const rows = document.querySelectorAll('.kbm-row');
+        let visibleCount = 0;
 
         rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            row.style.display = text.includes(input) ? '' : 'none';
+            const rowCategory = row.getAttribute('data-category');
+            // For mobile cards use data-search attr, for table rows use innerText
+            const rowText = (row.getAttribute('data-search') || row.innerText).toLowerCase();
+
+            const matchCategory = (currentKbmFilter === 'all') || (rowCategory === currentKbmFilter);
+            const matchSearch = !query || rowText.includes(query);
+
+            if (matchCategory && matchSearch) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
         });
+
+        const emptyRow = document.getElementById('emptyKbmSearchRow');
+        if (emptyRow) {
+            emptyRow.style.display = (visibleCount === 0 && rows.length > 0) ? '' : 'none';
+        }
+        const emptyRowMobile = document.getElementById('emptyKbmSearchRowMobile');
+        if (emptyRowMobile) {
+            emptyRowMobile.style.display = (visibleCount === 0 && rows.length > 0) ? 'block' : 'none';
+        }
     }
 
     // Modal Control Functions
@@ -1555,28 +2466,30 @@
                 let schedulesHtml = '';
                 if (d.jadwals_terdampak && d.jadwals_terdampak.length > 0) {
                     schedulesHtml = `
-                        <table style="width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 6px;">
-                            <thead>
-                                <tr style="background: #f1f5f9; text-align: left;">
-                                    <th style="padding: 5px 8px;">Hari</th>
-                                    <th style="padding: 5px 8px;">Kelas</th>
-                                    <th style="padding: 5px 8px;">Mata Pelajaran</th>
-                                    <th style="padding: 5px 8px;">Jam / Waktu</th>
-                                    <th style="padding: 5px 8px;">Ruangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${d.jadwals_terdampak.map(j => `
-                                    <tr style="border-bottom: 1px solid #e2e8f0;">
-                                        <td style="padding: 5px 8px; font-weight: 700;">${j.hari}</td>
-                                        <td style="padding: 5px 8px; font-weight: 800; color: #1e293b;">${j.kelas}</td>
-                                        <td style="padding: 5px 8px; color: #2563eb; font-weight: 700;">${j.mapel}</td>
-                                        <td style="padding: 5px 8px;">${j.jam_ke} (${j.waktu})</td>
-                                        <td style="padding: 5px 8px; color: #64748b;">${j.ruangan}</td>
+                        <div class="table-scroll-container">
+                            <table style="width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 6px;">
+                                <thead>
+                                    <tr style="background: #f1f5f9; text-align: left;">
+                                        <th style="padding: 5px 8px;">Hari</th>
+                                        <th style="padding: 5px 8px;">Kelas</th>
+                                        <th style="padding: 5px 8px;">Mata Pelajaran</th>
+                                        <th style="padding: 5px 8px;">Jam / Waktu</th>
+                                        <th style="padding: 5px 8px;">Ruangan</th>
                                     </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    ${d.jadwals_terdampak.map(j => `
+                                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                                            <td style="padding: 5px 8px; font-weight: 700;">${j.hari}</td>
+                                            <td style="padding: 5px 8px; font-weight: 800; color: #1e293b;">${j.kelas}</td>
+                                            <td style="padding: 5px 8px; color: #2563eb; font-weight: 700;">${j.mapel}</td>
+                                            <td style="padding: 5px 8px;">${j.jam_ke} (${j.waktu})</td>
+                                            <td style="padding: 5px 8px; color: #64748b;">${j.ruangan}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
                     `;
                 } else {
                     schedulesHtml = `<p style="font-size: 11.5px; color: #94a3b8; margin: 3px 0;">Tidak ada jadwal mengajar tetap yang terdaftar.</p>`;
@@ -1599,7 +2512,7 @@
                 }
 
                 container.innerHTML = `
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
                         <div>
                             <div style="font-size: 10.5px; font-weight: 700; color: #64748b;">NAMA GURU PENGAMPU</div>
                             <div style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-top: 1px;">${d.nama_guru}</div>
@@ -1653,7 +2566,7 @@
 
                     ${substituteHtml}
 
-                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 4px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 4px; flex-wrap: wrap; gap: 8px;">
                         <div style="font-size: 11.5px; color: #64748b;">
                             Status Persetujuan Waka: <strong style="color: #0f172a;">${d.status_waka.toUpperCase()}</strong>
                         </div>

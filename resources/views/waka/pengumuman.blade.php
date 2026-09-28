@@ -492,24 +492,364 @@
         gap: 12px;
     }
 
+    /* Mobile Cards Base (Hidden on Desktop) */
+    .mobile-pengumuman-wrapper {
+        display: none;
+    }
+
+    .mobile-trash-wrapper {
+        display: none;
+    }
+
+    .detail-info-grid {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 14px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        font-size: 12.5px;
+        margin-bottom: 16px;
+    }
+
+    /* Responsive Breakpoints */
     @media (max-width: 1024px) {
         .stat-cards-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
         .filter-form-grid {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 2fr repeat(2, 1fr);
         }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
+        .pengumuman-container {
+            gap: 14px;
+        }
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .page-main-title {
+            font-size: 20px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-sub-title {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
+        .header-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .header-actions .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 8px 10px !important;
+            font-size: 12px !important;
+        }
+
+        /* 4 Stat Cards in 2x2 Grid */
         .stat-cards-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
         }
+
+        .stat-card-item {
+            padding: 12px 12px !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .stat-title {
+            font-size: 11px !important;
+        }
+
+        .stat-count {
+            font-size: 18px !important;
+        }
+
+        /* Filter Panel */
+        .filter-panel {
+            padding: 12px 14px !important;
+            border-radius: 14px !important;
+        }
+
         .filter-form-grid {
-            grid-template-columns: 1fr;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
         }
+
+        .search-input-wrapper {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+        }
+
+        .filter-input {
+            padding: 8px 12px 8px 34px !important;
+            font-size: 12.5px !important;
+            height: 38px !important;
+        }
+
+        .filter-select {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+            padding: 7px 8px !important;
+            height: 38px !important;
+        }
+
+        .btn-filter-submit {
+            grid-column: 1 / 2 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12.5px !important;
+            padding: 0 12px !important;
+        }
+
+        .btn-filter-reset {
+            grid-column: 2 / 3 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12.5px !important;
+            padding: 0 12px !important;
+        }
+
+        /* Switch Desktop Table to Mobile Cards */
+        .desktop-pengumuman-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-pengumuman-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+        }
+
+        .mobile-pengumuman-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: border-color 0.2s ease;
+        }
+
+        .mobile-pengumuman-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .mobile-pengumuman-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .mobile-pengumuman-index {
+            font-weight: 800;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .mobile-pengumuman-body {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .mobile-pengumuman-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.3;
+        }
+
+        .mobile-pengumuman-snippet {
+            font-size: 12.5px;
+            color: #475569;
+            line-height: 1.45;
+        }
+
+        .mobile-pengumuman-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .mobile-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mobile-meta-lbl {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mobile-meta-val {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .mobile-pengumuman-actions {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 6px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .mobile-btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .btn-detail-act {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+        }
+        .btn-edit-act {
+            background: #f8fafc;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-del-act {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecdd3;
+        }
+
+        /* Modal Mobile Optimization */
+        .modal-overlay {
+            padding: 12px !important;
+        }
+
+        .modal-box {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            border-radius: 16px !important;
+            margin: 0 !important;
+        }
+
+        .modal-header {
+            padding: 14px 16px !important;
+        }
+
+        .modal-header h3 {
+            font-size: 15px !important;
+        }
+
+        .modal-body {
+            padding: 14px 16px !important;
+        }
+
         .form-grid-2 {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        .detail-info-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+            padding: 10px 12px !important;
+        }
+
+        .modal-footer {
+            padding: 12px 16px !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+        }
+
+        .modal-footer .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        /* Modal Detail on Mobile */
+        #modalDetail .modal-footer {
+            display: flex !important;
+        }
+        #modalDetail .modal-footer .btn-action {
+            width: 100% !important;
+        }
+
+        /* Modal Trash on Mobile */
+        #modalTrash .desktop-trash-table-wrapper {
+            display: none !important;
+        }
+
+        #modalTrash .mobile-trash-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+        }
+
+        .mobile-trash-item-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        #modalTrash .modal-footer {
+            display: flex !important;
+        }
+        #modalTrash .modal-footer .btn-action {
+            width: 100% !important;
         }
     }
 </style>
@@ -634,7 +974,8 @@
             </div>
         </div>
 
-        <div class="table-scroll-wrapper">
+        <!-- Desktop View Table -->
+        <div class="desktop-pengumuman-table-wrapper table-scroll-wrapper">
             <table class="pengumuman-table">
                 <thead>
                     <tr>
@@ -724,6 +1065,87 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile View Cards -->
+        <div class="mobile-pengumuman-wrapper">
+            @forelse($pengumumanList as $index => $row)
+                @php
+                    $st = strtolower($row->status ?? 'aktif');
+                    $stClass = ($st === 'selesai') ? 'status-selesai' : (($st === 'arsip') ? 'status-arsip' : 'status-aktif');
+                    $kelasNama = $row->kelas->nama_kelas ?? ($row->id_kelas ? 'Kelas #'.$row->id_kelas : 'Semua Kelas');
+                    $pembuatNama = $row->pembuat->nama_guru ?? 'Waka Kesiswaan';
+                    $tanggalFormatted = $row->tanggal ? \Carbon\Carbon::parse($row->tanggal)->translatedFormat('d M Y') : '-';
+                    $catClean = preg_replace('/[^a-zA-Z]/', '', $row->kategori ?? 'Umum');
+                @endphp
+                <div class="mobile-pengumuman-card">
+                    <!-- Top header: Index + Category badge + Status badge -->
+                    <div class="mobile-pengumuman-header">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <span class="mobile-pengumuman-index">#{{ $index + 1 }}</span>
+                            <span class="category-badge cat-{{ $catClean }}">{{ $row->kategori ?? 'Umum' }}</span>
+                        </div>
+                        <span class="badge-status {{ $stClass }}">{{ ucfirst($st) }}</span>
+                    </div>
+
+                    <!-- Judul & Snippet Isi -->
+                    <div class="mobile-pengumuman-body">
+                        <div class="mobile-pengumuman-title">{{ $row->judul }}</div>
+                        <div class="mobile-pengumuman-snippet">{{ Str::limit($row->isi ?? '', 120) }}</div>
+                    </div>
+
+                    <!-- Meta Grid -->
+                    <div class="mobile-pengumuman-meta-grid">
+                        <div class="mobile-meta-item">
+                            <span class="mobile-meta-lbl"><i class="fa-solid fa-users"></i> Sasaran:</span>
+                            <span class="mobile-meta-val">{{ $kelasNama }}</span>
+                        </div>
+                        <div class="mobile-meta-item">
+                            <span class="mobile-meta-lbl"><i class="fa-regular fa-clock"></i> Waktu:</span>
+                            <span class="mobile-meta-val">{{ $row->jam_mengajar ?: 'Sepanjang Hari' }}</span>
+                        </div>
+                        <div class="mobile-meta-item">
+                            <span class="mobile-meta-lbl"><i class="fa-regular fa-calendar"></i> Tanggal:</span>
+                            <span class="mobile-meta-val">{{ $tanggalFormatted }}</span>
+                        </div>
+                        <div class="mobile-meta-item">
+                            <span class="mobile-meta-lbl"><i class="fa-solid fa-user-pen"></i> Oleh:</span>
+                            <span class="mobile-meta-val">{{ $pembuatNama }}</span>
+                        </div>
+                        @if($row->keterangan)
+                            <div class="mobile-meta-item" style="grid-column: span 2;">
+                                <span class="mobile-meta-lbl"><i class="fa-solid fa-circle-info"></i> Ket:</span>
+                                <span class="mobile-meta-val" style="color: #64748b;">{{ $row->keterangan }}</span>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="mobile-pengumuman-actions">
+                        <button type="button" class="mobile-btn-action btn-detail-act"
+                                onclick='openDetailModal(@json($row), "{{ addslashes($kelasNama) }}", "{{ addslashes($pembuatNama) }}", "{{ $tanggalFormatted }}")'>
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+                        <button type="button" class="mobile-btn-action btn-edit-act"
+                                onclick='openEditModal(@json($row))'>
+                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                        </button>
+                        <form action="{{ route('waka.pengumuman.destroy', $row->id_pengumuman) }}" method="POST" onsubmit="return confirm('Pindahkan pengumuman ini ke kotak sampah?');" style="margin: 0;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="mobile-btn-action btn-del-act" style="width: 100%;">
+                                <i class="fa-solid fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 32px 16px; color: #94a3b8; background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <i class="fa-solid fa-bullhorn" style="font-size: 28px; margin-bottom: 8px; display: block; color: #cbd5e1;"></i>
+                    <div style="font-weight: 700; color: #475569; font-size: 13.5px;">Tidak ada data pengumuman ditemukan</div>
+                    <div style="font-size: 12px; margin-top: 4px;">Coba ubah kata kunci pencarian atau sesuaikan filter.</div>
+                </div>
+            @endforelse
         </div>
     </div>
 
@@ -935,12 +1357,12 @@
 
             <h2 id="detJudul" style="font-size: 18px; font-weight: 800; color: #0f172a; margin: 0 0 14px 0; line-height: 1.3;">-</h2>
 
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12.5px; margin-bottom: 16px;">
+            <div class="detail-info-grid">
                 <div><strong style="color: #64748b;">Sasaran Kelas:</strong> <span id="detKelas" style="font-weight: 700; color: #0f172a;">-</span></div>
                 <div><strong style="color: #64748b;">Waktu / Jam:</strong> <span id="detJam" style="font-weight: 700; color: #0f172a;">-</span></div>
                 <div><strong style="color: #64748b;">Pembuat:</strong> <span id="detPembuat" style="font-weight: 700; color: #0f172a;">-</span></div>
                 <div><strong style="color: #64748b;">Tanggal:</strong> <span id="detTanggal" style="font-weight: 700; color: #0f172a;">-</span></div>
-                <div style="grid-column: span 2;"><strong style="color: #64748b;">Keterangan:</strong> <span id="detKeterangan" style="font-weight: 700; color: #0f172a;">-</span></div>
+                <div style="grid-column: 1 / -1;"><strong style="color: #64748b;">Keterangan:</strong> <span id="detKeterangan" style="font-weight: 700; color: #0f172a;">-</span></div>
             </div>
 
             <div style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 6px;">ISI PENGUMUMAN:</div>
@@ -977,7 +1399,8 @@
                 @endif
             </div>
 
-            <div class="table-scroll-wrapper">
+            <!-- Desktop Trash Table -->
+            <div class="desktop-trash-table-wrapper table-scroll-wrapper">
                 <table class="pengumuman-table">
                     <thead>
                         <tr>
@@ -1036,6 +1459,55 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Trash Cards -->
+            <div class="mobile-trash-wrapper">
+                @forelse($trashPengumuman as $tIdx => $tRow)
+                    @php
+                        $tKelas = $tRow->kelas->nama_kelas ?? ($tRow->id_kelas ? 'Kelas #'.$tRow->id_kelas : 'Semua Kelas');
+                        $tPembuat = $tRow->pembuat->nama_guru ?? 'Waka Kesiswaan';
+                    @endphp
+                    <div class="mobile-trash-item-card">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 6px;">
+                            <div style="font-weight: 800; color: #0f172a; font-size: 13.5px; line-height: 1.3;">
+                                <span style="color: #94a3b8; font-size: 12px; margin-right: 4px;">#{{ $tIdx + 1 }}</span>
+                                {{ $tRow->judul }}
+                            </div>
+                            <span style="font-size: 10.5px; color: #dc2626; background: #fee2e2; padding: 2px 6px; border-radius: 4px; font-weight: 700; white-space: nowrap;">
+                                {{ $tRow->deleted_at ? \Carbon\Carbon::parse($tRow->deleted_at)->translatedFormat('d M Y H:i') : '-' }}
+                            </span>
+                        </div>
+                        <div style="font-size: 11.5px; color: #64748b; line-height: 1.4;">
+                            {{ Str::limit($tRow->isi ?? '', 80) }}
+                        </div>
+                        <div style="font-size: 11.5px; color: #475569; display: flex; gap: 8px; flex-wrap: wrap;">
+                            <span><i class="fa-solid fa-users" style="color: #94a3b8;"></i> {{ $tKelas }}</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-user-pen" style="color: #94a3b8;"></i> {{ $tPembuat }}</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 2px; padding-top: 6px; border-top: 1px solid #f1f5f9;">
+                            <form action="{{ route('waka.pengumuman.restore', $tRow->id_pengumuman) }}" method="POST" style="margin: 0;">
+                                @csrf
+                                <button type="submit" class="btn-action btn-emerald" style="width: 100%; justify-content: center; padding: 6px 10px; font-size: 11.5px;" title="Pulihkan Pengumuman">
+                                    <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                                </button>
+                            </form>
+                            <form action="{{ route('waka.pengumuman.force-delete', $tRow->id_pengumuman) }}" method="POST" onsubmit="return confirm('Hapus PERMANEN pengumuman ini?');" style="margin: 0;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-action btn-trash" style="width: 100%; justify-content: center; padding: 6px 10px; font-size: 11.5px;" title="Hapus Permanen">
+                                    <i class="fa-solid fa-xmark"></i> Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; padding: 24px 16px; color: #94a3b8; background: #f8fafc; border-radius: 10px; border: 1px dashed #cbd5e1;">
+                        <i class="fa-solid fa-folder-open" style="font-size: 26px; margin-bottom: 6px; display: block;"></i>
+                        <div style="font-weight: 700; color: #475569; font-size: 13px;">Kotak sampah pengumuman kosong.</div>
+                    </div>
+                @endforelse
             </div>
         </div>
         <div class="modal-footer">
@@ -1147,6 +1619,15 @@
     window.addEventListener('click', function(e) {
         if (e.target.classList.contains('modal-overlay')) {
             e.target.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeTambahModal();
+            closeEditModal();
+            closeDetailModal();
+            closeTrashModal();
         }
     });
 </script>

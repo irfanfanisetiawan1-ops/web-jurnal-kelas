@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\GuruIzin;
 use App\Models\SiswaDispen;
+use App\Models\SiswaSuratIzin;
+use App\Models\SiswaTelat;
 use App\Models\User;
+use App\Models\JadwalPiketWaka;
+use App\Services\WhatsAppNotificationService;
 
 class ApprovalPublicController extends Controller
 {
@@ -251,11 +255,18 @@ class ApprovalPublicController extends Controller
             ])->withInput();
         }
 
-        // 5. Verifikasi Otorisasi Waka Kesiswaan
-        $isValidWaka = ($user->role === 'waka_kesiswaan') || in_array($user->role, ['admin', 'tu', 'waka']);
+        // 5. Verifikasi Otorisasi Waka Kesiswaan / Piket Waka Terjadwal
+        $isAssignedWaka = ($dispen->id_user_waka && $user->id == $dispen->id_user_waka) ||
+                          JadwalPiketWaka::isUserPiketWaka($user, $dispen->tanggal);
+
+        $isValidWaka = ($user->role === 'waka_kesiswaan') || 
+                       in_array($user->role, ['admin', 'tu', 'waka']) || 
+                       $isAssignedWaka;
+
         if (!$isValidWaka) {
+            $formattedTgl = \Carbon\Carbon::parse($dispen->tanggal)->translatedFormat('d F Y');
             return redirect()->back()->withErrors([
-                'auth' => "Verifikasi Gagal: Akun '{$user->name}' (NIP: {$user->nip}) ber-role '{$user->role_label}', tidak memiliki kewenangan sebagai Waka Kesiswaan. Silakan gunakan NIP & Password akun Waka Kesiswaan yang sah."
+                'auth' => "Verifikasi Gagal: Akun '{$user->name}' (NIP: {$user->nip}) ber-role '{$user->role_label}', tidak memiliki kewenangan sebagai Waka Kesiswaan atau Piket Waka yang ditugaskan pada tanggal {$formattedTgl}. Silakan gunakan NIP & Password akun Waka Kesiswaan atau Guru Piket Waka yang sah."
             ])->withInput();
         }
 
@@ -267,60 +278,49 @@ class ApprovalPublicController extends Controller
         }
 
         // Update Data Dispensasi Siswa
+        $approverRoleName = $isAssignedWaka ? "Piket Waka ({$user->name})" : 'Waka Kesiswaan';
         $dispen->status_waka = $request->action;
         $dispen->status_wali_kelas = $request->action;
-        $dispen->catatan_waka = $request->catatan ?? ($request->action === 'approved' ? 'Disetujui oleh Waka Kesiswaan' : 'Ditolak oleh Waka Kesiswaan');
+        $dispen->catatan_waka = $request->catatan ?? ($request->action === 'approved' ? "Disetujui oleh {$approverRoleName}" : "Ditolak oleh {$approverRoleName}");
         $dispen->waktu_approval_waka = now();
 
         if ($request->action === 'approved') {
             $dispen->status_satpam = 'belum_keluar';
             $dispen->save();
-            $namaSiswa = $dispen->siswa->nama_siswa ?? 'Siswa';
-            $namaKelas = $dispen->kelas->nama_kelas ?? '-';
-            $jamRange  = ($dispen->jam_keluar ?? '00:00') . ' s/d ' . ($dispen->jam_kembali ?? '00:00');
-            $tglIndo   = \Carbon\Carbon::parse($dispen->tanggal)->format('d-m-Y');
 
-            $linkFotoSiswa = $dispen->foto_siswa_live ? asset($dispen->foto_siswa_live) : null;
-            $linkKartu = $dispen->foto_kartu_identitas ? asset($dispen->foto_kartu_identitas) : null;
-            $linkSurat = $dispen->foto_surat_dispen ? asset($dispen->foto_surat_dispen) : null;
-            $linkDispenPage = url("/approval/dispen/{$token}");
+            // Generate clean approval URL
+            $linkDispenPage = WhatsAppNotificationService::makeApprovalDispenUrl($token);
 
-            $pesanWaSatpam = "OFFICIAL NOTIFIKASI DISPENSASI SISWA (EDU JOURNAL)\n"
-                . "===============================================\n\n"
-                . "Memberitahukan bahwa permohonan dispensasi siswa berikut telah DISETUJUI oleh Waka Kesiswaan ({$user->name}):\n\n"
-                . "* Kode Dispen: {$dispen->kode_dispen}\n"
-                . "* Nama Siswa: {$namaSiswa}\n"
-                . "* Kelas: {$namaKelas}\n"
-                . "* Tanggal & Jam: {$tglIndo} ({$jamRange})\n"
-                . "* Alasan Dispen: {$dispen->alasan}\n";
+            // Kirim notifikasi resmi secara otomatis ke Petugas Satpam via ChatBot WhatsApp
+            $waService = app(WhatsAppNotificationService::class);
+            $satpamResult = $waService->sendNotifikasiDispensasiKeSatpam($dispen, $user->name, $linkDispenPage);
 
-            if ($linkFotoSiswa) {
-                $pesanWaSatpam .= "* Lihat Foto Siswa (Live Kamera): {$linkFotoSiswa}\n";
-            }
-            if ($linkKartu) {
-                $pesanWaSatpam .= "* Lihat Foto Kartu Pelajar: {$linkKartu}\n";
-            }
-            if ($linkSurat) {
-                $pesanWaSatpam .= "* Lihat Surat Dispen Resmi: {$linkSurat}\n";
-            }
+            $pesanWaSatpam = $satpamResult['pesan'] ?? $waService->buildPesanDispensasiKeSatpam($dispen, $user->name, $linkDispenPage);
 
-            $pesanWaSatpam .= "\n* Link Verifikasi Detail: {$linkDispenPage}\n\n"
-                . "STATUS: TERVERIFIKASI & DISETUJUI WAKA KESISWAAN.\n"
-                . "Petugas Satpam dapat mencocokkan fisik & wajah Siswa serta Kartu Pelajar dengan foto live terlampir, lalu membiarkan siswa keluar sekolah.";
+            $primarySatpam = $satpamResult['primary'] ?? null;
+            $hpSatpam = $primarySatpam['no_hp'] ?? null;
+            $hpSatpamFormatted = WhatsAppNotificationService::formatPhoneNumber($hpSatpam);
 
-            $satpamUser = User::where('role', 'satpam')->first();
-            $hpSatpam = $satpamUser && $satpamUser->no_hp ? preg_replace('/[^0-9]/', '', $satpamUser->no_hp) : '';
-            if (str_starts_with($hpSatpam, '0')) {
-                $hpSatpam = '62' . substr($hpSatpam, 1);
-            }
-            $waSatpamUrl = !empty($hpSatpam)
-                ? "https://api.whatsapp.com/send?phone={$hpSatpam}&text=" . urlencode($pesanWaSatpam)
+            $waSatpamUrl = !empty($hpSatpamFormatted)
+                ? "https://api.whatsapp.com/send?phone={$hpSatpamFormatted}&text=" . urlencode($pesanWaSatpam)
                 : "https://api.whatsapp.com/send?text=" . urlencode($pesanWaSatpam);
 
+            $chatbotSuccess = $satpamResult['success'] ?? false;
+            $namaSatpam = $primarySatpam['nama'] ?? 'Petugas Satpam';
+
+            $suksesMsg = "Otentikasi Berhasil! Status persetujuan dispensasi siswa oleh Waka Kesiswaan ({$user->name}) telah DISETUJUI.";
+            if ($chatbotSuccess) {
+                $suksesMsg .= " Notifikasi resmi telah berhasil dikirimkan secara otomatis oleh ChatBot WhatsApp ke Petugas Satpam ({$namaSatpam} - {$hpSatpam}).";
+            } else {
+                $suksesMsg .= " Data dispensasi siswa telah diverifikasi dan diteruskan ke Portal Satpam.";
+            }
+
             return redirect()->back()->with([
-                'success'         => "Otentikasi Berhasil! Status persetujuan dispensasi siswa oleh Waka Kesiswaan ({$user->name}) telah DISETUJUI. Data siswa otomatis dikirim ke Portal Satpam.",
-                'wa_satpam_url'   => $waSatpamUrl,
-                'pesan_wa_satpam' => $pesanWaSatpam,
+                'success'           => $suksesMsg,
+                'wa_satpam_url'     => $waSatpamUrl,
+                'pesan_wa_satpam'   => $pesanWaSatpam,
+                'satpam_wa_result'  => $satpamResult,
+                'chatbot_sent'      => $chatbotSuccess,
             ]);
         } else {
             $dispen->status_satpam = 'ditolak';
@@ -328,5 +328,54 @@ class ApprovalPublicController extends Controller
 
             return redirect()->back()->with('success', "Otentikasi Berhasil! Permohonan dispensasi siswa telah DITOLAK oleh Waka Kesiswaan ({$user->name}) dengan alasan: \"{$request->catatan}\". Catatan penolakan akan tampil pada Halaman Guru Piket.");
         }
+    }
+
+    /**
+     * Kirim ulang notifikasi dispensasi ke Satpam via ChatBot WhatsApp
+     */
+    public function resendNotifSatpam(Request $request, string $token)
+    {
+        $dispen = SiswaDispen::with(['siswa', 'kelas'])->where('token_wali_kelas', $token)->firstOrFail();
+
+        if ($dispen->status_waka !== 'approved') {
+            return redirect()->back()->withErrors([
+                'auth' => 'Dispensasi siswa belum disetujui oleh Waka Kesiswaan, notifikasi ke Satpam belum dapat dikirim.'
+            ]);
+        }
+
+        $linkDispenPage = WhatsAppNotificationService::makeApprovalDispenUrl($token);
+        $waService = app(WhatsAppNotificationService::class);
+        $satpamResult = $waService->sendNotifikasiDispensasiKeSatpam($dispen, $dispen->nama_waka, $linkDispenPage);
+
+        $primarySatpam = $satpamResult['primary'] ?? null;
+        $hpSatpam = $primarySatpam['no_hp'] ?? null;
+        $namaSatpam = $primarySatpam['nama'] ?? 'Petugas Satpam';
+
+        if ($satpamResult['success'] ?? false) {
+            return redirect()->back()->with('success', "Notifikasi dispensasi berhasil dikirim ulang secara otomatis melalui ChatBot WhatsApp ke Petugas Satpam ({$namaSatpam} - {$hpSatpam}).");
+        } else {
+            $reason = $primarySatpam['detail']['message'] ?? 'Gagal memproses pesan ke WhatsApp Gateway';
+            return redirect()->back()->withErrors([
+                'auth' => "Gagal mengirim notifikasi ChatBot WhatsApp ke Satpam: {$reason}. Anda dapat menggunakan tombol Kirim Manual via WhatsApp di bawah."
+            ]);
+        }
+    }
+
+    /**
+     * Tampilkan Halaman Publik Pemberitahuan Surat Izin Siswa (untuk Wali Kelas / Publik)
+     */
+    public function showSuratIzin($id)
+    {
+        $surat = SiswaSuratIzin::with(['siswa.kelas.waliKelas', 'kelas.waliKelas', 'petugasPiket'])->findOrFail($id);
+        return view('approval.surat_izin_pemberitahuan', compact('surat'));
+    }
+
+    /**
+     * Tampilkan Halaman Publik Pemberitahuan Siswa Terlambat (untuk Guru Mengajar / Publik)
+     */
+    public function showSiswaTelat($id)
+    {
+        $telat = SiswaTelat::with(['siswa.kelas', 'kelas', 'guruMengajar.mapel', 'guruPiket'])->findOrFail($id);
+        return view('approval.siswa_telat_pemberitahuan', compact('telat'));
     }
 }

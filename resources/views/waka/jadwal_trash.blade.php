@@ -89,6 +89,80 @@
     .btn-emerald { background: #059669; color: #ffffff; }
     .btn-danger  { background: #dc2626; color: #ffffff; }
     .btn-outline { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; }
+
+    .desktop-trash-table-wrapper {
+        display: block;
+    }
+
+    .mobile-trash-cards-list {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .trash-container {
+            gap: 14px;
+        }
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .page-main-title {
+            font-size: 20px;
+            line-height: 1.3;
+        }
+
+        .desktop-trash-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-trash-cards-list {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+        }
+
+        .mobile-trash-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mobile-trash-card .m-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 8px;
+        }
+
+        .mobile-trash-card .m-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .mobile-trash-card .m-actions form {
+            display: block;
+            width: 100%;
+        }
+
+        .mobile-trash-card .m-actions button {
+            width: 100%;
+            justify-content: center;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+    }
 </style>
 @endsection
 
@@ -103,15 +177,15 @@
             <p style="font-size: 13px; color: #64748b; margin-top: 2px;">Daftar jadwal pelajaran yang telah dihapus sementara (Soft Deleted)</p>
         </div>
 
-        <div style="display: flex; gap: 8px;">
-            <a href="{{ route('waka.jadwal') }}" class="btn-action btn-outline">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="{{ route('waka.jadwal') }}" class="btn-action btn-outline" style="flex: 1; justify-content: center;">
                 <i class="fa-solid fa-arrow-left"></i> Kembali
             </a>
             @if(count($trashedJadwals) > 0)
-            <form method="POST" action="{{ route('waka.jadwal.empty-trash') }}" onsubmit="return confirm('Apakah Anda yakin ingin mengosongkan seluruh kotak sampah? Jadwal akan dihapus PERMANEN.')">
+            <form method="POST" action="{{ route('waka.jadwal.empty-trash') }}" onsubmit="return confirm('Apakah Anda yakin ingin mengosongkan seluruh kotak sampah? Jadwal akan dihapus PERMANEN.')" style="flex: 1;">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn-action btn-danger">
+                <button type="submit" class="btn-action btn-danger" style="width: 100%; justify-content: center;">
                     <i class="fa-solid fa-trash-can-arrow-up"></i> Kosongkan Sampah
                 </button>
             </form>
@@ -129,7 +203,8 @@
             </div>
         </div>
 
-        <div style="overflow-x: auto;">
+        {{-- Desktop Table --}}
+        <div class="desktop-trash-table-wrapper" style="overflow-x: auto;">
             <table class="jadwal-table">
                 <thead>
                     <tr>
@@ -187,6 +262,43 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        {{-- Mobile Cards --}}
+        <div class="mobile-trash-cards-list">
+            @forelse($trashedJadwals as $j)
+                <div class="mobile-trash-card">
+                    <div class="m-header">
+                        <span style="font-weight: 800; font-size: 13px; color: #0f172a;">{{ $j->hari }}, Jam {{ $j->jam_mulai_ke }}-{{ $j->jam_selesai_ke }}</span>
+                        <span style="font-weight: 700; font-size: 11px; color: #2563eb; background: #eff6ff; padding: 2px 7px; border-radius: 6px;">{{ $j->kelas->nama_kelas ?? '-' }}</span>
+                    </div>
+                    <div>
+                        <div style="font-size: 13.5px; font-weight: 800; color: #0f172a;">{{ $j->mapel->nama_mapel ?? '-' }}</div>
+                        <div style="font-size: 12px; color: #475569; margin-top: 2px;"><i class="fa-solid fa-chalkboard-user"></i> {{ $j->guru->nama_guru ?? '-' }}</div>
+                        <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Dihapus: {{ $j->deleted_at ? $j->deleted_at->translatedFormat('d M Y H:i') : '-' }}</div>
+                    </div>
+                    <div class="m-actions">
+                        <form method="POST" action="{{ route('waka.jadwal.restore', $j->id_jadwal) }}">
+                            @csrf
+                            <button type="submit" class="btn-action btn-emerald">
+                                <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                            </button>
+                        </form>
+                        <form method="POST" action="{{ route('waka.jadwal.force-delete', $j->id_jadwal) }}" onsubmit="return confirm('Hapus PERMANEN jadwal ini? Tindakan tidak dapat dibatalkan.')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-action btn-danger">
+                                <i class="fa-solid fa-xmark"></i> Hapus
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 30px; color: #94a3b8;">
+                    <i class="fa-solid fa-folder-open" style="font-size: 28px; margin-bottom: 6px;"></i>
+                    <div style="font-weight: 700; color: #475569;">Kotak sampah kosong</div>
+                </div>
+            @endforelse
         </div>
 
         <div style="padding: 16px 20px; border-top: 1px solid #e2e8f0; background: #ffffff;">

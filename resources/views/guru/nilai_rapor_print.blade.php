@@ -85,6 +85,34 @@
             width: 30%;
             text-align: center;
         }
+
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 12px;
+                font-size: 11px;
+            }
+            .no-print {
+                flex-direction: column;
+                width: 100%;
+            }
+            .no-print button {
+                width: 100%;
+                padding: 10px;
+            }
+            .table-responsive-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin-bottom: 12px;
+            }
+            .signatures {
+                flex-direction: column;
+                gap: 24px;
+                align-items: center;
+            }
+            .sign-col {
+                width: 100%;
+            }
+        }
         
         @media print {
             .no-print { display: none !important; }
@@ -136,76 +164,78 @@
     </table>
 
     <!-- Tabel Nilai -->
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th rowspan="2" style="width: 30px;">No</th>
-                <th rowspan="2" style="width: 75px;">NIS/NISN</th>
-                <th rowspan="2">Nama Siswa</th>
-                <th colspan="4">Komponen Nilai</th>
-                <th rowspan="2" style="width: 55px;">Nilai Akhir</th>
-                <th rowspan="2" style="width: 40px;">Predikat</th>
-                <th rowspan="2" style="width: 65px;">Status</th>
-                <th rowspan="2">Catatan Guru</th>
-            </tr>
-            <tr>
-                <th style="width: 45px;">Tugas<br>(20%)</th>
-                <th style="width: 45px;">UH<br>(20%)</th>
-                <th style="width: 45px;">UTS<br>(30%)</th>
-                <th style="width: 45px;">UAS<br>(30%)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php
-                $totNA = 0;
-                $countTuntas = 0;
-                $countBelum = 0;
-                $totalSiswa = count($siswas);
-            @endphp
-            @forelse($siswas as $idx => $s)
+    <div class="table-responsive-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th rowspan="2" style="width: 30px;">No</th>
+                    <th rowspan="2" style="width: 75px;">NIS/NISN</th>
+                    <th rowspan="2">Nama Siswa</th>
+                    <th colspan="4">Komponen Nilai</th>
+                    <th rowspan="2" style="width: 55px;">Nilai Akhir</th>
+                    <th rowspan="2" style="width: 40px;">Predikat</th>
+                    <th rowspan="2" style="width: 65px;">Status</th>
+                    <th rowspan="2">Catatan Guru</th>
+                </tr>
+                <tr>
+                    <th style="width: 45px;">Tugas<br>(20%)</th>
+                    <th style="width: 45px;">UH<br>(20%)</th>
+                    <th style="width: 45px;">UTS<br>(30%)</th>
+                    <th style="width: 45px;">UAS<br>(30%)</th>
+                </tr>
+            </thead>
+            <tbody>
                 @php
-                    $val = $existingNilai->get($s->id_siswa);
-                    $nTugas = $val ? floatval($val->nilai_tugas) : 0;
-                    $nHarian = $val ? floatval($val->nilai_harian) : 0;
-                    $nUts = $val ? floatval($val->nilai_uts) : 0;
-                    $nUas = $val ? floatval($val->nilai_uas) : 0;
-                    $nAkhir = $val ? floatval($val->nilai_akhir) : 0;
-                    $predikat = $val ? $val->predikat : '-';
-                    $catatan = $val ? $val->catatan : '-';
-
-                    if ($nAkhir >= $kkm && $nAkhir > 0) {
-                        $countTuntas++;
-                        $statusText = 'TUNTAS';
-                    } elseif ($nAkhir > 0) {
-                        $countBelum++;
-                        $statusText = 'BELUM';
-                    } else {
-                        $statusText = '-';
-                    }
-                    $totNA += $nAkhir;
+                    $totNA = 0;
+                    $countTuntas = 0;
+                    $countBelum = 0;
+                    $totalSiswa = count($siswas);
                 @endphp
-                <tr>
-                    <td style="text-align: center;">{{ $idx + 1 }}</td>
-                    <td style="text-align: center;">{{ $s->nis ?? $s->nisn ?? '-' }}</td>
-                    <td><strong>{{ $s->nama_siswa }}</strong></td>
-                    <td style="text-align: center;">{{ $nTugas > 0 ? $nTugas : '-' }}</td>
-                    <td style="text-align: center;">{{ $nHarian > 0 ? $nHarian : '-' }}</td>
-                    <td style="text-align: center;">{{ $nUts > 0 ? $nUts : '-' }}</td>
-                    <td style="text-align: center;">{{ $nUas > 0 ? $nUas : '-' }}</td>
-                    <td style="text-align: center; font-weight: bold; background: #fafafa;">{{ $nAkhir > 0 ? $nAkhir : '-' }}</td>
-                    <td style="text-align: center; font-weight: bold;">{{ $predikat }}</td>
-                    <td style="text-align: center; font-weight: bold; color: {{ $statusText == 'TUNTAS' ? '#15803d' : ($statusText == 'BELUM' ? '#b91c1c' : '#555') }};">
-                        {{ $statusText }}
-                    </td>
-                    <td><small>{{ $catatan ?: '-' }}</small></td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="11" style="text-align: center; padding: 15px;">Tidak ada data siswa ditemukan untuk kelas ini.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+                @forelse($siswas as $idx => $s)
+                    @php
+                        $val = $existingNilai->get($s->id_siswa);
+                        $nTugas = $val ? floatval($val->nilai_tugas) : 0;
+                        $nHarian = $val ? floatval($val->nilai_harian) : 0;
+                        $nUts = $val ? floatval($val->nilai_uts) : 0;
+                        $nUas = $val ? floatval($val->nilai_uas) : 0;
+                        $nAkhir = $val ? floatval($val->nilai_akhir) : 0;
+                        $predikat = $val ? $val->predikat : '-';
+                        $catatan = $val ? $val->catatan : '-';
+
+                        if ($nAkhir >= $kkm && $nAkhir > 0) {
+                            $countTuntas++;
+                            $statusText = 'TUNTAS';
+                        } elseif ($nAkhir > 0) {
+                            $countBelum++;
+                            $statusText = 'BELUM';
+                        } else {
+                            $statusText = '-';
+                        }
+                        $totNA += $nAkhir;
+                    @endphp
+                    <tr>
+                        <td style="text-align: center;">{{ $idx + 1 }}</td>
+                        <td style="text-align: center;">{{ $s->nis ?? $s->nisn ?? '-' }}</td>
+                        <td><strong>{{ $s->nama_siswa }}</strong></td>
+                        <td style="text-align: center;">{{ $nTugas > 0 ? $nTugas : '-' }}</td>
+                        <td style="text-align: center;">{{ $nHarian > 0 ? $nHarian : '-' }}</td>
+                        <td style="text-align: center;">{{ $nUts > 0 ? $nUts : '-' }}</td>
+                        <td style="text-align: center;">{{ $nUas > 0 ? $nUas : '-' }}</td>
+                        <td style="text-align: center; font-weight: bold; background: #fafafa;">{{ $nAkhir > 0 ? $nAkhir : '-' }}</td>
+                        <td style="text-align: center; font-weight: bold;">{{ $predikat }}</td>
+                        <td style="text-align: center; font-weight: bold; color: {{ $statusText == 'TUNTAS' ? '#15803d' : ($statusText == 'BELUM' ? '#b91c1c' : '#555') }};">
+                            {{ $statusText }}
+                        </td>
+                        <td><small>{{ $catatan ?: '-' }}</small></td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="11" style="text-align: center; padding: 15px;">Tidak ada data siswa ditemukan untuk kelas ini.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
     <!-- Ringkasan Statistik Bawah -->
     @php

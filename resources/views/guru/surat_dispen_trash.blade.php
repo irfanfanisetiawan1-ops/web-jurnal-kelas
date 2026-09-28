@@ -242,6 +242,79 @@
         color: #ffffff;
     }
 
+    /* Mobile Cards View */
+    .trash-mobile-cards {
+        display: none;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .trash-mobile-card {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #cbd5e1;
+        padding: 16px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .trash-mobile-card.selected {
+        border-color: #2563eb;
+        background: #f0f7ff;
+    }
+
+    .trash-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .trash-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .trash-detail-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 12.5px;
+    }
+
+    .trash-card-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .trash-card-actions form {
+        flex: 1;
+        display: flex;
+    }
+
+    .trash-card-actions button,
+    .trash-card-actions .btn-action-sm {
+        flex: 1;
+        justify-content: center;
+        padding: 9px 12px;
+        font-size: 12.5px;
+    }
+
     /* Modal */
     .modal-backdrop-custom {
         position: fixed;
@@ -267,31 +340,122 @@
         from { transform: scale(0.95); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
     }
+
+    /* Responsive Styles for Mobile */
+    @media (max-width: 768px) {
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+
+        .page-header-container {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+        }
+
+        .btn-kembali {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .trash-stat-box {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            padding: 16px;
+        }
+
+        .trash-stat-box > div:last-child {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-restore-all,
+        .btn-empty-trash {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Show mobile cards, hide table */
+        .trash-table-box {
+            display: none !important;
+        }
+
+        .trash-mobile-cards {
+            display: flex !important;
+        }
+
+        /* Floating Toolbar */
+        .floating-batch-bar {
+            left: 14px;
+            right: 14px;
+            transform: translateY(140px);
+            width: auto;
+            max-width: none;
+            border-radius: 16px;
+            flex-direction: column;
+            gap: 10px;
+            padding: 12px 16px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .floating-batch-bar.show {
+            transform: translateY(0);
+        }
+
+        .floating-batch-bar > div:last-child {
+            width: 100%;
+            display: flex;
+            gap: 8px;
+        }
+
+        .floating-batch-bar button {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .modal-box-custom {
+            max-width: 100% !important;
+            border-radius: 16px;
+            margin: 0;
+        }
+
+        .modal-box-custom form > div,
+        .modal-box-custom > div > div:last-child {
+            flex-direction: column-reverse;
+            gap: 8px !important;
+        }
+
+        .modal-box-custom button {
+            width: 100% !important;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+    }
 </style>
 @endsection
 
 @section('content')
 <div class="trash-container">
-
-    <!-- Flash Alerts -->
-    @if(session('success'))
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; padding: 14px 18px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13.5px;">
-                <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #10b981;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 16px; color: #065f46; cursor: pointer;">&times;</button>
-        </div>
-    @endif
-    @if(session('error'))
-        <div style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 14px 18px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13.5px;">
-                <i class="fa-solid fa-circle-xmark" style="font-size: 18px; color: #ef4444;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 16px; color: #991b1b; cursor: pointer;">&times;</button>
-        </div>
-    @endif
 
     <!-- Header & Nav Back -->
     <div class="page-header-container">
@@ -332,7 +496,7 @@
         @endif
     </div>
 
-    <!-- Table of Trashed Items -->
+    <!-- Desktop Table View (>= 769px) -->
     <div class="trash-table-box">
         <div style="overflow-x: auto;">
             <table class="table-custom">
@@ -353,7 +517,7 @@
                     @forelse($trashedDispen as $idx => $d)
                         <tr>
                             <td style="text-align: center;">
-                                <input type="checkbox" class="custom-checkbox row-checkbox" value="{{ $d->id_siswa_dispen }}" onchange="updateBatchToolbar()">
+                                <input type="checkbox" class="custom-checkbox row-checkbox" value="{{ $d->id_siswa_dispen }}" onchange="handleRowCheckboxChange(this)">
                             </td>
                             <td style="text-align: center; color: #94a3b8; font-weight: 700;">
                                 {{ $idx + 1 }}
@@ -417,6 +581,85 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <!-- Mobile Cards View (<= 768px) -->
+    <div class="trash-mobile-cards">
+        @if(count($trashedDispen) > 0)
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #334155; cursor: pointer; user-select: none;">
+                    <input type="checkbox" id="selectAllCheckboxMobile" class="custom-checkbox" onchange="toggleSelectAll(this)">
+                    <span>Pilih Semua Data</span>
+                </label>
+                <span style="font-size: 12px; color: #64748b; font-weight: 600;">
+                    {{ count($trashedDispen) }} data di sampah
+                </span>
+            </div>
+        @endif
+
+        @forelse($trashedDispen as $idx => $d)
+            <div class="trash-mobile-card" id="trash-card-{{ $d->id_siswa_dispen }}">
+                <!-- Top Header: Checkbox, Kode Dispen, Deleted Time -->
+                <div class="trash-card-top">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" class="custom-checkbox row-checkbox" value="{{ $d->id_siswa_dispen }}" onchange="handleRowCheckboxChange(this)">
+                        <span style="font-weight: 800; color: #2563eb; font-size: 13.5px;">
+                            {{ $d->kode_dispen }}
+                        </span>
+                    </div>
+                    <span style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px;">
+                        <i class="fa-solid fa-trash-can" style="font-size: 10px;"></i> {{ $d->deleted_at ? $d->deleted_at->translatedFormat('d M Y H:i') : 'Dihapus' }}
+                    </span>
+                </div>
+
+                <!-- Card Body: Student & Class Info -->
+                <div class="trash-card-body">
+                    <div>
+                        <strong style="font-size: 15px; color: #0f172a; display: block; line-height: 1.3;">
+                            {{ $d->siswa->nama_siswa ?? 'Siswa' }}
+                        </strong>
+                        <span style="font-size: 12px; color: #64748b;">
+                            Kelas: <strong>{{ $d->kelas->nama_kelas ?? ($d->siswa->kelas->nama_kelas ?? '-') }}</strong> • NISN: {{ $d->siswa->nisn ?? '-' }}
+                        </span>
+                    </div>
+
+                    <!-- Details Box -->
+                    <div class="trash-detail-box">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #64748b; font-weight: 600;"><i class="fa-regular fa-calendar"></i> Tanggal Dispen:</span>
+                            <span style="color: #0f172a; font-weight: 700;">{{ \Carbon\Carbon::parse($d->tanggal)->translatedFormat('d F Y') }}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #64748b; font-weight: 600;"><i class="fa-regular fa-clock"></i> Jam:</span>
+                            <span style="color: #0f172a; font-weight: 700;">{{ substr($d->jam_keluar, 0, 5) }} - {{ substr($d->jam_kembali, 0, 5) }} WIB</span>
+                        </div>
+                        <div style="margin-top: 2px;">
+                            <span style="color: #64748b; font-weight: 600; display: block;">Keperluan / Alasan:</span>
+                            <span style="color: #334155; font-style: italic;">"{{ $d->alasan }}"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Actions -->
+                <div class="trash-card-actions">
+                    <form method="POST" action="{{ route('guru.surat-dispen.restore', $d->id_siswa_dispen) }}">
+                        @csrf
+                        <button type="submit" class="btn-action-sm btn-restore-sm" title="Pulihkan Surat Dispen">
+                            <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                        </button>
+                    </form>
+                    <button type="button" onclick="openModalForceDelete({{ $d->id_siswa_dispen }}, '{{ $d->kode_dispen }}', '{{ addslashes($d->siswa->nama_siswa ?? '') }}')" class="btn-action-sm btn-force-sm" title="Hapus Permanen">
+                        <i class="fa-solid fa-trash-can"></i> Hapus Permanen
+                    </button>
+                </div>
+            </div>
+        @empty
+            <div style="background: #ffffff; border-radius: 16px; border: 1px dashed #cbd5e1; padding: 40px 16px; text-align: center;">
+                <i class="fa-solid fa-trash-arrow-up" style="font-size: 36px; margin-bottom: 12px; color: #cbd5e1; display: block;"></i>
+                <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0 0 4px;">Tempat Sampah Kosong</h3>
+                <p style="font-size: 12.5px; color: #64748b; margin: 0;">Tidak ada surat dispensasi yang dihapus.</p>
+            </div>
+        @endforelse
     </div>
 
 </div>
@@ -561,13 +804,39 @@
 <script>
     function toggleSelectAll(masterCheckbox) {
         const checkboxes = document.querySelectorAll('.row-checkbox');
-        checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+        checkboxes.forEach(cb => {
+            cb.checked = masterCheckbox.checked;
+            const card = document.getElementById('trash-card-' + cb.value);
+            if (card) {
+                if (masterCheckbox.checked) card.classList.add('selected');
+                else card.classList.remove('selected');
+            }
+        });
+        const masterMobile = document.getElementById('selectAllCheckboxMobile');
+        if (masterMobile && masterMobile !== masterCheckbox) masterMobile.checked = masterCheckbox.checked;
+        const masterDesktop = document.getElementById('selectAllCheckbox');
+        if (masterDesktop && masterDesktop !== masterCheckbox) masterDesktop.checked = masterCheckbox.checked;
+        updateBatchToolbar();
+    }
+
+    function handleRowCheckboxChange(cb) {
+        // Sync any other checkbox with same value (e.g. desktop vs mobile)
+        const sameCheckboxes = document.querySelectorAll('.row-checkbox[value="' + cb.value + '"]');
+        sameCheckboxes.forEach(otherCb => otherCb.checked = cb.checked);
+
+        const card = document.getElementById('trash-card-' + cb.value);
+        if (card) {
+            if (cb.checked) card.classList.add('selected');
+            else card.classList.remove('selected');
+        }
         updateBatchToolbar();
     }
 
     function updateBatchToolbar() {
         const checked = document.querySelectorAll('.row-checkbox:checked');
-        const count = checked.length;
+        // Filter unique values
+        const uniqueIds = Array.from(new Set(Array.from(checked).map(cb => cb.value)));
+        const count = uniqueIds.length;
         const bar = document.getElementById('floatingBatchBar');
         const badge = document.getElementById('selectedCountBadge');
 
@@ -577,22 +846,30 @@
             bar.classList.add('show');
         } else {
             bar.classList.remove('show');
-            const master = document.getElementById('selectAllCheckbox');
-            if (master) master.checked = false;
+            const masterDesktop = document.getElementById('selectAllCheckbox');
+            if (masterDesktop) masterDesktop.checked = false;
+            const masterMobile = document.getElementById('selectAllCheckboxMobile');
+            if (masterMobile) masterMobile.checked = false;
         }
     }
 
     function uncheckAll() {
         const checkboxes = document.querySelectorAll('.row-checkbox');
-        checkboxes.forEach(cb => cb.checked = false);
-        const master = document.getElementById('selectAllCheckbox');
-        if (master) master.checked = false;
+        checkboxes.forEach(cb => {
+            cb.checked = false;
+            const card = document.getElementById('trash-card-' + cb.value);
+            if (card) card.classList.remove('selected');
+        });
+        const masterDesktop = document.getElementById('selectAllCheckbox');
+        if (masterDesktop) masterDesktop.checked = false;
+        const masterMobile = document.getElementById('selectAllCheckboxMobile');
+        if (masterMobile) masterMobile.checked = false;
         updateBatchToolbar();
     }
 
     function getSelectedIds() {
         const checked = document.querySelectorAll('.row-checkbox:checked');
-        return Array.from(checked).map(cb => cb.value);
+        return Array.from(new Set(Array.from(checked).map(cb => cb.value)));
     }
 
     function submitBatchRestore() {

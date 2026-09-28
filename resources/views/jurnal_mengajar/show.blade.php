@@ -326,7 +326,8 @@
                                 <th style="width: 50px;">NO</th>
                                 <th>NISN</th>
                                 <th>NAMA SISWA</th>
-                                <th>KETERANGAN ABSEN</th>
+                                <th>STATUS ABSEN</th>
+                                <th>CATATAN / KETERANGAN</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -339,6 +340,9 @@
                                         <span class="badge-ket ket-{{ $detail->keterangan }}">
                                             {{ $detail->keterangan }}
                                         </span>
+                                    </td>
+                                    <td style="font-size: 13px; color: #475569;">
+                                        {{ $detail->catatan ?: '-' }}
                                     </td>
                                 </tr>
                             @endforeach

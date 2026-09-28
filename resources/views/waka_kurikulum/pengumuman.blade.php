@@ -498,9 +498,185 @@
         .filter-form-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    @media (max-width: 640px) {
-        .stat-cards-row { grid-template-columns: 1fr; }
-        .filter-form-grid { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+        .pengumuman-container {
+            gap: 14px;
+        }
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .page-main-title {
+            font-size: 20px;
+        }
+
+        .page-sub-title {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .page-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .page-header-actions .btn-table-action {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 12px;
+            height: 38px;
+            justify-content: center;
+        }
+
+        .stat-cards-row {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .stat-box-card {
+            padding: 14px 16px;
+            border-radius: 12px;
+            gap: 12px;
+        }
+
+        .stat-icon-circle {
+            width: 42px;
+            height: 42px;
+            font-size: 16px;
+            border-radius: 10px;
+        }
+
+        .stat-number-text {
+            font-size: 20px;
+        }
+
+        .filter-card-panel {
+            padding: 14px;
+            border-radius: 12px;
+        }
+
+        .filter-form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .form-group-filter {
+            width: 100%;
+        }
+
+        .filter-actions-group {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            margin-top: 2px;
+        }
+
+        .filter-actions-group .btn-table-action {
+            flex: 1;
+            height: 38px;
+            justify-content: center;
+        }
+
+        .announcement-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .announcement-card {
+            padding: 14px 16px;
+            border-radius: 12px;
+            gap: 12px;
+        }
+
+        .card-title-text {
+            font-size: 14px;
+        }
+
+        .card-snippet-text {
+            font-size: 12px;
+            line-height: 1.5;
+            -webkit-line-clamp: 2;
+        }
+
+        .card-footer-meta {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding-top: 10px;
+        }
+
+        .meta-info-left {
+            justify-content: space-between;
+            font-size: 11px;
+            gap: 8px;
+        }
+
+        .card-action-btns {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            width: 100%;
+            border-top: 1px dashed #f1f5f9;
+            padding-top: 8px;
+        }
+
+        .card-action-btns .btn-table-action {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Modals on Mobile */
+        .modal-overlay-custom {
+            padding: 12px;
+        }
+
+        .modal-dialog-custom {
+            max-width: 100%;
+            border-radius: 14px;
+            max-height: 92vh;
+        }
+
+        .modal-header-custom {
+            padding: 14px 16px;
+        }
+
+        .modal-header-custom h3 {
+            font-size: 14px;
+        }
+
+        .modal-body-custom {
+            padding: 14px 16px;
+            gap: 12px;
+        }
+
+        .modal-footer-custom {
+            padding: 12px 16px;
+        }
+
+        .modal-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-main-title {
+            font-size: 18px;
+        }
+
+        .meta-info-left {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
     }
 </style>
 @endsection
@@ -508,36 +684,14 @@
 @section('content')
 <div class="pengumuman-container">
 
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #16a34a;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-xmark" style="font-size: 18px; color: #ef4444;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
-
     <!-- Page Header -->
     <div class="page-header-box">
         <div>
-            <div class="page-breadcrumb">
-                <a href="{{ route('waka-kurikulum.dashboard') }}">EDU JOURNAL</a>
-                <span>&gt;</span>
-                <a href="{{ route('waka-kurikulum.dashboard') }}">Portal Kurikulum</a>
-                <span>&gt;</span>
-                <span style="color: #2563eb;">Pengumuman Kurikulum &amp; Akademik</span>
-            </div>
             <h1 class="page-main-title">Pengumuman Kurikulum &amp; Akademik</h1>
             <p class="page-sub-title">Publikasi agenda KBM, jadwal supervisi, asesmen, informasi kurikulum, dan pengumuman kedinasan sekolah.</p>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="page-header-actions" style="display: flex; align-items: center; gap: 8px;">
             <button type="button" class="btn-table-action btn-action-secondary" onclick="openTrashModal()">
                 <i class="fa-solid fa-trash-can"></i>
                 <span>Kotak Sampah</span>
@@ -630,7 +784,7 @@
                 <input type="text" name="search" value="{{ $search }}" class="input-filter" placeholder="Ketik kata kunci judul atau isi pengumuman...">
             </div>
 
-            <div style="display: flex; gap: 6px;">
+            <div class="filter-actions-group" style="display: flex; gap: 6px;">
                 <button type="submit" class="btn-table-action btn-action-primary" style="height: 38px;">
                     <i class="fa-solid fa-magnifying-glass"></i> Filter
                 </button>
@@ -699,7 +853,7 @@
                             </span>
                         </div>
 
-                        <div style="display: flex; align-items: center; gap: 6px;">
+                        <div class="card-action-btns" style="display: flex; align-items: center; gap: 6px;">
                             <button type="button" class="btn-table-action btn-action-detail" onclick="openDetailModal({{ $p->id_pengumuman }})" title="Lihat Rincian Pengumuman" style="padding: 5px 9px;">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
@@ -747,7 +901,7 @@
                     <input type="text" name="judul" class="form-input-custom" placeholder="Contoh: Jadwal Pelaksanaan Asesmen Sumatif Akhir Semester" required>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div class="form-group-custom">
                         <label class="form-label-custom">Kategori Pengumuman <span style="color: #ef4444;">*</span></label>
                         <select name="kategori" class="form-select-custom" required>
@@ -765,7 +919,7 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div class="form-group-custom">
                         <label class="form-label-custom">Status Penayangan</label>
                         <select name="status" class="form-select-custom" required>
@@ -815,7 +969,7 @@
                     <input type="text" name="judul" id="edit_judul" class="form-input-custom" required>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div class="form-group-custom">
                         <label class="form-label-custom">Kategori Pengumuman</label>
                         <select name="kategori" id="edit_kategori" class="form-select-custom" required>
@@ -833,7 +987,7 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div class="modal-grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div class="form-group-custom">
                         <label class="form-label-custom">Status</label>
                         <select name="status" id="edit_status" class="form-select-custom" required>

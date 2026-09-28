@@ -54,13 +54,14 @@
         background: #f1f5f9;
         color: #475569;
         border: 1px solid #cbd5e1;
-        padding: 9px 18px;
+        padding: 10px 18px;
         border-radius: 12px;
-        font-size: 13px;
+        font-size: 13.5px;
         font-weight: 700;
         text-decoration: none;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         transition: background 0.15s;
     }
@@ -97,11 +98,16 @@
         vertical-align: middle;
     }
 
+    .mobile-lbl {
+        display: none;
+    }
+
     .btn-act {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 5px;
-        padding: 6px 12px;
+        padding: 7px 12px;
         border-radius: 8px;
         font-size: 12px;
         font-weight: 700;
@@ -109,6 +115,8 @@
         cursor: pointer;
         transition: all 0.15s ease;
         line-height: 1.2;
+        text-decoration: none;
+        box-sizing: border-box;
     }
 
     .btn-restore {
@@ -146,6 +154,114 @@
         color: #065f46;
         border: 1px solid #a7f3d0;
     }
+
+    @media (max-width: 768px) {
+        .card {
+            padding: 16px 14px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+
+        .card-top-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .btn-back-main {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .table-responsive {
+            border: none !important;
+            overflow-x: visible !important;
+        }
+
+        .table-custom {
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .table-custom thead {
+            display: none !important;
+        }
+
+        .table-custom tbody {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr {
+            display: flex !important;
+            flex-direction: column !important;
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 14px !important;
+            padding: 14px !important;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .table-custom tbody tr td {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 0 !important;
+            border: none !important;
+            width: 100% !important;
+            font-size: 13px !important;
+        }
+
+        .table-custom tbody tr td.td-no {
+            display: none !important;
+        }
+
+        .table-custom tbody tr td.td-name {
+            border-bottom: 1px solid #f1f5f9 !important;
+            padding-bottom: 10px !important;
+            margin-bottom: 2px !important;
+            display: block !important;
+        }
+
+        .table-custom tbody tr td.td-actions {
+            border-top: 1px dashed #e2e8f0 !important;
+            padding-top: 10px !important;
+            margin-top: 4px !important;
+            display: block !important;
+            width: 100% !important;
+        }
+
+        .mobile-lbl {
+            display: inline-block !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            color: #64748b !important;
+        }
+
+        .trash-action-group {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .trash-action-group form {
+            display: flex !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+
+        .btn-act {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 8px !important;
+        }
+    }
 </style>
 @endsection
 
@@ -164,16 +280,6 @@
         <i class="fa-solid fa-chevron-right" style="font-size:11px; color:#94a3b8;"></i>
         <span>Tempat Sampah Guru Piket</span>
     </div>
-
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
 
     <div class="card">
         <div class="card-top-header">
@@ -200,18 +306,24 @@
                 <tbody>
                     @forelse($trashedPikets as $index => $u)
                         <tr>
-                            <td><strong>{{ $index + 1 }}</strong></td>
-                            <td>
-                                <strong>{{ $u->name }}</strong>
-                                <div style="font-size:12px; color:#64748b;">Email: {{ $u->email ?? '-' }}</div>
+                            <td class="td-no"><strong>{{ $index + 1 }}</strong></td>
+                            <td class="td-name">
+                                <strong style="font-size:14px; color:#0f172a; display:block;">{{ $u->name }}</strong>
+                                <div style="font-size:12px; color:#64748b; margin-top:2px;">Email: {{ $u->email ?? '-' }}</div>
                             </td>
                             <td>
-                                <span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $u->nip }}</span>
-                                <div style="font-size:12px; color:#64748b;">User: {{ $u->username ?? '-' }}</div>
+                                <span class="mobile-lbl">NIP / User:</span>
+                                <div>
+                                    <span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $u->nip }}</span>
+                                    <span style="font-size:12px; color:#64748b; margin-left:4px;">({{ $u->username ?? '-' }})</span>
+                                </div>
                             </td>
-                            <td>{{ $u->deleted_at ? \Carbon\Carbon::parse($u->deleted_at)->format('d/m/Y H:i') : '-' }}</td>
-                            <td style="text-align:center;">
-                                <div style="display:inline-flex; gap:6px;">
+                            <td>
+                                <span class="mobile-lbl">Dihapus Pada:</span>
+                                <span style="font-size:12.5px; color:#64748b;">{{ $u->deleted_at ? \Carbon\Carbon::parse($u->deleted_at)->format('d/m/Y H:i') : '-' }}</span>
+                            </td>
+                            <td class="td-actions" style="text-align:center;">
+                                <div class="trash-action-group" style="display:inline-flex; gap:6px;">
                                     <form action="{{ route('admin.guru-piket.restore', $u->id) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         <button type="submit" class="btn-act btn-restore" title="Pulihkan Guru Piket">
@@ -223,7 +335,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-act btn-force-delete" onclick="return confirm('Hapus PERMANEN Guru Piket {{ addslashes($u->name) }}? Data tidak dapat dikembalikan!')" title="Hapus Permanen">
-                                            <i class="fa-solid fa-skull"></i> Hapus Permanen
+                                            <i class="fa-solid fa-skull"></i> Hapus
                                         </button>
                                     </form>
                                 </div>

@@ -328,6 +328,29 @@
     .badge-role-kepala_sekolah { background: #ecfdf5; color: #15803d; border: 1px solid #86efac; }
     .badge-role-piket          { background: #fefce8; color: #a16207; border: 1px solid #fef08a; }
 
+    .badge-gender {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+        font-weight: 800;
+        font-size: 11.5px;
+        padding: 3px 8px;
+        border-radius: 6px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+    .badge-gender-l {
+        color: #2563eb;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+    }
+    .badge-gender-p {
+        color: #db2777;
+        background: #fdf2f8;
+        border: 1px solid #fbcfe8;
+    }
+
     .btn-wa {
         background: #25d366;
         color: #ffffff !important;
@@ -433,12 +456,342 @@
         gap: 12px;
     }
 
+    /* Responsive Table vs Cards System */
+    .sdm-desktop-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .sdm-mobile-cards {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .m-card-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: border-color 0.2s ease;
+    }
+
+    .m-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .m-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12.5px;
+        color: #334155;
+    }
+
+    .m-info-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .m-info-row i {
+        color: #94a3b8;
+        font-size: 13px;
+        width: 16px;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .m-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        margin-top: 2px;
+    }
+
     @media (max-width: 900px) {
         .stat-grid-4 { grid-template-columns: repeat(2, 1fr); }
     }
-    @media (max-width: 600px) {
-        .stat-grid-4 { grid-template-columns: 1fr; }
-        .form-grid-2 { grid-template-columns: 1fr; }
+
+    @media (max-width: 768px) {
+        .direktori-container {
+            gap: 14px;
+            padding-bottom: 20px;
+        }
+
+        .page-header-container {
+            padding: 14px 16px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            border-radius: 14px;
+        }
+
+        .page-title-group h1 {
+            font-size: 17px;
+            line-height: 1.3;
+        }
+
+        .page-title-group p {
+            font-size: 11.5px;
+            flex-wrap: wrap;
+            line-height: 1.4;
+        }
+
+        .header-actions-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-actions-group a {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 9px 14px;
+            font-size: 12px;
+        }
+
+        .stat-grid-4 {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            padding: 12px 14px;
+            border-radius: 14px;
+            gap: 12px;
+        }
+
+        .stat-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            font-size: 19px;
+            border-radius: 12px;
+        }
+
+        .stat-label {
+            font-size: 11.5px;
+        }
+
+        .stat-val {
+            font-size: 19px;
+        }
+
+        .filter-bar-container {
+            padding: 12px 14px;
+            border-radius: 14px;
+        }
+
+        .filter-bar-container form {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .filter-bar-container form > input,
+        .filter-bar-container form > select {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            flex: 1 1 100% !important;
+            box-sizing: border-box !important;
+            padding: 8px 12px;
+            font-size: 12.5px;
+        }
+
+        .btn-filter-dark, .btn-reset-light {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 8px 14px;
+            font-size: 12.5px;
+        }
+
+        .card-panel {
+            padding: 14px 12px;
+            border-radius: 14px;
+        }
+
+        /* Hide table on mobile, show cards */
+        .sdm-desktop-table {
+            display: none !important;
+        }
+
+        .sdm-mobile-cards {
+            display: flex !important;
+            gap: 10px;
+        }
+
+        .m-card-item {
+            padding: 12px 14px;
+            border-radius: 12px;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .m-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 8px;
+        }
+
+        .m-card-body {
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .m-info-row {
+            gap: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .m-info-row i {
+            font-size: 12px;
+            width: 14px;
+            margin-top: 2px;
+        }
+
+        .m-card-footer {
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 8px;
+            align-items: center;
+        }
+
+        .m-card-footer .btn-wa {
+            padding: 5px 10px;
+            font-size: 11.5px;
+            border-radius: 6px;
+        }
+
+        .m-card-footer .btn-action-outline {
+            padding: 5px 10px;
+            font-size: 11.5px;
+            border-radius: 6px;
+        }
+
+        /* Custom Pagination Bar Mobile Styles */
+        .custom-pagination-bar {
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            gap: 10px !important;
+            margin-top: 16px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .pagination-info {
+            font-size: 11.5px !important;
+            text-align: center !important;
+            width: 100% !important;
+        }
+
+        .pagination-list {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            justify-content: flex-start !important;
+            padding: 4px 2px 8px 2px !important;
+            gap: 4px !important;
+            box-sizing: border-box !important;
+            scrollbar-width: thin !important;
+        }
+
+        .pagination-list::-webkit-scrollbar {
+            height: 4px !important;
+        }
+
+        .pagination-list::-webkit-scrollbar-thumb {
+            background: #cbd5e1 !important;
+            border-radius: 4px !important;
+        }
+
+        .pagination-list .page-item {
+            flex-shrink: 0 !important;
+        }
+
+        .pagination-list .page-link {
+            min-width: 32px !important;
+            height: 32px !important;
+            padding: 0 8px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        .modal-backdrop-custom {
+            padding: 10px;
+        }
+
+        .modal-card-custom {
+            margin: 0;
+            width: 100%;
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 14px;
+        }
+
+        .modal-header-custom {
+            padding: 12px 16px;
+            border-radius: 14px 14px 0 0;
+        }
+
+        .modal-header-custom h3 {
+            font-size: 14.5px;
+        }
+
+        .modal-body-custom {
+            padding: 14px 16px;
+            font-size: 12.5px;
+        }
+
+        .modal-footer-custom {
+            padding: 10px 16px;
+            border-radius: 0 0 14px 14px;
+            flex-direction: column-reverse;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .modal-footer-custom .btn-wa,
+        .modal-footer-custom .btn-reset-light {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .form-grid-2 {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
     }
 </style>
 @endsection
@@ -574,8 +927,8 @@
             </form>
         </div>
 
-        <!-- Table Data -->
-        <div class="table-responsive">
+        <!-- Table Data (Desktop View) -->
+        <div class="sdm-desktop-table table-responsive">
             <table class="table-custom">
                 <thead>
                     <tr>
@@ -697,6 +1050,129 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Cards View -->
+        <div class="sdm-mobile-cards">
+            @forelse($guruList as $index => $guru)
+                @php
+                    $jadwalSummary = $guru->jadwals ? $guru->jadwals->map(function($j) {
+                        return [
+                            'hari' => $j->hari,
+                            'kelas' => $j->kelas ? $j->kelas->nama_kelas : '-',
+                            'mapel' => $j->mapel ? $j->mapel->nama_mapel : '-',
+                            'jam' => ($j->jamMulai ? $j->jamMulai->pukul : '-') . ' s/d ' . ($j->jamSelesai ? $j->jamSelesai->pukul : '-'),
+                        ];
+                    }) : [];
+
+                    $guruDetailData = [
+                        'nama_guru' => $guru->nama_guru,
+                        'nip' => $guru->nip,
+                        'jenis_kelamin' => $guru->jenis_kelamin,
+                        'no_hp' => $guru->no_hp,
+                        'email' => $guru->email ?? ($guru->user ? $guru->user->email : null),
+                        'role_label' => $guru->user ? $guru->user->role_label : 'Master Guru',
+                        'mapel' => $guru->mapel ? $guru->mapel->nama_mapel : 'Guru Mata Pelajaran',
+                        'wali_kelas' => $guru->kelasWali ? $guru->kelasWali->pluck('nama_kelas')->join(', ') : null,
+                        'is_active' => $guru->is_active ?? true,
+                        'jadwals' => $jadwalSummary,
+                    ];
+                @endphp
+
+                <div class="m-card-item">
+                    <div class="m-card-header">
+                        <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;">
+                            <div class="user-avatar-circle">
+                                {{ strtoupper(substr($guru->nama_guru, 0, 1)) }}
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <strong style="font-size: 13.5px; color: #0f172a; display: block; word-break: break-word; line-height: 1.3;">{{ $guru->nama_guru }}</strong>
+                                <div style="font-size: 11px; color: #64748b; margin-top: 2px; word-break: break-all; overflow-wrap: anywhere;">
+                                    <i class="fa-regular fa-envelope" style="font-size: 10.5px;"></i> {{ $guru->email ?? ($guru->user ? $guru->user->email : '-') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="flex-shrink: 0; display: flex; align-items: center;">
+                            @if($guru->jenis_kelamin === 'L')
+                                <span class="badge-gender badge-gender-l" title="Laki-laki"><i class="fa-solid fa-mars"></i> L</span>
+                            @elseif($guru->jenis_kelamin === 'P')
+                                <span class="badge-gender badge-gender-p" title="Perempuan"><i class="fa-solid fa-venus"></i> P</span>
+                            @else
+                                <span style="color: #94a3b8; font-size: 11px;">-</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="m-card-body">
+                        <div class="m-info-row">
+                            <i class="fa-solid fa-id-card" style="color: #2563eb;"></i>
+                            <div><strong>NIP:</strong> {{ $guru->nip ?? '-' }}</div>
+                        </div>
+
+                        <div class="m-info-row">
+                            <i class="fa-solid fa-user-tag" style="color: #64748b;"></i>
+                            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                                <strong>Peran:</strong>
+                                @if($guru->user)
+                                    @php $r = strtolower($guru->user->role ?? 'guru'); @endphp
+                                    <span class="badge-role badge-role-{{ $r }}">
+                                        {{ $guru->user->role_label }}
+                                    </span>
+                                @else
+                                    <span class="badge-role" style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;">
+                                        Master Guru
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="m-info-row">
+                            <i class="fa-solid fa-book-open" style="color: #475569;"></i>
+                            <div><strong>Mapel:</strong> {{ $guru->mapel ? $guru->mapel->nama_mapel : 'Guru Mata Pelajaran' }}</div>
+                        </div>
+
+                        @if($guru->kelasWali && $guru->kelasWali->count() > 0)
+                            <div class="m-info-row" style="background: #ecfdf5; padding: 6px 10px; border-radius: 8px; border: 1px solid #a7f3d0;">
+                                <i class="fa-solid fa-user-shield" style="color: #059669;"></i>
+                                <div style="color: #059669; font-weight: 700; font-size: 11.5px;">
+                                    Wali Kelas: {{ $guru->kelasWali->pluck('nama_kelas')->join(', ') }}
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="m-info-row">
+                            <i class="fa-solid fa-phone" style="color: #64748b;"></i>
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <strong>Kontak:</strong>
+                                <span>{{ $guru->no_hp ?? '-' }}</span>
+                                @if(!empty($guru->no_hp))
+                                    @php
+                                        $cleanHp = preg_replace('/[^0-9]/', '', $guru->no_hp);
+                                        if(str_starts_with($cleanHp, '0')) {
+                                            $cleanHp = '62' . substr($cleanHp, 1);
+                                        }
+                                    @endphp
+                                    <a href="https://wa.me/{{ $cleanHp }}?text=Halo%20{{ urlencode($guru->nama_guru) }}" target="_blank" class="btn-wa" style="font-size: 11px; padding: 2px 7px;">
+                                        <i class="fa-brands fa-whatsapp"></i> Chat WA
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-card-footer">
+                        <span style="font-size: 11px; color: #64748b; font-weight: 700;">No. {{ $guruList->firstItem() + $index }}</span>
+                        <button type="button" class="btn-action-outline" onclick='openModalDetailGuru(@json($guruDetailData))' style="padding: 5px 12px; font-size: 11.5px;">
+                            <i class="fa-solid fa-eye"></i> Detail Profil
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; color: #94a3b8; padding: 35px 20px;">
+                    <i class="fa-solid fa-id-badge" style="font-size: 36px; color: #cbd5e1; margin-bottom: 10px; display: block;"></i>
+                    Belum ada data pendidik yang sesuai dengan kriteria filter.
+                </div>
+            @endforelse
         </div>
 
         @if($guruList->hasPages())

@@ -794,36 +794,413 @@
         border-radius: 4px;
     }
 
+    /* Mobile Pelanggaran Base (Hidden on Desktop) */
+    .mobile-pelanggaran-wrapper {
+        display: none;
+    }
+
     /* Responsive */
     @media (max-width: 1100px) {
         .stat-cards-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 768px) {
-        .stat-cards-grid { grid-template-columns: 1fr; }
-        .filter-form-row { flex-direction: column; align-items: stretch; }
-        .detail-grid-2 { grid-template-columns: 1fr; }
+        .pelanggaran-container {
+            gap: 14px;
+        }
+
+        .page-header-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .page-title-box h1 {
+            font-size: 20px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-box p {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
+        #dateSelectorForm {
+            width: 100%;
+        }
+
+        .header-date-badge {
+            width: 100%;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding: 8px 14px !important;
+            font-size: 12.5px !important;
+            border-radius: 12px !important;
+        }
+
+        /* 4 Top Stat Cards in 2x2 Grid */
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card-item {
+            padding: 12px 12px !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-circle {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+        }
+
+        .stat-info .stat-label {
+            font-size: 11px !important;
+        }
+
+        .stat-info .stat-number {
+            font-size: 18px !important;
+            margin: 1px 0 2px !important;
+        }
+
+        .stat-info .stat-desc {
+            font-size: 10.5px !important;
+        }
+
+        /* Toolbar Filter Form Grid */
+        .filter-card {
+            padding: 12px 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .filter-form-row {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .search-input-wrap {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .search-input-wrap input {
+            padding: 8px 12px 8px 34px !important;
+            font-size: 12.5px !important;
+            height: 38px !important;
+        }
+
+        .search-input-wrap i {
+            left: 12px !important;
+            font-size: 13px !important;
+        }
+
+        .filter-date-input {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+            padding: 7px 8px !important;
+            height: 38px !important;
+            box-sizing: border-box;
+        }
+
+        .filter-select {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+            padding: 7px 8px !important;
+            height: 38px !important;
+            box-sizing: border-box;
+        }
+
+        .btn-create-pelanggaran {
+            grid-column: 1 / 2 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12px !important;
+            padding: 0 8px !important;
+            box-sizing: border-box;
+        }
+
+        .btn-trash-view {
+            grid-column: 2 / 3 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12px !important;
+            padding: 0 8px !important;
+            box-sizing: border-box;
+        }
+
+        .btn-batch-delete {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12px !important;
+            padding: 0 10px !important;
+            box-sizing: border-box;
+        }
+
+        .btn-reset-filter {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12px !important;
+            box-sizing: border-box;
+        }
+
+        .export-btn-wrap {
+            grid-column: 1 / -1 !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+            margin-left: 0 !important;
+        }
+
+        .btn-export-pill,
+        .btn-print-pill {
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12px !important;
+            padding: 0 10px !important;
+            box-sizing: border-box;
+        }
+
+        /* Switch Desktop Table to Mobile Cards */
+        .desktop-pelanggaran-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-pelanggaran-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+        }
+
+        .mobile-select-all-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .mobile-pelanggaran-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .m-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .m-card-header-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-card-name-group {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-card-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 3px 0;
+            line-height: 1.25;
+            word-break: break-word;
+            cursor: pointer;
+        }
+
+        .m-card-name:hover {
+            color: #2563eb;
+        }
+
+        .m-card-nisn {
+            font-size: 11.5px;
+            color: #64748b;
+        }
+
+        .m-card-header-right {
+            flex-shrink: 0;
+        }
+
+        .m-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .m-card-badges-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .badge-kelas-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            font-weight: 700;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+        }
+
+        .badge-poin-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            font-weight: 800;
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .m-pelanggaran-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.35;
+        }
+
+        .m-meta-box {
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            border-radius: 10px;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        .m-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            word-break: break-word;
+        }
+
+        .m-meta-label {
+            font-weight: 700;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        .m-meta-val {
+            color: #1e293b;
+        }
+
+        .m-action-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .btn-m-action {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 8px 2px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s ease;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+
+        .btn-m-detail { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+        .btn-m-detail:active { background: #2563eb; color: #ffffff; }
+
+        .btn-m-edit { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+        .btn-m-edit:active { background: #d97706; color: #ffffff; }
+
+        .btn-m-wa { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .btn-m-wa:active { background: #16a34a; color: #ffffff; }
+
+        .btn-m-delete { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+        .btn-m-delete:active { background: #dc2626; color: #ffffff; }
+
+        /* Modal Responsiveness */
+        .modal-dialog {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            border-radius: 16px !important;
+            margin: 10px !important;
+        }
+
+        .modal-body {
+            padding: 16px 18px !important;
+        }
+
+        .detail-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        .modal-footer {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            padding: 12px 18px !important;
+        }
+
+        .modal-footer .btn-action-pill {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 12px !important;
+            box-sizing: border-box;
+        }
     }
 </style>
 @endsection
 
 @section('content')
 <div class="pelanggaran-container">
-
-    <!-- Flash Alerts -->
-    @if(session('success'))
-        <div style="background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; padding: 14px 18px; border-radius: 12px; font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 18px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; color: #991b1b; border: 1px solid #fecdd3; padding: 14px 18px; border-radius: 12px; font-size: 13.5px; font-weight: 700; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-circle-exclamation" style="font-size: 18px;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <!-- Header Row -->
     <div class="page-header-row">
@@ -940,7 +1317,7 @@
             </a>
 
             <!-- Export Buttons -->
-            <div style="display: flex; gap: 8px; margin-left: auto;">
+            <div class="export-btn-wrap" style="display: flex; gap: 8px; margin-left: auto;">
                 <a href="{{ route('waka.pelanggaran-siswa.export', request()->all()) }}" class="btn-action-pill btn-export-pill" title="Ekspor CSV">
                     <i class="fa-solid fa-arrow-up-from-bracket"></i>
                     <span>Export</span>
@@ -961,7 +1338,8 @@
 
     <!-- Table Card -->
     <div class="table-container-card">
-        <div class="table-responsive-box">
+        <!-- Desktop Table View -->
+        <div class="desktop-pelanggaran-table-wrapper table-responsive-box">
             <table class="pelanggaran-table">
                 <thead>
                     <tr>
@@ -1037,6 +1415,107 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <!-- Mobile Siswa Pelanggaran Cards View -->
+        <div class="mobile-pelanggaran-wrapper">
+            <!-- Mobile Select All Bar -->
+            @if($pelanggarans->total() > 0)
+                <div class="mobile-select-all-bar">
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: #475569; cursor: pointer;">
+                        <input type="checkbox" id="checkAllPelanggaranMobile" class="custom-checkbox" onchange="toggleSelectAllPelanggaranMobile(this)">
+                        <span>Pilih Semua Siswa</span>
+                    </label>
+                    <span style="font-size: 11.5px; color: #94a3b8;">Total: {{ $pelanggarans->total() }}</span>
+                </div>
+            @endif
+
+            @forelse($pelanggarans as $p)
+                <div class="mobile-pelanggaran-card">
+                    <div class="m-card-header">
+                        <div class="m-card-header-left">
+                            <input type="checkbox" class="pelanggaran-row-checkbox custom-checkbox" value="{{ $p->id_pelanggaran }}" onchange="updateBatchDeleteState()">
+                            <div class="m-card-name-group">
+                                <h4 class="m-card-name" onclick="openModalDetailPelanggaran({{ $p->id_pelanggaran }})">{{ $p->siswa->nama_siswa ?? '-' }}</h4>
+                                <div class="m-card-nisn">
+                                    <span>NIS: <strong>{{ $p->siswa->nis ?? '-' }}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-card-header-right">
+                            @if($p->kategori_pelanggaran === 'Ringan')
+                                <span class="badge-kategori-ringan">Ringan</span>
+                            @elseif($p->kategori_pelanggaran === 'Sedang')
+                                <span class="badge-kategori-sedang">Sedang</span>
+                            @else
+                                <span class="badge-kategori-berat">Berat</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="m-card-body">
+                        <div class="m-card-badges-row">
+                            <span class="badge-kelas-chip">
+                                <i class="fa-solid fa-graduation-cap"></i> {{ $p->kelas->nama_kelas ?? ($p->siswa->kelas->nama_kelas ?? '-') }}
+                            </span>
+                            @if($p->poin_pelanggaran)
+                                <span class="badge-poin-chip">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> {{ $p->poin_pelanggaran }} Poin
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="m-pelanggaran-title">
+                            {{ $p->jenis_pelanggaran }}
+                        </div>
+
+                        <div class="m-meta-box">
+                            <div class="m-meta-row">
+                                <span class="m-meta-label"><i class="fa-regular fa-calendar"></i> Tanggal:</span>
+                                <span class="m-meta-val">{{ $p->tanggal ? \Carbon\Carbon::parse($p->tanggal)->locale('id')->isoFormat('D MMM Y') : '-' }}</span>
+                            </div>
+                            @if($p->alasan)
+                                <div class="m-meta-row" style="align-items: flex-start; margin-top: 4px;">
+                                    <span class="m-meta-label"><i class="fa-regular fa-comment-dots"></i> Alasan:</span>
+                                    <span class="m-meta-val" style="font-style: italic; color: #475569;">"{{ $p->alasan }}"</span>
+                                </div>
+                            @endif
+                            @if($p->tindakan_sanksi)
+                                <div class="m-meta-row" style="align-items: flex-start; margin-top: 4px;">
+                                    <span class="m-meta-label"><i class="fa-solid fa-gavel"></i> Sanksi:</span>
+                                    <span class="m-meta-val" style="font-weight: 700; color: #1e293b;">{{ $p->tindakan_sanksi }}</span>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- 4 Action Buttons Grid -->
+                        <div class="m-action-grid">
+                            <button type="button" class="btn-m-action btn-m-detail" onclick="openModalDetailPelanggaran({{ $p->id_pelanggaran }})">
+                                <i class="fa-solid fa-eye"></i> Detail
+                            </button>
+                            <button type="button" class="btn-m-action btn-m-edit" onclick="openModalEditPelanggaran({{ $p->id_pelanggaran }})">
+                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                            </button>
+                            <button type="button" class="btn-m-action btn-m-wa" onclick="kirimWaPelanggaran({{ $p->id_pelanggaran }})">
+                                <i class="fa-brands fa-whatsapp"></i> WA
+                            </button>
+                            <form action="{{ route('waka.pelanggaran-siswa.destroy', $p->id_pelanggaran) }}" method="POST" onsubmit="return confirm('Pindahkan data pelanggaran ini ke kotak sampah?')" style="margin: 0;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-m-action btn-m-delete">
+                                    <i class="fa-solid fa-trash-can"></i> Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 36px 16px; color: #94a3b8; background: #ffffff; border-radius: 14px; border: 1.5px dashed #cbd5e1;">
+                    <div style="font-size: 36px; margin-bottom: 8px; color: #cbd5e1;"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4 style="font-size: 15px; font-weight: 800; color: #475569; margin: 0 0 4px 0;">Tidak Ada Data Pelanggaran</h4>
+                    <p style="font-size: 12px; margin: 0;">Seluruh siswa mematuhi tata tertib atau tidak ada data yang cocok dengan filter yang dipilih.</p>
+                </div>
+            @endforelse
         </div>
 
         <!-- Table Footer -->
@@ -1284,6 +1763,18 @@
         rowCheckboxes.forEach(cb => {
             cb.checked = mainCheckbox.checked;
         });
+        const mobileMain = document.getElementById('checkAllPelanggaranMobile');
+        if (mobileMain) mobileMain.checked = mainCheckbox.checked;
+        updateBatchDeleteState();
+    }
+
+    function toggleSelectAllPelanggaranMobile(mainCheckbox) {
+        const rowCheckboxes = document.querySelectorAll('.pelanggaran-row-checkbox');
+        rowCheckboxes.forEach(cb => {
+            cb.checked = mainCheckbox.checked;
+        });
+        const deskMain = document.getElementById('checkAllPelanggaran');
+        if (deskMain) deskMain.checked = mainCheckbox.checked;
         updateBatchDeleteState();
     }
 
@@ -1291,11 +1782,12 @@
         const rowCheckboxes = document.querySelectorAll('.pelanggaran-row-checkbox');
         const selectedCheckboxes = document.querySelectorAll('.pelanggaran-row-checkbox:checked');
         const mainCheckbox = document.getElementById('checkAllPelanggaran');
+        const mainCheckboxMobile = document.getElementById('checkAllPelanggaranMobile');
         const btnBatch = document.getElementById('btnHapusTerpilih');
         const countText = document.getElementById('selectedCountText');
 
         const count = selectedCheckboxes.length;
-        countText.textContent = count;
+        if (countText) countText.textContent = count;
 
         if (count > 0) {
             btnBatch.style.display = 'inline-flex';
@@ -1303,15 +1795,16 @@
             btnBatch.style.display = 'none';
         }
 
-        if (rowCheckboxes.length > 0 && selectedCheckboxes.length === rowCheckboxes.length) {
-            mainCheckbox.checked = true;
-            mainCheckbox.indeterminate = false;
-        } else if (selectedCheckboxes.length > 0) {
-            mainCheckbox.checked = false;
-            mainCheckbox.indeterminate = true;
-        } else {
-            mainCheckbox.checked = false;
-            mainCheckbox.indeterminate = false;
+        const isAll = rowCheckboxes.length > 0 && selectedCheckboxes.length === rowCheckboxes.length;
+        const isSome = selectedCheckboxes.length > 0;
+
+        if (mainCheckbox) {
+            mainCheckbox.checked = isAll;
+            mainCheckbox.indeterminate = !isAll && isSome;
+        }
+        if (mainCheckboxMobile) {
+            mainCheckboxMobile.checked = isAll;
+            mainCheckboxMobile.indeterminate = !isAll && isSome;
         }
     }
 
@@ -1603,6 +2096,16 @@
 
         // Close searchable dropdown if click outside
         if (!e.target.closest('.searchable-select-wrap')) {
+            document.querySelectorAll('.searchable-select-wrap').forEach(wrap => wrap.classList.remove('active'));
+        }
+    });
+
+    // Close modal on Escape key press
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModalTambahPelanggaran();
+            closeModalDetailPelanggaran();
+            closeModalEditPelanggaran();
             document.querySelectorAll('.searchable-select-wrap').forEach(wrap => wrap.classList.remove('active'));
         }
     });

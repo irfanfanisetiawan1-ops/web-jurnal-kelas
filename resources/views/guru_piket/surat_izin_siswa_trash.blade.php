@@ -8,6 +8,7 @@
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
+        overflow-x: hidden;
     }
 
     .dashboard-page-header {
@@ -44,6 +45,9 @@
         border: 1px solid #e2e8f0;
         margin-bottom: 24px;
         overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .card-custom-header {
@@ -72,6 +76,9 @@
         padding: 16px 24px;
         background: #f8fafc;
         border-bottom: 1px solid #e2e8f0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .filter-input {
@@ -272,9 +279,9 @@
     .modal-overlay {
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(15, 23, 42, 0.6);
+        background: rgba(15, 23, 42, 0.7);
         backdrop-filter: blur(4px);
-        z-index: 9999;
+        z-index: 99999 !important;
         display: none;
         align-items: center;
         justify-content: center;
@@ -328,6 +335,201 @@
         font-size: 14px;
     }
     .btn-close-modal:hover { background: #e2e8f0; color: #0f172a; }
+
+    /* Mobile Responsive Card Views */
+    .desktop-table-container {
+        display: block;
+    }
+
+    .mobile-trash-card-list {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-page-header {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 14px;
+        }
+
+        .header-left h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+        }
+
+        .header-left p {
+            font-size: 13px !important;
+        }
+
+        .header-actions-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-actions-wrapper a,
+        .header-actions-wrapper form,
+        .header-actions-wrapper button {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .card-custom-header {
+            padding: 16px 18px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .filter-bar-container {
+            padding: 14px 16px;
+        }
+
+        .filter-bar-container form {
+            flex-direction: column;
+            align-items: stretch !important;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .filter-input {
+            width: 100% !important;
+        }
+
+        .btn-filter-dark,
+        .btn-reset-light {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .desktop-table-container {
+            display: none !important;
+        }
+
+        .mobile-trash-card-list {
+            display: flex !important;
+            flex-direction: column;
+            gap: 12px;
+            padding: 14px 16px;
+        }
+
+        .trash-card-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .trash-card-item:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .trash-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
+        }
+
+        .trash-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .trash-info-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .trash-info-label {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #64748b;
+            min-width: 90px;
+        }
+
+        .trash-info-val {
+            font-size: 12.5px;
+            color: #1e293b;
+            text-align: right;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .trash-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .trash-card-actions form {
+            flex: 1;
+        }
+
+        .btn-mobile-trash-action {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-mobile-trash-action.restore {
+            background: #d1fae5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+        .btn-mobile-trash-action.restore:hover {
+            background: #a7f3d0;
+        }
+
+        .btn-mobile-trash-action.delete {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+        .btn-mobile-trash-action.delete:hover {
+            background: #fca5a5;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-left h1 {
+            font-size: 28px !important;
+            line-height: 1.25 !important;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .header-left h1 {
+            font-size: 26px !important;
+            line-height: 1.25 !important;
+        }
+    }
 </style>
 @endsection
 
@@ -340,7 +542,7 @@
             <h1><i class="fa-solid fa-trash-can" style="color: #ef4444; margin-right: 8px;"></i>Sampah Surat Izin Siswa</h1>
             <p>Arsip data surat izin siswa yang telah dihapus sementara (Soft Delete). Anda dapat memulihkan kembali atau menghapusnya secara permanen.</p>
         </div>
-        <div style="display: flex; gap: 10px; align-items: center;">
+        <div class="header-actions-wrapper" style="display: flex; gap: 10px; align-items: center;">
             <a href="{{ route('piket.surat-izin-siswa') }}" class="btn-filter-dark" style="padding: 10px 20px; font-size: 13px; border-radius: 10px;">
                 <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Utama
             </a>
@@ -356,13 +558,6 @@
         </div>
     </div>
 
-    <!-- Alert Flash Messages -->
-    @if(session('success'))
-        <div class="alert alert-success">
-            <i class="fa-solid fa-circle-check"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
 
     <!-- Main Card Container -->
     <div class="card-custom">
@@ -400,8 +595,8 @@
             </form>
         </div>
 
-        <!-- Trash Table -->
-        <div style="overflow-x: auto;">
+        <!-- Trash Table (Desktop) -->
+        <div class="desktop-table-container" style="overflow-x: auto;">
             <table class="table-custom">
                 <thead>
                     <tr>
@@ -513,9 +708,107 @@
             </table>
         </div>
 
+        <!-- Mobile Trash Card List -->
+        <div class="mobile-trash-card-list">
+            @forelse($suratIzinList as $index => $item)
+                @php
+                    $namaSiswa = $item->siswa->nama_siswa ?? 'Siswa';
+                    $namaKelas = $item->kelas->nama_kelas ?? '-';
+                    $nameParts = explode(' ', trim($namaSiswa));
+                    $initials  = count($nameParts) >= 2 
+                        ? strtoupper(substr($nameParts[0], 0, 1) . substr($nameParts[1], 0, 1))
+                        : strtoupper(substr($namaSiswa, 0, 2));
+
+                    $katClass = match($item->kategori) {
+                        'Sakit' => 'sakit',
+                        'Izin'  => 'izin',
+                        default => 'dispen'
+                    };
+
+                    $tglMulaiFmt   = \Carbon\Carbon::parse($item->tanggal)->format('d/m/Y');
+                    $tglSelesaiFmt = $item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai)->format('d/m/Y') : $tglMulaiFmt;
+                    $rentangFmt    = ($tglMulaiFmt === $tglSelesaiFmt) ? $tglMulaiFmt : "{$tglMulaiFmt} s/d {$tglSelesaiFmt}";
+                    $durasiText    = ($item->durasi_hari > 0 ? $item->durasi_hari : 1) . ' Hari';
+                @endphp
+                <div class="trash-card-item">
+                    <div class="trash-card-header">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div class="student-avatar" style="width: 38px; height: 38px; font-size: 13px;">{{ $initials }}</div>
+                            <div>
+                                <div style="font-weight: 800; font-size: 14px; color: #0f172a;">{{ $namaSiswa }}</div>
+                                <div style="font-size: 11.5px; color: #64748b; font-weight: 600;">NIS: {{ $item->siswa->nis ?? '-' }} • <span style="color: #2563eb; font-weight: 700;">{{ $namaKelas }}</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="badge-kategori {{ $katClass }}" style="font-size: 11px;">
+                                @if($item->kategori == 'Sakit')
+                                    <i class="fa-solid fa-notes-medical"></i> Sakit
+                                @elseif($item->kategori == 'Izin')
+                                    <i class="fa-solid fa-envelope"></i> Izin
+                                @else
+                                    <i class="fa-solid fa-award"></i> Dispen
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="trash-card-body">
+                        <div class="trash-info-row">
+                            <span class="trash-info-label"><i class="fa-regular fa-calendar" style="color: #64748b; margin-right: 4px;"></i> Rentang:</span>
+                            <span class="trash-info-val">
+                                {{ $rentangFmt }}
+                                <span class="durasi-pill" style="margin-left: 4px;">{{ $durasiText }}</span>
+                            </span>
+                        </div>
+                        <div class="trash-info-row">
+                            <span class="trash-info-label"><i class="fa-solid fa-circle-info" style="color: #64748b; margin-right: 4px;"></i> Alasan:</span>
+                            <span class="trash-info-val" style="color: #475569; font-size: 12px; font-weight: 500;">{{ $item->keterangan ?? '-' }}</span>
+                        </div>
+                        <div class="trash-info-row">
+                            <span class="trash-info-label"><i class="fa-solid fa-clock-rotate-left" style="color: #ef4444; margin-right: 4px;"></i> Dihapus:</span>
+                            <span class="trash-info-val" style="color: #ef4444; font-weight: 700; font-size: 11.5px;">
+                                {{ $item->deleted_at ? $item->deleted_at->diffForHumans() : '-' }}
+                            </span>
+                        </div>
+                        @if($item->foto_url)
+                            <div class="trash-info-row" style="align-items: center;">
+                                <span class="trash-info-label"><i class="fa-solid fa-image" style="color: #7c3aed; margin-right: 4px;"></i> Foto Bukti:</span>
+                                <span class="trash-info-val">
+                                    <button type="button" class="btn-filter-dark" style="padding: 4px 10px; font-size: 11px; border-radius: 6px; background: #f3e8ff; color: #7c3aed; border: 1px solid #ddd6fe;" onclick="showFotoModal('{{ $item->foto_url }}', '{{ $namaSiswa }} - {{ $item->kategori }}')">
+                                        <i class="fa-solid fa-eye"></i> Lihat Bukti Foto
+                                    </button>
+                                </span>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="trash-card-actions">
+                        <form action="{{ route('piket.surat-izin-siswa.restore', $item->id_surat_izin) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn-mobile-trash-action restore" title="Pulihkan Surat Izin">
+                                <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                            </button>
+                        </form>
+                        <form action="{{ route('piket.surat-izin-siswa.force-delete', $item->id_surat_izin) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus permanen data ini beserta foto buktinya?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-mobile-trash-action delete" title="Hapus Permanen">
+                                <i class="fa-solid fa-trash-can"></i> Hapus Permanen
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 32px 16px; color: #94a3b8; background: #f8fafc; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <i class="fa-solid fa-trash-can-arrow-up" style="font-size: 28px; margin-bottom: 8px; display: block; color: #cbd5e1;"></i>
+                    Tempat sampah kosong. Tidak ada data surat izin siswa yang dihapus.
+                </div>
+            @endforelse
+        </div>
+
         @if($suratIzinList->hasPages())
             <div style="padding: 16px 24px; border-top: 1px solid #f1f5f9;">
-                {{ $suratIzinList->withQueryString()->links() }}
+                {{ $suratIzinList->withQueryString()->links('partials.custom-pagination') }}
             </div>
         @endif
     </div>

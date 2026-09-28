@@ -50,6 +50,7 @@
         height: 44px;
         border-radius: 12px;
         border: 1px solid #dbeafe;
+        flex-shrink: 0;
     }
 
     .title-header-text {
@@ -145,6 +146,7 @@
         color: #334155;
         font-weight: 600;
         transition: all 0.2s ease;
+        box-sizing: border-box;
     }
 
     .filter-select-item select:focus, .filter-select-item input:focus {
@@ -163,6 +165,7 @@
         cursor: pointer;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         transition: all 0.2s ease;
     }
@@ -183,6 +186,7 @@
         text-decoration: none;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         transition: all 0.2s ease;
     }
@@ -195,7 +199,7 @@
     /* Executive KPI Grid (5 Cards) */
     .kpi-cards-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(5, 1fr);
         gap: 16px;
     }
 
@@ -238,6 +242,7 @@
         align-items: center;
         justify-content: center;
         font-size: 15px;
+        flex-shrink: 0;
     }
 
     .kpi-number-val {
@@ -283,9 +288,16 @@
         gap: 8px;
     }
 
+    .chart-bars-scroll-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
     .chart-bars-wrapper {
         position: relative;
         height: 200px;
+        min-width: 320px;
         display: flex;
         align-items: flex-end;
         padding-bottom: 28px;
@@ -328,7 +340,7 @@
         align-items: flex-end;
         justify-content: space-around;
         padding-left: 45px;
-        gap: 12px;
+        gap: 8px;
     }
 
     .chart-bar-column {
@@ -339,6 +351,7 @@
         justify-content: flex-end;
         flex: 1;
         max-width: 60px;
+        min-width: 36px;
         position: relative;
         cursor: pointer;
         text-decoration: none;
@@ -350,13 +363,13 @@
     }
 
     .chart-bar-value-pill {
-        font-size: 11.5px;
+        font-size: 11px;
         font-weight: 800;
         color: #2563eb;
         margin-bottom: 6px;
         white-space: nowrap;
         background: #eff6ff;
-        padding: 2px 6px;
+        padding: 2px 5px;
         border-radius: 6px;
         border: 1px solid #dbeafe;
     }
@@ -399,7 +412,7 @@
     }
 
     .chart-bar-label {
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 700;
         color: #334155;
         margin-top: 10px;
@@ -433,6 +446,16 @@
         border-bottom: 2px solid #e2e8f0;
         padding-bottom: 4px;
         overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .laporan-tab-nav::-webkit-scrollbar {
+        height: 3px;
+    }
+
+    .laporan-tab-nav::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
     }
 
     .laporan-tab-btn {
@@ -520,6 +543,7 @@
         font-family: inherit;
         min-width: 220px;
         transition: all 0.2s ease;
+        box-sizing: border-box;
     }
 
     .table-search-input:focus {
@@ -539,18 +563,20 @@
         font-family: inherit;
         cursor: pointer;
         transition: all 0.2s ease;
+        box-sizing: border-box;
     }
 
     .table-filter-select:focus {
         border-color: #2563eb;
     }
 
-    /* Table Styles */
+    /* Table Styles (Desktop View) */
     .table-container-responsive {
         width: 100%;
         overflow-x: auto;
         border-radius: 14px;
         border: 1px solid #e2e8f0;
+        display: block;
     }
 
     .table-laporan-custom {
@@ -646,7 +672,7 @@
     /* Student absence breakdown cards */
     .absen-summary-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 12px;
     }
 
@@ -674,6 +700,93 @@
         color: #64748b;
     }
 
+    /* Mobile Cards Container & Items */
+    .mobile-cards-list-wrapper {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .mobile-report-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .mobile-report-card:active {
+        background: #f8fafc;
+    }
+
+    .mobile-card-top-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 1px dashed #f1f5f9;
+        padding-bottom: 10px;
+    }
+
+    .mobile-card-body-content {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .mobile-card-info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        color: #475569;
+    }
+
+    .mobile-card-info-item i {
+        color: #3b82f6;
+        width: 16px;
+        margin-top: 3px;
+        flex-shrink: 0;
+    }
+
+    .mobile-card-bottom-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        flex-wrap: wrap;
+    }
+
+    .mobile-stat-chips-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .mobile-stat-chip-label {
+        font-size: 9.5px;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+    }
+
+    .mobile-stat-chip-val {
+        font-size: 13.5px;
+        font-weight: 900;
+        color: #0f172a;
+    }
+
     /* Modal Base Styles */
     .custom-modal-overlay {
         position: fixed;
@@ -687,7 +800,7 @@
         display: none;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 16px;
         overflow-y: auto;
     }
 
@@ -713,7 +826,7 @@
     .custom-modal-header {
         background: #2b3957;
         color: #ffffff;
-        padding: 20px 24px;
+        padding: 18px 22px;
         border-top-left-radius: 19px;
         border-top-right-radius: 19px;
         display: flex;
@@ -722,10 +835,11 @@
         position: sticky;
         top: 0;
         z-index: 10;
+        gap: 10px;
     }
 
     .custom-modal-title {
-        font-size: 17px;
+        font-size: 16px;
         font-weight: 800;
         color: #ffffff;
         margin: 0;
@@ -747,6 +861,7 @@
         align-items: center;
         justify-content: center;
         transition: all 0.2s ease;
+        flex-shrink: 0;
     }
 
     .custom-modal-close-btn:hover {
@@ -755,10 +870,10 @@
     }
 
     .custom-modal-body {
-        padding: 24px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 18px;
         color: #334155;
     }
 
@@ -766,7 +881,7 @@
         background: #f8fafc;
         border: 1px solid #e2e8f0;
         border-radius: 14px;
-        padding: 16px 20px;
+        padding: 16px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -774,10 +889,20 @@
         gap: 14px;
     }
 
+    .modal-profile-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .modal-profile-right {
+        text-align: right;
+    }
+
     .modal-stats-row {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-        gap: 12px;
+        gap: 10px;
     }
 
     .modal-stat-pill {
@@ -790,18 +915,34 @@
         gap: 2px;
     }
 
+    .modal-info-grid-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
     .modal-section-title {
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: 800;
         color: #0f172a;
         display: flex;
         align-items: center;
         gap: 8px;
-        margin-top: 6px;
+        margin-top: 4px;
+    }
+
+    .modal-table-scroll-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        background: #ffffff;
     }
 
     .table-modal-custom {
         width: 100%;
+        min-width: 480px;
         border-collapse: collapse;
         font-size: 12.5px;
     }
@@ -817,6 +958,7 @@
         text-transform: uppercase;
         font-size: 11px;
         border-bottom: 1px solid #e2e8f0;
+        white-space: nowrap;
     }
 
     .table-modal-custom td {
@@ -826,7 +968,7 @@
     }
 
     .custom-modal-footer {
-        padding: 16px 24px;
+        padding: 14px 20px;
         background: #f8fafc;
         border-bottom-left-radius: 19px;
         border-bottom-right-radius: 19px;
@@ -850,6 +992,285 @@
 
     .btn-modal-close:hover {
         background: #475569;
+    }
+
+    /* ======================================================== */
+    /* RESPONSIVE MEDIA QUERIES (TABLET & SMARTPHONE)          */
+    /* ======================================================== */
+    @media (max-width: 1024px) {
+        .kpi-cards-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .laporan-container {
+            gap: 16px;
+        }
+
+        .card-laporan-box {
+            padding: 16px;
+            border-radius: 16px;
+            gap: 16px;
+        }
+
+        .top-header-bar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .title-header-text {
+            font-size: 18px !important;
+        }
+
+        .header-actions-group {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .btn-action-top {
+            justify-content: center;
+            font-size: 12px !important;
+            padding: 9px 10px !important;
+        }
+
+        .filter-section-card {
+            padding: 14px;
+            border-radius: 14px;
+        }
+
+        .filter-grid-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .filter-select-item {
+            min-width: unset !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            flex: unset !important;
+        }
+
+        .btn-filter-action, .btn-reset-action {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        .kpi-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .kpi-stat-card {
+            padding: 14px;
+            border-radius: 14px;
+        }
+
+        .kpi-stat-card:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+
+        .kpi-title-label {
+            font-size: 11px !important;
+        }
+
+        .kpi-number-val {
+            font-size: 20px !important;
+        }
+
+        .kpi-subtext-info {
+            font-size: 10.5px !important;
+        }
+
+        .chart-container-box {
+            padding: 16px;
+            border-radius: 14px;
+            gap: 14px;
+        }
+
+        .chart-title-text {
+            font-size: 14px !important;
+        }
+
+        .chart-bars-area {
+            padding-left: 38px;
+            gap: 6px;
+        }
+
+        .chart-bar-value-pill {
+            font-size: 10px;
+            padding: 2px 4px;
+        }
+
+        .chart-bar-label {
+            font-size: 10.5px;
+        }
+
+        .tab-quick-toolbar {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding: 12px;
+        }
+
+        .tab-toolbar-right {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .table-search-input, .table-filter-select {
+            width: 100% !important;
+            min-width: unset !important;
+        }
+
+        .absen-summary-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+
+        .absen-summary-box {
+            padding: 10px !important;
+        }
+
+        .absen-summary-val {
+            font-size: 18px !important;
+        }
+
+        /* Hide desktop main table, display mobile cards */
+        .table-container-responsive {
+            display: none !important;
+        }
+
+        .mobile-cards-list-wrapper {
+            display: flex !important;
+        }
+
+        /* Modal Dialog on Mobile */
+        .custom-modal-overlay {
+            padding: 12px !important;
+        }
+
+        .custom-modal-dialog {
+            max-width: 100% !important;
+            width: 100% !important;
+            max-height: 88vh !important;
+            border-radius: 18px !important;
+        }
+
+        .custom-modal-header {
+            padding: 14px 18px !important;
+            border-top-left-radius: 17px !important;
+            border-top-right-radius: 17px !important;
+        }
+
+        .custom-modal-title {
+            font-size: 15px !important;
+        }
+
+        .custom-modal-body {
+            padding: 14px !important;
+            gap: 14px !important;
+        }
+
+        .modal-profile-card {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+            padding: 12px 14px !important;
+        }
+
+        .modal-profile-left {
+            width: 100%;
+            gap: 12px !important;
+        }
+
+        .modal-profile-right {
+            text-align: left !important;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 8px;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        .modal-stats-row {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+
+        .modal-stats-row .modal-stat-pill:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+
+        .modal-stat-pill {
+            padding: 10px 12px !important;
+        }
+
+        .modal-info-grid-2col {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        .custom-modal-footer {
+            padding: 12px 14px !important;
+            border-bottom-left-radius: 17px !important;
+            border-bottom-right-radius: 17px !important;
+        }
+
+        .btn-modal-close {
+            width: 100% !important;
+            text-align: center;
+            padding: 11px 18px !important;
+            font-size: 13px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-actions-group {
+            grid-template-columns: 1fr;
+        }
+
+        .kpi-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .kpi-icon-wrapper {
+            display: none;
+        }
+
+        .mobile-stat-chips-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-actions-group {
+            grid-template-columns: 1fr;
+        }
+
+        .kpi-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .kpi-icon-wrapper {
+            display: none;
+        }
+
+        .mobile-stat-chips-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
     }
 </style>
 @endsection
@@ -1070,47 +1491,49 @@
                 </div>
             </div>
 
-            <div class="chart-bars-wrapper">
-                <!-- Grid Lines Y-Axis (0% to 100%) -->
-                <div class="chart-grid-lines">
-                    @foreach([100, 75, 50, 25, 0] as $tick)
-                    <div class="chart-grid-tick">
-                        <span style="width: 38px; text-align: right;">{{ $tick }}%</span>
-                        <div class="chart-grid-line"></div>
+            <div class="chart-bars-scroll-wrapper">
+                <div class="chart-bars-wrapper">
+                    <!-- Grid Lines Y-Axis (0% to 100%) -->
+                    <div class="chart-grid-lines">
+                        @foreach([100, 75, 50, 25, 0] as $tick)
+                        <div class="chart-grid-tick">
+                            <span style="width: 38px; text-align: right;">{{ $tick }}%</span>
+                            <div class="chart-grid-line"></div>
+                        </div>
+                        @endforeach
                     </div>
-                    @endforeach
-                </div>
 
-                <!-- Bars Area -->
-                <div class="chart-bars-area">
-                    @foreach($kehadiranBulanan as $item)
-                        @php
-                            $queryParams = array_merge(request()->query(), [
-                                'bulan' => ($selectedBulan == $item['num']) ? null : $item['num']
-                            ]);
-                            $urlToggleMonth = route('kepala-sekolah.laporan', array_filter($queryParams, fn($v) => !is_null($v) && $v !== ''));
-                            
-                            $heightPct = $item['has_data'] ? max(6, min(100, $item['pct'])) : 4;
-                            $tooltipText = $item['has_data'] 
-                                ? ($item['bulan'] . ' ' . $selectedTahun . ": Kehadiran Guru " . $item['pct'] . "% (" . $item['sesi_hadir'] . "/" . $item['total_jurnal'] . " Sesi KBM Terlaksana, " . $item['total_izin'] . " Surat Izin Guru)")
-                                : ($item['bulan'] . ' ' . $selectedTahun . ": Belum ada catatan sesi KBM / izin guru");
-                        @endphp
+                    <!-- Bars Area -->
+                    <div class="chart-bars-area">
+                        @foreach($kehadiranBulanan as $item)
+                            @php
+                                $queryParams = array_merge(request()->query(), [
+                                    'bulan' => ($selectedBulan == $item['num']) ? null : $item['num']
+                                ]);
+                                $urlToggleMonth = route('kepala-sekolah.laporan', array_filter($queryParams, fn($v) => !is_null($v) && $v !== ''));
+                                
+                                $heightPct = $item['has_data'] ? max(6, min(100, $item['pct'])) : 4;
+                                $tooltipText = $item['has_data'] 
+                                    ? ($item['bulan'] . ' ' . $selectedTahun . ": Kehadiran Guru " . $item['pct'] . "% (" . $item['sesi_hadir'] . "/" . $item['total_jurnal'] . " Sesi KBM Terlaksana, " . $item['total_izin'] . " Surat Izin Guru)")
+                                    : ($item['bulan'] . ' ' . $selectedTahun . ": Belum ada catatan sesi KBM / izin guru");
+                            @endphp
 
-                        <a href="{{ $urlToggleMonth }}" class="chart-bar-column" title="{{ $tooltipText }}">
-                            <span class="chart-bar-value-pill {{ $item['is_active'] ? 'pill-active' : (!$item['has_data'] ? 'pill-empty' : '') }}">
-                                {{ $item['has_data'] ? $item['pct'].'%' : '-' }}
-                            </span>
-                            
-                            <div class="chart-bar-fill {{ $item['is_active'] ? 'fill-active' : (!$item['has_data'] ? 'fill-empty' : '') }}" style="height: {{ $heightPct }}%;"></div>
-                            
-                            <div class="chart-bar-label {{ $item['is_active'] ? 'label-active' : '' }}">
-                                {{ $item['bulan'] }}
-                                @if($item['is_active'])
-                                    <span style="font-size: 10px; color: #2563eb; display: block;">(Terpilih)</span>
-                                @endif
-                            </div>
-                        </a>
-                    @endforeach
+                            <a href="{{ $urlToggleMonth }}" class="chart-bar-column" title="{{ $tooltipText }}">
+                                <span class="chart-bar-value-pill {{ $item['is_active'] ? 'pill-active' : (!$item['has_data'] ? 'pill-empty' : '') }}">
+                                    {{ $item['has_data'] ? $item['pct'].'%' : '-' }}
+                                </span>
+                                
+                                <div class="chart-bar-fill {{ $item['is_active'] ? 'fill-active' : (!$item['has_data'] ? 'fill-empty' : '') }}" style="height: {{ $heightPct }}%;"></div>
+                                
+                                <div class="chart-bar-label {{ $item['is_active'] ? 'label-active' : '' }}">
+                                    {{ $item['bulan'] }}
+                                    @if($item['is_active'])
+                                        <span style="font-size: 10px; color: #2563eb; display: block;">(Terpilih)</span>
+                                    @endif
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
@@ -1168,6 +1591,7 @@
                 </div>
             </div>
 
+            <!-- Desktop Table (Tab 1) -->
             <div class="table-container-responsive">
                 <table class="table-laporan-custom" id="tableRekapGuru">
                     <thead>
@@ -1223,6 +1647,61 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Mobile Cards List (Tab 1: Rekap Guru) -->
+            <div class="mobile-cards-list-wrapper mobile-guru-card-list">
+                @forelse($rekapGuruList as $idx => $rg)
+                <div class="mobile-report-card mobile-guru-card" data-nama="{{ strtolower($rg->nama_guru) }}" data-nip="{{ strtolower($rg->nip) }}" data-mapel="{{ strtolower($rg->nama_mapel) }}" data-evaluasi="{{ $rg->evaluasi }}">
+                    <div class="mobile-card-top-row">
+                        <div>
+                            <div style="font-weight: 800; color: #0f172a; font-size: 15px;">{{ $rg->nama_guru }}</div>
+                            <div style="font-size: 11.5px; color: #64748b; font-weight: 600; margin-top: 1px;">NIP: {{ $rg->nip }}</div>
+                        </div>
+                        <span style="background: #eff6ff; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #bfdbfe; text-align: right;">
+                            {{ $rg->nama_mapel }}
+                        </span>
+                    </div>
+
+                    <div class="mobile-stat-chips-grid">
+                        <div>
+                            <div class="mobile-stat-chip-label">Total Sesi</div>
+                            <div class="mobile-stat-chip-val" style="color: #0f172a;">{{ $rg->total_sesi }}</div>
+                        </div>
+                        <div>
+                            <div class="mobile-stat-chip-label">Hadir</div>
+                            <div class="mobile-stat-chip-val" style="color: #166534;">{{ $rg->hadir }}</div>
+                        </div>
+                        <div>
+                            <div class="mobile-stat-chip-label">Izin</div>
+                            <div class="mobile-stat-chip-val" style="color: #b45309;">{{ $rg->izin }}</div>
+                        </div>
+                        <div>
+                            <div class="mobile-stat-chip-label">Digantikan</div>
+                            <div class="mobile-stat-chip-val" style="color: #1e40af;">{{ $rg->digantikan }}</div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card-bottom-actions">
+                        <div>
+                            @if($rg->evaluasi === 'Sangat Baik')
+                                <span class="badge-status-eval badge-eval-sangat-baik"><i class="fa-solid fa-circle-check"></i> Sangat Baik ({{ $rg->persentase }}%)</span>
+                            @elseif($rg->evaluasi === 'Baik')
+                                <span class="badge-status-eval badge-eval-baik"><i class="fa-solid fa-check"></i> Baik ({{ $rg->persentase }}%)</span>
+                            @else
+                                <span class="badge-status-eval badge-eval-cukup"><i class="fa-solid fa-triangle-exclamation"></i> Perlu Evaluasi ({{ $rg->persentase }}%)</span>
+                            @endif
+                        </div>
+                        <button type="button" class="btn-action-top" onclick="openModalDetailGuru({{ json_encode($rg) }})" style="background: #2563eb; color: #ffffff; padding: 7px 14px; border-radius: 10px; font-size: 12px; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);">
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+                    </div>
+                </div>
+                @empty
+                <div style="text-align: center; padding: 24px; color: #94a3b8; background: #f8fafc; border-radius: 14px; border: 1px dashed #cbd5e1;">
+                    Tidak ada data rekapitulasi guru untuk kriteria filter ini.
+                </div>
+                @endforelse
+            </div>
         </div>
 
         <!-- TAB 2: REKAP KBM PER KELAS -->
@@ -1243,6 +1722,7 @@
                 </div>
             </div>
 
+            <!-- Desktop Table (Tab 2) -->
             <div class="table-container-responsive">
                 <table class="table-laporan-custom" id="tableRekapKelas">
                     <thead>
@@ -1295,6 +1775,61 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Mobile Cards List (Tab 2: Rekap Kelas) -->
+            <div class="mobile-cards-list-wrapper mobile-kelas-card-list">
+                @forelse($rekapKelasList as $idx => $rk)
+                <div class="mobile-report-card mobile-kelas-card" data-nama="{{ strtolower($rk->nama_kelas) }}" data-absen="{{ $rk->siswa_absen > 0 ? 'absen' : 'nihil' }}">
+                    <div class="mobile-card-top-row">
+                        <div>
+                            <div style="font-weight: 800; color: #0f172a; font-size: 15px;">{{ $rk->nama_kelas }}</div>
+                            <div style="font-size: 12px; color: #64748b; font-weight: 600; margin-top: 2px;">
+                                Total Jurnal: <strong style="color: #0f172a;">{{ $rk->total_jurnal }} Sesi</strong>
+                            </div>
+                        </div>
+                        <span style="background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 12px;">
+                            {{ $rk->persentase_kbm }}% Terlaksana
+                        </span>
+                    </div>
+
+                    <div class="mobile-card-body-content">
+                        <div class="mobile-card-info-item">
+                            <i class="fa-solid fa-signature"></i>
+                            <div style="flex: 1;">
+                                <span>Verifikasi Piket:</span>
+                                <strong style="color: #166534; margin-left: 4px;">{{ $rk->terverifikasi }} / {{ $rk->total_jurnal }} Sesi</strong>
+                            </div>
+                        </div>
+                        <div class="mobile-card-info-item">
+                            <i class="fa-solid fa-user-xmark"></i>
+                            <div style="flex: 1;">
+                                <span>Ketidakhadiran Siswa:</span>
+                                @if($rk->siswa_absen > 0)
+                                    <span style="background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 6px; font-weight: 800; font-size: 11.5px; margin-left: 4px;">
+                                        {{ $rk->siswa_absen }} Siswa Absen
+                                    </span>
+                                @else
+                                    <span style="color: #166534; font-weight: 700; font-size: 12px; margin-left: 4px;">
+                                        <i class="fa-solid fa-circle-check"></i> Lengkap (Nihil)
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card-bottom-actions">
+                        <span style="font-size: 11.5px; color: #64748b;">SMKN 1 Boyolangu</span>
+                        <button type="button" class="btn-action-top" onclick="openModalDetailKelas({{ json_encode($rk) }})" style="background: #2563eb; color: #ffffff; padding: 7px 14px; border-radius: 10px; font-size: 12px; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);">
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+                    </div>
+                </div>
+                @empty
+                <div style="text-align: center; padding: 24px; color: #94a3b8; background: #f8fafc; border-radius: 14px; border: 1px dashed #cbd5e1;">
+                    Tidak ada data jurnal kelas pada periode ini.
+                </div>
+                @endforelse
+            </div>
         </div>
 
         <!-- TAB 3: REKAP SURAT IZIN GURU -->
@@ -1316,6 +1851,7 @@
                 </div>
             </div>
 
+            <!-- Desktop Table (Tab 3) -->
             <div class="table-container-responsive">
                 <table class="table-laporan-custom" id="tableRekapIzin">
                     <thead>
@@ -1381,15 +1917,78 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Mobile Cards List (Tab 3: Rekap Surat Izin Guru) -->
+            <div class="mobile-cards-list-wrapper mobile-izin-card-list">
+                @forelse($allFilteredGuruIzin as $idx => $gi)
+                <div class="mobile-report-card mobile-izin-card" data-nama="{{ strtolower($gi->guru->nama_guru ?? '') }}" data-nip="{{ strtolower($gi->guru->nip ?? '') }}" data-mapel="{{ strtolower($gi->guru->mapel->nama_mapel ?? '') }}" data-alasan="{{ strtolower($gi->alasan ?? '') }}" data-status="{{ $gi->status_kepsek ?? 'pending' }}">
+                    <div class="mobile-card-top-row">
+                        <div>
+                            <div style="font-weight: 800; color: #0f172a; font-size: 15px;">{{ $gi->guru->nama_guru ?? 'Guru' }}</div>
+                            <div style="font-size: 11.5px; color: #64748b; font-weight: 600; margin-top: 1px;">NIP: {{ $gi->guru->nip ?? '-' }}</div>
+                        </div>
+                        <span style="background: #eff6ff; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #bfdbfe;">
+                            {{ $gi->guru->mapel->nama_mapel ?? '-' }}
+                        </span>
+                    </div>
+
+                    <div class="mobile-card-body-content">
+                        <div class="mobile-card-info-item">
+                            <i class="fa-solid fa-tag"></i>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 700; color: #334155;">Kategori: {{ $gi->kategori_izin ?: ($gi->kategori ?? 'Izin') }}</span>
+                            </div>
+                        </div>
+                        <div class="mobile-card-info-item">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <div style="flex: 1; font-weight: 600; color: #334155;">
+                                {{ \Carbon\Carbon::parse($gi->tanggal_mulai)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($gi->tanggal_selesai)->format('d/m/Y') }}
+                            </div>
+                        </div>
+                        <div class="mobile-card-info-item">
+                            <i class="fa-solid fa-align-left"></i>
+                            <div style="flex: 1; color: #475569;">
+                                {{ $gi->alasan ?: '-' }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card-bottom-actions">
+                        <div>
+                            @if($gi->status_kepsek === 'approved')
+                                <span style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;">
+                                    <i class="fa-solid fa-circle-check"></i> Disetujui
+                                </span>
+                            @elseif($gi->status_kepsek === 'rejected')
+                                <span style="background: #fee2e2; color: #991b1b; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;">
+                                    <i class="fa-solid fa-circle-xmark"></i> Ditolak
+                                </span>
+                            @else
+                                <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px;">
+                                    <i class="fa-solid fa-clock"></i> Menunggu
+                                </span>
+                            @endif
+                        </div>
+                        <button type="button" class="btn-action-top" onclick="openModalDetailIzin({{ json_encode($gi) }})" style="background: #2563eb; color: #ffffff; padding: 7px 14px; border-radius: 10px; font-size: 12px; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);">
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+                    </div>
+                </div>
+                @empty
+                <div style="text-align: center; padding: 24px; color: #94a3b8; background: #f8fafc; border-radius: 14px; border: 1px dashed #cbd5e1;">
+                    Tidak ada data pengajuan izin guru pada periode ini.
+                </div>
+                @endforelse
+            </div>
         </div>
 
         <!-- TAB 4: REKAP PRESENSI SISWA -->
         <div id="tabSiswa" class="tab-content-pane">
             <!-- Summary KPI Boxes for Absences -->
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
-                <div style="font-size: 14px; font-weight: 800; color: #1e293b; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="font-size: 14px; font-weight: 800; color: #1e293b; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
                     <span style="display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-users-viewfinder" style="color: #2563eb;"></i> Ringkasan Ketidakhadiran Siswa per Kategori (Periode Terpilih)
+                        <i class="fa-solid fa-users-viewfinder" style="color: #2563eb;"></i> Ringkasan Ketidakhadiran Siswa per Kategori
                     </span>
                     <span style="font-size: 12px; color: #64748b; font-weight: 700;">
                         Total: <strong>{{ count($daftarSiswaAbsenList) }} Catatan Absen Siswa</strong>
@@ -1433,6 +2032,7 @@
                 </div>
             </div>
 
+            <!-- Desktop Table (Tab 4) -->
             <div class="table-container-responsive">
                 <table class="table-laporan-custom" id="tableSiswaAbsen">
                     <thead>
@@ -1504,6 +2104,68 @@
                 </table>
             </div>
 
+            <!-- Mobile Cards List (Tab 4: Rekap Presensi Siswa) -->
+            <div class="mobile-cards-list-wrapper mobile-siswa-card-list">
+                @forelse($daftarSiswaAbsenList as $idx => $sa)
+                <div class="mobile-report-card mobile-siswa-card" data-nama="{{ strtolower($sa->nama_siswa) }}" data-nisn="{{ strtolower($sa->nisn) }}" data-kelas="{{ strtolower($sa->nama_kelas) }}" data-mapel="{{ strtolower($sa->nama_mapel) }}" data-guru="{{ strtolower($sa->nama_guru) }}" data-status="{{ $sa->status }}">
+                    <div class="mobile-card-top-row">
+                        <div>
+                            <div style="font-weight: 800; color: #0f172a; font-size: 15px;">{{ $sa->nama_siswa }}</div>
+                            <div style="font-size: 11.5px; color: #64748b; font-family: monospace; margin-top: 1px;">NISN: {{ $sa->nisn }}</div>
+                        </div>
+                        <span style="background: #eff6ff; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 12px; border: 1px solid #bfdbfe;">
+                            {{ $sa->nama_kelas }}
+                        </span>
+                    </div>
+
+                    <div class="mobile-card-body-content">
+                        <div class="mobile-card-info-item">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <div style="flex: 1; font-weight: 700; color: #1e293b;">
+                                {{ $sa->tanggal }} <span style="color: #64748b; font-weight: 600; font-size: 12px;">(Jam Ke: {{ $sa->jam_ke }})</span>
+                            </div>
+                        </div>
+                        <div class="mobile-card-info-item">
+                            <i class="fa-solid fa-book-open"></i>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 700; color: #0f172a;">{{ $sa->nama_mapel }}</span>
+                                <div style="font-size: 11.5px; color: #64748b;">{{ $sa->nama_guru }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-card-bottom-actions">
+                        <div>
+                            @if($sa->status === 'Sakit')
+                                <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 11.5px;">
+                                    Sakit
+                                </span>
+                            @elseif($sa->status === 'Dispensasi')
+                                <span style="background: #f5f3ff; color: #6b21a8; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 11.5px;">
+                                    Dispensasi
+                                </span>
+                            @elseif($sa->status === 'Alpa')
+                                <span style="background: #fee2e2; color: #991b1b; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 11.5px;">
+                                    Alpa
+                                </span>
+                            @else
+                                <span style="background: #eff6ff; color: #1e40af; padding: 4px 12px; border-radius: 12px; font-weight: 800; font-size: 11.5px;">
+                                    Izin
+                                </span>
+                            @endif
+                        </div>
+                        <button type="button" class="btn-action-top" onclick="openModalDetailSiswa({{ json_encode($sa) }})" style="background: #2563eb; color: #ffffff; padding: 7px 14px; border-radius: 10px; font-size: 12px; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);">
+                            <i class="fa-solid fa-eye"></i> Detail
+                        </button>
+                    </div>
+                </div>
+                @empty
+                <div style="text-align: center; padding: 24px; color: #94a3b8; background: #f8fafc; border-radius: 14px; border: 1px dashed #cbd5e1;">
+                    Tidak ada catatan ketidakhadiran siswa pada sesi KBM periode ini.
+                </div>
+                @endforelse
+            </div>
+
             <div style="font-size: 12.5px; color: #64748b; margin-top: 6px;">
                 Untuk melihat daftar izin harian siswa atau rekapitulasi presensi global, Anda juga dapat membuka menu <a href="{{ route('kepala-sekolah.siswa-izin') }}" style="color: #2563eb; font-weight: 700; text-decoration: none;">Siswa yang Sedang Izin</a> dan <a href="{{ route('kepala-sekolah.kehadiran-siswa') }}" style="color: #2563eb; font-weight: 700; text-decoration: none;">Kehadiran Siswa</a>.
             </div>
@@ -1528,8 +2190,8 @@
         <div class="custom-modal-body">
             <!-- Profil Guru -->
             <div class="modal-profile-card">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 48px; height: 48px; border-radius: 14px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+                <div class="modal-profile-left">
+                    <div style="width: 46px; height: 46px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
                         <i class="fa-solid fa-user-tie"></i>
                     </div>
                     <div>
@@ -1537,7 +2199,7 @@
                         <div id="modalGuruNip" style="font-size: 12px; color: #64748b; font-weight: 600;">NIP: -</div>
                     </div>
                 </div>
-                <div style="text-align: right;">
+                <div class="modal-profile-right">
                     <div id="modalGuruMapel" style="font-size: 13px; font-weight: 800; color: #2563eb;">-</div>
                     <div id="modalGuruBadgeEvaluasi" style="margin-top: 4px;">-</div>
                 </div>
@@ -1572,7 +2234,7 @@
                 <div class="modal-section-title">
                     <i class="fa-solid fa-calendar-check" style="color: #2563eb;"></i> Riwayat Sesi KBM Mengajar
                 </div>
-                <div class="table-container-responsive" style="margin-top: 8px; max-height: 200px; overflow-y: auto;">
+                <div class="modal-table-scroll-wrapper" style="margin-top: 8px; max-height: 200px; overflow-y: auto;">
                     <table class="table-modal-custom">
                         <thead>
                             <tr>
@@ -1595,7 +2257,7 @@
                 <div class="modal-section-title">
                     <i class="fa-solid fa-file-signature" style="color: #f59e0b;"></i> Riwayat Pengajuan Izin Guru
                 </div>
-                <div class="table-container-responsive" style="margin-top: 8px; max-height: 160px; overflow-y: auto;">
+                <div class="modal-table-scroll-wrapper" style="margin-top: 8px; max-height: 160px; overflow-y: auto;">
                     <table class="table-modal-custom">
                         <thead>
                             <tr>
@@ -1634,8 +2296,8 @@
         <div class="custom-modal-body">
             <!-- Profil Kelas -->
             <div class="modal-profile-card">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 48px; height: 48px; border-radius: 14px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 22px;">
+                <div class="modal-profile-left">
+                    <div style="width: 46px; height: 46px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
                         <i class="fa-solid fa-chalkboard"></i>
                     </div>
                     <div>
@@ -1643,7 +2305,7 @@
                         <div style="font-size: 12px; color: #64748b; font-weight: 600;">Rombongan Belajar SMKN 1 Boyolangu</div>
                     </div>
                 </div>
-                <div style="text-align: right;">
+                <div class="modal-profile-right">
                     <div style="font-size: 11px; font-weight: 700; color: #64748b;">KETERLAKSANAAN KBM</div>
                     <div id="modalKelasPersentase" style="font-size: 18px; font-weight: 900; color: #166534;">-%</div>
                 </div>
@@ -1670,7 +2332,7 @@
                 <div class="modal-section-title">
                     <i class="fa-solid fa-book-bookmark" style="color: #2563eb;"></i> Daftar Sesi Jurnal KBM di Kelas Ini
                 </div>
-                <div class="table-container-responsive" style="margin-top: 8px; max-height: 200px; overflow-y: auto;">
+                <div class="modal-table-scroll-wrapper" style="margin-top: 8px; max-height: 200px; overflow-y: auto;">
                     <table class="table-modal-custom">
                         <thead>
                             <tr>
@@ -1693,7 +2355,7 @@
                 <div class="modal-section-title">
                     <i class="fa-solid fa-user-xmark" style="color: #dc2626;"></i> Rincian Ketidakhadiran Siswa di Kelas Ini
                 </div>
-                <div class="table-container-responsive" style="margin-top: 8px; max-height: 160px; overflow-y: auto;">
+                <div class="modal-table-scroll-wrapper" style="margin-top: 8px; max-height: 160px; overflow-y: auto;">
                     <table class="table-modal-custom">
                         <thead>
                             <tr>
@@ -1732,8 +2394,8 @@
         <div class="custom-modal-body">
             <!-- Profil Pemohon -->
             <div class="modal-profile-card">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 46px; height: 46px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                <div class="modal-profile-left">
+                    <div style="width: 46px; height: 46px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
                         <i class="fa-solid fa-user-clock"></i>
                     </div>
                     <div>
@@ -1741,14 +2403,14 @@
                         <div id="modalIzinNipGuru" style="font-size: 12px; color: #64748b; font-weight: 600;">NIP: -</div>
                     </div>
                 </div>
-                <div style="text-align: right;">
+                <div class="modal-profile-right">
                     <div id="modalIzinMapel" style="font-size: 13px; font-weight: 800; color: #2563eb;">-</div>
                     <div id="modalIzinStatusBadge" style="margin-top: 4px;">-</div>
                 </div>
             </div>
 
             <!-- Detail Information Fields -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="modal-info-grid-2col">
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px;">
                     <div style="font-size: 11px; font-weight: 700; color: #64748b;">KATEGORI IZIN</div>
                     <div id="modalIzinKategori" style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">-</div>
@@ -1797,8 +2459,8 @@
         <div class="custom-modal-body">
             <!-- Profil Siswa -->
             <div class="modal-profile-card">
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <div style="width: 46px; height: 46px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                <div class="modal-profile-left">
+                    <div style="width: 46px; height: 46px; border-radius: 12px; background: #eff6ff; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
                         <i class="fa-solid fa-user"></i>
                     </div>
                     <div>
@@ -1806,14 +2468,14 @@
                         <div id="modalSiswaNisn" style="font-size: 12px; color: #64748b; font-weight: 600;">NISN: -</div>
                     </div>
                 </div>
-                <div style="text-align: right;">
+                <div class="modal-profile-right">
                     <div id="modalSiswaKelas" style="font-size: 14px; font-weight: 800; color: #2563eb;">-</div>
                     <div id="modalSiswaStatusBadge" style="margin-top: 4px;">-</div>
                 </div>
             </div>
 
             <!-- Detail Sesi KBM -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="modal-info-grid-2col">
                 <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px;">
                     <div style="font-size: 11px; font-weight: 700; color: #64748b;">TANGGAL & WAKTU SESI</div>
                     <div id="modalSiswaTanggal" style="font-size: 13.5px; font-weight: 800; color: #0f172a; margin-top: 2px;">-</div>
@@ -2095,7 +2757,7 @@
     }
 
     // ==========================================
-    // INSTANT LIVE SEARCH & FILTER FOR ALL TABS
+    // INSTANT LIVE SEARCH & FILTER FOR ALL TABS (Rows & Mobile Cards)
     // ==========================================
 
     // Tab 1: Live Filter Guru
@@ -2103,6 +2765,7 @@
         var search = document.getElementById("searchGuruInput").value.toLowerCase();
         var evaluasi = document.getElementById("filterGuruEvaluasi").value;
         var rows = document.querySelectorAll("#tableRekapGuru tbody tr.row-guru-item");
+        var cards = document.querySelectorAll(".mobile-guru-card");
         var visibleCount = 0;
 
         rows.forEach(function(row) {
@@ -2124,6 +2787,22 @@
             }
         });
 
+        cards.forEach(function(card) {
+            var nama = card.getAttribute("data-nama") || "";
+            var nip = card.getAttribute("data-nip") || "";
+            var mapel = card.getAttribute("data-mapel") || "";
+            var rowEval = card.getAttribute("data-evaluasi") || "";
+
+            var matchesSearch = (nama.indexOf(search) > -1 || nip.indexOf(search) > -1 || mapel.indexOf(search) > -1);
+            var matchesEval = (evaluasi === "" || rowEval === evaluasi);
+
+            if (matchesSearch && matchesEval) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
+
         var countBadge = document.getElementById("countGuruBadge");
         if (countBadge) countBadge.textContent = visibleCount;
     }
@@ -2133,6 +2812,7 @@
         var search = document.getElementById("searchKelasInput").value.toLowerCase();
         var absenFilter = document.getElementById("filterKelasAbsen").value;
         var rows = document.querySelectorAll("#tableRekapKelas tbody tr.row-kelas-item");
+        var cards = document.querySelectorAll(".mobile-kelas-card");
         var visibleCount = 0;
 
         rows.forEach(function(row) {
@@ -2152,6 +2832,20 @@
             }
         });
 
+        cards.forEach(function(card) {
+            var nama = card.getAttribute("data-nama") || "";
+            var rowAbsen = card.getAttribute("data-absen") || "";
+
+            var matchesSearch = (nama.indexOf(search) > -1);
+            var matchesAbsen = (absenFilter === "" || rowAbsen === absenFilter);
+
+            if (matchesSearch && matchesAbsen) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
+
         var countBadge = document.getElementById("countKelasBadge");
         if (countBadge) countBadge.textContent = visibleCount;
     }
@@ -2161,6 +2855,7 @@
         var search = document.getElementById("searchIzinInput").value.toLowerCase();
         var statusFilter = document.getElementById("filterIzinStatus").value;
         var rows = document.querySelectorAll("#tableRekapIzin tbody tr.row-izin-item");
+        var cards = document.querySelectorAll(".mobile-izin-card");
         var visibleCount = 0;
 
         rows.forEach(function(row) {
@@ -2183,6 +2878,23 @@
             }
         });
 
+        cards.forEach(function(card) {
+            var nama = card.getAttribute("data-nama") || "";
+            var nip = card.getAttribute("data-nip") || "";
+            var mapel = card.getAttribute("data-mapel") || "";
+            var alasan = card.getAttribute("data-alasan") || "";
+            var rowStatus = card.getAttribute("data-status") || "";
+
+            var matchesSearch = (nama.indexOf(search) > -1 || nip.indexOf(search) > -1 || mapel.indexOf(search) > -1 || alasan.indexOf(search) > -1);
+            var matchesStatus = (statusFilter === "" || rowStatus === statusFilter);
+
+            if (matchesSearch && matchesStatus) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
+
         var countBadge = document.getElementById("countIzinBadge");
         if (countBadge) countBadge.textContent = visibleCount;
     }
@@ -2192,6 +2904,7 @@
         var search = document.getElementById("filterSiswaInput").value.toLowerCase();
         var statusFilter = document.getElementById("filterSiswaStatus").value;
         var rows = document.querySelectorAll("#tableSiswaAbsen tbody tr.row-siswa-item");
+        var cards = document.querySelectorAll(".mobile-siswa-card");
         var visibleCount = 0;
 
         rows.forEach(function(row) {
@@ -2212,6 +2925,24 @@
                 if (noCell) noCell.textContent = visibleCount;
             } else {
                 row.style.display = "none";
+            }
+        });
+
+        cards.forEach(function(card) {
+            var nama = card.getAttribute("data-nama") || "";
+            var nisn = card.getAttribute("data-nisn") || "";
+            var kelas = card.getAttribute("data-kelas") || "";
+            var mapel = card.getAttribute("data-mapel") || "";
+            var guru = card.getAttribute("data-guru") || "";
+            var rowStatus = card.getAttribute("data-status") || "";
+
+            var matchesSearch = (nama.indexOf(search) > -1 || nisn.indexOf(search) > -1 || kelas.indexOf(search) > -1 || mapel.indexOf(search) > -1 || guru.indexOf(search) > -1);
+            var matchesStatus = (statusFilter === "" || rowStatus === statusFilter);
+
+            if (matchesSearch && matchesStatus) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
             }
         });
 

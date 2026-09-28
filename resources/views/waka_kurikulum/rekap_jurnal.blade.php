@@ -9,9 +9,12 @@
         flex-direction: column;
         gap: 20px;
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
         box-sizing: border-box;
     }
 
+    /* Page Header */
     .page-header-box {
         display: flex;
         justify-content: space-between;
@@ -57,11 +60,25 @@
         border: none;
     }
 
-    .btn-primary { background: #2563eb; color: #ffffff; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25); }
-    .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-primary { 
+        background: #2563eb; 
+        color: #ffffff; 
+        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25); 
+    }
+    .btn-primary:hover { 
+        background: #1d4ed8; 
+        transform: translateY(-1px); 
+    }
 
-    .btn-outline { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; }
-    .btn-outline:hover { background: #f8fafc; border-color: #94a3b8; }
+    .btn-outline { 
+        background: #ffffff; 
+        color: #334155; 
+        border: 1px solid #cbd5e1; 
+    }
+    .btn-outline:hover { 
+        background: #f8fafc; 
+        border-color: #94a3b8; 
+    }
 
     /* 4 Stat Cards */
     .stat-cards-grid {
@@ -80,6 +97,13 @@
         align-items: center;
         gap: 14px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        min-width: 0;
+    }
+
+    .stat-card-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.04);
     }
 
     .stat-icon-wrapper {
@@ -98,8 +122,29 @@
     .icon-purple  { background: #f5f3ff; color: #7c3aed; }
     .icon-amber   { background: #fffbeb; color: #d97706; }
 
-    .stat-title { font-size: 12px; font-weight: 700; color: #64748b; }
-    .stat-count { font-size: 20px; font-weight: 800; color: #0f172a; margin-top: 1px; }
+    .stat-info-group {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .stat-title { 
+        font-size: 12px; 
+        font-weight: 700; 
+        color: #64748b; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .stat-count { 
+        font-size: 20px; 
+        font-weight: 800; 
+        color: #0f172a; 
+        margin-top: 1px; 
+        line-height: 1.2;
+    }
 
     /* Filter Card */
     .filter-card {
@@ -121,6 +166,7 @@
         display: flex;
         flex-direction: column;
         gap: 4px;
+        min-width: 0;
     }
 
     .form-group-filter label {
@@ -130,6 +176,7 @@
     }
 
     .form-control-filter {
+        width: 100%;
         padding: 8px 12px;
         border-radius: 8px;
         border: 1px solid #cbd5e1;
@@ -138,9 +185,18 @@
         background: #ffffff;
         outline: none;
         height: 38px;
+        box-sizing: border-box;
     }
 
-    .form-control-filter:focus { border-color: #2563eb; }
+    .form-control-filter:focus { 
+        border-color: #2563eb; 
+    }
+
+    .filter-btn-group {
+        display: flex;
+        gap: 8px;
+        align-items: flex-end;
+    }
 
     /* Table Card */
     .table-wrapper-card {
@@ -149,6 +205,37 @@
         border: 1px solid #e2e8f0;
         overflow: hidden;
         box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .table-header-bar {
+        padding: 14px 18px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .table-header-title {
+        font-size: 13.5px;
+        font-weight: 800;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .table-header-count {
+        font-size: 12px;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .desktop-rekap-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
     }
 
     .rekap-table {
@@ -175,7 +262,9 @@
         vertical-align: middle;
     }
 
-    .rekap-table tr:hover td { background: #f8fafc; }
+    .rekap-table tr:hover td { 
+        background: #f8fafc; 
+    }
 
     .badge-kondisi {
         display: inline-flex;
@@ -185,6 +274,7 @@
         border-radius: 6px;
         font-size: 11px;
         font-weight: 800;
+        white-space: nowrap;
     }
     .badge-kondusif { background: #dcfce7; color: #15803d; }
     .badge-cukup    { background: #e0e7ff; color: #4338ca; }
@@ -198,9 +288,29 @@
         border-radius: 6px;
         font-size: 11px;
         font-weight: 800;
+        white-space: nowrap;
     }
     .verif-yes { background: #dcfce7; color: #15803d; }
     .verif-no  { background: #f1f5f9; color: #64748b; }
+
+    /* Class Chip & Badges */
+    .class-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 8px;
+        border-radius: 6px;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        color: #1e40af;
+        font-weight: 800;
+        font-size: 11.5px;
+    }
+
+    /* Mobile Rekap Cards (Hidden on Desktop) */
+    .mobile-rekap-wrapper {
+        display: none;
+    }
 
     /* Detail Modal */
     .modal-overlay {
@@ -213,6 +323,7 @@
         justify-content: center;
         align-items: center;
         padding: 20px;
+        box-sizing: border-box;
     }
 
     .modal-box {
@@ -240,6 +351,9 @@
         font-weight: 800;
         color: #0f172a;
         margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     .modal-close-btn {
@@ -248,9 +362,17 @@
         color: #94a3b8;
         font-size: 18px;
         cursor: pointer;
+        padding: 4px;
+        border-radius: 6px;
+    }
+    .modal-close-btn:hover {
+        color: #0f172a;
+        background: #f1f5f9;
     }
 
-    .modal-body { padding: 20px; }
+    .modal-body { 
+        padding: 20px; 
+    }
 
     .modal-footer {
         padding: 14px 20px;
@@ -262,16 +384,292 @@
         border-radius: 0 0 16px 16px;
     }
 
+    /* Responsive Breakpoints */
     @media (max-width: 1024px) {
         .stat-cards-grid { grid-template-columns: repeat(2, 1fr); }
-        .filter-grid { grid-template-columns: 1fr 1fr; }
+        .filter-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
-    @media (max-width: 640px) {
-        .stat-cards-grid { grid-template-columns: 1fr; }
-        .filter-grid { grid-template-columns: 1fr; }
-        .header-actions { width: 100%; }
-        .btn-action { flex: 1; justify-content: center; }
+    @media (max-width: 768px) {
+        .rekap-container {
+            gap: 14px;
+        }
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .page-main-title {
+            font-size: 19px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-sub-title {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
+        .header-actions {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .header-actions .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 8px 10px !important;
+            font-size: 12px !important;
+            box-sizing: border-box;
+        }
+
+        /* 4 Stat Cards in 2x2 Grid */
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card-item {
+            padding: 12px 12px !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .stat-title {
+            font-size: 11px !important;
+        }
+
+        .stat-count {
+            font-size: 17px !important;
+        }
+
+        /* Filter Card on Mobile */
+        .filter-card {
+            padding: 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .filter-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 10px !important;
+        }
+
+        .form-group-filter {
+            width: 100% !important;
+        }
+
+        .filter-search-col {
+            grid-column: 1 / -1 !important;
+        }
+
+        .filter-btn-group {
+            grid-column: 1 / -1 !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .filter-btn-group .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        /* Hide Wide Desktop Table, Show Mobile Cards */
+        .desktop-rekap-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-rekap-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+        }
+
+        .mobile-rekap-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: border-color 0.2s ease;
+        }
+
+        .mobile-rekap-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .mobile-rekap-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+        }
+
+        .mobile-rekap-header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .mobile-rekap-index {
+            font-weight: 800;
+            color: #94a3b8;
+            font-size: 11.5px;
+        }
+
+        .mobile-rekap-header-badges {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .mobile-rekap-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mobile-mapel-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.3;
+        }
+
+        .mobile-guru-info {
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .mobile-materi-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid #3b82f6;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: #334155;
+            line-height: 1.4;
+        }
+
+        .mobile-rekap-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .mobile-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mobile-meta-lbl {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mobile-meta-val {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .mobile-btn-detail {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+            border-radius: 9px;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-sizing: border-box;
+        }
+
+        .mobile-btn-detail:hover {
+            background: #dbeafe;
+        }
+
+        /* Modal Mobile Optimization */
+        .modal-overlay {
+            padding: 12px !important;
+        }
+
+        .modal-box {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            border-radius: 14px !important;
+        }
+
+        .modal-header {
+            padding: 14px 16px !important;
+        }
+
+        .modal-header h3 {
+            font-size: 15px !important;
+        }
+
+        .modal-body {
+            padding: 14px 16px !important;
+        }
+
+        .modal-footer {
+            padding: 12px 16px !important;
+        }
+
+        .modal-footer .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .filter-grid {
+            grid-template-columns: 1fr !important;
+        }
     }
 </style>
 @endsection
@@ -282,9 +680,6 @@
     {{-- Header --}}
     <div class="page-header-box">
         <div>
-            <div style="font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 4px;">
-                Jurnal SMEA &gt; Portal Kurikulum &gt; <span style="color: #2563eb;">Rekap Jurnal Mengajar</span>
-            </div>
             <h1 class="page-main-title">Rekap Jurnal Mengajar</h1>
             <p class="page-sub-title">SMK Negeri 1 Boyolangu — Pemantauan KBM, Materi Ajar, dan Ketercapaian Pembelajaran</p>
         </div>
@@ -305,7 +700,7 @@
             <div class="stat-icon-wrapper icon-blue">
                 <i class="fa-solid fa-file-invoice"></i>
             </div>
-            <div style="display: flex; flex-direction: column;">
+            <div class="stat-info-group">
                 <span class="stat-title">Total Jurnal Tercatat</span>
                 <span class="stat-count">{{ number_format($stats['total'] ?? 0, 0, ',', '.') }}</span>
             </div>
@@ -315,7 +710,7 @@
             <div class="stat-icon-wrapper icon-emerald">
                 <i class="fa-solid fa-calendar-day"></i>
             </div>
-            <div style="display: flex; flex-direction: column;">
+            <div class="stat-info-group">
                 <span class="stat-title">Jurnal Hari Ini</span>
                 <span class="stat-count">{{ number_format($stats['today'] ?? 0, 0, ',', '.') }}</span>
             </div>
@@ -325,7 +720,7 @@
             <div class="stat-icon-wrapper icon-purple">
                 <i class="fa-solid fa-chart-pie"></i>
             </div>
-            <div style="display: flex; flex-direction: column;">
+            <div class="stat-info-group">
                 <span class="stat-title">Tingkat Kondusif</span>
                 <span class="stat-count">{{ $stats['kondusif_persen'] ?? 100 }}%</span>
             </div>
@@ -335,7 +730,7 @@
             <div class="stat-icon-wrapper icon-amber">
                 <i class="fa-solid fa-user-xmark"></i>
             </div>
-            <div style="display: flex; flex-direction: column;">
+            <div class="stat-info-group">
                 <span class="stat-title">Total Absensi Siswa</span>
                 <span class="stat-count">{{ number_format($stats['total_absen'] ?? 0, 0, ',', '.') }}</span>
             </div>
@@ -380,12 +775,12 @@
                 </select>
             </div>
 
-            <div class="form-group-filter">
+            <div class="form-group-filter filter-search-col">
                 <label>Cari Materi / Catatan</label>
-                <input type="text" name="search" value="{{ $search }}" class="form-control-filter" placeholder="Ketik kata kunci...">
+                <input type="text" name="search" value="{{ $search }}" class="form-control-filter" placeholder="Ketik kata kunci pencarian...">
             </div>
 
-            <div style="display: flex; gap: 8px;">
+            <div class="filter-btn-group">
                 <button type="submit" class="btn-action btn-primary" style="height: 38px;">
                     <i class="fa-solid fa-magnifying-glass"></i> Cari
                 </button>
@@ -398,7 +793,18 @@
 
     {{-- Table Card --}}
     <div class="table-wrapper-card">
-        <div style="overflow-x: auto;">
+        <div class="table-header-bar">
+            <div class="table-header-title">
+                <i class="fa-solid fa-list-check" style="color: #2563eb;"></i>
+                Daftar Data Rekap Jurnal Mengajar
+            </div>
+            <div class="table-header-count">
+                Menampilkan <span style="color: #0f172a; font-weight: 800;">{{ $jurnalList->firstItem() ?? 0 }} - {{ $jurnalList->lastItem() ?? 0 }}</span> dari <span style="color: #0f172a; font-weight: 800;">{{ $jurnalList->total() }}</span> Data
+            </div>
+        </div>
+
+        {{-- Desktop View Table (100% Intact) --}}
+        <div class="desktop-rekap-table-wrapper">
             <table class="rekap-table">
                 <thead>
                     <tr>
@@ -423,8 +829,10 @@
                                     Jam {{ $j->jadwal->jam_mulai_ke ?? '-' }} - {{ $j->jadwal->jam_selesai_ke ?? '-' }}
                                 </div>
                             </td>
-                            <td style="font-weight: 800; color: #2563eb;">
-                                {{ $j->jadwal->kelas->nama_kelas ?? '-' }}
+                            <td>
+                                <span class="class-chip">
+                                    <i class="fa-solid fa-graduation-cap"></i> {{ $j->jadwal->kelas->nama_kelas ?? '-' }}
+                                </span>
                             </td>
                             <td style="font-weight: 700;">
                                 {{ $j->jadwal->mapel->nama_mapel ?? '-' }}
@@ -434,8 +842,8 @@
                                     {{ $j->jadwal->guru->nama_guru ?? '-' }}
                                 </div>
                                 @if($j->guruPengganti)
-                                    <div style="font-size: 11px; color: #059669; font-weight: 700;">
-                                        Pengganti: {{ $j->guruPengganti->nama_guru }}
+                                    <div style="font-size: 11px; color: #059669; font-weight: 700; margin-top: 2px;">
+                                        <i class="fa-solid fa-user-tag"></i> Pengganti: {{ $j->guruPengganti->nama_guru }}
                                     </div>
                                 @endif
                             </td>
@@ -466,7 +874,7 @@
                         <tr>
                             <td colspan="8" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
                                 <i class="fa-regular fa-folder-open" style="font-size: 36px; margin-bottom: 8px;"></i>
-                                <p style="font-weight: 700;">Tidak ada rekap jurnal mengajar yang sesuai filter.</p>
+                                <p style="font-weight: 700; margin-top: 4px;">Tidak ada rekap jurnal mengajar yang sesuai filter.</p>
                             </td>
                         </tr>
                     @endforelse
@@ -474,7 +882,81 @@
             </table>
         </div>
 
-        <div style="padding: 16px 20px; border-top: 1px solid #f1f5f9;">
+        {{-- Mobile View Cards (Responsive for Handphones <= 768px) --}}
+        <div class="mobile-rekap-wrapper">
+            @forelse($jurnalList as $index => $j)
+                <div class="mobile-rekap-card">
+                    {{-- Header Card --}}
+                    <div class="mobile-rekap-header">
+                        <div class="mobile-rekap-header-left">
+                            <span class="mobile-rekap-index">#{{ $jurnalList->firstItem() + $index }}</span>
+                            <span class="class-chip">
+                                <i class="fa-solid fa-graduation-cap"></i> {{ $j->jadwal->kelas->nama_kelas ?? '-' }}
+                            </span>
+                        </div>
+                        <div class="mobile-rekap-header-badges">
+                            <span class="badge-kondisi {{ stripos($j->kondisi_kelas, 'Kondusif') !== false ? 'badge-kondusif' : 'badge-kurang' }}">
+                                {{ $j->kondisi_kelas ?? 'Kondusif' }}
+                            </span>
+                            @if(($j->is_draft ?? 0) == 0)
+                                <span class="badge-verif verif-yes"><i class="fa-solid fa-circle-check"></i> Selesai</span>
+                            @else
+                                <span class="badge-verif verif-no"><i class="fa-solid fa-file-pen"></i> Draft</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- Body Card --}}
+                    <div class="mobile-rekap-body">
+                        <div class="mobile-mapel-title">{{ $j->jadwal->mapel->nama_mapel ?? '-' }}</div>
+                        <div class="mobile-guru-info">
+                            <span><i class="fa-solid fa-chalkboard-user" style="color: #64748b;"></i> {{ $j->jadwal->guru->nama_guru ?? '-' }}</span>
+                            @if($j->guruPengganti)
+                                <div style="width: 100%; font-size: 11px; color: #059669; font-weight: 700; margin-top: 2px;">
+                                    <i class="fa-solid fa-user-tag"></i> Pengganti: {{ $j->guruPengganti->nama_guru }}
+                                </div>
+                            @endif
+                        </div>
+
+                        {{-- Materi --}}
+                        <div class="mobile-materi-box">
+                            <div style="font-size: 10.5px; font-weight: 800; color: #64748b; margin-bottom: 2px; text-transform: uppercase;">
+                                Materi Pembelajaran:
+                            </div>
+                            <div style="font-weight: 600;">{{ $j->materi ?? '-' }}</div>
+                        </div>
+
+                        {{-- Meta Info --}}
+                        <div class="mobile-rekap-meta-grid">
+                            <div class="mobile-meta-item">
+                                <span class="mobile-meta-lbl"><i class="fa-regular fa-calendar"></i> Tanggal KBM</span>
+                                <span class="mobile-meta-val">
+                                    {{ Carbon\Carbon::parse($j->tanggal)->translatedFormat('d M Y') }}
+                                </span>
+                            </div>
+                            <div class="mobile-meta-item">
+                                <span class="mobile-meta-lbl"><i class="fa-regular fa-clock"></i> Jam Pelajaran</span>
+                                <span class="mobile-meta-val" style="color: #d97706;">
+                                    Jam {{ $j->jadwal->jam_mulai_ke ?? '-' }} - {{ $j->jadwal->jam_selesai_ke ?? '-' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Action Button --}}
+                    <button type="button" class="mobile-btn-detail" onclick="loadDetailJurnal({{ $j->id_jurnal }})">
+                        <i class="fa-solid fa-eye"></i> Rincian Lengkap Jurnal
+                    </button>
+                </div>
+            @empty
+                <div style="text-align: center; padding: 35px 15px; color: #94a3b8; background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <i class="fa-regular fa-folder-open" style="font-size: 32px; margin-bottom: 8px;"></i>
+                    <p style="font-weight: 700; font-size: 13px; margin: 0;">Tidak ada rekap jurnal mengajar yang sesuai filter.</p>
+                </div>
+            @endforelse
+        </div>
+
+        <div style="padding: 16px 20px; border-top: 1px solid #f1f5f9; overflow-x: auto;">
             {{ $jurnalList->links('partials.custom-pagination') }}
         </div>
     </div>
@@ -517,12 +999,12 @@
                     let absenHtml = '<span style="color:#64748b; font-style:italic;">Nihil (Seluruh siswa hadir lengkap)</span>';
                     if (d.ketidakhadiran && d.ketidakhadiran.length > 0) {
                         absenHtml = '<ul style="padding-left:18px; margin:4px 0 0 0;">' + 
-                            d.ketidakhadiran.map(s => `<li><strong>${s.nama_siswa}</strong> (${s.nis}) — Status: <span style="color:#dc2626; font-weight:700;">${s.status}</span> (${s.keterangan})</li>`).join('') + 
+                            d.ketidakhadiran.map(s => `<li><strong>${s.nama_siswa}</strong> (${s.nis}) — Status: <span style="color:#dc2626; font-weight:700;">${s.status}</span> (${s.keterangan || '-'})</li>`).join('') + 
                             '</ul>';
                     }
 
                     body.innerHTML = `
-                        <table style="width:100%; font-size:13px; border-collapse:collapse;">
+                        <table style="width:100%; font-size:13px; border-collapse:collapse; word-break:break-word;">
                             <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0; font-weight:700; color:#64748b; width:35%;">Tanggal & Hari</td><td style="padding:8px 0; font-weight:800; color:#0f172a;">${d.tanggal}</td></tr>
                             <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0; font-weight:700; color:#64748b;">Jam Pelajaran</td><td style="padding:8px 0; font-weight:700;">${d.jam_pelajaran}</td></tr>
                             <tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 0; font-weight:700; color:#64748b;">Kelas / Ruang</td><td style="padding:8px 0; font-weight:800; color:#2563eb;">${d.kelas} (${d.ruangan})</td></tr>

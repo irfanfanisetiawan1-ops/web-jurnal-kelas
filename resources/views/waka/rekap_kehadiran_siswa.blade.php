@@ -740,17 +740,463 @@
         color: #64748b;
     }
 
+    /* Mobile Rekap Siswa Base (Hidden on Desktop) */
+    .mobile-rekap-siswa-wrapper {
+        display: none;
+    }
+
     /* Responsive */
     @media (max-width: 1100px) {
         .stat-cards-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 768px) {
-        .stat-cards-grid { grid-template-columns: 1fr; }
-        .filter-form-row { flex-direction: column; align-items: stretch; }
-        .btn-export-group { margin-left: 0; justify-content: flex-start; }
-        .detail-grid-2 { grid-template-columns: 1fr; }
-        .month-stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .rekap-container {
+            gap: 14px;
+        }
+
+        .rekap-header-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .page-title-box h1 {
+            font-size: 20px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-box p {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
+        #dateSelectorForm {
+            width: 100%;
+        }
+
+        .header-date-badge {
+            width: 100%;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding: 8px 14px !important;
+            font-size: 12.5px !important;
+            border-radius: 12px !important;
+        }
+
+        /* 4 Top Stat Cards in 2x2 Grid */
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card-item {
+            padding: 12px 12px !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-circle {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+        }
+
+        .stat-info .stat-label {
+            font-size: 11px !important;
+        }
+
+        .stat-info .stat-number {
+            font-size: 18px !important;
+            margin: 1px 0 !important;
+        }
+
+        .stat-info .stat-desc {
+            font-size: 10.5px !important;
+        }
+
+        /* Toolbar Filter Form Grid */
+        .filter-card {
+            padding: 12px 14px !important;
+            border-radius: 14px !important;
+        }
+
+        .filter-form-row {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .search-input-wrap {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .search-input-wrap input {
+            padding: 8px 12px 8px 34px !important;
+            font-size: 12.5px !important;
+            height: 38px !important;
+        }
+
+        .search-input-wrap i {
+            left: 12px !important;
+            font-size: 13px !important;
+        }
+
+        .filter-select {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+            padding: 7px 24px 7px 8px !important;
+            height: 38px !important;
+        }
+
+        .filter-date-input {
+            grid-column: 1 / 2 !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+            padding: 7px 8px !important;
+            height: 38px !important;
+            box-sizing: border-box;
+        }
+
+        .btn-filter-action {
+            height: 38px !important;
+            font-size: 12.5px !important;
+            padding: 0 12px !important;
+            justify-content: center !important;
+            box-sizing: border-box;
+        }
+
+        .btn-apply-filter {
+            grid-column: 2 / 3 !important;
+            width: 100% !important;
+        }
+
+        .btn-reset-filter {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+        }
+
+        .btn-export-group {
+            grid-column: 1 / -1 !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+            margin-left: 0 !important;
+        }
+
+        .btn-export-pill,
+        .btn-print-pill {
+            width: 100% !important;
+            justify-content: center !important;
+            height: 38px !important;
+            font-size: 12px !important;
+            padding: 0 10px !important;
+            box-sizing: border-box;
+        }
+
+        /* Switch Desktop Table to Mobile Cards */
+        .desktop-rekap-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-rekap-siswa-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+        }
+
+        .mobile-siswa-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .mobile-siswa-card:active {
+            transform: scale(0.99);
+            border-color: #93c5fd;
+        }
+
+        .m-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .m-card-header-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-card-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            padding: 0 6px;
+            border-radius: 6px;
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 11px;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .m-card-name-group {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-card-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 3px 0;
+            line-height: 1.25;
+            word-break: break-word;
+        }
+
+        .m-card-nisn {
+            font-size: 11.5px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .m-card-nisn strong {
+            font-family: monospace;
+            color: #1e293b;
+            letter-spacing: 0.03em;
+        }
+
+        .m-card-nis-sep {
+            color: #cbd5e1;
+        }
+
+        .m-card-header-right {
+            flex-shrink: 0;
+        }
+
+        .m-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .m-card-badges-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .badge-kelas-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+        }
+
+        .m-presensi-indicators-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            background: #f8fafc;
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .m-indicator-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 2px;
+            border-radius: 8px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+
+        .m-ind-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .m-ind-val {
+            font-size: 12px;
+            font-weight: 800;
+            color: #94a3b8;
+        }
+
+        .m-indicator-item.active-hadir {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+        .m-indicator-item.active-hadir .m-ind-val {
+            color: #16a34a;
+        }
+
+        .m-indicator-item.active-izin {
+            background: #fff7ed;
+            border-color: #fdba74;
+        }
+        .m-indicator-item.active-izin .m-ind-val {
+            color: #ea580c;
+        }
+
+        .m-indicator-item.active-sakit {
+            background: #fff1f2;
+            border-color: #fecdd3;
+        }
+        .m-indicator-item.active-sakit .m-ind-val {
+            color: #e11d48;
+        }
+
+        .m-indicator-item.active-alpa {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+        .m-indicator-item.active-alpa .m-ind-val {
+            color: #dc2626;
+        }
+
+        .m-btn-detail {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 9px 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1.5px solid #bfdbfe;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            margin-top: 2px;
+        }
+
+        .m-btn-detail:hover,
+        .m-btn-detail:active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+
+        /* Pagination on Mobile */
+        .table-footer-bar {
+            padding: 12px 14px !important;
+        }
+
+        .custom-pagination-bar {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 10px !important;
+            width: 100% !important;
+            text-align: center !important;
+        }
+
+        .pagination-info {
+            font-size: 12px !important;
+            color: #64748b !important;
+            text-align: center !important;
+        }
+
+        .pagination-list {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 4px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            list-style: none !important;
+        }
+
+        .pagination-list .page-link {
+            min-width: 32px !important;
+            height: 32px !important;
+            padding: 0 6px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+        }
+
+        /* Modal Detail Presensi Siswa on Mobile */
+        .modal-dialog {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            border-radius: 16px !important;
+            margin: 10px !important;
+        }
+
+        .modal-body {
+            padding: 16px 18px !important;
+        }
+
+        .detail-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+        }
+
+        .month-stats-grid {
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 6px !important;
+        }
+
+        .month-stat-box {
+            padding: 6px 4px !important;
+        }
+
+        .month-stat-box .num {
+            font-size: 16px !important;
+        }
+
+        .month-stat-box .lbl {
+            font-size: 10px !important;
+        }
+
+        .btn-modal-close {
+            width: 100% !important;
+            text-align: center !important;
+            padding: 10px 14px !important;
+        }
     }
 </style>
 @endsection
@@ -889,7 +1335,8 @@
 
     <!-- Table Card -->
     <div class="table-container-card">
-        <div class="table-responsive-box">
+        <!-- Desktop Table View -->
+        <div class="desktop-rekap-table-wrapper table-responsive-box">
             <table class="rekap-table">
                 <thead>
                     <tr>
@@ -991,13 +1438,92 @@
             </table>
         </div>
 
-        <!-- Table Footer & Custom Beautiful Pagination -->
+        <!-- Mobile Siswa Rekap Cards View -->
+        <div class="mobile-rekap-siswa-wrapper">
+            @forelse($siswas as $index => $siswa)
+                <div class="mobile-siswa-card" onclick="openModalDetailPresensi('{{ $siswa->id_siswa }}')">
+                    <div class="m-card-header">
+                        <div class="m-card-header-left">
+                            <span class="m-card-number">#{{ $siswas->firstItem() + $index }}</span>
+                            <div class="m-card-name-group">
+                                <h4 class="m-card-name">{{ $siswa->nama_siswa }}</h4>
+                                <div class="m-card-nisn">
+                                    <span>NIS: <strong>{{ $siswa->nis }}</strong></span>
+                                    @if($siswa->nisn)
+                                        <span class="m-card-nis-sep">•</span>
+                                        <span>NISN: <strong>{{ $siswa->nisn }}</strong></span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-card-header-right">
+                            @if($siswa->kehadiran_status === 'Hadir')
+                                <span class="status-pill status-pill-hadir">Hadir</span>
+                            @elseif($siswa->kehadiran_status === 'Izin')
+                                <span class="status-pill status-pill-izin">Izin</span>
+                            @elseif($siswa->kehadiran_status === 'Sakit')
+                                <span class="status-pill status-pill-sakit">Sakit</span>
+                            @else
+                                <span class="status-pill status-pill-alpa">Alpa</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="m-card-body">
+                        <div class="m-card-badges-row">
+                            <span class="badge-kelas-chip">
+                                <i class="fa-solid fa-graduation-cap"></i> {{ $siswa->kelas->nama_kelas ?? '-' }}
+                            </span>
+                        </div>
+
+                        <!-- 4 Presensi Indicator Row -->
+                        <div class="m-presensi-indicators-grid">
+                            <div class="m-indicator-item {{ $siswa->is_hadir ? 'active-hadir' : '' }}">
+                                <span class="m-ind-label">Hadir</span>
+                                <span class="m-ind-val">
+                                    @if($siswa->is_hadir) <i class="fa-solid fa-check"></i> @else - @endif
+                                </span>
+                            </div>
+                            <div class="m-indicator-item {{ $siswa->is_izin ? 'active-izin' : '' }}">
+                                <span class="m-ind-label">Izin</span>
+                                <span class="m-ind-val">
+                                    @if($siswa->is_izin) <i class="fa-solid fa-clock"></i> @else - @endif
+                                </span>
+                            </div>
+                            <div class="m-indicator-item {{ $siswa->is_sakit ? 'active-sakit' : '' }}">
+                                <span class="m-ind-label">Sakit</span>
+                                <span class="m-ind-val">
+                                    @if($siswa->is_sakit) <i class="fa-solid fa-xmark"></i> @else - @endif
+                                </span>
+                            </div>
+                            <div class="m-indicator-item {{ $siswa->is_alpa ? 'active-alpa' : '' }}">
+                                <span class="m-ind-label">Alpa</span>
+                                <span class="m-ind-val">
+                                    @if($siswa->is_alpa) <i class="fa-solid fa-xmark"></i> @else - @endif
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="button" class="m-btn-detail" onclick="event.stopPropagation(); openModalDetailPresensi('{{ $siswa->id_siswa }}')">
+                            <i class="fa-solid fa-eye"></i> Rincian Presensi Siswa
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div class="empty-state-box" style="padding: 32px 16px;">
+                    <div class="empty-state-icon">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </div>
+                    <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin: 0;">Tidak Ada Data Kehadiran</h3>
+                    <p style="font-size: 12.5px; color: #64748b; margin: 0;">Tidak ditemukan data presensi siswa yang sesuai dengan filter pencarian atau tanggal yang dipilih.</p>
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Table Footer & Custom Beautiful Pagination (Without Redundant Outer Text) -->
         @if($siswas->total() > 0)
             <div class="table-footer-bar">
-                <div class="footer-count-text">
-                    Menampilkan <strong>{{ $siswas->firstItem() }}</strong> - <strong>{{ $siswas->lastItem() }}</strong> dari <strong>{{ number_format($siswas->total(), 0, ',', '.') }}</strong> data
-                </div>
-                <div>
+                <div style="width: 100%;">
                     {{ $siswas->links('partials.custom-pagination') }}
                 </div>
             </div>
@@ -1141,6 +1667,13 @@
     window.addEventListener('click', function(e) {
         const modal = document.getElementById('modalDetailPresensi');
         if (e.target === modal) {
+            closeModalDetailPresensi();
+        }
+    });
+
+    // Close on Escape key press
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
             closeModalDetailPresensi();
         }
     });

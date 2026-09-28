@@ -658,16 +658,525 @@
         margin-top: 2px;
     }
 
-    @media (max-width: 1024px) {
-        .stat-cards-grid { grid-template-columns: repeat(2, 1fr); }
-        .filter-form-grid { grid-template-columns: 1fr 1fr; }
+    /* Modal Profile Header Banner */
+    .modal-profile-banner {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding-bottom: 18px;
+        border-bottom: 1.5px solid #e2e8f0;
+        margin-bottom: 16px;
     }
 
-    @media (max-width: 640px) {
-        .stat-cards-grid { grid-template-columns: 1fr; }
-        .filter-form-grid { grid-template-columns: 1fr; }
-        .detail-grid-2 { grid-template-columns: 1fr; }
-        .mini-stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .modal-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        font-weight: 800;
+        color: #ffffff;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .modal-profile-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .modal-profile-name {
+        font-size: 20px;
+        font-weight: 900;
+        color: #0f172a;
+        margin: 0 0 6px 0;
+        line-height: 1.25;
+        word-break: break-word;
+    }
+
+    .modal-profile-badges {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .filter-actions-wrap {
+        display: flex;
+        gap: 6px;
+    }
+
+    /* Mobile Siswa View Base (Hidden on Desktop) */
+    .mobile-siswa-wrapper {
+        display: none;
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 1024px) {
+        .stat-cards-grid { grid-template-columns: repeat(2, 1fr); }
+        .filter-form-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .page-header-box {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .page-main-title {
+            font-size: 24px !important;
+            line-height: 1.25 !important;
+        }
+
+        .header-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+
+        .header-actions .btn-action {
+            justify-content: center;
+            padding: 8px 10px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card-item {
+            padding: 12px 14px !important;
+            gap: 12px !important;
+            border-radius: 14px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 42px !important;
+            height: 42px !important;
+            font-size: 18px !important;
+        }
+
+        .stat-label {
+            font-size: 11px !important;
+        }
+
+        .stat-value {
+            font-size: 18px !important;
+        }
+
+        .stat-sub {
+            font-size: 10.5px !important;
+        }
+
+        .filter-toolbar {
+            padding: 12px 14px !important;
+            gap: 10px !important;
+        }
+
+        .filter-form-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .search-input-group {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .filter-select {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12.5px !important;
+            padding: 8px 26px 8px 10px !important;
+            border-radius: 10px !important;
+        }
+
+        .filter-actions-wrap {
+            grid-column: 1 / -1 !important;
+            display: flex !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .btn-filter {
+            flex: 1 !important;
+            justify-content: center !important;
+            padding: 9px 14px !important;
+            font-size: 13px !important;
+        }
+
+        .btn-reset {
+            width: 44px !important;
+            padding: 9px 0 !important;
+            justify-content: center !important;
+        }
+
+        .filter-sub-bar {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+            padding-top: 8px !important;
+        }
+
+        .active-filter-tags {
+            gap: 6px !important;
+        }
+
+        .filter-tag {
+            font-size: 11px !important;
+            padding: 2px 8px !important;
+        }
+
+        /* Switch Desktop Table to Mobile Cards */
+        .desktop-siswa-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-siswa-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding: 12px !important;
+            background: #f8fafc !important;
+        }
+
+        .mobile-siswa-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .mobile-siswa-card:active {
+            transform: scale(0.99);
+            border-color: #93c5fd;
+        }
+
+        .m-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .m-card-header-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-card-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            padding: 0 6px;
+            border-radius: 6px;
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 11px;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .m-card-name-group {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .m-card-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 3px 0;
+            line-height: 1.25;
+            cursor: pointer;
+            word-break: break-word;
+        }
+
+        .m-card-name:hover {
+            color: #2563eb;
+        }
+
+        .m-card-nisn {
+            font-size: 11.5px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .m-card-nisn strong {
+            font-family: monospace;
+            color: #1e293b;
+            letter-spacing: 0.03em;
+        }
+
+        .m-card-nis-sep {
+            color: #cbd5e1;
+        }
+
+        .m-card-header-right {
+            flex-shrink: 0;
+        }
+
+        .m-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .m-card-badges-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .m-card-meta-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 12px;
+            color: #64748b;
+            background: #f8fafc;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .m-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            word-break: break-word;
+        }
+
+        .m-meta-item i {
+            color: #94a3b8;
+            font-size: 11.5px;
+            width: 14px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .m-card-footer {
+            padding-top: 4px;
+        }
+
+        .m-btn-detail {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 9px 12px;
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1.5px solid #bfdbfe;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .m-btn-detail:active {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .m-empty-state {
+            text-align: center;
+            padding: 32px 16px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1.5px dashed #cbd5e1;
+        }
+
+        /* Pagination on Mobile */
+        .table-footer {
+            padding: 12px 14px !important;
+        }
+
+        .custom-pagination-bar {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 10px !important;
+            width: 100% !important;
+            text-align: center !important;
+        }
+
+        .pagination-info {
+            font-size: 12px !important;
+            color: #64748b !important;
+            text-align: center !important;
+        }
+
+        .pagination-list {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 4px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            list-style: none !important;
+        }
+
+        .pagination-list .page-link {
+            min-width: 32px !important;
+            height: 32px !important;
+            padding: 0 8px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+        }
+
+        /* Modal Responsive Mobile Styling */
+        .modal-backdrop {
+            padding: 10px !important;
+        }
+
+        .modal-dialog {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            border-radius: 16px !important;
+            margin: 0 !important;
+        }
+
+        .modal-header {
+            padding: 14px 16px !important;
+        }
+
+        .modal-title {
+            font-size: 15px !important;
+        }
+
+        .modal-body {
+            padding: 14px 16px !important;
+            max-height: calc(92vh - 120px) !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        .modal-profile-banner {
+            gap: 12px !important;
+            padding-bottom: 12px !important;
+            margin-bottom: 12px !important;
+        }
+
+        .modal-avatar {
+            width: 48px !important;
+            height: 48px !important;
+            font-size: 20px !important;
+        }
+
+        .modal-profile-name {
+            font-size: 16px !important;
+        }
+
+        .detail-section-card {
+            padding: 12px !important;
+            border-radius: 12px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .detail-section-title {
+            font-size: 12.5px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .detail-grid-2 {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+
+        .detail-item-box {
+            padding: 8px 10px !important;
+            border-radius: 8px !important;
+        }
+
+        .detail-item-label {
+            font-size: 10px !important;
+        }
+
+        .detail-item-value {
+            font-size: 12.5px !important;
+            word-break: break-word !important;
+        }
+
+        .mini-stat-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+        }
+
+        .mini-stat-card {
+            padding: 8px 6px !important;
+        }
+
+        .mini-stat-num {
+            font-size: 16px !important;
+        }
+
+        .mini-stat-text {
+            font-size: 10px !important;
+        }
+
+        .modal-footer {
+            padding: 10px 16px !important;
+        }
+
+        .modal-footer .btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-actions {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .header-actions .btn-alumni {
+            grid-column: 1 / -1;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .stat-card-item {
+            padding: 10px 10px !important;
+            gap: 8px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 16px !important;
+        }
+
+        .stat-value {
+            font-size: 16px !important;
+        }
     }
 </style>
 @endsection
@@ -706,27 +1215,6 @@
             </a>
         </div>
     </div>
-
-    <!-- Alert Messages -->
-    @if(session('success'))
-        <div style="background:#ecfdf5; border:1.5px solid #a7f3d0; color:#065f46; padding:14px 18px; border-radius:14px; font-size:13.5px; font-weight:700; display:flex; align-items:center; justify-content:space-between;">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px; color:#10b981;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background:#fef2f2; border:1.5px solid #fecaca; color:#991b1b; padding:14px 18px; border-radius:14px; font-size:13.5px; font-weight:700; display:flex; align-items:center; justify-content:space-between;">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-triangle-exclamation" style="font-size:18px; color:#ef4444;"></i>
-                <span>{{ session('error') }}</span>
-            </div>
-            <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
 
     <!-- 4 Stat Cards Matching Design -->
     <div class="stat-cards-grid">
@@ -834,7 +1322,7 @@
                 </select>
 
                 <!-- 7. Action Buttons -->
-                <div style="display:flex; gap:6px;">
+                <div class="filter-actions-wrap">
                     <button type="submit" class="btn-filter" title="Terapkan Filter">
                         <i class="fa-solid fa-filter"></i> Filter
                     </button>
@@ -879,8 +1367,8 @@
             </div>
         </div>
 
-        <!-- Data Table -->
-        <div class="table-scroll-wrapper">
+        <!-- Data Table (Desktop View) -->
+        <div class="table-scroll-wrapper desktop-siswa-table-wrapper">
             <table class="siswa-table">
                 <thead>
                     <tr>
@@ -974,6 +1462,83 @@
             </table>
         </div>
 
+        <!-- Mobile Siswa Cards (Mobile Only) -->
+        <div class="mobile-siswa-wrapper">
+            @forelse($siswas as $idx => $s)
+                @php
+                    $isFemale = ($s->jenis_kelamin == 'P');
+                    $genderClass = $isFemale ? 'gender-badge-p' : 'gender-badge-l';
+                    $genderIcon  = $isFemale ? 'fa-person-dress' : 'fa-person';
+                    $genderLabel = $isFemale ? 'Perempuan' : 'Laki-laki';
+                    $genderTextClass = $isFemale ? 'gender-text-p' : 'gender-text-l';
+                    $formattedTgl = $s->tanggal_lahir ? \Carbon\Carbon::parse($s->tanggal_lahir)->translatedFormat('d F Y') : '-';
+                    $jurusanKode = $s->kelas && $s->kelas->jurusan ? $s->kelas->jurusan->kode_jurusan : ($s->kelas->nama_kelas ?? '-');
+                @endphp
+                <div class="mobile-siswa-card">
+                    <div class="m-card-header">
+                        <div class="m-card-header-left">
+                            <span class="m-card-number">#{{ $siswas->firstItem() + $idx }}</span>
+                            <div class="m-card-name-group">
+                                <h4 class="m-card-name" onclick="fetchAndShowDetailSiswa({{ $s->id_siswa }})" title="Klik untuk melihat detail lengkap siswa">
+                                    {{ $s->nama_siswa }}
+                                </h4>
+                                <div class="m-card-nisn">
+                                    <span>NISN: <strong>{{ $s->nisn }}</strong></span>
+                                    @if($s->nis)
+                                        <span class="m-card-nis-sep">•</span>
+                                        <span>NIS: {{ $s->nis }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-card-header-right">
+                            @if($s->is_active ?? 1)
+                                <span class="status-badge-pill active" style="padding: 3px 8px; font-size: 11px;">
+                                    <i class="fa-solid fa-circle-check"></i> Aktif
+                                </span>
+                            @else
+                                <span class="status-badge-pill inactive" style="padding: 3px 8px; font-size: 11px;">
+                                    <i class="fa-solid fa-circle-xmark"></i> Nonaktif
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="m-card-body">
+                        <div class="m-card-badges-row">
+                            <span class="badge-kelas">{{ $s->kelas->nama_kelas ?? '-' }}</span>
+                            <span class="badge-jurusan">{{ $jurusanKode }}</span>
+                            <div class="gender-badge-wrap" title="{{ $genderLabel }}">
+                                <div class="gender-badge {{ $genderClass }}" style="width: 22px; height: 22px; font-size: 11px;">
+                                    <i class="fa-solid {{ $genderIcon }}"></i>
+                                </div>
+                                <span class="{{ $genderTextClass }}" style="font-size: 11.5px;">{{ $genderLabel }}</span>
+                            </div>
+                        </div>
+
+                        <div class="m-card-meta-info">
+                            <div class="m-meta-item">
+                                <i class="fa-regular fa-calendar-days"></i>
+                                <span>{{ $formattedTgl }} @if($s->kota_lahir)({{ $s->kota_lahir }})@endif</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-card-footer">
+                        <button type="button" class="m-btn-detail" onclick="fetchAndShowDetailSiswa({{ $s->id_siswa }})">
+                            <i class="fa-solid fa-id-card"></i> Lihat Detail Lengkap Siswa
+                        </button>
+                    </div>
+                </div>
+            @empty
+                <div class="m-empty-state">
+                    <div style="font-size: 36px; margin-bottom: 8px; color: #cbd5e1;"><i class="fa-solid fa-user-slash"></i></div>
+                    <h4 style="font-size: 15px; font-weight: 800; color: #475569; margin: 0 0 4px 0;">Tidak Ada Data Siswa Ditemukan</h4>
+                    <p style="font-size: 12px; margin: 0; color: #94a3b8;">Silakan periksa kata kunci pencarian atau sesuaikan filter yang digunakan.</p>
+                </div>
+            @endforelse
+        </div>
+
         <!-- Table Footer & Pagination -->
         <div class="table-footer">
             {{ $siswas->links('partials.custom-pagination') }}
@@ -1004,12 +1569,12 @@
             <!-- Content State -->
             <div id="detailContent" style="display: none;">
                 <!-- Profile Header Banner -->
-                <div style="display: flex; align-items: center; gap: 18px; padding-bottom: 18px; border-bottom: 1.5px solid #e2e8f0; margin-bottom: 16px;">
-                    <div id="detailAvatar" style="width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; color: #ffffff; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <div class="modal-profile-banner">
+                    <div id="detailAvatar" class="modal-avatar">
                     </div>
-                    <div>
-                        <h3 id="detailNama" style="font-size: 20px; font-weight: 900; color: #0f172a; margin: 0 0 4px 0;"></h3>
-                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <div class="modal-profile-info">
+                        <h3 id="detailNama" class="modal-profile-name"></h3>
+                        <div class="modal-profile-badges">
                             <span id="detailBadgeKelas" class="badge-kelas"></span>
                             <span id="detailBadgeJurusan" class="badge-jurusan"></span>
                             <span id="detailBadgeStatus" class="status-badge-pill active"></span>
@@ -1255,5 +1820,17 @@
     function closeModalDetailSiswa() {
         document.getElementById('modalDetailSiswa').classList.remove('show');
     }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModalDetailSiswa();
+        }
+    });
+
+    document.getElementById('modalDetailSiswa')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModalDetailSiswa();
+        }
+    });
 </script>
 @endsection

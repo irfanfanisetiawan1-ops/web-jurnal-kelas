@@ -87,6 +87,27 @@
     .siswa-table tr:hover td {
         background: #f0f9ff;
     }
+
+    @media (max-width: 768px) {
+        .page-header-box {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .page-header-box h1 {
+            font-size: 20px !important;
+        }
+
+        .table-scroll-wrapper {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .siswa-table th, .siswa-table td {
+            padding: 10px 12px;
+            font-size: 12.5px;
+        }
+    }
 </style>
 @endsection
 
@@ -114,12 +135,6 @@
             </a>
         </div>
     </div>
-
-    @if(session('success'))
-        <div style="background:#ecfdf5; border:1.5px solid #a7f3d0; color:#065f46; padding:14px 18px; border-radius:14px; font-size:13.5px; font-weight:700;">
-            <i class="fa-solid fa-circle-check" style="color:#10b981;"></i> {{ session('success') }}
-        </div>
-    @endif
 
     <div class="main-card">
         <div class="table-scroll-wrapper">

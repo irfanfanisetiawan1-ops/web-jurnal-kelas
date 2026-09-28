@@ -591,6 +591,22 @@
         object-fit: contain;
     }
 
+    /* Mobile Dispen Wrapper Default Hidden on Desktop */
+    .mobile-dispen-wrapper {
+        display: none;
+    }
+
+    .badge-dispen-kelas {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 11.5px;
+        font-weight: 700;
+        background: #f1f5f9;
+        color: #334155;
+        border: 1px solid #cbd5e1;
+    }
+
     /* Responsive Breakpoints */
     @media (max-width: 1200px) {
         .stat-cards-grid {
@@ -599,17 +615,382 @@
     }
 
     @media (max-width: 768px) {
-        .stat-cards-grid {
-            grid-template-columns: 1fr;
+        .persetujuan-container {
+            gap: 14px;
         }
+
+        .page-header-box {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .page-main-title {
+            font-size: 20px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-sub-title {
+            font-size: 12px !important;
+            line-height: 1.4 !important;
+        }
+
+        /* 4 Stat Cards in 2x2 Grid on Mobile */
+        .stat-cards-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+        }
+
+        .stat-card-item {
+            padding: 12px 12px !important;
+            gap: 10px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 38px !important;
+            height: 38px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+        }
+
+        .stat-title {
+            font-size: 11px !important;
+        }
+
+        .stat-count {
+            font-size: 18px !important;
+        }
+
+        /* Main Table Panel Card */
+        .table-panel-card {
+            padding: 14px 12px !important;
+            border-radius: 14px !important;
+        }
+
+        /* Quick Period Tabs - Smooth Touch Scroll */
+        .quick-period-tabs {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            gap: 6px !important;
+            padding-bottom: 8px !important;
+            margin-bottom: 12px !important;
+            scrollbar-width: none;
+        }
+
+        .quick-period-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-period-btn {
+            flex-shrink: 0 !important;
+            padding: 5px 10px !important;
+            font-size: 11.5px !important;
+            white-space: nowrap !important;
+        }
+
+        .quick-period-tabs > span {
+            flex-shrink: 0 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+        }
+
+        /* Active Filter Banner */
+        .active-filter-banner {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+            font-size: 12px !important;
+            padding: 9px 12px !important;
+        }
+
+        /* Filter Toolbar Responsive 2-Column Grid */
+        .filter-toolbar {
+            gap: 10px !important;
+            margin-bottom: 14px !important;
+        }
+
+        .filter-row-container {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+        }
+
         .filter-inputs-row {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .input-search-box {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        .select-box-item {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+            padding: 6px 8px !important;
+        }
+
+        .input-date-box {
+            width: 100% !important;
+            min-width: 0 !important;
+            font-size: 12px !important;
+        }
+
+        .filter-inputs-row .btn-primary {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        .filter-inputs-row .btn-secondary {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        /* Action Buttons Row on Mobile */
+        .filter-actions-row {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+            margin-top: 2px !important;
+        }
+
+        .filter-actions-row .btn-custom {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 8px 10px !important;
+            font-size: 12px !important;
+        }
+
+        /* Switch Desktop Table to Mobile Cards */
+        .desktop-dispen-table-wrapper {
+            display: none !important;
+        }
+
+        .mobile-dispen-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+        }
+
+        .mobile-select-all-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 9px 12px;
+        }
+
+        .mobile-dispen-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: border-color 0.2s ease;
+        }
+
+        .mobile-dispen-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .mobile-dispen-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .mobile-dispen-header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mobile-dispen-body {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mobile-dispen-student-name {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.25;
+        }
+
+        .mobile-dispen-sub-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11.5px;
+            color: #64748b;
+            flex-wrap: wrap;
+        }
+
+        .mobile-dispen-wali {
+            font-size: 11.5px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mobile-dispen-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 9px 12px;
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .mobile-dispen-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mobile-meta-lbl {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mobile-meta-val {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .mobile-dispen-reason-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 3px solid #3b82f6;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .mobile-reason-text {
+            color: #334155;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .mobile-location-text {
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-dispen-satpam-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            gap: 6px;
+        }
+
+        .mobile-dispen-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .mobile-btn-action {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 8px 12px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+        }
+
+        .mobile-action-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
             width: 100%;
         }
-        .input-search-box {
-            max-width: 100%;
+
+        /* Modal Mobile Optimization */
+        .modal-overlay {
+            padding: 12px !important;
         }
+
+        .modal-card {
+            max-width: 100% !important;
+            max-height: 92vh !important;
+            border-radius: 16px !important;
+            margin: 0 !important;
+        }
+
+        .modal-header {
+            padding: 14px 16px !important;
+        }
+
+        .modal-header h3 {
+            font-size: 14px !important;
+        }
+
+        .modal-body {
+            padding: 14px 16px !important;
+            gap: 10px !important;
+        }
+
         .info-grid-2 {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+
+        .info-box-item {
+            padding: 8px 10px !important;
+        }
+
+        .modal-footer {
+            padding: 12px 16px !important;
+        }
+
+        .modal-footer .btn-custom {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        #modalApproveDispen .modal-footer,
+        #modalRejectDispen .modal-footer {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
         }
     }
 </style>
@@ -617,21 +998,6 @@
 
 @section('content')
 <div class="persetujuan-container">
-
-    <!-- Flash Alert Success / Error -->
-    @if(session('success'))
-        <div style="background: #d1fae5; color: #065f46; padding: 12px 16px; border-radius: 10px; font-weight: 700; border: 1px solid #a7f3d0; display: flex; align-items: center; gap: 8px; font-size: 13px;">
-            <i class="fa-solid fa-circle-check" style="font-size: 16px;"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div style="background: #fee2e2; color: #991b1b; padding: 12px 16px; border-radius: 10px; font-weight: 700; border: 1px solid #fecdd3; display: flex; align-items: center; gap: 8px; font-size: 13px;">
-            <i class="fa-solid fa-circle-exclamation" style="font-size: 16px;"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
 
     <!-- Page Header -->
     <div class="page-header-box">
@@ -807,10 +1173,10 @@
             </div>
         </form>
 
-        <!-- Batch Delete Form & Responsive Table Wrapper -->
+        <!-- Batch Delete Form & Responsive Table / Cards Wrapper -->
         <form id="formBatchDispen" method="POST" action="{{ route('waka.siswa-dispen.batch-delete') }}">
             @csrf
-            <div class="table-responsive-wrapper">
+            <div class="desktop-dispen-table-wrapper table-responsive-wrapper">
                 <table class="custom-table">
                     <thead>
                         <tr>
@@ -952,6 +1318,161 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Dispen Cards Wrapper (Visible on Mobile <= 768px) -->
+            <div class="mobile-dispen-wrapper">
+                @if(count($siswaDispenList) > 0)
+                    <div class="mobile-select-all-bar">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #475569; cursor: pointer; margin: 0;">
+                            <input type="checkbox" id="selectAllCheckboxMobile" onclick="toggleSelectAll(this)" style="width: 17px; height: 17px; cursor: pointer;">
+                            <span>Pilih Semua Dispensasi</span>
+                        </label>
+                        <span style="font-size: 11.5px; color: #64748b; font-weight: 700;">{{ count($siswaDispenList) }} Data</span>
+                    </div>
+                @endif
+
+                @forelse($siswaDispenList as $sd)
+                    @php
+                        $detailPayloadMobile = [
+                            'id'                 => $sd->id_siswa_dispen,
+                            'kode_dispen'        => $sd->kode_dispen ?? '-',
+                            'nama_siswa'         => $sd->siswa->nama_siswa ?? 'Siswa Tidak Ditemukan',
+                            'nisn'               => $sd->siswa->nisn ?? ($sd->siswa->nis ?? '-'),
+                            'kelas'              => $sd->kelas->nama_kelas ?? ($sd->siswa->kelas->nama_kelas ?? '-'),
+                            'wali_kelas'         => $sd->kelas->waliKelas->nama_guru ?? ($sd->siswa->kelas->waliKelas->nama_guru ?? '-'),
+                            'tanggal'            => \Carbon\Carbon::parse($sd->tanggal)->translatedFormat('d F Y'),
+                            'jam'                => ($sd->jam_keluar ?? '-') . ' s/d ' . ($sd->jam_kembali ?? '-'),
+                            'alasan'             => $sd->alasan ?? '-',
+                            'tempat'             => $sd->tempat ?? '-',
+                            'status_satpam'      => str_replace('_', ' ', ucfirst($sd->status_satpam ?? 'belum_keluar')),
+                            'status_waka'        => ucfirst($sd->status_waka ?? 'pending'),
+                            'catatan_waka'       => $sd->catatan_waka ?? '-',
+                            'waktu_approval_waka'=> $sd->waktu_approval_waka ? \Carbon\Carbon::parse($sd->waktu_approval_waka)->translatedFormat('d M Y H:i') . ' WIB' : '-',
+                            'nama_waka'          => $sd->nama_waka ?? '-',
+                            'foto_kartu_url'     => $sd->foto_kartu_identitas ? asset($sd->foto_kartu_identitas) : null,
+                            'foto_surat_url'     => $sd->foto_surat_dispen ? asset($sd->foto_surat_dispen) : null,
+                            'foto_siswa_live'    => $sd->foto_siswa_live ? asset($sd->foto_siswa_live) : null,
+                        ];
+                    @endphp
+                    <div class="mobile-dispen-card">
+                        <!-- Card Header: Checkbox + Kode Dispen + Status Approval -->
+                        <div class="mobile-dispen-card-header">
+                            <div class="mobile-dispen-header-left">
+                                <input type="checkbox" name="ids[]" value="{{ $sd->id_siswa_dispen }}" class="cb-dispen" style="width: 17px; height: 17px; cursor: pointer;">
+                                <span class="kode-badge">{{ $sd->kode_dispen ?? '-' }}</span>
+                            </div>
+                            <div class="mobile-dispen-header-right">
+                                @if($sd->status_waka === 'approved')
+                                    <span class="status-pill status-approved"><i class="fa-solid fa-circle-check"></i> Disetujui</span>
+                                @elseif($sd->status_waka === 'rejected')
+                                    <span class="status-pill status-rejected"><i class="fa-solid fa-circle-xmark"></i> Ditolak</span>
+                                @else
+                                    <span class="status-pill status-pending"><i class="fa-solid fa-hourglass-half"></i> Menunggu Waka</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Card Body: Student info, Class, Wali -->
+                        <div class="mobile-dispen-body">
+                            <div class="mobile-dispen-student-name">
+                                {{ $sd->siswa->nama_siswa ?? 'Siswa Tidak Ditemukan' }}
+                            </div>
+                            <div class="mobile-dispen-sub-info">
+                                <span><i class="fa-solid fa-id-badge" style="color: #64748b;"></i> NISN: {{ $sd->siswa->nisn ?? ($sd->siswa->nis ?? '-') }}</span>
+                                <span>•</span>
+                                <span class="badge-dispen-kelas">{{ $sd->kelas->nama_kelas ?? ($sd->siswa->kelas->nama_kelas ?? '-') }}</span>
+                            </div>
+                            @if($sd->kelas->waliKelas->nama_guru ?? ($sd->siswa->kelas->waliKelas->nama_guru ?? null))
+                                <div class="mobile-dispen-wali">
+                                    <i class="fa-solid fa-user-tie" style="color: #94a3b8; font-size: 11px;"></i>
+                                    Wali: {{ $sd->kelas->waliKelas->nama_guru ?? ($sd->siswa->kelas->waliKelas->nama_guru ?? '-') }}
+                                </div>
+                            @endif
+
+                            <!-- Meta Grid: Tanggal & Waktu -->
+                            <div class="mobile-dispen-meta-grid">
+                                <div class="mobile-dispen-meta-item">
+                                    <span class="mobile-meta-lbl"><i class="fa-solid fa-calendar-day"></i> Tanggal</span>
+                                    <span class="mobile-meta-val">
+                                        {{ \Carbon\Carbon::parse($sd->tanggal)->translatedFormat('d M Y') }}
+                                        @if($sd->tanggal === \Carbon\Carbon::today()->toDateString())
+                                            <span style="display:inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10b981; margin-left: 2px;" title="Hari Ini"></span>
+                                        @endif
+                                    </span>
+                                </div>
+                                <div class="mobile-dispen-meta-item">
+                                    <span class="mobile-meta-lbl"><i class="fa-solid fa-clock"></i> Jam Izin</span>
+                                    <span class="mobile-meta-val" style="color: #d97706;">
+                                        {{ $sd->jam_keluar ?? '-' }} - {{ $sd->jam_kembali ?? '-' }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Alasan & Lokasi -->
+                            <div class="mobile-dispen-reason-box">
+                                <div class="mobile-reason-text">
+                                    <i class="fa-solid fa-quote-left" style="color: #94a3b8; font-size: 10.5px; margin-right: 4px;"></i>
+                                    {{ $sd->alasan ?? '-' }}
+                                </div>
+                                @if($sd->tempat)
+                                    <div class="mobile-location-text">
+                                        <i class="fa-solid fa-location-dot" style="color: #ef4444; font-size: 11px; margin-right: 4px;"></i>
+                                        Lokasi: {{ $sd->tempat }}
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Status Gerbang Satpam -->
+                            <div class="mobile-dispen-satpam-row">
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">Pos Satpam:</span>
+                                @if($sd->status_satpam === 'sudah_kembali' || $sd->status_satpam === 'kembali')
+                                    <span class="status-pill status-approved"><i class="fa-solid fa-house-chimney-check"></i> Kembali</span>
+                                @elseif($sd->status_satpam === 'sedang_diluar' || $sd->status_satpam === 'dizinkan_keluar')
+                                    <span class="status-pill status-pending" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd;"><i class="fa-solid fa-person-walking-arrow-right"></i> Sedang di Luar</span>
+                                @elseif($sd->status_satpam === 'ditolak')
+                                    <span class="status-pill status-rejected"><i class="fa-solid fa-ban"></i> Ditolak</span>
+                                @else
+                                    <span class="status-pill status-neutral"><i class="fa-solid fa-clock"></i> Belum Keluar</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Card Actions -->
+                        <div class="mobile-dispen-actions">
+                            <button type="button" class="btn-tbl btn-tbl-detail mobile-btn-action" onclick='openDetailModal(@json($detailPayloadMobile))'>
+                                <i class="fa-solid fa-eye"></i> Detail Lengkap &amp; Bukti
+                            </button>
+
+                            @if($sd->status_waka === 'pending' || !$sd->status_waka)
+                                <div class="mobile-action-split">
+                                    <button type="button" class="btn-tbl btn-tbl-approve mobile-btn-action" onclick="openApproveModal('{{ $sd->id_siswa_dispen }}', '{{ $sd->kode_dispen }}', '{{ addslashes($sd->siswa->nama_siswa ?? 'Siswa') }}')">
+                                        <i class="fa-solid fa-check"></i> Setujui
+                                    </button>
+                                    <button type="button" class="btn-tbl btn-tbl-reject mobile-btn-action" onclick="openRejectModal('{{ $sd->id_siswa_dispen }}', '{{ $sd->kode_dispen }}', '{{ addslashes($sd->siswa->nama_siswa ?? 'Siswa') }}')">
+                                        <i class="fa-solid fa-xmark"></i> Tolak
+                                    </button>
+                                </div>
+                            @endif
+
+                            <button type="button" class="btn-tbl btn-tbl-delete mobile-btn-action" onclick="deleteSingleDispen('{{ $sd->id_siswa_dispen }}', '{{ addslashes($sd->siswa->nama_siswa ?? 'Siswa') }}')">
+                                <i class="fa-solid fa-trash-can"></i> Hapus ke Sampah
+                            </button>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; padding: 32px 16px; background: #ffffff; border-radius: 12px; border: 1px dashed #cbd5e1; color: #94a3b8;">
+                        <i class="fa-solid fa-id-card" style="font-size: 30px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                        <div style="font-weight: 700; font-size: 13.5px; color: #64748b; margin-bottom: 4px;">Tidak Ada Data Permohonan Dispensasi</div>
+                        <div style="font-size: 12px;">
+                            @if($periode === 'hari_ini')
+                                Belum ada permohonan dispensasi siswa yang diajukan untuk hari ini.
+                            @else
+                                Belum ada pengajuan dispensasi siswa yang sesuai dengan filter pencarian.
+                            @endif
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </form>
     </div>
@@ -1225,6 +1746,10 @@
     function toggleSelectAll(master) {
         const checkboxes = document.querySelectorAll('.cb-dispen');
         checkboxes.forEach(cb => cb.checked = master.checked);
+        const m1 = document.getElementById('selectAllCheckbox');
+        const m2 = document.getElementById('selectAllCheckboxMobile');
+        if (m1) m1.checked = master.checked;
+        if (m2) m2.checked = master.checked;
     }
 
     function submitBatchDelete() {
@@ -1234,7 +1759,10 @@
             return;
         }
 
-        if (confirm('Apakah Anda yakin ingin memindahkan ' + checked.length + ' data dispen siswa yang dipilih ke Sampah (Soft Delete)?')) {
+        const uniqueIds = new Set();
+        checked.forEach(cb => uniqueIds.add(cb.value));
+
+        if (confirm('Apakah Anda yakin ingin memindahkan ' + uniqueIds.size + ' data dispen siswa yang dipilih ke Sampah (Soft Delete)?')) {
             document.getElementById('formBatchDispen').submit();
         }
     }

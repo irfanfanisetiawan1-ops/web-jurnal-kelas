@@ -6,54 +6,74 @@
 <!-- Select2 CSS for Searchable Student & Guru Select -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
-    /* Container & Base Styles */
-    .telat-page-container {
+    .guru-izin-container {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    .dashboard-page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 16px;
+        width: 100%;
+    }
+
+    .header-left h1 {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        margin: 0;
+    }
+
+    .header-left p {
+        font-size: 13px;
+        color: #64748b;
+        font-weight: 600;
+        margin-top: 4px;
+        margin-bottom: 0;
+    }
+
+    .stat-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
     }
 
-    /* ─── Top 3 Stat Cards (Tanpa Panah / Chevron) ─── */
-    .telat-stats-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        margin-bottom: 22px;
-    }
-
-    @media (max-width: 992px) {
-        .telat-stats-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .telat-stat-card {
+    .stat-card {
         background: #ffffff;
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         border: 1px solid #e2e8f0;
-        border-radius: 18px;
-        padding: 18px 20px;
+        box-sizing: border-box;
+        transition: transform 0.2s ease;
+    }
+    .stat-card:hover { transform: translateY(-2px); }
+
+    .stat-left {
         display: flex;
         align-items: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        gap: 16px;
     }
 
-    .telat-stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
-    }
-
-    .telat-stat-left {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        width: 100%;
-    }
-
-    .telat-stat-icon {
+    .stat-icon-wrapper {
         width: 48px;
         height: 48px;
-        border-radius: 14px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -61,471 +81,259 @@
         flex-shrink: 0;
     }
 
-    .telat-stat-icon.blue {
-        background: #eff6ff;
-        color: #2563eb;
-    }
+    .stat-icon-amber  { background: #fef3c7; color: #d97706; }
+    .stat-icon-purple { background: #f3e8ff; color: #7e22ce; }
+    .stat-icon-blue   { background: #dbeafe; color: #1d4ed8; }
 
-    .telat-stat-icon.green {
-        background: #ecfdf5;
-        color: #10b981;
-    }
-
-    .telat-stat-icon.orange {
-        background: #fff7ed;
-        color: #f97316;
-    }
-
-    .telat-stat-icon.purple {
-        background: #faf5ff;
-        color: #a855f7;
-    }
-
-    .telat-stat-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .telat-stat-title {
-        font-size: 13px;
+    .stat-label {
+        font-size: 12.5px;
         font-weight: 700;
-        color: #475569;
-        margin-bottom: 2px;
+        color: #64748b;
     }
 
-    .telat-stat-number-wrap {
-        display: flex;
-        align-items: baseline;
-        gap: 6px;
-    }
-
-    .telat-stat-number {
-        font-size: 28px;
+    .stat-val {
+        font-size: 22px;
         font-weight: 800;
         color: #0f172a;
-        line-height: 1.1;
+        line-height: 1.2;
     }
 
-    .telat-stat-unit {
-        font-size: 14px;
-        font-weight: 700;
-        color: #475569;
-    }
-
-    .telat-stat-sub {
-        font-size: 11.5px;
-        font-weight: 500;
-        color: #94a3b8;
-        margin-top: 3px;
-    }
-
-    /* ─── Card Container Standard ─── */
-    .telat-card {
+    .card-custom {
         background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         border: 1px solid #e2e8f0;
-        border-radius: 18px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
         margin-bottom: 24px;
         overflow: hidden;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
-    .telat-card-header {
+    .card-custom-header {
         padding: 18px 24px;
         border-bottom: 1px solid #f1f5f9;
+        background: #ffffff;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
         flex-wrap: wrap;
-    }
-
-    .telat-card-header-left {
-        display: flex;
-        align-items: center;
         gap: 12px;
     }
 
-    .telat-card-icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 11px;
-        background: #eff6ff;
-        color: #2563eb;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 17px;
-        flex-shrink: 0;
-    }
-
-    .telat-card-title {
-        font-size: 15.5px;
+    .card-custom-header h2 {
+        font-size: 16px;
         font-weight: 800;
-        color: #0f172a;
+        color: #1e293b;
         margin: 0;
-        letter-spacing: -0.01em;
     }
 
-    .telat-card-subtitle {
-        font-size: 12px;
-        font-weight: 500;
-        color: #64748b;
-        margin: 2px 0 0 0;
+    .card-custom-body {
+        padding: 24px;
+        box-sizing: border-box;
     }
 
-    .telat-pill-badge {
-        background: #f8fafc;
-        color: #475569;
-        border: 1px solid #e2e8f0;
-        font-size: 12px;
-        font-weight: 700;
-        padding: 5px 12px;
-        border-radius: 20px;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    /* ─── Filter & Toolbar Block (Kompak, Rapi & Menyatu) ─── */
-    .telat-filter-block {
-        padding: 14px 20px 12px 20px;
-        background: #ffffff;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .telat-filter-form {
+    .filter-bar-container {
         display: flex;
         align-items: center;
         gap: 10px;
         flex-wrap: wrap;
-        width: 100%;
-    }
-
-    .telat-search-box {
-        flex: 1 1 220px;
-        min-width: 180px;
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
-    .telat-search-box i {
-        position: absolute;
-        left: 12px;
-        color: #94a3b8;
-        font-size: 12px;
-        pointer-events: none;
-    }
-
-    .telat-search-input {
-        width: 100%;
-        padding: 8px 12px 8px 34px !important;
-        background: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-radius: 9px;
-        font-size: 12px;
-        color: #0f172a;
-        outline: none;
-        transition: all 0.2s ease;
-        box-sizing: border-box;
-    }
-
-    .telat-search-input:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    .telat-filter-select {
-        flex: 0 1 160px;
-        min-width: 135px;
-        padding: 8px 10px;
-        background: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-radius: 9px;
-        font-size: 12px;
-        color: #0f172a;
-        outline: none;
-        transition: all 0.2s ease;
-        box-sizing: border-box;
-        cursor: pointer;
-    }
-
-    .telat-filter-select:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    .telat-filter-date {
-        flex: 0 1 140px;
-        min-width: 130px;
-        padding: 7px 10px;
-        background: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-radius: 9px;
-        font-size: 12px;
-        color: #0f172a;
-        outline: none;
-        transition: all 0.2s ease;
-        box-sizing: border-box;
-    }
-
-    .telat-filter-date:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    .telat-filter-actions {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-left: auto;
-        flex-shrink: 0;
-    }
-
-    .telat-btn-cari {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #2563eb;
-        color: #ffffff;
-        border: 1px solid #1d4ed8;
-        padding: 8px 16px;
-        border-radius: 9px;
-        font-size: 12px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-        box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2);
-    }
-
-    .telat-btn-cari:hover {
-        background: #1d4ed8;
-        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
-    }
-
-    .telat-btn-reset {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #ffffff;
-        color: #475569;
-        border: 1px solid #cbd5e1;
-        padding: 7px 12px;
-        border-radius: 9px;
-        font-size: 12px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-    }
-
-    .telat-btn-reset:hover {
-        background: #f1f5f9;
-        color: #0f172a;
-        border-color: #94a3b8;
-    }
-
-    /* Baris 2: Toolbar Aksi Tabel */
-    .telat-action-toolbar {
-        padding: 0;
-        background: transparent;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
-        box-sizing: border-box;
-    }
-
-    .telat-toolbar-left {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        min-height: 32px;
-    }
-
-    .telat-toolbar-right {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-left: auto;
-    }
-
-    /* Placeholder Toolbar */
-    .telat-bulk-placeholder {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
+        padding: 16px 24px;
         background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 5px 12px;
-        font-size: 11.5px;
-        font-weight: 500;
-        color: #64748b;
-        height: 32px;
+        border-bottom: 1px solid #e2e8f0;
+        width: 100%;
+        max-width: 100%;
         box-sizing: border-box;
-        user-select: none;
     }
 
-    .telat-bulk-placeholder i {
-        font-size: 12px;
-        color: #3b82f6;
-    }
-
-    .telat-btn-bulk-del {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #fee2e2;
-        color: #dc2626;
-        border: 1px solid #fca5a5;
-        padding: 5px 12px;
-        border-radius: 8px;
-        font-size: 11.5px;
-        font-weight: 700;
-        cursor: pointer;
+    .form-control-custom {
+        width: 100%;
+        padding: 10px 14px;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 13px;
+        color: #1e293b;
+        font-family: inherit;
+        outline: none;
         transition: all 0.2s ease;
-        white-space: nowrap;
-        height: 32px;
         box-sizing: border-box;
-        box-shadow: 0 1px 2px rgba(220, 38, 38, 0.08);
     }
 
-    .telat-btn-bulk-del:hover {
-        background: #fecaca;
-        color: #b91c1c;
-        border-color: #f87171;
-    }
-
-    .telat-btn-add {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #2563eb;
-        color: #ffffff;
-        border: 1px solid #1d4ed8;
-        padding: 5px 14px;
-        border-radius: 8px;
-        font-size: 11.5px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-        height: 32px;
+    textarea.form-control-custom {
+        width: 100% !important;
+        min-height: 75px;
+        resize: vertical;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+        font-family: inherit;
+        font-size: 13px;
+        color: #1e293b;
         box-sizing: border-box;
-        box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2);
     }
 
-    .telat-btn-add:hover {
-        background: #1d4ed8;
-        box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
-    }
-
-    .telat-btn-trash-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
+    .form-control-custom:focus,
+    textarea.form-control-custom:focus {
         background: #ffffff;
-        color: #db2777;
-        border: 1px solid #fbcfe8;
-        padding: 5px 12px;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .filter-input {
+        padding: 9px 14px;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
         border-radius: 8px;
-        font-size: 11.5px;
-        font-weight: 700;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        white-space: nowrap;
-        height: 32px;
+        font-size: 12.5px;
+        color: #1e293b;
+        font-family: inherit;
+        outline: none;
+        height: 38px;
         box-sizing: border-box;
-        box-shadow: 0 1px 2px rgba(219, 39, 119, 0.04);
+    }
+    .filter-input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
-    .telat-btn-trash-link:hover {
-        background: #fdf2f8;
-        color: #be185d;
-        border-color: #f472b6;
+    .filter-actions-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
     }
 
-    /* Checkbox Styling */
-    .telat-checkbox {
-        width: 15px;
-        height: 15px;
-        border-radius: 4px;
-        border: 1.5px solid #94a3b8 !important;
-        background-color: #ffffff;
+    .btn-filter-dark {
+        background: #384972;
+        color: #ffffff;
+        padding: 9px 16px;
+        border-radius: 8px;
+        font-size: 12.5px;
+        font-weight: 700;
+        border: none;
         cursor: pointer;
-        accent-color: #2563eb;
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0;
-        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        height: 38px;
+        box-sizing: border-box;
+        white-space: nowrap;
         transition: all 0.15s ease;
     }
+    .btn-filter-dark:hover { background: #2b3957; color: #ffffff; }
 
-    .telat-checkbox:hover {
-        border-color: #2563eb !important;
+    .btn-reset-light {
+        background: #e2e8f0;
+        color: #475569;
+        padding: 9px 16px;
+        border-radius: 8px;
+        font-size: 12.5px;
+        font-weight: 700;
+        border: 1px solid #cbd5e1;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        height: 38px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        transition: all 0.15s ease;
+    }
+    .btn-reset-light:hover { background: #cbd5e1; color: #0f172a; }
+
+    .btn-trash-pink {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+        padding: 9px 16px;
+        border-radius: 8px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        height: 38px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        transition: all 0.15s ease;
+    }
+    .btn-trash-pink:hover { background: #fca5a5; color: #7f1d1d; }
+
+    .btn-add-primary {
+        background: #f59e0b;
+        color: #ffffff;
+        padding: 10px 18px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 800;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+        transition: all 0.2s ease;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    .btn-add-primary:hover {
+        background: #d97706;
+        color: #ffffff;
+        transform: translateY(-1px);
     }
 
-    .telat-checkbox:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
-    }
-
-    /* ─── Table Styles ─── */
-    .telat-table-wrapper {
+    .desktop-table-container {
+        display: block;
         width: 100%;
+        max-width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        border-top: 1px solid #e2e8f0;
+        box-sizing: border-box;
     }
 
-    .telat-table {
+    .table-custom {
         width: 100%;
+        min-width: 950px;
         border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .table-custom th {
+        background: #f8fafc;
+        color: #475569;
+        font-weight: 700;
         text-align: left;
-    }
-
-    .telat-table thead {
-        background: #f1f5f9;
-    }
-
-    .telat-table th {
-        background: #f1f5f9;
-        color: #334155;
-        font-size: 10px;
-        font-weight: 750;
+        padding: 12px 16px;
+        border-bottom: 2px solid #e2e8f0;
+        white-space: nowrap;
+        font-size: 11.5px;
         text-transform: uppercase;
         letter-spacing: 0.3px;
-        padding: 10px 8px;
-        border-bottom: 1.5px solid #cbd5e1;
-        white-space: nowrap;
-        vertical-align: middle;
     }
 
-    .telat-table td {
-        padding: 10px 8px;
+    .table-custom td {
+        padding: 14px 16px;
         border-bottom: 1px solid #f1f5f9;
-        font-size: 11.5px;
-        color: #1e293b;
+        color: #334155;
         vertical-align: middle;
     }
 
-    .telat-table tbody tr:hover {
+    .table-custom tr:hover {
         background-color: #f8fafc;
     }
 
-    /* Badges */
-    .badge-telat-time {
-        background: #fffbeb;
+    .badge-telat {
+        background: #fef3c7;
         color: #b45309;
-        border: 1px solid #fde68a;
-        font-size: 10.5px;
-        font-weight: 750;
-        padding: 2px 7px;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 4px 10px;
         border-radius: 6px;
         display: inline-flex;
         align-items: center;
@@ -534,1227 +342,533 @@
     }
 
     .badge-system-ok {
-        background: #dcfce7;
-        color: #15803d;
-        border: 1px solid #bbf7d0;
-        font-size: 10.5px;
-        font-weight: 750;
-        padding: 3px 8px;
+        background: #d1fae5;
+        color: #065f46;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 4px 8px;
         border-radius: 6px;
+        white-space: nowrap;
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        white-space: nowrap;
     }
 
-    .badge-wa-link {
-        background: #ecfdf5;
-        color: #059669;
-        border: 1px solid #a7f3d0;
-        font-size: 10.5px;
-        font-weight: 750;
-        padding: 3px 8px;
+    .badge-wa-ok {
+        background: #dcfce7;
+        color: #15803d;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 4px 8px;
         border-radius: 6px;
         display: inline-flex;
         align-items: center;
         gap: 4px;
         text-decoration: none;
         white-space: nowrap;
-        transition: all 0.15s ease;
     }
 
-    .badge-wa-link:hover {
-        background: #10b981;
-        color: #ffffff;
-        border-color: #059669;
-    }
-
-    /* Action Buttons in Table */
-    .telat-act-btn {
-        width: 28px;
-        height: 28px;
-        border-radius: 7px;
+    .btn-action-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 11.5px;
-        text-decoration: none;
+        font-size: 13px;
         border: none;
         cursor: pointer;
         transition: all 0.15s ease;
-        flex-shrink: 0;
+        text-decoration: none;
     }
 
-    .telat-act-wa { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
-    .telat-act-wa:hover { background: #059669; color: #ffffff; }
+    .btn-wa-action { background: #25d366; color: #ffffff; }
+    .btn-wa-action:hover { background: #128c7e; color: #ffffff; }
 
-    .telat-act-edit { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
-    .telat-act-edit:hover { background: #2563eb; color: #ffffff; }
+    .btn-edit-action { background: #e0e7ff; color: #3730a3; }
+    .btn-edit-action:hover { background: #c7d2fe; }
 
-    .telat-act-delete { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
-    .telat-act-delete:hover { background: #dc2626; color: #ffffff; }
+    .btn-delete-action { background: #fee2e2; color: #991b1b; }
+    .btn-delete-action:hover { background: #fca5a5; }
 
-    /* Empty State */
-    .telat-empty-box {
-        padding: 50px 20px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .telat-empty-illustration {
-        width: 72px;
-        height: 72px;
-        border-radius: 24px;
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
-        color: #10b981;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 32px;
-        margin-bottom: 16px;
-        position: relative;
-    }
-
-    .telat-empty-subbadge {
-        position: absolute;
-        bottom: -4px;
-        right: -4px;
-        width: 28px;
-        height: 28px;
-        background: #ffffff;
-        border: 2px solid #10b981;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        color: #10b981;
-    }
-
-    .telat-empty-title {
-        font-size: 15px;
-        font-weight: 750;
-        color: #0f172a;
-        margin: 0 0 4px 0;
-    }
-
-    .telat-empty-desc {
-        font-size: 12.5px;
-        color: #64748b;
-        margin: 0;
-    }
-
-    /* Modal Styling */
-    .telat-modal-backdrop {
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(15, 23, 42, 0.6);
+    /* Modal Overlay & Card - z-index 99999 */
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(15, 23, 42, 0.65);
         backdrop-filter: blur(4px);
-        display: none; align-items: center; justify-content: center;
-        z-index: 9999; padding: 20px;
-    }
-    .telat-modal-card {
-        background: #ffffff; border-radius: 18px; width: 100%; max-width: 620px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow: hidden;
-        animation: modalFadeIn 0.2s ease-out;
-    }
-    @keyframes modalFadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-    }
-    .telat-modal-header {
-        padding: 18px 24px; background: #1e293b; color: #ffffff;
-        display: flex; align-items: center; justify-content: space-between;
-    }
-    .telat-modal-body { padding: 24px; max-height: 80vh; overflow-y: auto; }
-    .telat-modal-footer {
-        padding: 16px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0;
-        display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+        -webkit-backdrop-filter: blur(4px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999 !important;
+        padding: 16px;
+        box-sizing: border-box;
     }
 
-    .form-group-custom {
+    .modal-card {
+        background: #ffffff;
+        border-radius: 18px;
+        width: 100%;
+        max-width: 650px;
+        max-height: calc(100vh - 36px);
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.25);
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        margin-bottom: 14px;
+        box-sizing: border-box;
     }
 
-    .form-label-custom {
-        font-size: 12.5px;
-        font-weight: 700;
-        color: #1e293b;
+    .modal-header {
+        padding: 18px 22px;
+        border-bottom: 1px solid #e2e8f0;
         display: flex;
         align-items: center;
-        gap: 4px;
+        justify-content: space-between;
+        background: #f8fafc;
     }
 
-    .form-control-custom {
-        width: 100%;
-        padding: 9px 12px;
-        background: #ffffff;
-        border: 1px solid #cbd5e1;
-        border-radius: 9px;
-        font-size: 12.5px;
+    .modal-header h3 {
+        font-size: 16.5px;
+        font-weight: 800;
         color: #0f172a;
-        outline: none;
-        box-sizing: border-box;
-        transition: all 0.2s ease;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
-    .form-control-custom:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    .modal-body {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        box-sizing: border-box;
+    }
+
+    .modal-footer {
+        padding: 16px 22px;
+        background: #f8fafc;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        border-bottom-left-radius: 18px;
+        border-bottom-right-radius: 18px;
     }
 
     .student-preview-card {
         background: #f8fafc;
         border: 1px solid #cbd5e1;
         border-radius: 12px;
-        padding: 12px 16px;
+        padding: 14px 18px;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
-        font-size: 12px;
-        margin-bottom: 14px;
+        font-size: 12.5px;
+        box-sizing: border-box;
     }
 
     .student-preview-card div span {
         color: #64748b;
         font-weight: 600;
         display: block;
-        font-size: 10.5px;
+        font-size: 11px;
     }
-
     .student-preview-card div strong {
         color: #0f172a;
         font-weight: 800;
-        font-size: 12.5px;
+        font-size: 13px;
+    }
+
+    .modal-date-time-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* Select2 custom tweak */
+    .select2-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        display: block !important;
+    }
+
     .select2-container--default .select2-selection--single {
-        height: 40px !important;
+        height: 42px !important;
         border: 1px solid #cbd5e1 !important;
-        border-radius: 9px !important;
-        padding: 5px 10px !important;
-        background: #ffffff !important;
+        border-radius: 10px !important;
+        padding: 6px 10px !important;
+        background: #f8fafc !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 28px !important;
-        font-size: 12.5px !important;
-        color: #0f172a !important;
+        font-size: 13px !important;
+        color: #1e293b !important;
         font-weight: 600 !important;
-        padding-left: 0 !important;
+        padding-right: 28px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
+
     .select2-dropdown {
-        border: 1px solid #cbd5e1 !important;
+        z-index: 999999 !important;
         border-radius: 10px !important;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
-        font-size: 12.5px !important;
-        z-index: 10000 !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
     }
-    /* ─── Mobile Responsive Additions (Strictly Hidden on Desktop) ─── */
-    .mobile-page-topbar,
-    .mobile-telat-stat-carousel-wrap,
-    .mobile-telat-form-card,
-    .mobile-telat-section,
-    #mobileFilterModal,
-    .telat-btn-text-short {
-        display: none !important;
+
+    /* ======================================================== */
+    /* MOBILE CARD LIST (FOR SCREEN <= 768px)                   */
+    /* ======================================================== */
+    .mobile-card-list {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    .mobile-telat-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        box-sizing: border-box;
+    }
+
+    .mobile-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .mobile-card-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        margin-top: 4px;
+        border-top: 1px dashed #e2e8f0;
+        padding-top: 8px;
+    }
+
+    .mobile-card-actions .btn-action-mobile {
+        padding: 8px 10px;
+        font-size: 11.5px;
+        font-weight: 700;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        text-decoration: none;
+        cursor: pointer;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+
+    /* ======================================================== */
+    /* RESPONSIVE MEDIA QUERIES (MOBILE HP & TABLETS)           */
+    /* ======================================================== */
+    @media (max-width: 992px) {
+        .stat-grid-3 {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
     }
 
     @media (max-width: 768px) {
-        .telat-desktop-table-card,
-        .telat-desktop-stat-grid,
-        .telat-btn-text-full {
+        .dashboard-page-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .header-left h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            color: #0f172a !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.2 !important;
+        }
+
+        .header-left p {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+        }
+
+        .btn-add-primary {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            padding: 11px 16px !important;
+            font-size: 13.5px !important;
+        }
+
+        .stat-grid-3 {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 10px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .stat-card {
+            padding: 14px !important;
+            border-radius: 12px !important;
+        }
+
+        .stat-val {
+            font-size: 20px !important;
+        }
+
+        .stat-icon-wrapper {
+            width: 40px !important;
+            height: 40px !important;
+            font-size: 17px !important;
+        }
+
+        .card-custom-header {
+            padding: 16px 14px !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+        }
+
+        .card-custom-body {
+            padding: 14px 12px !important;
+        }
+
+        .filter-bar-container {
+            padding: 12px 14px !important;
+        }
+
+        .filter-bar-container form {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+        }
+
+        .filter-input {
+            flex: none !important;
+            height: 38px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            padding: 8px 12px !important;
+            font-size: 12.5px !important;
+            box-sizing: border-box !important;
+        }
+
+        .filter-actions-group {
+            width: 100% !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            margin-left: 0 !important;
+        }
+
+        .filter-actions-group .btn-filter-dark,
+        .filter-actions-group .btn-reset-light,
+        .filter-actions-group .btn-trash-pink,
+        .filter-actions-group #btnBatchDelete {
+            width: 100% !important;
+            height: 38px !important;
+            justify-content: center !important;
+            margin-left: 0 !important;
+            font-size: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        .desktop-table-container {
             display: none !important;
         }
 
-        .mobile-page-topbar {
+        .mobile-card-list {
             display: flex !important;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid #e2e8f0;
+            flex-direction: column !important;
+            gap: 14px !important;
+            padding: 14px 12px !important;
         }
 
-        .mobile-back-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1e3a8a;
-            font-size: 15px;
-            text-decoration: none;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s ease;
-            flex-shrink: 0;
+        .modal-date-time-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
         }
 
-        .mobile-back-btn:active {
-            background: #eff6ff;
-            transform: scale(0.95);
+        .student-preview-card {
+            grid-template-columns: 1fr !important;
+            padding: 12px 14px !important;
         }
 
-        .mobile-topbar-title-wrap {
-            flex: 1;
-            min-width: 0;
+        .modal-overlay {
+            padding: 12px !important;
         }
 
-        .mobile-topbar-title {
-            font-size: 17px;
-            font-weight: 800;
-            color: #1e3a8a;
-            margin: 0;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
+        .modal-card {
+            width: 100% !important;
+            max-width: 100% !important;
+            max-height: calc(100vh - 24px) !important;
+            border-radius: 16px !important;
         }
 
-        .mobile-topbar-sub {
-            font-size: 11px;
-            font-weight: 600;
-            color: #64748b;
-            display: block;
-            margin-top: 1px;
+        .modal-header {
+            padding: 14px 16px !important;
         }
 
-        .m-btn-trash-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: #fff1f2;
-            border: 1px solid #fecdd3;
-            padding: 5px 10px;
-            border-radius: 9999px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #e11d48;
-            cursor: pointer;
-            text-decoration: none;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-            flex-shrink: 0;
+        .modal-header h3 {
+            font-size: 15px !important;
         }
 
-        .m-trash-badge {
-            background: #e11d48;
-            color: #ffffff;
-            font-size: 9.5px;
-            padding: 1px 5px;
-            border-radius: 9999px;
-            font-weight: 800;
+        .modal-body {
+            padding: 16px 14px !important;
+            gap: 14px !important;
         }
 
-        .mobile-telat-stat-carousel-wrap,
-        .mobile-telat-form-card,
-        .mobile-telat-section {
-            display: flex !important;
+        .modal-footer {
+            padding: 14px 16px !important;
+            flex-direction: column-reverse !important;
+            width: 100% !important;
+            gap: 8px !important;
         }
 
-        #mobileFilterModal.active,
-        #detailModalSiswaTelat.active {
-            display: flex !important;
+        .modal-footer button,
+        .modal-footer a {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
         }
+    }
 
-        .telat-btn-text-short {
-            display: inline !important;
+    @media (min-width: 769px) {
+        .desktop-table-container {
+            display: block !important;
         }
-
-        .telat-page-container {
-            padding-bottom: 24px;
-        }
-
-        /* Mobile Stat Cards Carousel */
-        .mobile-telat-stat-carousel-wrap {
-            position: relative;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .mobile-telat-stat-container {
-            position: relative;
-            width: 100%;
-            border-radius: 18px;
-            overflow: hidden;
-            touch-action: pan-y;
-            background: transparent;
-        }
-
-        .mobile-telat-stat-track {
-            display: flex;
-            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-            width: 100%;
-        }
-
-        .mobile-telat-stat-slide {
-            flex: 0 0 100%;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .mobile-telat-stat-slide .telat-stat-card {
-            width: 100%;
-            margin: 0;
-            border-radius: 16px;
-            padding: 16px 18px;
-            box-sizing: border-box;
-        }
-
-        .m-stat-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #ffffff;
-            color: #475569;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            cursor: pointer;
-            z-index: 5;
-            opacity: 0;
-            pointer-events: none;
-            visibility: hidden;
-            transition: opacity 0.25s ease, transform 0.2s ease, visibility 0.25s ease;
-        }
-
-        .mobile-telat-stat-container:hover .m-stat-arrow,
-        .mobile-telat-stat-container.is-hovered .m-stat-arrow {
-            opacity: 1;
-            pointer-events: auto;
-            visibility: visible;
-        }
-
-        .m-stat-arrow:hover,
-        .m-stat-arrow:active {
-            color: #2563eb;
-            background: #f8fafc;
-            transform: translateY(-50%) scale(0.92);
-        }
-
-        .m-stat-prev { left: 8px; }
-        .m-stat-next { right: 8px; }
-
-        .mobile-telat-stat-dots {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-top: 2px;
-            margin-bottom: 2px;
-        }
-
-        .m-stat-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #cbd5e1;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .m-stat-dot.active {
-            width: 20px;
-            height: 6px;
-            border-radius: 9999px;
-            background: #2563eb;
-        }
-
-        /* Mobile Form Card */
-        .mobile-telat-form-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
-            margin-bottom: 16px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .mobile-telat-form-header {
-            padding: 14px 16px;
-            border-bottom: 1px solid #f1f5f9;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .m-card-icon-wrap {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: #eff6ff;
-            border: 1px solid #dbeafe;
-            color: #2563eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .mobile-telat-form-body {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .mobile-telat-form-actions {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 8px;
-            margin-top: 10px;
-            padding-top: 14px;
-            border-top: 1px solid #f1f5f9;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .m-btn-form-reset, .m-btn-form-submit {
-            height: 42px;
-            min-height: 42px;
-            border-radius: 10px;
-            font-size: 12.5px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-            white-space: nowrap;
-        }
-
-        .m-btn-form-reset {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            color: #475569;
-        }
-
-        .m-btn-form-submit {
-            background: #2563eb;
-            border: 1px solid #1d4ed8;
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
-        }
-
-        /* Mobile Section: Filter + Cards List */
-        .mobile-telat-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-        }
-
-        .mobile-telat-filter-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 14px 16px;
-            box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .mobile-telat-filter-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-        }
-
-        .mobile-telat-search-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .m-search-form {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            width: 100%;
-        }
-
-        .m-search-input-box {
-            position: relative;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .m-search-input-box i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 13px;
-            pointer-events: none;
-        }
-
-        .m-search-input {
-            width: 100%;
-            height: 38px;
-            border-radius: 10px;
-            border: 1px solid #cbd5e1;
-            background: #ffffff;
-            padding: 0 12px 0 34px !important;
-            font-size: 12.5px;
-            color: #1e293b;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
+        .mobile-card-list {
+            display: none !important;
         }
+    }
 
-        .m-search-input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    @media (max-width: 480px) {
+        .header-left h1 {
+            font-size: 26px !important;
         }
-
-        .m-btn-filter-trigger {
-            height: 38px;
-            padding: 0 16px;
-            border-radius: 10px;
-            background: #2563eb;
-            color: #ffffff;
-            border: none;
-            font-size: 12.5px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
-            flex-shrink: 0;
-            transition: background 0.15s ease;
-            position: relative;
-        }
-
-        .m-filter-active-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #34d399;
-            border: 1.5px solid #ffffff;
-            margin-left: 2px;
-        }
-
-        /* Mobile Cards List */
-        .mobile-telat-cards-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .mobile-telat-card-item {
-            background: #ffffff;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.03);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 14px 16px;
-            position: relative;
-            overflow: hidden;
-            border-left: 4px solid #f97316;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .m-telat-header-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .m-telat-title-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .m-telat-student-name {
-            font-size: 14px;
-            font-weight: 800;
-            color: #1e3a8a;
-            line-height: 1.25;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .m-telat-meta-sub {
-            font-size: 11px;
-            color: #64748b;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 2px;
-        }
-
-        .badge-telat-time-mobile {
-            background: #fff7ed;
-            color: #ea580c;
-            border: 1px solid #ffedd5;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 4px 8px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            white-space: nowrap;
-        }
-
-        .m-telat-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            background: #f8fafc;
-            border: 1px solid #f1f5f9;
-            border-radius: 12px;
-            padding: 10px 12px;
-        }
-
-        .m-telat-info-cell {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .m-telat-info-label {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #94a3b8;
-            letter-spacing: 0.02em;
-        }
-
-        .m-telat-info-val {
-            font-size: 12px;
-            font-weight: 700;
-            color: #1e293b;
-        }
-
-        .m-telat-alasan-box {
-            background: #f8fafc;
-            border-left: 3px solid #cbd5e1;
-            padding: 8px 12px;
-            border-radius: 0 8px 8px 0;
-            font-size: 12px;
-            font-style: italic;
-            color: #475569;
-            line-height: 1.4;
-        }
-
-        .m-telat-hukuman-box {
-            background: #fff1f2;
-            border: 1px solid #fecdd3;
-            color: #991b1b;
-            font-size: 11.5px;
-            font-weight: 600;
-            padding: 6px 10px;
-            border-radius: 8px;
-        }
-
-        .m-telat-action-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            padding-top: 10px;
-            border-top: 1px dashed #e2e8f0;
-            margin-top: 2px;
-        }
-
-        .m-btn-detail-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 800;
-            color: #2563eb;
-            background: #eff6ff;
-            border: 1px solid #dbeafe;
-            padding: 6px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .m-telat-quick-icons {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .m-telat-icon-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            border: 1px solid #cbd5e1;
-            background: #ffffff;
-            color: #475569;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.15s ease;
-        }
-
-        .m-telat-icon-btn.m-btn-wa {
-            background: #f0fdf4;
-            color: #16a34a;
-            border-color: #bbf7d0;
-        }
-
-        .m-telat-icon-btn.m-btn-edit {
-            background: #fffbeb;
-            color: #d97706;
-            border-color: #fde68a;
-        }
-
-        .m-telat-icon-btn.m-btn-del {
-            background: #fef2f2;
-            color: #dc2626;
-            border-color: #fecaca;
-        }
-
-        /* Modal Filter Mobile Bottom Sheet */
-        .mobile-filter-modal-wrap {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 99999;
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-            padding: 0;
-        }
-
-        .mobile-filter-modal-wrap.active {
-            display: flex !important;
-        }
-
-        .mobile-filter-sheet {
-            background: #ffffff;
-            border-radius: 20px 20px 0 0;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            animation: sheetSlideUp 0.25s ease-out;
-            max-height: 85vh;
+        .stat-grid-3 {
+            grid-template-columns: 1fr !important;
         }
-
-        .mobile-filter-sheet-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .mobile-filter-sheet-title {
-            font-size: 15px;
-            font-weight: 800;
-            color: #1e3a8a;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .mobile-filter-sheet-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            overflow-y: auto;
-        }
-
-        .mobile-filter-actions-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
+        .mobile-card-actions {
+            grid-template-columns: 1fr 1fr !important;
         }
+    }
 
-        .mobile-filter-sheet-close {
-            background: #f1f5f9;
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            cursor: pointer;
-            font-size: 14px;
+    @media (max-width: 420px) {
+        .filter-actions-group {
+            grid-template-columns: 1fr !important;
         }
-
-        @keyframes sheetSlideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+        .mobile-card-actions {
+            grid-template-columns: 1fr !important;
         }
     }
 </style>
 @endsection
 
 @section('content')
-<div class="telat-page-container">
+<div class="guru-izin-container">
 
-    <!-- ─── MOBILE TOPBAR (TITLE + SAMPAH PILL) ─── -->
-    <div class="mobile-page-topbar">
-        <div class="mobile-topbar-title-wrap">
-            <h1 class="mobile-topbar-title">Siswa Telat</h1>
-            <span class="mobile-topbar-sub">Pencatatan & riwayat keterlambatan siswa</span>
+    <!-- Page Header -->
+    <div class="dashboard-page-header">
+        <div class="header-left">
+            <h1><i class="fa-solid fa-user-clock" style="color: #d97706; margin-right: 8px;"></i> Siswa Telat</h1>
+            <p>Pendataan siswa terlambat & pengiriman pemberitahuan otomatis ke Guru Mengajar (Sistem Web & WhatsApp)</p>
         </div>
-        <div class="mobile-topbar-right">
-            @php
-                $trashedCount = \App\Models\SiswaTelat::onlyTrashed()->count();
-            @endphp
-            <a href="{{ route('piket.siswa-telat.trash') }}" class="m-btn-trash-pill" title="Sampah">
-                <i class="fa-solid fa-trash-can"></i>
-                <span>Sampah</span>
-                @if($trashedCount > 0)
-                    <span class="m-trash-badge">{{ $trashedCount }}</span>
-                @endif
+        <button type="button" class="btn-add-primary" onclick="openAddModal()">
+            <i class="fa-solid fa-plus-circle"></i> Tambah Data Siswa Telat
+        </button>
+    </div>
+
+    <!-- WhatsApp Action Button (Hanya jika link chat manual di-generate) -->
+    @if(session('wa_url'))
+        <div style="background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; padding: 14px 20px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);">
+            <div style="font-size: 13px; font-weight: 600; color: #047857;">
+                Pemberitahuan otomatis disinkronisasi ke portal Guru Mengajar. Kirim pesan manual melalui tautan di samping jika diperlukan:
+            </div>
+            <a href="{{ session('wa_url') }}" target="_blank" class="badge-wa-ok" style="font-size: 12.5px; padding: 8px 14px; text-decoration: none; border-radius: 8px; font-weight: 800; background: #25d366; color: #ffffff; box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3);">
+                <i class="fa-brands fa-whatsapp" style="font-size: 15px;"></i> Buka Chat WA Manual ({{ session('guru_nama') }})
             </a>
-        </div>
-    </div>
-
-    <!-- ─── MOBILE 3-STAT CAROUSEL (SWIPEABLE + DOT INDICATORS) ─── -->
-    <div class="mobile-telat-stat-carousel-wrap">
-        <div class="mobile-telat-stat-container" id="mobileTelatStatContainer">
-            <button type="button" class="m-stat-arrow m-stat-prev" onclick="prevTelatStatSlide()" aria-label="Sebelumnya">
-                <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <button type="button" class="m-stat-arrow m-stat-next" onclick="nextTelatStatSlide()" aria-label="Berikutnya">
-                <i class="fa-solid fa-chevron-right"></i>
-            </button>
-
-            <div class="mobile-telat-stat-track" id="mobileTelatStatTrack">
-                <!-- Slide 1: Total Telat Hari Ini -->
-                <div class="mobile-telat-stat-slide">
-                    <div class="telat-stat-card">
-                        <div class="telat-stat-left">
-                            <div class="telat-stat-icon blue">
-                                <i class="fa-regular fa-clock"></i>
-                            </div>
-                            <div class="telat-stat-info">
-                                <span class="telat-stat-title">Total Telat Hari Ini</span>
-                                <div class="telat-stat-number-wrap">
-                                    <span class="telat-stat-number">{{ $totalTelatToday }}</span>
-                                    <span class="telat-stat-unit">Siswa</span>
-                                </div>
-                                <span class="telat-stat-sub">Siswa yang datang terlambat hari ini</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 2: Terlambat Bulan Ini -->
-                <div class="mobile-telat-stat-slide">
-                    <div class="telat-stat-card">
-                        <div class="telat-stat-left">
-                            <div class="telat-stat-icon green">
-                                <i class="fa-regular fa-calendar-check"></i>
-                            </div>
-                            <div class="telat-stat-info">
-                                <span class="telat-stat-title">Terlambat Bulan Ini</span>
-                                <div class="telat-stat-number-wrap">
-                                    <span class="telat-stat-number">{{ $totalTelatBulanIni }}</span>
-                                    <span class="telat-stat-unit">Siswa</span>
-                                </div>
-                                <span class="telat-stat-sub">Akumulasi keterlambatan bulan ini</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 3: Total Data Siswa -->
-                <div class="mobile-telat-stat-slide">
-                    <div class="telat-stat-card">
-                        <div class="telat-stat-left">
-                            <div class="telat-stat-icon orange">
-                                <i class="fa-regular fa-user"></i>
-                            </div>
-                            <div class="telat-stat-info">
-                                <span class="telat-stat-title">Total Data Siswa</span>
-                                <div class="telat-stat-number-wrap">
-                                    <span class="telat-stat-number">{{ $siswaList->count() }}</span>
-                                    <span class="telat-stat-unit">Siswa</span>
-                                </div>
-                                <span class="telat-stat-sub">Data siswa yang terdaftar</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Carousel Dots -->
-        <div class="mobile-telat-stat-dots" id="mobileTelatStatDots">
-            <span class="m-stat-dot active" onclick="goToTelatStatSlide(0)"></span>
-            <span class="m-stat-dot" onclick="goToTelatStatSlide(1)"></span>
-            <span class="m-stat-dot" onclick="goToTelatStatSlide(2)"></span>
-        </div>
-    </div>
-
-    <!-- ─── TOP 3 STAT CARDS DESKTOP ─── -->
-    <div class="telat-desktop-stat-grid">
-        <div class="telat-stats-grid">
-            <!-- Card 1: Total Telat Hari Ini -->
-            <div class="telat-stat-card">
-                <div class="telat-stat-left">
-                    <div class="telat-stat-icon blue">
-                        <i class="fa-regular fa-clock"></i>
-                    </div>
-                    <div class="telat-stat-info">
-                        <span class="telat-stat-title">Total Telat Hari Ini</span>
-                        <div class="telat-stat-number-wrap">
-                            <span class="telat-stat-number">{{ $totalTelatToday }}</span>
-                            <span class="telat-stat-unit">Siswa</span>
-                        </div>
-                        <span class="telat-stat-sub">Siswa yang datang terlambat hari ini</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 2: Terlambat Bulan Ini -->
-            <div class="telat-stat-card">
-                <div class="telat-stat-left">
-                    <div class="telat-stat-icon green">
-                        <i class="fa-regular fa-calendar-check"></i>
-                    </div>
-                    <div class="telat-stat-info">
-                        <span class="telat-stat-title">Terlambat Bulan Ini</span>
-                        <div class="telat-stat-number-wrap">
-                            <span class="telat-stat-number">{{ $totalTelatBulanIni }}</span>
-                            <span class="telat-stat-unit">Siswa</span>
-                        </div>
-                        <span class="telat-stat-sub">Akumulasi keterlambatan bulan ini</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3: Total Data Siswa -->
-            <div class="telat-stat-card">
-                <div class="telat-stat-left">
-                    <div class="telat-stat-icon orange">
-                        <i class="fa-regular fa-user"></i>
-                    </div>
-                    <div class="telat-stat-info">
-                        <span class="telat-stat-title">Total Data Siswa</span>
-                        <div class="telat-stat-number-wrap">
-                            <span class="telat-stat-number">{{ $siswaList->count() }}</span>
-                            <span class="telat-stat-unit">Siswa</span>
-                        </div>
-                        <span class="telat-stat-sub">Data siswa yang terdaftar</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Flash Messages -->
-    @if(session('success'))
-<<<<<<< HEAD
-        <div style="background: #ecfdf5; border: 1px solid #6ee7b7; color: #065f46; padding: 16px 20px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.08);">
-            <div style="display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700;">
-                <i class="fa-solid fa-circle-check" style="font-size: 18px; color: #10b981;"></i>
-                <div>
-                    <div>{{ session('success') }}</div>
-                    <div style="font-size: 12px; font-weight: 500; color: #047857; margin-top: 2px;">
-                        Data berhasil disimpan di sistem dan tersinkronisasi dengan portal Guru Mengajar & database.
-                    </div>
-                </div>
-            </div>
-            @if(session('wa_url'))
-                <a href="{{ session('wa_url') }}" target="_blank" class="badge-wa-ok" style="font-size: 12.5px; padding: 8px 14px; text-decoration: none; border-radius: 8px; font-weight: 800; background: #25d366; color: #ffffff; box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3);">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 15px;"></i> Buka Chat WA Manual ({{ session('guru_nama') }})
-                </a>
-            @endif
-=======
-        <div class="telat-card" style="border-left: 5px solid #10b981; background: #ecfdf5; margin-bottom: 20px;">
-            <div style="padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-                <div style="display: flex; align-items: center; gap: 10px; color: #065f46; font-size: 13.5px; font-weight: 750;">
-                    <i class="fa-solid fa-circle-check" style="font-size: 20px; color: #10b981;"></i>
-                    <span>{{ session('success') }}</span>
-                </div>
-                @if(session('wa_url'))
-                    <a href="{{ session('wa_url') }}" target="_blank" class="badge-wa-link" style="padding: 7px 14px; font-size: 12px;">
-                        <i class="fa-brands fa-whatsapp fa-lg"></i> Kirim WA Ke {{ session('guru_nama') }}
-                    </a>
-                @endif
-            </div>
->>>>>>> 7a968c27e3d468e5c768f019b11e2e45639eb857
         </div>
     @endif
 
     @if($errors->any())
-        <div class="telat-card" style="border-left: 5px solid #ef4444; background: #fef2f2; margin-bottom: 20px;">
-            <div style="padding: 16px 20px;">
-                <div style="display: flex; align-items: center; gap: 10px; color: #991b1b; font-size: 13.5px; font-weight: 750; margin-bottom: 6px;">
-                    <i class="fa-solid fa-triangle-exclamation" style="font-size: 18px;"></i>
-                    <span>Terdapat Kesalahan Validasi:</span>
-                </div>
-                <ul style="margin: 0; padding-left: 28px; color: #991b1b; font-size: 12.5px; font-weight: 600;">
-                    @foreach($errors->all() as $err)
-                        <li>{{ $err }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 14px 20px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; font-weight: 600;">
+            <ul style="margin: 0; padding-left: 18px;">
+                @foreach($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
 
-    <!-- ─── FORM PENCATATAN SISWA TELAT (MOBILE ONLY) ─── -->
-    <div class="mobile-telat-form-card">
-        <div class="mobile-telat-form-header">
-            <div class="m-card-icon-wrap">
-                <i class="fa-solid fa-user-clock"></i>
-            </div>
-            <div>
-                <h2 style="font-size: 14.5px; font-weight: 800; color: #1e3a8a; margin: 0;">Catat Siswa Telat</h2>
-                <span style="font-size: 11px; font-weight: 600; color: #64748b;">Notifikasi otomatis ke Guru Mengajar</span>
+    <!-- Stat Cards Grid -->
+    <div class="stat-grid-3">
+        <div class="stat-card">
+            <div class="stat-left">
+                <div class="stat-icon-wrapper stat-icon-amber">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                    <div class="stat-label">Terlambat Hari Ini</div>
+                    <div class="stat-val">{{ $totalTelatToday }} Siswa</div>
+                </div>
             </div>
         </div>
 
-        <form action="{{ route('piket.siswa-telat.store') }}" method="POST">
-            @csrf
-            <div class="mobile-telat-form-body">
-                <!-- Pilih Siswa -->
-                <div class="form-group-custom" style="margin-bottom: 0;">
-                    <label class="form-label-custom">Pilih Siswa <span style="color: #ef4444;">*</span></label>
-                    <select name="id_siswa" id="mobile_id_siswa" class="select2-siswa-mobile" style="width: 100%;" required onchange="onMobileSiswaSelected(this.value)">
-                        <option value="">-- Cari Nama Siswa / NIS / Kelas --</option>
-                        @foreach($siswaList as $s)
-                            <option value="{{ $s->id_siswa }}">
-                                {{ $s->nama_siswa }} — Kelas {{ $s->kelas->nama_kelas ?? '-' }} (NIS: {{ $s->nis ?? '-' }})
-                            </option>
-                        @endforeach
-                    </select>
+        <div class="stat-card">
+            <div class="stat-left">
+                <div class="stat-icon-wrapper stat-icon-purple">
+                    <i class="fa-solid fa-calendar-week"></i>
                 </div>
-
-                <!-- Preview Identitas Siswa Mobile -->
-                <div id="studentPreviewContainerMobile" class="student-preview-card" style="display: none; margin-bottom: 0;">
-                    <div>
-                        <span>Nama Lengkap:</span>
-                        <strong id="mobile_prev_nama_siswa">-</strong>
-                    </div>
-                    <div>
-                        <span>Kelas:</span>
-                        <strong id="mobile_prev_kelas_siswa" style="color: #2563eb;">-</strong>
-                    </div>
-                    <div>
-                        <span>NIS / NISN:</span>
-                        <strong id="mobile_prev_nis_siswa">-</strong>
-                    </div>
-                    <div>
-                        <span>Jenis Kelamin:</span>
-                        <strong id="mobile_prev_jk_siswa">-</strong>
-                    </div>
-                </div>
-
-                <!-- Guru Mengajar Target -->
-                <div class="form-group-custom" style="margin-bottom: 0;">
-                    <label class="form-label-custom">Guru Mengajar Target <span style="color: #ef4444;">*</span></label>
-                    <input type="hidden" name="id_jadwal" id="mobile_id_jadwal" value="">
-                    <select name="id_guru_mengajar" id="mobile_id_guru_mengajar" class="select2-guru-mobile" style="width: 100%;" required>
-                        <option value="">-- Pilih Guru Mengajar --</option>
-                        @foreach($guruList as $g)
-                            <option value="{{ $g->id_guru }}">
-                                {{ $g->nama_guru }} (NIP: {{ $g->nip ?: '-' }}) — {{ $g->mapel->nama_mapel ?? 'Guru Pengampu' }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Tanggal & Jam -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div class="form-group-custom" style="margin-bottom: 0;">
-                        <label class="form-label-custom">Tanggal <span style="color: #ef4444;">*</span></label>
-                        <input type="date" name="tanggal" id="mobile_tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->toDateString() }}" class="form-control-custom" style="height: 42px;" required>
-                    </div>
-                    <div class="form-group-custom" style="margin-bottom: 0;">
-                        <label class="form-label-custom">Jam Datang <span style="color: #ef4444;">*</span></label>
-                        <input type="text" name="jam_terlambat" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('H:i') }}" class="form-control-custom" style="height: 42px;" placeholder="07:25" required>
-                    </div>
-                </div>
-
-                <!-- Alasan -->
-                <div class="form-group-custom" style="margin-bottom: 0;">
-                    <label class="form-label-custom">Alasan Keterlambatan <span style="color: #ef4444;">*</span></label>
-                    <textarea name="alasan" rows="2" class="form-control-custom" placeholder="Tulis alasan terlambat..." required></textarea>
-                </div>
-
-                <!-- Tindakan / Sanksi -->
-                <div class="form-group-custom" style="margin-bottom: 0;">
-                    <label class="form-label-custom">Tindakan / Sanksi Piket (Opsional)</label>
-                    <textarea name="tindakan_hukuman" rows="2" class="form-control-custom" placeholder="Contoh: Membersihkan halaman sekolah..."></textarea>
-                </div>
-
-                <!-- Action Buttons Side-by-Side -->
-                <div class="mobile-telat-form-actions">
-                    <button type="reset" class="m-btn-form-reset" onclick="resetMobileTelatForm()">
-                        <i class="fa-solid fa-rotate-left"></i> Reset
-                    </button>
-                    <button type="submit" class="m-btn-form-submit">
-                        <i class="fa-solid fa-paper-plane"></i> Simpan Catatan
-                    </button>
+                <div>
+                    <div class="stat-label">Terlambat Bulan Ini</div>
+                    <div class="stat-val">{{ $totalTelatBulanIni }} Siswa</div>
                 </div>
             </div>
-        </form>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-left">
+                <div class="stat-icon-wrapper stat-icon-blue">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                    <div class="stat-label">Total Data Siswa</div>
+                    <div class="stat-val">{{ $siswaList->count() }} Siswa</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- ─── DATA TABLE CARD & CONTROLS (DESKTOP VIEW) ─── -->
-    <div class="telat-card telat-desktop-table-card">
-        <!-- Filter & Toolbar Block -->
-        <div class="telat-filter-block">
-            <!-- Baris 1: Filter Form -->
-            <form action="{{ route('piket.siswa-telat') }}" method="GET" class="telat-filter-form">
-                <!-- Search Box (flex-1) -->
-                <div class="telat-search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari Nama Siswa / NISN / Alasan..." class="telat-search-input">
-                </div>
-
-                <!-- Dropdown Semua Kelas -->
-                <select name="id_kelas" class="telat-filter-select">
+    <!-- Data Table Card -->
+    <div class="card-custom">
+        <!-- Filter Bar -->
+        <div class="filter-bar-container">
+            <form action="{{ route('piket.siswa-telat') }}" method="GET" style="display: flex; gap: 10px; flex-wrap: wrap; width: 100%; align-items: center;">
+                <input type="text" name="q" value="{{ request('q') }}" class="filter-input" placeholder="Cari Nama Siswa / NIS / Alasan..." style="flex: 1.5 1 200px; min-width: 160px;">
+                
+                <select name="id_kelas" class="filter-input" style="flex: 1 1 140px;">
                     <option value="">Semua Kelas</option>
                     @foreach($kelases as $k)
                         <option value="{{ $k->id_kelas }}" {{ request('id_kelas') == $k->id_kelas ? 'selected' : '' }}>
@@ -1763,50 +877,30 @@
                     @endforeach
                 </select>
 
-                <!-- Date Picker -->
-                <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="telat-filter-date" title="Filter Tanggal">
+                <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="filter-input" title="Filter Tanggal" style="flex: 1 1 130px;">
 
-                <!-- Dropdown Status Keterlambatan -->
-                <select name="status_notifikasi" class="telat-filter-select">
-                    <option value="">-- Status Keterlambatan --</option>
-                    <option value="terkirim" {{ request('status_notifikasi') === 'terkirim' ? 'selected' : '' }}>Pemberitahuan Terkirim</option>
-                    <option value="tertunda" {{ request('status_notifikasi') === 'tertunda' ? 'selected' : '' }}>Menunggu Konfirmasi</option>
-                </select>
-
-                <!-- Action Buttons -->
-                <div class="telat-filter-actions">
-                    <button type="submit" class="telat-btn-cari">
+                <div class="filter-actions-group">
+                    <button type="submit" class="btn-filter-dark">
                         <i class="fa-solid fa-magnifying-glass"></i> Cari
                     </button>
-                    <a href="{{ route('piket.siswa-telat') }}" class="telat-btn-reset">
+
+                    <a href="{{ route('piket.siswa-telat') }}" class="btn-reset-light">
                         <i class="fa-solid fa-rotate-left"></i> Reset
                     </a>
-                </div>
-            </form>
 
-            <!-- Baris 2: Toolbar Aksi -->
-            <div class="telat-action-toolbar">
-                <div class="telat-toolbar-left">
-                    <div class="telat-bulk-placeholder" id="bulkPlaceholder">
-                        <i class="fa-solid fa-circle-info"></i> Pilih data pada tabel untuk opsi tindakan massal
-                    </div>
-                    <button type="button" id="btnBatchDelete" onclick="confirmBatchDelete()" class="telat-btn-bulk-del" style="display: none;">
+                    <!-- Tombol Hapus Terpilih (Batch Delete) -->
+                    <button type="button" id="btnBatchDelete" class="btn-trash-pink" onclick="confirmBatchDelete()" style="opacity: 0.5; cursor: not-allowed;" disabled>
                         <i class="fa-solid fa-trash-can"></i> Hapus Terpilih (<span id="selectedCount">0</span>)
                     </button>
-                </div>
 
-                <div class="telat-toolbar-right">
-                    <button type="button" class="telat-btn-add" onclick="openAddModal()">
-                        <i class="fa-solid fa-plus-circle"></i> Catat Siswa Telat
-                    </button>
                     @php
                         $trashedCount = \App\Models\SiswaTelat::onlyTrashed()->count();
                     @endphp
-                    <a href="{{ route('piket.siswa-telat.trash') }}" class="telat-btn-trash-link" title="Lihat Data Terhapus di Sampah">
+                    <a href="{{ route('piket.siswa-telat.trash') }}" class="btn-trash-pink" title="Lihat Sampah Data Siswa Telat">
                         <i class="fa-solid fa-trash-can"></i> Sampah ({{ $trashedCount }})
                     </a>
                 </div>
-            </div>
+            </form>
         </div>
 
         <!-- Form Tersembunyi untuk Batch Delete -->
@@ -1816,366 +910,283 @@
             <div id="batchDeleteInputsContainer"></div>
         </form>
 
-        <!-- Table Container -->
-        <div class="telat-table-wrapper">
-            <table class="telat-table">
-                <thead>
-                    <tr>
-                        <th style="width: 38px; text-align: center;">
-                            <input type="checkbox" id="selectAllCheckboxes" class="telat-checkbox" title="Pilih Semua (Select All)">
-                        </th>
-                        <th style="width: 40px; text-align: center;">NO</th>
-                        <th style="min-width: 135px;">WAKTU & TANGGAL</th>
-                        <th style="min-width: 180px;">NAMA SISWA</th>
-                        <th style="width: 90px;">KELAS</th>
-                        <th style="min-width: 170px;">GURU MENGAJAR TARGET</th>
-                        <th style="min-width: 180px;">ALASAN / HUKUMAN PIKET</th>
-                        <th style="width: 140px; text-align: center;">PEMBERITAHUAN</th>
-                        <th style="width: 110px; text-align: center;">AKSI</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($telatList as $index => $row)
-                        @php
-                            $siswaObj = $row->siswa;
-                            $kelasObj = $row->kelas ?? ($siswaObj ? $siswaObj->kelas : null);
-                            $guruObj  = $row->guruMengajar;
-
-                            // Format WA Direct Link
-                            $rawHp = preg_replace('/[^0-9]/', '', $guruObj->no_hp ?? '');
-                            if (str_starts_with($rawHp, '0')) {
-                                $rawHp = '62' . substr($rawHp, 1);
-                            }
-
-                            $waTextMsg = "*PEMBERITAHUAN SISWA TERLAMBAT (GURU PIKET)*\n\n"
-                                . "Assalamu'alaikum / Selamat Pagi Bapak/Ibu Guru *".($guruObj->nama_guru ?? 'Guru')."*,\n\n"
-                                . "Memberitahukan bahwa siswa dari kelas Bapak/Ibu terlambat hadir di sekolah:\n"
-                                . "• *Nama Siswa*: ".($siswaObj->nama_siswa ?? '-')."\n"
-                                . "• *NIS / NISN*: ".($siswaObj->nis ?? '-')." / ".($siswaObj->nisn ?? '-')."\n"
-                                . "• *Kelas*: ".($kelasObj->nama_kelas ?? '-')."\n"
-                                . "• *Jenis Kelamin*: ".($siswaObj ? $siswaObj->jenis_kelamin_teks : '-')."\n"
-                                . "• *Jam Datang*: {$row->jam_terlambat} WIB\n"
-                                . "• *Alasan*: {$row->alasan}\n"
-                                . "• *Tindakan/Hukuman*: ".($row->tindakan_hukuman ?: 'Pengarahan & kedisiplinan Piket')."\n\n"
-                                . "Siswa saat ini telah melapor ke Guru Piket dan diarahkan memasuki kelas. Notifikasi web sistem telah dikirimkan. Mohon Bapak/Ibu Guru Mengajar dapat menyesuaikan presensi siswa di kelas.\n\n"
-                                . "Terima kasih.\n- Petugas Piket";
-
-                            $waDirectUrl = !empty($rawHp) ? "https://api.whatsapp.com/send?phone={$rawHp}&text=" . urlencode($waTextMsg) : null;
-                        @endphp
+        <!-- DESKTOP TABLE CONTAINER -->
+        <div class="desktop-table-container">
+            <div style="overflow-x: auto;">
+                <table class="table-custom">
+                    <thead>
                         <tr>
-                            <td style="text-align: center;">
-                                <input type="checkbox" value="{{ $row->id_siswa_telat }}" class="item-checkbox telat-checkbox" onchange="updateBatchState()">
-                            </td>
-                            <td style="text-align: center; font-weight: 700; color: #64748b;">
-                                {{ $telatList->firstItem() + $index }}
-                            </td>
-                            <td>
-                                <div style="display: flex; flex-direction: column; gap: 3px;">
-                                    <span style="font-weight: 750; color: #1e293b; font-size: 11.5px;">
-                                        <i class="fa-regular fa-calendar-days" style="color: #2563eb; margin-right: 3px;"></i>
+                            <th style="width: 40px; text-align: center;">
+                                <input type="checkbox" id="selectAllCheckboxes" title="Pilih Semua (Select All)" style="width: 16px; height: 16px; cursor: pointer;">
+                            </th>
+                            <th style="width: 45px; text-align: center;">No</th>
+                            <th>Waktu & Tanggal</th>
+                            <th>Data Siswa (TU)</th>
+                            <th>Guru Mengajar Target</th>
+                            <th>Alasan & Hukuman Piket</th>
+                            <th style="text-align: center;">Pemberitahuan</th>
+                            <th style="text-align: center; width: 120px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($telatList as $index => $row)
+                            @php
+                                $siswaObj = $row->siswa;
+                                $kelasObj = $row->kelas ?? ($siswaObj ? $siswaObj->kelas : null);
+                                $guruObj  = $row->guruMengajar;
+
+                                // Resolve phone number using WhatsAppNotificationService
+                                $guruUser = $guruObj ? \App\Models\User::where('id_guru', $guruObj->id_guru)->orWhere('nip', $guruObj->nip)->first() : null;
+                                $guruPhone = app(\App\Services\WhatsAppNotificationService::class)->resolvePhoneNumber($guruUser) ?: ($guruObj->no_hp ?? null);
+                                $rawHp = \App\Services\WhatsAppNotificationService::formatPhoneNumber($guruPhone);
+
+                                $notificationUrl = \App\Services\WhatsAppNotificationService::makeSiswaTelatNotificationUrl($row->id_siswa_telat);
+                                $waTextMsg = app(\App\Services\WhatsAppNotificationService::class)->buildPesanSiswaTelatGuruMengajar($row, $notificationUrl);
+                                $waDirectUrl = !empty($rawHp) ? "https://api.whatsapp.com/send?phone={$rawHp}&text=" . urlencode($waTextMsg) : null;
+
+                                $cbPayload = [
+                                    'id_siswa_telat'   => $row->id_siswa_telat,
+                                    'siswa_nama'       => $siswaObj->nama_siswa ?? 'Siswa',
+                                    'kelas_nama'       => $kelasObj->nama_kelas ?? '-',
+                                    'guru_nama'        => $guruObj->nama_guru ?? 'Guru Mengajar',
+                                    'guru_hp'          => $rawHp,
+                                    'notification_url' => $notificationUrl,
+                                    'wa_text_msg'      => $waTextMsg,
+                                    'wa_url'           => $waDirectUrl,
+                                ];
+                            @endphp
+                            <tr>
+                                <td style="text-align: center;">
+                                    <input type="checkbox" value="{{ $row->id_siswa_telat }}" class="item-checkbox" style="width: 16px; height: 16px; cursor: pointer;" onchange="updateBatchState()">
+                                </td>
+                                <td style="text-align: center; font-weight: 700; color: #64748b;">
+                                    {{ $telatList->firstItem() + $index }}
+                                </td>
+                                <td>
+                                    <div style="font-weight: 800; color: #0f172a;">
+                                        <i class="fa-regular fa-calendar-check" style="color: #384972; margin-right: 4px;"></i>
                                         {{ \Carbon\Carbon::parse($row->tanggal)->translatedFormat('d M Y') }}
-                                    </span>
-                                    <div>
-                                        <span class="badge-telat-time">
-                                            <i class="fa-regular fa-clock"></i> {{ $row->jam_terlambat }} WIB
-                                        </span>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div style="display: flex; flex-direction: column;">
-                                    <span style="font-weight: 750; color: #0f172a; font-size: 12px;">{{ $siswaObj->nama_siswa ?? 'Siswa Terhapus' }}</span>
-                                    <span style="font-size: 10.5px; color: #64748b; margin-top: 1px;">
-                                        NIS: {{ $siswaObj->nis ?? '-' }} / NISN: {{ $siswaObj->nisn ?? '-' }} ({{ $siswaObj ? $siswaObj->jenis_kelamin_teks : '-' }})
-                                    </span>
-                                </div>
-                            </td>
-                            <td>
-                                <span style="display: inline-block; background: #f1f5f9; color: #475569; padding: 2px 7px; border-radius: 6px; font-weight: 700; font-size: 11px; border: 1px solid #e2e8f0;">
-                                    {{ $kelasObj->nama_kelas ?? '-' }}
-                                </span>
-                            </td>
-                            <td>
-                                <div style="display: flex; flex-direction: column;">
-                                    <span style="font-weight: 750; color: #1e293b; font-size: 11.5px;">
+                                    <div class="badge-telat" style="margin-top: 4px;">
+                                        <i class="fa-solid fa-clock"></i> {{ $row->jam_terlambat }} WIB
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 800; color: #0f172a; font-size: 14px;">
+                                        {{ $siswaObj->nama_siswa ?? 'Siswa Terhapus' }}
+                                    </div>
+                                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                                        <span style="background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-weight: 700; color: #334155;">
+                                            {{ $kelasObj->nama_kelas ?? 'Kelas -' }}
+                                        </span>
+                                        • NIS: {{ $siswaObj->nis ?? '-' }} / NISN: {{ $siswaObj->nisn ?? '-' }}
+                                        • ({{ $siswaObj ? $siswaObj->jenis_kelamin_teks : '-' }})
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 800; color: #1e293b;">
                                         <i class="fa-solid fa-user-tie" style="color: #475569; margin-right: 4px;"></i>
                                         {{ $guruObj->nama_guru ?? 'Guru Tidak Terpilih' }}
-                                    </span>
-                                    <span style="font-size: 10.5px; color: #64748b;">
+                                    </div>
+                                    <div style="font-size: 11.5px; color: #64748b;">
                                         Mapel: {{ $guruObj->mapel->nama_mapel ?? '-' }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td style="max-width: 220px;">
-                                <div style="color: #334155; font-size: 11px; line-height: 1.4;">
-                                    "{{ $row->alasan }}"
-                                </div>
-                                @if($row->tindakan_hukuman)
-                                    <div style="font-size: 10.5px; color: #991b1b; background: #fff1f2; padding: 3px 6px; border-radius: 6px; margin-top: 4px; border: 1px solid #fecdd3;">
-                                        <strong>Hukuman:</strong> {{ $row->tindakan_hukuman }}
                                     </div>
-                                @endif
-                            </td>
-                            <td style="text-align: center;">
-                                <div style="display: flex; flex-direction: column; gap: 4px; align-items: center;">
-                                    <span class="badge-system-ok">
-                                        <i class="fa-solid fa-globe"></i> Sistem Web OK
-                                    </span>
-                                    @if($waDirectUrl)
-                                        <a href="{{ $waDirectUrl }}" target="_blank" class="badge-wa-link" title="Kirim WA ke Guru Mengajar">
-                                            <i class="fa-brands fa-whatsapp"></i> Kirim WA
-                                        </a>
-                                    @else
-                                        <span style="font-size: 10px; color: #94a3b8;">(No WA Kosong)</span>
-                                    @endif
-                                </div>
-                            </td>
-                            <td style="text-align: center;">
-                                <div style="display: flex; gap: 4px; justify-content: center; align-items: center; flex-wrap: nowrap;">
-                                    @if($waDirectUrl)
-                                        <a href="{{ $waDirectUrl }}" target="_blank" class="telat-act-btn telat-act-wa" title="Kirim WA">
-                                            <i class="fa-brands fa-whatsapp"></i>
-                                        </a>
-                                    @endif
-
-                                    <button type="button" class="telat-act-btn telat-act-edit" onclick='openEditModal(@json($row), @json($siswaObj), @json($kelasObj))' title="Edit Data">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-
-                                    <form action="{{ route('piket.siswa-telat.destroy', $row->id_siswa_telat) }}" method="POST" onsubmit="return confirm('Pindahkan data siswa telat ini ke Sampah?');" style="display: inline; margin: 0;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="telat-act-btn telat-act-delete" title="Hapus ke Sampah">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="9">
-                                <div class="telat-empty-box">
-                                    <div class="telat-empty-illustration">
-                                        <i class="fa-regular fa-clipboard"></i>
-                                        <div class="telat-empty-subbadge">
-                                            <i class="fa-regular fa-clock"></i>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 700; color: #1e293b;">
+                                        <i class="fa-solid fa-comment-dots" style="color: #f59e0b; margin-right: 4px;"></i>
+                                        {{ $row->alasan }}
+                                    </div>
+                                    @if($row->tindakan_hukuman)
+                                        <div style="font-size: 12px; color: #991b1b; background: #fff1f2; padding: 4px 8px; border-radius: 6px; margin-top: 4px; border: 1px solid #fecdd3;">
+                                            <strong>Hukuman/Tindakan:</strong> {{ $row->tindakan_hukuman }}
                                         </div>
+                                    @endif
+                                </td>
+                                <td style="text-align: center;">
+                                    <div style="display: flex; flex-direction: column; gap: 4px; align-items: center;">
+                                        <span class="badge-system-ok">
+                                            <i class="fa-solid fa-globe"></i> Sistem Web OK
+                                        </span>
+                                        <button type="button" class="badge-wa-ok" onclick='openChatbotWaModal(@json($cbPayload))' title="Kirim Pemberitahuan WhatsApp ke Guru Mengajar" style="cursor: pointer; border: none; font-family: inherit;">
+                                            <i class="fa-brands fa-whatsapp"></i> ChatBot WA
+                                        </button>
                                     </div>
-                                    <h3 class="telat-empty-title">Belum ada data siswa yang telat hari ini.</h3>
-                                    <p class="telat-empty-desc">Saat ada siswa yang datang terlambat, data akan ditampilkan di sini.</p>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                                </td>
+                                <td style="text-align: center;">
+                                    <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                        <button type="button" class="btn-action-icon btn-wa-action" onclick='openChatbotWaModal(@json($cbPayload))' title="Kirim WhatsApp via ChatBot">
+                                            <i class="fa-brands fa-whatsapp"></i>
+                                        </button>
+
+                                        <button type="button" class="btn-action-icon btn-edit-action" onclick='openEditModal(@json($row), @json($siswaObj), @json($kelasObj))' title="Edit Data">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+
+                                        <form action="{{ route('piket.siswa-telat.destroy', $row->id_siswa_telat) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin memindahkan data siswa telat ini ke Sampah?');" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-action-icon btn-delete-action" title="Hapus ke Sampah">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">
+                                    <i class="fa-solid fa-user-clock" style="font-size: 40px; margin-bottom: 12px; color: #cbd5e1; display: block;"></i>
+                                    <p style="font-weight: 700; font-size: 14px; margin: 0; color: #64748b;">Belum ada data siswa telat yang dicatat hari ini.</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- Footer / Pagination -->
-        <div style="padding: 16px 24px; border-top: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: #ffffff;">
-            <div style="font-size: 12px; color: #64748b; font-weight: 600;">
-                @if($telatList->total() > 0)
-                    Menampilkan {{ $telatList->firstItem() }} - {{ $telatList->lastItem() }} dari {{ $telatList->total() }} data
-                @else
-                    Menampilkan 0 - 0 dari 0 data
-                @endif
-            </div>
-            <div>
-                {{ $telatList->withQueryString()->links() }}
-            </div>
-        </div>
-    </div>
-
-    <!-- ─── MOBILE CARD LIST & FILTER SECTION (MOBILE ONLY) ─── -->
-    <div class="mobile-telat-section">
-        <!-- Filter & Search Toolbar Mobile -->
-        <div class="mobile-telat-filter-bar">
-            <div style="flex: 1; position: relative;">
-                <form action="{{ route('piket.siswa-telat') }}" method="GET" id="mobileSearchForm" style="margin: 0;">
-                    @if(request('id_kelas'))
-                        <input type="hidden" name="id_kelas" value="{{ request('id_kelas') }}">
-                    @endif
-                    @if(request('tanggal'))
-                        <input type="hidden" name="tanggal" value="{{ request('tanggal') }}">
-                    @endif
-                    <div style="position: relative;">
-                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 13px;"></i>
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari siswa / alasan..." class="m-search-input" onkeydown="if(event.key==='Enter') this.form.submit()">
-                        @if(request('q'))
-                            <a href="{{ route('piket.siswa-telat', request()->except('q')) }}" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 13px; text-decoration: none;">
-                                <i class="fa-solid fa-circle-xmark"></i>
-                            </a>
-                        @endif
-                    </div>
-                </form>
-            </div>
-            <button type="button" class="m-btn-filter-trigger" onclick="openMobileFilterModal()" title="Filter Data">
-                <i class="fa-solid fa-sliders"></i>
-                <span>Filter</span>
-                @if(request('id_kelas') || request('tanggal') || request('q'))
-                    <span class="m-filter-active-dot"></span>
-                @endif
-            </button>
-        </div>
-
-        @if(request('id_kelas') || request('tanggal') || request('q'))
-            <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; padding: 8px 12px; border-radius: 10px; font-size: 12px; color: #1e40af; margin-bottom: 10px;">
-                <div style="display: flex; align-items: center; gap: 6px;">
-                    <i class="fa-solid fa-filter fa-sm"></i>
-                    <span>Filter aktif: <strong>{{ request('q') ? '"'.request('q').'" ' : '' }}{{ request('id_kelas') ? 'Kelas ' : '' }}{{ request('tanggal') ? request('tanggal') : '' }}</strong></span>
-                </div>
-                <a href="{{ route('piket.siswa-telat') }}" style="color: #ef4444; font-weight: 700; text-decoration: none; font-size: 11px;">
-                    <i class="fa-solid fa-xmark"></i> Reset
-                </a>
-            </div>
-        @endif
-
-        <!-- Card Items List -->
-        <div class="mobile-telat-cards-list">
-            @forelse($telatList as $row)
+        <!-- MOBILE CARDS LIST -->
+        <div class="mobile-card-list">
+            @forelse($telatList as $index => $row)
                 @php
                     $siswaObj = $row->siswa;
                     $kelasObj = $row->kelas ?? ($siswaObj ? $siswaObj->kelas : null);
                     $guruObj  = $row->guruMengajar;
 
-                    $rawHp = null;
-                    if ($guruObj && !empty($guruObj->no_hp)) {
-                        $rawHp = preg_replace('/[^0-9]/', '', $guruObj->no_hp);
-                        if (str_starts_with($rawHp, '0')) {
-                            $rawHp = '62' . substr($rawHp, 1);
-                        }
-                    }
+                    // Phone & message
+                    $guruUser = $guruObj ? \App\Models\User::where('id_guru', $guruObj->id_guru)->orWhere('nip', $guruObj->nip)->first() : null;
+                    $guruPhone = app(\App\Services\WhatsAppNotificationService::class)->resolvePhoneNumber($guruUser) ?: ($guruObj->no_hp ?? null);
+                    $rawHp = \App\Services\WhatsAppNotificationService::formatPhoneNumber($guruPhone);
 
-                    $waTextMsg = "*PEMBERITAHUAN SISWA TERLAMBAT (GURU PIKET)*\n\n"
-                        . "Assalamu'alaikum / Selamat Pagi Bapak/Ibu Guru *".($guruObj->nama_guru ?? 'Guru')."*,\n\n"
-                        . "Memberitahukan bahwa siswa dari kelas Bapak/Ibu terlambat hadir di sekolah:\n"
-                        . "• *Nama Siswa*: ".($siswaObj->nama_siswa ?? '-')."\n"
-                        . "• *NIS / NISN*: ".($siswaObj->nis ?? '-')." / ".($siswaObj->nisn ?? '-')."\n"
-                        . "• *Kelas*: ".($kelasObj->nama_kelas ?? '-')."\n"
-                        . "• *Jam Datang*: {$row->jam_terlambat} WIB\n"
-                        . "• *Alasan*: {$row->alasan}\n"
-                        . "• *Tindakan/Hukuman*: ".($row->tindakan_hukuman ?: 'Pengarahan & kedisiplinan Piket')."\n\n"
-                        . "Siswa telah melapor ke Guru Piket dan diarahkan ke kelas.\n- Petugas Piket";
-
+                    $notificationUrl = \App\Services\WhatsAppNotificationService::makeSiswaTelatNotificationUrl($row->id_siswa_telat);
+                    $waTextMsg = app(\App\Services\WhatsAppNotificationService::class)->buildPesanSiswaTelatGuruMengajar($row, $notificationUrl);
                     $waDirectUrl = !empty($rawHp) ? "https://api.whatsapp.com/send?phone={$rawHp}&text=" . urlencode($waTextMsg) : null;
+
+                    $cbPayload = [
+                        'id_siswa_telat'   => $row->id_siswa_telat,
+                        'siswa_nama'       => $siswaObj->nama_siswa ?? 'Siswa',
+                        'kelas_nama'       => $kelasObj->nama_kelas ?? '-',
+                        'guru_nama'        => $guruObj->nama_guru ?? 'Guru Mengajar',
+                        'guru_hp'          => $rawHp,
+                        'notification_url' => $notificationUrl,
+                        'wa_text_msg'      => $waTextMsg,
+                        'wa_url'           => $waDirectUrl,
+                    ];
                 @endphp
-                <div class="mobile-telat-card-item">
-                    <!-- Header: Icon + Name + Time Badge -->
-                    <div class="m-telat-header-row">
-                        <div class="m-telat-title-box">
-                            <div class="m-card-icon-wrap">
-                                <i class="fa-solid fa-user-clock"></i>
-                            </div>
-                            <div style="min-width: 0;">
-                                <div class="m-telat-student-name">{{ $siswaObj->nama_siswa ?? 'Siswa Terhapus' }}</div>
-                                <div class="m-telat-meta-sub">
-                                    <span>Kelas {{ $kelasObj->nama_kelas ?? '-' }}</span>
-                                    <span>•</span>
-                                    <span>NIS: {{ $siswaObj->nis ?? '-' }}</span>
-                                </div>
-                            </div>
+                <div class="mobile-telat-card">
+                    <div class="mobile-card-header">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" value="{{ $row->id_siswa_telat }}" class="item-checkbox" style="width: 17px; height: 17px; cursor: pointer;" onchange="updateBatchState()">
+                            <span style="font-weight: 800; font-size: 11.5px; color: #64748b;">#{{ $telatList->firstItem() + $index }}</span>
+                            <span style="background: #e2e8f0; padding: 2px 8px; border-radius: 6px; font-weight: 700; color: #334155; font-size: 11.5px;">
+                                {{ $kelasObj->nama_kelas ?? 'Kelas -' }}
+                            </span>
                         </div>
-                        <span class="badge-telat-time-mobile">
-                            <i class="fa-regular fa-clock"></i> {{ $row->jam_terlambat }} WIB
-                        </span>
+                        <div class="badge-telat" style="font-size: 11px;">
+                            <i class="fa-solid fa-clock"></i> {{ $row->jam_terlambat }} WIB
+                        </div>
                     </div>
 
-                    <!-- Info Grid -->
-                    <div class="m-telat-info-grid">
-                        <div class="m-telat-info-cell">
-                            <span class="m-telat-info-label">Tanggal</span>
-                            <span class="m-telat-info-val">
-                                <i class="fa-regular fa-calendar" style="color: #2563eb; font-size: 11px;"></i>
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <div style="font-weight: 800; color: #0f172a; font-size: 14.5px;">
+                            {{ $siswaObj->nama_siswa ?? 'Siswa Terhapus' }}
+                        </div>
+                        <div style="font-size: 11.5px; color: #64748b;">
+                            NIS: {{ $siswaObj->nis ?? '-' }} / NISN: {{ $siswaObj->nisn ?? '-' }} • ({{ $siswaObj ? $siswaObj->jenis_kelamin_teks : '-' }})
+                        </div>
+                    </div>
+
+                    <div style="background: #f8fafc; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; border: 1px solid #f1f5f9; font-size: 12px;">
+                        <div>
+                            <span style="color: #64748b; font-size: 10.5px; font-weight: 700; display: block; text-transform: uppercase;">Waktu & Tanggal:</span>
+                            <strong style="color: #0f172a;">
+                                <i class="fa-regular fa-calendar-check" style="color: #384972; margin-right: 4px;"></i>
                                 {{ \Carbon\Carbon::parse($row->tanggal)->translatedFormat('d M Y') }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span style="color: #64748b; font-size: 10.5px; font-weight: 700; display: block; text-transform: uppercase;">Guru Mengajar Target:</span>
+                            <strong style="color: #1e293b;">
+                                <i class="fa-solid fa-user-tie" style="color: #475569; margin-right: 4px;"></i>
+                                {{ $guruObj->nama_guru ?? 'Guru Tidak Terpilih' }}
+                            </strong>
+                            <span style="color: #64748b; font-size: 11px;">(Mapel: {{ $guruObj->mapel->nama_mapel ?? '-' }})</span>
+                        </div>
+
+                        <div>
+                            <span style="color: #64748b; font-size: 10.5px; font-weight: 700; display: block; text-transform: uppercase;">Alasan:</span>
+                            <span style="font-weight: 700; color: #1e293b;">{{ $row->alasan }}</span>
+                        </div>
+
+                        @if($row->tindakan_hukuman)
+                            <div style="font-size: 11.5px; color: #991b1b; background: #fff1f2; padding: 4px 8px; border-radius: 6px; border: 1px solid #fecdd3;">
+                                <strong>Hukuman/Tindakan:</strong> {{ $row->tindakan_hukuman }}
+                            </div>
+                        @endif
+
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; padding-top: 6px; border-top: 1px dashed #e2e8f0;">
+                            <span class="badge-system-ok">
+                                <i class="fa-solid fa-globe"></i> Sistem Web OK
                             </span>
-                        </div>
-                        <div class="m-telat-info-cell">
-                            <span class="m-telat-info-label">Guru Target</span>
-                            <span class="m-telat-info-val" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $guruObj->nama_guru ?? '-' }}">
-                                <i class="fa-solid fa-user-tie" style="color: #64748b; font-size: 11px;"></i>
-                                {{ $guruObj->nama_guru ?? '-' }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Alasan -->
-                    <div class="m-telat-alasan-box">
-                        "{{ $row->alasan }}"
-                    </div>
-
-                    <!-- Hukuman / Sanksi (if any) -->
-                    @if($row->tindakan_hukuman)
-                        <div class="m-telat-hukuman-box">
-                            <i class="fa-solid fa-gavel"></i> <strong>Sanksi:</strong> {{ $row->tindakan_hukuman }}
-                        </div>
-                    @endif
-
-                    <!-- Action Row -->
-                    <div class="m-telat-action-row">
-                        <button type="button" onclick='showTelatDetailModal(@json($row), @json($siswaObj), @json($kelasObj), @json($guruObj), {{ json_encode($waDirectUrl) }})' class="m-btn-detail-link">
-                            <span>Lihat Detail</span>
-                            <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
-                        </button>
-
-                        <div class="m-telat-quick-icons">
-                            @if($waDirectUrl)
-                                <a href="{{ $waDirectUrl }}" target="_blank" class="m-telat-icon-btn m-btn-wa" title="Kirim WhatsApp">
-                                    <i class="fa-brands fa-whatsapp"></i>
-                                </a>
-                            @endif
-
-                            <button type="button" class="m-telat-icon-btn m-btn-edit" onclick='openEditModal(@json($row), @json($siswaObj), @json($kelasObj))' title="Edit">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                            <button type="button" class="badge-wa-ok" onclick='openChatbotWaModal(@json($cbPayload))' title="Kirim WhatsApp" style="cursor: pointer; border: none; font-family: inherit;">
+                                <i class="fa-brands fa-whatsapp"></i> ChatBot WA
                             </button>
-
-                            <form action="{{ route('piket.siswa-telat.destroy', $row->id_siswa_telat) }}" method="POST" onsubmit="return confirm('Pindahkan catatan siswa telat ini ke Sampah?');" style="margin: 0;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="m-telat-icon-btn m-btn-del" title="Pindahkan ke Sampah">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </form>
                         </div>
+                    </div>
+
+                    <div class="mobile-card-actions">
+                        <button type="button" class="btn-action-mobile btn-wa-action" onclick='openChatbotWaModal(@json($cbPayload))' style="background: #22c55e; color: #ffffff; border: none;">
+                            <i class="fa-brands fa-whatsapp"></i> ChatBot WA
+                        </button>
+                        <button type="button" class="btn-action-mobile btn-edit-action" onclick='openEditModal(@json($row), @json($siswaObj), @json($kelasObj))' style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                        </button>
+                        <form action="{{ route('piket.siswa-telat.destroy', $row->id_siswa_telat) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin memindahkan data siswa telat ini ke Sampah?');" style="grid-column: 1 / -1;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-action-mobile btn-delete-action" style="width: 100%; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5;">
+                                <i class="fa-solid fa-trash-can"></i> Hapus ke Sampah
+                            </button>
+                        </form>
                     </div>
                 </div>
             @empty
-                <div style="background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 36px 20px; text-align: center;">
-                    <div style="width: 52px; height: 52px; border-radius: 14px; background: #eff6ff; color: #2563eb; display: inline-flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px;">
-                        <i class="fa-solid fa-user-check"></i>
-                    </div>
-                    <h3 style="font-size: 14px; font-weight: 800; color: #1e3a8a; margin: 0 0 6px 0;">Belum Ada Catatan Siswa Telat</h3>
-                    <p style="font-size: 12px; color: #64748b; margin: 0; line-height: 1.5;">Tidak ada siswa yang tercatat terlambat untuk tanggal atau filter yang dipilih.</p>
+                <div style="text-align: center; padding: 32px 16px; background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0; color: #94a3b8;">
+                    <i class="fa-solid fa-user-clock" style="font-size: 36px; margin-bottom: 8px; color: #cbd5e1; display: block;"></i>
+                    <p style="font-weight: 700; font-size: 13.5px; margin: 0; color: #64748b;">Belum ada data siswa telat yang dicatat hari ini.</p>
                 </div>
             @endforelse
         </div>
 
-        <!-- Mobile Pagination -->
-        <div style="margin-top: 14px; display: flex; justify-content: center;">
-            {{ $telatList->withQueryString()->links() }}
-        </div>
+        @if($telatList->hasPages())
+            <div style="padding: 16px 24px; border-top: 1px solid #e2e8f0;">
+                {{ $telatList->withQueryString()->links('partials.custom-pagination') }}
+            </div>
+        @endif
     </div>
 
 </div>
 
-<!-- ─── MODAL TAMBAH SISWA TELAT ─── -->
-<div id="addSiswaTelatModal" class="telat-modal-backdrop">
-    <div class="telat-modal-card">
-        <div class="telat-modal-header">
-            <h3 style="margin: 0; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-user-clock" style="color: #60a5fa;"></i> Tambah & Kirim Pemberitahuan Siswa Telat
+<!-- Modal Tambah Siswa Telat -->
+<div id="addSiswaTelatModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>
+                <i class="fa-solid fa-user-clock" style="color: #f59e0b;"></i> Tambah & Kirim Pemberitahuan Siswa Telat
             </h3>
-            <i class="fa-solid fa-xmark" onclick="closeAddModal()" style="cursor: pointer; font-size: 18px; color: #94a3b8; transition: color 0.15s ease;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#94a3b8'"></i>
+            <button type="button" onclick="closeAddModal()" style="background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer;">&times;</button>
         </div>
 
         <form action="{{ route('piket.siswa-telat.store') }}" method="POST">
             @csrf
-            <div class="telat-modal-body">
+            <div class="modal-body">
                 
-                <!-- Pilih Siswa -->
-                <div class="form-group-custom">
-                    <label class="form-label-custom">Pilih Siswa (Data Master TU) <span style="color: #ef4444;">*</span></label>
-                    <select name="id_siswa" id="add_id_siswa" class="select2-siswa" style="width: 100%;" required onchange="onSiswaSelected(this.value)">
+                <!-- 1. Pilih Siswa (Data Master TU) -->
+                <div>
+                    <label class="form-label-custom">Pilih Siswa (Data Master TU / Database) <span style="color: #ef4444;">*</span></label>
+                    <select name="id_siswa" id="add_id_siswa" class="form-control-custom select2-siswa" style="width: 100%;" required onchange="onSiswaSelected(this.value)">
                         <option value="">-- Cari Nama Siswa / NIS / NISN / Kelas --</option>
                         @foreach($siswaList as $s)
                             <option value="{{ $s->id_siswa }}">
@@ -2205,16 +1216,16 @@
                     </div>
                 </div>
 
-                <!-- Guru Mengajar Target -->
-                <div class="form-group-custom">
+                <!-- 2. Pilih Guru Mengajar saat Jam Pelajaran -->
+                <div>
                     <label class="form-label-custom">
                         Guru Mengajar di Kelas Saat Ini (Target Pemberitahuan) <span style="color: #ef4444;">*</span>
                     </label>
-                    <div style="font-size: 11px; color: #64748b; margin-bottom: 4px;" id="scheduleHelpText">
+                    <div style="font-size: 11.5px; color: #64748b; margin-bottom: 6px;" id="scheduleHelpText">
                         Pemberitahuan akan masuk ke Halaman Pengumuman Guru Mengajar tersebut & pesan WhatsApp.
                     </div>
                     <input type="hidden" name="id_jadwal" id="add_id_jadwal" value="">
-                    <select name="id_guru_mengajar" id="add_id_guru_mengajar" class="select2-guru" style="width: 100%;" required>
+                    <select name="id_guru_mengajar" id="add_id_guru_mengajar" class="form-control-custom select2-guru" style="width: 100%;" required>
                         <option value="">-- Pilih Guru Mengajar (Cari Nama / NIP) --</option>
                         @foreach($guruList as $g)
                             <option value="{{ $g->id_guru }}">
@@ -2224,32 +1235,32 @@
                     </select>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                    <div class="form-group-custom">
+                <div class="modal-date-time-grid">
+                    <div>
                         <label class="form-label-custom">Tanggal Keterlambatan <span style="color: #ef4444;">*</span></label>
                         <input type="date" name="tanggal" id="add_tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->toDateString() }}" class="form-control-custom" required>
                     </div>
-                    <div class="form-group-custom">
+                    <div>
                         <label class="form-label-custom">Jam Kedatangan / Terlambat <span style="color: #ef4444;">*</span></label>
                         <input type="text" name="jam_terlambat" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('H:i') }}" class="form-control-custom" placeholder="Contoh: 07:25" required>
                     </div>
                 </div>
 
-                <div class="form-group-custom">
+                <div>
                     <label class="form-label-custom">Alasan Keterlambatan Siswa <span style="color: #ef4444;">*</span></label>
                     <textarea name="alasan" rows="2" class="form-control-custom" placeholder="Contoh: Ban sepeda motor bocor di jalan, bangun kesiangan..." required></textarea>
                 </div>
 
-                <div class="form-group-custom" style="margin-bottom: 0;">
+                <div>
                     <label class="form-label-custom">Tindakan / Hukuman Piket (Opsional)</label>
                     <textarea name="tindakan_hukuman" rows="2" class="form-control-custom" placeholder="Contoh: Membersihkan halaman sekolah & lari keliling lapangan 2 kali..."></textarea>
                 </div>
 
             </div>
 
-            <div class="telat-modal-footer">
-                <button type="button" onclick="closeAddModal()" class="telat-btn-reset">Batal</button>
-                <button type="submit" class="telat-btn-cari">
+            <div class="modal-footer">
+                <button type="button" onclick="closeAddModal()" class="btn-reset-light">Batal</button>
+                <button type="submit" class="btn-add-primary">
                     <i class="fa-solid fa-paper-plane"></i> Simpan & Kirim Pemberitahuan
                 </button>
             </div>
@@ -2257,20 +1268,20 @@
     </div>
 </div>
 
-<!-- ─── MODAL EDIT SISWA TELAT ─── -->
-<div id="editSiswaTelatModal" class="telat-modal-backdrop">
-    <div class="telat-modal-card">
-        <div class="telat-modal-header" style="background: #0f172a;">
-            <h3 style="margin: 0; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-pen-to-square" style="color: #f59e0b;"></i> Edit Data Siswa Telat
+<!-- Modal Edit Siswa Telat -->
+<div id="editSiswaTelatModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>
+                <i class="fa-solid fa-pen-to-square" style="color: #3b82f6;"></i> Edit Data Siswa Telat
             </h3>
-            <i class="fa-solid fa-xmark" onclick="closeEditModal()" style="cursor: pointer; font-size: 18px; color: #94a3b8; transition: color 0.15s ease;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#94a3b8'"></i>
+            <button type="button" onclick="closeEditModal()" style="background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer;">&times;</button>
         </div>
 
         <form id="editFormSiswaTelat" method="POST">
             @csrf
             @method('PUT')
-            <div class="telat-modal-body">
+            <div class="modal-body">
                 
                 <div class="student-preview-card" style="display: grid;">
                     <div>
@@ -2283,9 +1294,9 @@
                     </div>
                 </div>
 
-                <div class="form-group-custom">
+                <div>
                     <label class="form-label-custom">Guru Mengajar Target <span style="color: #ef4444;">*</span></label>
-                    <select name="id_guru_mengajar" id="edit_id_guru_mengajar" class="select2-guru-edit" style="width: 100%;" required>
+                    <select name="id_guru_mengajar" id="edit_id_guru_mengajar" class="form-control-custom select2-guru-edit" style="width: 100%;" required>
                         <option value="">-- Pilih Guru Mengajar (Cari Nama / NIP) --</option>
                         @foreach($guruList as $g)
                             <option value="{{ $g->id_guru }}">
@@ -2295,127 +1306,101 @@
                     </select>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                    <div class="form-group-custom">
+                <div class="modal-date-time-grid">
+                    <div>
                         <label class="form-label-custom">Tanggal Keterlambatan <span style="color: #ef4444;">*</span></label>
                         <input type="date" name="tanggal" id="edit_tanggal" class="form-control-custom" required>
                     </div>
-                    <div class="form-group-custom">
+                    <div>
                         <label class="form-label-custom">Jam Terlambat <span style="color: #ef4444;">*</span></label>
                         <input type="text" name="jam_terlambat" id="edit_jam_terlambat" class="form-control-custom" required>
                     </div>
                 </div>
 
-                <div class="form-group-custom">
+                <div>
                     <label class="form-label-custom">Alasan Terlambat <span style="color: #ef4444;">*</span></label>
                     <textarea name="alasan" id="edit_alasan" rows="2" class="form-control-custom" required></textarea>
                 </div>
 
-                <div class="form-group-custom" style="margin-bottom: 0;">
+                <div>
                     <label class="form-label-custom">Tindakan / Hukuman Piket</label>
                     <textarea name="tindakan_hukuman" id="edit_tindakan_hukuman" rows="2" class="form-control-custom"></textarea>
                 </div>
 
             </div>
 
-            <div class="telat-modal-footer">
-                <button type="button" onclick="closeEditModal()" class="telat-btn-reset">Batal</button>
-                <button type="submit" class="telat-btn-cari" style="background: #f59e0b; border-color: #d97706;">
-                    <i class="fa-solid fa-check"></i> Simpan Perubahan
+            <div class="modal-footer">
+                <button type="button" onclick="closeEditModal()" class="btn-reset-light">Batal</button>
+                <button type="submit" class="btn-filter-dark" style="background: #2563eb;">
+                    <i class="fa-solid fa-save"></i> Simpan Perubahan
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- ─── MODAL KONFIRMASI HAPUS MASSAL ─── -->
-<div id="batchDeleteModal" class="telat-modal-backdrop">
-    <div class="telat-modal-card" style="max-width: 440px;">
-        <div class="telat-modal-header" style="background: #ef4444; color: #ffffff;">
-            <h3 style="margin: 0; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-triangle-exclamation"></i> Konfirmasi Hapus Massal
+<!-- Modal Interaktif Kirim ChatBot WhatsApp ke Guru Mengajar -->
+<div id="chatbotWaModal" class="modal-overlay" onclick="closeChatbotWaModal(event)">
+    <div class="modal-card" style="max-width: 580px;" onclick="event.stopPropagation()">
+        <div class="modal-header" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+            <h3 style="color: #0f172a; font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-brands fa-whatsapp" style="color: #22c55e; font-size: 22px;"></i>
+                Kirim Pemberitahuan WhatsApp ke Guru Mengajar
             </h3>
-            <i class="fa-solid fa-xmark" onclick="closeBatchDeleteModal()" style="cursor: pointer; font-size: 18px; color: #fee2e2;"></i>
+            <button type="button" onclick="closeChatbotWaModalDirect()" style="background: none; border: none; font-size: 22px; color: #64748b; cursor: pointer;">&times;</button>
         </div>
-        <div class="telat-modal-body" style="text-align: center; padding: 24px;">
-            <div style="width: 54px; height: 54px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; color: #ef4444; font-size: 24px;">
-                <i class="fa-solid fa-trash-can"></i>
+        <div class="modal-body" style="padding: 22px; display: flex; flex-direction: column; gap: 16px;">
+            <!-- Informasi Target Siswa & Guru Mengajar -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+                    <div style="font-size: 14px; font-weight: 800; color: #0f172a;">
+                        <span id="cb_modal_siswa_nama">-</span>
+                        <span id="cb_modal_kelas" style="font-size: 12px; color: #3b82f6; font-weight: 700; background: #eff6ff; border: 1px solid #bfdbfe; padding: 2px 8px; border-radius: 12px; margin-left: 6px;">-</span>
+                    </div>
+                    <div id="cb_modal_wa_badge"></div>
+                </div>
+                <div style="font-size: 12.5px; color: #475569; font-weight: 600;">
+                    <i class="fa-solid fa-user-tie" style="color: #64748b; margin-right: 4px;"></i> Guru Mengajar Target: <strong id="cb_modal_guru_nama" style="color: #0f172a;">-</strong>
+                    <span id="cb_modal_guru_hp_text" style="color: #059669; font-weight: 700; margin-left: 6px;"></span>
+                </div>
             </div>
-            <h4 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0 0 8px 0;">Pindahkan ke Sampah?</h4>
-            <p style="font-size: 13px; color: #64748b; font-weight: 500; margin: 0 0 20px 0; line-height: 1.5;">
-                Apakah Anda yakin ingin memindahkan <strong id="modalBatchCount" style="color: #ef4444;">0</strong> data siswa telat yang dipilih ke fitur Sampah?
-            </p>
-            <div style="display: flex; gap: 10px; justify-content: center;">
-                <button type="button" onclick="closeBatchDeleteModal()" class="telat-btn-reset">
-                    Batal
-                </button>
-                <button type="button" onclick="executeBatchDelete()" class="telat-btn-cari" style="background: #ef4444; border-color: #dc2626;">
-                    <i class="fa-solid fa-trash"></i> Ya, Hapus Terpilih
-                </button>
+
+            <!-- Tautan Halaman Pemberitahuan Resmi (Link Biru) -->
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px;">
+                <div style="font-size: 11.5px; font-weight: 800; color: #166534; text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-link" style="color: #16a34a;"></i> Tautan Halaman Pemberitahuan (Link Biru):
+                </div>
+                <div style="word-break: break-all; font-size: 12.5px;">
+                    <a id="cb_modal_link" href="#" target="_blank" style="color: #15803d; font-weight: 700; text-decoration: underline;">-</a>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
-<!-- ─── MODAL FILTER MOBILE (BOTTOM SHEET) ─── -->
-<div id="mobileFilterModal" class="mobile-filter-modal-wrap">
-    <div class="mobile-filter-sheet">
-        <div class="mobile-filter-sheet-header">
-            <h3 class="mobile-filter-sheet-title">
-                <i class="fa-solid fa-sliders" style="color: #2563eb;"></i> Filter Siswa Telat
-            </h3>
-            <button type="button" class="mobile-filter-sheet-close" onclick="closeMobileFilterModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <form action="{{ route('piket.siswa-telat') }}" method="GET" style="margin: 0;">
-            <div class="mobile-filter-sheet-body">
-                <div class="form-group-custom" style="margin-bottom: 0;">
-                    <label class="form-label-custom">Kata Kunci Pencarian</label>
-                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari nama siswa / NIS / alasan..." class="form-control-custom">
-                </div>
+            <!-- Preview Teks Pesan -->
+            <div>
+                <label class="form-label-custom" style="margin-bottom: 6px; display: block; font-size: 12px; font-weight: 700; color: #334155;">Pratinjau Isi Pesan WhatsApp:</label>
+                <textarea id="cb_modal_text" rows="6" readonly style="font-size: 12px; font-family: monospace; background: #f8fafc; resize: vertical; line-height: 1.4; width: 100%; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px;"></textarea>
+            </div>
 
-                <div class="form-group-custom" style="margin-bottom: 0;">
-                    <label class="form-label-custom">Filter Kelas</label>
-                    <select name="id_kelas" class="form-control-custom">
-                        <option value="">Semua Kelas</option>
-                        @foreach($kelases as $k)
-                            <option value="{{ $k->id_kelas }}" {{ request('id_kelas') == $k->id_kelas ? 'selected' : '' }}>
-                                {{ $k->nama_kelas }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+            <!-- Alert response status -->
+            <div id="cb_status_alert" style="display: none; padding: 12px; border-radius: 10px; font-size: 12.5px; font-weight: 700;"></div>
 
-                <div class="form-group-custom" style="margin-bottom: 0;">
-                    <label class="form-label-custom">Filter Tanggal</label>
-                    <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="form-control-custom">
-                </div>
-
-                <div class="mobile-filter-actions-row">
-                    <a href="{{ route('piket.siswa-telat') }}" class="telat-btn-reset" style="justify-content: center; height: 42px; text-decoration: none;">
-                        Reset
+            <!-- Action Buttons -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 4px;">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" id="btn_submit_chatbot" style="background: #16a34a; color: #ffffff; font-weight: 700; padding: 9px 16px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 13px;" onclick="submitSendChatbotWa()">
+                        <i class="fa-solid fa-robot"></i> <span>Kirim via ChatBot WA</span>
+                    </button>
+                    <a id="cb_modal_manual_link" href="#" target="_blank" style="background: #22c55e; color: #ffffff; font-weight: 700; padding: 9px 16px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
+                        <i class="fa-brands fa-whatsapp"></i> Cadangan Manual WA
                     </a>
-                    <button type="submit" class="telat-btn-cari" style="justify-content: center; height: 42px;">
-                        <i class="fa-solid fa-check"></i> Terapkan
+                    <button type="button" style="background: #0284c7; color: #ffffff; font-weight: 700; padding: 9px 14px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;" onclick="copyChatbotWaText()">
+                        <i class="fa-solid fa-copy"></i> Salin Pesan
                     </button>
                 </div>
+                <button type="button" class="btn-reset-light" onclick="closeChatbotWaModalDirect()" style="padding: 9px 18px; font-size: 12.5px; border-radius: 8px;">
+                    Tutup
+                </button>
             </div>
-        </form>
-    </div>
-</div>
-
-<!-- ─── MODAL DETAIL SISWA TELAT (MOBILE & DESKTOP) ─── -->
-<div id="detailModalSiswaTelat" class="telat-modal-backdrop">
-    <div class="telat-modal-card" style="max-width: 480px;">
-        <div class="telat-modal-header">
-            <h3 style="margin: 0; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-user-clock" style="color: #60a5fa;"></i> Detail Catatan Siswa Telat
-            </h3>
-            <i class="fa-solid fa-xmark" onclick="closeTelatDetailModal()" style="cursor: pointer; font-size: 18px; color: #94a3b8; transition: color 0.15s ease;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#94a3b8'"></i>
-        </div>
-        <div class="telat-modal-body" id="modalDetailContentTelat" style="padding: 20px;">
-            <!-- Rendered by JS -->
         </div>
     </div>
 </div>
@@ -2447,25 +1432,6 @@
             width: '100%'
         });
 
-        $('.select2-siswa-mobile').select2({
-            placeholder: '-- Cari Nama Siswa / NIS / Kelas --',
-            width: '100%'
-        });
-
-        $('.select2-guru-mobile').select2({
-            placeholder: '-- Pilih Guru Mengajar --',
-            width: '100%'
-        });
-
-        initTelatStatCarousel();
-
-        $('#mobile_tanggal, .mobile-telat-form-body input[name="jam_terlambat"]').on('change keyup', function() {
-            const idSiswa = $('#mobile_id_siswa').val();
-            if (idSiswa) {
-                onMobileSiswaSelected(idSiswa);
-            }
-        });
-
         $('#selectAllCheckboxes').on('change', function() {
             const isChecked = $(this).is(':checked');
             $('.item-checkbox').prop('checked', isChecked);
@@ -2484,8 +1450,6 @@
         const checkedItems = $('.item-checkbox:checked');
         const count = checkedItems.length;
         const totalItems = $('.item-checkbox').length;
-        const btn = $('#btnBatchDelete');
-        const placeholder = $('#bulkPlaceholder');
 
         $('#selectedCount').text(count);
 
@@ -2495,12 +1459,13 @@
             $('#selectAllCheckboxes').prop('checked', false);
         }
 
+        const btn = $('#btnBatchDelete');
         if (count > 0) {
-            btn.css('display', 'inline-flex');
-            placeholder.css('display', 'none');
+            btn.prop('disabled', false)
+               .css({ opacity: 1, cursor: 'pointer', background: '#fee2e2', color: '#991b1b', border: '1px solid #fca5a5' });
         } else {
-            btn.css('display', 'none');
-            placeholder.css('display', 'inline-flex');
+            btn.prop('disabled', true)
+               .css({ opacity: 0.5, cursor: 'not-allowed' });
         }
     }
 
@@ -2509,26 +1474,18 @@
         const count = checkedItems.length;
 
         if (count === 0) {
-            alert('Silakan pilih minimal satu data siswa telat yang ingin dihapus.');
+            alert('Silakan centang minimal satu data siswa telat yang ingin dihapus.');
             return;
         }
 
-        $('#modalBatchCount').text(count);
-        document.getElementById('batchDeleteModal').style.display = 'flex';
-    }
-
-    function closeBatchDeleteModal() {
-        document.getElementById('batchDeleteModal').style.display = 'none';
-    }
-
-    function executeBatchDelete() {
-        const checkedItems = $('.item-checkbox:checked');
-        const container = $('#batchDeleteInputsContainer');
-        container.empty();
-        checkedItems.each(function() {
-            container.append('<input type="hidden" name="ids[]" value="' + $(this).val() + '">');
-        });
-        $('#formBatchDelete').submit();
+        if (confirm('Apakah Anda yakin ingin memindahkan ' + count + ' data siswa telat terpilih ke Sampah?')) {
+            const container = $('#batchDeleteInputsContainer');
+            container.empty();
+            checkedItems.each(function() {
+                container.append('<input type="hidden" name="ids[]" value="' + $(this).val() + '">');
+            });
+            $('#formBatchDelete').submit();
+        }
     }
 
     function openAddModal() {
@@ -2620,217 +1577,124 @@
             .catch(err => console.error("Error fetching student schedule:", err));
     }
 
-    // ─── MOBILE FUNCTIONS ───
-    let currentTelatSlide = 0;
-    const totalTelatSlides = 3;
+    // ChatBot WhatsApp Modal Functions
+    let currentChatbotItem = null;
 
-    function goToTelatStatSlide(idx) {
-        currentTelatSlide = idx;
-        const track = document.getElementById('mobileTelatStatTrack');
-        const dots = document.querySelectorAll('#mobileTelatStatDots .m-stat-dot');
-        if (track) {
-            track.style.transform = `translateX(-${currentTelatSlide * 100}%)`;
+    function openChatbotWaModal(itemData) {
+        currentChatbotItem = itemData;
+        document.getElementById('cb_modal_siswa_nama').textContent = itemData.siswa_nama || '-';
+        document.getElementById('cb_modal_kelas').textContent = itemData.kelas_nama || '-';
+        document.getElementById('cb_modal_guru_nama').textContent = itemData.guru_nama || '-';
+
+        const badgeBox   = document.getElementById('cb_modal_wa_badge');
+        const hpText     = document.getElementById('cb_modal_guru_hp_text');
+        const btnChatbot = document.getElementById('btn_submit_chatbot');
+        const btnManual  = document.getElementById('cb_modal_manual_link');
+
+        if (itemData.guru_hp && itemData.guru_hp.trim() !== '') {
+            badgeBox.innerHTML = '<span style="background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 10px; border: 1px solid #86efac;"><i class="fa-solid fa-circle-check"></i> WA Terdaftar</span>';
+            hpText.textContent = `(${itemData.guru_hp})`;
+            btnChatbot.style.display = 'inline-flex';
+            btnChatbot.disabled = false;
+        } else {
+            badgeBox.innerHTML = '<span style="background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 10px; border: 1px solid #fca5a5;"><i class="fa-solid fa-triangle-exclamation"></i> WA Belum Ada</span>';
+            hpText.textContent = '(Nomor HP belum terdaftar)';
+            btnChatbot.style.display = 'none';
         }
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentTelatSlide);
+
+        const linkEl = document.getElementById('cb_modal_link');
+        linkEl.href = itemData.notification_url;
+        linkEl.textContent = itemData.notification_url;
+
+        document.getElementById('cb_modal_text').value = itemData.wa_text_msg;
+
+        if (itemData.wa_url) {
+            btnManual.href = itemData.wa_url;
+            btnManual.style.display = 'inline-flex';
+        } else {
+            btnManual.href = 'https://web.whatsapp.com';
+            btnManual.style.display = 'inline-flex';
+        }
+
+        const alertBox = document.getElementById('cb_status_alert');
+        alertBox.style.display = 'none';
+
+        document.getElementById('chatbotWaModal').style.display = 'flex';
+    }
+
+    function closeChatbotWaModal(event) {
+        if (event.target === document.getElementById('chatbotWaModal')) {
+            closeChatbotWaModalDirect();
+        }
+    }
+
+    function closeChatbotWaModalDirect() {
+        document.getElementById('chatbotWaModal').style.display = 'none';
+    }
+
+    function copyChatbotWaText() {
+        const textVal = document.getElementById('cb_modal_text').value;
+        navigator.clipboard.writeText(textVal).then(() => {
+            alert('Teks pesan pemberitahuan berhasil disalin ke clipboard!');
+        }).catch(() => {
+            const ta = document.getElementById('cb_modal_text');
+            ta.select();
+            document.execCommand('copy');
+            alert('Teks pesan berhasil disalin!');
         });
     }
 
-    function initTelatStatCarousel() {
-        const track = document.getElementById('mobileTelatStatTrack');
-        if (!track) return;
-        let startX = 0;
-        let isSwiping = false;
+    function submitSendChatbotWa() {
+        if (!currentChatbotItem || !currentChatbotItem.id_siswa_telat) return;
 
-        track.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-            isSwiping = true;
-        }, { passive: true });
+        const btn = document.getElementById('btn_submit_chatbot');
+        const alertBox = document.getElementById('cb_status_alert');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Mengirim via ChatBot...</span>';
+        alertBox.style.display = 'none';
 
-        track.addEventListener('touchend', (e) => {
-            if (!isSwiping) return;
-            const diffX = e.changedTouches[0].clientX - startX;
-            if (Math.abs(diffX) > 40) {
-                if (diffX < 0 && currentTelatSlide < totalTelatSlides - 1) {
-                    goToTelatStatSlide(currentTelatSlide + 1);
-                } else if (diffX > 0 && currentTelatSlide > 0) {
-                    goToTelatStatSlide(currentTelatSlide - 1);
-                }
+        fetch(`/guru-piket/siswa-telat/${currentChatbotItem.id_siswa_telat}/send-chatbot`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({})
+        })
+        .then(async res => {
+            const data = await res.json().catch(() => ({}));
+            return { ok: res.ok, status: res.status, body: data };
+        })
+        .then(response => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-robot"></i> <span>Kirim via ChatBot WA</span>';
+
+            if (response.body && response.body.success) {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#dcfce7';
+                alertBox.style.color = '#15803d';
+                alertBox.style.border = '1px solid #86efac';
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + (response.body.message || 'Pesan berhasil dikirim via ChatBot!');
+            } else {
+                alertBox.style.display = 'block';
+                alertBox.style.background = '#fee2e2';
+                alertBox.style.color = '#991b1b';
+                alertBox.style.border = '1px solid #fca5a5';
+                alertBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ' + (response.body?.message || 'Gagal mengirim pesan via ChatBot.');
             }
-            isSwiping = false;
+        })
+        .catch(err => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-robot"></i> <span>Kirim via ChatBot WA</span>';
+
+            alertBox.style.display = 'block';
+            alertBox.style.background = '#fee2e2';
+            alertBox.style.color = '#991b1b';
+            alertBox.style.border = '1px solid #fca5a5';
+            alertBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Terjadi kesalahan koneksi saat mengirim permintaan ChatBot.';
         });
-    }
-
-    function onMobileSiswaSelected(idSiswa) {
-        if (!idSiswa) {
-            document.getElementById('studentPreviewContainerMobile').style.display = 'none';
-            return;
-        }
-
-        const tgl = document.getElementById('mobile_tanggal') ? document.getElementById('mobile_tanggal').value : '';
-        const jam = document.querySelector('.mobile-telat-form-body input[name="jam_terlambat"]') ? document.querySelector('.mobile-telat-form-body input[name="jam_terlambat"]').value : '';
-
-        const url = "/guru-piket/api/siswa-schedule-guru/" + idSiswa + "?tanggal=" + encodeURIComponent(tgl) + "&jam_terlambat=" + encodeURIComponent(jam);
-
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const s = data.siswa;
-                    const k = data.kelas;
-                    const matchedJadwal = data.matched_jadwal;
-
-                    document.getElementById('mobile_prev_nama_siswa').innerText = s.nama_siswa || '-';
-                    document.getElementById('mobile_prev_kelas_siswa').innerText = k ? k.nama_kelas : '-';
-                    document.getElementById('mobile_prev_nis_siswa').innerText = (s.nis || '-') + " / " + (s.nisn || '-');
-                    const jkTeks = s.jenis_kelamin_teks ? s.jenis_kelamin_teks : (s.jenis_kelamin === 'L' ? 'Laki-laki' : (s.jenis_kelamin === 'P' ? 'Perempuan' : '-'));
-                    document.getElementById('mobile_prev_jk_siswa').innerText = jkTeks;
-                    document.getElementById('studentPreviewContainerMobile').style.display = 'grid';
-
-                    if (data.matched_guru_id) {
-                        $('#mobile_id_guru_mengajar').val(data.matched_guru_id).trigger('change');
-                    }
-
-                    if (matchedJadwal && matchedJadwal.id_jadwal) {
-                        document.getElementById('mobile_id_jadwal').value = matchedJadwal.id_jadwal;
-                    } else {
-                        document.getElementById('mobile_id_jadwal').value = '';
-                    }
-                }
-            })
-            .catch(err => console.error("Error fetching student schedule mobile:", err));
-    }
-
-    function resetMobileTelatForm() {
-        document.getElementById('studentPreviewContainerMobile').style.display = 'none';
-        $('#mobile_id_siswa').val('').trigger('change');
-        $('#mobile_id_guru_mengajar').val('').trigger('change');
-        document.getElementById('mobile_id_jadwal').value = '';
-    }
-
-    function openMobileFilterModal() {
-        const m = document.getElementById('mobileFilterModal');
-        if (m) {
-            m.classList.add('active');
-            m.style.display = 'flex';
-        }
-    }
-
-    function closeMobileFilterModal() {
-        const m = document.getElementById('mobileFilterModal');
-        if (m) {
-            m.classList.remove('active');
-            m.style.display = 'none';
-        }
-    }
-
-    function showTelatDetailModal(row, siswa, kelas, guru, waUrl) {
-        const sNama = siswa ? siswa.nama_siswa : '-';
-        const kNama = kelas ? kelas.nama_kelas : (siswa && siswa.kelas ? siswa.kelas.nama_kelas : '-');
-        const nisTeks = siswa ? `${siswa.nis || '-'} / ${siswa.nisn || '-'}` : '-';
-        const jkTeks = siswa ? (siswa.jenis_kelamin_teks || (siswa.jenis_kelamin === 'L' ? 'Laki-laki' : (siswa.jenis_kelamin === 'P' ? 'Perempuan' : '-'))) : '-';
-        const gNama = guru ? guru.nama_guru : '-';
-        const gNip = guru && guru.nip ? guru.nip : '-';
-        const mMapel = guru && guru.mapel ? guru.mapel.nama_mapel : '-';
-
-        let hukumanHtml = '';
-        if (row.tindakan_hukuman) {
-            hukumanHtml = `
-                <div style="background: #fff1f2; border: 1px solid #fecdd3; padding: 10px 12px; border-radius: 8px; margin-bottom: 14px;">
-                    <div style="font-size: 11px; font-weight: 800; color: #991b1b; text-transform: uppercase;">Tindakan / Sanksi Piket:</div>
-                    <div style="font-size: 12.5px; font-weight: 600; color: #881337; margin-top: 4px;">${row.tindakan_hukuman}</div>
-                </div>
-            `;
-        }
-
-        let waBtnHtml = '';
-        if (waUrl) {
-            waBtnHtml = `
-                <div style="margin-top: 14px;">
-                    <a href="${waUrl}" target="_blank" class="telat-btn-cari" style="background: #16a34a; border-color: #15803d; justify-content: center; width: 100%; text-decoration: none; height: 40px; font-size: 13px;">
-                        <i class="fa-brands fa-whatsapp fa-lg"></i> Kirim Notifikasi WhatsApp ke Guru
-                    </a>
-                </div>
-            `;
-        }
-
-        const html = `
-            <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid #e2e8f0;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 42px; height: 42px; border-radius: 12px; background: #eff6ff; border: 1px solid #dbeafe; color: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 16px;">
-                        <i class="fa-solid fa-user-clock"></i>
-                    </div>
-                    <div>
-                        <h4 style="margin: 0; font-size: 15px; font-weight: 800; color: #1e3a8a;">${sNama}</h4>
-                        <span style="font-size: 11.5px; color: #64748b; font-weight: 600;">Kelas ${kNama}</span>
-                    </div>
-                </div>
-                <span class="badge-telat-time" style="font-size: 11px; padding: 4px 8px;">
-                    <i class="fa-regular fa-clock"></i> ${row.jam_terlambat} WIB
-                </span>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; border: 1px solid #f1f5f9; padding: 10px 12px; border-radius: 10px; margin-bottom: 14px;">
-                <div>
-                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">NIS / NISN</div>
-                    <div style="font-size: 12px; font-weight: 700; color: #1e293b;">${nisTeks}</div>
-                </div>
-                <div>
-                    <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Jenis Kelamin</div>
-                    <div style="font-size: 12px; font-weight: 700; color: #1e293b;">${jkTeks}</div>
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
-                <div>
-                    <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Tanggal</div>
-                    <div style="font-size: 13px; font-weight: 700; color: #0f172a;">${row.tanggal ? row.tanggal.substring(0, 10) : '-'}</div>
-                </div>
-                <div>
-                    <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Guru Mengajar Target</div>
-                    <div style="font-size: 13px; font-weight: 700; color: #0f172a;">${gNama}</div>
-                    <div style="font-size: 11px; color: #64748b;">${mMapel}</div>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 14px;">
-                <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">Alasan Keterlambatan</div>
-                <div style="background: #f8fafc; border-left: 3px solid #cbd5e1; padding: 8px 12px; font-size: 12.5px; color: #334155; font-style: italic; border-radius: 0 8px 8px 0;">
-                    "${row.alasan}"
-                </div>
-            </div>
-
-            ${hukumanHtml}
-            ${waBtnHtml}
-
-            <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0;">
-                <form action="/guru-piket/siswa-telat/${row.id_siswa_telat}" method="POST" style="margin: 0;" onsubmit="return confirm('Pindahkan data siswa telat ini ke Sampah?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="telat-btn-reset" style="height: 36px; padding: 0 14px; border-radius: 8px; font-weight: 700; gap: 6px; color: #dc2626; border-color: #fca5a5; background: #fee2e2;">
-                        <i class="fa-solid fa-trash-can"></i> Pindahkan ke Sampah
-                    </button>
-                </form>
-                <button type="button" onclick="closeTelatDetailModal()" class="telat-btn-reset" style="height: 36px; padding: 0 16px;">
-                    Tutup
-                </button>
-            </div>
-        `;
-
-        document.getElementById('modalDetailContentTelat').innerHTML = html;
-        const m = document.getElementById('detailModalSiswaTelat');
-        if (m) {
-            m.classList.add('active');
-            m.style.display = 'flex';
-        }
-    }
-
-    function closeTelatDetailModal() {
-        const m = document.getElementById('detailModalSiswaTelat');
-        if (m) {
-            m.classList.remove('active');
-            m.style.display = 'none';
-        }
     }
 </script>
 @endsection

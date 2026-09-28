@@ -544,6 +544,202 @@
         margin-top: 2px;
     }
 
+    /* Visibility control for Desktop table vs Mobile card list */
+    .desktop-table-container {
+        display: block;
+    }
+    .mobile-card-list {
+        display: none;
+    }
+
+    .btn-widget-bottom {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 9px 16px;
+        font-size: 12.5px;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    /* Mobile Card Component Styling */
+    .piket-mobile-item {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 13px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .piket-mobile-item:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+    }
+
+    .piket-mobile-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .piket-badge-jam {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #2563eb;
+        background: #eff6ff;
+        padding: 3.5px 8px;
+        border-radius: 6px;
+        border: 1px solid #bfdbfe;
+    }
+
+    .piket-badge-kelas {
+        display: inline-flex;
+        align-items: center;
+        font-size: 11px;
+        font-weight: 800;
+        color: #334155;
+        background: #e2e8f0;
+        padding: 3.5px 8px;
+        border-radius: 6px;
+    }
+
+    .piket-mobile-subject {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #0f172a;
+        line-height: 1.35;
+        word-break: break-word;
+    }
+
+    .piket-mobile-teacher {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12px;
+        color: #475569;
+        font-weight: 600;
+        flex-wrap: wrap;
+    }
+
+    .piket-mobile-teacher i {
+        color: #64748b;
+        font-size: 11.5px;
+    }
+
+    .piket-badge-pengganti {
+        background: #fef3c7;
+        color: #b45309;
+        border: 1px solid #fde68a;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Penugasan Mobile Comparison Card */
+    .piket-penugasan-box {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 8px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 10px 12px;
+    }
+
+    .piket-penugasan-side {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .piket-penugasan-lbl {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-bottom: 3px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .piket-penugasan-side.absent .piket-penugasan-lbl {
+        color: #dc2626;
+    }
+
+    .piket-penugasan-side.substitute .piket-penugasan-lbl {
+        color: #2563eb;
+    }
+
+    .piket-penugasan-name {
+        font-size: 12px;
+        font-weight: 700;
+        color: #0f172a;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+
+    .piket-penugasan-mapel {
+        font-size: 11px;
+        color: #64748b;
+        font-weight: 500;
+        margin-top: 2px;
+        word-break: break-word;
+    }
+
+    .piket-penugasan-arrow {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #f1f5f9;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11.5px;
+        flex-shrink: 0;
+        border: 1px solid #e2e8f0;
+    }
+
+    .piket-empty-mobile {
+        text-align: center;
+        color: #94a3b8;
+        padding: 24px 16px;
+        background: #f8fafc;
+        border: 1px dashed #cbd5e1;
+        border-radius: 12px;
+        font-size: 12.5px;
+        font-weight: 600;
+    }
+
+    .piket-empty-mobile i {
+        font-size: 24px;
+        margin-bottom: 8px;
+        display: block;
+        opacity: 0.6;
+    }
+
+    .banner-action-buttons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
     @media (max-width: 1200px) {
         .stat-grid { grid-template-columns: repeat(2, 1fr); }
         .middle-grid { grid-template-columns: 1fr; }
@@ -551,151 +747,169 @@
     }
 
     @media (max-width: 768px) {
-        .stat-grid { grid-template-columns: 1fr; }
-        .dashboard-page-header { flex-direction: column; align-items: flex-start; }
-    }
+        /* Mobile Layout Container */
+        .piket-dashboard-container {
+            gap: 16px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
 
-    @media (max-width: 640px) {
+        /* 1. Page Header & Title: Added bigger size as requested */
         .dashboard-page-header {
             flex-direction: column;
-            align-items: stretch;
+            align-items: flex-start;
             gap: 12px;
-            margin-bottom: 14px;
+            margin-bottom: 4px;
         }
 
         .header-left h1 {
-            font-size: 20px;
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            color: #0f172a !important;
+            letter-spacing: -0.02em !important;
+            line-height: 1.25 !important;
         }
 
         .header-left p {
-            font-size: 11.5px;
-            line-height: 1.35;
+            font-size: 13px !important;
+            color: #64748b !important;
+            font-weight: 600 !important;
+            line-height: 1.45 !important;
+            margin-top: 5px !important;
         }
 
         .header-actions-group {
-            display: flex;
             width: 100%;
-            gap: 8px;
         }
 
         .btn-header-action {
-            flex: 1;
+            width: 100%;
             justify-content: center;
-            padding: 8px 10px;
-            font-size: 11.5px;
-            border-radius: 9px;
-            text-align: center;
+            padding: 10px 16px;
+            font-size: 13px;
         }
 
-        .piket-dashboard-container {
-            gap: 16px;
-        }
-
-        .stat-grid {
-            grid-template-columns: minmax(0, 1fr);
-            gap: 10px;
-        }
-
-        .stat-card {
-            padding: 12px 14px;
-            border-radius: 14px;
-            gap: 12px;
-            min-width: 0;
-        }
-
-        .stat-card .stat-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 11px;
-            font-size: 17px;
-        }
-
-        .stat-card .stat-title {
-            font-size: 11.5px;
-        }
-
-        .stat-card .stat-value {
-            font-size: 19px;
-        }
-
-        .stat-card .stat-subtitle {
-            font-size: 10.5px;
-            margin-top: 2px;
-        }
-
-        .middle-grid,
-        .bottom-grid {
-            grid-template-columns: minmax(0, 1fr);
+        /* Verification Status Banner */
+        .verification-status-banner {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 14px 16px;
             gap: 14px;
         }
 
-        .section-card {
-            padding: 14px 12px;
+        .banner-action-buttons {
+            width: 100%;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .banner-action-buttons .btn-header-action {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .banner-action-single {
+            width: 100% !important;
+            justify-content: center !important;
+            text-align: center !important;
+        }
+
+        /* Stat Cards */
+        .stat-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .stat-card {
+            padding: 16px 18px;
             border-radius: 14px;
-            min-width: 0;
-            max-width: 100%;
-            overflow: hidden;
+            gap: 14px;
+        }
+
+        .stat-card .stat-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+            border-radius: 12px;
+        }
+
+        .stat-card .stat-title {
+            font-size: 12.5px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 22px;
+        }
+
+        .stat-card .stat-subtitle {
+            font-size: 11px;
+        }
+
+        /* Section Cards & Headers */
+        .section-card {
+            padding: 16px 14px;
+            border-radius: 14px;
         }
 
         .section-card-header {
-            margin-bottom: 12px;
-            gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
             align-items: center;
+            justify-content: space-between;
         }
 
         .section-card-title {
-            font-size: 13px;
+            font-size: 15px;
             gap: 8px;
             min-width: 0;
-            flex: 1;
         }
 
         .section-card-title span {
             white-space: normal;
-            line-height: 1.25;
+            word-break: break-word;
         }
 
         .section-card-title .icon-badge {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
+            font-size: 13.5px;
             border-radius: 8px;
-            font-size: 13px;
             flex-shrink: 0;
         }
 
         .btn-see-all {
-            padding: 5px 9px;
-            font-size: 10.5px;
+            padding: 7px 13px;
+            font-size: 11.5px;
             border-radius: 8px;
             flex-shrink: 0;
-            white-space: nowrap;
         }
 
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            border-radius: 8px;
+        /* Switch from desktop table to responsive mobile cards */
+        .desktop-table-container {
+            display: none !important;
         }
 
-        .custom-table {
-            min-width: 460px;
-            font-size: 11.5px;
+        .mobile-card-list {
+            display: flex !important;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .custom-table th {
-            padding: 9px 8px;
-            font-size: 10.5px;
+        /* Middle Grid */
+        .middle-grid {
+            gap: 16px;
         }
 
-        .custom-table td {
-            padding: 9px 8px;
-            font-size: 11.5px;
+        /* Bottom Grid Widgets */
+        .bottom-grid {
+            gap: 16px;
         }
 
-        .timeline-list {
-            gap: 12px;
-            padding-left: 20px;
+        .timeline-item {
+            padding: 10px 12px;
+            gap: 8px;
         }
 
         .timeline-time {
@@ -703,20 +917,44 @@
         }
 
         .timeline-subject {
-            font-size: 12px;
+            font-size: 13px;
+            line-height: 1.35;
         }
 
         .timeline-teacher {
+            font-size: 11.5px;
+        }
+
+        .chart-stat-boxes {
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .chart-stat-box {
+            padding: 8px 10px;
+        }
+
+        .chart-stat-label {
+            font-size: 9.5px;
+        }
+
+        .chart-stat-val {
+            font-size: 16px;
+        }
+
+        .bars-wrapper {
+            height: 115px;
+            padding: 0 4px 6px 4px;
+            gap: 6px;
+        }
+
+        .bar-val {
             font-size: 10.5px;
         }
 
-        .chart-container {
-            padding-top: 10px;
-        }
-
-        .chart-wrapper {
-            height: 180px !important;
-            gap: 10px !important;
+        .bar-track {
+            height: 75px;
+            max-width: 32px;
         }
 
         .bar-label {
@@ -724,24 +962,46 @@
         }
 
         .announcement-card {
-            padding: 10px 10px;
+            padding: 9px 11px;
             gap: 10px;
-            border-radius: 11px;
         }
 
         .announcement-icon {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
+            font-size: 12.5px;
             border-radius: 8px;
-            font-size: 12px;
         }
 
         .announcement-text {
-            font-size: 11.5px;
+            font-size: 12.5px;
+            line-height: 1.35;
         }
 
         .announcement-time {
-            font-size: 10px;
+            font-size: 11px;
+        }
+
+        .btn-widget-bottom {
+            min-height: 42px;
+            font-size: 13px;
+            border-radius: 10px;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .header-left h1 {
+            font-size: 26px !important;
+        }
+
+        .piket-penugasan-box {
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+
+        .piket-penugasan-arrow {
+            transform: rotate(90deg);
+            margin: 2px auto;
         }
     }
 </style>
@@ -796,7 +1056,7 @@
                     </div>
                 </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="banner-action-buttons">
                 <a href="{{ route('piket.jurnal-mengajar', ['tanggal' => $todayDate]) }}" class="btn-header-action btn-header-secondary" style="padding: 8px 14px; font-size: 12.5px;">
                     <i class="fa-solid fa-eye"></i>
                     <span>Lihat Jurnal</span>
@@ -825,7 +1085,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('piket.jurnal-mengajar', ['tanggal' => $todayDate]) }}" class="btn-header-action btn-header-primary" style="padding: 8px 16px; font-size: 12.5px; background: #2563eb;">
+            <a href="{{ route('piket.jurnal-mengajar', ['tanggal' => $todayDate]) }}" class="btn-header-action btn-header-primary banner-action-single" style="padding: 8px 16px; font-size: 12.5px; background: #2563eb;">
                 <i class="fa-solid fa-pen-nib"></i>
                 <span>Tanda Tangani Jurnal</span>
             </a>
@@ -902,7 +1162,8 @@
                 <a href="{{ route('piket.jurnal-mengajar') }}" class="btn-see-all">Lihat Semua</a>
             </div>
 
-            <div class="table-container">
+            <!-- Desktop Table View -->
+            <div class="table-container desktop-table-container">
                 <table class="custom-table">
                     <thead>
                         <tr>
@@ -939,6 +1200,34 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Mobile Card View -->
+            <div class="mobile-card-list">
+                @forelse($monitoringJurnalToday as $row)
+                    <div class="piket-mobile-item">
+                        <div class="piket-mobile-top">
+                            <span class="piket-badge-jam">
+                                <i class="fa-regular fa-clock"></i>
+                                {{ $row->jadwal->jam_range ?? ($row->jam_ke ? 'Jam ' . $row->jam_ke : '-') }} &bull; {{ $row->jadwal->waktu_mulai_effective ?? '07:00' }} - {{ $row->jadwal->waktu_selesai_effective ?? '08:20' }} WIB
+                            </span>
+                            <span class="piket-badge-kelas">{{ $row->jadwal->kelas->nama_kelas ?? ($row->kelas_nama ?? '-') }}</span>
+                        </div>
+                        <div class="piket-mobile-subject">{{ $row->jadwal->mapel->nama_mapel ?? ($row->mapel_nama ?? '-') }}</div>
+                        <div class="piket-mobile-teacher">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                            <span>{{ $row->guruPengganti->nama_guru ?? ($row->jadwal->guru->nama_guru ?? ($row->guru_nama ?? '-')) }}</span>
+                            @if($row->id_guru_pengganti)
+                                <span class="piket-badge-pengganti"><i class="fa-solid fa-arrows-rotate"></i> Guru Pengganti</span>
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    <div class="piket-empty-mobile">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <span>Belum ada jurnal mengajar yang diisi hari ini.</span>
+                    </div>
+                @endforelse
+            </div>
         </div>
 
         <!-- Table 2: Penugasan Guru Pengganti Hari Ini -->
@@ -953,7 +1242,8 @@
                 <a href="{{ route('piket.guru-pengganti') }}" class="btn-see-all">Lihat Semua</a>
             </div>
 
-            <div class="table-container">
+            <!-- Desktop Table View -->
+            <div class="table-container desktop-table-container">
                 <table class="custom-table">
                     <thead>
                         <tr>
@@ -984,6 +1274,41 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div class="mobile-card-list">
+                @forelse($penugasanToday as $p)
+                    <div class="piket-mobile-item">
+                        <div class="piket-mobile-top">
+                            <span class="piket-badge-jam">
+                                <i class="fa-regular fa-clock"></i>
+                                {{ $p->jam ?? ($p->jadwal->jam_range ? 'Jam ' . $p->jadwal->jam_range : ($p->jam_pelajaran ?? '-')) }}
+                            </span>
+                            <span class="piket-badge-kelas">{{ $p->kelas->nama_kelas ?? ($p->kelas_nama ?? '-') }}</span>
+                        </div>
+                        <div class="piket-penugasan-box">
+                            <div class="piket-penugasan-side absent">
+                                <span class="piket-penugasan-lbl"><i class="fa-solid fa-user-xmark"></i> Tidak Hadir</span>
+                                <div class="piket-penugasan-name">{{ $p->guruTidakHadir->nama_guru ?? ($p->guru_tidak_hadir_nama ?? 'Guru Tidak Hadir') }}</div>
+                                <div class="piket-penugasan-mapel">{{ $p->guruTidakHadir->mapel->nama_mapel ?? ($p->mapel_nama ?? 'Mata Pelajaran') }}</div>
+                            </div>
+                            <div class="piket-penugasan-arrow">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+                            <div class="piket-penugasan-side substitute">
+                                <span class="piket-penugasan-lbl"><i class="fa-solid fa-user-check"></i> Pengganti</span>
+                                <div class="piket-penugasan-name" style="color: #2563eb;">{{ $p->guruPengganti->nama_guru ?? ($p->guru_pengganti_nama ?? 'Guru Pengganti') }}</div>
+                                <div class="piket-penugasan-mapel">Guru Pengganti Aktif</div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="piket-empty-mobile">
+                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+                        <span>Tidak ada penugasan guru pengganti aktif hari ini.</span>
+                    </div>
+                @endforelse
             </div>
         </div>
 
@@ -1030,7 +1355,7 @@
             </div>
 
             <div style="margin-top: 14px; text-align: center;">
-                <a href="{{ route('piket.jadwal') }}" class="btn-see-all" style="width: 100%; display: block; text-align: center;">Lihat Semua Jadwal</a>
+                <a href="{{ route('piket.jadwal') }}" class="btn-see-all btn-widget-bottom">Lihat Semua Jadwal</a>
             </div>
         </div>
 
@@ -1088,7 +1413,7 @@
             </div>
 
             <div style="margin-top: 14px; text-align: center;">
-                <a href="{{ route('piket.jurnal-mengajar') }}" class="btn-see-all" style="width: 100%; display: block; text-align: center;">Lihat Monitoring Jurnal</a>
+                <a href="{{ route('piket.jurnal-mengajar') }}" class="btn-see-all btn-widget-bottom">Lihat Monitoring Jurnal</a>
             </div>
         </div>
 
@@ -1113,7 +1438,7 @@
                             <div class="announcement-icon">
                                 <i class="fa-solid {{ $idx === 0 ? 'fa-bell' : ($idx === 1 ? 'fa-file-lines' : ($idx === 2 ? 'fa-bullhorn' : 'fa-circle-info')) }}"></i>
                             </div>
-                            <div>
+                            <div style="flex: 1; min-width: 0;">
                                 <div class="announcement-text">{{ Str::limit($p->judul ?? $p->isi, 55) }}</div>
                                 <div class="announcement-time">{{ \Carbon\Carbon::parse($p->tanggal ?? $p->created_at)->translatedFormat('d F Y') }}</div>
                             </div>
@@ -1125,7 +1450,7 @@
             </div>
 
             <div style="margin-top: 14px; text-align: center;">
-                <a href="{{ route('piket.pengumuman') }}" class="btn-see-all" style="width: 100%; display: block; text-align: center;">Lihat Semua Pengumuman</a>
+                <a href="{{ route('piket.pengumuman') }}" class="btn-see-all btn-widget-bottom">Lihat Semua Pengumuman</a>
             </div>
         </div>
 

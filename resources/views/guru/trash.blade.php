@@ -50,6 +50,11 @@
         gap: 10px;
     }
 
+    .card-top-header p {
+        font-size: 13px;
+        color: #64748b;
+    }
+
     .btn-back-main {
         background: #f1f5f9;
         color: #475569;
@@ -95,6 +100,17 @@
         color: #1e293b;
         border-bottom: 1px solid #f1f5f9;
         vertical-align: middle;
+    }
+
+    .badge-mapel {
+        background: #f1f5f9;
+        color: #334155;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 11.5px;
+        font-weight: 700;
+        display: inline-block;
+        border: 1px solid #e2e8f0;
     }
 
     .btn-act {
@@ -147,6 +163,228 @@
         color: #065f46;
         border: 1px solid #a7f3d0;
     }
+
+    .mobile-only {
+        display: none !important;
+    }
+
+    @media (max-width: 768px) {
+        .page-header-container {
+            margin-bottom: 14px !important;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            line-height: 1.25 !important;
+        }
+
+        .page-title-group p {
+            font-size: 13px !important;
+            line-height: 1.45 !important;
+        }
+
+        .breadcrumb-text {
+            font-size: 13px !important;
+            margin-bottom: 14px !important;
+            flex-wrap: wrap !important;
+        }
+
+        .card {
+            padding: 16px !important;
+            border-radius: 16px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .card-top-header {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .card-top-header h2 {
+            font-size: 19px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.3px !important;
+        }
+
+        .card-top-header p {
+            font-size: 12.5px !important;
+            line-height: 1.4 !important;
+        }
+
+        .btn-back-main {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            padding: 11px 16px !important;
+            font-size: 13px !important;
+        }
+
+        .desktop-only {
+            display: none !important;
+        }
+
+        .mobile-only {
+            display: block !important;
+        }
+
+        .table-responsive {
+            overflow: visible !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        .table-custom {
+            display: block !important;
+            width: 100% !important;
+            border: none !important;
+        }
+
+        .table-custom thead {
+            display: none !important;
+        }
+
+        .table-custom tbody {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        .table-custom tbody tr.trash-guru-card {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            background: #ffffff !important;
+            border: 1.5px solid #cbd5e1 !important;
+            border-radius: 16px !important;
+            padding: 14px 16px !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+        }
+
+        .table-custom tbody tr.trash-guru-card td {
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        .trash-card-header {
+            display: flex !important;
+            align-items: flex-start !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+        }
+
+        .trash-card-title-group {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            min-width: 0 !important;
+            flex: 1 !important;
+        }
+
+        .trash-badge-no {
+            background: #f1f5f9 !important;
+            color: #475569 !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            padding: 2px 7px !important;
+            border-radius: 6px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .trash-guru-name {
+            font-size: 14.5px !important;
+            font-weight: 800 !important;
+            color: #0f172a !important;
+            line-height: 1.3 !important;
+            word-break: normal !important;
+        }
+
+        .trash-card-meta {
+            background: #f8fafc !important;
+            border: 1px solid #f1f5f9 !important;
+            border-radius: 10px !important;
+            padding: 8px 12px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px !important;
+            font-size: 12px !important;
+        }
+
+        .trash-card-time {
+            font-size: 11.5px !important;
+            color: #64748b !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .trash-card-actions {
+            border-top: 1px dashed #e2e8f0 !important;
+            padding-top: 10px !important;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .trash-card-actions form {
+            display: flex !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+
+        .trash-card-actions .btn-act {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 9px 8px !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            border-radius: 10px !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+        }
+
+        /* Empty state */
+        .table-custom tbody tr:not(.trash-guru-card) {
+            display: block !important;
+            width: 100% !important;
+            background: #ffffff !important;
+            border: 1.5px solid #cbd5e1 !important;
+            border-radius: 16px !important;
+            padding: 24px !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+        }
+
+        .table-custom tbody tr:not(.trash-guru-card) td {
+            display: block !important;
+            width: 100% !important;
+            padding: 0 !important;
+            border: none !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 25px !important;
+        }
+
+        .card-top-header h2 {
+            font-size: 18px !important;
+        }
+
+        .table-custom tbody tr.trash-guru-card {
+            padding: 12px 14px !important;
+        }
+    }
 </style>
 @endsection
 
@@ -166,16 +404,6 @@
         <span>Tempat Sampah Guru</span>
     </div>
 
-    @if(session('success'))
-        <div class="alert-custom alert-success">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fa-solid fa-circle-check" style="font-size:18px;"></i>
-                <span>{{ session('success') }}</span>
-            </div>
-            <button onclick="this.parentElement.remove()" style="background:none; border:none; color:inherit; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-    @endif
-
     <div class="card">
         <div class="card-top-header">
             <div>
@@ -191,6 +419,7 @@
             <table class="table-custom">
                 <thead>
                     <tr>
+                        <th style="width: 50px;">NO</th>
                         <th>NIP</th>
                         <th>NAMA GURU / PEGAWAI</th>
                         <th>MAPEL</th>
@@ -199,14 +428,66 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($gurus as $g)
-                        <tr>
-                            <td><span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $g->nip }}</span></td>
-                            <td><strong>{{ $g->nama_guru }}</strong></td>
-                            <td>{{ $g->mapel->nama_mapel ?? '-' }}</td>
-                            <td>{{ $g->deleted_at ? \Carbon\Carbon::parse($g->deleted_at)->format('d/m/Y H:i') : '-' }}</td>
-                            <td style="text-align:center;">
-                                <div style="display:inline-flex; gap:6px;">
+                    @forelse($gurus as $index => $g)
+                        <tr class="trash-guru-card">
+                            <!-- Desktop NO / Mobile Header -->
+                            <td class="col-no">
+                                <div class="desktop-only">
+                                    <strong>{{ $index + 1 }}</strong>
+                                </div>
+                                <div class="mobile-only trash-card-header">
+                                    <div class="trash-card-title-group">
+                                        <span class="trash-badge-no">#{{ $index + 1 }}</span>
+                                        <strong class="trash-guru-name">{{ $g->nama_guru }}</strong>
+                                    </div>
+                                    @if($g->mapel)
+                                        <span class="badge-mapel" style="flex-shrink:0;">
+                                            {{ $g->mapel->nama_mapel }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </td>
+
+                            <!-- NIP -->
+                            <td class="col-nip">
+                                <div class="desktop-only">
+                                    <span style="font-family:monospace; font-weight:700; color:#3b5490;">{{ $g->nip }}</span>
+                                </div>
+                                <div class="mobile-only trash-card-meta">
+                                    <div style="font-size:12.5px; font-weight:700; color:#3b5490;">
+                                        <i class="fa-solid fa-id-badge" style="margin-right:4px;"></i> NIP: {{ $g->nip ?? '-' }}
+                                    </div>
+                                    @if(!$g->mapel)
+                                        <div style="font-size:11.5px; color:#64748b;">
+                                            <i class="fa-solid fa-book-open" style="margin-right:4px;"></i> Mapel: -
+                                        </div>
+                                    @endif
+                                </div>
+                            </td>
+
+                            <!-- Desktop Nama -->
+                            <td class="col-nama desktop-only">
+                                <strong style="color:#0f172a;">{{ $g->nama_guru }}</strong>
+                            </td>
+
+                            <!-- Desktop Mapel -->
+                            <td class="col-mapel desktop-only">
+                                {{ $g->mapel->nama_mapel ?? '-' }}
+                            </td>
+
+                            <!-- Waktu Dihapus -->
+                            <td class="col-waktu">
+                                <div class="desktop-only">
+                                    {{ $g->deleted_at ? \Carbon\Carbon::parse($g->deleted_at)->format('d/m/Y H:i') : '-' }}
+                                </div>
+                                <div class="mobile-only trash-card-time">
+                                    <i class="fa-solid fa-clock-rotate-left"></i> Dihapus: <strong>{{ $g->deleted_at ? \Carbon\Carbon::parse($g->deleted_at)->format('d/m/Y H:i') : '-' }}</strong>
+                                </div>
+                            </td>
+
+                            <!-- Aksi -->
+                            <td class="col-aksi" style="text-align:center;">
+                                <div class="desktop-only" style="display:inline-flex; gap:6px;">
                                     <form action="{{ route('guru.restore', $g->id_guru) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         <button type="submit" class="btn-act btn-restore" title="Pulihkan Guru">
@@ -222,11 +503,28 @@
                                         </button>
                                     </form>
                                 </div>
+
+                                <div class="mobile-only trash-card-actions">
+                                    <form action="{{ route('guru.restore', $g->id_guru) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn-act btn-restore" title="Pulihkan Guru">
+                                            <i class="fa-solid fa-rotate-left"></i> Pulihkan
+                                        </button>
+                                    </form>
+
+                                    <form action="{{ route('guru.force-delete', $g->id_guru) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-act btn-force-delete" onclick="return confirm('Hapus PERMANEN guru {{ addslashes($g->nama_guru) }}? Data tidak bisa dikembalikan lagi!')" title="Hapus Permanen">
+                                            <i class="fa-solid fa-skull"></i> Hapus Permanen
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" style="text-align:center; padding:36px; color:#94a3b8;">
+                            <td colspan="6" style="text-align:center; padding:36px; color:#94a3b8;">
                                 <i class="fa-solid fa-trash-arrow-up" style="font-size:32px; margin-bottom:8px; display:block;"></i>
                                 Tempat sampah kosong. Tidak ada data guru yang dihapus.
                             </td>

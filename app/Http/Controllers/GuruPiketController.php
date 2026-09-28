@@ -23,7 +23,10 @@ use App\Models\SiswaSuratIzin;
 use App\Models\SiswaTelat;
 use App\Models\JurnalDetailKetidakhadiran;
 use App\Models\VerifikasiJurnalPiket;
+use App\Models\JadwalPiketWaka;
 use App\Models\User;
+use App\Services\WhatsAppNotificationService;
+use App\Jobs\SendWhatsAppNotificationJob;
 
 class GuruPiketController extends Controller
 {
@@ -42,33 +45,6 @@ class GuruPiketController extends Controller
             'Sunday'    => 'Minggu',
         ];
         return $days[Carbon::now('Asia/Jakarta')->format('l')] ?? 'Kamis';
-    }
-
-    /**
-     * Halaman Menu Guru Piket (Mobile & Desktop)
-     */
-    public function menu()
-    {
-        $countPendingIzinPiket = 0;
-        if (\Illuminate\Support\Facades\Schema::hasColumn('guru_izin', 'is_pengajuan_guru') && \Illuminate\Support\Facades\Schema::hasColumn('guru_izin', 'status_piket')) {
-            try {
-                $countPendingIzinPiket = \App\Models\GuruIzin::where('is_pengajuan_guru', 1)->where('status_piket', 'pending')->count();
-            } catch (\Throwable $e) {
-                $countPendingIzinPiket = 0;
-            }
-        }
-
-        $trashedDispenCount = 0;
-        try {
-            $trashedDispenCount = \App\Models\SiswaDispen::onlyTrashed()->count();
-        } catch (\Throwable $e) {}
-
-        $trashedTelatCount = 0;
-        try {
-            $trashedTelatCount = \App\Models\SiswaTelat::onlyTrashed()->count();
-        } catch (\Throwable $e) {}
-
-        return view('guru_piket.menu', compact('countPendingIzinPiket', 'trashedDispenCount', 'trashedTelatCount'));
     }
 
     /**
@@ -2514,8 +2490,9 @@ class GuruPiketController extends Controller
 
         $guruIzinList = $query->orderBy('id_guru_izin', 'desc')->get();
         $trashedCount = GuruIzin::onlyTrashed()->count();
+        $pejabatSekolah = app(WhatsAppNotificationService::class)->getPejabatSekolah();
 
-        return view('guru_piket.permintaan_izin', compact('guruList', 'guruIzinList', 'trashedCount', 'pendingRequests'));
+        return view('guru_piket.permintaan_izin', compact('guruList', 'guruIzinList', 'trashedCount', 'pendingRequests', 'pejabatSekolah'));
     }
 
     /**
@@ -2682,29 +2659,75 @@ class GuruPiketController extends Controller
             $tglFormatted .= ' s/d ' . Carbon::parse($tglSelesai)->format('d-m-Y');
         }
 
-        $approvalUrl = url("/approval/guru-izin/{$token}");
-        $waMessage = "Assalamu'alaikum Wr. Wb. Bapak/Ibu Waka Kurikulum, Waka SDM & Kepala Sekolah,\n\n"
-            . "Berikut pengajuan " . ($isCuti ? "CUTI / IZIN KHUSUS (> 3 HARI)" : "IZIN TIDAK HADIR") . " mengajar:\n"
-            . "• Nama Guru: {$namaGuru}\n"
-            . "• Tanggal Izin: {$tglFormatted} ({$durasi})\n"
-            . "• Alasan: {$request->alasan}\n";
+        $approvalUrl = WhatsAppNotificationService::makeApprovalGuruIzinUrl($token);
 
-        if ($isCuti && $request->keterangan_khusus) {
-            $waMessage .= "• Keterangan Khusus Cuti: {$request->keterangan_khusus}\n";
+        $waService = app(WhatsAppNotificationService::class);
+
+        // Otomatisasi Chatbot WhatsApp: Kirim secara paralel/looping ke 3 Pejabat (Waka Kurikulum, Waka SDM, Kepala Sekolah)
+        try {
+            $sendResult = $waService->sendNotifikasiIzinGuru($izin, $approvalUrl);
+            \Illuminate\Support\Facades\Log::info('[GuruPiketController] Status Kirim Chatbot Izin Guru: ' . json_encode($sendResult));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('[GuruPiketController] Gagal mengirim notifikasi WhatsApp Izin Guru: ' . $e->getMessage());
         }
 
-        $waMessage .= "\nMohon untuk dapat meninjau dan memilih persetujuan/penolakan melalui tautan berikut:\n\n"
-            . $approvalUrl . "\n\n"
-            . "Terima kasih.\n(Dikirim via Portal Guru Piket EDU JOURNAL)";
-
-        $waUrl = "https://api.whatsapp.com/send?text=" . rawurlencode($waMessage);
+        // Format isi pesan standar sesuai spesifikasi untuk fungsi tombol cadangan (backup manual)
+        $waMessageBackup = $waService->buildPesanIzinGuru($izin, 'Waka Kurikulum / Waka SDM / Kepala Sekolah', $approvalUrl);
+        $waUrl = "https://api.whatsapp.com/send?text=" . rawurlencode($waMessageBackup);
 
         return redirect()->route('piket.permintaan-izin')->with([
-            'success'      => 'Permintaan izin guru berhasil diisikan & diproses! Link persetujuan telah otomatis dibuat dan dikirim ke Waka Kurikulum, Waka SDM & Kepsek.',
+            'success'      => 'Permintaan izin guru berhasil disimpan & diproses! Notifikasi otomatis telah dikirim melalui Chatbot WhatsApp ke Waka Kurikulum, Waka SDM, dan Kepala Sekolah.',
             'approval_url' => $approvalUrl,
             'wa_url'       => $waUrl,
             'guru_nama'    => $namaGuru,
         ]);
+    }
+
+    /**
+     * [CHATBOT WA] Kirim / Kirim Ulang Notifikasi Permintaan Izin Guru via ChatBot WhatsApp
+     */
+    public function sendChatbotPermintaanIzin(Request $request, $id)
+    {
+        $izin = GuruIzin::with('guru')->findOrFail($id);
+
+        $waService = app(WhatsAppNotificationService::class);
+        $approvalUrl = WhatsAppNotificationService::makeApprovalGuruIzinUrl($izin->token_approval);
+        $target = $request->input('target', 'all');
+
+        $sendResult = $waService->sendNotifikasiIzinGuru($izin, $approvalUrl, $target);
+
+        $hasSuccess = false;
+        $sentTargets = [];
+        $failedTargets = [];
+
+        foreach ($sendResult as $key => $res) {
+            if (($res['status'] ?? '') === 'sent') {
+                $hasSuccess = true;
+                $sentTargets[] = $res['jabatan'] . " (" . ($res['nama'] ?? '') . ")";
+            } else {
+                $failedTargets[] = $res['jabatan'] . " (" . ($res['detail']['message'] ?? 'Nomor HP tidak valid / gateway error') . ")";
+            }
+        }
+
+        $namaGuru = $izin->guru->nama_guru ?? 'Guru Mengajar';
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => $hasSuccess,
+                'message' => $hasSuccess
+                    ? "Notifikasi Persetujuan Izin Guru ({$namaGuru}) berhasil dikirimkan via ChatBot WhatsApp ke: " . implode(', ', $sentTargets) . (!empty($failedTargets) ? " (Gagal: " . implode(', ', $failedTargets) . ")" : "")
+                    : "Gagal mengirim notifikasi ChatBot WhatsApp: " . implode(', ', $failedTargets),
+                'detail'  => $sendResult,
+            ]);
+        }
+
+        if ($hasSuccess) {
+            $msg = "Notifikasi Persetujuan Izin Guru ({$namaGuru}) berhasil dikirimkan via ChatBot WhatsApp ke: " . implode(', ', $sentTargets);
+            return redirect()->back()->with('success', $msg);
+        } else {
+            $errorMsg = "Gagal mengirim notifikasi ChatBot WhatsApp: " . implode(', ', $failedTargets);
+            return redirect()->back()->with('error', $errorMsg);
+        }
     }
 
     /**
@@ -2884,7 +2907,7 @@ class GuruPiketController extends Controller
         $statusPenugasanFilter = $request->input('status_penugasan');
         $statusBerlakuFilter = $request->input('status_berlaku');
 
-        // Query khusus perizinan yang SUDAH DISETUJU Waka & Kepsek
+        // Query khusus perizinan yang SUDAH DISETUJUI Waka & Kepsek / Full Approved
         $query = GuruIzin::with(['guru.mapel'])
             ->whereHas('guru', function($q) {
                 $q->where('nama_guru', '!=', 'Petugas Piket');
@@ -2893,7 +2916,11 @@ class GuruPiketController extends Controller
                 $q->where(function($sub) {
                     $sub->whereIn('status_waka', ['approved', 'Disetujui'])
                         ->whereIn('status_kepsek', ['approved', 'Disetujui']);
-                })->orWhereIn('status_final', ['approved', 'Disetujui']);
+                })->orWhereIn('status_final', ['approved', 'Disetujui'])
+                  ->orWhere(function($sub2) {
+                      $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                           ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                  });
             });
 
         // Search Keyword (Nama Guru, NIP, Alasan)
@@ -2972,14 +2999,22 @@ class GuruPiketController extends Controller
             $q->where(function($sub) {
                 $sub->whereIn('status_waka', ['approved', 'Disetujui'])
                     ->whereIn('status_kepsek', ['approved', 'Disetujui']);
-            })->orWhereIn('status_final', ['approved', 'Disetujui']);
+            })->orWhereIn('status_final', ['approved', 'Disetujui'])
+              ->orWhere(function($sub2) {
+                  $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                       ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+              });
         })->count();
 
         $approvedHariIni = GuruIzin::where(function($q) {
             $q->where(function($sub) {
                 $sub->whereIn('status_waka', ['approved', 'Disetujui'])
                     ->whereIn('status_kepsek', ['approved', 'Disetujui']);
-            })->orWhereIn('status_final', ['approved', 'Disetujui']);
+            })->orWhereIn('status_final', ['approved', 'Disetujui'])
+              ->orWhere(function($sub2) {
+                  $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                       ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+              });
         })->whereDate('tanggal_mulai', '<=', $todayDate)
           ->whereDate('tanggal_selesai', '>=', $todayDate)
           ->count();
@@ -2988,7 +3023,11 @@ class GuruPiketController extends Controller
             $q->where(function($sub) {
                 $sub->whereIn('status_waka', ['approved', 'Disetujui'])
                     ->whereIn('status_kepsek', ['approved', 'Disetujui']);
-            })->orWhereIn('status_final', ['approved', 'Disetujui']);
+            })->orWhereIn('status_final', ['approved', 'Disetujui'])
+              ->orWhere(function($sub2) {
+                  $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                       ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+              });
         })->where('kategori_izin', 'cuti')->count();
 
         // Hitung berapa izin AKTIF yang belum ada penugasan guru pengganti
@@ -2996,7 +3035,11 @@ class GuruPiketController extends Controller
             $q->where(function($sub) {
                 $sub->whereIn('status_waka', ['approved', 'Disetujui'])
                     ->whereIn('status_kepsek', ['approved', 'Disetujui']);
-            })->orWhereIn('status_final', ['approved', 'Disetujui']);
+            })->orWhereIn('status_final', ['approved', 'Disetujui'])
+              ->orWhere(function($sub2) {
+                  $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                       ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+              });
         })->whereDate('tanggal_selesai', '>=', $todayDate)->get();
 
         $perluPenugasanCount = 0;
@@ -3023,7 +3066,11 @@ class GuruPiketController extends Controller
                 $q->where(function($sub) {
                     $sub->whereIn('status_waka', ['approved', 'Disetujui'])
                         ->whereIn('status_kepsek', ['approved', 'Disetujui']);
-                })->orWhereIn('status_final', ['approved', 'Disetujui']);
+                })->orWhereIn('status_final', ['approved', 'Disetujui'])
+                  ->orWhere(function($sub2) {
+                      $sub2->whereIn('status_waka_sdm', ['approved', 'Disetujui'])
+                           ->whereIn('status_kepsek', ['approved', 'Disetujui']);
+                  });
             })->count();
 
         return view('guru_piket.guru_izin_tidak_hadir', compact(
@@ -3147,22 +3194,116 @@ class GuruPiketController extends Controller
     }
 
     /**
+     * API Get Piket Waka berdasarkan Tanggal Tertentu
+     */
+    public function getPiketWakaByDate(Request $request)
+    {
+        $tanggal = $request->query('tanggal', date('Y-m-d'));
+        $piketWaka = JadwalPiketWaka::with(['guru', 'user'])->whereDate('tanggal', $tanggal)->first();
+
+        if ($piketWaka) {
+            $uId = $piketWaka->id_user;
+            $userObj = $piketWaka->user;
+
+            if (!$uId && $piketWaka->guru) {
+                $userObj = User::where('id_guru', $piketWaka->guru->id_guru)
+                    ->orWhere(function ($q) use ($piketWaka) {
+                        if (!empty($piketWaka->guru->nip)) {
+                            $q->where('nip', $piketWaka->guru->nip);
+                        }
+                    })
+                    ->first();
+                $uId = $userObj ? $userObj->id : null;
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id_user'   => $uId,
+                    'id_guru'   => $piketWaka->id_guru,
+                    'nama_guru' => $piketWaka->guru->nama_guru ?? ($userObj->name ?? 'Guru Piket Waka'),
+                    'nip'       => $piketWaka->guru->nip ?? ($userObj->nip ?? '-'),
+                    'no_hp'     => $userObj->no_hp ?? ($piketWaka->guru->no_hp ?? '-'),
+                    'hari'      => $piketWaka->hari,
+                    'tanggal'   => $tanggal,
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Tidak ada guru yang ditugaskan sebagai Piket Waka pada tanggal tersebut.',
+        ]);
+    }
+
+    /**
      * Fitur Halaman Dispensasi Siswa (Guru Piket)
      */
     public function dispensasiSiswa(Request $request)
     {
         $siswaList = Siswa::with('kelas.jurusan')->orderBy('nama_siswa')->get();
         $guruList  = Guru::orderBy('nama_guru')->get();
-        $wakaList  = User::where('role', 'waka_kesiswaan')
+
+        // 1. Ambil Waka Kesiswaan Utama (Fajar Luthfianto, S.Pd)
+        $wakaKesiswaan = User::where('role', 'waka_kesiswaan')
             ->where(function($q) {
                 $q->whereNull('status_verifikasi')->orWhere('status_verifikasi', 'verified');
-            })->orderBy('name')->get();
+            })
+            ->first();
 
-        if ($wakaList->isEmpty()) {
-            $wakaList = User::whereIn('role', ['waka_kesiswaan', 'waka'])
-                ->where(function($q) {
-                    $q->whereNull('status_verifikasi')->orWhere('status_verifikasi', 'verified');
-                })->orderBy('name')->get();
+        if (!$wakaKesiswaan) {
+            $wakaKesiswaan = User::where('name', 'like', '%Fajar Luthfianto%')->first();
+        }
+        if (!$wakaKesiswaan) {
+            $wakaKesiswaan = User::whereIn('role', ['waka_kesiswaan', 'waka'])->first();
+        }
+
+        // 2. Ambil data Jadwal Piket Waka dan buat peta berdasarkan tanggal
+        $allPiketWaka = JadwalPiketWaka::with(['guru', 'user'])->get();
+        $piketWakaDateMap = [];
+
+        foreach ($allPiketWaka as $pw) {
+            if (!$pw->guru && !$pw->user) continue;
+            $tglKey = $pw->tanggal instanceof Carbon ? $pw->tanggal->format('Y-m-d') : (string) $pw->tanggal;
+            $uId = $pw->id_user;
+            $userObj = $pw->user;
+
+            if (!$uId && $pw->guru) {
+                $userObj = User::where('id_guru', $pw->guru->id_guru)
+                    ->orWhere(function ($q) use ($pw) {
+                        if (!empty($pw->guru->nip)) {
+                            $q->where('nip', $pw->guru->nip);
+                        }
+                    })
+                    ->first();
+                $uId = $userObj ? $userObj->id : null;
+            }
+
+            if ($uId) {
+                $piketWakaDateMap[$tglKey] = [
+                    'id_user'   => $uId,
+                    'id_guru'   => $pw->id_guru,
+                    'nama'      => $pw->guru->nama_guru ?? ($userObj->name ?? 'Guru Piket Waka'),
+                    'nip'       => $pw->guru->nip ?? ($userObj->nip ?? '-'),
+                    'no_hp'     => $userObj->no_hp ?? ($pw->guru->no_hp ?? '-'),
+                    'hari'      => $pw->hari,
+                ];
+            }
+        }
+
+        // 3. Opsi Awal untuk Form Input (Hanya Waka Kesiswaan + Piket Waka Tanggal/Hari Tersebut)
+        $initTanggal = old('tanggal', date('Y-m-d'));
+        $initialPiketWaka = $piketWakaDateMap[$initTanggal] ?? null;
+
+        $wakaList = collect();
+        if ($wakaKesiswaan) {
+            $wakaList->push($wakaKesiswaan);
+        }
+        if ($initialPiketWaka && (!isset($wakaKesiswaan->id) || $initialPiketWaka['id_user'] != $wakaKesiswaan->id)) {
+            $piketUserObj = User::find($initialPiketWaka['id_user']);
+            if ($piketUserObj) {
+                $wakaList->push($piketUserObj);
+            }
         }
 
         $query = SiswaDispen::with(['siswa', 'kelas', 'wakaUser']);
@@ -3193,15 +3334,26 @@ class GuruPiketController extends Controller
             $query->whereDate('tanggal', $request->tanggal);
         }
 
+        $wakaKesiswaanData = $wakaKesiswaan ? [
+            'id'    => $wakaKesiswaan->id,
+            'name'  => $wakaKesiswaan->name,
+            'nip'   => $wakaKesiswaan->nip,
+            'no_hp' => $wakaKesiswaan->no_hp,
+        ] : null;
+
         $dispenList = $query->orderBy('created_at', 'desc')->paginate(15);
         $totalPengajuan = SiswaDispen::count();
 
         return view('guru_piket.dispensasi_siswa', compact(
             'siswaList',
             'guruList',
+            'wakaKesiswaan',
+            'wakaKesiswaanData',
+            'initialPiketWaka',
             'wakaList',
             'dispenList',
-            'totalPengajuan'
+            'totalPengajuan',
+            'piketWakaDateMap'
         ));
     }
 
@@ -3369,7 +3521,7 @@ class GuruPiketController extends Controller
             'id_user_waka'         => $waka->id,
             'nama_waka'            => $waka->name,
             'nip_waka'             => $waka->nip,
-            'no_hp_waka'           => $waka->no_hp,
+            'no_hp_waka'           => app(WhatsAppNotificationService::class)->resolvePhoneNumber($waka) ?: $waka->no_hp,
             'id_guru_piket'        => $idGuruPiket,
             'nama_guru_piket'      => $namaGuruPiket,
             'nip_guru_piket'       => $nipGuruPiket,
@@ -3390,51 +3542,70 @@ class GuruPiketController extends Controller
             'status_satpam'        => 'belum_keluar',
         ]);
 
-        $approvalUrl = url("/approval/dispen/{$token}");
-        
+        $approvalUrl = WhatsAppNotificationService::makeApprovalDispenUrl($token);
+
+        // Format isi pesan standar sesuai spesifikasi untuk fungsi tombol cadangan (backup manual)
+        $waService = app(WhatsAppNotificationService::class);
+        $wakaTargetHp = $dispen->no_hp_waka ?: $waService->resolvePhoneNumber($waka);
+        $hpFormatted = WhatsAppNotificationService::formatPhoneNumber($wakaTargetHp);
+        $pesanWaBackup = $waService->buildPesanDispensasiSiswa($dispen, $waka->name, $approvalUrl);
+
+        // Otomatisasi Chatbot WhatsApp: Kirim notifikasi secara instan ke Waka Kesiswaan Tujuan terpilih
+        try {
+            $sendResult = $waService->sendNotifikasiDispensasiSiswa($dispen, $approvalUrl);
+            \Illuminate\Support\Facades\Log::info('[GuruPiketController] Status Kirim Chatbot Dispensasi: ' . json_encode($sendResult));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('[GuruPiketController] Gagal mengirim WhatsApp Dispensasi Siswa: ' . $e->getMessage());
+        }
+
         $waWakaUrl = null;
-        if ($waka->no_hp) {
-            $hpFormatted = preg_replace('/[^0-9]/', '', $waka->no_hp);
-            if (str_starts_with($hpFormatted, '0')) {
-                $hpFormatted = '62' . substr($hpFormatted, 1);
-            }
-            $namaSiswa = $siswa->nama_siswa;
-            $namaKelas = $siswa->kelas->nama_kelas ?? '-';
-            $tglIndo   = Carbon::parse($request->tanggal)->format('d-m-Y');
-            
-            $pesanWa = "*PERMOHONAN PERSETUJUAN DISPENSASI SISWA*\n"
-                . "====================================\n\n"
-                . "Halo Bapak/Ibu Waka (*{$waka->name}*),\n"
-                . "Ada permohonan persetujuan dispensasi siswa dari Guru Piket:\n\n"
-                . "• *Kode Dispen*: {$kode}\n"
-                . "• *Nama Siswa*: {$namaSiswa}\n"
-                . "• *Kelas*: {$namaKelas}\n"
-                . "• *Tanggal*: {$tglIndo}\n"
-                . "• *Rencana Jam*: {$request->jam_keluar} s/d {$request->jam_kembali}\n"
-                . "• *Alasan*: {$request->alasan}\n";
-
-            if ($fotoSiswaLivePath) {
-                $pesanWa .= "• *Foto Siswa (Live Kamera)*: Ada (Terlampir pada link)\n";
-            }
-            if ($fotoKartuPath) {
-                $pesanWa .= "• *Foto Kartu Identitas*: Ada (Terlampir pada link)\n";
-            }
-            if ($fotoSuratPath) {
-                $pesanWa .= "• *Foto Surat Dispen*: Ada (Terlampir pada link)\n";
-            }
-
-            $pesanWa .= "\nMohon verifikasi NIP & Password melalui link persetujuan berikut:\n"
-                . "{$approvalUrl}";
-                
-            $waWakaUrl = "https://api.whatsapp.com/send?phone={$hpFormatted}&text=" . urlencode($pesanWa);
+        if ($hpFormatted) {
+            $waWakaUrl = "https://api.whatsapp.com/send?phone={$hpFormatted}&text=" . rawurlencode($pesanWaBackup);
         }
 
         return redirect()->route('piket.dispensasi-siswa')->with([
-            'success'      => "Permohonan dispensasi siswa berhasil disimpan (Kode: {$kode})! Link persetujuan Waka otomatis dibuat.",
+            'success'      => "Permohonan dispensasi siswa berhasil disimpan (Kode: {$kode})! Notifikasi otomatis telah dikirim melalui Chatbot WhatsApp ke Waka Kesiswaan ({$waka->name}).",
             'approval_url' => $approvalUrl,
             'wa_waka_url'  => $waWakaUrl,
             'waka_nama'    => $waka->name,
         ]);
+    }
+
+    /**
+     * [CHATBOT WA] Kirim / Kirim Ulang Notifikasi Dispensasi Siswa ke Waka Kesiswaan via ChatBot WhatsApp
+     */
+    public function sendChatbotDispensasiSiswa(Request $request, $id)
+    {
+        $dispen = SiswaDispen::with(['siswa.kelas', 'kelas', 'wakaUser'])->findOrFail($id);
+
+        $waService = app(WhatsAppNotificationService::class);
+        $approvalUrl = WhatsAppNotificationService::makeApprovalDispenUrl($dispen->token_wali_kelas);
+
+        $sendResult = $waService->sendNotifikasiDispensasiSiswa($dispen, $approvalUrl);
+
+        $namaWaka  = $sendResult['nama'] ?? 'Waka Kesiswaan';
+        $noHpWaka  = $sendResult['no_hp'] ?? null;
+        $isSuccess = ($sendResult['status'] ?? '') === 'sent';
+
+        $namaSiswa = $dispen->siswa->nama_siswa ?? 'Siswa';
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => $isSuccess,
+                'message' => $isSuccess
+                    ? "Notifikasi Persetujuan Dispensasi Siswa ({$namaSiswa}) berhasil dikirimkan via ChatBot WhatsApp ke Waka Kesiswaan ({$namaWaka} - {$noHpWaka})!"
+                    : ("Gagal mengirim notifikasi ChatBot WhatsApp ke Waka Kesiswaan: " . ($sendResult['detail']['message'] ?? 'Nomor WhatsApp tidak ditemukan atau gateway menolak pesan.')),
+                'detail'  => $sendResult,
+            ]);
+        }
+
+        if ($isSuccess) {
+            $msg = "Notifikasi Persetujuan Dispensasi Siswa ({$namaSiswa}) berhasil dikirimkan via ChatBot WhatsApp ke Waka Kesiswaan ({$namaWaka} - {$noHpWaka})!";
+            return redirect()->back()->with('success', $msg);
+        } else {
+            $errorMsg = "Gagal mengirim notifikasi ChatBot WhatsApp ke Waka Kesiswaan: " . ($sendResult['detail']['message'] ?? 'Nomor WhatsApp tidak ditemukan atau gateway menolak pesan.');
+            return redirect()->back()->with('error', $errorMsg);
+        }
     }
 
     /**
@@ -3516,7 +3687,7 @@ class GuruPiketController extends Controller
         $dispen->id_user_waka = $waka->id;
         $dispen->nama_waka    = $waka->name;
         $dispen->nip_waka     = $waka->nip;
-        $dispen->no_hp_waka   = $waka->no_hp;
+        $dispen->no_hp_waka   = app(WhatsAppNotificationService::class)->resolvePhoneNumber($waka) ?: $waka->no_hp;
         $dispen->tanggal       = $request->tanggal;
         $dispen->jam_keluar    = $request->jam_keluar;
         $dispen->jam_kembali   = $request->jam_kembali;
@@ -3619,8 +3790,7 @@ class GuruPiketController extends Controller
         $tanggalFilter  = $request->input('tanggal');
 
         // Query Surat Izin Siswa
-        // Query Surat Izin Siswa
-        $query = SiswaSuratIzin::with(['siswa', 'kelas.waliKelas', 'petugasPiket']);
+        $query = SiswaSuratIzin::with(['siswa.kelas.waliKelas', 'kelas.waliKelas.user', 'petugasPiket']);
 
         if ($search) {
             $query->where(function($q) use ($search) {
@@ -3653,11 +3823,7 @@ class GuruPiketController extends Controller
 
         // Stat Card Counts (Aktif Hari Ini dalam Rentang Tanggal)
         $activeTodayQuery = function($query) use ($todayDate) {
-            $query->whereDate('tanggal', '<=', $todayDate)
-                  ->where(function($q) use ($todayDate) {
-                      $q->whereNull('tanggal_selesai')
-                        ->orWhereDate('tanggal_selesai', '>=', $todayDate);
-                  });
+            $query->activeOnDate($todayDate);
         };
 
         $totalIzinHariIni = SiswaSuratIzin::where($activeTodayQuery)->count();
@@ -3665,6 +3831,7 @@ class GuruPiketController extends Controller
         $izinHariIni      = SiswaSuratIzin::where($activeTodayQuery)->where('kategori', 'Izin')->count();
         $dispenHariIni    = SiswaSuratIzin::where($activeTodayQuery)->where('kategori', 'Dispen Luar Sekolah')->count();
         $totalSemuaData   = SiswaSuratIzin::count();
+        $trashCount       = SiswaSuratIzin::onlyTrashed()->count();
 
         return view('guru_piket.surat_izin_siswa', compact(
             'suratIzinList',
@@ -3675,6 +3842,7 @@ class GuruPiketController extends Controller
             'izinHariIni',
             'dispenHariIni',
             'totalSemuaData',
+            'trashCount',
             'todayDate'
         ));
     }
@@ -3758,8 +3926,75 @@ class GuruPiketController extends Controller
         }
 
         $durasiInfo = $durasiHari > 1 ? "selama {$durasiHari} Hari" : "1 Hari";
-        return redirect()->route('piket.surat-izin-siswa')
-            ->with('success', "Surat Izin Siswa ({$siswa->nama_siswa} - {$request->kategori} {$durasiInfo}) berhasil disimpan! Presensi kelas telah otomatis diperbarui (Auto-Sync).");
+
+        // Kirim Notifikasi Otomatis via ChatBot WhatsApp ke Wali Kelas Siswa
+        $waService = app(WhatsAppNotificationService::class);
+        $notificationUrl = WhatsAppNotificationService::makeSuratIzinNotificationUrl($surat->id_surat_izin);
+        
+        $pesanWaBackup = null;
+        $waDirectUrl = null;
+        $chatBotMsg = '';
+
+        try {
+            $sendResult = $waService->sendNotifikasiSuratIzinKeWali($surat, $notificationUrl);
+            $pesanWaBackup = $sendResult['pesan'] ?? null;
+            if (!empty($sendResult['wali_hp'])) {
+                $rawHp = WhatsAppNotificationService::formatPhoneNumber($sendResult['wali_hp']);
+                if ($rawHp) {
+                    $waDirectUrl = "https://api.whatsapp.com/send?phone={$rawHp}&text=" . rawurlencode($pesanWaBackup);
+                }
+            }
+
+            if ($sendResult['success'] ?? false) {
+                $chatBotMsg = " dan notifikasi resmi telah otomatis terkirim melalui ChatBot WhatsApp ke Wali Kelas ({$sendResult['wali_nama']} - {$sendResult['wali_hp']}).";
+            } else {
+                $reason = $sendResult['detail']['message'] ?? 'Nomor WhatsApp belum terdaftar';
+                $chatBotMsg = ". (Catatan ChatBot: {$reason}).";
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('[GuruPiketController] Gagal kirim WA Chatbot Surat Izin: ' . $e->getMessage());
+            $chatBotMsg = ". (Catatan ChatBot: Kendala koneksi gateway).";
+        }
+
+        return redirect()->route('piket.surat-izin-siswa')->with([
+            'success'          => "Surat Izin Siswa ({$siswa->nama_siswa} - {$request->kategori} {$durasiInfo}) berhasil disimpan! Presensi kelas telah otomatis diperbarui (Auto-Sync){$chatBotMsg}",
+            'notification_url' => $notificationUrl,
+            'wa_direct_url'    => $waDirectUrl,
+        ]);
+    }
+
+    /**
+     * [CHATBOT WA] Kirim / Kirim Ulang Notifikasi Surat Izin Siswa ke Wali Kelas via ChatBot WhatsApp
+     */
+    public function sendChatbotSuratIzin(Request $request, $id)
+    {
+        $surat = SiswaSuratIzin::with(['siswa.kelas.waliKelas', 'kelas.waliKelas', 'petugasPiket'])->findOrFail($id);
+
+        $waService = app(WhatsAppNotificationService::class);
+        $notificationUrl = WhatsAppNotificationService::makeSuratIzinNotificationUrl($surat->id_surat_izin);
+        $sendResult = $waService->sendNotifikasiSuratIzinKeWali($surat, $notificationUrl);
+
+        $waliNama = $sendResult['wali_nama'] ?? 'Wali Kelas';
+        $waliHp   = $sendResult['wali_hp'] ?? null;
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => $sendResult['success'] ?? false,
+                'message' => ($sendResult['success'] ?? false)
+                    ? "Notifikasi Surat Izin Siswa ({$surat->siswa->nama_siswa}) berhasil dikirimkan via ChatBot WhatsApp ke Wali Kelas ({$waliNama} - {$waliHp})!"
+                    : ("Gagal mengirim notifikasi ChatBot WhatsApp ke Wali Kelas: " . ($sendResult['detail']['message'] ?? 'Nomor WhatsApp tidak ditemukan atau gateway menolak pesan.')),
+                'detail'  => $sendResult,
+            ]);
+        }
+
+        if ($sendResult['success'] ?? false) {
+            $msg = "Notifikasi Surat Izin Siswa ({$surat->siswa->nama_siswa}) berhasil dikirimkan via ChatBot WhatsApp ke Wali Kelas ({$waliNama} - {$waliHp})!";
+            return redirect()->back()->with('success', $msg);
+        } else {
+            $reason = $sendResult['detail']['message'] ?? 'Nomor WhatsApp Wali Kelas tidak ditemukan atau gateway menolak pesan.';
+            $errorMsg = "Gagal mengirim notifikasi ChatBot WhatsApp ke Wali Kelas: {$reason}";
+            return redirect()->back()->with('error', $errorMsg);
+        }
     }
 
     /**
@@ -4209,34 +4444,58 @@ class GuruPiketController extends Controller
             'status_notifikasi' => 'terkirim',
         ]);
 
-        // 3. Menyiapkan Tautan Notifikasi WhatsApp
-        $rawPhone = preg_replace('/[^0-9]/', '', $guru->no_hp ?? '');
-        if (str_starts_with($rawPhone, '0')) {
-            $rawPhone = '62' . substr($rawPhone, 1);
-        }
+        // 3. Menyiapkan Tautan & Pengiriman Otomatis via ChatBot WhatsApp
+        $notificationUrl = WhatsAppNotificationService::makeSiswaTelatNotificationUrl($telat->id_siswa_telat);
+        $waService = app(WhatsAppNotificationService::class);
+        $botResult = $waService->sendNotifikasiSiswaTelatKeGuru($telat, $notificationUrl);
 
-        $waText = "*PEMBERITAHUAN SISWA TERLAMBAT (GURU PIKET)*\n\n"
-            . "Assalamu'alaikum / Selamat Pagi Bapak/Ibu Guru *{$guru->nama_guru}*,\n\n"
-            . "Memberitahukan bahwa siswa dari kelas Bapak/Ibu terlambat hadir di sekolah:\n"
-            . "• *Nama Siswa*: {$siswa->nama_siswa}\n"
-            . "• *NIS / NISN*: " . ($siswa->nis ?? '-') . " / " . ($siswa->nisn ?? '-') . "\n"
-            . "• *Kelas*: " . ($siswa->kelas->nama_kelas ?? '-') . "\n"
-            . "• *Jenis Kelamin*: {$siswa->jenis_kelamin_teks}\n"
-            . "• *Jam Datang*: {$jamTeks} WIB\n"
-            . "• *Alasan*: {$request->alasan}\n"
-            . "• *Tindakan/Hukuman*: " . ($request->tindakan_hukuman ?: 'Pengarahan & kedisiplinan Guru Piket') . "\n\n"
-            . "Siswa telah melapor ke Guru Piket dan diarahkan untuk memasuki kelas. Data juga sudah masuk ke *Halaman Pengumuman Web Guru*. Mohon Bapak/Ibu Guru Mengajar dapat menyesuaikan presensi siswa di kelas.\n\n"
-            . "Terima kasih.\n"
-            . "- Petugas Piket: " . ($userPiket->name ?? 'Guru Piket');
-
+        $waText = $waService->buildPesanSiswaTelatGuruMengajar($telat, $notificationUrl);
+        $rawPhone = WhatsAppNotificationService::formatPhoneNumber($botResult['guru_hp'] ?? $guru->no_hp);
         $waUrl = !empty($rawPhone)
             ? "https://api.whatsapp.com/send?phone={$rawPhone}&text=" . urlencode($waText)
             : null;
 
+        $msgSuccess = 'Data Siswa Telat berhasil disimpan dan pemberitahuan sistem telah dikirimkan ke Guru Mengajar (' . $guru->nama_guru . ').';
+        if ($botResult['success'] ?? false) {
+            $msgSuccess .= ' Notifikasi resmi via ChatBot WhatsApp berhasil dikirim ke nomor ' . ($botResult['guru_hp'] ?? '') . '.';
+        }
+
         return redirect()->route('piket.siswa-telat')
-            ->with('success', 'Data Siswa Telat berhasil disimpan dan pemberitahuan sistem telah dikirimkan ke Guru Mengajar (' . $guru->nama_guru . ').')
+            ->with('success', $msgSuccess)
             ->with('wa_url', $waUrl)
             ->with('guru_nama', $guru->nama_guru);
+    }
+
+    /**
+     * Kirim Notifikasi Siswa Telat ke Guru Mengajar via ChatBot WhatsApp (Interactive / Ajax)
+     */
+    public function sendChatbotSiswaTelat(Request $request, $id)
+    {
+        $telat = SiswaTelat::with(['siswa.kelas', 'kelas', 'guruMengajar.mapel', 'guruPiket'])->findOrFail($id);
+
+        $waService = app(WhatsAppNotificationService::class);
+        $notificationUrl = WhatsAppNotificationService::makeSiswaTelatNotificationUrl($telat->id_siswa_telat);
+        $result = $waService->sendNotifikasiSiswaTelatKeGuru($telat, $notificationUrl);
+
+        $namaGuru = $result['guru_nama'] ?? 'Guru Mengajar';
+        $hpGuru   = $result['guru_hp'] ?? '-';
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => $result['success'] ?? false,
+                'message' => ($result['success'] ?? false)
+                    ? "Pemberitahuan resmi berhasil dikirim via ChatBot WhatsApp ke Guru Mengajar ({$namaGuru} - {$hpGuru})."
+                    : ($result['detail']['message'] ?? 'Gagal mengirim pesan via ChatBot WhatsApp.'),
+                'detail'  => $result,
+            ]);
+        }
+
+        if ($result['success'] ?? false) {
+            return redirect()->back()->with('success', "Pemberitahuan resmi berhasil dikirim via ChatBot WhatsApp ke Guru Mengajar ({$namaGuru} - {$hpGuru}).");
+        }
+
+        $errMsg = $result['detail']['message'] ?? 'Gagal memproses pesan ke WhatsApp Gateway.';
+        return redirect()->back()->withErrors(['whatsapp' => "Gagal mengirim via ChatBot WhatsApp: {$errMsg}"]);
     }
 
     /**

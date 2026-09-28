@@ -550,13 +550,290 @@
         gap: 10px;
     }
 
+    .filter-actions-group {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .filter-secondary-actions {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
     @media (max-width: 1100px) {
         .stat-grid-4 { grid-template-columns: repeat(2, 1fr); }
     }
 
-    @media (max-width: 640px) {
-        .stat-grid-4 { grid-template-columns: 1fr; }
-        .announcement-cards-grid { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+        .pengumuman-container {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            gap: 16px;
+        }
+
+        .page-header-container {
+            padding: 16px 18px;
+            border-radius: 16px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+        }
+
+        .page-title-group h1 {
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+            margin-bottom: 6px !important;
+        }
+
+        .page-title-group p {
+            font-size: 12.5px !important;
+            line-height: 1.4 !important;
+        }
+
+        .stat-grid-4 {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px;
+        }
+
+        .stat-card {
+            padding: 14px 16px;
+            border-radius: 14px;
+        }
+
+        .stat-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            font-size: 18px;
+            border-radius: 12px;
+        }
+
+        .stat-val {
+            font-size: 20px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+        }
+
+        .filter-card {
+            padding: 14px 16px;
+            border-radius: 16px;
+        }
+
+        .filter-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .filter-grid > div {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            flex: none !important;
+        }
+
+        .filter-input {
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            height: 42px !important;
+            font-size: 13px !important;
+        }
+
+        .filter-actions-group {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .filter-actions-group .btn-filter-dark,
+        .filter-actions-group .btn-reset-light {
+            width: 100% !important;
+            height: 42px !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+            font-size: 13px !important;
+            padding: 0 !important;
+        }
+
+        .filter-secondary-actions {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+            margin-left: 0 !important;
+        }
+
+        .btn-mark-all-read,
+        .btn-trash-pink {
+            width: 100% !important;
+            height: 42px !important;
+            justify-content: center !important;
+            font-size: 13px !important;
+            box-sizing: border-box !important;
+            padding: 0 14px !important;
+        }
+
+        .select-all-bar {
+            padding: 10px 14px !important;
+        }
+
+        .select-all-bar label {
+            font-size: 12px !important;
+        }
+
+        .announcement-cards-grid {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+        }
+
+        .announcement-card {
+            padding: 16px;
+            border-radius: 16px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .card-title {
+            font-size: 15px;
+        }
+
+        .card-footer {
+            flex-wrap: wrap !important;
+            gap: 10px !important;
+            justify-content: space-between !important;
+        }
+
+        .author-info {
+            max-width: 55%;
+            overflow: hidden;
+        }
+
+        .author-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .modal-overlay {
+            padding: 12px;
+            z-index: 99999 !important;
+        }
+
+        .modal-content {
+            max-width: 100%;
+            border-radius: 16px;
+            max-height: 90vh;
+            padding: 18px 16px;
+        }
+
+        .modal-detail-grid {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+
+        .modal-keterangan-span {
+            grid-column: span 1 !important;
+        }
+
+        .modal-footer-wrapper {
+            flex-direction: column-reverse !important;
+            gap: 10px !important;
+            width: 100% !important;
+        }
+
+        .modal-footer-wrapper > * {
+            width: 100% !important;
+        }
+
+        .modal-footer-wrapper .btn-detail,
+        .modal-footer-wrapper #modalFooterToggleRead button {
+            width: 100% !important;
+            justify-content: center !important;
+            height: 40px !important;
+            font-size: 13px !important;
+            box-sizing: border-box !important;
+        }
+
+        .floating-batch-bar {
+            width: calc(100% - 32px);
+            max-width: 380px;
+            padding: 10px 16px;
+            font-size: 12px;
+            justify-content: space-between;
+            bottom: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-title-group h1 {
+            font-size: 26px !important;
+        }
+
+        .stat-grid-4 {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px;
+        }
+
+        .stat-card {
+            padding: 12px 10px;
+            gap: 8px;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stat-left {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .stat-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            font-size: 15px;
+            border-radius: 10px;
+        }
+
+        .stat-val {
+            font-size: 18px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+        }
+
+        .filter-actions-group {
+            grid-template-columns: 1fr !important;
+        }
+
+        .card-meta {
+            grid-template-columns: 1fr !important;
+            gap: 6px;
+        }
+
+        .modal-confirm-actions {
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .modal-confirm-actions button {
+            width: 100% !important;
+            height: 42px !important;
+        }
     }
 </style>
 @endsection
@@ -623,13 +900,6 @@
         </div>
     </div>
 
-    <!-- Alert Success -->
-    @if(session('success'))
-        <div style="background: #d1fae5; border: 1px solid #a7f3d0; color: #065f46; padding: 14px 20px; border-radius: 12px; font-size: 13.5px; font-weight: 700;">
-            <i class="fa-solid fa-circle-check" style="margin-right: 8px;"></i> {{ session('success') }}
-        </div>
-    @endif
-
     <!-- 2. Filter Bar & Aksi Massal -->
     <div class="filter-card">
         <form action="{{ route('guru.pengumuman') }}" method="GET" class="filter-grid">
@@ -670,23 +940,25 @@
                 <input type="date" name="tanggal" value="{{ $tanggalFilter }}" class="filter-input" title="Filter Tanggal">
             </div>
 
-            <button type="submit" class="btn-filter-dark">
-                <i class="fa-solid fa-magnifying-glass"></i> Cari
-            </button>
+            <div class="filter-actions-group">
+                <button type="submit" class="btn-filter-dark">
+                    <i class="fa-solid fa-magnifying-glass"></i> Cari
+                </button>
 
-            <a href="{{ route('guru.pengumuman') }}" class="btn-reset-light">
-                <i class="fa-solid fa-rotate-left"></i> Reset
-            </a>
+                <a href="{{ route('guru.pengumuman') }}" class="btn-reset-light">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </a>
+            </div>
 
-            <!-- Tombol Tandai Semua Sudah Dibaca -->
-            <button type="button" class="btn-mark-all-read" onclick="markAllAsRead()" title="Tandai semua pengumuman yang tampil sebagai sudah dibaca">
-                <i class="fa-solid fa-check-double"></i> Tandai Semua Sudah Dibaca
-            </button>
+            <!-- Aksi Sekunder (Tandai Semua & Sampah) -->
+            <div class="filter-secondary-actions">
+                <!-- Tombol Tandai Semua Sudah Dibaca -->
+                <button type="button" class="btn-mark-all-read" onclick="markAllAsRead()" title="Tandai semua pengumuman yang tampil sebagai sudah dibaca">
+                    <i class="fa-solid fa-check-double"></i> Tandai Semua Sudah Dibaca
+                </button>
 
-            <!-- Aksi Sampah di Sebelah Kanan -->
-            <div style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <!-- Tombol Sampah -->
-                <a href="{{ route('guru.pengumuman.trash') }}" class="btn-trash-pink" style="padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+                <a href="{{ route('guru.pengumuman.trash') }}" class="btn-trash-pink" title="Lihat Sampah Pengumuman">
                     <i class="fa-solid fa-trash-can"></i> Sampah ({{ $trashedCount ?? 0 }})
                 </a>
             </div>
@@ -701,7 +973,7 @@
     </form>
 
     <!-- Sub-bar Checkbox Pilih Semua -->
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; background: #ffffff; padding: 12px 18px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
+    <div class="select-all-bar" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; background: #ffffff; padding: 12px 18px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
         <label style="font-size: 13px; font-weight: 800; color: #334155; cursor: pointer; display: flex; align-items: center; gap: 8px; margin: 0;">
             <input type="checkbox" id="selectAllPengumumanCheckboxes" style="width: 17px; height: 17px; cursor: pointer;">
             Pilih Semua Pengumuman / Pemberitahuan
@@ -737,7 +1009,7 @@
                                 <!-- Indikator Status Baca: Baru vs Sudah Dibaca -->
                                 <div id="badge-read-wrapper-{{ $row->id_pengumuman }}">
                                     @if(!$isRead)
-                                        <span class="badge-unread-glow" title="Pengumuman baru yang belum Anda baca">
+                                         <span class="badge-unread-glow" title="Pengumuman baru yang belum Anda baca">
                                             <span class="pulse-dot"></span>
                                             <i class="fa-solid fa-sparkles"></i> BARU
                                         </span>
@@ -898,19 +1170,19 @@
 
             <h3 id="detailJudul" style="font-size: 18px; font-weight: 800; color: #1e293b; margin-top: 4px; margin-bottom: 4px; line-height: 1.3;"></h3>
 
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12.5px;">
+            <div class="modal-detail-grid" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12.5px;">
                 <div><strong style="color: #64748b;">Kelas Target:</strong> <span id="detailKelas" style="color: #0f172a; font-weight: 700;"></span></div>
                 <div><strong style="color: #64748b;">Jam Mengajar:</strong> <span id="detailJam" style="color: #0f172a; font-weight: 700;"></span></div>
                 <div><strong style="color: #64748b;">Pembuat:</strong> <span id="detailPembuat" style="color: #0f172a; font-weight: 700;"></span></div>
                 <div><strong style="color: #64748b;">Tanggal:</strong> <span id="detailTanggal" style="color: #0f172a; font-weight: 700;"></span></div>
-                <div style="grid-column: span 2;"><strong style="color: #64748b;">Keterangan:</strong> <span id="detailKeterangan" style="color: #0f172a; font-weight: 700;"></span></div>
+                <div class="modal-keterangan-span" style="grid-column: span 2;"><strong style="color: #64748b;">Keterangan:</strong> <span id="detailKeterangan" style="color: #0f172a; font-weight: 700;"></span></div>
             </div>
 
             <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px; font-size: 13.5px; line-height: 1.6; color: #334155; white-space: pre-line; max-height: 250px; overflow-y: auto;" id="detailIsi">
             </div>
         </div>
 
-        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-footer-wrapper" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
             <div id="modalFooterToggleRead">
                 <!-- Diisi via JS untuk toggle langsung dari dalam modal -->
             </div>
@@ -951,7 +1223,7 @@
         <p style="font-size: 13.5px; color: #64748b; margin: 0 0 20px; line-height: 1.5;">
             Anda akan memindahkan <strong id="modalBatchPengumumanCount" style="color: #ef4444;">0</strong> pengumuman terpilih ke Tempat Sampah dan dapat dipulihkan kapan saja.
         </p>
-        <div style="display: flex; gap: 10px; justify-content: center;">
+        <div class="modal-confirm-actions" style="display: flex; gap: 10px; justify-content: center;">
             <button type="button" onclick="closeBatchDeletePengumumanModal()" style="padding: 10px 20px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 10px; font-weight: 700; cursor: pointer;">
                 Batal
             </button>

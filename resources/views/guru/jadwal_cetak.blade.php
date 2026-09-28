@@ -212,6 +212,131 @@
             text-decoration: none;
         }
 
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px 8px;
+            }
+
+            .no-print-toolbar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 12px 14px;
+                margin-bottom: 12px;
+            }
+
+            .no-print-toolbar .btn-back,
+            .no-print-toolbar .btn-print {
+                width: 100%;
+                justify-content: center;
+                height: 40px;
+                font-size: 13px;
+                box-sizing: border-box;
+            }
+
+            .paper {
+                padding: 18px 14px;
+                width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
+            }
+
+            .kop-surat {
+                gap: 10px;
+            }
+
+            .kop-logo {
+                width: 55px;
+            }
+
+            .kop-header h2 {
+                font-size: 9.5pt;
+            }
+
+            .kop-header h1 {
+                font-size: 12.5pt;
+            }
+
+            .kop-header p {
+                font-size: 7.5pt;
+            }
+
+            .doc-title h3 {
+                font-size: 11.5pt;
+            }
+
+            .doc-title p {
+                font-size: 9pt;
+            }
+
+            .meta-table {
+                font-size: 9pt;
+                margin-bottom: 12px;
+            }
+
+            .meta-label {
+                width: 110px;
+            }
+
+            .schedule-table {
+                min-width: 560px;
+            }
+
+            .signature-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 18px;
+                margin-top: 18px;
+            }
+
+            .sig-box {
+                width: 100%;
+                max-width: 260px;
+                font-size: 9.5pt;
+            }
+
+            .sig-space {
+                height: 40px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .kop-logo {
+                width: 44px;
+            }
+
+            .kop-header h2 {
+                font-size: 8.5pt;
+            }
+
+            .kop-header h1 {
+                font-size: 11pt;
+            }
+
+            .kop-header p {
+                font-size: 6.5pt;
+            }
+
+            .meta-table, .meta-table tbody, .meta-table tr, .meta-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .meta-table tr {
+                margin-bottom: 4px;
+                border-bottom: 1px dashed #cbd5e1;
+                padding-bottom: 4px;
+            }
+
+            .meta-table td {
+                padding: 1px 0;
+            }
+
+            .meta-label {
+                width: 100%;
+                color: #475569;
+            }
+        }
+
         @media print {
             body {
                 background: #ffffff;
@@ -288,7 +413,8 @@
         </table>
 
         <!-- Tabel Jadwal -->
-        <table class="schedule-table">
+        <div class="schedule-table-scroll-wrap" style="overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; box-sizing: border-box; margin-bottom: 20px;">
+            <table class="schedule-table" style="margin-bottom: 0;">
             <thead>
                 <tr>
                     <th style="width: 35px;">No</th>
@@ -352,7 +478,8 @@
                     @endforelse
                 @endforeach
             </tbody>
-        </table>
+            </table>
+        </div>
 
         <!-- Tanda Tangan Resmi -->
         <div class="signature-section">

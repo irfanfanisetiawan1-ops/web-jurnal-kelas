@@ -440,14 +440,370 @@
         gap: 16px;
     }
 
+    /* Responsive Table vs Card System */
+    .kbm-desktop-table, .izin-desktop-table, .inval-desktop-table, .rekap-desktop-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .kbm-mobile-cards, .izin-mobile-cards, .inval-mobile-cards, .rekap-mobile-cards {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .m-card-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: border-color 0.2s ease;
+    }
+
+    .m-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .m-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 12.5px;
+        color: #334155;
+    }
+
+    .m-info-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .m-info-row i {
+        color: #94a3b8;
+        font-size: 13px;
+        width: 16px;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .m-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #f1f5f9;
+        margin-top: 2px;
+    }
+
     @media (max-width: 1024px) {
         .stat-grid-4 { grid-template-columns: repeat(2, 1fr); }
         .charts-grid-2 { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 640px) {
-        .stat-grid-4 { grid-template-columns: 1fr; }
-        .form-grid-2 { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+        .kehadiran-container {
+            gap: 14px;
+            padding-bottom: 20px;
+        }
+
+        .page-header-container {
+            padding: 14px 16px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            border-radius: 14px;
+        }
+
+        .page-title-group h1 {
+            font-size: 17px;
+            line-height: 1.3;
+        }
+
+        .page-title-group p {
+            font-size: 11.5px;
+            flex-wrap: wrap;
+            line-height: 1.4;
+        }
+
+        .header-actions-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .header-actions-group a {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 9px 14px;
+            font-size: 12px;
+        }
+
+        .stat-grid-4 {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            padding: 12px 14px;
+            border-radius: 14px;
+            gap: 12px;
+        }
+
+        .stat-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            font-size: 19px;
+            border-radius: 12px;
+        }
+
+        .stat-label {
+            font-size: 11.5px;
+        }
+
+        .stat-val {
+            font-size: 19px;
+        }
+
+        .stat-subtext {
+            font-size: 10.5px;
+        }
+
+        .tab-nav-container {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding: 4px;
+            box-sizing: border-box;
+            display: flex;
+            gap: 4px;
+            border-radius: 12px;
+        }
+
+        .tab-nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            padding: 7px 12px;
+            font-size: 11.5px;
+            flex-shrink: 0;
+            border-radius: 8px;
+        }
+
+        .filter-bar-container {
+            padding: 12px 14px;
+            border-radius: 14px;
+        }
+
+        .filter-bar-container form {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .filter-bar-container form > div {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            flex: 1 1 100% !important;
+        }
+
+        .filter-input {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 8px 12px;
+            font-size: 12.5px;
+        }
+
+        .btn-filter-dark, .btn-reset-light {
+            width: 100%;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 8px 14px;
+            font-size: 12.5px;
+        }
+
+        .card-panel {
+            padding: 14px 12px;
+            border-radius: 14px;
+        }
+
+        /* Hide tables on mobile, show responsive cards */
+        .kbm-desktop-table, .izin-desktop-table, .inval-desktop-table, .rekap-desktop-table {
+            display: none !important;
+        }
+
+        .kbm-mobile-cards, .izin-mobile-cards, .inval-mobile-cards, .rekap-mobile-cards {
+            display: flex !important;
+            gap: 10px;
+        }
+
+        .m-card-item {
+            padding: 12px 14px;
+            border-radius: 12px;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .m-card-header {
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            padding-bottom: 8px;
+            align-items: flex-start;
+        }
+
+        .m-card-body {
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .m-info-row {
+            gap: 6px;
+            font-size: 12px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+
+        .m-info-row i {
+            font-size: 12px;
+            width: 14px;
+            margin-top: 2px;
+        }
+
+        .m-card-footer {
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 8px;
+            align-items: center;
+        }
+
+        .m-card-footer .btn-wa {
+            padding: 5px 10px;
+            font-size: 11.5px;
+            border-radius: 6px;
+        }
+
+        .m-card-footer .btn-action-outline {
+            padding: 5px 10px;
+            font-size: 11.5px;
+            border-radius: 6px;
+        }
+
+        /* Custom Pagination Bar Mobile Styles */
+        .custom-pagination-bar {
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            gap: 10px !important;
+            margin-top: 16px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .pagination-info {
+            font-size: 11.5px !important;
+            text-align: center !important;
+            width: 100% !important;
+        }
+
+        .pagination-list {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            justify-content: flex-start !important;
+            padding: 4px 2px 8px 2px !important;
+            gap: 4px !important;
+            box-sizing: border-box !important;
+            scrollbar-width: thin !important;
+        }
+
+        .pagination-list::-webkit-scrollbar {
+            height: 4px !important;
+        }
+
+        .pagination-list::-webkit-scrollbar-thumb {
+            background: #cbd5e1 !important;
+            border-radius: 4px !important;
+        }
+
+        .pagination-list .page-item {
+            flex-shrink: 0 !important;
+        }
+
+        .pagination-list .page-link {
+            min-width: 32px !important;
+            height: 32px !important;
+            padding: 0 8px !important;
+            font-size: 12px !important;
+            border-radius: 8px !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Modals on Mobile */
+        .modal-backdrop-custom {
+            padding: 10px;
+        }
+
+        .modal-card-custom {
+            margin: 0;
+            width: 100%;
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 14px;
+        }
+
+        .modal-header-custom {
+            padding: 12px 16px;
+            border-radius: 14px 14px 0 0;
+        }
+
+        .modal-header-custom h3 {
+            font-size: 14.5px;
+        }
+
+        .modal-body-custom {
+            padding: 14px 16px;
+            font-size: 12.5px;
+        }
+
+        .modal-footer-custom {
+            padding: 10px 16px;
+            border-radius: 0 0 14px 14px;
+        }
+
+        .form-grid-2 {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .form-grid-2 > div[style*="grid-column: span 2"] {
+            grid-column: span 1 !important;
+        }
     }
 </style>
 @endsection
@@ -618,7 +974,8 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <!-- Desktop Table View -->
+            <div class="kbm-desktop-table table-responsive">
                 <table class="table-custom">
                     <thead>
                         <tr>
@@ -710,6 +1067,88 @@
                 </table>
             </div>
 
+            <!-- Mobile Cards View -->
+            <div class="kbm-mobile-cards">
+                @forelse($sesiList as $idx => $r)
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div>
+                                <div style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase;">
+                                    No. {{ $sesiList->firstItem() + $idx }} • <span style="color: #2563eb;">{{ $r->jam_ke }}</span>
+                                </div>
+                                <strong style="font-size: 14px; color: #0f172a; display: block; margin-top: 2px;">{{ $r->guru_nama }}</strong>
+                                <span style="font-size: 11px; color: #64748b;">NIP: {{ $r->guru_nip ?? '-' }}</span>
+                            </div>
+                            <div>
+                                @if($r->status_key === 'hadir')
+                                    <span class="badge-status badge-status-hadir"><i class="fa-solid fa-circle-check"></i> {{ $r->status_teks }}</span>
+                                @elseif($r->status_key === 'izin')
+                                    <span class="badge-status badge-status-izin"><i class="fa-solid fa-clock"></i> {{ $r->status_teks }}</span>
+                                @elseif($r->status_key === 'tidak_hadir')
+                                    <span class="badge-status badge-status-tidak-hadir"><i class="fa-solid fa-circle-xmark"></i> {{ $r->status_teks }}</span>
+                                @elseif($r->status_key === 'digantikan')
+                                    <span class="badge-status badge-status-digantikan"><i class="fa-solid fa-arrows-rotate"></i> {{ $r->status_teks }}</span>
+                                @else
+                                    <span class="badge-status badge-status-hadir">{{ $r->status_teks }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="m-card-body">
+                            <div class="m-info-row">
+                                <i class="fa-solid fa-book-open" style="color: #2563eb;"></i>
+                                <div><strong>Mapel:</strong> {{ $r->mapel_nama }}</div>
+                            </div>
+                            <div class="m-info-row">
+                                <i class="fa-solid fa-chalkboard-user" style="color: #475569;"></i>
+                                <div><strong>Kelas &amp; Ruang:</strong> {{ $r->kelas_nama }} ({{ $r->ruangan_nama }})</div>
+                            </div>
+                            <div class="m-info-row">
+                                <i class="fa-regular fa-clock" style="color: #64748b;"></i>
+                                <div><strong>Waktu:</strong> {{ $r->jam }}</div>
+                            </div>
+
+                            @if($r->guru_pengganti_nama)
+                                <div class="m-info-row" style="background: #eff6ff; padding: 6px 10px; border-radius: 8px; border: 1px solid #bfdbfe;">
+                                    <i class="fa-solid fa-people-arrows" style="color: #1d4ed8;"></i>
+                                    <div><strong style="color: #1d4ed8;">Guru Inval / Pengganti:</strong> {{ $r->guru_pengganti_nama }}</div>
+                                </div>
+                            @endif
+
+                            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; margin-top: 2px;">
+                                <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 2px;">Materi / Catatan KBM:</div>
+                                <div style="font-size: 12px; font-weight: 600; color: #1e293b;">{{ $r->materi ?? '-' }}</div>
+                                @if($r->keterangan !== '-')
+                                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;">Ket: {{ $r->keterangan }}</div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="m-card-footer">
+                            <div>
+                                @if($r->guru_hp)
+                                    @php
+                                        $cleanHp = preg_replace('/[^0-9]/', '', $r->guru_hp);
+                                        if(str_starts_with($cleanHp, '0')) $cleanHp = '62' . substr($cleanHp, 1);
+                                    @endphp
+                                    <a href="https://wa.me/{{ $cleanHp }}?text=Halo%20{{ urlencode($r->guru_nama) }}" target="_blank" class="btn-wa">
+                                        <i class="fa-brands fa-whatsapp"></i> WA Guru
+                                    </a>
+                                @endif
+                            </div>
+                            <button type="button" class="btn-action-outline" onclick='openModalDetailSesi(@json($r))' style="padding: 5px 12px; font-size: 11.5px;">
+                                <i class="fa-solid fa-eye"></i> Detail Sesi
+                            </button>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 30px;">
+                        <i class="fa-solid fa-calendar-xmark" style="font-size: 36px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                        Tidak ada jadwal KBM yang sesuai dengan kriteria filter pada tanggal ini.
+                    </div>
+                @endforelse
+            </div>
+
             @if($sesiList->hasPages())
                 {{ $sesiList->links('partials.custom-pagination') }}
             @endif
@@ -722,7 +1161,8 @@
                 Daftar Pendidik Izin / Tidak Hadir ({{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }})
             </h2>
 
-            <div class="table-responsive">
+            <!-- Desktop Table View -->
+            <div class="izin-desktop-table table-responsive">
                 <table class="table-custom">
                     <thead>
                         <tr>
@@ -802,6 +1242,83 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Mobile Cards View -->
+            <div class="izin-mobile-cards">
+                @forelse($guruIzin as $idx => $iz)
+                    @php
+                        $alasanClean = trim(preg_replace('/^biasa:\s*/i', '', $iz->alasan ?? ''));
+                        $isSakit = str_contains(strtolower($iz->kategori_izin . ' ' . $alasanClean), 'sakit');
+                        $isCuti  = str_contains(strtolower($iz->kategori_izin . ' ' . $alasanClean), 'cuti');
+                        $isDinas = str_contains(strtolower($alasanClean), 'dinas') || str_contains(strtolower($alasanClean), 'workshop') || str_contains(strtolower($alasanClean), 'tugas');
+                        
+                        $katLabel = 'Izin';
+                        $badgeBg = '#fef3c7'; $badgeColor = '#b45309';
+                        if ($isCuti) {
+                            $katLabel = 'Cuti';
+                            $badgeBg = '#f3e8ff'; $badgeColor = '#7e22ce';
+                        } elseif ($isDinas) {
+                            $katLabel = 'Tugas Dinas';
+                            $badgeBg = '#e0e7ff'; $badgeColor = '#4338ca';
+                        } elseif ($isSakit) {
+                            $katLabel = 'Sakit';
+                            $badgeBg = '#fee2e2'; $badgeColor = '#dc2626';
+                        }
+                    @endphp
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div>
+                                <strong style="font-size: 13.5px; color: #0f172a; display: block;">{{ $iz->guru->nama_guru ?? '-' }}</strong>
+                                <span style="font-size: 11px; color: #64748b;">NIP: {{ $iz->guru->nip ?? '-' }}</span>
+                            </div>
+                            <span style="font-weight: 800; font-size: 11px; padding: 3px 9px; border-radius: 6px; background: {{ $badgeBg }}; color: {{ $badgeColor }};">
+                                {{ $katLabel }}
+                            </span>
+                        </div>
+
+                        <div class="m-card-body">
+                            <div class="m-info-row">
+                                <i class="fa-regular fa-calendar-days" style="color: #2563eb;"></i>
+                                <div>
+                                    <strong>Periode:</strong> {{ \Carbon\Carbon::parse($iz->tanggal_mulai)->format('d M Y') }}
+                                    @if($iz->tanggal_mulai !== $iz->tanggal_selesai)
+                                        s/d {{ \Carbon\Carbon::parse($iz->tanggal_selesai)->format('d M Y') }}
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="m-info-row">
+                                <i class="fa-solid fa-comment-dots" style="color: #64748b;"></i>
+                                <div><strong>Alasan:</strong> {{ $alasanClean ?: '-' }}</div>
+                            </div>
+                        </div>
+
+                        <div class="m-card-footer">
+                            <div>
+                                @if($iz->guru && !empty($iz->guru->no_hp))
+                                    @php
+                                        $cleanHp = preg_replace('/[^0-9]/', '', $iz->guru->no_hp);
+                                        if(str_starts_with($cleanHp, '0')) $cleanHp = '62' . substr($cleanHp, 1);
+                                    @endphp
+                                    <a href="https://wa.me/{{ $cleanHp }}?text=Halo%20{{ urlencode($iz->guru->nama_guru) }}" target="_blank" class="btn-wa">
+                                        <i class="fa-brands fa-whatsapp"></i> Chat WA
+                                    </a>
+                                @endif
+                            </div>
+                            <div>
+                                @if($iz->status_waka_sdm === 'approved' || $iz->status === 'disetujui' || $iz->status_final === 'approved')
+                                    <span class="badge-status badge-status-disetujui"><i class="fa-solid fa-check-double"></i> Resmi Disetujui</span>
+                                @else
+                                    <span class="badge-status badge-status-pending"><i class="fa-solid fa-hourglass-half"></i> Menunggu Approval</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 25px;">
+                        Tidak ada data guru izin / tidak hadir pada tanggal ini.
+                    </div>
+                @endforelse
+            </div>
         </div>
 
         <!-- Card 3: Penugasan Guru Pengganti (Inval) -->
@@ -812,7 +1329,8 @@
                     Penugasan Guru Pengganti / Inval ({{ \Carbon\Carbon::parse($tanggal)->translatedFormat('d F Y') }})
                 </h2>
 
-                <div class="table-responsive">
+                <!-- Desktop Table View -->
+                <div class="inval-desktop-table table-responsive">
                     <table class="table-custom">
                         <thead>
                             <tr>
@@ -840,6 +1358,36 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Mobile Cards View -->
+                <div class="inval-mobile-cards">
+                    @foreach($guruPengganti as $idx => $gp)
+                        <div class="m-card-item">
+                            <div class="m-card-header">
+                                <div>
+                                    <span style="font-size: 11px; font-weight: 700; color: #64748b;">No. {{ $idx + 1 }}</span>
+                                    <div style="font-weight: 800; color: #2563eb; font-size: 13px;">Jam Ke-{{ $gp->jadwal->jam_ke ?? ($gp->jadwal->id_jam_mulai ?? '-') }}</div>
+                                </div>
+                                <span class="badge-status badge-status-hadir"><i class="fa-solid fa-briefcase"></i> Bertugas</span>
+                            </div>
+
+                            <div class="m-card-body">
+                                <div class="m-info-row">
+                                    <i class="fa-solid fa-user-xmark" style="color: #dc2626;"></i>
+                                    <div><strong>Guru Tidak Hadir:</strong> <span style="color: #dc2626; font-weight: 700;">{{ $gp->guruUtama->nama_guru ?? '-' }}</span></div>
+                                </div>
+                                <div class="m-info-row">
+                                    <i class="fa-solid fa-user-shield" style="color: #16a34a;"></i>
+                                    <div><strong>Guru Pengganti (Inval):</strong> <span style="color: #16a34a; font-weight: 700;">{{ $gp->guruPengganti->nama_guru ?? '-' }}</span></div>
+                                </div>
+                                <div class="m-info-row">
+                                    <i class="fa-solid fa-chalkboard" style="color: #475569;"></i>
+                                    <div><strong>Kelas &amp; Mapel:</strong> {{ $gp->jadwal->kelas->nama_kelas ?? '-' }} • {{ $gp->jadwal->mapel->nama_mapel ?? '-' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         @endif
@@ -927,7 +1475,8 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+            <!-- Desktop Table View -->
+            <div class="rekap-desktop-table table-responsive">
                 <table class="table-custom">
                     <thead>
                         <tr>
@@ -977,6 +1526,60 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Cards View -->
+            <div class="rekap-mobile-cards">
+                @forelse($guruMatrix as $idx => $gm)
+                    <div class="m-card-item">
+                        <div class="m-card-header">
+                            <div>
+                                <span style="font-size: 11px; font-weight: 700; color: #64748b;">No. {{ $idx + 1 }}</span>
+                                <strong style="font-size: 13.5px; color: #0f172a; display: block; margin-top: 1px;">{{ $gm->guru->nama_guru }}</strong>
+                                <span style="font-size: 11px; color: #64748b;">NIP: {{ $gm->guru->nip ?? '-' }}</span>
+                            </div>
+                            <span style="padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 800; background: {{ $gm->badge_color }}15; color: {{ $gm->badge_color }}; border: 1px solid {{ $gm->badge_color }}40; white-space: nowrap;">
+                                {{ $gm->predikat }}
+                            </span>
+                        </div>
+
+                        <div class="m-card-body">
+                            <div class="m-info-row">
+                                <i class="fa-solid fa-book" style="color: #2563eb;"></i>
+                                <div><strong>Mata Pelajaran:</strong> {{ $gm->guru->mapel->nama_mapel ?? '-' }}</div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: #f8fafc; padding: 10px; border-radius: 10px; border: 1px solid #e2e8f0; text-align: center; margin-top: 4px;">
+                                <div>
+                                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Hadir</div>
+                                    <div style="font-size: 13px; font-weight: 800; color: #16a34a; margin-top: 2px;">{{ $gm->total_jurnal }} Sesi</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Izin/Cuti</div>
+                                    <div style="font-size: 13px; font-weight: 800; color: #d97706; margin-top: 2px;">{{ $gm->total_izin }} Kali</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Sakit</div>
+                                    <div style="font-size: 13px; font-weight: 800; color: #dc2626; margin-top: 2px;">{{ $gm->total_sakit }} Kali</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="m-card-footer">
+                            <span style="font-size: 11.5px; font-weight: 700; color: #475569;">Tingkat Kehadiran:</span>
+                            <div style="display: flex; align-items: center; gap: 8px; flex: 1; max-width: 140px; justify-content: flex-end;">
+                                <div style="flex: 1; height: 6px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                                    <div style="height: 100%; width: {{ $gm->persen_hadir }}%; background: {{ $gm->badge_color }};"></div>
+                                </div>
+                                <strong style="font-size: 12.5px; color: #0f172a;">{{ $gm->persen_hadir }}%</strong>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div style="text-align: center; color: #94a3b8; padding: 30px;">
+                        Tidak ada data rekapitulasi pendidik yang sesuai dengan filter.
+                    </div>
+                @endforelse
             </div>
         </div>
     @endif
