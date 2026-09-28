@@ -1020,14 +1020,15 @@
         </header>
 
         <main class="content-body">
-            @if(session('success'))
+            {{-- Global session notification (dikecualikan untuk kelas.index yang sudah memiliki notifikasi lokal bersilang) --}}
+            @if(session('success') && !request()->routeIs('kelas.index') && !request()->is('kelas'))
                 <div class="alert alert-success" style="margin-bottom: 20px;">
                     <i class="fa-solid fa-circle-check"></i>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
 
-            @if(session('error'))
+            @if(session('error') && !request()->routeIs('kelas.index') && !request()->is('kelas'))
                 <div class="alert alert-error" style="margin-bottom: 20px;">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <span>{{ session('error') }}</span>

@@ -79,6 +79,9 @@
         overflow: hidden;
         animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .modal-box-custom.modal-detail-box {
+        max-width: 520px;
+    }
     @keyframes modalPop {
         0% { opacity: 0; transform: scale(0.95); }
         100% { opacity: 1; transform: scale(1); }
@@ -107,7 +110,7 @@
                 </svg>
                 <span>{{ session('success') }}</span>
             </div>
-            <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700 cursor-pointer p-1">
+            <button type="button" onclick="this.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700 cursor-pointer p-1" title="Tutup Notifikasi">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
             </button>
         </div>
@@ -121,7 +124,7 @@
                 </svg>
                 <span>{{ session('error') }}</span>
             </div>
-            <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700 cursor-pointer p-1">
+            <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 hover:text-rose-700 cursor-pointer p-1" title="Tutup Notifikasi">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
             </button>
         </div>
@@ -169,115 +172,133 @@
     </div>
 
     <!-- BEGIN: Card 1 - Tambah Kelas Baru -->
-    <section class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-card-subtle space-y-5" data-purpose="form-tambah-kelas">
-        <!-- Form Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
-            <div class="flex items-start gap-3">
-                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 border border-blue-100 mt-0.5">
-                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-                        <path d="M12 8v8m-4-4h8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="text-base font-bold text-slate-900">Tambah Kelas Baru</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Masukkan detail rombongan belajar baru ke dalam sistem.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Form Inputs (3 Columns Grid) -->
-        <form id="formTambahKelas" action="{{ route('kelas.store') }}" method="POST" onsubmit="return validateKelasForm(event)" class="space-y-5">
-            @csrf
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <!-- 1. Nama Kelas Input -->
-                <div class="space-y-1.5">
-                    <label class="block text-xs font-bold text-slate-700" for="nama_kelas">
-                        Nama Kelas <span class="text-rose-500">*</span>
-                    </label>
-                    <input type="text" id="nama_kelas" name="nama_kelas" value="{{ old('nama_kelas') }}"
-                        class="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 placeholder-slate-400 shadow-2xs transition @error('nama_kelas') border-rose-400 bg-rose-50/50 @enderror"
-                        placeholder="Contoh: X RPL 1" maxlength="20" required>
-                    @error('nama_kelas')
-                        <p class="text-[10px] text-rose-500 font-semibold">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- 2. Jurusan Select Dropdown -->
-                <div class="space-y-1.5">
-                    <label class="block text-xs font-bold text-slate-700" for="id_jurusan">
-                        Jurusan <span class="text-rose-500">*</span>
-                    </label>
-                    <div class="relative">
-                        <select id="id_jurusan" name="id_jurusan" onchange="toggleCustomJurusan(this)"
-                            class="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 bg-white shadow-2xs transition cursor-pointer pr-10 @error('id_jurusan') border-rose-400 bg-rose-50/50 @enderror"
-                            required>
-                            <option value="">-- Pilih Jurusan --</option>
-                            @foreach($jurusans as $j)
-                                <option value="{{ $j->id_jurusan }}" {{ old('id_jurusan') == $j->id_jurusan ? 'selected' : '' }}>
-                                    {{ $j->nama_jurusan }} ({{ $j->kode_jurusan ?? '-' }})
-                                </option>
-                            @endforeach
-                            <option value="custom" {{ (old('id_jurusan') == 'custom' || old('nama_jurusan_custom')) ? 'selected' : '' }} class="font-bold text-blue-600">
-                                + Ketik Jurusan Baru (Custom)...
-                            </option>
-                        </select>
-                    </div>
-                    @error('id_jurusan')
-                        <p class="text-[10px] text-rose-500 font-semibold">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- 3. Kapasitas / Jumlah Siswa -->
-                <div class="space-y-1.5">
-                    <label class="block text-xs font-bold text-slate-700" for="jumlah_siswa">
-                        Jumlah Siswa (Kapasitas / Estimasi) <span class="text-rose-500">*</span>
-                    </label>
-                    <input type="number" id="jumlah_siswa" name="jumlah_siswa" value="{{ old('jumlah_siswa', 30) }}" min="0" max="60"
-                        class="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 shadow-2xs transition @error('jumlah_siswa') border-rose-400 bg-rose-50/50 @enderror"
-                        placeholder="30" required>
-                    <p class="text-[11px] text-slate-400">Batas maksimal penambahan data siswa untuk kelas ini.</p>
-                    @error('jumlah_siswa')
-                        <p class="text-[10px] text-rose-500 font-semibold">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            <!-- Custom Jurusan Field (Toggled when "custom" is selected) -->
-            <div id="custom_jurusan_wrapper" style="display: {{ (old('id_jurusan') == 'custom' || old('nama_jurusan_custom')) ? 'block' : 'none' }};" class="p-4 rounded-xl bg-blue-50/60 border border-blue-200/80 space-y-1.5">
-                <label for="nama_jurusan_custom" class="block text-xs font-bold text-blue-800">
-                    Nama Jurusan Baru (Custom) <span class="text-rose-500">*</span>
-                </label>
-                <input type="text" id="nama_jurusan_custom" name="nama_jurusan_custom" value="{{ old('nama_jurusan_custom') }}"
-                    class="w-full px-3.5 py-2 text-xs rounded-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 bg-white placeholder-slate-400 shadow-2xs transition"
-                    placeholder="Contoh: Rekayasa Otomasi Industri">
-                <p class="text-[11px] text-blue-600 font-medium">Jurusan baru ini akan otomatis tersimpan permanen di database dan muncul di daftar pilihan jurusan.</p>
-                @error('nama_jurusan_custom')
-                    <p class="text-[10px] text-rose-500 font-semibold">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Submit & Reset Button Row -->
-            <div class="flex justify-end pt-2 border-t border-slate-100">
+    <section class="bg-white rounded-2xl border border-slate-200/80 shadow-card-subtle overflow-hidden" data-purpose="form-tambah-kelas">
+        <div class="p-5 sm:p-6 space-y-5">
+            <!-- Form Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
                 <div class="flex items-center gap-3">
-                    <button type="button" onclick="resetTambahKelasForm()"
-                        class="inline-flex items-center gap-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200/80 px-4 py-2 rounded-xl font-bold text-xs transition cursor-pointer shadow-2xs">
-                        <svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-500/20">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422A12.083 12.083 0 0121 17.5c-1.897 1.2-4.32 1.5-6 1.5s-4.103-.3-6-1.5a12.083 12.083 0 012.84-6.922L12 14z"/>
                         </svg>
-                        <span>Reset</span>
-                    </button>
-                    <button type="submit"
-                        class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-bold text-xs shadow-md shadow-blue-600/20 transition-all cursor-pointer">
-                        <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                        </svg>
-                        <span>Simpan Data Kelas</span>
-                    </button>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-base font-bold text-slate-900">Tambah Kelas Baru</h3>
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
+                                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+                                Rombel
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5">Masukkan detail rombongan belajar baru ke dalam sistem.</p>
+                    </div>
                 </div>
             </div>
-        </form>
+
+            <!-- Form Inputs (3 Columns Grid) -->
+            <form id="formTambahKelas" action="{{ route('kelas.store') }}" method="POST" onsubmit="return validateKelasForm(event)" class="space-y-4">
+                @csrf
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4.5">
+                    <!-- 1. Nama Kelas Input -->
+                    <div class="space-y-1.5">
+                        <label class="block text-xs font-bold text-slate-700 flex items-center gap-1.5" for="nama_kelas">
+                            <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M7 7h10M7 11h10M7 15h6M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            <span>Nama Kelas <span class="text-rose-500">*</span></span>
+                        </label>
+                        <input type="text" id="nama_kelas" name="nama_kelas" value="{{ old('nama_kelas') }}"
+                            class="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 placeholder-slate-400 shadow-2xs transition @error('nama_kelas') border-rose-400 bg-rose-50/50 @enderror"
+                            placeholder="Contoh: X RPL 1" maxlength="20" required>
+                        @error('nama_kelas')
+                            <p class="text-[10px] text-rose-500 font-semibold">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- 2. Jurusan Select Dropdown -->
+                    <div class="space-y-1.5">
+                        <label class="block text-xs font-bold text-slate-700 flex items-center gap-1.5" for="id_jurusan">
+                            <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 14l9-5-9-5-9 5 9 5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            <span>Jurusan <span class="text-rose-500">*</span></span>
+                        </label>
+                        <div class="relative">
+                            <select id="id_jurusan" name="id_jurusan" onchange="toggleCustomJurusan(this)"
+                                class="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 bg-white shadow-2xs transition cursor-pointer pr-10 @error('id_jurusan') border-rose-400 bg-rose-50/50 @enderror"
+                                required>
+                                <option value="">-- Pilih Jurusan --</option>
+                                @foreach($jurusans as $j)
+                                    <option value="{{ $j->id_jurusan }}" {{ old('id_jurusan') == $j->id_jurusan ? 'selected' : '' }}>
+                                        {{ $j->nama_jurusan }} ({{ $j->kode_jurusan ?? '-' }})
+                                    </option>
+                                @endforeach
+                                <option value="custom" {{ (old('id_jurusan') == 'custom' || old('nama_jurusan_custom')) ? 'selected' : '' }} class="font-bold text-blue-600">
+                                    + Ketik Jurusan Baru (Custom)...
+                                </option>
+                            </select>
+                        </div>
+                        @error('id_jurusan')
+                            <p class="text-[10px] text-rose-500 font-semibold">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- 3. Kapasitas / Jumlah Siswa -->
+                    <div class="space-y-1.5">
+                        <label class="block text-xs font-bold text-slate-700 flex items-center gap-1.5" for="jumlah_siswa">
+                            <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            <span>Jumlah Siswa (Kapasitas) <span class="text-rose-500">*</span></span>
+                        </label>
+                        <input type="number" id="jumlah_siswa" name="jumlah_siswa" value="{{ old('jumlah_siswa', 30) }}" min="0" max="60"
+                            class="w-full px-3.5 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 shadow-2xs transition @error('jumlah_siswa') border-rose-400 bg-rose-50/50 @enderror"
+                            placeholder="30" required>
+                        <p class="text-[11px] text-slate-400">Batas maksimal estimasi daya tampung kelas.</p>
+                        @error('jumlah_siswa')
+                            <p class="text-[10px] text-rose-500 font-semibold">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <!-- Custom Jurusan Field (Toggled when "custom" is selected) -->
+                <div id="custom_jurusan_wrapper" style="display: {{ (old('id_jurusan') == 'custom' || old('nama_jurusan_custom')) ? 'block' : 'none' }};" class="p-4 rounded-xl bg-gradient-to-r from-blue-50/80 to-indigo-50/50 border border-blue-200/80 space-y-1.5">
+                    <label for="nama_jurusan_custom" class="block text-xs font-bold text-blue-900">
+                        Nama Jurusan Baru (Custom) <span class="text-rose-500">*</span>
+                    </label>
+                    <input type="text" id="nama_jurusan_custom" name="nama_jurusan_custom" value="{{ old('nama_jurusan_custom') }}"
+                        class="w-full px-3.5 py-2 text-xs rounded-xl border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-800 bg-white placeholder-slate-400 shadow-2xs transition"
+                        placeholder="Contoh: Rekayasa Otomasi Industri">
+                    <p class="text-[11px] text-blue-600 font-medium">Jurusan baru ini akan otomatis tersimpan permanen di database dan muncul di daftar pilihan jurusan.</p>
+                    @error('nama_jurusan_custom')
+                        <p class="text-[10px] text-rose-500 font-semibold">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Submit & Reset Button Row -->
+                <div class="flex justify-end pt-3 border-t border-slate-100">
+                    <div class="flex items-center gap-2.5">
+                        <button type="button" onclick="resetTambahKelasForm()"
+                            class="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl font-bold text-xs transition cursor-pointer">
+                            <svg class="w-3.5 h-3.5 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            <span>Reset</span>
+                        </button>
+                        <button type="submit"
+                            class="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-bold text-xs shadow-md shadow-blue-600/20 transition-all cursor-pointer">
+                            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            <span>Simpan Data Kelas</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </section>
     <!-- END: Card 1 -->
 
@@ -428,7 +449,7 @@
                             <th class="py-3.5 px-4 text-center">Ruangan</th>
                             <th class="py-3.5 px-4">Wali Kelas</th>
                             <th class="py-3.5 px-4 text-center">Jumlah Siswa</th>
-                            <th class="py-3.5 px-4 text-center w-48">Aksi</th>
+                            <th class="py-3.5 px-4 text-center w-36">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-700" id="kelasTableBody">
@@ -484,14 +505,30 @@
                                 </td>
                                 <td class="py-3.5 px-4">
                                     <div class="flex items-center justify-center gap-1.5 whitespace-nowrap">
-                                        <!-- 1. LIHAT (Detail) -->
-                                        <a href="{{ route('kelas.show', $k->id_kelas) }}" class="inline-flex items-center gap-1 bg-cyan-50 hover:bg-cyan-100 text-cyan-800 border border-cyan-200/80 px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors no-underline cursor-pointer" title="Lihat Detail Kelas">
+                                        <!-- 1. DETAIL (Modal) -->
+                                        <button type="button" 
+                                            onclick="openDetailKelasModal(this)"
+                                            data-kelas="{{ json_encode([
+                                                'id_kelas' => $k->id_kelas,
+                                                'nama_kelas' => $k->nama_kelas,
+                                                'nama_jurusan' => $k->jurusan->nama_jurusan ?? '-',
+                                                'kode_jurusan' => $k->jurusan->kode_jurusan ?? '',
+                                                'nama_ruangan' => $k->ruangan->nama_ruangan ?? 'Belum diatur',
+                                                'nama_wali' => $k->waliKelas->nama_guru ?? 'Belum ditentukan',
+                                                'nip_wali' => $k->waliKelas->nip ?? '-',
+                                                'jumlah_siswa' => $k->jumlah_siswa ?? 30,
+                                                'siswas_count' => $jmlSiswa,
+                                                'url_edit' => route('kelas.edit', $k->id_kelas),
+                                                'url_show' => route('kelas.show', $k->id_kelas),
+                                            ]) }}"
+                                            class="inline-flex items-center gap-1 bg-cyan-50 hover:bg-cyan-100 text-cyan-800 border border-cyan-200/80 px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer" 
+                                            title="Lihat Detail Rombel">
                                             <svg class="w-3 h-3 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                                 <circle cx="12" cy="12" r="3" stroke-width="2"></circle>
                                             </svg>
-                                            <span>Lihat</span>
-                                        </a>
+                                            <span>Detail</span>
+                                        </button>
 
                                         <!-- 2. EDIT -->
                                         <a href="{{ route('kelas.edit', $k->id_kelas) }}" class="inline-flex items-center gap-1 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200/80 px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors no-underline cursor-pointer" title="Edit Data Kelas">
@@ -500,14 +537,6 @@
                                             </svg>
                                             <span>Edit</span>
                                         </a>
-
-                                        <!-- 3. HAPUS -->
-                                        <button type="button" onclick="deleteSingleKelas({{ $k->id_kelas }}, '{{ addslashes($k->nama_kelas) }}')" class="inline-flex items-center gap-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200/80 px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer" title="Hapus Kelas">
-                                            <svg class="w-3 h-3 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                            </svg>
-                                            <span>Hapus</span>
-                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -562,6 +591,144 @@
         <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-center gap-2">
             <button type="button" class="flex-1 py-2 px-3 text-xs font-semibold rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 transition cursor-pointer" onclick="closeBulkDeleteModal()">Batal</button>
             <button type="button" class="flex-1 py-2 px-3 text-xs font-bold rounded-xl bg-rose-600 hover:bg-rose-700 text-white shadow-xs transition cursor-pointer" onclick="submitBulkDelete()">Ya, Hapus Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Detail Kelas -->
+<div class="modal-backdrop-custom" id="modalDetailKelas">
+    <div class="modal-box-custom modal-detail-box">
+        <!-- Header -->
+        <div class="p-5 bg-gradient-to-r from-blue-700 via-indigo-700 to-sky-600 text-white flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16M2 21h20M9 12h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold tracking-tight text-white">Detail Rombongan Belajar</h3>
+                    <p class="text-[11px] text-blue-100 mt-0.5">Informasi lengkap kelas, wali kelas, ruangan &amp; kapasitas siswa</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeDetailKelasModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer" title="Tutup">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-5 space-y-4 max-h-[75vh] overflow-y-auto text-left">
+            <!-- Top Headline Card -->
+            <div class="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-extrabold text-sm shrink-0 shadow-xs">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                </div>
+                <div class="min-w-0 flex-1">
+                    <div class="flex items-center justify-between gap-2">
+                        <h4 class="text-base font-extrabold text-slate-800 truncate" id="modalDetailNamaKelas">-</h4>
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-blue-50 text-blue-700 border border-blue-200 shrink-0" id="modalDetailBadgeJurusan">
+                            -
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md" id="modalDetailBadgeSiswa">
+                            0 / 30 Siswa
+                        </span>
+                        <span class="text-[11px] text-slate-400 font-medium">Tahun Ajaran Aktif</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Jurusan / Kompetensi -->
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Jurusan / Kompetensi</span>
+                    <span class="text-xs font-bold text-slate-800 block truncate" id="modalDetailJurusan">-</span>
+                </div>
+
+                <!-- Ruangan Kelas -->
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Ruangan Kelas</span>
+                    <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16M2 21h20M9 12h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                        </svg>
+                        <span id="modalDetailRuangan">-</span>
+                    </span>
+                </div>
+
+                <!-- Wali Kelas -->
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60 col-span-1 sm:col-span-2">
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Wali Kelas</span>
+                            <span class="text-xs font-bold text-slate-800 block" id="modalDetailWaliNama">-</span>
+                            <span class="text-[11px] font-mono text-slate-500 block mt-0.5" id="modalDetailWaliNip">NIP: -</span>
+                        </div>
+                        <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kapasitas & Jumlah Siswa Real -->
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60 col-span-1 sm:col-span-2">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Kapasitas &amp; Siswa Terdaftar</span>
+                    <div class="flex items-center justify-between text-xs font-bold text-slate-800">
+                        <span id="modalDetailSiswaStat">-</span>
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Link Navigasi Lengkap ke Halaman Show / Siswa & Jurnal -->
+            <a id="modalDetailShowLink" href="#" class="flex items-center justify-between p-3.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 hover:border-blue-200 text-blue-900 transition-colors group no-underline">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-blue-900">Buka Halaman Rombel Lengkap</div>
+                        <div class="text-[11px] text-blue-600">Lihat daftar seluruh siswa dan riwayat jurnal kelas</div>
+                    </div>
+                </div>
+                <svg class="w-4 h-4 text-blue-500 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Footer: Hapus (kiri) | Edit & Tutup (kanan) -->
+        <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+            <button type="button" onclick="triggerDeleteFromKelasDetail()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition cursor-pointer" title="Hapus Kelas">
+                <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span>Hapus Kelas</span>
+            </button>
+            <div class="flex items-center gap-2">
+                <a id="modalDetailEditBtn" href="#" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold text-amber-800 bg-amber-100/80 hover:bg-amber-200 border border-amber-300 transition no-underline" title="Edit Data Kelas">
+                    <svg class="w-3.5 h-3.5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Edit Data</span>
+                </a>
+                <button type="button" onclick="closeDetailKelasModal()" class="px-4 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 transition cursor-pointer">
+                    Tutup
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -642,7 +809,62 @@
     }
 
     /* =========================================================
-     * 2. SINGLE DELETE FUNCTIONALITY
+     * 2. DETAIL MODAL FUNCTIONALITY
+     * ========================================================= */
+    let currentDetailKelas = null;
+
+    function openDetailKelasModal(btn) {
+        const rawData = btn.getAttribute('data-kelas');
+        if (!rawData) return;
+        try {
+            const data = JSON.parse(rawData);
+            currentDetailKelas = data;
+
+            const elNamaKelas = document.getElementById('modalDetailNamaKelas');
+            const elBadgeJurusan = document.getElementById('modalDetailBadgeJurusan');
+            const elBadgeSiswa = document.getElementById('modalDetailBadgeSiswa');
+            const elJurusan = document.getElementById('modalDetailJurusan');
+            const elRuangan = document.getElementById('modalDetailRuangan');
+            const elWaliNama = document.getElementById('modalDetailWaliNama');
+            const elWaliNip = document.getElementById('modalDetailWaliNip');
+            const elSiswaStat = document.getElementById('modalDetailSiswaStat');
+            const elShowLink = document.getElementById('modalDetailShowLink');
+            const elEditBtn = document.getElementById('modalDetailEditBtn');
+
+            if (elNamaKelas) elNamaKelas.textContent = data.nama_kelas || '-';
+            if (elBadgeJurusan) elBadgeJurusan.textContent = data.nama_jurusan || '-';
+            if (elBadgeSiswa) elBadgeSiswa.textContent = `${data.siswas_count || 0} / ${data.jumlah_siswa || 30} Siswa`;
+            if (elJurusan) elJurusan.textContent = data.nama_jurusan || '-';
+            if (elRuangan) elRuangan.textContent = data.nama_ruangan || 'Belum diatur';
+            if (elWaliNama) elWaliNama.textContent = data.nama_wali || 'Belum ditentukan';
+            if (elWaliNip) elWaliNip.textContent = (data.nip_wali && data.nip_wali !== '-') ? `NIP: ${data.nip_wali}` : 'NIP: -';
+            if (elSiswaStat) elSiswaStat.textContent = `${data.siswas_count || 0} Siswa Terdaftar (Kapasitas: ${data.jumlah_siswa || 30})`;
+
+            if (elShowLink && data.url_show) elShowLink.href = data.url_show;
+            if (elEditBtn && data.url_edit) elEditBtn.href = data.url_edit;
+
+            const modal = document.getElementById('modalDetailKelas');
+            if (modal) modal.style.display = 'flex';
+        } catch (e) {
+            console.error('Error parsing data-kelas:', e);
+        }
+    }
+
+    function closeDetailKelasModal() {
+        const modal = document.getElementById('modalDetailKelas');
+        if (modal) modal.style.display = 'none';
+    }
+
+    function triggerDeleteFromKelasDetail() {
+        if (!currentDetailKelas) return;
+        const id = currentDetailKelas.id_kelas;
+        const nama = currentDetailKelas.nama_kelas;
+        closeDetailKelasModal();
+        deleteSingleKelas(id, nama);
+    }
+
+    /* =========================================================
+     * 3. SINGLE DELETE FUNCTIONALITY
      * ========================================================= */
     function deleteSingleKelas(id, nama) {
         if (confirm(`Apakah Anda yakin ingin memindahkan kelas "${nama}" ke Tempat Sampah?`)) {
@@ -653,7 +875,7 @@
     }
 
     /* =========================================================
-     * 3. BULK DELETE CONTEXTUAL TOOLBAR FUNCTIONALITY
+     * 4. BULK DELETE CONTEXTUAL TOOLBAR FUNCTIONALITY
      * ========================================================= */
     function updateBulkDeleteState() {
         const checkedBoxes = document.querySelectorAll('.kelas-select-checkbox:checked');
@@ -722,7 +944,7 @@
     }
 
     /* =========================================================
-     * 4. CLIENT-SIDE TABLE PAGINATION
+     * 5. CLIENT-SIDE TABLE PAGINATION
      * ========================================================= */
     let currentTablePage = 1;
     const rowsPerPage = 8;
@@ -824,7 +1046,7 @@
     }
 
     /* =========================================================
-     * 5. DOM INITIALIZATION
+     * 6. DOM INITIALIZATION
      * ========================================================= */
     document.addEventListener("DOMContentLoaded", function() {
         const selectAll = document.getElementById('selectAllKelas');
@@ -843,6 +1065,20 @@
                 if (e.target === this) closeBulkDeleteModal();
             });
         }
+
+        const modalDetail = document.getElementById('modalDetailKelas');
+        if (modalDetail) {
+            modalDetail.addEventListener('click', function(e) {
+                if (e.target === this) closeDetailKelasModal();
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDetailKelasModal();
+                closeBulkDeleteModal();
+            }
+        });
 
         setupTablePagination();
     });

@@ -74,11 +74,13 @@ return new class extends Migration
         }
 
         // 4. Alihkan referensi dispensasi siswa dari user lama (ID 26 dummy Fajar) ke akun Waka Kesiswaan (Fajar Luthfianto)
-        DB::table('siswa_dispen')->where('id_user_waka', 26)->update([
-            'id_user_waka' => $fajarUserId,
-            'nama_waka'    => 'Fajar Luthfianto, S.Pd',
-            'nip_waka'     => $nipFajar,
-        ]);
+        if (Schema::hasColumn('siswa_dispen', 'id_user_waka')) {
+            DB::table('siswa_dispen')->where('id_user_waka', 26)->update([
+                'id_user_waka' => $fajarUserId,
+                'nama_waka'    => 'Fajar Luthfianto, S.Pd',
+                'nip_waka'     => $nipFajar,
+            ]);
+        }
 
         // 5. Hapus akun placeholder dummy lama ID 26 jika ada
         DB::table('users')->where('id', 26)->where('nip', '198005052008011005')->delete();

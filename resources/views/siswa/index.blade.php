@@ -7,99 +7,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- Tailwind Custom Configuration -->
 <script>
-    /* --- Realtime Active Toggle Logic for Siswa --- */
-    let siswaToastTimeout = null;
-
-    function showSiswaRealtimeToast(message, isSuccess = true) {
-        const toast = document.getElementById('siswaRealtimeToast');
-        const icon  = document.getElementById('siswaRealtimeToastIcon');
-        const msg   = document.getElementById('siswaRealtimeToastMsg');
-
-        if (!toast || !msg) return;
-
-        msg.innerHTML = message;
-        toast.classList.add('show');
-
-        if (isSuccess) {
-            toast.className = 'realtime-toast show toast-success';
-            if (icon) {
-                icon.className = 'fa-solid fa-circle-check';
-                icon.style.color = '#22c55e';
-            }
-        } else {
-            toast.className = 'realtime-toast show toast-error';
-            if (icon) {
-                icon.className = 'fa-solid fa-circle-exclamation';
-                icon.style.color = '#ef4444';
-            }
-        }
-
-        if (siswaToastTimeout) clearTimeout(siswaToastTimeout);
-        siswaToastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3500);
-    }
-
-    async function handleSiswaToggle(checkbox, siswaId, siswaName) {
-        const isChecked = checkbox.checked;
-        const label = document.getElementById('status-label-siswa-' + siswaId);
-        const originalChecked = !isChecked;
-
-        if (label) {
-            label.innerText = isChecked ? 'Aktif' : 'Nonaktif';
-            label.className = 'siswa-status-label ' + (isChecked ? 'status-on' : 'status-off');
-        }
-
-        checkbox.disabled = true;
-
-        try {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]') 
-                ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
-                : '{{ csrf_token() }}';
-
-            const response = await fetch(`/siswa/${siswaId}/toggle-active`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({
-                    is_active: isChecked ? 1 : 0
-                })
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.success) {
-                checkbox.checked = data.is_active;
-                if (label) {
-                    label.innerText = data.is_active ? 'Aktif' : 'Nonaktif';
-                    label.className = 'siswa-status-label ' + (data.is_active ? 'status-on' : 'status-off');
-                }
-                showSiswaRealtimeToast(data.message || `Data Siswa '${siswaName}' berhasil diubah menjadi ${data.is_active ? 'Aktif (ON)' : 'Nonaktif (OFF)'}.`, true);
-            } else {
-                checkbox.checked = originalChecked;
-                if (label) {
-                    label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
-                    label.className = 'siswa-status-label ' + (originalChecked ? 'status-on' : 'status-off');
-                }
-                showSiswaRealtimeToast(data.message || 'Gagal mengubah status Data Siswa.', false);
-            }
-        } catch (error) {
-            console.error('Error toggling siswa status:', error);
-            checkbox.checked = originalChecked;
-            if (label) {
-                label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
-                label.className = 'siswa-status-label ' + (originalChecked ? 'status-on' : 'status-off');
-            }
-            showSiswaRealtimeToast('Terjadi kesalahan koneksi saat mengubah status.', false);
-        } finally {
-            checkbox.disabled = false;
-        }
-    }
-
     tailwind.config = {
       theme: {
         extend: {
@@ -297,13 +204,114 @@
     .realtime-toast.toast-error {
         border-left: 4px solid #ef4444;
     }
-</style>
-<!-- Toast Realtime Notification -->
-<div id="siswaRealtimeToast" class="realtime-toast">
-    <i id="siswaRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
-    <span id="siswaRealtimeToastMsg">Status data siswa berhasil diperbarui.</span>
-</div>
 
+    /* Modal Backdrop & Popup Animation */
+    .modal-backdrop-custom {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        animation: fadeInModal 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .modal-box-custom {
+        background: #ffffff;
+        border-radius: 1.25rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        width: 100%;
+        overflow: hidden;
+        animation: scaleInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeInModal {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes scaleInModal {
+        from { opacity: 0; transform: scale(0.96) translateY(8px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Clean Siswa Table Pagination (Individual Separate Rounded-lg Buttons) */
+    .siswa-table-pagination nav > div.sm\:hidden {
+        display: none !important;
+    }
+    .siswa-table-pagination nav div.sm\:flex-1 > div:first-child {
+        display: none !important;
+    }
+    .siswa-table-pagination nav div.sm\:flex-1 {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+    }
+    .siswa-table-pagination nav span.shadow-sm.rounded-md {
+        box-shadow: none !important;
+        border: none !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.375rem !important;
+    }
+    .siswa-table-pagination nav span.shadow-sm.rounded-md > span,
+    .siswa-table-pagination nav span[aria-disabled="true"],
+    .siswa-table-pagination nav span[aria-current="page"] {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: inline-flex !important;
+    }
+    .siswa-table-pagination nav span.shadow-sm.rounded-md a,
+    .siswa-table-pagination nav span.shadow-sm.rounded-md > span > span,
+    .siswa-table-pagination nav span.shadow-sm.rounded-md span[aria-disabled="true"] > span,
+    .siswa-table-pagination nav span.shadow-sm.rounded-md span[aria-current="page"] > span {
+        width: 2rem !important;
+        height: 2rem !important;
+        min-width: 2rem !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 0.5rem !important;
+        font-size: 0.75rem !important;
+        font-weight: 600 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        transition: all 0.15s ease !important;
+        border: 1px solid #e2e8f0 !important;
+        background-color: #ffffff !important;
+        color: #475569 !important;
+        text-decoration: none !important;
+    }
+    .siswa-table-pagination nav span.shadow-sm.rounded-md a:hover {
+        background-color: #f8fafc !important;
+        border-color: #cbd5e1 !important;
+        color: #1e293b !important;
+    }
+    .siswa-table-pagination nav span.shadow-sm.rounded-md span[aria-current="page"] > span {
+        background-color: #2563eb !important;
+        border-color: #2563eb !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+    .siswa-table-pagination nav span.shadow-sm.rounded-md span[aria-disabled="true"] > span {
+        background-color: #ffffff !important;
+        border-color: #e2e8f0 !important;
+        color: #cbd5e1 !important;
+        cursor: not-allowed !important;
+        opacity: 0.7 !important;
+    }
+    .siswa-table-pagination nav span.shadow-sm.rounded-md svg {
+        width: 0.875rem !important;
+        height: 0.875rem !important;
+    }
+</style>
 @endsection
 
 @section('topbar_left')
@@ -315,12 +323,6 @@
         Data Induk Siswa &bull; Validasi NISN &bull; Distribusi Kelas &amp; Riwayat Pendaftaran
     </p>
 </div>
-<!-- Toast Realtime Notification -->
-<div id="siswaRealtimeToast" class="realtime-toast">
-    <i id="siswaRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
-    <span id="siswaRealtimeToastMsg">Status data siswa berhasil diperbarui.</span>
-</div>
-
 @endsection
 
 @section('content')
@@ -777,7 +779,7 @@
                 </svg>
             </div>
             <div>
-                <h3 class="text-sm font-bold text-slate-800">Daftar Data Siswa <span class="text-brand-600">({{ count($siswas) }})</span></h3>
+                <h3 class="text-sm font-bold text-slate-800">Daftar Data Siswa <span class="text-brand-600">({{ $siswas->total() }})</span></h3>
                 <p class="text-[11px] text-slate-400 mt-0.5">Kelola dan pantau seluruh data siswa yang terdaftar dalam sistem.</p>
             </div>
         </div>
@@ -945,14 +947,10 @@
                         <th class="py-2.5 px-3 w-10 text-center">
                             <input type="checkbox" id="selectAllSiswa" class="rounded border-slate-300 text-brand-600 focus:ring-brand-500 cursor-pointer" title="Pilih Semua (Select All)">
                         </th>
-                        <th class="py-2.5 px-3">NIS</th>
                         <th class="py-2.5 px-3">NISN</th>
                         <th class="py-2.5 px-3">NAMA SISWA</th>
-                        <th class="py-2.5 px-3">JK</th>
                         <th class="py-2.5 px-3">KELAS</th>
-                        <th class="py-2.5 px-3">TEMPAT &amp; TGL LAHIR</th>
                         <th class="py-2.5 px-3">ALAMAT</th>
-                        <th class="py-2.5 px-3 text-center">STATUS</th>
                         <th class="py-2.5 px-3 text-center">AKSI</th>
                     </tr>
                 </thead>
@@ -962,71 +960,62 @@
                             <td class="py-2 px-3 text-center whitespace-nowrap">
                                 <input type="checkbox" name="ids[]" value="{{ $s->id_siswa }}" class="siswa-select-checkbox rounded border-slate-300 text-brand-600 focus:ring-brand-500 cursor-pointer" onchange="updateBulkDeleteState()">
                             </td>
-                            <td class="py-2 px-3 font-semibold text-slate-800 whitespace-nowrap">
-                                {{ $s->nis ?? '-' }}
-                            </td>
-                            <td class="py-2 px-3 font-mono font-medium text-brand-600 whitespace-nowrap">
+                            <td class="py-2 px-3 font-mono font-semibold text-brand-700 whitespace-nowrap">
                                 {{ $s->nisn }}
                             </td>
                             <td class="py-2 px-3 font-bold text-slate-900">
                                 {{ $s->nama_siswa }}
-                            </td>
-                            <td class="py-2 px-3 whitespace-nowrap">
-                                @if($s->jenis_kelamin == 'L')
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] font-semibold bg-sky-50 text-sky-700 border border-sky-200">Laki-laki</span>
-                                @elseif($s->jenis_kelamin == 'P')
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">Perempuan</span>
-                                @else
-                                    <span class="text-slate-400">-</span>
-                                @endif
                             </td>
                             <td class="py-2 px-3 font-medium text-slate-800 whitespace-nowrap">
                                 <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
                                     {{ $s->kelas->nama_kelas ?? '-' }}
                                 </span>
                             </td>
-                            <td class="py-2 px-3 text-slate-600 whitespace-nowrap">
-                                @if($s->kota_lahir || $s->tanggal_lahir)
-                                    {{ $s->kota_lahir ?? '' }}{{ $s->kota_lahir && $s->tanggal_lahir ? ', ' : '' }}{{ $s->tanggal_lahir ? \Carbon\Carbon::parse($s->tanggal_lahir)->format('d/m/Y') : '' }}
-                                @else
-                                    <span class="text-slate-400">-</span>
-                                @endif
-                            </td>
-                            <td class="py-2 px-3 text-slate-600 max-w-[200px] truncate" title="{{ $s->alamat_lengkap }}">
-                                {{ $s->alamat_lengkap ? \Illuminate\Support\Str::limit($s->alamat_lengkap, 35) : '-' }}
+                            <td class="py-2 px-3 text-slate-600 max-w-[280px] truncate" title="{{ $s->alamat_lengkap }}">
+                                {{ $s->alamat_lengkap ? \Illuminate\Support\Str::limit($s->alamat_lengkap, 40) : '-' }}
                             </td>
                             <td class="py-2 px-3 text-center whitespace-nowrap">
-                                <div class="flex items-center justify-center gap-1">
-                                    <!-- 1. LIHAT (Detail) -->
-                                    <a href="{{ route('siswa.show', $s->id_siswa) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10.5px] font-semibold bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 no-underline transition-all" title="Lihat Detail Siswa">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="flex items-center justify-center gap-1.5">
+                                    <!-- 1. DETAIL (Modal Popup) -->
+                                    <button type="button" 
+                                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10.5px] font-semibold bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200 transition-all cursor-pointer" 
+                                        onclick="openDetailSiswaModal(this)"
+                                        data-siswa="{{ json_encode([
+                                            'id_siswa'       => $s->id_siswa,
+                                            'nis'            => $s->nis ?? '-',
+                                            'nisn'           => $s->nisn,
+                                            'nama_siswa'     => $s->nama_siswa,
+                                            'jenis_kelamin'  => $s->jenis_kelamin,
+                                            'nama_kelas'     => $s->kelas->nama_kelas ?? '-',
+                                            'kota_lahir'     => $s->kota_lahir,
+                                            'tanggal_lahir'  => $s->tanggal_lahir ? \Carbon\Carbon::parse($s->tanggal_lahir)->format('d/m/Y') : null,
+                                            'alamat_lengkap' => $s->alamat_lengkap,
+                                            'is_active'      => (bool)($s->is_active ?? true),
+                                            'is_alumni'      => (bool)$s->is_alumni,
+                                        ]) }}"
+                                        title="Lihat Detail Siswa">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                             <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                         </svg>
-                                        <span>Lihat</span>
-                                    </a>
+                                        <span>Detail</span>
+                                    </button>
 
                                     <!-- 2. EDIT -->
-                                    <a href="{{ route('siswa.edit', $s->id_siswa) }}" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10.5px] font-semibold bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 no-underline transition-all" title="Edit Data Siswa">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <a href="{{ route('siswa.edit', $s->id_siswa) }}" 
+                                        class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10.5px] font-semibold bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 no-underline transition-all" 
+                                        title="Edit Data Siswa">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                         </svg>
                                         <span>Edit</span>
                                     </a>
-
-                                    <!-- 3. HAPUS -->
-                                    <button type="button" onclick="deleteSingleSiswa({{ $s->id_siswa }}, '{{ addslashes($s->nama_siswa) }}')" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10.5px] font-semibold bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition-all cursor-pointer" title="Hapus Siswa">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                        </svg>
-                                        <span>Hapus</span>
-                                    </button>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10" class="text-center py-10 text-slate-400">
+                            <td colspan="6" class="text-center py-10 text-slate-400">
                                 <span class="material-symbols-outlined text-3xl mb-1.5 text-slate-300 block">folder_open</span>
                                 <p class="text-xs font-semibold">Belum ada data Siswa yang terdaftar dalam sistem.</p>
                             </td>
@@ -1037,17 +1026,102 @@
         </div>
     </form>
 
-    <!-- DataTable Footer -->
-    <div class="flex items-center justify-between flex-wrap gap-3 pt-2 text-xs text-slate-500 border-t border-slate-100">
-        <div>
-            Menampilkan <strong class="text-slate-800 font-semibold">{{ count($siswas) }}</strong> data siswa
+    <!-- Table Pagination Footer -->
+    <footer class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3.5 text-xs text-slate-500 border-t border-slate-100" data-purpose="table-pagination-container">
+        <p class="text-xs font-medium text-slate-500 m-0">
+            Menampilkan <span class="font-semibold text-slate-800">{{ $siswas->firstItem() ?? 0 }} - {{ $siswas->lastItem() ?? 0 }}</span> dari total <span class="font-semibold text-slate-800">{{ $siswas->total() }}</span> siswa
             @if(isset($totalAktifCount))
-                dari total <strong class="text-slate-800 font-semibold">{{ $totalAktifCount }}</strong> siswa aktif
+                (<span class="text-emerald-600 font-semibold">{{ $totalAktifCount }}</span> aktif)
             @endif
+        </p>
+        <div class="siswa-table-pagination">
+            {{ $siswas->links() }}
         </div>
-    </div>
+    </footer>
 </section>
 <!-- END: StudentListSection -->
+
+<!-- Modal Detail Data Siswa -->
+<div class="modal-backdrop-custom" id="modalDetailSiswa">
+    <div class="modal-box-custom max-w-xl max-h-[92vh] flex flex-col">
+        <!-- Modal Header -->
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div class="flex items-center gap-3">
+                <span class="w-9 h-9 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                </span>
+                <div>
+                    <h3 class="font-bold text-slate-800 text-sm" id="detail_nama_siswa">Detail Siswa</h3>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Informasi lengkap data induk dan administrasi siswa</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeModal('modalDetailSiswa')" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-5 overflow-y-auto space-y-4 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">NISN</span>
+                    <span class="text-xs font-mono font-bold text-brand-700 mt-0.5 block" id="detail_nisn">-</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">NIS (Nomor Induk Siswa)</span>
+                    <span class="text-xs font-semibold text-slate-800 mt-0.5 block" id="detail_nis">-</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Jenis Kelamin</span>
+                    <span class="text-xs font-semibold text-slate-800 mt-0.5 block" id="detail_jk">-</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Kelas</span>
+                    <span class="text-xs font-semibold text-slate-800 mt-0.5 block" id="detail_kelas">-</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 sm:col-span-2">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tempat &amp; Tanggal Lahir</span>
+                    <span class="text-xs font-semibold text-slate-800 mt-0.5 block" id="detail_ttl">-</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 sm:col-span-2">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Alamat Lengkap</span>
+                    <span class="text-xs text-slate-700 mt-0.5 block leading-relaxed" id="detail_alamat">-</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 sm:col-span-2">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Status Keaktifan</span>
+                    <div class="mt-1" id="detail_status_badge">
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Siswa Aktif</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Footer: Hapus & Aksi Lain -->
+        <div class="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between gap-3">
+            <button type="button" id="btnDetailHapusSiswa" onclick="triggerDeleteFromDetail()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border border-rose-200 transition-all cursor-pointer" title="Hapus Siswa">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span>Hapus Siswa</span>
+            </button>
+            <div class="flex items-center gap-2">
+                <a id="btnDetailEditSiswa" href="#" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-600 text-white shadow-sm transition-all no-underline">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Edit Siswa</span>
+                </a>
+                <button type="button" onclick="closeModal('modalDetailSiswa')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 transition-all cursor-pointer">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Form Delete Siswa Tunggal (Hidden) -->
 <form id="singleDeleteSiswaForm" action="" method="POST" style="display:none;">
@@ -1202,8 +1276,77 @@
 
 
     /* =========================================================
-     * 2. SINGLE DELETE SISWA
+     * 2. MODAL & DETAIL SISWA LOGIC
      * ========================================================= */
+    let currentDetailSiswa = null;
+
+    function openModal(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeModal(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+
+    function openDetailSiswaModal(btn) {
+        try {
+            const s = JSON.parse(btn.getAttribute('data-siswa'));
+            currentDetailSiswa = s;
+
+            document.getElementById('detail_nama_siswa').textContent = s.nama_siswa || '-';
+            document.getElementById('detail_nisn').textContent = s.nisn || '-';
+            document.getElementById('detail_nis').textContent = s.nis || '-';
+            document.getElementById('detail_jk').textContent = s.jenis_kelamin === 'L' ? 'Laki-laki (L)' : (s.jenis_kelamin === 'P' ? 'Perempuan (P)' : '-');
+            document.getElementById('detail_kelas').textContent = s.nama_kelas || '-';
+
+            let ttl = [];
+            if (s.kota_lahir) ttl.push(s.kota_lahir);
+            if (s.tanggal_lahir) ttl.push(s.tanggal_lahir);
+            document.getElementById('detail_ttl').textContent = ttl.length > 0 ? ttl.join(', ') : '-';
+
+            document.getElementById('detail_alamat').textContent = s.alamat_lengkap || '-';
+
+            const badgeContainer = document.getElementById('detail_status_badge');
+            if (s.is_alumni) {
+                badgeContainer.innerHTML = '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-brand-50 text-brand-700 border border-brand-200">Alumni</span>';
+            } else if (s.is_active) {
+                badgeContainer.innerHTML = '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Siswa Aktif</span>';
+            } else {
+                badgeContainer.innerHTML = '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">Nonaktif</span>';
+            }
+
+            const btnEdit = document.getElementById('btnDetailEditSiswa');
+            if (btnEdit) {
+                btnEdit.href = "{{ url('/siswa') }}/" + s.id_siswa + "/edit";
+            }
+
+            openModal('modalDetailSiswa');
+        } catch (e) {
+            console.error('Error opening detail siswa modal:', e);
+        }
+    }
+
+    function triggerDeleteFromDetail() {
+        if (!currentDetailSiswa) return;
+        const id = currentDetailSiswa.id_siswa;
+        const nama = currentDetailSiswa.nama_siswa;
+
+        if (confirm(`Apakah Anda yakin ingin memindahkan siswa "${nama}" ke tempat sampah?`)) {
+            closeModal('modalDetailSiswa');
+            const form = document.getElementById('singleDeleteSiswaForm');
+            form.action = "{{ url('/siswa') }}/" + id;
+            form.submit();
+        }
+    }
+
     function deleteSingleSiswa(id, nama) {
         if (confirm(`Apakah Anda yakin ingin memindahkan siswa "${nama}" ke tempat sampah?`)) {
             const form = document.getElementById('singleDeleteSiswaForm');

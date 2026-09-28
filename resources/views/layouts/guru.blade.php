@@ -1874,10 +1874,15 @@
                             <i class="fa-solid fa-file-signature"></i>
                             <span>Surat Dispen Siswa</span>
                             @php
-                                $unreadSuratDispenCount = \App\Models\SiswaDispen::where('id_kelas', Auth::user()->id_kelas_wali ?? (Auth::user()->guru->kelasWali->id_kelas ?? null))
-                                    ->where(function($q) {
-                                        $q->whereNull('status_wali_kelas')->orWhere('status_wali_kelas', 'pending');
-                                    })->count();
+                                $waliKelasIds = Auth::user()->id_kelas_wali 
+                                    ? [Auth::user()->id_kelas_wali] 
+                                    : (Auth::user()->guru ? Auth::user()->guru->kelasWali->pluck('id_kelas')->toArray() : []);
+                                $unreadSuratDispenCount = !empty($waliKelasIds)
+                                    ? \App\Models\SiswaDispen::whereIn('id_kelas', $waliKelasIds)
+                                        ->where(function($q) {
+                                            $q->whereNull('status_wali_kelas')->orWhere('status_wali_kelas', 'pending');
+                                        })->count()
+                                    : 0;
                             @endphp
                             @if($unreadSuratDispenCount > 0)
                                 <span class="badge-count">{{ $unreadSuratDispenCount }}</span>

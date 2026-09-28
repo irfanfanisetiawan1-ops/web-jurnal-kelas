@@ -11,96 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script>
-    /* --- Realtime Active Toggle Logic --- */
-    let guruToastTimeout = null;
-    function showGuruRealtimeToast(message, isSuccess = true) {
-        const toast = document.getElementById('guruRealtimeToast');
-        const toastMsg = document.getElementById('guruRealtimeToastMsg');
-        const toastIcon = document.getElementById('guruRealtimeToastIcon');
-
-        if (!toast || !toastMsg) return;
-
-        toastMsg.innerText = message;
-        if (isSuccess) {
-            toast.className = 'realtime-toast show toast-success';
-            if (toastIcon) {
-                toastIcon.className = 'fa-solid fa-circle-check';
-                toastIcon.style.color = '#22c55e';
-            }
-        } else {
-            toast.className = 'realtime-toast show toast-error';
-            if (toastIcon) {
-                toastIcon.className = 'fa-solid fa-circle-exclamation';
-                toastIcon.style.color = '#ef4444';
-            }
-        }
-
-        if (guruToastTimeout) clearTimeout(guruToastTimeout);
-        guruToastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3500);
-    }
-
-    async function handleGuruToggle(checkbox, guruId, guruName) {
-        const isChecked = checkbox.checked;
-        const label = document.getElementById('status-label-guru-' + guruId);
-        const originalChecked = !isChecked;
-
-        if (label) {
-            label.innerText = isChecked ? 'Aktif' : 'Nonaktif';
-            label.className = 'guru-status-label ' + (isChecked ? 'status-on' : 'status-off');
-        }
-
-        checkbox.disabled = true;
-
-        try {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]') 
-                ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
-                : '{{ csrf_token() }}';
-
-            const response = await fetch(`/guru/${guruId}/toggle-active`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Accept': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify({
-                    is_active: isChecked ? 1 : 0
-                })
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.success) {
-                checkbox.checked = data.is_active;
-                if (label) {
-                    label.innerText = data.is_active ? 'Aktif' : 'Nonaktif';
-                    label.className = 'guru-status-label ' + (data.is_active ? 'status-on' : 'status-off');
-                }
-                showGuruRealtimeToast(data.message || `Data Guru '${guruName}' berhasil diubah menjadi ${data.is_active ? 'Aktif (ON)' : 'Nonaktif (OFF)'}.`, true);
-            } else {
-                checkbox.checked = originalChecked;
-                if (label) {
-                    label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
-                    label.className = 'guru-status-label ' + (originalChecked ? 'status-on' : 'status-off');
-                }
-                showGuruRealtimeToast(data.message || 'Gagal mengubah status Data Guru.', false);
-            }
-        } catch (error) {
-            console.error('Error toggling guru status:', error);
-            checkbox.checked = originalChecked;
-            if (label) {
-                label.innerText = originalChecked ? 'Aktif' : 'Nonaktif';
-                label.className = 'guru-status-label ' + (originalChecked ? 'status-on' : 'status-off');
-            }
-            showGuruRealtimeToast('Terjadi kesalahan koneksi saat mengubah status.', false);
-        } finally {
-            checkbox.disabled = false;
-        }
-    }
-
     tailwind.config = {
       theme: {
         extend: {
@@ -271,13 +181,37 @@
     .realtime-toast.toast-error {
         border-left: 4px solid #ef4444;
     }
+    /* Modal Backdrop & Popup Animation */
+    .modal-backdrop-custom {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(4px);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        animation: fadeInModal 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .modal-box-custom {
+        background: #ffffff;
+        border-radius: 1.25rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        width: 100%;
+        overflow: hidden;
+        animation: scaleInModal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeInModal {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes scaleInModal {
+        from { opacity: 0; transform: scale(0.96) translateY(8px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
 </style>
-<!-- Toast Realtime Notification -->
-<div id="guruRealtimeToast" class="realtime-toast">
-    <i id="guruRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
-    <span id="guruRealtimeToastMsg">Status data guru berhasil diperbarui.</span>
-</div>
-
 @endsection
 
 @section('topbar_left')
@@ -289,12 +223,6 @@
         Data Induk Guru &bull; Validasi NIP &bull; Informasi Pengajar &amp; Status Kepegawaian
     </p>
 </div>
-<!-- Toast Realtime Notification -->
-<div id="guruRealtimeToast" class="realtime-toast">
-    <i id="guruRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
-    <span id="guruRealtimeToastMsg">Status data guru berhasil diperbarui.</span>
-</div>
-
 @endsection
 
 @section('content')
@@ -826,11 +754,8 @@
                         </th>
                         <th class="p-3.5">NIP</th>
                         <th class="p-3.5">NAMA GURU / PEGAWAI</th>
-                        <th class="p-3.5 text-center">JK</th>
-                        <th class="p-3.5 text-center">ROLE</th>
-                        <th class="p-3.5">NO HP</th>
-                        <th class="p-3.5">MAPEL UTAMA</th>
-                        <th class="p-3.5 text-center w-48">AKSI</th>
+                        <th class="p-3.5">NO. HP / WHATSAPP</th>
+                        <th class="p-3.5 text-center w-36">AKSI</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-slate-700 font-medium bg-white" id="guruTableBody">
@@ -841,47 +766,39 @@
                             </td>
                             <td class="p-3.5 font-bold font-mono text-blue-700 whitespace-nowrap">{{ $g->nip }}</td>
                             <td class="p-3.5 font-bold text-slate-800">{{ $g->nama_guru }}</td>
-                            <td class="p-3.5 text-center">
-                                @if($g->jenis_kelamin == 'L')
-                                    <span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">Laki-laki</span>
-                                @elseif($g->jenis_kelamin == 'P')
-                                    <span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-pink-50 text-pink-700 border border-pink-200">Perempuan</span>
+                            <td class="p-3.5 font-mono text-slate-600 whitespace-nowrap">
+                                @if(!empty($g->no_hp))
+                                    <span class="inline-flex items-center gap-1.5 text-slate-700 font-medium">
+                                        <i class="fa-solid fa-phone text-[10px] text-slate-400"></i>
+                                        <span>{{ $g->no_hp }}</span>
+                                    </span>
                                 @else
                                     <span class="text-slate-400">-</span>
                                 @endif
                             </td>
                             <td class="p-3.5 text-center">
-                                @if(isset($g->user) && $g->user->isAdmin())
-                                    <span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-800">TU</span>
-                                @else
-                                    <span class="inline-block px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-blue-100 text-blue-700">GURU</span>
-                                @endif
-                            </td>
-                            <td class="p-3.5 font-mono text-slate-600 whitespace-nowrap">{{ $g->no_hp ?? '-' }}</td>
-                            <td class="p-3.5 font-semibold text-slate-700">{{ $g->mapel->nama_mapel ?? '-' }}</td>
-                            <td class="p-3.5 text-center">
-                                <div class="inline-flex items-center gap-1.5 justify-center">
-                                    <label class="guru-toggle-switch">
-                                        <input type="checkbox" 
-                                               {{ (method_exists($g, 'isActive') ? $g->isActive() : ($g->is_active ?? true)) ? 'checked' : '' }} 
-                                               onchange="handleGuruToggle(this, {{ $g->id_guru }}, '{{ addslashes($g->nama_guru) }}')">
-                                        <span class="guru-toggle-slider"></span>
-                                    </label>
-                                    <span class="guru-status-label {{ (method_exists($g, 'isActive') ? $g->isActive() : ($g->is_active ?? true)) ? 'status-on' : 'status-off' }}" id="status-label-guru-{{ $g->id_guru }}">
-                                        {{ (method_exists($g, 'isActive') ? $g->isActive() : ($g->is_active ?? true)) ? 'Aktif' : 'Nonaktif' }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="p-3.5">
                                 <div class="flex items-center justify-center gap-1.5 whitespace-nowrap">
-                                    <!-- 1. LIHAT (Detail) -->
-                                    <a href="{{ route('guru.show', $g->id_guru) }}" class="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition no-underline" title="Lihat Detail Guru">
+                                    <!-- 1. DETAIL (Modal) -->
+                                    <button type="button" 
+                                        onclick="openDetailGuruModal({{ json_encode([
+                                            'id' => $g->id_guru,
+                                            'nip' => $g->nip,
+                                            'nama' => $g->nama_guru,
+                                            'jk' => $g->jenis_kelamin,
+                                            'jk_text' => $g->jenis_kelamin == 'L' ? 'Laki-laki' : ($g->jenis_kelamin == 'P' ? 'Perempuan' : '-'),
+                                            'role' => (isset($g->user) && $g->user->isAdmin()) ? 'TU' : ((isset($g->user) && $g->user->role) ? strtoupper(str_replace('_', ' ', $g->user->role)) : 'GURU'),
+                                            'mapel' => $g->mapel->nama_mapel ?? '-',
+                                            'no_hp' => $g->no_hp ?? '-',
+                                            'is_active' => (method_exists($g, 'isActive') ? $g->isActive() : ($g->is_active ?? true)) ? 1 : 0,
+                                        ]) }})"
+                                        class="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition cursor-pointer border-none" 
+                                        title="Lihat Detail Guru">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                             <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                         </svg>
-                                        <span>Lihat</span>
-                                    </a>
+                                        <span>Detail</span>
+                                    </button>
 
                                     <!-- 2. EDIT -->
                                     <a href="{{ route('guru.edit', $g->id_guru) }}" class="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 rounded-lg transition no-underline" title="Edit Data Guru">
@@ -890,20 +807,12 @@
                                         </svg>
                                         <span>Edit</span>
                                     </a>
-
-                                    <!-- 3. HAPUS -->
-                                    <button type="button" onclick="if(confirm('Apakah Anda yakin ingin memindahkan {{ addslashes($g->nama_guru) }} ke Tempat Sampah?')) { document.getElementById('singleDeleteForm-{{ $g->id_guru }}').submit(); }" class="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition cursor-pointer border-none" title="Hapus Guru">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                        </svg>
-                                        <span>Hapus</span>
-                                    </button>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center py-10 text-slate-400">
+                            <td colspan="5" class="text-center py-10 text-slate-400">
                                 <svg class="w-8 h-8 mx-auto mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                                 <p class="text-xs font-semibold">Belum ada data Guru &amp; Pegawai yang terdaftar dalam sistem.</p>
                             </td>
@@ -955,10 +864,104 @@
     </div>
 </div>
 
-<!-- Toast Realtime Notification -->
-<div id="guruRealtimeToast" class="realtime-toast">
-    <i id="guruRealtimeToastIcon" class="fa-solid fa-circle-check" style="font-size:16px; color:#22c55e;"></i>
-    <span id="guruRealtimeToastMsg">Status data guru berhasil diperbarui.</span>
+<!-- Modal Detail Guru & Pegawai -->
+<div id="modalDetailGuru" class="modal-backdrop-custom">
+    <div class="modal-box-custom max-w-lg">
+        <!-- Header -->
+        <div class="p-5 bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 text-white flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined text-2xl">badge</span>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold tracking-tight text-white" id="modalGuruNama">Detail Guru &amp; Pegawai</h3>
+                    <p class="text-[11px] text-blue-200 mt-0.5">Informasi profil lengkap, status akun, dan penugasan</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeDetailGuruModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-5 space-y-4 max-h-[75vh] overflow-y-auto text-left">
+            <!-- Top Card: Profile Headline -->
+            <div class="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-base shrink-0 border-2 border-blue-200" id="modalGuruAvatar">
+                    GR
+                </div>
+                <div class="min-w-0 flex-1">
+                    <h4 class="text-sm font-extrabold text-slate-800 truncate" id="modalGuruNamaFull">-</h4>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10.5px] font-mono font-bold bg-blue-100/70 text-blue-800 border border-blue-200" id="modalGuruNip">-</span>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10.5px] font-bold bg-amber-50 text-amber-700 border border-amber-200" id="modalGuruRoleBadge">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Grid -->
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Jenis Kelamin -->
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Jenis Kelamin</span>
+                    <span class="text-xs font-bold text-slate-800" id="modalGuruJk">-</span>
+                </div>
+                <!-- Mata Pelajaran Utama -->
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Mapel Utama</span>
+                    <span class="text-xs font-bold text-blue-700 truncate block" id="modalGuruMapel">-</span>
+                </div>
+            </div>
+
+            <!-- Kontak No HP / WhatsApp -->
+            <div class="p-3.5 rounded-xl bg-slate-50/70 border border-slate-200/60 flex items-center justify-between">
+                <div>
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Nomor HP / WhatsApp</span>
+                    <span class="text-xs font-mono font-bold text-slate-800" id="modalGuruNoHp">-</span>
+                </div>
+                <a id="modalGuruWaLink" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition no-underline">
+                    <i class="fa-brands fa-whatsapp text-sm text-emerald-600"></i>
+                    <span>Chat WA</span>
+                </a>
+            </div>
+
+            <!-- Card Toggle Status Keaktifan (Realtime AJAX) -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <span class="block text-xs font-bold text-slate-800">Status Keaktifan Guru</span>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Guru aktif dapat mengajar, mengisi presensi, dan login portal.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="guru-toggle-switch">
+                        <input type="checkbox" id="modalGuruToggleInput" onchange="handleModalGuruToggle(this)">
+                        <span class="guru-toggle-slider"></span>
+                    </label>
+                    <span class="guru-status-label" id="modalGuruStatusLabel">Aktif</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+            <button type="button" id="modalGuruDeleteBtn" onclick="triggerDeleteFromGuruDetail()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span>Hapus Guru</span>
+            </button>
+            <div class="flex items-center gap-2">
+                <a id="modalGuruEditBtn" href="#" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold text-amber-800 bg-amber-100/80 hover:bg-amber-200 border border-amber-300 transition no-underline">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Edit Profil</span>
+                </a>
+                <button type="button" onclick="closeDetailGuruModal()" class="px-4 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 transition cursor-pointer">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endsection
@@ -1057,6 +1060,172 @@
             showGuruRealtimeToast('Terjadi kesalahan koneksi saat mengubah status.', false);
         } finally {
             checkbox.disabled = false;
+        }
+    }
+
+    /* =========================================================
+     * MODAL DETAIL GURU FUNCTIONS & REALTIME TOGGLE
+     * ========================================================= */
+    let currentDetailGuru = null;
+
+    function openDetailGuruModal(data) {
+        currentDetailGuru = data;
+
+        const namaEl = document.getElementById('modalGuruNama');
+        const namaFullEl = document.getElementById('modalGuruNamaFull');
+        const nipEl = document.getElementById('modalGuruNip');
+        const roleEl = document.getElementById('modalGuruRoleBadge');
+        const jkEl = document.getElementById('modalGuruJk');
+        const mapelEl = document.getElementById('modalGuruMapel');
+        const noHpEl = document.getElementById('modalGuruNoHp');
+
+        if (namaEl) namaEl.textContent = data.nama || 'Detail Guru & Pegawai';
+        if (namaFullEl) namaFullEl.textContent = data.nama || '-';
+        if (nipEl) nipEl.textContent = data.nip || '-';
+        if (roleEl) roleEl.textContent = data.role || 'GURU';
+        if (jkEl) jkEl.textContent = data.jk_text || '-';
+        if (mapelEl) mapelEl.textContent = data.mapel || '-';
+        if (noHpEl) noHpEl.textContent = data.no_hp || '-';
+
+        // Avatar Initials
+        const words = (data.nama || '').trim().split(' ');
+        let initials = 'GR';
+        if (words.length >= 2 && words[0] && words[1]) {
+            initials = (words[0][0] + words[1][0]).toUpperCase();
+        } else if (words.length === 1 && words[0].length > 0) {
+            initials = words[0].substring(0, 2).toUpperCase();
+        }
+        const avatarEl = document.getElementById('modalGuruAvatar');
+        if (avatarEl) avatarEl.textContent = initials;
+
+        // WhatsApp Link
+        const waLink = document.getElementById('modalGuruWaLink');
+        if (waLink) {
+            if (data.no_hp && data.no_hp !== '-') {
+                let cleanPhone = data.no_hp.replace(/[^0-9]/g, '');
+                if (cleanPhone.startsWith('0')) {
+                    cleanPhone = '62' + cleanPhone.substring(1);
+                }
+                waLink.href = 'https://wa.me/' + cleanPhone;
+                waLink.style.display = 'inline-flex';
+            } else {
+                waLink.style.display = 'none';
+            }
+        }
+
+        // Toggle Status in Modal
+        const toggleInput = document.getElementById('modalGuruToggleInput');
+        const statusLabel = document.getElementById('modalGuruStatusLabel');
+        if (toggleInput && statusLabel) {
+            toggleInput.checked = !!data.is_active;
+            statusLabel.textContent = data.is_active ? 'Aktif' : 'Nonaktif';
+            statusLabel.className = 'guru-status-label ' + (data.is_active ? 'status-on' : 'status-off');
+        }
+
+        // Edit Profile Link
+        const editBtn = document.getElementById('modalGuruEditBtn');
+        if (editBtn) {
+            editBtn.href = '/guru/' + data.id + '/edit';
+        }
+
+        const modal = document.getElementById('modalDetailGuru');
+        if (modal) modal.style.display = 'flex';
+    }
+
+    function closeDetailGuruModal() {
+        const modal = document.getElementById('modalDetailGuru');
+        if (modal) modal.style.display = 'none';
+    }
+
+    async function handleModalGuruToggle(checkbox) {
+        if (!currentDetailGuru) return;
+        const isChecked = checkbox.checked;
+        const statusLabel = document.getElementById('modalGuruStatusLabel');
+        const originalChecked = !isChecked;
+
+        if (statusLabel) {
+            statusLabel.textContent = isChecked ? 'Aktif' : 'Nonaktif';
+            statusLabel.className = 'guru-status-label ' + (isChecked ? 'status-on' : 'status-off');
+        }
+
+        checkbox.disabled = true;
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]') 
+                ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                : '{{ csrf_token() }}';
+
+            const response = await fetch(`/guru/${currentDetailGuru.id}/toggle-active`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    is_active: isChecked ? 1 : 0
+                })
+            });
+
+            const resData = await response.json();
+
+            if (response.ok && resData.success) {
+                checkbox.checked = resData.is_active;
+                currentDetailGuru.is_active = resData.is_active ? 1 : 0;
+                if (statusLabel) {
+                    statusLabel.textContent = resData.is_active ? 'Aktif' : 'Nonaktif';
+                    statusLabel.className = 'guru-status-label ' + (resData.is_active ? 'status-on' : 'status-off');
+                }
+                showGuruRealtimeToast(resData.message || `Data Guru '${currentDetailGuru.nama}' berhasil diubah menjadi ${resData.is_active ? 'Aktif (ON)' : 'Nonaktif (OFF)'}.`, true);
+            } else {
+                checkbox.checked = originalChecked;
+                if (statusLabel) {
+                    statusLabel.textContent = originalChecked ? 'Aktif' : 'Nonaktif';
+                    statusLabel.className = 'guru-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+                }
+                showGuruRealtimeToast(resData.message || 'Gagal mengubah status Data Guru.', false);
+            }
+        } catch (error) {
+            console.error('Error toggling guru status from modal:', error);
+            checkbox.checked = originalChecked;
+            if (statusLabel) {
+                statusLabel.textContent = originalChecked ? 'Aktif' : 'Nonaktif';
+                statusLabel.className = 'guru-status-label ' + (originalChecked ? 'status-on' : 'status-off');
+            }
+            showGuruRealtimeToast('Terjadi kesalahan koneksi saat mengubah status.', false);
+        } finally {
+            checkbox.disabled = false;
+        }
+    }
+
+    function triggerDeleteFromGuruDetail() {
+        if (!currentDetailGuru) return;
+        const form = document.getElementById('singleDeleteForm-' + currentDetailGuru.id);
+        if (!form) return;
+
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                title: 'Hapus Guru?',
+                html: `Apakah Anda yakin ingin memindahkan guru <b>${currentDetailGuru.nama}</b> ke Tempat Sampah?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Ya, Pindahkan',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    closeDetailGuruModal();
+                    form.submit();
+                }
+            });
+        } else {
+            if (confirm(`Apakah Anda yakin ingin memindahkan guru ${currentDetailGuru.nama} ke Tempat Sampah?`)) {
+                closeDetailGuruModal();
+                form.submit();
+            }
         }
     }
 
@@ -1876,6 +2045,22 @@
                 if (e.target === this) closeBulkDeleteModal();
             });
         }
+
+        // Close detail modal on outside click
+        const modalDetail = document.getElementById('modalDetailGuru');
+        if (modalDetail) {
+            modalDetail.addEventListener('click', function(e) {
+                if (e.target === this) closeDetailGuruModal();
+            });
+        }
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDetailGuruModal();
+                closeBulkDeleteModal();
+            }
+        });
 
         // Single Form Validation
         const formSingle = document.getElementById('formGuruIndex');

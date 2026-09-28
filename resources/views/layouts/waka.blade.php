@@ -6,363 +6,549 @@
     <title>@yield('title', 'Dashboard Wakil Kepala — Jurnal SMEA')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --sidebar-bg: #2b3957;
-            --sidebar-active: #405178;
-            --sidebar-text: #b6c5e3;
-            --sidebar-text-active: #ffffff;
-            --body-bg: #f3f6fc;
+            --sidebar-bg: #ffffff;
+            --sidebar-active: #eef2ff;
+            --sidebar-text: #475569;
+            --sidebar-text-active: #0f172a;
+            --body-bg: #f8fafc;
             --card-bg: #ffffff;
             --text-dark: #0f172a;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --primary-blue: #2563eb;
-            --sidebar-width: 250px;
+            --sidebar-width: 224px;
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
             background-color: var(--body-bg);
-            background-image: radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
-                              radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.04) 0%, transparent 40%);
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
-            width: 100%;
             overflow-x: hidden;
         }
 
-        /* Sidebar Navigation */
+        /* Sidebar Navigation: Full Height, Compact, Non-Scrollable */
         .sidebar {
-            width: var(--sidebar-width);
-            background: var(--sidebar-bg);
-            color: #ffffff;
+            width: 224px;
+            min-width: 224px;
+            max-width: 224px;
+            background: #ffffff;
+            border-right: 1px solid rgba(226, 232, 240, 0.85);
+            border-left: 1px solid rgba(226, 232, 240, 0.85);
+            border-top: none;
+            border-bottom: none;
+            box-shadow: 2px 0 12px -2px rgba(0, 0, 0, 0.04);
+            color: #1e293b;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             position: fixed;
-            top: 0; bottom: 0; left: 0;
+            top: 0;
+            left: 10px;
+            bottom: 0;
+            height: 100vh;
+            max-height: 100vh;
+            border-radius: 0;
+            overflow: hidden;
+            box-sizing: border-box;
             z-index: 100;
-            box-shadow: 2px 0 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-content {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-brand {
-            padding: 20px;
+            padding: 8px 10px 0 10px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            justify-content: center;
+            text-align: center;
+            flex-shrink: 0;
         }
 
         .sidebar-brand .logo-icon {
-            width: 92px;
-            height: 92px;
+            width: 100%;
             background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
             overflow: visible;
+            padding: 0;
+            flex-shrink: 0;
         }
 
         .sidebar-brand .logo-icon img {
-            width: 100%;
-            height: 100%;
+            width: 58px;
+            max-width: 62px;
+            height: auto;
             object-fit: contain;
-            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
+            transition: transform 0.2s;
         }
 
-        .sidebar-brand h2 {
-            font-size: 16px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
-        }
-
-        .sidebar-brand span {
-            font-size: 11px;
-            color: #93a5cc;
-            font-weight: 600;
+        .sidebar-brand .logo-text {
+            display: none;
         }
 
         .sidebar-menu {
-            padding: 16px 12px;
+            padding: 0 8px;
             flex: 1;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
+            scrollbar-width: none;
+        }
+
+        .sidebar-menu::-webkit-scrollbar {
+            display: none;
         }
 
         .menu-category {
             font-size: 10px;
-            font-weight: 800;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #93a5cc;
-            padding: 12px 12px 4px 12px;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            padding: 4px 6px 2px 6px;
+            flex-shrink: 0;
+        }
+
+        .menu-category:first-child {
+            padding-top: 2px;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            color: #c0cdf0;
+            gap: 8px;
+            height: 34px;
+            padding: 0 8px;
+            box-sizing: border-box;
+            color: #475569;
             text-decoration: none;
-            border-radius: 12px;
-            font-size: 13.5px;
-            font-weight: 700;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 600;
             transition: all 0.2s ease;
             position: relative;
-        }
-
-        .nav-item i {
-            font-size: 16px;
-            width: 20px;
-            text-align: center;
             flex-shrink: 0;
         }
 
-        .nav-item span:not(.sidebar-badge-notify) {
+        .nav-item i,
+        .nav-item svg {
+            font-size: 15px;
+            width: 18px;
+            text-align: center;
+            color: #94a3b8;
+            transition: color 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-item span:not(.badge-count):not(.sidebar-badge-notify) {
             flex: 1;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .sidebar-badge-notify {
-            background-color: #ef4444;
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 800;
-            min-width: 20px;
-            height: 20px;
-            padding: 0 6px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.45);
-            flex-shrink: 0;
-            margin-left: auto;
+        .nav-item:hover {
+            color: #2563eb;
+            background: #f8fafc;
         }
 
-        .nav-item:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
+        .nav-item:hover i,
+        .nav-item:hover svg {
+            color: #2563eb;
         }
 
         .nav-item.active {
-            color: #ffffff;
-            background: var(--sidebar-active);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            color: #0f172a;
+            background: #eef2ff;
+            font-weight: 700;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
 
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 3.5px;
+            background-color: #2563eb;
+            border-top-right-radius: 9999px;
+            border-bottom-right-radius: 9999px;
+        }
+
+        .nav-item.active i,
+        .nav-item.active svg {
+            color: #1e293b;
+        }
+
+        .nav-item .badge-count,
+        .nav-item .sidebar-badge-notify {
+            margin-left: auto;
+            background: #ef4444;
+            color: white;
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 20px;
+            line-height: 1.2;
+            flex-shrink: 0;
+        }
+
+        /* Sidebar Bottom Profile & Controls */
         .sidebar-footer {
-            padding: 16px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 10px;
+            border-top: 1px solid #f1f5f9;
+            background: #ffffff;
+            border-radius: 0;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.15);
+            gap: 5px;
+            flex-shrink: 0;
+            margin-top: auto;
         }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            text-decoration: none;
+            padding: 0;
         }
 
         .avatar {
-            width: 38px;
-            height: 38px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: #475569;
+            background: #2563eb;
             color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 15px;
+            font-size: 11px;
             flex-shrink: 0;
-            overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            box-shadow: 0 1px 2px rgba(37, 99, 235, 0.15);
         }
 
         .user-info {
-            display: flex;
-            flex-direction: column;
             overflow: hidden;
+            min-width: 0;
         }
 
-        .user-name {
-            font-size: 13px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.2;
+        .user-info .name,
+        .user-info .user-name {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.25;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 140px;
         }
 
-        .user-role {
-            font-size: 10.5px;
-            color: #93a5cc;
+        .user-info .role,
+        .user-info .user-role {
+            font-size: 9px;
+            color: #94a3b8;
             font-weight: 700;
             text-transform: uppercase;
-            margin-top: 2px;
+            letter-spacing: 0.05em;
+            margin-top: 1px;
         }
 
         .sidebar-footer-actions {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-top: 4px;
+            gap: 5px;
+            padding-top: 0;
         }
 
         .btn-footer-action {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 8px 10px;
-            border-radius: 9px;
-            font-size: 12px;
+            gap: 4px;
+            padding: 4px 6px;
+            height: 30px;
+            border-radius: 7px;
+            font-size: 11px;
             font-weight: 700;
             text-decoration: none;
             cursor: pointer;
             border: none;
-            background: rgba(255, 255, 255, 0.08);
-            color: #c0cdf0;
             transition: all 0.2s ease;
             font-family: inherit;
+            box-sizing: border-box;
         }
 
         .btn-footer-action.btn-icon-only {
-            width: 34px;
-            height: 34px;
+            width: 30px;
+            height: 30px;
             padding: 0;
-            flex: 0 0 34px;
-            font-size: 13px;
+            flex: 0 0 30px;
+            font-size: 11px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            color: #475569;
+            border-radius: 7px;
         }
 
-        .btn-footer-action:hover {
-            background: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
+        .btn-footer-action.btn-icon-only:hover {
+            background: #f8fafc;
+            color: #2563eb;
+            border-color: #cbd5e1;
         }
 
-        .btn-logout-footer {
-            color: #f87171;
+        .btn-footer-action.btn-logout,
+        .btn-footer-action.btn-logout-footer {
+            color: #e11d48;
+            background: #fff1f2;
+            flex: 1;
         }
 
-        .btn-logout-footer:hover {
-            color: #ef4444;
-            background: rgba(239, 68, 68, 0.15);
+        .btn-footer-action.btn-logout:hover,
+        .btn-footer-action.btn-logout-footer:hover {
+            background: #ffe4e6;
+            color: #be123c;
+        }
+
+        .btn-footer-action.active {
+            background: #eef2ff;
+            color: #2563eb;
+            border-color: #c7d2fe;
         }
 
         /* Main Wrapper */
         .main-wrapper {
-            margin-left: var(--sidebar-width);
+            margin-left: 234px;
+            width: calc(100% - 234px);
+            max-width: calc(100% - 234px);
             flex: 1;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             min-width: 0;
-            width: calc(100% - var(--sidebar-width));
-            max-width: calc(100vw - var(--sidebar-width));
-            overflow-x: hidden;
-        }
-
-        /* Top Bar Header */
-        .topbar {
-            min-height: 64px;
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 28px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 90;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-            flex-wrap: wrap;
-            gap: 12px;
-            width: 100%;
+            padding: 0 10px 3.5rem 10px;
+            background-color: rgba(248, 250, 252, 0.6);
             box-sizing: border-box;
         }
 
-        .search-box {
-            position: relative;
-            width: 360px;
+        /* Topbar Header Container */
+        .topbar, .header {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-top: none;
+            border-radius: 0 0 14px 14px;
+            padding: 8px 18px;
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+            margin: 0 auto 20px auto;
+            position: sticky;
+            top: 0;
+            z-index: 80;
+            backdrop-filter: blur(8px);
+            box-sizing: border-box;
         }
 
-        .search-box input {
+        .topbar-container {
+            display: flex;
+            align-items: center;
             width: 100%;
-            padding: 9px 16px 9px 40px;
-            background: #f1f5f9;
-            border: 1px solid transparent;
+        }
+
+        .title-section,
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 0 1 auto;
+            min-width: 0;
+        }
+
+        .title-section h1,
+        .header-title h1,
+        .page-header-main-title {
+            font-size: 17px !important;
+            font-weight: 700 !important;
+            color: #0f2744 !important;
+            letter-spacing: -0.01em !important;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+        }
+
+        .title-section p,
+        .header-title p,
+        .page-header-sub-title {
+            font-size: 11px !important;
+            color: #64748b !important;
+            font-weight: 500 !important;
+            margin: 1px 0 0 0 !important;
+            line-height: 1.2 !important;
+        }
+
+        .title-section-content {
+            min-width: 0;
+            flex: 0 1 auto;
+        }
+
+        .header-controls {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            width: fit-content;
+        }
+
+        .header-control {
+            flex: 0 0 auto;
+            box-sizing: border-box;
+        }
+
+        .btn-mobile-sidebar-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
-            font-size: 13px;
-            color: var(--text-dark);
-            outline: none;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-mobile-sidebar-toggle:hover {
+            background: #f1f5f9;
+            color: #2563eb;
+        }
+
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(2px);
+            z-index: 95;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* 3 Header Compact Containers - Final Clean Implementation */
+        .ta-selector.academic-year.header-control,
+        .academic-year,
+        .ta-selector {
+            width: 220px;
+            min-width: 220px;
+            max-width: 220px;
+            flex: 0 0 220px;
+            height: 36px;
+            padding: 0 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #334155;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            white-space: nowrap;
+            box-sizing: border-box;
+            overflow: hidden;
             transition: all 0.2s ease;
         }
 
-        .search-box input:focus {
-            background: #ffffff;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 14px;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .semester-pill {
+        .ta-selector.academic-year.header-control:hover,
+        .academic-year:hover,
+        .ta-selector:hover {
             background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #475569;
+            border-color: #cbd5e1;
         }
 
-        /* Content Body */
-        .content-body {
-            padding: 24px 28px;
-            flex: 1;
-            min-width: 0;
-            width: 100%;
-            max-width: 100%;
+        .academic-year i.fa-graduation-cap,
+        .ta-selector i.fa-graduation-cap {
+            font-size: 13px;
+            color: #475569;
+            flex-shrink: 0;
+            margin-right: 5px;
+        }
+
+        .academic-year span,
+        .ta-selector span {
+            font-size: 11px;
+            font-weight: 700;
+            color: #334155;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .academic-year i.fa-chevron-down,
+        .ta-selector i.fa-chevron-down {
+            font-size: 9px;
+            color: #94a3b8;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .live-clock-card.date-time.header-control,
+        .date-time,
+        .live-clock-card {
+            width: 220px;
+            min-width: 220px;
+            max-width: 220px;
+            flex: 0 0 220px;
+            height: 36px;
+            padding: 0 8px;
             box-sizing: border-box;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .live-clock-wrapper {
+            display: contents !important;
+        }
+
+        /* Content Area */
+        .content-body {
+            padding: 0;
+            flex: 1;
+            width: 100%;
+            margin: 0 auto;
         }
 
         /* Universal Modern Pagination Styles */
@@ -375,17 +561,23 @@
             width: 100%;
         }
 
-        .pagination-container nav {
-            display: flex;
-            align-items: center;
+        .pagination-container nav,
+        .pagination-bar nav,
+        nav[role="navigation"] {
+            display: flex !important;
+            align-items: center !important;
             gap: 6px;
         }
 
-        .pagination-container nav > div:first-child:not(:only-child) {
+        .pagination-container nav > div:first-child:not(:only-child),
+        .pagination-bar nav > div:first-child,
+        nav[role="navigation"] > div:first-child {
             display: none !important;
         }
 
-        .pagination-container nav svg {
+        .pagination-container nav svg,
+        .pagination-bar nav svg,
+        nav[role="navigation"] svg {
             width: 14px;
             height: 14px;
             display: inline-block;
@@ -397,14 +589,18 @@
         .pagination-container nav span[aria-disabled="true"] > span,
         .pagination-container nav > div:last-child span,
         .pagination-container nav > div:last-child a,
+        .pagination-bar nav span,
+        .pagination-bar nav a,
+        nav[role="navigation"] span,
+        nav[role="navigation"] a,
         .pagination-list .page-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             min-width: 36px;
             height: 36px;
             padding: 0 12px;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 13px;
             font-weight: 700;
             color: #334155;
@@ -417,6 +613,8 @@
         }
 
         .pagination-container nav a:hover,
+        .pagination-bar nav a:hover,
+        nav[role="navigation"] a:hover,
         .pagination-list .page-item:not(.active):not(.disabled) .page-link:hover {
             background: #f1f5f9;
             border-color: #cbd5e1;
@@ -425,6 +623,8 @@
 
         .pagination-container nav span[aria-current="page"] > span,
         .pagination-container nav .active > span,
+        .pagination-bar nav span[aria-current="page"],
+        nav[role="navigation"] span[aria-current="page"],
         .pagination-list .page-item.active .page-link {
             background: #2563eb !important;
             border-color: #2563eb !important;
@@ -433,6 +633,8 @@
         }
 
         .pagination-container nav span[aria-disabled="true"] > span,
+        .pagination-bar nav span[aria-disabled="true"],
+        nav[role="navigation"] span[aria-disabled="true"],
         .pagination-list .page-item.disabled .page-link {
             color: #94a3b8 !important;
             background: #f8fafc !important;
@@ -450,97 +652,149 @@
             margin: 0;
         }
 
-        @media (max-width: 992px) {
-            .sidebar { transform: translateX(-100%); }
-            .main-wrapper { margin-left: 0; }
-            .topbar { padding: 12px 16px; }
-            .content-body { padding: 16px; }
+        @media (max-width: 1024px) {
+            .sidebar {
+                left: 0;
+                transform: translateX(-100%);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-wrapper {
+                margin-left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 10px;
+                padding-right: 10px;
+                padding-top: 0;
+            }
+            .topbar {
+                top: 0;
+                margin-bottom: 16px;
+                padding: 8px 14px;
+                border-radius: 0 0 12px 12px;
+            }
+            .btn-mobile-sidebar-toggle {
+                display: inline-flex;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .topbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .header-controls {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 2px;
+                gap: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                padding: 12px 14px;
+            }
+            .title-section {
+                width: 100%;
+            }
         }
     </style>
     @yield('styles')
 </head>
 <body>
 
+    <!-- Backdrop for Mobile Sidebar -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
-        <div class="sidebar-brand">
-            <div class="logo-icon">
-                <img src="{{ asset('images/logo_jurnal_side_bar.png') }}" alt="EDU JOURNAL Logo">
+        <div class="sidebar-content">
+            <!-- Brand Header -->
+            <div class="sidebar-brand">
+                <div class="logo-icon">
+                    <img src="{{ asset('images/logo_jurnal_side_bar.png') }}" alt="EDU JOURNAL Logo">
+                </div>
             </div>
-            <div>
-                <h2>Jurnal SMEA</h2>
-                <span>SMK Ekonomi & Bisnis</span>
-            </div>
+
+            <!-- Menus -->
+            <nav class="sidebar-menu">
+                <div class="menu-category">UTAMA</div>
+                <a href="{{ route('waka.dashboard') }}" class="nav-item {{ request()->routeIs('waka.dashboard') ? 'active' : '' }}">
+                    <i class="fa-solid fa-table-cells-large"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="menu-category">DATA MASTER</div>
+                <a href="{{ route('waka.siswa') }}" class="nav-item {{ request()->routeIs('waka.siswa*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Data Siswa</span>
+                </a>
+                <a href="{{ route('waka.jadwal') }}" class="nav-item {{ request()->routeIs('waka.jadwal*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Jadwal</span>
+                </a>
+                <a href="{{ route('waka.persetujuan-izin') }}" class="nav-item {{ request()->routeIs('waka.persetujuan-izin*') || request()->routeIs('waka.siswa-dispen*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <span>Persetujuan Izin</span>
+                    @php
+                        $pendingDispenNotifyCount = $wakaPendingDispenCount ?? \App\Models\SiswaDispen::where(function($q) {
+                            $q->where('status_waka', 'pending')->orWhereNull('status_waka');
+                        })->count();
+                    @endphp
+                    @if($pendingDispenNotifyCount > 0)
+                        <span class="badge-count" title="{{ $pendingDispenNotifyCount }} permohonan dispen siswa menunggu persetujuan">{{ $pendingDispenNotifyCount }}</span>
+                    @endif
+                </a>
+
+                <div class="menu-category">AKADEMIK</div>
+                <a href="{{ route('waka.pengumuman') }}" class="nav-item {{ request()->routeIs('waka.pengumuman*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Pengumuman</span>
+                </a>
+                <a href="{{ route('waka.rekap-jurnal') }}" class="nav-item {{ request()->routeIs('waka.rekap-jurnal*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <span>Rekap Jurnal Mengajar</span>
+                </a>
+                <a href="{{ route('waka.rekap-kehadiran') }}" class="nav-item {{ request()->routeIs('waka.rekap-kehadiran*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>Rekap Kehadiran Siswa</span>
+                </a>
+                <a href="{{ route('waka.pelanggaran-siswa') }}" class="nav-item {{ request()->routeIs('waka.pelanggaran-siswa*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span>Pelanggaran Siswa</span>
+                </a>
+            </nav>
         </div>
 
-        <nav class="sidebar-menu">
-            <div class="menu-category">Utama</div>
-            <a href="{{ route('waka.dashboard') }}" class="nav-item {{ request()->routeIs('waka.dashboard') ? 'active' : '' }}">
-                <i class="fa-solid fa-table-cells-large"></i>
-                <span>Dashboard</span>
-            </a>
-
-            <div class="menu-category">Data Master</div>
-            <a href="{{ route('waka.siswa') }}" class="nav-item {{ request()->routeIs('waka.siswa*') ? 'active' : '' }}">
-                <i class="fa-solid fa-users"></i>
-                <span>Data Siswa</span>
-            </a>
-            <a href="{{ route('waka.jadwal') }}" class="nav-item {{ request()->routeIs('waka.jadwal*') ? 'active' : '' }}">
-                <i class="fa-solid fa-calendar-days"></i>
-                <span>Jadwal</span>
-            </a>
-            <a href="{{ route('waka.persetujuan-izin') }}" class="nav-item {{ request()->routeIs('waka.persetujuan-izin*') || request()->routeIs('waka.siswa-dispen*') ? 'active' : '' }}">
-                <i class="fa-solid fa-clipboard-check"></i>
-                <span>Persetujuan Izin</span>
-                @php
-                    $pendingDispenNotifyCount = $wakaPendingDispenCount ?? \App\Models\SiswaDispen::where(function($q) {
-                        $q->where('status_waka', 'pending')->orWhereNull('status_waka');
-                    })->count();
-                @endphp
-                @if($pendingDispenNotifyCount > 0)
-                    <span class="sidebar-badge-notify" title="{{ $pendingDispenNotifyCount }} permohonan dispen siswa menunggu persetujuan">{{ $pendingDispenNotifyCount }}</span>
-                @endif
-            </a>
-
-            <div class="menu-category">Akademik</div>
-            <a href="{{ route('waka.pengumuman') }}" class="nav-item {{ request()->routeIs('waka.pengumuman*') ? 'active' : '' }}">
-                <i class="fa-solid fa-bullhorn"></i>
-                <span>Pengumuman</span>
-            </a>
-            <a href="{{ route('waka.rekap-jurnal') }}" class="nav-item {{ request()->routeIs('waka.rekap-jurnal*') ? 'active' : '' }}">
-                <i class="fa-solid fa-file-invoice"></i>
-                <span>Rekap Jurnal Mengajar</span>
-            </a>
-            <a href="{{ route('waka.rekap-kehadiran') }}" class="nav-item {{ request()->routeIs('waka.rekap-kehadiran*') ? 'active' : '' }}">
-                <i class="fa-solid fa-user-check"></i>
-                <span>Rekap Kehadiran Siswa</span>
-            </a>
-            <a href="{{ route('waka.pelanggaran-siswa') }}" class="nav-item {{ request()->routeIs('waka.pelanggaran-siswa*') ? 'active' : '' }}">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span>Pelanggaran Siswa</span>
-            </a>
-        </nav>
-
+        <!-- Sidebar Footer -->
         <div class="sidebar-footer">
             <div class="user-profile">
-                <div class="avatar">
+                <div class="avatar" style="overflow: hidden;">
                     @if(Auth::check() && Auth::user()->foto_url)
-                        <img src="{{ Auth::user()->foto_url }}" alt="Foto Profile">
+                        <img src="{{ Auth::user()->foto_url }}" alt="{{ Auth::user()->name }}" style="width: 100%; height: 100%; object-fit: cover;">
                     @else
                         {{ strtoupper(substr(Auth::user()->name ?? 'W', 0, 1)) }}
                     @endif
                 </div>
                 <div class="user-info">
-                    <div class="user-name" title="{{ Auth::user()->name ?? 'Waka' }}">{{ Auth::user()->name ?? 'Waka' }}</div>
-                    <div class="user-role">ROLE: {{ strtoupper(Auth::user()->role_label ?? 'WAKA') }}</div>
+                    <div class="name" title="{{ Auth::user()->name ?? 'Waka Kesiswaan' }}">{{ Auth::user()->name ?? 'Waka Kesiswaan' }}</div>
+                    <div class="role">ROLE: {{ strtoupper(Auth::user()->role_label ?? 'WAKA KESISWAAN') }}</div>
                 </div>
             </div>
 
             <div class="sidebar-footer-actions">
                 <form action="{{ route('logout') }}" method="POST" style="flex:1; display:flex;">
                     @csrf
-                    <button type="submit" class="btn-footer-action btn-logout-footer" style="width:100%;" title="Keluar dari Sistem">
-                        <i class="fa-solid fa-right-from-bracket"></i>
+                    <button type="submit" class="btn-footer-action btn-logout" title="Keluar dari sistem" style="width:100%;">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         <span>Keluar</span>
                     </button>
                 </form>
@@ -549,28 +803,35 @@
                     <i class="fa-solid fa-gear"></i>
                 </a>
 
-                <a href="{{ route('customer-service.index') }}" class="btn-footer-action btn-icon-only" title="Bantuan & Customer Service">
+                <a href="{{ route('customer-service.index') }}" class="btn-footer-action btn-icon-only {{ request()->routeIs('customer-service.*') ? 'active' : '' }}" title="Bantuan & Customer Service">
                     <i class="fa-solid fa-headset"></i>
                 </a>
             </div>
         </div>
     </aside>
 
-    <!-- Main Wrapper -->
+    <!-- Main Content Area -->
     <div class="main-wrapper">
-        <!-- Topbar Header -->
         <header class="topbar">
-            <div></div>
-
-            <div class="topbar-right">
-                <div class="semester-pill">
-                    <i class="fa-solid fa-graduation-cap" style="color: #64748b; font-size: 14px;"></i>
-                    <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2026/2027' }} - Semester {{ $activeTahunAjaran->semester ?? 'Ganjil' }}</span>
-                    <i class="fa-solid fa-chevron-down" style="font-size:11px; color: #94a3b8;"></i>
+            <div class="topbar-container">
+                <div class="title-section header-title">
+                    <button type="button" class="btn-mobile-sidebar-toggle" onclick="toggleSidebar()" aria-label="Buka Menu Navigasi" title="Menu Navigasi">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="title-section-content">
+                        @yield('topbar_left')
+                    </div>
                 </div>
 
-                {{-- Live Date & Time Widget Component (Standar Seluruh Role) --}}
-                @include('partials.live-clock')
+                <div class="header-controls">
+                    <div class="ta-selector academic-year header-control">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>T.A. {{ $activeTahunAjaran->tahun_ajaran ?? '2025/2026' }} – Semester {{ $activeTahunAjaran->semester ?? 'Genap' }}</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    @include('partials.live-clock')
+                </div>
             </div>
         </header>
 
@@ -580,6 +841,14 @@
         </main>
     </div>
 
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            if (sidebar) sidebar.classList.toggle('open');
+            if (backdrop) backdrop.classList.toggle('active');
+        }
+    </script>
     @yield('scripts')
 </body>
 </html>

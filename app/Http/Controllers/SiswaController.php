@@ -77,7 +77,7 @@ class SiswaController extends Controller
             $query->orderBy('nama_siswa', 'asc');
         }
 
-        $siswas             = $query->get();
+        $siswas             = $query->paginate(10)->withQueryString();
         $kelass             = Kelas::with('jurusan')->orderBy('nama_kelas')->get();
         $jurusans           = \App\Models\Jurusan::orderBy('kode_jurusan')->get();
         $trashedCount       = Siswa::onlyTrashed()->where(function($q) { $q->where('is_alumni', 0)->orWhereNull('is_alumni'); })->count();
@@ -105,6 +105,7 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'nis'            => 'required|numeric|digits_between:3,10|unique:siswa,nis',
             'nisn'           => 'required|numeric|digits:10|unique:siswa,nisn',

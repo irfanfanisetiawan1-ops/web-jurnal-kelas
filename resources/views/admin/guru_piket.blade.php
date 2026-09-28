@@ -345,99 +345,66 @@
                 <thead>
                     <tr class="bg-slate-50/90 text-slate-500 text-[11px] font-bold tracking-wider uppercase border-b border-slate-100">
                         <th class="py-3 px-4 w-12 text-center" scope="col">NO</th>
-                        <th class="py-3 px-4" scope="col">NAMA PETUGAS PIKET</th>
                         <th class="py-3 px-4" scope="col">NIP / USERNAME</th>
-                        <th class="py-3 px-4 text-center" scope="col">JK</th>
-                        <th class="py-3 px-4" scope="col">NO HP</th>
-                        <th class="py-3 px-4 text-center" scope="col">STATUS VERIFIKASI</th>
-                        <th class="py-3 px-4 text-center" scope="col">AKSI</th>
+                        <th class="py-3 px-4" scope="col">NAMA PETUGAS PIKET</th>
+                        <th class="py-3 px-4" scope="col">NO HP / WHATSAPP</th>
+                        <th class="py-3 px-4 text-center w-36" scope="col">AKSI</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-xs" id="piketTableBody">
                     @forelse($guruPikets as $index => $u)
                         <tr class="hover:bg-slate-50/70 transition-colors piket-data-row" onclick="openDetailModal({{ json_encode($u) }})" style="cursor: pointer;" title="Klik baris untuk melihat rincian detail akun">
-                            <!-- Column: NO -->
+                            <!-- Column 1: NO -->
                             <td class="py-4 px-4 text-center font-bold text-slate-600">{{ $index + 1 }}</td>
 
-                            <!-- Column: NAMA PETUGAS PIKET -->
+                            <!-- Column 2: NIP / USERNAME -->
+                            <td class="py-4 px-4 whitespace-nowrap">
+                                <div class="font-bold text-blue-600 text-xs font-mono tracking-wide">{{ $u->nip ?: '-' }}</div>
+                                <div class="text-[10px] text-slate-400 font-medium mt-0.5">User: {{ $u->username ?? '-' }}</div>
+                            </td>
+
+                            <!-- Column 3: NAMA PETUGAS PIKET -->
                             <td class="py-4 px-4">
                                 <div class="font-bold text-slate-800 text-sm">{{ $u->name }}</div>
                                 <div class="text-[10px] text-slate-400 font-semibold mt-0.5">Role: Petugas Piket</div>
                             </td>
 
-                            <!-- Column: NIP / USERNAME -->
-                            <td class="py-4 px-4">
-                                <div class="font-bold text-blue-600 text-xs font-mono tracking-wide">{{ $u->nip }}</div>
-                                <div class="text-[10px] text-slate-400 font-medium mt-0.5">User: {{ $u->username ?? '-' }}</div>
-                            </td>
-
-                            <!-- Column: JK -->
-                            <td class="py-4 px-4 text-center">
-                                @if(optional($u->guru)->jenis_kelamin == 'L' || $u->jenis_kelamin == 'L')
-                                    <span class="inline-block px-2.5 py-1 text-[11px] font-semibold text-sky-700 bg-sky-50 border border-sky-200/70 rounded-lg whitespace-nowrap">
-                                        Laki-laki
-                                    </span>
-                                @elseif(optional($u->guru)->jenis_kelamin == 'P' || $u->jenis_kelamin == 'P')
-                                    <span class="inline-block px-2.5 py-1 text-[11px] font-semibold text-pink-700 bg-pink-50 border border-pink-200/70 rounded-lg whitespace-nowrap">
-                                        Perempuan
+                            <!-- Column 4: NO HP / WHATSAPP -->
+                            <td class="py-4 px-4 whitespace-nowrap">
+                                @php
+                                    $phone = optional($u->guru)->no_hp ?? ($u->no_hp ?? null);
+                                @endphp
+                                @if(!empty($phone))
+                                    <span class="inline-flex items-center gap-1.5 text-slate-700 font-mono font-medium">
+                                        <i class="fa-solid fa-phone text-[10px] text-slate-400"></i>
+                                        <span>{{ $phone }}</span>
                                     </span>
                                 @else
                                     <span class="text-slate-400">-</span>
                                 @endif
                             </td>
 
-                            <!-- Column: NO HP -->
-                            <td class="py-4 px-4 font-semibold text-slate-700 font-mono">
-                                {{ optional($u->guru)->no_hp ?? ($u->no_hp ?? '-') }}
-                            </td>
-
-                            <!-- Column: STATUS VERIFIKASI -->
-                            <td class="py-4 px-4 text-center">
-                                @if($u->status_verifikasi === 'verified')
-                                    <span class="inline-flex items-center gap-1 px-3 py-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 rounded-full shadow-2xs whitespace-nowrap">
-                                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
-                                        </svg>
-                                        Terverifikasi
-                                    </span>
-                                @elseif($u->status_verifikasi === 'pending')
-                                    <span class="inline-flex items-center gap-1 px-3 py-1 text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200/80 rounded-full shadow-2xs whitespace-nowrap">
-                                        <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                        </svg>
-                                        Pending
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center gap-1 px-3 py-1 text-[11px] font-bold text-rose-700 bg-rose-50 border border-rose-200/80 rounded-full shadow-2xs whitespace-nowrap">
-                                        <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                        </svg>
-                                        Ditolak
-                                    </span>
-                                @endif
-                            </td>
-
-                            <!-- Column: AKSI -->
-                            <td class="py-4 px-4" onclick="event.stopPropagation();">
-                                <div class="flex items-center justify-center gap-1.5 flex-wrap">
+                            <!-- Column 5: AKSI -->
+                            <td class="py-4 px-4 text-center" onclick="event.stopPropagation();">
+                                <div class="flex items-center justify-center gap-1.5 whitespace-nowrap">
                                     @if($u->status_verifikasi === 'pending')
                                         <form action="{{ route('admin.verifikasi-guru.approve', $u->id) }}" method="POST" class="inline-flex">
                                             @csrf
-                                            <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 rounded-lg transition-colors shadow-2xs cursor-pointer" title="Setujui Akun Piket">
+                                            <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors cursor-pointer border-none" title="Setujui Akun Piket">
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
                                                 <span>Setujui</span>
                                             </button>
                                         </form>
                                         <form action="{{ route('admin.verifikasi-guru.reject', $u->id) }}" method="POST" class="inline-flex">
                                             @csrf
-                                            <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 rounded-lg transition-colors shadow-2xs cursor-pointer" title="Tolak Akun Piket">
+                                            <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors cursor-pointer border-none" title="Tolak Akun Piket">
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
                                                 <span>Tolak</span>
                                             </button>
                                         </form>
                                     @else
                                         <!-- Button: Detail -->
-                                        <button type="button" onclick="openDetailModal({{ json_encode($u) }})" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-sky-600 bg-sky-50 hover:bg-sky-100 border border-sky-200/80 rounded-lg transition-colors shadow-2xs cursor-pointer" title="Lihat Detail Profil">
+                                        <button type="button" onclick="openDetailModal({{ json_encode($u) }})" class="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition cursor-pointer border-none" title="Lihat Detail Profil">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                                 <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
@@ -446,37 +413,19 @@
                                         </button>
 
                                         <!-- Button: Edit -->
-                                        <button type="button" onclick="openEditModal({{ json_encode($u) }})" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 rounded-lg transition-colors shadow-2xs cursor-pointer" title="Edit Data & Hak Akses">
+                                        <button type="button" onclick="openEditModal({{ json_encode($u) }})" class="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition cursor-pointer border-none" title="Edit Data & Hak Akses">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                                             </svg>
                                             <span>Edit</span>
                                         </button>
-
-                                        <!-- Button: Ubah Pass -->
-                                        <button type="button" onclick="openResetPasswordModal({{ $u->id }}, '{{ addslashes($u->name) }}')" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200/80 rounded-lg transition-colors shadow-2xs cursor-pointer" title="Ubah Password Akun">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                            </svg>
-                                            <span>Ubah Pass</span>
-                                        </button>
-
-                                        <!-- Button: Hapus (Soft Delete) -->
-                                        @if($u->id !== Auth::id())
-                                            <button type="button" onclick="confirmDeletePiket({{ $u->id }}, '{{ addslashes($u->name) }}')" class="inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200/80 rounded-lg transition-colors shadow-2xs cursor-pointer" title="Hapus Guru Piket">
-                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                                </svg>
-                                                <span>Hapus</span>
-                                            </button>
-                                        @endif
                                     @endif
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center py-10 text-slate-400">
+                            <td colspan="5" class="text-center py-10 text-slate-400">
                                 <svg class="w-10 h-10 mx-auto mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
                                 </svg>
@@ -636,37 +585,109 @@
     </div>
 </div>
 
-<!-- Modal 3: View Detail -->
+<!-- Modal 3: View Detail (Modern & Interactive) -->
 <div class="modal-backdrop-custom" id="modalDetailUser">
-    <div class="modal-box-custom">
-        <div class="p-4 sm:p-5 bg-[#0f2744] text-white flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                </svg>
-                <h3 class="text-sm font-bold">Detail Akun Guru Piket</h3>
+    <div class="modal-box-custom max-w-lg">
+        <!-- Header Gradien Biru-Indigo -->
+        <div class="p-5 bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 text-white flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white">
+                    <span class="material-symbols-outlined text-2xl">badge</span>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold tracking-tight text-white" id="modalDetailTitle">Detail Petugas Piket</h3>
+                    <p class="text-[11px] text-blue-200 mt-0.5">Informasi profil lengkap, status akun, dan hak akses piket</p>
+                </div>
             </div>
-            <button type="button" class="text-slate-300 hover:text-white cursor-pointer" onclick="closeModal('modalDetailUser')">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                </svg>
+            <button type="button" onclick="closeModal('modalDetailUser')" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
+                <span class="material-symbols-outlined text-lg">close</span>
             </button>
         </div>
-        <div class="p-5 text-xs">
-            <div class="divide-y divide-slate-100">
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">Nama Lengkap:</span><span id="detail_name" class="font-bold text-slate-800"></span></div>
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">NIP:</span><span id="detail_nip" class="font-mono font-bold text-blue-600"></span></div>
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">Jenis Kelamin:</span><span id="detail_jk" class="font-semibold text-slate-700"></span></div>
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">Nomor HP / WA:</span><span id="detail_no_hp" class="font-mono font-semibold text-slate-700"></span></div>
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">Username:</span><span id="detail_username" class="font-mono text-slate-600"></span></div>
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">Email:</span><span id="detail_email" class="text-slate-600"></span></div>
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">Role:</span><span id="detail_role" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800"></span></div>
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">Status Verifikasi:</span><span id="detail_status" class="font-bold"></span></div>
-                <div class="py-2 flex justify-between"><span class="text-slate-500 font-medium">Dibuat Pada:</span><span id="detail_created_at" class="text-slate-600"></span></div>
+
+        <!-- Body -->
+        <div class="p-5 space-y-4 max-h-[75vh] overflow-y-auto text-left">
+            <!-- Headline Profil Card -->
+            <div class="flex items-center gap-3.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+                <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-base shrink-0 border-2 border-blue-200" id="detail_avatar">
+                    GP
+                </div>
+                <div class="min-w-0 flex-1">
+                    <h4 class="text-sm font-extrabold text-slate-800 truncate" id="detail_name">-</h4>
+                    <div class="flex flex-wrap items-center gap-1.5 mt-1">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10.5px] font-mono font-bold bg-blue-100/70 text-blue-800 border border-blue-200" id="detail_nip">-</span>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10.5px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200" id="detail_role">PETUGAS PIKET</span>
+                        <span id="detail_status_badge" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Terverifikasi
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Informasi (Jenis Kelamin & Username) -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Jenis Kelamin</span>
+                    <span class="text-xs font-bold text-slate-800" id="detail_jk">-</span>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Username Login</span>
+                    <span class="text-xs font-mono font-bold text-blue-700 truncate block" id="detail_username">-</span>
+                </div>
+            </div>
+
+            <!-- Grid Informasi (Email & Waktu Terdaftar) -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Alamat Email</span>
+                    <span class="text-xs font-medium text-slate-700 truncate block" id="detail_email">-</span>
+                </div>
+                <div class="p-3 rounded-xl bg-slate-50/70 border border-slate-200/60">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Terdaftar Sejak</span>
+                    <span class="text-xs font-medium text-slate-700 truncate block" id="detail_created_at">-</span>
+                </div>
+            </div>
+
+            <!-- Kontak No HP / WhatsApp -->
+            <div class="p-3.5 rounded-xl bg-slate-50/70 border border-slate-200/60 flex items-center justify-between">
+                <div>
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Nomor HP / WhatsApp</span>
+                    <span class="text-xs font-mono font-bold text-slate-800" id="detail_no_hp">-</span>
+                </div>
+                <a id="detail_wa_link" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition no-underline">
+                    <i class="fa-brands fa-whatsapp text-sm text-emerald-600"></i>
+                    <span>Chat WA</span>
+                </a>
             </div>
         </div>
-        <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
-            <button type="button" class="px-4 py-2 text-xs font-semibold rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 transition cursor-pointer" onclick="closeModal('modalDetailUser')">Tutup</button>
+
+        <!-- Footer Aksi Terpadu -->
+        <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+            <!-- Tombol Hapus (Kiri) -->
+            <button type="button" id="detail_btn_delete" onclick="triggerDeleteFromDetail()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition cursor-pointer">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span>Hapus Akun</span>
+            </button>
+
+            <!-- Aksi Kanan: Ubah Pass, Edit Data, Tutup -->
+            <div class="flex items-center gap-2">
+                <button type="button" id="detail_btn_pass" onclick="triggerResetPasswordFromDetail()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 transition cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Ubah Sandi</span>
+                </button>
+                <button type="button" id="detail_btn_edit" onclick="triggerEditFromDetail()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-amber-800 bg-amber-100/80 hover:bg-amber-200 border border-amber-300 transition cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                    <span>Edit</span>
+                </button>
+                <button type="button" onclick="closeModal('modalDetailUser')" class="px-4 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 transition cursor-pointer">
+                    Tutup
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -812,6 +833,13 @@
         });
     });
 
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-backdrop-custom.show').forEach(m => m.classList.remove('show'));
+        }
+    });
+
     function openEditModal(user) {
         document.getElementById('formEditUser').action = '/admin/verifikasi-guru/' + user.id + '/update-role';
         document.getElementById('edit_name').value = user.name || '';
@@ -923,14 +951,47 @@
         return true;
     }
 
+    let currentDetailUser = null;
+
     function openDetailModal(user) {
+        currentDetailUser = user;
+
+        const titleEl = document.getElementById('modalDetailTitle');
+        if (titleEl) titleEl.innerText = user.name ? 'Detail - ' + user.name : 'Detail Petugas Piket';
+
+        // Avatar Initials
+        const words = (user.name || '').trim().split(' ');
+        let initials = 'GP';
+        if (words.length >= 2 && words[0] && words[1]) {
+            initials = (words[0][0] + words[1][0]).toUpperCase();
+        } else if (words.length === 1 && words[0].length > 0) {
+            initials = words[0].substring(0, 2).toUpperCase();
+        }
+        const avatarEl = document.getElementById('detail_avatar');
+        if (avatarEl) avatarEl.textContent = initials;
+
         document.getElementById('detail_name').innerText = user.name || '-';
         document.getElementById('detail_nip').innerText = user.nip || '-';
         document.getElementById('detail_username').innerText = user.username || '-';
         document.getElementById('detail_email').innerText = user.email || '-';
-        document.getElementById('detail_role').innerText = user.role ? user.role.toUpperCase() : 'PIKET';
-        document.getElementById('detail_status').innerText = user.status_verifikasi ? user.status_verifikasi.toUpperCase() : '-';
-        document.getElementById('detail_created_at').innerText = user.created_at ? new Date(user.created_at).toLocaleDateString('id-ID') : '-';
+        document.getElementById('detail_role').innerText = user.role ? (user.role === 'piket' ? 'PETUGAS PIKET' : user.role.toUpperCase()) : 'PETUGAS PIKET';
+        document.getElementById('detail_created_at').innerText = user.created_at ? new Date(user.created_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '-';
+
+        // Status Verifikasi Badge
+        const statusBadgeEl = document.getElementById('detail_status_badge');
+        if (statusBadgeEl) {
+            const status = (user.status_verifikasi || 'verified').toLowerCase();
+            if (status === 'verified') {
+                statusBadgeEl.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
+                statusBadgeEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Terverifikasi';
+            } else if (status === 'pending') {
+                statusBadgeEl.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-amber-50 text-amber-700 border border-amber-200';
+                statusBadgeEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pending';
+            } else {
+                statusBadgeEl.className = 'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-rose-50 text-rose-700 border border-rose-200';
+                statusBadgeEl.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Ditolak';
+            }
+        }
 
         let jkText = '-';
         if (user.guru && user.guru.jenis_kelamin) {
@@ -943,7 +1004,51 @@
         if (document.getElementById('detail_jk')) document.getElementById('detail_jk').innerText = jkText;
         if (document.getElementById('detail_no_hp')) document.getElementById('detail_no_hp').innerText = noHpText;
 
+        // WhatsApp Link
+        const waLink = document.getElementById('detail_wa_link');
+        if (waLink) {
+            if (noHpText && noHpText !== '-') {
+                let cleanPhone = noHpText.replace(/[^0-9]/g, '');
+                if (cleanPhone.startsWith('0')) {
+                    cleanPhone = '62' + cleanPhone.substring(1);
+                }
+                waLink.href = 'https://wa.me/' + cleanPhone;
+                waLink.style.display = 'inline-flex';
+            } else {
+                waLink.style.display = 'none';
+            }
+        }
+
+        // Hapus Button Visibility
+        const deleteBtn = document.getElementById('detail_btn_delete');
+        if (deleteBtn) {
+            const currentAuthUserId = {{ Auth::id() ?? 0 }};
+            if (user.id === currentAuthUserId) {
+                deleteBtn.style.display = 'none';
+            } else {
+                deleteBtn.style.display = 'inline-flex';
+            }
+        }
+
         openModal('modalDetailUser');
+    }
+
+    function triggerDeleteFromDetail() {
+        if (!currentDetailUser) return;
+        closeModal('modalDetailUser');
+        confirmDeletePiket(currentDetailUser.id, currentDetailUser.name);
+    }
+
+    function triggerResetPasswordFromDetail() {
+        if (!currentDetailUser) return;
+        closeModal('modalDetailUser');
+        openResetPasswordModal(currentDetailUser.id, currentDetailUser.name);
+    }
+
+    function triggerEditFromDetail() {
+        if (!currentDetailUser) return;
+        closeModal('modalDetailUser');
+        openEditModal(currentDetailUser);
     }
 
     function confirmDeletePiket(id, name) {

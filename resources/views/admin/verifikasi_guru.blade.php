@@ -204,16 +204,6 @@
 </style>
 @endsection
 
-@section('topbar_left')
-<div class="title-header-wrapper" style="display: flex; flex-direction: column; justify-content: center; min-width: 0; flex: 0 1 auto;">
-    <h1 class="page-header-main-title" style="font-size: 17px; font-weight: 700; color: #0f2744; letter-spacing: -0.01em; line-height: 1.2; margin: 0; white-space: nowrap;">
-        Master Data — Pengguna
-    </h1>
-    <p class="page-header-sub-title" style="font-size: 11px; color: #64748b; font-weight: 500; margin: 1px 0 0 0; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 480px;">
-        Kelola data akun pengguna, verifikasi pendaftaran guru, dan atur hak akses role sistem
-    </p>
-</div>
-@endsection
 
 @section('content')
 
@@ -254,7 +244,15 @@
         </div>
     @endif
 
-    <!-- BEGIN: 8 Role Metric Cards (Horizontal Scrollable with Floating Arrow Nav) -->
+    <!-- Hint / Petunjuk Filter Kartu Role -->
+    <div class="flex items-center gap-2 px-1 text-slate-500 text-xs font-medium">
+        <svg class="w-4 h-4 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Klik salah satu kartu role di bawah untuk melihat &amp; mengelola pengguna berdasarkan role tersebut.</span>
+    </div>
+
+    <!-- BEGIN: 9 Role Metric Cards (Horizontal Scrollable with Floating Arrow Nav) -->
     <div class="relative group/metrics" id="roleMetricsWrapper">
         <!-- Tombol Panah Kiri -->
         <button type="button" 
@@ -504,6 +502,35 @@
                 <circle cx="90" cy="90" r="20" stroke="currentColor" stroke-width="6" opacity="0.7"/>
             </svg>
         </a>
+
+        <!-- 9. Orang Tua (Cyan / Biru Kehijauan) -->
+        <a href="{{ route('admin.verifikasi-guru', array_merge(request()->except(['role', 'page']), ['role' => request('role') == 'orang_tua' ? null : 'orang_tua'])) }}" 
+           class="w-56 min-w-[224px] max-w-[224px] shrink-0 h-[86px] rounded-2xl p-3.5 {{ request('role') == 'orang_tua' ? 'border-2 border-cyan-600 bg-gradient-to-br from-cyan-50 via-cyan-50/60 to-white ring-2 ring-cyan-500/20' : 'border border-cyan-100/70 bg-gradient-to-br from-cyan-50/80 via-white to-sky-50/30 hover:border-cyan-300' }} shadow-2xs hover:shadow-xs hover:-translate-y-0.5 transition-all duration-150 flex items-center gap-3 group no-underline relative overflow-hidden"
+           title="Filter: Orang Tua">
+            <div class="w-12 h-12 rounded-[18px] {{ request('role') == 'orang_tua' ? 'bg-gradient-to-b from-cyan-100 to-cyan-200/70 border-cyan-300/60 text-cyan-700 scale-105' : 'bg-gradient-to-b from-cyan-100/90 to-cyan-200/50 border-cyan-200/40 text-cyan-600 group-hover:scale-105' }} border flex items-center justify-center shrink-0 shadow-2xs transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+            </div>
+            <div class="flex flex-col min-w-0 flex-1 justify-center z-10">
+                <span class="text-xs font-bold {{ request('role') == 'orang_tua' ? 'text-cyan-800' : 'text-slate-700 group-hover:text-cyan-700' }} transition-colors truncate">
+                    Orang Tua
+                </span>
+                <div class="flex items-center justify-between mt-0.5">
+                    <span class="text-2xl font-black text-slate-900 tracking-tight leading-none">
+                        {{ number_format($countOrangTua ?? 0) }}
+                    </span>
+                    @if(request('role') == 'orang_tua')
+                        <span class="w-2 h-2 rounded-full bg-cyan-600 shrink-0"></span>
+                    @endif
+                </div>
+            </div>
+            <svg class="absolute -right-4 -bottom-4 w-24 h-24 text-cyan-200/50 pointer-events-none z-0" viewBox="0 0 100 100" fill="none">
+                <circle cx="90" cy="90" r="70" stroke="currentColor" stroke-width="8" opacity="0.4"/>
+                <circle cx="90" cy="90" r="45" stroke="currentColor" stroke-width="7" opacity="0.55"/>
+                <circle cx="90" cy="90" r="20" stroke="currentColor" stroke-width="6" opacity="0.7"/>
+            </svg>
+        </a>
     </section>
 
         <!-- Tombol Panah Kanan -->
@@ -517,7 +544,7 @@
             </svg>
         </button>
     </div>
-    <!-- END: 8 Role Metric Cards -->
+    <!-- END: 9 Role Metric Cards -->
 
     <!-- BEGIN: Verification Alert Banner (Clean SVG Bell) -->
     @if($countPending > 0)
@@ -549,19 +576,15 @@
                 <p class="text-xs text-slate-500 mt-0.5">Pencarian akun, seleksi role, verifikasi status, dan kelola kredensial pengguna.</p>
             </div>
             <div class="flex items-center gap-2.5 flex-wrap">
-                <!-- Tambah Pengguna Button -->
-                <button type="button" onclick="openModal('modalTambahUser')" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs shadow-sm transition-colors cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                        <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span>Tambah Pengguna</span>
-                </button>
-
-                <!-- Generate Akun Orang Tua Button -->
-                <button type="button" id="btnBatchOrtu" onclick="confirmGenerateAllOrangTua()" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-sm transition-colors cursor-pointer" title="Buat akun Orang Tua otomatis untuk semua siswa">
-                    <i class="fa-solid fa-user-group text-xs"></i>
-                    <span>Generate Akun Orang Tua</span>
-                </button>
+                <!-- Tambah Pengguna Button (Hanya tampil saat salah satu kartu role aktif) -->
+                @if(request('role'))
+                    <button type="button" onclick="openModal('modalTambahUser')" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs shadow-sm transition-colors cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Tambah Pengguna</span>
+                    </button>
+                @endif
 
                 <!-- Trash Bin Button -->
                 <a href="{{ route('admin.users-trash') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 hover:bg-amber-100 border border-amber-200/80 text-amber-800 font-semibold rounded-xl text-xs shadow-2xs transition-colors no-underline">
@@ -573,11 +596,6 @@
                 </a>
             </div>
         </div>
-
-        {{-- Form Submit Hidden untuk Pembuatan Massal Akun Orang Tua --}}
-        <form id="formGenerateAllOrangTua" action="{{ route('admin.users.generate-all-orang-tua') }}" method="POST" style="display:none;">
-            @csrf
-        </form>
 
         <!-- Bottom Row: Filter Bar (Search + Dropdown Role + Dropdown Status + Cari & Reset) -->
         <form action="{{ route('admin.verifikasi-guru') }}" method="GET" class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
@@ -667,17 +685,14 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse" id="user-management-table">
                 <!-- Table Header: Light Style (Consistent with Guru/Kelas/Mapel) -->
+                <!-- Table Header: Simplified 3 Columns -->
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200/80 text-slate-700 uppercase text-[11px] font-bold tracking-wider">
                         <th class="py-3.5 pl-6 pr-3 w-12 text-center" scope="col">
                             <input type="checkbox" id="selectAllUsers" onchange="toggleSelectAllUsers(this)" class="rounded border-slate-300 bg-white text-blue-600 focus:ring-0 focus:ring-offset-0 cursor-pointer" title="Pilih Semua (Select All)">
                         </th>
-                        <th class="py-3.5 px-3 text-center text-slate-500 font-semibold w-12" scope="col">No</th>
-                        <th class="py-3.5 px-5 min-w-[240px]" scope="col">Nama Pengguna</th>
-                        <th class="py-3.5 px-4 text-center min-w-[130px]" scope="col">Password</th>
-                        <th class="py-3.5 px-5 min-w-[160px]" scope="col">Role</th>
-                        <th class="py-3.5 px-4 text-slate-500 min-w-[110px]" scope="col">Dibuat Pada</th>
-                        <th class="py-3.5 pl-4 pr-6 sm:pr-8 text-center min-w-[340px]" scope="col">Aksi</th>
+                        <th class="py-3.5 px-5" scope="col">Nama Pengguna</th>
+                        <th class="py-3.5 px-6 text-center w-48 sm:w-56" scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <!-- Table Body -->
@@ -710,11 +725,6 @@
                                        {{ $isSelf ? 'disabled title="Tidak dapat menghapus akun Anda sendiri"' : '' }}>
                             </td>
 
-                            <!-- No Column -->
-                            <td class="py-3.5 px-3 text-center font-semibold text-slate-500">
-                                {{ $users->firstItem() + $index }}
-                            </td>
-
                             <!-- Nama & Identitas Pengguna -->
                             <td class="py-3.5 px-5">
                                 <div class="font-bold text-slate-900 text-xs sm:text-sm">{{ $u->name }}</div>
@@ -725,40 +735,10 @@
                                 </div>
                             </td>
 
-                            <!-- Password Terenkripsi Badge -->
-                            <td class="py-3.5 px-4 text-center">
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-sky-50 text-sky-700 border border-sky-200/70 rounded-full text-xs font-medium shadow-2xs" title="Password terenkripsi satu arah dengan Bcrypt">
-                                    <svg class="w-3 h-3 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                                    </svg>
-                                    <span>Terenkripsi</span>
-                                </span>
-                            </td>
-
-                            <!-- Role & Status Badge -->
-                            <td class="py-3.5 px-5">
-                                <div class="flex items-center gap-1.5 flex-wrap">
-                                    <span class="font-semibold text-slate-800 text-xs">{{ $u->role_label }}</span>
-                                    @if(in_array($u->role, ['admin', 'tu']))
-                                        <span class="px-1.5 py-0.5 bg-blue-100 text-blue-800 border border-blue-200 rounded text-[10px] font-bold leading-none">Super</span>
-                                    @endif
-                                    @if($u->status_verifikasi === 'pending')
-                                        <span class="px-1.5 py-0.5 bg-amber-100 text-amber-800 border border-amber-300 rounded text-[10px] font-bold leading-none">Pending</span>
-                                    @elseif($u->status_verifikasi === 'rejected')
-                                        <span class="px-1.5 py-0.5 bg-rose-100 text-rose-800 border border-rose-300 rounded text-[10px] font-bold leading-none">Ditolak</span>
-                                    @endif
-                                </div>
-                            </td>
-
-                            <!-- Dibuat Pada -->
-                            <td class="py-3.5 px-4 text-slate-500 font-medium text-xs">
-                                {{ $u->created_at ? $u->created_at->format('d/m/Y') : '-' }}
-                            </td>
-
                             <!-- Aksi Column -->
-                            <td class="py-3.5 pl-4 pr-6 sm:pr-8 text-center whitespace-nowrap">
+                            <td class="py-3.5 px-6 text-center whitespace-nowrap">
                                 @if($isPending)
-                                    <!-- Pending Approval Actions -->
+                                    <!-- Pending Approval Actions: Setujui & Tolak Langsung di Tabel -->
                                     <div class="flex items-center justify-center gap-2">
                                         <form action="{{ route('admin.verifikasi-guru.approve', $u->id) }}" method="POST" class="inline-flex m-0">
                                             @csrf
@@ -780,10 +760,10 @@
                                         </form>
                                     </div>
                                 @else
-                                    <!-- Verified Standard Actions (Detail = Sky, Edit = Amber, Ubah Pass = Indigo, Hapus = Rose) -->
-                                    <div class="flex items-center justify-center gap-1.5 whitespace-nowrap">
+                                    <!-- Verified Standard Actions (Detail = Sky, Edit = Amber) -->
+                                    <div class="flex items-center justify-center gap-2 whitespace-nowrap">
                                         <!-- Detail Button -->
-                                        <button type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200/70 rounded-lg text-xs font-semibold transition-colors cursor-pointer" data-user="{{ json_encode($userPayload) }}" onclick="openDetailModalFromEl(this)" title="Lihat Detail Profil Akun">
+                                        <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200/70 rounded-lg text-xs font-semibold transition-colors cursor-pointer" data-user="{{ json_encode($userPayload) }}" onclick="openDetailModalFromEl(this)" title="Lihat Detail Profil Akun">
                                             <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                                                 <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
@@ -792,41 +772,19 @@
                                         </button>
 
                                         <!-- Edit Button -->
-                                        <button type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/70 rounded-lg text-xs font-semibold transition-colors cursor-pointer" data-user="{{ json_encode($userPayload) }}" onclick="openEditModalFromEl(this)" title="Edit Role & Identitas Akun">
+                                        <button type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/70 rounded-lg text-xs font-semibold transition-colors cursor-pointer" data-user="{{ json_encode($userPayload) }}" onclick="openEditModalFromEl(this)" title="Edit Role & Identitas Akun">
                                             <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                                             </svg>
                                             <span>Edit</span>
                                         </button>
-
-                                        <!-- Ubah Pass Button: Indigo Palette (No Purple!) -->
-                                        <button type="button" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200/70 rounded-lg text-xs font-semibold transition-colors cursor-pointer" onclick="openResetPasswordModal({{ $u->id }}, '{{ addslashes($u->name) }}')" title="Ubah Password Akun">
-                                            <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                                            </svg>
-                                            <span>Ubah Pass</span>
-                                        </button>
-
-                                        <!-- Hapus Button -->
-                                        @if(!$isSelf)
-                                            <form action="{{ route('admin.users.destroy', $u->id) }}" method="POST" onsubmit="return confirm('Pindahkan akun {{ addslashes($u->name) }} ({{ addslashes($u->getRoleLabelAttribute()) }}) ke Tempat Sampah?')" class="inline-flex m-0">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200/70 rounded-lg text-xs font-semibold transition-colors cursor-pointer" title="Pindahkan Akun ke Tempat Sampah">
-                                                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                                                    </svg>
-                                                    <span>Hapus</span>
-                                                </button>
-                                            </form>
-                                        @endif
                                     </div>
                                 @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="py-12 px-4 text-center text-slate-400">
+                            <td colspan="3" class="py-12 px-4 text-center text-slate-400">
                                 <svg class="w-12 h-12 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"/>
                                 </svg>
@@ -1282,11 +1240,35 @@
             </div>
         </div>
 
-        <div class="p-4 border-t border-slate-100 flex justify-end bg-slate-50/50">
-            <button type="button" onclick="closeModal('modalDetailUser')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl text-xs transition-colors cursor-pointer">Tutup</button>
+        <div class="p-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2.5 bg-slate-50/50">
+            <div class="flex items-center gap-2">
+                <!-- Tombol Hapus Akun dari Detail (Sensitif) -->
+                <button type="button" id="btnDetailDelete" onclick="triggerDeleteFromDetail()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200/80 rounded-xl text-xs font-bold transition-colors cursor-pointer" title="Pindahkan Akun ke Tempat Sampah">
+                    <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+                    <span>Hapus Akun</span>
+                </button>
+            </div>
+            <div class="flex items-center gap-2">
+                <!-- Tombol Ubah Password dari Detail -->
+                <button type="button" id="btnDetailResetPassword" onclick="triggerResetPasswordFromDetail()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 rounded-xl text-xs font-bold transition-colors cursor-pointer" title="Ubah Password Akun Ini">
+                    <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                    </svg>
+                    <span>Ubah Password</span>
+                </button>
+                <button type="button" onclick="closeModal('modalDetailUser')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl text-xs transition-colors cursor-pointer">Tutup</button>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Form Hidden untuk Hapus Akun dari Modal Detail -->
+<form id="formDetailDelete" method="POST" style="display:none;">
+    @csrf
+    @method('DELETE')
+</form>
 
 <!-- Modal 5: Konfirmasi Bulk Delete (Hapus Terpilih) -->
 <div class="modal-backdrop-custom" id="modalConfirmBulkDelete">
@@ -1381,10 +1363,10 @@
                 const cards = container.querySelectorAll('a[title*="Filter:"]');
                 cards.forEach(function(card) {
                     if (card.classList.contains('border-2')) {
-                        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        card.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
                     }
                 });
-            }, 100);
+            }, 50);
         @endif
 
         updateArrowVisibility();
@@ -1400,6 +1382,11 @@
             modal.classList.add('active');
             if (id === 'modalTambahUser') {
                 const roleSelect = document.getElementById('add_role');
+                @if(request('role'))
+                    if (roleSelect) {
+                        roleSelect.value = '{{ request('role') }}';
+                    }
+                @endif
                 const roleVal = roleSelect ? roleSelect.value : 'guru';
                 handleRoleChange(roleVal);
 
@@ -1533,18 +1520,9 @@
         }
     }
 
-    function confirmGenerateAllOrangTua() {
-        if (confirm("Apakah Anda yakin ingin membuat akun Orang Tua otomatis untuk semua data siswa yang belum memiliki akun?")) {
-            const btn = document.getElementById('btnBatchOrtu');
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
-            }
-            document.getElementById('formGenerateAllOrangTua').submit();
-        }
-    }
-
     // 3. EDIT & DETAIL MODAL LOGIC
+    let currentDetailUser = null;
+
     function openEditModalFromEl(button) {
         try {
             const user = JSON.parse(button.getAttribute('data-user'));
@@ -1573,6 +1551,8 @@
             if (!dataAttr) return;
 
             const u = JSON.parse(dataAttr);
+            currentDetailUser = u;
+
             document.getElementById('detail_name').textContent = u.name || '-';
             
             const isOrtu = (u.role === 'orang_tua');
@@ -1595,9 +1575,39 @@
             }
 
             document.getElementById('detail_created_at').textContent = u.created_at_formatted || '-';
+
+            // Kelola visibilitas tombol Hapus pada akun sendiri (tidak dapat menghapus diri sendiri)
+            const currentUserId = {{ Auth::id() }};
+            const btnDelete = document.getElementById('btnDetailDelete');
+            if (btnDelete) {
+                if (u.id === currentUserId) {
+                    btnDelete.style.display = 'none';
+                } else {
+                    btnDelete.style.display = 'inline-flex';
+                }
+            }
+
             openModal('modalDetailUser');
         } catch (e) {
             console.error('Failed to parse user data for detail', e);
+        }
+    }
+
+    function triggerResetPasswordFromDetail() {
+        if (!currentDetailUser) return;
+        const targetId = currentDetailUser.id;
+        const targetName = currentDetailUser.name;
+        closeModal('modalDetailUser');
+        openResetPasswordModal(targetId, targetName);
+    }
+
+    function triggerDeleteFromDetail() {
+        if (!currentDetailUser) return;
+        const confirmMsg = `Pindahkan akun ${currentDetailUser.name} (${currentDetailUser.role_label || currentDetailUser.role}) ke Tempat Sampah?`;
+        if (confirm(confirmMsg)) {
+            const form = document.getElementById('formDetailDelete');
+            form.action = `/admin/users/${currentDetailUser.id}`;
+            form.submit();
         }
     }
 

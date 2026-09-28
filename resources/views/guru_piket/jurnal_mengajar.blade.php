@@ -1741,6 +1741,7 @@
     $cSig = \Carbon\Carbon::parse($dateForSignature);
     $sigDayIndo = $daysMapIndo[$cSig->format('l')] ?? 'Senin';
     $sigDateFormatted = $sigDayIndo . ', ' . $cSig->day . ' ' . $monthsMapIndo[$cSig->month] . ' ' . $cSig->year;
+    $tglMulai = $tglMulai ?? $tanggalFilter ?? request('tgl_mulai', request('tanggal', ''));
 @endphp
 <div class="jurnal-page-wrapper">
 

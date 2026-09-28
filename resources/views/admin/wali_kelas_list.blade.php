@@ -224,50 +224,132 @@
                         <span>Pilih Guru Terdaftar &amp; Terverifikasi</span>
                     </label>
                     <div class="flex items-center gap-2">
-                        <span id="guru_match_count" class="text-[11px] font-semibold text-blue-600"></span>
                         <span id="badge_mode_status" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-slate-200 text-slate-700">
                             Mode Input Manual
                         </span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="w-full relative" id="guru_combobox_container">
+                    <!-- Native Select (Hidden, Preserves data attributes & form value) -->
+                    <select id="select_id_guru" name="id_guru" form="formWaliKelas" class="hidden">
+                        <option value="">-- Pilih Guru untuk Diangkat sebagai Wali Kelas --</option>
+                        @foreach($gurus as $g)
+                            @php
+                                $namaLower = strtolower(trim($g->nama_guru));
+                                $assignedClassName = $assignedWaliMap[$g->nip] ?? ($assignedWaliMap[$namaLower] ?? null);
+                                $isAssigned = !is_null($assignedClassName);
+                            @endphp
+                            <option value="{{ $g->id_guru }}"
+                                    {{ old('id_guru') == $g->id_guru ? 'selected' : '' }}
+                                    {{ $isAssigned ? 'disabled' : '' }}
+                                    data-nip="{{ $g->nip }}"
+                                    data-nama="{{ $g->nama_guru }}"
+                                    data-jk="{{ $g->jenis_kelamin }}"
+                                    data-nohp="{{ $g->no_hp }}"
+                                    class="{{ $isAssigned ? 'text-slate-400 bg-slate-100 italic' : '' }}">
+                                {{ $g->nama_guru }} (NIP: {{ $g->nip }})
+                                @if($isAssigned)
+                                    — [Sudah Menjadi Wali Kelas: {{ $assignedClassName }}]
+                                @elseif($g->jenis_kelamin)
+                                    - [{{ $g->jenis_kelamin_teks }}]
+                                @endif
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <!-- Combobox Input Trigger -->
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                             </svg>
-                        </span>
-                        <input type="text" id="search_guru_nip" oninput="filterGuruWaliSelect(this.value)"
-                            class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border-slate-200 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-800"
-                            placeholder="Cari nama guru atau NIP...">
+                        </div>
+                        <input type="text"
+                               id="guru_combobox_input"
+                               class="w-full pl-10 pr-20 py-2.5 text-xs rounded-xl border border-slate-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 text-slate-800 placeholder-slate-400 font-medium transition shadow-xs outline-none cursor-pointer"
+                               placeholder="Klik atau ketik nama guru / NIP untuk mencari..."
+                               autocomplete="off">
+                        
+                        <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center gap-1">
+                            <button type="button"
+                                    id="guru_combobox_clear"
+                                    class="hidden p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-rose-500 transition cursor-pointer"
+                                    title="Kosongkan pilihan (Kembali ke Mode Manual)">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                </svg>
+                            </button>
+                            <button type="button"
+                                    id="guru_combobox_toggle"
+                                    class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition cursor-pointer"
+                                    title="Buka / Tutup Daftar Guru">
+                                <svg id="guru_combobox_chevron" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <div>
-                        <select id="select_id_guru" name="id_guru" class="w-full py-2 px-3 text-xs rounded-xl border-slate-200 bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-800 font-medium">
-                            <option value="">-- Pilih Guru untuk Diangkat sebagai Wali Kelas --</option>
+
+                    <!-- Floating Dropdown Menu (absolute z-50) -->
+                    <div id="guru_combobox_dropdown"
+                         class="hidden absolute left-0 right-0 top-full mt-1.5 bg-white rounded-xl border border-slate-200 shadow-xl z-50 overflow-hidden text-xs">
+                        <div class="px-3.5 py-2 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+                            <span>Daftar Guru Terdaftar</span>
+                            <span id="guru_combobox_count" class="text-blue-600 font-bold">{{ count($gurus) }} guru</span>
+                        </div>
+
+                        <ul id="guru_combobox_options" class="max-h-60 overflow-y-auto divide-y divide-slate-100 py-1">
                             @foreach($gurus as $g)
                                 @php
                                     $namaLower = strtolower(trim($g->nama_guru));
                                     $assignedClassName = $assignedWaliMap[$g->nip] ?? ($assignedWaliMap[$namaLower] ?? null);
                                     $isAssigned = !is_null($assignedClassName);
                                 @endphp
-                                <option value="{{ $g->id_guru }}"
-                                        {{ old('id_guru') == $g->id_guru ? 'selected' : '' }}
-                                        {{ $isAssigned ? 'disabled' : '' }}
-                                        data-nip="{{ $g->nip }}"
-                                        data-nama="{{ $g->nama_guru }}"
-                                        data-jk="{{ $g->jenis_kelamin }}"
-                                        data-nohp="{{ $g->no_hp }}"
-                                        class="{{ $isAssigned ? 'text-slate-400 bg-slate-100 italic' : '' }}">
-                                    {{ $g->nama_guru }} (NIP: {{ $g->nip }})
-                                    @if($isAssigned)
-                                        — [Sudah Menjadi Wali Kelas: {{ $assignedClassName }}]
-                                    @elseif($g->jenis_kelamin)
-                                        - [{{ $g->jenis_kelamin_teks }}]
-                                    @endif
-                                </option>
+                                <li class="guru-combobox-item transition {{ $isAssigned ? 'opacity-60 bg-slate-50/70 cursor-not-allowed select-none' : 'hover:bg-blue-50/70 cursor-pointer' }}"
+                                    data-id="{{ $g->id_guru }}"
+                                    data-nama="{{ $g->nama_guru }}"
+                                    data-nip="{{ $g->nip }}"
+                                    data-assigned="{{ $isAssigned ? '1' : '0' }}">
+                                    <div class="px-3.5 py-2.5 flex items-center justify-between gap-3">
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center gap-2">
+                                                <span class="font-bold text-slate-800 truncate {{ $isAssigned ? 'text-slate-500' : '' }}">{{ $g->nama_guru }}</span>
+                                                @if($g->jenis_kelamin)
+                                                    <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold {{ $g->jenis_kelamin === 'L' ? 'bg-blue-50 text-blue-700' : 'bg-pink-50 text-pink-700' }}">
+                                                        {{ $g->jenis_kelamin }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="text-[11px] text-slate-500 font-mono mt-0.5 flex items-center gap-1.5">
+                                                <span>NIP: {{ $g->nip }}</span>
+                                                @if($g->no_hp)
+                                                    <span class="text-slate-300">•</span>
+                                                    <span>{{ $g->no_hp }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @if($isAssigned)
+                                            <span class="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                                                Sudah Wali Kelas: {{ $assignedClassName }}
+                                            </span>
+                                        @else
+                                            <span class="shrink-0 text-blue-600 font-semibold text-[11px]">
+                                                Pilih
+                                            </span>
+                                        @endif
+                                    </div>
+                                </li>
                             @endforeach
-                        </select>
+                        </ul>
+
+                        <div id="guru_combobox_no_results" class="hidden p-6 text-center text-slate-400 text-xs">
+                            <svg class="w-8 h-8 mx-auto mb-2 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                            <p class="font-semibold text-slate-600">Tidak ada guru yang cocok</p>
+                            <p class="text-[11px] text-slate-400 mt-0.5">Periksa ejaan nama guru atau 18 digit NIP</p>
+                        </div>
                     </div>
                 </div>
 
@@ -905,55 +987,15 @@
         }
     }
 
-    /* 4. TEACHER QUICK SEARCH IN SINGLE FORM */
-    function filterGuruWaliSelect(query) {
-        const select = document.getElementById('select_id_guru');
-        const badge  = document.getElementById('guru_match_count');
-        if (!select) return;
-
-        const q = query.trim().toLowerCase();
-        let count = 0;
-
-        for (let i = 0; i < select.options.length; i++) {
-            const opt = select.options[i];
-            if (!opt.value) {
-                opt.hidden = false;
-                opt.style.display = '';
-                continue;
-            }
-
-            const nip  = (opt.getAttribute('data-nip') || '').toLowerCase();
-            const nama = (opt.getAttribute('data-nama') || '').toLowerCase();
-            const text = (opt.text || '').toLowerCase();
-
-            if (q === '' || nip.includes(q) || nama.includes(q) || text.includes(q)) {
-                opt.hidden = false;
-                opt.style.display = '';
-                count++;
-            } else {
-                opt.hidden = true;
-                opt.style.display = 'none';
-            }
-        }
-
-        if (badge) {
-            if (q === '') {
-                badge.innerText = '';
-            } else {
-                badge.innerText = count > 0 ? count + ' guru cocok' : 'Tidak ditemukan';
-            }
-        }
-    }
+    let resetGuruComboboxUI = function() {};
 
     function resetWaliKelasForm() {
-        const searchInput = document.getElementById('search_guru_nip');
-        if (searchInput) {
-            searchInput.value = '';
-            filterGuruWaliSelect('');
-        }
-
         const selectGuru = document.getElementById('select_id_guru');
         if (selectGuru) selectGuru.value = '';
+
+        if (typeof resetGuruComboboxUI === 'function') {
+            resetGuruComboboxUI();
+        }
 
         const selectKelas = document.getElementById('id_kelas');
         if (selectKelas) selectKelas.value = '';
@@ -1066,6 +1108,251 @@
         document.getElementById('formBulkDelete').submit();
     }
 
+    /* -------------------------------------------------------------
+     * GURU COMBOBOX LOGIC (Tailwind Native, Zero Dependency)
+     * ------------------------------------------------------------- */
+    function initGuruCombobox() {
+        const container = document.getElementById('guru_combobox_container');
+        if (!container) return;
+
+        const selectElem = document.getElementById('select_id_guru');
+        const inputElem  = document.getElementById('guru_combobox_input');
+        const clearBtn   = document.getElementById('guru_combobox_clear');
+        const toggleBtn  = document.getElementById('guru_combobox_toggle');
+        const chevron    = document.getElementById('guru_combobox_chevron');
+        const dropdown   = document.getElementById('guru_combobox_dropdown');
+        const countElem  = document.getElementById('guru_combobox_count');
+        const noResults  = document.getElementById('guru_combobox_no_results');
+        const items      = container.querySelectorAll('.guru-combobox-item');
+
+        const totalAvailable = Array.from(items).filter(it => it.getAttribute('data-assigned') !== '1').length;
+        let activeIndex = -1;
+
+        function openDropdown() {
+            dropdown.classList.remove('hidden');
+            if (chevron) chevron.classList.add('rotate-180');
+        }
+
+        function closeDropdown() {
+            dropdown.classList.add('hidden');
+            if (chevron) chevron.classList.remove('rotate-180');
+            clearHighlights();
+        }
+
+        function toggleDropdown() {
+            if (dropdown.classList.contains('hidden')) {
+                openDropdown();
+                inputElem.focus();
+            } else {
+                closeDropdown();
+            }
+        }
+
+        function getVisibleAvailableItems() {
+            return Array.from(items).filter(item => item.style.display !== 'none' && item.getAttribute('data-assigned') !== '1');
+        }
+
+        function clearHighlights() {
+            items.forEach(it => it.classList.remove('bg-blue-100/70', 'ring-1', 'ring-blue-300'));
+            activeIndex = -1;
+        }
+
+        function highlightItem(index) {
+            const visible = getVisibleAvailableItems();
+            items.forEach(it => it.classList.remove('bg-blue-100/70', 'ring-1', 'ring-blue-300'));
+            if (index >= 0 && index < visible.length) {
+                const target = visible[index];
+                target.classList.add('bg-blue-100/70', 'ring-1', 'ring-blue-300');
+                target.scrollIntoView({ block: 'nearest' });
+                activeIndex = index;
+            } else {
+                activeIndex = -1;
+            }
+        }
+
+        function filterItems(query) {
+            const q = query.trim().toLowerCase();
+            let visibleCount = 0;
+            let availableVisible = 0;
+
+            items.forEach(item => {
+                const nama = (item.getAttribute('data-nama') || '').toLowerCase();
+                const nip  = (item.getAttribute('data-nip') || '').toLowerCase();
+                const isAssigned = item.getAttribute('data-assigned') === '1';
+
+                const matches = q === '' || nama.includes(q) || nip.includes(q);
+                if (matches) {
+                    item.style.display = '';
+                    visibleCount++;
+                    if (!isAssigned) availableVisible++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            if (countElem) {
+                if (q === '') {
+                    countElem.textContent = `${items.length} guru (${totalAvailable} dapat dipilih)`;
+                } else {
+                    countElem.textContent = `${visibleCount} hasil (${availableVisible} dapat dipilih)`;
+                }
+            }
+
+            if (noResults) {
+                if (visibleCount === 0) {
+                    noResults.classList.remove('hidden');
+                } else {
+                    noResults.classList.add('hidden');
+                }
+            }
+
+            clearHighlights();
+        }
+
+        function selectGuruItem(item) {
+            const isAssigned = item.getAttribute('data-assigned') === '1';
+            if (isAssigned) return;
+
+            const id   = item.getAttribute('data-id');
+            const nama = item.getAttribute('data-nama');
+            const nip  = item.getAttribute('data-nip');
+
+            if (selectElem) {
+                selectElem.value = id;
+                selectElem.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            inputElem.value = `${nama} (NIP: ${nip})`;
+            clearBtn.classList.remove('hidden');
+            closeDropdown();
+        }
+
+        function clearGuruSelection() {
+            if (selectElem) {
+                selectElem.value = '';
+                selectElem.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            inputElem.value = '';
+            clearBtn.classList.add('hidden');
+            filterItems('');
+            closeDropdown();
+        }
+
+        resetGuruComboboxUI = function() {
+            inputElem.value = '';
+            clearBtn.classList.add('hidden');
+            filterItems('');
+            closeDropdown();
+        };
+
+        // Listeners
+        inputElem.addEventListener('focus', function() {
+            openDropdown();
+            this.select();
+        });
+
+        inputElem.addEventListener('click', function() {
+            if (dropdown.classList.contains('hidden')) {
+                openDropdown();
+            }
+        });
+
+        inputElem.addEventListener('input', function() {
+            openDropdown();
+            filterItems(this.value);
+            if (this.value.trim() === '') {
+                if (selectElem && selectElem.value !== '') {
+                    selectElem.value = '';
+                    selectElem.dispatchEvent(new Event('change', { bubbles: true }));
+                    clearBtn.classList.add('hidden');
+                }
+            }
+        });
+
+        inputElem.addEventListener('keydown', function(e) {
+            if (dropdown.classList.contains('hidden')) {
+                if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    openDropdown();
+                    e.preventDefault();
+                    return;
+                }
+            }
+
+            if (e.key === 'Escape') {
+                closeDropdown();
+                e.preventDefault();
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const visible = getVisibleAvailableItems();
+                if (visible.length === 0) return;
+                activeIndex = (activeIndex + 1) % visible.length;
+                highlightItem(activeIndex);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const visible = getVisibleAvailableItems();
+                if (visible.length === 0) return;
+                activeIndex = (activeIndex - 1 + visible.length) % visible.length;
+                highlightItem(activeIndex);
+            } else if (e.key === 'Enter') {
+                const visible = getVisibleAvailableItems();
+                if (!dropdown.classList.contains('hidden') && activeIndex >= 0 && activeIndex < visible.length) {
+                    e.preventDefault();
+                    selectGuruItem(visible[activeIndex]);
+                }
+            }
+        });
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleDropdown();
+            });
+        }
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                clearGuruSelection();
+            });
+        }
+
+        items.forEach(item => {
+            item.addEventListener('click', function() {
+                selectGuruItem(this);
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!container.contains(e.target)) {
+                closeDropdown();
+                if (selectElem && selectElem.value) {
+                    const selOpt = selectElem.options[selectElem.selectedIndex];
+                    if (selOpt && selOpt.value) {
+                        const nama = selOpt.getAttribute('data-nama') || '';
+                        const nip  = selOpt.getAttribute('data-nip') || '';
+                        inputElem.value = `${nama} (NIP: ${nip})`;
+                        clearBtn.classList.remove('hidden');
+                    }
+                } else {
+                    inputElem.value = '';
+                    clearBtn.classList.add('hidden');
+                    filterItems('');
+                }
+            }
+        });
+
+        // Initialize state if select is already populated (e.g. old input)
+        if (selectElem && selectElem.value) {
+            const selOpt = selectElem.options[selectElem.selectedIndex];
+            if (selOpt && selOpt.value) {
+                const nama = selOpt.getAttribute('data-nama') || '';
+                const nip  = selOpt.getAttribute('data-nip') || '';
+                inputElem.value = `${nama} (NIP: ${nip})`;
+                clearBtn.classList.remove('hidden');
+            }
+        }
+    }
+
     /* 6. DOM INITIALIZATION */
     document.addEventListener("DOMContentLoaded", function() {
         const inputNip = document.getElementById('nip');
@@ -1158,6 +1445,9 @@
             selectGuru.addEventListener('change', handleGuruSelection);
             if (selectGuru.value) handleGuruSelection();
         }
+
+        // Initialize searchable combobox
+        initGuruCombobox();
 
         const form = document.getElementById('formWaliKelas');
         if (form) {
