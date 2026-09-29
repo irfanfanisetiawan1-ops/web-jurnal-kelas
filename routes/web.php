@@ -27,6 +27,8 @@ use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\SuratIzinSiswaController;
 use App\Http\Controllers\GuruPiketController;
 use App\Http\Controllers\TahunAjaranController;
+use App\Http\Controllers\LaporAdminTuController;
+use App\Http\Controllers\AdminLaporanController;
 
 // ─────────────────────────────────────────────────
 // Public Auth Routes & Link Approval (Tanpa Ribet Login)
@@ -42,11 +44,22 @@ Route::get('/register', function () {
 })->name('register');
 Route::post('/logout',           [AuthController::class, 'logout'])->name('logout');
 
+// Layanan Publik Lapor Admin TU
+Route::get('/lapor-admin-tu',                      [LaporAdminTuController::class, 'index'])->name('lapor.admin-tu');
+Route::post('/lapor-admin-tu',                     [LaporAdminTuController::class, 'store'])->name('lapor.admin-tu.store');
+Route::get('/lapor-admin-tu/sukses/{ticket_code}', [LaporAdminTuController::class, 'success'])->name('lapor.admin-tu.success');
+Route::get('/lapor-admin-tu/cek-status',           [LaporAdminTuController::class, 'cekStatus'])->name('lapor.admin-tu.cek-status');
+
 // Public Link Persetujuan Unik (Waka, Kepsek & Wali Kelas)
 Route::get('/approval/guru-izin/{token}',  [ApprovalPublicController::class, 'showGuruIzin'])->name('approval.guru-izin.show');
 Route::post('/approval/guru-izin/{token}', [ApprovalPublicController::class, 'processGuruIzin'])->name('approval.guru-izin.process');
 Route::get('/approval/dispen/{token}',     [ApprovalPublicController::class, 'showSiswaDispen'])->name('approval.siswa-dispen.show');
 Route::post('/approval/dispen/{token}',    [ApprovalPublicController::class, 'processSiswaDispen'])->name('approval.siswa-dispen.process');
+Route::post('/approval/dispen/{token}/resend-satpam', [ApprovalPublicController::class, 'resendNotifSatpam'])->name('approval.siswa-dispen.resend-satpam');
+Route::get('/pemberitahuan/surat-izin/{id}',          [ApprovalPublicController::class, 'showSuratIzin'])->name('pemberitahuan.surat-izin.show');
+Route::get('/pemberitahuan/siswa-telat/{id}',         [ApprovalPublicController::class, 'showSiswaTelat'])->name('pemberitahuan.siswa-telat.show');
+Route::get('/approval/surat-izin/{id}',               [ApprovalPublicController::class, 'showSuratIzin'])->name('approval.surat-izin.show');
+Route::get('/approval/siswa-telat/{id}',              [ApprovalPublicController::class, 'showSiswaTelat'])->name('approval.siswa-telat.show');
 
 // Redirect root ke dashboard sesuai role
 Route::get('/', function () {
@@ -63,6 +76,21 @@ Route::get('/', function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard',  [AdminDashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/export-csv', [AdminDashboardController::class, 'exportCsv'])->name('export-csv');
+
+    // Manajemen Laporan Pengguna (Role TU)
+    Route::get('/laporan',                              [AdminLaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/realtime-count',               [AdminLaporanController::class, 'realtimeCount'])->name('laporan.realtime-count');
+    Route::get('/laporan/export',                       [AdminLaporanController::class, 'exportCsv'])->name('laporan.export');
+    Route::delete('/laporan/destroy-batch',             [AdminLaporanController::class, 'destroyBatch'])->name('laporan.destroy-batch');
+    Route::get('/laporan/trash',                        [AdminLaporanController::class, 'trash'])->name('laporan.trash');
+    Route::post('/laporan/trash/restore-batch',         [AdminLaporanController::class, 'restoreBatch'])->name('laporan.restore-batch');
+    Route::post('/laporan/trash/{id}/restore',          [AdminLaporanController::class, 'restore'])->name('laporan.restore');
+    Route::match(['POST', 'DELETE'], '/laporan/trash/force-batch',  [AdminLaporanController::class, 'forceDeleteBatch'])->name('laporan.force-delete-batch');
+    Route::match(['POST', 'DELETE'], '/laporan/trash/empty',        [AdminLaporanController::class, 'emptyTrash'])->name('laporan.empty-trash');
+    Route::match(['POST', 'DELETE'], '/laporan/trash/{id}/force',   [AdminLaporanController::class, 'forceDelete'])->name('laporan.force-delete');
+    Route::get('/laporan/{id}',                         [AdminLaporanController::class, 'show'])->name('laporan.show');
+    Route::post('/laporan/{id}/tanggapan',              [AdminLaporanController::class, 'updateStatus'])->name('laporan.update-status');
+    Route::delete('/laporan/{id}',                      [AdminLaporanController::class, 'destroy'])->name('laporan.destroy');
 
     // Manajemen Pengguna (Role TU)
     Route::get('/verifikasi-guru',                              [AdminDashboardController::class, 'verifikasiGuru'])->name('verifikasi-guru');
@@ -112,6 +140,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/jurnal-mengajar-admin/print-detail/{id}', [AdminMonitoringController::class, 'jurnalMengajarCetakDetail'])->name('jurnal-mengajar.print-detail');
     Route::post('/jurnal-mengajar-admin/store',           [AdminMonitoringController::class, 'jurnalMengajarStore'])->name('jurnal-mengajar.store');
     Route::delete('/jurnal-mengajar-admin/{id}',          [AdminMonitoringController::class, 'jurnalMengajarDestroy'])->name('jurnal-mengajar.destroy');
+    Route::post('/jurnal-mengajar-admin/batch-delete',    [AdminMonitoringController::class, 'jurnalMengajarBatchDestroy'])->name('jurnal-mengajar.batch-delete');
+    
+    // Trash / Sampah Jurnal Mengajar
+    Route::get('/jurnal-mengajar-admin/trash',                    [AdminMonitoringController::class, 'jurnalMengajarTrash'])->name('jurnal-mengajar.trash');
+    Route::post('/jurnal-mengajar-admin/trash/{id}/restore',      [AdminMonitoringController::class, 'jurnalMengajarRestore'])->name('jurnal-mengajar.restore');
+    Route::post('/jurnal-mengajar-admin/trash/restore-batch',     [AdminMonitoringController::class, 'jurnalMengajarRestoreBatch'])->name('jurnal-mengajar.restore-batch');
+    Route::match(['POST', 'DELETE'], '/jurnal-mengajar-admin/trash/{id}/force', [AdminMonitoringController::class, 'jurnalMengajarForceDelete'])->name('jurnal-mengajar.force-delete');
+    Route::match(['POST', 'DELETE'], '/jurnal-mengajar-admin/trash/force-batch', [AdminMonitoringController::class, 'jurnalMengajarForceDeleteBatch'])->name('jurnal-mengajar.force-delete-batch');
+    Route::match(['POST', 'DELETE'], '/jurnal-mengajar-admin/trash/empty', [AdminMonitoringController::class, 'jurnalMengajarEmptyTrash'])->name('jurnal-mengajar.empty-trash');
 
     // Monitoring Jurnal Piket
     Route::get('/jurnal-piket-admin',                      [AdminMonitoringController::class, 'jurnalPiket'])->name('jurnal-piket');
@@ -332,6 +369,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/jadwal-piket/export',         [WakaKurikulumController::class, 'exportJadwalPiket'])->name('jadwal-piket.export');
         Route::get('/jadwal-piket/print',          [WakaKurikulumController::class, 'printJadwalPiket'])->name('jadwal-piket.print');
 
+        // Master Jadwal Piket Waka (Waka Kurikulum)
+        Route::get('/jadwal-piket-waka',                [WakaKurikulumController::class, 'jadwalPiketWaka'])->name('jadwal-piket-waka');
+        Route::post('/jadwal-piket-waka',               [WakaKurikulumController::class, 'simpanJadwalPiketWaka'])->name('jadwal-piket-waka.store');
+        Route::put('/jadwal-piket-waka/{id}',           [WakaKurikulumController::class, 'updateJadwalPiketWaka'])->name('jadwal-piket-waka.update');
+        Route::delete('/jadwal-piket-waka/{id}',        [WakaKurikulumController::class, 'destroyJadwalPiketWaka'])->name('jadwal-piket-waka.destroy');
+        Route::post('/jadwal-piket-waka/reset',         [WakaKurikulumController::class, 'resetJadwalPiketWaka'])->name('jadwal-piket-waka.reset');
+        Route::post('/jadwal-piket-waka/import',        [WakaKurikulumController::class, 'importJadwalPiketWaka'])->name('jadwal-piket-waka.import');
+        Route::get('/jadwal-piket-waka/export',         [WakaKurikulumController::class, 'exportJadwalPiketWaka'])->name('jadwal-piket-waka.export');
+        Route::get('/jadwal-piket-waka/print',          [WakaKurikulumController::class, 'printJadwalPiketWaka'])->name('jadwal-piket-waka.print');
+
         // Redirect mapel to dashboard (page removed per user request)
         Route::redirect('/mapel', '/waka-kurikulum/dashboard')->name('mapel');
 
@@ -391,16 +438,24 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // ── Satpam Portal ──
-    Route::get('/satpam/dashboard',           [SatpamController::class, 'dashboard'])->name('satpam.dashboard');
-    Route::get('/satpam/validasi',            [SatpamController::class, 'validasi'])->name('satpam.validasi');
-    Route::get('/satpam/log-aktivitas',       [SatpamController::class, 'logAktivitas'])->name('satpam.log-aktivitas');
-    Route::get('/satpam/lapor-siswa',         [SatpamController::class, 'laporSiswa'])->name('satpam.lapor-siswa');
-    Route::get('/satpam/api/siswa-lapor/{id_siswa}', [SatpamController::class, 'getSiswaLaporDetails'])->name('satpam.api-siswa-lapor');
-    Route::post('/satpam/lapor-siswa',        [SatpamController::class, 'storeLaporSiswa'])->name('satpam.store-lapor-siswa');
-    Route::delete('/satpam/lapor-siswa/{id}', [SatpamController::class, 'destroyLaporSiswa'])->name('satpam.destroy-lapor-siswa');
-    Route::post('/satpam/search',             [SatpamController::class, 'search'])->name('satpam.search');
-    Route::post('/satpam/update-status/{id}', [SatpamController::class, 'updateStatus'])->name('satpam.update-status');
-    Route::get('/satpam/api/live-dispen',     [SatpamController::class, 'livePoll'])->name('satpam.live-poll');
+    Route::get('/satpam/dashboard',                        [SatpamController::class, 'dashboard'])->name('satpam.dashboard');
+    Route::get('/satpam/validasi',                         [SatpamController::class, 'validasi'])->name('satpam.validasi');
+    Route::get('/satpam/log-aktivitas',                    [SatpamController::class, 'logAktivitas'])->name('satpam.log-aktivitas');
+    Route::delete('/satpam/log-aktivitas/bulk-delete',     [SatpamController::class, 'bulkDestroyDispen'])->name('satpam.log-aktivitas.bulk-delete');
+    Route::delete('/satpam/log-aktivitas/{id}',            [SatpamController::class, 'destroyDispen'])->name('satpam.log-aktivitas.destroy');
+    Route::get('/satpam/log-aktivitas-trash',              [SatpamController::class, 'trashLogAktivitas'])->name('satpam.log-aktivitas.trash');
+    Route::post('/satpam/log-aktivitas/{id}/restore',      [SatpamController::class, 'restoreDispen'])->name('satpam.log-aktivitas.restore');
+    Route::post('/satpam/log-aktivitas/bulk-restore',      [SatpamController::class, 'bulkRestoreDispen'])->name('satpam.log-aktivitas.bulk-restore');
+    Route::delete('/satpam/log-aktivitas/{id}/force',      [SatpamController::class, 'forceDeleteDispen'])->name('satpam.log-aktivitas.force-delete');
+    Route::delete('/satpam/log-aktivitas/bulk-force',      [SatpamController::class, 'bulkForceDeleteDispen'])->name('satpam.log-aktivitas.bulk-force-delete');
+    Route::delete('/satpam/log-aktivitas/empty-trash',     [SatpamController::class, 'emptyTrashDispen'])->name('satpam.log-aktivitas.empty-trash');
+    Route::get('/satpam/lapor-siswa',                      [SatpamController::class, 'laporSiswa'])->name('satpam.lapor-siswa');
+    Route::get('/satpam/api/siswa-lapor/{id_siswa}',       [SatpamController::class, 'getSiswaLaporDetails'])->name('satpam.api-siswa-lapor');
+    Route::post('/satpam/lapor-siswa',                     [SatpamController::class, 'storeLaporSiswa'])->name('satpam.store-lapor-siswa');
+    Route::delete('/satpam/lapor-siswa/{id}',              [SatpamController::class, 'destroyLaporSiswa'])->name('satpam.destroy-lapor-siswa');
+    Route::post('/satpam/search',                          [SatpamController::class, 'search'])->name('satpam.search');
+    Route::post('/satpam/update-status/{id}',              [SatpamController::class, 'updateStatus'])->name('satpam.update-status');
+    Route::get('/satpam/api/live-dispen',                  [SatpamController::class, 'livePoll'])->name('satpam.live-poll');
 
     // ── Dedicated Guru Piket Portal ──
     Route::prefix('guru-piket')->name('piket.')->group(function () {
@@ -621,6 +676,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ruangan/{id}/restore',        [RuanganController::class, 'restore'])->name('ruangan.restore');
     Route::delete('/ruangan/{id}/force-delete', [RuanganController::class, 'forceDelete'])->name('ruangan.force-delete');
 
+    Route::post('/jam-pelajaran/toggle-active',       [JamPelajaranController::class, 'toggleActive'])->name('jam-pelajaran.toggle-active');
+    Route::post('/jam-pelajaran/reset-default',        [JamPelajaranController::class, 'resetToDefault'])->name('jam-pelajaran.reset-default');
+    Route::post('/jam-pelajaran/hari-libur/store-batch', [JamPelajaranController::class, 'storeHariLibur'])->name('jam-pelajaran.hari-libur.store-batch');
+    Route::post('/jam-pelajaran/hari-libur/{id}/toggle',  [JamPelajaranController::class, 'toggleHariLibur'])->name('jam-pelajaran.hari-libur.toggle');
+    Route::delete('/jam-pelajaran/hari-libur/{id}',       [JamPelajaranController::class, 'destroyHariLibur'])->name('jam-pelajaran.hari-libur.destroy');
+    Route::get('/jam-pelajaran/hari-libur/list',          [JamPelajaranController::class, 'listHariLibur'])->name('jam-pelajaran.hari-libur.list');
+
+    Route::post('/admin/jam-pelajaran/hari-libur/store-batch', [JamPelajaranController::class, 'storeHariLibur'])->name('admin.jam-pelajaran.hari-libur.store-batch');
+    Route::post('/admin/jam-pelajaran/hari-libur/{id}/toggle',  [JamPelajaranController::class, 'toggleHariLibur'])->name('admin.jam-pelajaran.hari-libur.toggle');
+    Route::delete('/admin/jam-pelajaran/hari-libur/{id}',       [JamPelajaranController::class, 'destroyHariLibur'])->name('admin.jam-pelajaran.hari-libur.destroy');
+    Route::get('/admin/jam-pelajaran/hari-libur/list',          [JamPelajaranController::class, 'listHariLibur'])->name('admin.jam-pelajaran.hari-libur.list');
     Route::delete('/jam-pelajaran/destroy-batch',     [JamPelajaranController::class, 'destroyBatch'])->name('jam-pelajaran.destroy-batch');
     Route::resource('jam-pelajaran', JamPelajaranController::class);
     Route::get('/jam-pelajaran-trash',                [JamPelajaranController::class, 'trash'])->name('jam-pelajaran.trash');

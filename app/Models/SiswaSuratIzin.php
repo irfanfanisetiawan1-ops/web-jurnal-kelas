@@ -35,6 +35,9 @@ class SiswaSuratIzin extends Model
                     $model->id_kelas = $siswa->id_kelas;
                 }
             }
+            if (empty($model->tanggal_selesai) && !empty($model->tanggal)) {
+                $model->tanggal_selesai = $model->tanggal;
+            }
             if (empty($model->durasi_hari)) {
                 if (!empty($model->tanggal) && !empty($model->tanggal_selesai)) {
                     $start = \Carbon\Carbon::parse($model->tanggal);
@@ -45,6 +48,34 @@ class SiswaSuratIzin extends Model
                 }
             }
         });
+
+        static::updating(function ($model) {
+            if (empty($model->tanggal_selesai) && !empty($model->tanggal)) {
+                $model->tanggal_selesai = $model->tanggal;
+            }
+            if (!empty($model->tanggal) && !empty($model->tanggal_selesai)) {
+                $start = \Carbon\Carbon::parse($model->tanggal);
+                $end = \Carbon\Carbon::parse($model->tanggal_selesai);
+                $model->durasi_hari = max(1, $start->diffInDays($end) + 1);
+            }
+        });
+    }
+
+    /**
+     * Scope query untuk surat izin yang aktif pada tanggal tertentu
+     */
+    public function scopeActiveOnDate($query, $date)
+    {
+        return $query->whereDate('tanggal', '<=', $date)
+            ->where(function ($q) use ($date) {
+                $q->where(function ($sq) use ($date) {
+                    $sq->whereNotNull('tanggal_selesai')
+                       ->whereDate('tanggal_selesai', '>=', $date);
+                })->orWhere(function ($sq) use ($date) {
+                    $sq->whereNull('tanggal_selesai')
+                       ->whereDate('tanggal', $date);
+                });
+            });
     }
 
     public function siswa()

@@ -79,11 +79,17 @@ class AuthController extends Controller
 
         // Validasi user dan password
         if (!$user) {
-            return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
+            return back()->withInput($request->only('nip'))->with('error', 'Identitas NIP / Username / Email tidak ditemukan dalam sistem. Silakan hubungi Admin TU.');
+        }
+
+        // Akun Orang Tua dilarang login lewat portal Staf / Guru
+        if ($user->isOrangTua()) {
+            return back()->withInput($request->only('nip'))
+                ->with('error', 'CAUTION: Identitas ini terdaftar sebagai akun Orang Tua. Silakan masuk melalui form Login Orang Tua.');
         }
 
         if (!Hash::check($password, $user->password)) {
-            return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
+            return back()->withInput($request->only('nip'))->with('error', 'Password yang Anda masukkan salah.');
         }
 
         // Cek status keaktifan akun (ON / OFF)
@@ -93,11 +99,11 @@ class AuthController extends Controller
 
         // Cek status verifikasi
         if ($user->status_verifikasi === 'pending') {
-            return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
+            return back()->withInput($request->only('nip'))->with('error', 'Akun Anda sedang menunggu verifikasi oleh Administrator TU. Silakan hubungi pihak TU.');
         }
 
         if ($user->status_verifikasi === 'rejected') {
-            return back()->withInput($request->only('nip'))->with('error', 'Identitas (NIP / Username / Email) atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
+            return back()->withInput($request->only('nip'))->with('error', 'Akun Anda telah ditolak oleh Administrator. Silakan hubungi pihak sekolah untuk informasi lebih lanjut.');
         }
 
         // Login berhasil
@@ -161,7 +167,7 @@ class AuthController extends Controller
 
         if (!$user) {
             return back()->withInput($request->only('nisn'))
-                ->with('error', 'NISN atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
+                ->with('error', 'NISN Siswa tidak ditemukan atau belum terdaftar di akun Orang Tua. Silakan hubungi Admin TU.');
         }
 
         // Sinkronisasi id_siswa jika belum terpasang
@@ -192,7 +198,7 @@ class AuthController extends Controller
 
         if (!$isPassValid) {
             return back()->withInput($request->only('nisn'))
-                ->with('error', 'NISN atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
+                ->with('error', 'Password yang Anda masukkan salah.');
         }
 
         // Cek status keaktifan akun (ON / OFF)
@@ -203,12 +209,12 @@ class AuthController extends Controller
 
         if ($user->status_verifikasi === 'pending') {
             return back()->withInput($request->only('nisn'))
-                ->with('error', 'NISN atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
+                ->with('error', 'Akun Orang Tua Anda sedang menunggu verifikasi oleh Administrator TU.');
         }
 
         if ($user->status_verifikasi === 'rejected') {
             return back()->withInput($request->only('nisn'))
-                ->with('error', 'NISN atau Password yang Anda masukkan tidak sesuai. Silakan periksa kembali, atau hubungi Admin TU.');
+                ->with('error', 'Akun Orang Tua Anda telah ditolak oleh Administrator. Silakan hubungi pihak sekolah.');
         }
 
         User::syncWaliKelasRoles();

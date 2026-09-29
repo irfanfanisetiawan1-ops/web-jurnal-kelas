@@ -16,7 +16,9 @@ use App\Models\Pengumuman;
 use App\Models\PenugasanGuruPengganti;
 use App\Models\JadwalGuruPiket;
 use App\Models\User;
+use App\Models\JadwalPiketWaka;
 use App\Services\JadwalPiketImportService;
+use App\Services\JadwalPiketWakaImportService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -198,6 +200,12 @@ class WakaKurikulumController extends Controller
             ->take(8)
             ->get();
 
+        // Hitung rincian sesi KBM realtime untuk filter bar
+        $countSemuaSesi = $jadwalHariIniList->count();
+        $countTerisiSesi = $jadwalHariIniList->where('is_terisi', true)->count();
+        $countIzinSesi = $jadwalHariIniList->where('is_guru_izin', true)->count();
+        $countBelumSesi = $jadwalHariIniList->where('is_terisi', false)->where('is_guru_izin', false)->count();
+
         // 6. Grafik Capaian KBM Mingguan (Senin s/d Jumat)
         $startOfWeek = $today->copy()->startOfWeek();
         $hariLabels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum'];
@@ -225,6 +233,10 @@ class WakaKurikulumController extends Controller
             'totalKelas',
             'jadwalHariIniCount',
             'jurnalHariIniCount',
+            'countSemuaSesi',
+            'countTerisiSesi',
+            'countBelumSesi',
+            'countIzinSesi',
             'persenKbmHariIni',
             'hariIni',
             'todayDate',
@@ -2225,6 +2237,536 @@ class WakaKurikulumController extends Controller
             'jadwalMatrix'
         ));
     }
+
+
+    /**
+     * Halaman Utama Jadwal Piket Waka Bulanan
+     */
+    public function jadwalPiketWaka(Request $request)
+    {
+        $selectedBulan = (int) ($request->query('bulan') ?? Carbon::now('Asia/Jakarta')->format('n'));
+        $selectedTahun = (int) ($request->query('tahun') ?? Carbon::now('Asia/Jakarta')->format('Y'));
+
+        if ($selectedBulan < 1 || $selectedBulan > 12) {
+            $selectedBulan = (int) Carbon::now('Asia/Jakarta')->format('n');
+        }
+        if ($selectedTahun < 2020 || $selectedTahun > 2035) {
+            $selectedTahun = (int) Carbon::now('Asia/Jakarta')->format('Y');
+        }
+
+        $daftarBulan = [
+            1  => 'Januari', 2  => 'Februari', 3  => 'Maret',
+            4  => 'April',   5  => 'Mei',      6  => 'Juni',
+            7  => 'Juli',    8  => 'Agustus',  9  => 'September',
+            10 => 'Oktober', 11 => 'November', 12 => 'Desember',
+        ];
+
+        $mapHariIndo = [
+            'Sunday'    => 'Minggu',
+            'Monday'    => 'Senin',
+            'Tuesday'   => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday'  => 'Kamis',
+            'Friday'    => 'Jumat',
+            'Saturday'  => 'Sabtu',
+        ];
+
+        // Buat daftar tanggal kerja (Senin s.d Jumat) pada bulan & tahun terpilih
+        $daysInMonth = Carbon::createFromDate($selectedTahun, $selectedBulan, 1, 'Asia/Jakarta')->daysInMonth;
+        $workDays = [];
+
+        for ($d = 1; $d <= $daysInMonth; $d++) {
+            $cDate = Carbon::createFromDate($selectedTahun, $selectedBulan, $d, 'Asia/Jakarta');
+            if ($cDate->dayOfWeek !== Carbon::SATURDAY && $cDate->dayOfWeek !== Carbon::SUNDAY) {
+                $workDays[] = [
+                    'tanggal'        => $cDate->format('Y-m-d'),
+                    'hari'           => $mapHariIndo[$cDate->format('l')] ?? '',
+                    'tanggal_format' => $cDate->format('d/m/Y'),
+                    'tanggal_indo'   => $cDate->format('j') . ' ' . ($daftarBulan[$selectedBulan] ?? '') . ' ' . $selectedTahun,
+                    'day_num'        => $d,
+                ];
+            }
+        }
+
+        // Ambil data jadwal piket waka yang tersimpan
+        $jadwalList = JadwalPiketWaka::with(['guru', 'user'])
+            ->where('bulan', $selectedBulan)
+            ->where('tahun', $selectedTahun)
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->tanggal instanceof Carbon ? $item->tanggal->format('Y-m-d') : (string) $item->tanggal;
+            });
+
+        // Ambil seluruh guru aktif dari master Guru
+        $gurus = Guru::with('user')
+            ->where(function($q) {
+                $q->where('is_active', true)->orWhereNull('is_active');
+            })
+            ->orderBy('nama_guru', 'asc')
+            ->get();
+
+        // Hitung statistik
+        $totalHariKerja = count($workDays);
+        $totalTerisi = 0;
+        $guruTerlibatIds = [];
+
+        foreach ($workDays as $wd) {
+            $tgl = $wd['tanggal'];
+            if (isset($jadwalList[$tgl]) && !empty($jadwalList[$tgl]->id_guru)) {
+                $totalTerisi++;
+                $guruTerlibatIds[$jadwalList[$tgl]->id_guru] = true;
+            }
+        }
+
+        $totalBelumTerisi = $totalHariKerja - $totalTerisi;
+        $totalGuruTerlibat = count($guruTerlibatIds);
+        $persenKeterisian = $totalHariKerja > 0 ? round(($totalTerisi / $totalHariKerja) * 100, 1) : 0;
+
+        return view('waka_kurikulum.jadwal_piket_waka', compact(
+            'selectedBulan',
+            'selectedTahun',
+            'daftarBulan',
+            'workDays',
+            'jadwalList',
+            'gurus',
+            'totalHariKerja',
+            'totalTerisi',
+            'totalBelumTerisi',
+            'totalGuruTerlibat',
+            'persenKeterisian'
+        ));
+    }
+
+    /**
+     * Simpan / Perbarui Massal Jadwal Piket Waka Satu Bulan
+     */
+    public function simpanJadwalPiketWaka(Request $request)
+    {
+        $bulan = (int) $request->input('bulan');
+        $tahun = (int) $request->input('tahun');
+
+        $request->validate([
+            'bulan' => 'required|integer|min:1|max:12',
+            'tahun' => 'required|integer|min:2020|max:2035',
+        ]);
+
+        $mapHariIndo = [
+            'Sunday'    => 'Minggu',
+            'Monday'    => 'Senin',
+            'Tuesday'   => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday'  => 'Kamis',
+            'Friday'    => 'Jumat',
+            'Saturday'  => 'Sabtu',
+        ];
+
+        $jadwalData = $request->input('jadwal', []);
+
+        DB::beginTransaction();
+        try {
+            $savedCount = 0;
+            foreach ($jadwalData as $tanggal => $data) {
+                $idGuru = !empty($data['id_guru']) ? (int) $data['id_guru'] : null;
+                $catatan = !empty($data['catatan']) ? trim($data['catatan']) : null;
+                $cDate = Carbon::parse($tanggal);
+                $hari = $mapHariIndo[$cDate->format('l')] ?? 'Senin';
+
+                if ($idGuru) {
+                    $guru = Guru::find($idGuru);
+                    $idUser = null;
+                    if ($guru) {
+                        $user = User::where('id_guru', $guru->id_guru)
+                            ->orWhere(function ($q) use ($guru) {
+                                if (!empty($guru->nip)) {
+                                    $q->where('nip', $guru->nip);
+                                }
+                            })
+                            ->first();
+                        $idUser = $user ? $user->id : null;
+                    }
+
+                    JadwalPiketWaka::updateOrCreate(
+                        ['tanggal' => $tanggal],
+                        [
+                            'hari'    => $hari,
+                            'bulan'   => $bulan,
+                            'tahun'   => $tahun,
+                            'id_guru' => $idGuru,
+                            'id_user' => $idUser,
+                            'catatan' => $catatan,
+                        ]
+                    );
+                    $savedCount++;
+                } else {
+                    JadwalPiketWaka::where('tanggal', $tanggal)->delete();
+                }
+            }
+
+            DB::commit();
+
+            $daftarBulan = [
+                1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+                5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+                9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+            ];
+            $namaBulan = $daftarBulan[$bulan] ?? $bulan;
+
+            return redirect()->route('waka-kurikulum.jadwal-piket-waka', ['bulan' => $bulan, 'tahun' => $tahun])
+                ->with('success', "Seluruh Jadwal Piket Waka bulan {$namaBulan} {$tahun} berhasil disimpan ({$savedCount} jadwal aktif)!");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan jadwal piket waka: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Update Single Jadwal Piket Waka (via Modal atau AJAX)
+     */
+    public function updateJadwalPiketWaka(Request $request, $id)
+    {
+        $request->validate([
+            'id_guru' => 'nullable|exists:guru,id_guru',
+            'catatan' => 'nullable|string|max:255',
+        ]);
+
+        $jadwal = JadwalPiketWaka::find($id);
+        if (!$jadwal) {
+            if ($request->filled('tanggal')) {
+                $cDate = Carbon::parse($request->tanggal);
+                $mapHariIndo = [
+                    'Sunday' => 'Minggu', 'Monday' => 'Senin', 'Tuesday' => 'Selasa',
+                    'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu'
+                ];
+                $jadwal = new JadwalPiketWaka([
+                    'tanggal' => $request->tanggal,
+                    'hari'    => $mapHariIndo[$cDate->format('l')] ?? 'Senin',
+                    'bulan'   => (int) $cDate->format('n'),
+                    'tahun'   => (int) $cDate->format('Y'),
+                ]);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Data jadwal tidak ditemukan.'], 404);
+            }
+        }
+
+        $idGuru = $request->filled('id_guru') ? (int) $request->id_guru : null;
+        $idUser = null;
+        if ($idGuru) {
+            $guru = Guru::find($idGuru);
+            if ($guru) {
+                $user = User::where('id_guru', $guru->id_guru)
+                    ->orWhere(function ($q) use ($guru) {
+                        if (!empty($guru->nip)) {
+                            $q->where('nip', $guru->nip);
+                        }
+                    })
+                    ->first();
+                $idUser = $user ? $user->id : null;
+            }
+        }
+
+        $jadwal->id_guru = $idGuru;
+        $jadwal->id_user = $idUser;
+        if ($request->has('catatan')) {
+            $jadwal->catatan = $request->catatan;
+        }
+        $jadwal->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Jadwal Piket Waka berhasil diperbarui!',
+                'data'    => $jadwal->load('guru', 'user'),
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Jadwal Piket Waka berhasil diperbarui!');
+    }
+
+    /**
+     * Hapus / Kosongkan Jadwal Piket Waka Tertentu
+     */
+    public function destroyJadwalPiketWaka(Request $request, $id)
+    {
+        $jadwal = JadwalPiketWaka::findOrFail($id);
+        $jadwal->delete();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Jadwal piket waka pada tanggal tersebut berhasil dikosongkan.',
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Jadwal piket waka pada tanggal tersebut berhasil dikosongkan.');
+    }
+
+    /**
+     * Reset Seluruh Jadwal Piket Waka Bulan Tertentu
+     */
+    public function resetJadwalPiketWaka(Request $request)
+    {
+        $bulan = (int) $request->input('bulan');
+        $tahun = (int) $request->input('tahun');
+
+        $request->validate([
+            'bulan' => 'required|integer|min:1|max:12',
+            'tahun' => 'required|integer|min:2020|max:2035',
+        ]);
+
+        $deletedCount = JadwalPiketWaka::where('bulan', $bulan)
+            ->where('tahun', $tahun)
+            ->delete();
+
+        $daftarBulan = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+        $namaBulan = $daftarBulan[$bulan] ?? $bulan;
+
+        return redirect()->route('waka-kurikulum.jadwal-piket-waka', ['bulan' => $bulan, 'tahun' => $tahun])
+            ->with('success', "Seluruh Jadwal Piket Waka bulan {$namaBulan} {$tahun} berhasil di-reset ({$deletedCount} jadwal dikosongkan).");
+    }
+
+    /**
+     * Import Jadwal Piket Waka dari File (Word, PDF, Excel, CSV)
+     */
+    public function importJadwalPiketWaka(Request $request, JadwalPiketWakaImportService $importService)
+    {
+        $hasFile = $request->hasFile('file_jadwal') || $request->hasFile('file');
+        if (!$hasFile) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan pilih file jadwal (Word, PDF, Excel, atau CSV) terlebih dahulu.',
+            ], 422);
+        }
+
+        $request->validate([
+            'file_jadwal' => 'nullable|file|mimes:pdf,docx,doc,xlsx,xls,csv,txt|max:20480',
+            'file'        => 'nullable|file|mimes:pdf,docx,doc,xlsx,xls,csv,txt|max:20480',
+            'bulan'       => 'required|integer|min:1|max:12',
+            'tahun'       => 'required|integer|min:2020|max:2035',
+        ], [
+            'file_jadwal.mimes' => 'Format file harus berupa Microsoft Word (.docx, .doc), PDF (.pdf), Microsoft Excel (.xlsx, .xls), atau CSV (.csv).',
+            'file.mimes'        => 'Format file harus berupa Microsoft Word (.docx, .doc), PDF (.pdf), Microsoft Excel (.xlsx, .xls), atau CSV (.csv).',
+            'file_jadwal.max'   => 'Ukuran file maksimal 20 MB.',
+            'file.max'          => 'Ukuran file maksimal 20 MB.',
+        ]);
+
+        $file = $request->file('file_jadwal') ?? $request->file('file');
+        $bulan = (int) $request->input('bulan');
+        $tahun = (int) $request->input('tahun');
+
+        try {
+            $parsedRows = $importService->parseAndMatch($file, $bulan, $tahun);
+
+            $matchedCount = 0;
+            $matrix = [];
+            foreach ($parsedRows as $row) {
+                if (!empty($row['id_guru'])) {
+                    $matchedCount++;
+                    $matrix[$row['tanggal']] = [
+                        'id_guru'   => $row['id_guru'],
+                        'nama_guru' => $row['nama_guru'],
+                        'catatan'   => $row['catatan'] ?? '',
+                    ];
+                }
+            }
+
+            if ($matchedCount === 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat menemukan guru yang cocok dari file yang diunggah. Pastikan file memuat nama guru atau format jadwal yang sesuai.',
+                ], 422);
+            }
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success'             => true,
+                    'message'             => "Berhasil membaca dan mencocokkan {$matchedCount} hari penugasan Piket Waka dari file.",
+                    'matched_count'       => $matchedCount,
+                    'total_work_days'     => count($parsedRows),
+                    'schedule_matrix'     => $matrix,
+                    'rows'                => $parsedRows,
+                ]);
+            }
+
+            foreach ($parsedRows as $row) {
+                if (!empty($row['id_guru'])) {
+                    JadwalPiketWaka::updateOrCreate(
+                        ['tanggal' => $row['tanggal']],
+                        [
+                            'hari'    => $row['hari'],
+                            'bulan'   => $bulan,
+                            'tahun'   => $tahun,
+                            'id_guru' => $row['id_guru'],
+                            'id_user' => $row['id_user'],
+                            'catatan' => $row['catatan'] ?? null,
+                        ]
+                    );
+                }
+            }
+
+            return redirect()->route('waka-kurikulum.jadwal-piket-waka', ['bulan' => $bulan, 'tahun' => $tahun])
+                ->with('success', "File berhasil diimpor! Sebanyak {$matchedCount} jadwal Piket Waka telah disimpan ke database.");
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal membaca file: ' . $e->getMessage(),
+                ], 422);
+            }
+
+            return back()->with('error', 'Gagal memproses file impor: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Ekspor Jadwal Piket Waka Bulanan ke CSV
+     */
+    public function exportJadwalPiketWaka(Request $request)
+    {
+        $bulan = (int) ($request->query('bulan') ?? Carbon::now('Asia/Jakarta')->format('n'));
+        $tahun = (int) ($request->query('tahun') ?? Carbon::now('Asia/Jakarta')->format('Y'));
+
+        $daftarBulan = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+        $namaBulan = $daftarBulan[$bulan] ?? $bulan;
+
+        $mapHariIndo = [
+            'Sunday'    => 'Minggu',
+            'Monday'    => 'Senin',
+            'Tuesday'   => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday'  => 'Kamis',
+            'Friday'    => 'Jumat',
+            'Saturday'  => 'Sabtu',
+        ];
+
+        $daysInMonth = Carbon::createFromDate($tahun, $bulan, 1, 'Asia/Jakarta')->daysInMonth;
+        $workDays = [];
+
+        for ($d = 1; $d <= $daysInMonth; $d++) {
+            $cDate = Carbon::createFromDate($tahun, $bulan, $d, 'Asia/Jakarta');
+            if ($cDate->dayOfWeek !== Carbon::SATURDAY && $cDate->dayOfWeek !== Carbon::SUNDAY) {
+                $workDays[] = [
+                    'tanggal' => $cDate->format('Y-m-d'),
+                    'hari'    => $mapHariIndo[$cDate->format('l')] ?? '',
+                    'label'   => $cDate->format('j') . ' ' . $namaBulan . ' ' . $tahun,
+                ];
+            }
+        }
+
+        $jadwalList = JadwalPiketWaka::with(['guru', 'user'])
+            ->where('bulan', $bulan)
+            ->where('tahun', $tahun)
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->tanggal instanceof Carbon ? $item->tanggal->format('Y-m-d') : (string) $item->tanggal;
+            });
+
+        $filename = "Jadwal_Piket_Waka_{$namaBulan}_{$tahun}.csv";
+        $headers = [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ];
+
+        $callback = function() use ($workDays, $jadwalList) {
+            $file = fopen('php://output', 'w');
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF)); // BOM UTF-8
+
+            fputcsv($file, [
+                'No',
+                'Hari',
+                'Tanggal',
+                'Nama Guru Piket Waka',
+                'NIP',
+                'No. HP WhatsApp',
+                'Catatan',
+            ]);
+
+            foreach ($workDays as $idx => $wd) {
+                $tgl = $wd['tanggal'];
+                $item = $jadwalList[$tgl] ?? null;
+
+                $namaGuru = $item && $item->guru ? $item->guru->nama_guru : '-';
+                $nip = $item && $item->guru ? ($item->guru->nip ?? '-') : '-';
+                $noHp = $item && $item->user ? ($item->user->no_hp ?? '-') : ($item && $item->guru ? ($item->guru->no_hp ?? '-') : '-');
+                $catatan = $item ? ($item->catatan ?? '-') : '-';
+
+                fputcsv($file, [
+                    $idx + 1,
+                    $wd['hari'],
+                    $wd['label'],
+                    $namaGuru,
+                    $nip,
+                    $noHp,
+                    $catatan,
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return Response::stream($callback, 200, $headers);
+    }
+
+    /**
+     * Cetak Lembar Jadwal Piket Waka (Printable PDF / Print Browser)
+     */
+    public function printJadwalPiketWaka(Request $request)
+    {
+        $bulan = (int) ($request->query('bulan') ?? Carbon::now('Asia/Jakarta')->format('n'));
+        $tahun = (int) ($request->query('tahun') ?? Carbon::now('Asia/Jakarta')->format('Y'));
+
+        $daftarBulan = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+        $namaBulan = $daftarBulan[$bulan] ?? $bulan;
+
+        $mapHariIndo = [
+            'Sunday'    => 'Minggu',
+            'Monday'    => 'Senin',
+            'Tuesday'   => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday'  => 'Kamis',
+            'Friday'    => 'Jumat',
+            'Saturday'  => 'Sabtu',
+        ];
+
+        $daysInMonth = Carbon::createFromDate($tahun, $bulan, 1, 'Asia/Jakarta')->daysInMonth;
+        $workDays = [];
+
+        for ($d = 1; $d <= $daysInMonth; $d++) {
+            $cDate = Carbon::createFromDate($tahun, $bulan, $d, 'Asia/Jakarta');
+            if ($cDate->dayOfWeek !== Carbon::SATURDAY && $cDate->dayOfWeek !== Carbon::SUNDAY) {
+                $workDays[] = [
+                    'tanggal' => $cDate->format('Y-m-d'),
+                    'hari'    => $mapHariIndo[$cDate->format('l')] ?? '',
+                    'label'   => $cDate->format('j') . ' ' . $namaBulan . ' ' . $tahun,
+                ];
+            }
+        }
+
+        $jadwalList = JadwalPiketWaka::with(['guru', 'user'])
+            ->where('bulan', $bulan)
+            ->where('tahun', $tahun)
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->tanggal instanceof Carbon ? $item->tanggal->format('Y-m-d') : (string) $item->tanggal;
+            });
+
+        return view('waka_kurikulum.jadwal_piket_waka_print', compact(
+            'bulan',
+            'tahun',
+            'namaBulan',
+            'workDays',
+            'jadwalList'
+        ));
+    }
 }
-
-

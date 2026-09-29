@@ -110,6 +110,7 @@ class AdminMonitoringController extends Controller
         $guruAktifCount      = (clone $query)->join('jadwal', 'jurnal_mengajar.id_jadwal', '=', 'jadwal.id_jadwal')
                                              ->distinct('jadwal.id_guru')
                                              ->count('jadwal.id_guru');
+        $trashedCount        = JurnalMengajar::onlyTrashed()->count();
 
         $jurnals   = $query->orderBy('tanggal', 'desc')->orderBy('id_jurnal', 'desc')->paginate(10)->withQueryString();
         $guruList  = Guru::orderBy('nama_guru')->get();
@@ -141,7 +142,8 @@ class AdminMonitoringController extends Controller
             'totalPertemuan',
             'terlaksanaCount',
             'belumTerlaksanaCount',
-            'guruAktifCount'
+            'guruAktifCount',
+            'trashedCount'
         ));
     }
 
@@ -434,7 +436,150 @@ class AdminMonitoringController extends Controller
         $jurnal->delete();
 
         return redirect()->route('admin.jurnal-mengajar')
-                         ->with('success', 'Data jurnal mengajar berhasil dihapus.');
+                         ->with('success', 'Data jurnal mengajar berhasil dipindahkan ke Kotak Sampah.');
+    }
+
+    public function jurnalMengajarBatchDestroy(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.jurnal-mengajar')
+                             ->with('error', 'Pilih minimal satu data jurnal mengajar untuk dihapus.');
+        }
+
+        $count = JurnalMengajar::whereIn('id_jurnal', $ids)->count();
+        JurnalMengajar::whereIn('id_jurnal', $ids)->delete();
+
+        return redirect()->route('admin.jurnal-mengajar')
+                         ->with('success', "Sebanyak {$count} data jurnal mengajar berhasil dipindahkan ke Kotak Sampah.");
+    }
+
+    public function jurnalMengajarTrash(Request $request)
+    {
+        $search   = $request->query('search');
+        $tanggal  = $request->query('tanggal');
+        $idGuru   = $request->query('id_guru');
+        $idKelas  = $request->query('id_kelas');
+
+        $query = JurnalMengajar::onlyTrashed()->with([
+            'jadwal.kelas',
+            'jadwal.guru',
+            'jadwal.mapel',
+            'jadwal.ruangan',
+            'detailKetidakhadiran.siswa'
+        ]);
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('materi', 'like', "%{$search}%")
+                  ->orWhere('catatan', 'like', "%{$search}%")
+                  ->orWhereHas('jadwal.guru', function($g) use ($search) {
+                      $g->where('nama_guru', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('jadwal.mapel', function($m) use ($search) {
+                      $m->where('nama_mapel', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('jadwal.kelas', function($k) use ($search) {
+                      $k->where('nama_kelas', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        if ($tanggal) {
+            $query->whereDate('tanggal', $tanggal);
+        }
+
+        if ($idGuru) {
+            $query->whereHas('jadwal', function($q) use ($idGuru) {
+                $q->where('id_guru', $idGuru);
+            });
+        }
+
+        if ($idKelas) {
+            $query->whereHas('jadwal', function($q) use ($idKelas) {
+                $q->where('id_kelas', $idKelas);
+            });
+        }
+
+        $trashedJurnals = $query->orderBy('deleted_at', 'desc')->paginate(10)->withQueryString();
+        $trashedCount   = JurnalMengajar::onlyTrashed()->count();
+        $guruList       = Guru::orderBy('nama_guru')->get();
+        $kelasList      = Kelas::orderBy('nama_kelas')->get();
+
+        return view('admin.jurnal_mengajar.trash', compact(
+            'trashedJurnals',
+            'trashedCount',
+            'guruList',
+            'kelasList',
+            'search',
+            'tanggal',
+            'idGuru',
+            'idKelas'
+        ));
+    }
+
+    public function jurnalMengajarRestore($id)
+    {
+        $jurnal = JurnalMengajar::onlyTrashed()->findOrFail($id);
+        $jurnal->restore();
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', 'Data jurnal mengajar berhasil dipulihkan dari Kotak Sampah.');
+    }
+
+    public function jurnalMengajarRestoreBatch(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.jurnal-mengajar.trash')
+                             ->with('error', 'Pilih minimal satu data jurnal untuk dipulihkan.');
+        }
+
+        $count = JurnalMengajar::onlyTrashed()->whereIn('id_jurnal', $ids)->count();
+        JurnalMengajar::onlyTrashed()->whereIn('id_jurnal', $ids)->restore();
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', "Sebanyak {$count} data jurnal mengajar berhasil dipulihkan.");
+    }
+
+    public function jurnalMengajarForceDelete($id)
+    {
+        $jurnal = JurnalMengajar::onlyTrashed()->findOrFail($id);
+        JurnalDetailKetidakhadiran::where('id_jurnal', $jurnal->id_jurnal)->delete();
+        $jurnal->forceDelete();
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', 'Data jurnal mengajar telah dihapus secara permanen dari sistem.');
+    }
+
+    public function jurnalMengajarForceDeleteBatch(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->route('admin.jurnal-mengajar.trash')
+                             ->with('error', 'Pilih minimal satu data jurnal untuk dihapus permanen.');
+        }
+
+        $count = JurnalMengajar::onlyTrashed()->whereIn('id_jurnal', $ids)->count();
+        JurnalDetailKetidakhadiran::whereIn('id_jurnal', $ids)->delete();
+        JurnalMengajar::onlyTrashed()->whereIn('id_jurnal', $ids)->forceDelete();
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', "Sebanyak {$count} data jurnal mengajar berhasil dihapus secara permanen.");
+    }
+
+    public function jurnalMengajarEmptyTrash()
+    {
+        $trashedIds = JurnalMengajar::onlyTrashed()->pluck('id_jurnal')->toArray();
+        $count = count($trashedIds);
+
+        if ($count > 0) {
+            JurnalDetailKetidakhadiran::whereIn('id_jurnal', $trashedIds)->delete();
+            JurnalMengajar::onlyTrashed()->forceDelete();
+        }
+
+        return redirect()->route('admin.jurnal-mengajar.trash')
+                         ->with('success', "Kotak sampah berhasil dikosongkan ({$count} data dihapus permanen).");
     }
 
     // Fitur 12: Jurnal Guru Piket (Full CRUD + Stats + Filter + Detail + Trash + Cetak + Export CSV)
