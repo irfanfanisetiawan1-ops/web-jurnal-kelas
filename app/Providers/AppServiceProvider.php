@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\Paginator;
 use App\Models\TahunAjaran;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::defaultView('partials.custom-pagination');
+        Paginator::defaultSimpleView('partials.custom-pagination');
+
         try {
             if (Schema::hasTable('siswa_surat_izin')) {
                 if (!Schema::hasColumn('siswa_surat_izin', 'tanggal_selesai')) {

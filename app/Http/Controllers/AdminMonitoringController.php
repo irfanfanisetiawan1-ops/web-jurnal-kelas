@@ -195,6 +195,7 @@ class AdminMonitoringController extends Controller
             'jadwal.guru',
             'jadwal.mapel',
             'jadwal.ruangan',
+            'guruPengganti',
             'detailKetidakhadiran.siswa'
         ])->findOrFail($id);
 
@@ -217,6 +218,7 @@ class AdminMonitoringController extends Controller
             'jadwal.guru',
             'jadwal.mapel',
             'jadwal.ruangan',
+            'guruPengganti',
             'detailKetidakhadiran.siswa'
         ]);
 
@@ -232,6 +234,9 @@ class AdminMonitoringController extends Controller
                   })
                   ->orWhereHas('jadwal.kelas', function($k) use ($search) {
                       $k->where('nama_kelas', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('guruPengganti', function($gp) use ($search) {
+                      $gp->where('nama_guru', 'like', "%{$search}%");
                   });
             });
         }
@@ -242,11 +247,23 @@ class AdminMonitoringController extends Controller
             $query->whereDate('tanggal', $tanggal);
         }
 
-        if ($idGuru || $idKelas || $idMapel) {
-            $query->whereHas('jadwal', function($q) use ($idGuru, $idKelas, $idMapel) {
-                if ($idGuru)  $q->where('id_guru', $idGuru);
-                if ($idKelas) $q->where('id_kelas', $idKelas);
-                if ($idMapel) $q->where('id_mapel', $idMapel);
+        if ($idGuru) {
+            $query->where(function($q) use ($idGuru) {
+                $q->whereHas('jadwal', function($qJ) use ($idGuru) {
+                    $qJ->where('id_guru', $idGuru);
+                })->orWhere('id_guru_pengganti', $idGuru);
+            });
+        }
+
+        if ($idKelas) {
+            $query->whereHas('jadwal', function($q) use ($idKelas) {
+                $q->where('id_kelas', $idKelas);
+            });
+        }
+
+        if ($idMapel) {
+            $query->whereHas('jadwal', function($q) use ($idMapel) {
+                $q->where('id_mapel', $idMapel);
             });
         }
 
@@ -293,14 +310,19 @@ class AdminMonitoringController extends Controller
                     })->implode(', ');
                 }
 
+                $guruName = $j->jadwal->guru->nama_guru ?? '-';
+                if ($j->guruPengganti) {
+                    $guruName .= ' (Pengganti: ' . $j->guruPengganti->nama_guru . ')';
+                }
+
                 fputcsv($file, [
                     $index + 1,
                     $j->tanggal,
-                    $j->jadwal->guru->nama_guru ?? '-',
+                    $guruName,
                     $j->jadwal->mapel->nama_mapel ?? '-',
                     $j->jadwal->kelas->nama_kelas ?? '-',
                     $j->jadwal->ruangan->nama_ruangan ?? '-',
-                    $j->jadwal->jam_range ?? '-',
+                    $j->jadwal->jam_range ?? ($j->jam_ke ?? '-'),
                     $j->materi ?? '-',
                     $j->status_kehadiran_guru ?? 'Hadir',
                     $j->catatan ?? '-',
@@ -329,6 +351,7 @@ class AdminMonitoringController extends Controller
             'jadwal.guru',
             'jadwal.mapel',
             'jadwal.ruangan',
+            'guruPengganti',
             'detailKetidakhadiran.siswa'
         ]);
 
@@ -344,6 +367,9 @@ class AdminMonitoringController extends Controller
                   })
                   ->orWhereHas('jadwal.kelas', function($k) use ($search) {
                       $k->where('nama_kelas', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('guruPengganti', function($gp) use ($search) {
+                      $gp->where('nama_guru', 'like', "%{$search}%");
                   });
             });
         }
@@ -354,11 +380,23 @@ class AdminMonitoringController extends Controller
             $query->whereDate('tanggal', $tanggal);
         }
 
-        if ($idGuru || $idKelas || $idMapel) {
-            $query->whereHas('jadwal', function($q) use ($idGuru, $idKelas, $idMapel) {
-                if ($idGuru)  $q->where('id_guru', $idGuru);
-                if ($idKelas) $q->where('id_kelas', $idKelas);
-                if ($idMapel) $q->where('id_mapel', $idMapel);
+        if ($idGuru) {
+            $query->where(function($q) use ($idGuru) {
+                $q->whereHas('jadwal', function($qJ) use ($idGuru) {
+                    $qJ->where('id_guru', $idGuru);
+                })->orWhere('id_guru_pengganti', $idGuru);
+            });
+        }
+
+        if ($idKelas) {
+            $query->whereHas('jadwal', function($q) use ($idKelas) {
+                $q->where('id_kelas', $idKelas);
+            });
+        }
+
+        if ($idMapel) {
+            $query->whereHas('jadwal', function($q) use ($idMapel) {
+                $q->where('id_mapel', $idMapel);
             });
         }
 

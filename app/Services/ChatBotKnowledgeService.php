@@ -49,6 +49,16 @@ class ChatBotKnowledgeService
             ];
         }
 
+        if ($user->isWakaSdm()) {
+            return [
+                ['label' => 'Approval Izin Guru SDM', 'query' => 'cara menyetujui izin sakit cuti dinas guru sdm'],
+                ['label' => 'Monitoring Kehadiran & KBM', 'query' => 'cara memantau presensi mengajar guru dan kbm harian'],
+                ['label' => 'Direktori Pendidik & SDM', 'query' => 'cara melihat direktori profil data guru dan sdm'],
+                ['label' => 'Broadcast Pengumuman SDM', 'query' => 'cara membuat pengumuman dan broadcast guru'],
+                ['label' => 'Status Tiket CS Saya', 'query' => 'cek status tiket cs saya'],
+            ];
+        }
+
         if ($user->isWaka()) {
             return [
                 ['label' => 'Approval Level Waka', 'query' => 'cara menyetujui dispensasi siswa dan izin guru level waka'],
@@ -558,6 +568,63 @@ class ChatBotKnowledgeService
                     </ol>",
                 'action_button' => ['label' => 'Halaman Users Trash', 'url' => self::getRouteUrl('admin.users-trash', '/admin/users-trash')],
                 'suggestions' => ['Kelola Data Master & Users', 'Reset Password Pengguna'],
+            ],
+
+            // ── WAKA SDM ──
+            [
+                'title' => 'Panduan Persetujuan Izin Guru oleh Waka SDM',
+                'roles' => ['waka_sdm', 'admin'],
+                'keywords' => ['approval izin sdm', 'persetujuan izin guru sdm', 'izin cuti guru sdm', 'setujui izin guru sdm', 'acc izin guru sdm', 'izin sdm'],
+                'reply' => "<strong>Panduan Persetujuan & Approval Izin Guru (Waka SDM):</strong><br>
+                    <ol style='margin-left: 18px; margin-top: 6px;'>
+                        <li>Buka menu <strong>Persetujuan Izin Guru</strong> di sidebar Waka SDM.</li>
+                        <li>Gunakan tab filter <em>Semua Pengajuan</em>, <em>Menunggu Waka SDM</em>, <em>Disetujui SDM</em>, atau <em>Ditolak SDM</em>.</li>
+                        <li>Periksa rincian alasan izin, tanggal izin, surat dokter/lampiran, dan status approval bertingkat (Guru Piket, Waka Kurikulum, Waka SDM, Kepala Sekolah).</li>
+                        <li>Klik <strong>Setujui Pengajuan</strong> atau <strong>Tolak Pengajuan</strong> (dengan alasan). Pengajuan yang disetujui akan diteruskan ke Kepala Sekolah.</li>
+                    </ol>",
+                'action_button' => ['label' => 'Buka Persetujuan Izin Guru', 'url' => self::getRouteUrl('waka_sdm.persetujuan-izin', '/waka-sdm/persetujuan-izin')],
+                'suggestions' => ['Monitoring Kehadiran & KBM', 'Direktori Pendidik & SDM', 'Status Tiket CS Saya'],
+            ],
+            [
+                'title' => 'Panduan Monitoring Kehadiran & KBM SDM Guru',
+                'roles' => ['waka_sdm', 'admin'],
+                'keywords' => ['monitoring kehadiran kbm', 'kehadiran guru sdm', 'kbm sdm', 'presensi guru sdm', 'pantau kbm sdm', 'rekap bulanan sdm'],
+                'reply' => "<strong>Panduan Monitoring Kehadiran & KBM (Waka SDM):</strong><br>
+                    <ol style='margin-left: 18px; margin-top: 6px;'>
+                        <li>Buka menu <strong>Kehadiran & KBM</strong> di portal Waka SDM.</li>
+                        <li>Pilih tab <strong>Monitoring Presensi Harian</strong> untuk memantau status sesi KBM hari ini, guru izin tidak hadir, dan penugasan guru inval.</li>
+                        <li>Pilih tab <strong>Rekapitulasi & Tren Bulanan SDM</strong> untuk melihat matriks persentase hadir, jam mengajar, dan tren ketidakhadiran per guru.</li>
+                        <li>Gunakan filter tanggal dan tombol cetak/ekspor untuk keperluan arsip laporan SDM.</li>
+                    </ol>",
+                'action_button' => ['label' => 'Buka Kehadiran & KBM SDM', 'url' => self::getRouteUrl('waka_sdm.kehadiran-guru', '/waka-sdm/kehadiran-guru')],
+                'suggestions' => ['Approval Izin Guru SDM', 'Direktori Pendidik & SDM'],
+            ],
+            [
+                'title' => 'Panduan Direktori Data Pendidik & Kepegawaian SDM',
+                'roles' => ['waka_sdm', 'admin'],
+                'keywords' => ['direktori sdm', 'data pendidik sdm', 'profil guru sdm', 'direktori data pendidik', 'guru sdm'],
+                'reply' => "<strong>Panduan Direktori SDM & Data Kepegawaian:</strong><br>
+                    <ol style='margin-left: 18px; margin-top: 6px;'>
+                        <li>Buka menu <strong>Direktori SDM</strong> di sidebar Waka SDM.</li>
+                        <li>Cari dan saring data pendidik berdasarkan nama, NIP, status kepegawaian (PNS, PPPK, GTT), jenis kelamin, atau mata pelajaran.</li>
+                        <li>Klik <strong>Lihat Detail & Riwayat Mengajar</strong> untuk membuka modal komprehensif profil guru, ringkasan jam mengajar, dan persentase kehadiran bulanan.</li>
+                    </ol>",
+                'action_button' => ['label' => 'Buka Direktori SDM', 'url' => self::getRouteUrl('waka_sdm.data-guru', '/waka-sdm/data-guru')],
+                'suggestions' => ['Broadcast Pengumuman SDM', 'Monitoring Kehadiran & KBM'],
+            ],
+            [
+                'title' => 'Panduan Publikasi & Broadcast Pengumuman SDM',
+                'roles' => ['waka_sdm', 'admin'],
+                'keywords' => ['pengumuman sdm', 'broadcast sdm', 'buat pengumuman sdm', 'tambah pengumuman sdm', 'publikasi pengumuman sdm'],
+                'reply' => "<strong>Panduan Broadcast Pengumuman SDM & Sekolah:</strong><br>
+                    <ol style='margin-left: 18px; margin-top: 6px;'>
+                        <li>Buka menu <strong>Pengumuman SDM</strong> di sidebar Waka SDM.</li>
+                        <li>Klik <strong>+ Buat Pengumuman Baru</strong> pada header atau form di sebelah kanan.</li>
+                        <li>Isi judul, kategori pengumuman (SDM & Kepegawaian, Kedinasan, Rapat Guru, KBM), target sasaran, tanggal berlaku, dan isi pesan.</li>
+                        <li>Klik <strong>Publikasikan Pengumuman</strong> untuk menyebarkan informasi ke portal seluruh guru.</li>
+                    </ol>",
+                'action_button' => ['label' => 'Buka Pengumuman SDM', 'url' => self::getRouteUrl('waka_sdm.pengumuman', '/waka-sdm/pengumuman')],
+                'suggestions' => ['Approval Izin Guru SDM', 'Direktori Pendidik & SDM'],
             ],
 
             // ── WAKA & KEPALA SEKOLAH ──

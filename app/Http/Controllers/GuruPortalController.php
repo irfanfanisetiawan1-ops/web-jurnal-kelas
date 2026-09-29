@@ -26,6 +26,7 @@ use App\Models\SiswaDispen;
 use App\Models\SiswaDispenDibaca;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Services\WhatsAppNotificationService;
 
 class GuruPortalController extends Controller
 {
@@ -3913,13 +3914,74 @@ class GuruPortalController extends Controller
         $guruList = Guru::orderBy('nama_guru', 'asc')->get();
         $piketUsers = \App\Models\User::where('role', 'piket')->get();
 
+        // Ambil jadwal piket untuk lookup dinamis berdasarkan tanggal
+        $today = Carbon::now('Asia/Jakarta')->toDateString();
+        $jadwalPiketByDate = [];
+        try {
+            $rawJadwal = DB::table('jadwal_guru_piket')
+                ->join('guru', 'jadwal_guru_piket.id_guru', '=', 'guru.id_guru')
+                ->where('jadwal_guru_piket.status', 'aktif')
+                ->select(
+                    'jadwal_guru_piket.tanggal',
+                    'jadwal_guru_piket.hari',
+                    'guru.nama_guru',
+                    'guru.no_hp',
+                    'guru.nip'
+                )
+                ->orderBy('jadwal_guru_piket.slot_ke', 'asc')
+                ->get();
+
+            foreach ($rawJadwal as $rj) {
+                $tglKey = Carbon::parse($rj->tanggal)->toDateString();
+                if (!isset($jadwalPiketByDate[$tglKey])) {
+                    $jadwalPiketByDate[$tglKey] = [];
+                }
+                $jadwalPiketByDate[$tglKey][] = [
+                    'label' => $rj->nama_guru . ' (Guru Piket ' . ($rj->hari ? $rj->hari : '') . ') - ' . $rj->no_hp,
+                    'phone' => $rj->no_hp,
+                    'name'  => $rj->nama_guru,
+                    'nip'   => $rj->nip,
+                    'hari'  => $rj->hari,
+                    'tanggal' => $tglKey,
+                ];
+            }
+        } catch (\Throwable $e) {
+            // Abaikan jika tabel atau data belum siap
+        }
+
+        // Susun daftar opsi nomor Guru Piket untuk notifikasi ChatBot WA:
+        // HANYA: 1. Akun Resmi Guru Piket, 2. Guru yang terjadwal piket pada tanggal/hari saat itu
+        $piketOptions = [];
+        foreach ($piketUsers as $pu) {
+            if (!empty($pu->no_hp)) {
+                $piketOptions[] = [
+                    'label' => $pu->name . ' (Akun Resmi Piket) - ' . $pu->no_hp,
+                    'phone' => $pu->no_hp,
+                    'name'  => $pu->name,
+                    'group' => 'Akun Petugas Piket',
+                ];
+            }
+        }
+
+        $todayPiket = $jadwalPiketByDate[$today] ?? [];
+        foreach ($todayPiket as $tp) {
+            if (!in_array($tp['phone'], array_column($piketOptions, 'phone'))) {
+                $piketOptions[] = [
+                    'label' => $tp['name'] . ' (Piket Hari Ini) - ' . $tp['phone'],
+                    'phone' => $tp['phone'],
+                    'name'  => $tp['name'],
+                    'group' => 'Guru Piket Terjadwal Hari Ini',
+                ];
+            }
+        }
+
         $trashedQuery = GuruIzin::onlyTrashed();
         if ($guru) {
             $trashedQuery->where('id_guru', $guru->id_guru);
         }
         $trashedCount = $trashedQuery->count();
 
-        return view('guru.permintaan_izin', compact('guru', 'myIzinList', 'guruList', 'piketUsers', 'trashedCount'));
+        return view('guru.permintaan_izin', compact('guru', 'myIzinList', 'guruList', 'piketUsers', 'piketOptions', 'jadwalPiketByDate', 'trashedCount'));
     }
 
     /**
@@ -4074,14 +4136,86 @@ class GuruPortalController extends Controller
             $waUrl = "https://api.whatsapp.com/send?text=" . rawurlencode($waMessage);
         }
 
+        // 3. Otomatis Kirim Notifikasi via ChatBot WhatsApp ke Guru Piket
+        $waService = app(WhatsAppNotificationService::class);
+        $chatbotResult = $waService->sendNotifikasiPermintaanIzinKePiket($newIzin, $targetPhone, $piketLink);
+        $chatbotSuccess = ($chatbotResult['success'] ?? false) === true;
+        
+        $recipientsStr = !empty($chatbotResult['recipients']) ? implode(', ', $chatbotResult['recipients']) : 'Guru Piket';
+        $phonesStr = !empty($chatbotResult['phones']) ? implode(', ', $chatbotResult['phones']) : '';
+
+        if ($chatbotSuccess) {
+            $chatbotMsg = "Pemberitahuan Permintaan Izin Guru telah otomatis terkirim via ChatBot WhatsApp ke {$recipientsStr}" . ($phonesStr ? " ({$phonesStr})" : "") . "!";
+        } else {
+            $reason = $chatbotResult['message'] ?? ($chatbotResult['detail']['message'] ?? 'Gateway WhatsApp sedang memproses atau nomor Guru Piket belum tersedia.');
+            $chatbotMsg = "Status ChatBot WA: {$reason}";
+        }
+
         return redirect()->route('guru.permintaan-izin')->with([
-            'success'      => 'Permintaan izin tidak hadir mengajar berhasil terkirim ke sistem Guru Piket!',
-            'piket_link'   => $piketLink,
-            'wa_url'       => $waUrl,
-            'guru_nama'    => $guruNama,
-            'guru_nip'     => $guruNip,
-            'new_izin_id'  => $newIzin->id_guru_izin,
+            'success'          => 'Permintaan izin tidak hadir mengajar berhasil disimpan ke sistem Guru Piket!',
+            'piket_link'       => $piketLink,
+            'wa_url'           => $waUrl,
+            'guru_nama'        => $guruNama,
+            'guru_nip'         => $guruNip,
+            'new_izin_id'      => $newIzin->id_guru_izin,
+            'chatbot_sent'     => $chatbotSuccess,
+            'chatbot_msg'      => $chatbotMsg,
+            'chatbot_recipient'=> $recipientsStr,
+            'chatbot_phone'    => $phonesStr,
+            'chatbot_result'   => $chatbotResult,
+            'chatbot_preview'  => $waService->buildPesanPermintaanIzinKePiket($newIzin, null, $piketLink),
         ]);
+    }
+
+    /**
+     * [CHATBOT WA] Kirim / Kirim Ulang Notifikasi Permintaan Izin ke Guru Piket via ChatBot WhatsApp
+     */
+    public function sendChatbotPermintaanIzin(Request $request, $id)
+    {
+        $this->ensureGuruIzinColumnsExist();
+        $user = Auth::user();
+        $guru = $user ? ($user->guru ?? ($user->id_guru ? Guru::find($user->id_guru) : ($user->nip ? Guru::where('nip', $user->nip)->first() : null))) : null;
+
+        $izin = GuruIzin::with(['guru', 'guruPiket'])->findOrFail($id);
+
+        // Validasi hak akses pengirim
+        if ($guru && $izin->id_guru && $izin->id_guru != $guru->id_guru && !in_array($user->role, ['admin', 'piket', 'waka_kurikulum', 'kepsek'])) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki hak akses untuk mengirim notifikasi permohonan izin guru ini.',
+                ], 403);
+            }
+            return redirect()->back()->with('error', 'Anda tidak memiliki hak akses untuk mengirim notifikasi permohonan izin guru ini.');
+        }
+
+        $targetPhone = $request->input('target_phone') ?: $request->input('wa_target_phone');
+        $piketLink = url('/guru-piket/permintaan-izin');
+
+        $waService = app(WhatsAppNotificationService::class);
+        $result = $waService->sendNotifikasiPermintaanIzinKePiket($izin, $targetPhone, $piketLink);
+
+        $isSuccess = ($result['success'] ?? false) === true;
+        $recipientsStr = !empty($result['recipients']) ? implode(', ', $result['recipients']) : 'Guru Piket';
+        $phonesStr = !empty($result['phones']) ? implode(', ', $result['phones']) : '';
+
+        $message = $isSuccess
+            ? "Pemberitahuan Permintaan Izin Guru berhasil dikirimkan via ChatBot WhatsApp ke {$recipientsStr}" . ($phonesStr ? " ({$phonesStr})" : "") . "!"
+            : ("Gagal mengirim notifikasi via ChatBot WhatsApp: " . ($result['message'] ?? ($result['detail']['message'] ?? 'Nomor WhatsApp tidak ditemukan atau gateway menolak pesan.')));
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => $isSuccess,
+                'message' => $message,
+                'detail'  => $result,
+            ]);
+        }
+
+        if ($isSuccess) {
+            return redirect()->back()->with('success', $message);
+        } else {
+            return redirect()->back()->with('error', $message);
+        }
     }
 
     /**

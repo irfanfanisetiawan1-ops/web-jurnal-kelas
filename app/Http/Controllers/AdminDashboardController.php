@@ -966,6 +966,8 @@ class AdminDashboardController extends Controller
         $name      = $user->name;
 
         $user->delete(); // Soft delete
+        User::syncWaliKelasRoles();
+
         return back()->with('success', "Akun pengguna '{$name}' ({$roleLabel}) berhasil dipindahkan ke Tempat Sampah.");
     }
 

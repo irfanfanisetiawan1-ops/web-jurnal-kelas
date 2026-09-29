@@ -488,6 +488,7 @@ Route::middleware(['auth'])->group(function () {
         // Fitur Permintaan Izin Guru (Guru Piket)
         Route::get('/permintaan-izin',                       [GuruPiketController::class, 'permintaanIzin'])->name('permintaan-izin');
         Route::post('/permintaan-izin',                      [GuruPiketController::class, 'storePermintaanIzin'])->name('permintaan-izin.store');
+        Route::post('/permintaan-izin/{id}/send-chatbot',    [GuruPiketController::class, 'sendChatbotPermintaanIzin'])->name('permintaan-izin.send-chatbot');
         Route::put('/permintaan-izin/{id}',                  [GuruPiketController::class, 'updatePermintaanIzin'])->name('permintaan-izin.update');
         Route::delete('/permintaan-izin/{id}',               [GuruPiketController::class, 'destroyPermintaanIzin'])->name('permintaan-izin.destroy');
         Route::delete('/permintaan-izin-bulk-delete',        [GuruPiketController::class, 'bulkDestroyPermintaanIzin'])->name('permintaan-izin.bulk-delete');
@@ -505,8 +506,10 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/guru-izin-tidak-hadir-empty-trash',        [GuruPiketController::class, 'emptyTrashGuruIzinTidakHadir'])->name('guru-izin-tidak-hadir.empty-trash');
 
         // Fitur Dispensasi Siswa (Guru Piket)
+        Route::get('/dispensasi-siswa/piket-waka-by-date',    [GuruPiketController::class, 'getPiketWakaByDate'])->name('dispensasi-siswa.piket-waka-by-date');
         Route::get('/dispensasi-siswa',                       [GuruPiketController::class, 'dispensasiSiswa'])->name('dispensasi-siswa');
         Route::post('/dispensasi-siswa',                      [GuruPiketController::class, 'storeDispensasiSiswa'])->name('dispensasi-siswa.store');
+        Route::post('/dispensasi-siswa/{id}/send-chatbot',    [GuruPiketController::class, 'sendChatbotDispensasiSiswa'])->name('dispensasi-siswa.send-chatbot');
         Route::put('/dispensasi-siswa/{id}',                  [GuruPiketController::class, 'updateDispensasiSiswa'])->name('dispensasi-siswa.update');
         Route::delete('/dispensasi-siswa/{id}',               [GuruPiketController::class, 'destroyDispensasiSiswa'])->name('dispensasi-siswa.destroy');
         Route::delete('/dispensasi-siswa-bulk-delete',        [GuruPiketController::class, 'bulkDestroyDispensasiSiswa'])->name('dispensasi-siswa.bulk-delete');
@@ -518,6 +521,7 @@ Route::middleware(['auth'])->group(function () {
         // Fitur Surat Izin Siswa (Guru Piket)
         Route::get('/surat-izin-siswa',                       [GuruPiketController::class, 'suratIzinSiswa'])->name('surat-izin-siswa');
         Route::post('/surat-izin-siswa',                      [GuruPiketController::class, 'storeSuratIzinSiswa'])->name('surat-izin-siswa.store');
+        Route::post('/surat-izin-siswa/{id}/send-chatbot',     [GuruPiketController::class, 'sendChatbotSuratIzin'])->name('surat-izin-siswa.send-chatbot');
         Route::put('/surat-izin-siswa/{id}',                  [GuruPiketController::class, 'updateSuratIzinSiswa'])->name('surat-izin-siswa.update');
         Route::delete('/surat-izin-siswa/{id}',               [GuruPiketController::class, 'destroySuratIzinSiswa'])->name('surat-izin-siswa.destroy');
         Route::delete('/surat-izin-siswa-bulk-delete',        [GuruPiketController::class, 'bulkDestroySuratIzinSiswa'])->name('surat-izin-siswa.bulk-delete');
@@ -529,6 +533,7 @@ Route::middleware(['auth'])->group(function () {
         // Fitur Siswa Telat (Guru Piket)
         Route::get('/siswa-telat',                            [GuruPiketController::class, 'siswaTelat'])->name('siswa-telat');
         Route::post('/siswa-telat',                           [GuruPiketController::class, 'storeSiswaTelat'])->name('siswa-telat.store');
+        Route::post('/siswa-telat/{id}/send-chatbot',         [GuruPiketController::class, 'sendChatbotSiswaTelat'])->name('siswa-telat.send-chatbot');
         Route::put('/siswa-telat/{id}',                       [GuruPiketController::class, 'updateSiswaTelat'])->name('siswa-telat.update');
         Route::delete('/siswa-telat/destroy-batch',           [GuruPiketController::class, 'destroyBatchSiswaTelat'])->name('siswa-telat.destroy-batch');
         Route::delete('/siswa-telat/{id}',                    [GuruPiketController::class, 'destroySiswaTelat'])->name('siswa-telat.destroy');
@@ -538,6 +543,12 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/siswa-telat-empty-trash',             [GuruPiketController::class, 'emptyTrashSiswaTelat'])->name('siswa-telat.empty-trash');
         Route::get('/api/siswa-schedule-guru/{id_siswa}',     [GuruPiketController::class, 'getSiswaScheduleAndGuru'])->name('siswa-telat.api-schedule-guru');
     });
+
+    // Aliases for ChatBot Send Endpoints (Accessible with or without /guru-piket prefix)
+    Route::post('/surat-izin-siswa/{id}/send-chatbot', [GuruPiketController::class, 'sendChatbotSuratIzin'])->name('surat-izin-siswa.send-chatbot.alias');
+    Route::post('/siswa-telat/{id}/send-chatbot',      [GuruPiketController::class, 'sendChatbotSiswaTelat'])->name('siswa-telat.send-chatbot.alias');
+    Route::post('/permintaan-izin/{id}/send-chatbot',  [GuruPiketController::class, 'sendChatbotPermintaanIzin'])->name('permintaan-izin.send-chatbot.alias');
+    Route::post('/dispensasi-siswa/{id}/send-chatbot', [GuruPiketController::class, 'sendChatbotDispensasiSiswa'])->name('dispensasi-siswa.send-chatbot.alias');
 
     // ── Orang Tua Portal ──
     Route::get('/orang-tua/dashboard',           [OrangTuaController::class, 'dashboard'])->name('orang-tua.dashboard');
@@ -617,6 +628,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/guru-export-rekap-csv', [GuruPortalController::class, 'exportRekapCsv'])->name('guru.export-rekap-csv');
     Route::get('/guru-permintaan-izin',                       [GuruPortalController::class, 'permintaanIzin'])->name('guru.permintaan-izin');
     Route::post('/guru-permintaan-izin',                      [GuruPortalController::class, 'storePermintaanIzin'])->name('guru.permintaan-izin.store');
+    Route::post('/guru-permintaan-izin/{id}/send-chatbot',    [GuruPortalController::class, 'sendChatbotPermintaanIzin'])->name('guru.permintaan-izin.send-chatbot');
     Route::put('/guru-permintaan-izin/{id}',                  [GuruPortalController::class, 'updatePermintaanIzin'])->name('guru.permintaan-izin.update');
     Route::delete('/guru-permintaan-izin/{id}',               [GuruPortalController::class, 'destroyPermintaanIzin'])->name('guru.permintaan-izin.destroy');
     Route::delete('/guru-permintaan-izin-batch/destroy',      [GuruPortalController::class, 'destroyBatchPermintaanIzin'])->name('guru.permintaan-izin.destroy-batch');
